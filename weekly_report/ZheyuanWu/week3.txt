@@ -1,0 +1,16 @@
+This week, I had a meeting with my teammates, discussing with them about how to set up the project.
+Also, i was invited to github. Then, in the Friday workshop, me and my teammates discussed
+the detail of project setup, which includes:
+1. the technology stack for the frontend and the backend
+2. list all the future tasks we need to do or prepare 
+Regarding my contribution for the project this week, I shared some ideas on the choice of technology stack of
+backend and database. Since the client has not reached us, there is nothing more I can deliver to the project.
+
+Key issues me and my teammates may have encountered:
+1.how to allocate task for each team member for the first weeks since the development process(such as coding) has not started.
+Hopefully it can be quickly solved next week.
+2.the response from client. Hopefully client can discuss with us about the project next week.
+plan to do for the project next week individually:
+If client reponses to us next week, I can start doing the allocated tasks such as drawing do-be-feel model
+(depend on what tasks I am allocated) and keep sharing ideas if that can be helpful to the progress
+of the project.

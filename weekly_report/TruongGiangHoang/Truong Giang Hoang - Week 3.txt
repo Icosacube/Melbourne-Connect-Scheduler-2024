@@ -1,0 +1,16 @@
+What I have done: - Attended lecture/workshop and team meeting as required
+	- During the lecture, our team sorted out the problem with our GitHub repo. The correct repo has been confirmed
+- Made some key learnings about team collaboration to ensure maximum productivity while encouraging learning for team members
+	- Pair programming is a great thing to consider, as it helps get things done, while allowing less experienced teammates learn more quickly and catch up with others.
+	- Ensure usability testing is done early, otherwise if the system is not fit-for-purpose, there is little time left to work on it
+- Contributed some interesting research papers to help with the research proposal. The topic of research within these papers is highly practical and similar to what we want to do
+
+Issues that I faced:
+- Team meeting schedule is not fixed yet, and I have to balance between other commitments. Right now we have a stand-up meeting on Monday but it won't be enough
+- Have not yet received confirmation on the first client meeting
+- Problems with Notion means we have to reconsider it as our documentation platform
+
+My plan for the next week:
+- Our team will start collaborating on the correct GitHub repo from next week
+- Finalise a meeting time with the client
+- finalise on our weekly meeting

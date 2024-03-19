@@ -1,0 +1,8 @@
+
+On Tuesday this week, our team has our first one-hour meeting held on Zoom which lead to the decision for our team’s general meeting and stand-up schedule. In our Friday workshop, we had established the team roles, outlined the key requirements for this project as well as discussed about the tech stack our team should adopt. To prepare for the project development, I have spent two hours outside of the workshop on setting up the coding environment and familiarise myself with Springboot and node.js (which I have not work with in depth before) through online tutorials. 
+
+The team has encountered first issue when using Notion as our project management tool due to the word block limit of the free version. Additionally, as I was about to submit this report, I found out that there were two group GitHub repositories but I was not invited to the correct one our group was using, which I should have confirmed it with my teammates on Friday. Thankfully, one of my teammates, Brendan, kindly agreed to help me upload this report on GitHub.
+
+Next week, I will start gathering requirements along with the team, and helping our team to build up the documentation on requirements such as motivational model, user stories and personas. I will also aim to expanding my knowledge in Springboot and node.js through self-learning. 
+
+

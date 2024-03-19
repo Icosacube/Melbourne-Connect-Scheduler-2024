@@ -1,0 +1,10 @@
+Done:
+- actively participated in team meetings on Monday and Friday, and supervisor meeting on Friday, where we finalised administrative tasks such as sprint length, discussed tech stack, requirements etc. ~2 hrs
+- communicated on behalf of the team with Leon re communication tool and github access
+- handed over PO role to Kia, took on role of team member that left - full stack dev
+- became familiar with notion space, we've since moved to Confluence
+- enjoying getting to know my team members
+Issues:
+- no issues
+To do:
+- get started on requirements tasks, once assigned in sprint planning meeting 

@@ -1,0 +1,12 @@
+Week 3 – Weekly Report – James Dinh (888972)
+
+Work completed:
+- Participated in Friday's meeting and got to meet the team!
+- Revised the tasks related to QA and discussed expectations in the team for what QA for this project might look like.
+- Discussed potential directions in terms of setting up a continuous integration and continuous deployment (CI/CD) pipeline. 
+
+Issues:
+- None
+
+To do:
+- Look at unit testing mechanisms that would be appropriate for our project considering the product complexity and timeline, and our relative expertise.

@@ -1,0 +1,10 @@
+This weeks we did not get much done as we still have not done the client meeting yet.
+During the workshop, we did a meeting discussing what are the things we could start thinking about while waiting for a meeting with the client.
+We talked about what kind of application/website our app needs to interface to based on the description we have
+- discussed on some of the potential technologies we will use 
+  - front end -> probably leaning towards Reacy
+  - backend/CD-CI/ DB -> All depends on the client as we may need to use their tools
+- would be great if we are able to get the video of the project description
+- Problem with notion plan so we have to stick to confluence
+- Talked more to the team and got to know everyone better 
+- Thinking of doing research on the blockchain technology.

@@ -1,0 +1,11 @@
+I participated in the team meeting and listen to my teamates ideas
+We agreed that since the client haven't responded, we should just think about what the app will look like for the time being, this includes:
+    - Think about tech stack (maybe React for the frontend and NodeJs for backend)
+    - Think about users (hosts, guests, speakers, admin)
+The students from last year gave good tips as well:
+    - Tell the team what you know, don't keep information to youreslf
+    - Split team into smaller group for easier management, can't expect PO or SM to manage everyone
+    - Be firm with your client, negotiate if needed
+Road blocks:
+    - Client not responding, we already contacted him so all we can do is wait
+    - Set up scheduale for weekly meetings, Ray already sent out when2meet link, and I have already filled that in
