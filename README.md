@@ -1,3 +1,3 @@
 # Melbourne Connect Visit Scheduler
 
-More info in notion (link back?)
+More info in confluence (link back?)
