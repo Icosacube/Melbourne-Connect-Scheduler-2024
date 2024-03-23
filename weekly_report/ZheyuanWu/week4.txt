@@ -1,0 +1,16 @@
+This week, I had a meeting with my teammates on Monday, discussing with them about the requirements elicitation 
+as well as the allocation of different tasks including user story, acceptance criteria.etc.
+Then, in the Friday workshop, me and my teammates discussed
+the detail of the questions we need to ask the client next week and brainstormed the do-be-feel model.
+
+Regarding my contribution for the project this week, I mainly work together with my teammates
+on do-be-feel-model and the possible questions we need to ask the client next week in Friday's workshop.
+
+Key issues me and my teammates may have encountered:
+1.First the questions we prepare for the client meeting, hopefully our team has fully prepared for it.
+2.the collbaration on the future tasks after the client meeting. 
+
+plan to do for the project next week individually:
+After understanding the client's requirements after the client meeting next week,
+I can start doing the allocated tasks and documentations including user stories, acceptance criteria
+of the project.
