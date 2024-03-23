@@ -1,0 +1,9 @@
+In Week 4, I have been communicating with the Notion Support to secure a student organisation free plus plan for our agile workflow management platform. While waiting for the response from the Notion Support, I had also created a Confluence workspace and Jira scrum project as the temporary solution for our team management. During the Monday team meeting, with the help from the team, I had updated the structures of the confluence workspace to better incorporate with the documentation we plan to include. 
+
+After the assign on the creation of the Attendees persona, I had spent roughly 1 hours to design the persona. However, the persona is remained incomplete and not upload to the confluence due to the late discuss with the client on the requirement of the overall project, that prevent me to understand must have and should have requirement that will most likely exist in the attendee’s persona. 
+
+With the communicate via the Product Owner and the client, a meeting had been scheduled in Week 5 Monday to discuss on the requirement and client’s overall vision on the project. Which this will allow me to complete the missing component of the persona. 
+
+This meeting will also help to gain insight into the deployment of the current system and understand the client’s preference on how and where the project will be deployed. Thus, able to plan a possible CI/CD workflow that can fit for the deployment platform.
+
+Hence, after the meeting next Monday, I will be researching on the proper CI/CD workflow for given platform, and finishing the incomplete persona.  
