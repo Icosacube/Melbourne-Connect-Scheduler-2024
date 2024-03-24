@@ -1,0 +1,14 @@
+We started the week with our sprint planning where we decided on the best way to start the project.
+
+- Decided to go through and start the requirement gathering procress 
+  - Involved User stories, Acceptance tests, mood boards, personas, etc
+- Story point estimation
+
+- We now have the video of Ed explaning about the project with was useful to get started.
+- We still have not got into contact with our client but we are on Monday.
+- In the workshop on Friday, we started on thinking on the structure of the application
+  - Potential APIs to use (e.g EventBrite)
+  - Prioritize core requirements first 
+- Leon suggested we start our Do/Be/Feel model and said make a best guest in class
+  - Made the model
+- I will be starting on the User stories after the meeting with Ed on Monday
