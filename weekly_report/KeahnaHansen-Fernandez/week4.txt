@@ -1,0 +1,12 @@
+Done:
+- task allocation, in sprint planning meeting
+- brainstorming questions for client, in team meeting
+Issues:
+- no issues
+To do:
+- attend client meeting
+- add to project background
+- create persona
+- get started on user stories
+
+I pushed to the old repo last night, that's why this is late.
