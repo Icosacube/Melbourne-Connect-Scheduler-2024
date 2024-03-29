@@ -1,0 +1,9 @@
+In week 5, I had attended our first client meeting, after a deep discussion with the clients, I noted down the current workflow that the EA of Melbourne Connect is currently utilising, as well as part of the EA’s wish list, such as relational database interface for quick reference the speaker/guests and their relevant conference/events, or the ability to forward invitation to multiple speaker/guest through our application. With gathered information, I helped to update our client meeting with the information that I had gathered. 
+
+During our team meeting after the client meeting, we have consolidated the MoSCoW based on our understanding of the clients’ goals. I had also brough up the problems of the confluence and Jira as we have 11 members including the supervisor that shifted our free plan to the standard plan that required a monthly fee, after discussion, we settled on two possible solutions of create a duplicated Confluence to only have the supervisor and some of the team members, or to move to GitHub’s Wiki page. 
+
+However, the problem of the free plan is solved after I sent multiple follow up email to Notion about our Student Org free upgrade to plus plan, which they have finally granted our upgrade that provide unlimited entries and expanded limitation for guest access.  
+
+Since the upgrade is granted, from weekend of week 5 to next week during the Esther break, I will migrate our current information from confluence and Jira to Notion. This move will also have help from the team members. 
+
+And with next week, including the Esther break, I will focus on the move between software and other task that is assigned to me.  
