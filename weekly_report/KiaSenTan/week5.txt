@@ -1,0 +1,6 @@
+This week, we had our client meeting on the 25th, which cleared up a lot of assumptions and misunderstandings we had. As product owner, I was tasked with asking our clients, Ed and Janelle, the questions that we had prepared beforehand, and clarified that I would be their primary point of contact for the rest of the team. The meeting went smoothly and enjoyably, and it was clear that Ed and Janelle were looking forward to our output.
+
+Additionally, to catch our team up to speed, we held a meeting the day after, where I relayed what our clients wanted out of our project, and adjusted our user stories to account for that.
+
+Beyond that, this week was largely a matter of ensuring that we were in agreement on what our clients desired, and going forward I aim to help with design and finish up the rest of the requirements artefacts.
+
