@@ -1,0 +1,12 @@
+Done:
+- Attended team meeting to review client meeting
+- Reviewed client meeting notes
+- Reviewed project background and user stories
+- Completed Executive Assistant/Organiser at Melbourne Connect persona
+
+Issues:
+- N/a
+
+To do:
+- Begin drafting acceptance criteria
+- Discuss with team about steps for next sprints and following stakeholder meetings.
