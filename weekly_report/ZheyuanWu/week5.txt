@@ -1,0 +1,19 @@
+This week, I mainly had a meeting with my teammates on Tuesday night, discussing with them about the
+requirements elicitation from the client meeting
+as well as the allocation of different tasks including user story, acceptance criteria.etc.
+
+Regarding my contribution for the project this week, I mainly work together with my teammates
+on user stories and acceptance criteria with documents and requirements given by the client.
+
+Key issues me and my teammates may have encountered:
+1.Some details of the workflow of the project is still a bit unclear, may need to discuss further
+in the next client meeting to add other details to user story, acceptance criteria.
+2.The project needs to deal with many external systems and integrate them into out system, so the project 
+owner may need to talk to managers of these enternal systems in order for us to get access to data of the system
+for later coding and design
+
+plan to do for the project next week individually:
+After the break, there is another client meeting, I will participate in the client meeting to discuss
+further details and try to solve the key issues listed above. Also, in the next period, I can join in the 
+design of the project including the prototype using figma and add more details to user stories, acceptance
+criteria.
