@@ -1,0 +1,19 @@
+Done
+ - Conducted my first sprint planning as Scrum Master. (I did alright I think)
+ - Attended client meeting
+ - Started on User stories
+ - Created Team charter including:
+    - Mission, Vision and Code of conduct
+    - Roles and responsibilities
+    - Communication Plan, Internal and externa;
+    - Team decision making
+    - Conflict Management
+
+Issues - No Issues at the moment
+
+
+TODO: 
+  - Start some paper prototype
+  - Review user stories with team
+  - Plan next sprint and do sprint retro.
+  - Ask team feedback on my Scrum Master performance

@@ -1,0 +1,11 @@
+Week 4 – Weekly Report – James Dinh (888972)
+
+Work completed:
+- As a team, we created tasks and allocated tasks to our sprint. Being the Quality Assurance lead, I was assigned writing up the Acceptance Criteria and Acceptance tests. I look forward to doing this once our team has thoroughly reviewed the user stories with our client.
+- Finished writing research essay proposal
+
+Issues:
+- None
+
+To do:
+- Prepare to write acceptance criteria by creating a table/template to fill in.
