@@ -1,0 +1,9 @@
+On Monday Week 6, I and fellow team members attend the Client Meeting / Sprint Review Meeting. During the meeting, we showcased the current version of the Motivational Diagram, discussed the overall functionalities and priorities, and general fondness for the Mood Board. 
+
+This week, I was assigned to produce a deployment diagram as part of the project’s 4+1 Architecture diagrams. However, since the tech stack for the project has not been confirmed amongst the members and client, neither has the deployment platform for the application. Thus, the deployment diagram is only filled with the information and assumption of possible physical nodes, components, and artifacts known in the current stage and uploaded to our Notion workspace along with documentation that explains the deployment options.  
+
+In relation to the deployment diagram, during the client meeting, we had a brief discussion with, Nayan, one of the University’s IT department leads on the possibility of utilising the University-hosted server as our deployment platform. The result of the discussion stated that it would be possible to deploy on the University-hosted server but will not be able to confirm at the current stage. Hence the creation of multiple deployment diagram options to highlight the possibility of deploying on different platforms.
+
+On Friday's workshops and supervisorial meeting, the project mentor suggested creating a burndown chart for the team to monitor our productivity and progress, which I then created dynamic burndown charts for both the Current sprint and Last sprint that would automatically pull the completed tasks and its story point every day to update the burndown chart. Which both are embedded into our Notion workspace under the page “Burndown Chart”. 
+
+For next week, I will keep updating the deployment diagram as more information and decisions are made by the team. I will also request to join the design of the Lo-Fi prototype of the application.
