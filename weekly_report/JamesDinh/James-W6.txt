@@ -1,0 +1,11 @@
+Done:
+- Discussed with the team about steps for next sprints and following stakeholder meetings.
+- I was assigned to creating the Risk Register for the next sprint - I have started but not finished.
+- Reviewed client meeting notes after showing them our team's motivational model and mood board. I also reviewed our notes on the priorities of the client and noted whether we were aligned.
+
+Issues:
+- N/a
+
+To do:
+- Finish Risk Register
+- Begin looking at starting drafting Acceptance Tests
