@@ -1,0 +1,13 @@
+What I have done:
+- Reviewed meeting notes from client meetings and analysed them carefully, because changes will need to be made to what our team had presented to the client in the latest meeting
+	- We presented user stories, motivational model and some basic functionalities that the system should have
+	- I'm responsible for the motivational model and will be directly making changes to it if necessary
+	- A few things I can add to the motivational model would be: speaker facilitation - availability canvassing for speaker to highlight their availability; have a to-do list-like feature to keep track of the event progress, so that EAs will know what stage they are at
+- Added the canvassing availability on the motivational model. I'm currently discussing the other functionalities with my teammates and check if it's necessary to include them
+
+Issues that I faced:
+- No problem in particular
+
+My plan for the next week:
+- Finish reviewing the motivational model before Friday next week, so that I can move on with new tasks to facilitate the completion of this team
+- Request to join in other tasks, since I estimated that I'd be able to complete my tasks quickly. What I have in mind in contributing to use case diagram AND/OR deployment diagram AND/OR user stories/acceptance criteria-tests
