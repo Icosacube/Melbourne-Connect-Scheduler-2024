@@ -1,0 +1,3 @@
+This week, we had our sprint retrospection and next sprint planning meeting on Tuesday, where the team has allocated tasks to each members and I was given the task of working on lo-fi prototype along with Kia and Mabs.  
+Outside of team meeting and workshop, I have spent around three hours on the project this week, with one hour spending on migrating acceptance criteria from Confluence to Notion and two hours on brainstorming lo-fi prototype and made three pages on Figma.
+Our team did not encounter any issues this week. For next week, I will continue developing lo-fi prototype while revising the acceptance criteria as the requirements being updated.
