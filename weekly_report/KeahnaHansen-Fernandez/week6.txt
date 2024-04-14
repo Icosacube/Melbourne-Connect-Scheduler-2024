@@ -1,0 +1,10 @@
+Done:
+- took notes in client and sprint review meeting
+- in sprint planning meeting, was assigned to work on sequence diagrams with Will
+- Will and I worked together to split up the task and start
+Issues:
+- no issues
+To do:
+- clarify workflow and finish sequence diagrams
+- seek and implement feedback on sequence diagrams
+- find other tasks to do
