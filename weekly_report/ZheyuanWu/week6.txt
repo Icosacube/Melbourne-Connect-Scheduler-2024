@@ -1,0 +1,17 @@
+This week, I mainly had a meeting with my Nayan and JK on Monday afternoon, discussing with them about the
+external systems out system needs to integrate
+as well as showing them the progress of out project, such as motivatational model, user stories.etc.
+
+Regarding my contribution for the project this week, I mainly work together with Keahna 
+on sequence diagram based on the requirements of the clients, i work on implementation epic.
+
+Key issues me and my teammates may have encountered:
+1.Some details of the workflow of the project is still a bit unclear, may need to discuss further
+in the next client meeting to add other details to sequence diagram.
+2.The project needs to deal with many external systems and integrate them into out system, and how to design 
+a convenient frontend user interface is important
+
+plan to do for the project next week individually:
+After the break, there is another client meeting with Nayan, I will modify sequence
+diagram from the meeting. Also, next week, I can also help with the 
+design of the user interface including the lofi prototype using figma.
