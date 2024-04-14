@@ -1,0 +1,7 @@
+This week marks the first week back from the midsemester break. Overall, little work was done by me this week owing to illness and a focus on other assignments that were due soon, though I am not concerned given our current pace.
+
+I missed out on a client meeting, though I did create an agenda for it. I later reviewed the notes and recordings that were taken to catch up.
+
+We also held a sprint planning meeting where we reassessed our priorities in light of the new specifications and advice from our supervisors. I suggested that we begin creating architectural diagrams with the idea that even if we get them wrong, we would at least land closer to our target. Additionally, I was allocated to creating the prototypes, which was greatly aided by my teammates' eagerness to work.
+
+During the midsemester break, I hosted a miniature workshop on how to use Figma for prototyping - while we have nothing to show for it yet, I intend to start work on it early next week, with an emphasis on trying to further my ability to teach technical skills.
