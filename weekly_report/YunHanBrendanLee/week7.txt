@@ -1,0 +1,7 @@
+In Week 7, I had volunteered to create and design the database that will be create and deploy along with the applications. As deployment lead, I am aware that database will be highly related to the responsibility that I would handle during the development phase of the production. Hence, I pitched to work on the database during our team meeting on Monday, while leaving the Lo-Fi prototype to the original assignees in the team, since it was assigned around 40% of the team already. 
+
+After Friday’s workshop, I joined the discussion between the team members who tasked on the Lo-Fi prototype. We discussed on the overall workflow, and how the function should be like. With this discussion, I had planned the first iteration of the database structure based on the domain diagram and the information from the client meeting. With the planned database structure, I also made a MySQL schema along with an ER diagram to demonstrate the overall database. Which then pitched to the team and request for the alternation or adjustment to the database structure.   
+
+After the team has saw the ER diagram, and agree this first iteration, it is now placed on our notion board along with some explanations.
+
+In next week, I will contribute in creating the progress presentation slides, and request to be part of the presenters on the day. While pitch to the team about the possibility to self-hosting database during development to mimic the actual interaction between the application and database. 
