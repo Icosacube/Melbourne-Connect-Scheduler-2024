@@ -1,0 +1,10 @@
+Regarding my contribution for the project this week, I mainly reviewed the
+sequence diagram based on the requirements of the clients and also reviewed the lofi prototype.
+
+Key issues me and my teammates may have encountered:
+1.Need to confirm the progress our team has so far with the client to make sure they are aligned
+with the requirements
+2.Frontend can be developed now, like a small demo
+
+plan to do for the project next week individually:
+start thinking about coding standard of backend and start constructing backend domain in Springboot.
