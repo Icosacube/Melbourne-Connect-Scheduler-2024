@@ -1,0 +1,10 @@
+What I have done:
+- Reviewed the Motivational Model based on client's and team's feedback. The motivational model sets a great foundation for developing use cases. 
+- Reviewed the use cases and use case diagram. Some of the current use cases can be split into smaller ones, so I suggested we make our use cases not too high-level.
+
+Issues that I faced:
+- We got a bit of problem with the Discord server, which caused a bit of disruption. We were able to resolve that quickly by migrating to a new server and exporting old chat content to bring everything back to normal
+
+My plan for the next week:
+- Focus on the presentation, which includes contributing to the slides and practising with the team probably on Thursday, which is a public holiday
+- Continue to join in the lo-fi prototype related tasks and help team members with other tasks.
