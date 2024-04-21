@@ -1,0 +1,11 @@
+Week 7 – Weekly Report – James Dinh (888972)
+
+Done:
+- Finished writing the risk register and adding some suggestions for mitigations for those risks
+- Conducted research for frontend frameworks suitable for a web application and desktop application. I detailed the advantages and disadvantages of each from the perspective of how easy it was to learn and work with, as well as factors such as extensibility and scalability. I also assessed the advantages and disadvantages of testing libraries that those frameworks had in preparation for quality assurance processes.
+
+Issues:
+- N/a
+
+To do:
+- Prepare for presentation on Friday with team
