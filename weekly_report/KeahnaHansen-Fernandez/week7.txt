@@ -1,0 +1,12 @@
+Done:
+- reviewed requirements documentation to clarify my understanding of the project
+- worked with Will to finish sequence diagrams:
+    - completed planning phase and completion stage diagrams,
+    - reviewed the two other diagrams: made adjustments and reformatted
+    - uploaded to notion and requested feedback from team
+Issues:
+- no issues
+To do:
+- work on slides for presentation
+- prepare for presentation
+- have a look at team's work on domain models etc.
