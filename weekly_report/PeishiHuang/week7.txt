@@ -1,0 +1,3 @@
+This week, I have spent four hours outside of the workshop and the weekly team meeting on this project. After the Friday workshop, Mabs, Brendan and I discussed the lo-fi prototype and made the domain diagram for an hour. On Saturday I have spent three hours developing the lo-fi UI prototype and create the remaining 11 pages for Trip, Event and Speaker Items. 
+
+The team did not encounter any major issue this week. For next week, I will continue improve the lo-fi prototype and make user story protoypes with Kia and Mabs, as well as prepare for the team presentation. 
