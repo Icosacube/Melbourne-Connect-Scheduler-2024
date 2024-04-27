@@ -1,0 +1,12 @@
+What I have done:
+- Created and working on the UML Class Diagram with William and the backend team. We have a good idea of what classes the system should consist of based on the object diagram that was done earlier.
+- Worked on the presentation slides with the team in the use case diagram and motivational model parts
+
+Issues that I faced:
+- I couldn't attend the meeting with Nayan as it coincided with my regular work time at my internship, which I can't change until the end of this semester. I did manage to ask follow up questions to my teammates and went through the meeting minutes thoroughly
+
+My plan for the next week:
+- Continue working on the Class diagram to prepare it for the next client meeting, as well as set it up for the backend team to start working
+	- We expect collaboration from the backend team as well, which will validate and verify my choice of design
+- Help set up development environment on the backend
+- Work on how I should present myself in the supervisor meeting 
