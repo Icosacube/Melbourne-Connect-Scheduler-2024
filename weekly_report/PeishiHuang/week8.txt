@@ -1,0 +1,3 @@
+This week, I have spent around three-and-a-half hours outside of workshop and weekly meeting. I have used one hour for making adjustments to the lo-fi prototype. For progress presentation, I have spent one hour for making presentation slide on Lo-Fi prototype and an half hour on preparing script for my own part. On Thursday, I have attended an half-hour rehearsal meeting with my teammates, and another half an hour for rehearsing my part individually.
+
+The team did not encounter any major issue this week. For next week, I will start making user story protoypes with Kia and Mabs, as well as starting on making hi-fi prototype based on the React UI library we chose (currently MUI). 
