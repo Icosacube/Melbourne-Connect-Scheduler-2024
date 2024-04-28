@@ -1,0 +1,18 @@
+In Week 8 I reviewed how tasks are allocated among the team members.
+- Following Paul's advice, I think I was able to get a more efficient task allocation
+
+- I helped finalizing our tech stack by hearing all the considerations from our team, where I was faciliating
+this meeting as the SM. 
+
+- Reviewed the sprint board on Monday and re assigned tasks to people, the main focus was the lofi and presentation
+
+- Made sure everyone has the development environment setup.
+
+In terms of blokers, there is not for this week.
+
+Next week we will plan our next sprint, So I will need to prepare for that 
+	 From that sprint, I will plan the development such that we develop user stories by user stories 
+	 for the HiFi and the actual implementation.
+	 
+	 I will also be involved in the backend most likey. 
+
