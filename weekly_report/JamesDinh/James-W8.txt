@@ -1,0 +1,10 @@
+Week 8 – Weekly Report – James Dinh (888972)
+
+Done:
+- Prepared and completed presentation with the team in class. I was responsible for explaining the conceptualisation of the motivational model and user stories. I assisted other team members with providing feedback during dry runs.
+
+Issues:
+- N/a
+
+To do:
+- Prepare for application development in future sprints by familiarising myself with the frameworks and libraries we have chosen based on our collective research.
