@@ -1,0 +1,7 @@
+This week I prepared the progress presentation. From the previous week as well, I took note of what we had completed and laid out a basic structure encompassing what we had achieved - lo-fi prototype, various artefacts, and our client meetings. Though it was noted that we didn't directly include our user stories, overall it was a successful presentation.
+
+In addition to laying out the slides, I also organized a rehearsal session and gave advice on what to include in the slides, in addition to suggesting topics that could be included or excluded based on a timing basis.
+
+That said, I did feel like I didn't have much else to do beyond this, a sentiment that my teammates have echoed. Part of this is due to our awaiting of our client feedback on our lo-fi prototype, but we also allocated our workloads in a manner befitting a 10-person team, so perhaps we were carrying over expectations of a 5-person team.
+
+In the coming week, to conclude the sprint, I will aim to contribute to establishing the executable architecture. I would like to focus on improving my frontend programming skills, but the details of that are to be established on Monday during our weekly standup.
