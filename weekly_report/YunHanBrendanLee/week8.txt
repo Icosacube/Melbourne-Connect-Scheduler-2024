@@ -1,0 +1,9 @@
+In Week 8, I volunteered to be one of the presenters in our mid-way progress presentation. I had spent most of week 8 preparing and practising the presentation scripts. 
+
+On Monday, during the meeting with Nayan from the UniMelb IT department, we discussed the availability of hosting the database for the application, as well as a better choice of database to integrate with our design. We settled on AirTable as the main reason being UniMelb already has AirTable deployed and would be able to migrate our database with ease. After the meeting, I created the AirTable database and checked the API usage with Postman to confirm that it could be used with ease. 
+
+After the meeting, I was also digging into the availability of hosting platforms, researching a few platforms that were recommended by the team and Nayan. However, the proper decision on which hosting platform to use will need to be discussed with the team at the team meeting next Monday. 
+
+On Saturday, after confirming that AirTable can be used with ease. I then set up a database following the Database ER Diagram created previously. As well as update the database structure depicted in the deployment diagram.
+
+In Week 9, I will start to implement an interface with Java following the Sprintboot framework to establish a connection with the configured AirTable database. While also discussed with the team on how to handle authentication information that is unlikely to be stored on AirTable. 
