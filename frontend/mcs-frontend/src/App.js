@@ -5,6 +5,8 @@ import ProfileHeader from "./components/ProfileHeader";
 import SideNavBar from "./components/SideNavBar";
 import SpeakerTitle from "./components/SpeakerTitle";
 import NavBar from "./components/TopNavBar";
+import ProfileCard from "./components/ProfileCard";
+import SpeakerTag from "./components/SpeakerTag";
 
 function App() {
   const tags = ["CEO", "Justice", "Dark Knight", "Vigilante", "Billionaire"];
@@ -12,7 +14,7 @@ function App() {
     <>
       <NavBar />
       <SideNavBar />
-      <Box className="flex justify-center items-center h-screen space-x-6">
+      <Box className="flex flex-wrap justify-center items-center h-screen space-x-6">
         <BackButton text="Back" />
         <EventTitle
           eventName="Birthday Party"
@@ -33,6 +35,9 @@ function App() {
           organisation="Wayne Enterprise"
           tags={tags}
         />
+
+        <ProfileCard firstname="Bruce" lastname="Wayne" roletag="CEO" />
+        <SpeakerTag name="Bruce" />
       </Box>
     </>
   );
