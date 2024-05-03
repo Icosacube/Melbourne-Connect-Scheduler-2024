@@ -1,8 +1,8 @@
-export { BackButton } from "./BackButton";
-export { EventTitle } from "./EventTitle";
-export { ProfileCard } from "./ProfileCard";
-export { SideNavBar } from "./SideNavBar";
-export { TopNavBar } from "./TopNavBar";
-export { SpeakerTitle } from "./SpeakerTitle";
-export { ProfileHeader } from "./ProfileHeader";
-export { SpeakerTag } from "./SpeakerTag";
+export * from "./BackButton";
+export * from "./EventTitle";
+export * from "./ProfileCard";
+export * from "./SideNavBar";
+export * from "./TopNavBar";
+export * from "./SpeakerTitle";
+export * from "./ProfileHeader";
+export * from "./SpeakerTag";

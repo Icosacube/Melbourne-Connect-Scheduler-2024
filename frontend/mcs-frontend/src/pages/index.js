@@ -1,6 +1,6 @@
-export { Dashboard } from "./Dashboard";
-export { Layout } from "./Layout";
-export { Components } from "./Components";
-export { Event } from "./Event";
-export { Speaker } from "./Speaker";
-export { Login } from "./Login";
+export * from "./Dashboard";
+export * from "./Layout";
+export * from "./Components";
+export * from "./Event";
+export * from "./Speaker";
+export * from "./Login";
