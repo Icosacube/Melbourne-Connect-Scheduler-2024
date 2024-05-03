@@ -9,7 +9,7 @@ const pages = ["Events", "Trips", "People", "Finance"];
 
 function TopNavBar() {
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Toolbar>
         <Box className="flex justify-end grow space-x-10">
           {pages.map((page) => (
