@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { StyledEngineProvider } from "@mui/material";
 // Material UI CSS needs to be injectFirst so that it does not override tailwind
@@ -9,9 +10,11 @@ import { StyledEngineProvider } from "@mui/material";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <StyledEngineProvider injectFirst>
-      <App />
-    </StyledEngineProvider>
+    <BrowserRouter>
+      <StyledEngineProvider injectFirst>
+        <App />
+      </StyledEngineProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
