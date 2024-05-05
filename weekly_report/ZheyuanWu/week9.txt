@@ -1,0 +1,10 @@
+Regarding my contribution for the project this week, I mainly completed the documentation of version control
+overflow that is assigned by the scrum master.
+
+Key issues me and my teammates may have encountered:
+1.Need to confirm the progress our team has so far with the client to make sure they are aligned
+with the requirements on 6th May
+2.backend can be developed now with Docker set up already
+
+plan to do for the project next week individually:
+After the client meeting, start developing backend and review the uml diagram.
