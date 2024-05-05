@@ -1,0 +1,5 @@
+This week was focused around establishing the executable architecture. From what we had discussed in the planning on Monday, I set up a react instance and walked through my plans with the frontend team to set up routing, webpage layouts and settle on other style decisions.
+
+In addition, I co-ordinated with the other subteams to make sure that we were making sure that we were making full use of our time, as we had found that some of our teammates didn't have enough work to do. As a natural extension of having to collaborate between the frontend and backend, I made sure to suggest tasks that people could allocate themselves to.
+
+In the coming week, I will attend the client meeting to present our progress and ensure that we are on track, and continue working on the frontend.
