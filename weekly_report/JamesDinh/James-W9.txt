@@ -1,0 +1,13 @@
+Week 9 – Weekly Report – James Dinh (888972)
+
+Done:
+- Attended the Friday class virtually and discussed task delegation with my team.
+- Added impact and likelihood fields in the Risk Register to generate a numerical risk rating score to rank the risks (in repsonse to feedback from supervisor)
+- Started coding guideline
+
+Issues:
+- N/a
+
+To do:
+- Complete coding guideline
+- Begin drafting acceptance tests in line with acceptance criteria

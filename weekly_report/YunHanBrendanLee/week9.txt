@@ -1,0 +1,10 @@
+In Week 9, I spent most of the time researching, creating and debugging the configuration for the docker to host the spring boot application. While I have some base knowledge in dockerisation, this is the first time to dockerise a Java application while trying to use maven within a docker container. 
+
+After long hours of debugging and modifying the config for docker-compose and Dockerfile, I configured a Dockerfile and docker-compose yaml that works with our needs, which will use Maven to package the spring boot Java source files and deployment with docker container, while deploying another docker container with PostgreSQL. Where PostgreSQL is the current solution that meant to store the user authentication information from discussion with the team during Monday’s meeting
+
+With the docker config complete, I also initialised a basic spring boot application as a starting point for backend development, as well as to test run the deployment setup with the docker container. 
+
+As planned last week, where an interface for connecting the backend with the database should have been started this week but was postponed to next week due to the difficulty in creating the docker-compose file and executing it. 
+
+Next week, I will start the interface implementation for both AirTable and PostgreSQL, while working along with other teammates to come up with an API schema with swagger. Also, would suggest creating another GitHub Repository to host the swagger API documentation page with GitHub Page.
+

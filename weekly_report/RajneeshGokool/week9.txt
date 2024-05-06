@@ -1,0 +1,9 @@
+In this week, I was responsible for our sprint 3 planning and this time I followed what Paul said and now 
+The team is working in a more Agile way. After the Sprint Review with our client, we will have a clear 
+path and It will be even better
+
+This week, I am working in the implementaion of our APIs with Hoang and Brendan for use in our executable architecture
+
+There is nothing that I am stuck on at the moment. 
+
+I plan to finish the APIs next week and join our Sprint Review with our client on Monday.
