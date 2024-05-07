@@ -17,6 +17,7 @@ function Components() {
       <EventTitle
         eventName="Birthday Party"
         dateTime="30/04/2024 16:20"
+        venue="M01, Level M"
         guestName="Bruce Wayne"
       />
 
