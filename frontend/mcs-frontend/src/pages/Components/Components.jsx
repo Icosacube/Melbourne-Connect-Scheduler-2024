@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import {
+  AddButton,
   BackButton,
   EventTitle,
   ProfileCard,
@@ -21,11 +22,12 @@ function Components() {
         guestName="Bruce Wayne"
       />
 
-      <SpeakerTitle firstname="Bruce" lastname="Wayne">
-        <Typography>CEO of Wayne Enterprises</Typography>
+      <SpeakerTitle firstname="Bruce" lastname="Wayne" organisation="CEO of Wayne Enterprises">
         <Typography>Hammer of Justice</Typography>
         <Typography>Dark Knight</Typography>
       </SpeakerTitle>
+
+      <AddButton type="Event"></AddButton>
 
       <ProfileHeader
         title="Mr"

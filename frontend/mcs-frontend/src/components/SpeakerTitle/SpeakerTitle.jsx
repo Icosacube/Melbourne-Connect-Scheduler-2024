@@ -1,21 +1,31 @@
 import PersonIcon from "@mui/icons-material/Person";
-import { Card, CardContent, Stack, Typography, Box } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  CardContent,
+  Chip,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React from "react";
 
 function SpeakerTitle({ firstname, lastname, organisation, children }) {
   return (
     <Card>
-      <CardContent className="space-y-4 bg-blue-400 min-w-96 text-white">
-        <Stack direction="row" spacing={2} className="place-items-center">
-          <PersonIcon fontSize="large" />
-          <Typography className="text-4xl">
-            {firstname} {lastname}
-          </Typography>
+    <Card p={1} sx={{ flexGrow:1, minWidth: "320px", maxWidth: "480px", height: "128px" }}>
+      <CardContent className="flex flex-row space-x-4 space-y-1">
+        <Avatar className="size-24">A</Avatar>
+        <Stack>
+          <Typography className="text-2xl">{firstname} {lastname}</Typography>
+          <Typography color="text.secondary">{organisation}</Typography>
+          <Stack direction={"row"} flexWrap={1} spacing={1}>
+            {children.map((child) => (
+            <Chip label={child}/>
+          ))}
+          </Stack>
         </Stack>
-
-        <Typography className="text-lg ">{organisation}</Typography>
-        <Box className="text-gray-300">{children}</Box>
       </CardContent>
+    </Card>
     </Card>
   );
 }

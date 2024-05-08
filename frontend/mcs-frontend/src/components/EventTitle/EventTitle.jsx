@@ -6,7 +6,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import React from "react";
 function EventTitle({ eventName, dateTime, venue, guestName, isCompleted=false }) {
   return (
-    <Card p={1} sx={{ width: "320px", height: "136px" }}>
+    <Card p={1} sx={{ flexGrow:1, minWidth: "320px", maxWidth: "480px", height: "136px" }}>
       <CardActionArea>
         <CardContent>
           <Stack direction="row" spacing={0.5}>
