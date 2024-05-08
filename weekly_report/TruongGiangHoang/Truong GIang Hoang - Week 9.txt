@@ -1,0 +1,11 @@
+What I have done:
+- Continue reviewing the UML class diagram as the team progressed into the executable architecture phase.
+- Started working on API endpoints, which includes documentation in the first stage and implementation later.
+	- For implementation, we need to wait for the backend to be set up before we proceed, which should be done by the end of this week.
+
+Issues that I faced:
+- No problem in particular
+
+My plan for the next week:
+- Continue reviewing the UML class diagram 
+- Continue working on API documentation and implementation. We plan to use Swagger to document the endpoints more professionally.
