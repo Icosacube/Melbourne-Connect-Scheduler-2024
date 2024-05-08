@@ -3,6 +3,7 @@ import React from "react";
 import { Dashboard, Layout, Login, Event, Speaker, Components } from "./pages/";
 
 function App() {
+  console.log(process.env.REACT_APP_BACKEND_BASE_URL);
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
