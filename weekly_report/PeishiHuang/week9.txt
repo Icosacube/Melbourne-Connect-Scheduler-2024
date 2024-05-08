@@ -1,0 +1,4 @@
+
+This week, Kia, Quang and I had spent half an hour discussing our step-by-step plan and page routing design for front-end development during the workshop. Outside of our weekly meeting and workshop, I have spent around one-and-a-half hours to finish making interaction components of lo-fi prototype for presenting to our client in the next week’s meeting, and make layout for dashboard page.
+
+The team did not encounter any major issue this week. For next week, I will finish up dashboard page along with its components, and start on implementing event page as soon as possible.
