@@ -4,7 +4,7 @@ const instance = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_BASE_URL,
 });
 
-// Currently getting from dummy datasite
+// Currently getting from dummy api
 async function getSpeakers() {
   try {
     const response = await instance.get("/1");
