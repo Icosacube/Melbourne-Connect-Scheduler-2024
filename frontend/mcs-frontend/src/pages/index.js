@@ -4,3 +4,6 @@ export * from "./Components";
 export * from "./Event";
 export * from "./People";
 export * from "./Login";
+export * from "./ErrorPage";
+export * from "./Trips";
+export * from "./Finance";
