@@ -1,0 +1,9 @@
+Done:
+- recorded notes for team/sprint planning meeting in notion
+- set up daily bot in new server for asynch standups, team is prompted to complete standup on Wednesdays
+- recorded notes for supervisor meeting in notion
+- researched spring security for authentication, in preparation for implementation over weeks 10 and 11
+Issues:
+- no issues
+To do:
+- implement authentication  

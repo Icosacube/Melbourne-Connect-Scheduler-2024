@@ -2,10 +2,9 @@ import {
   Avatar,
   Card,
   CardContent,
+  Chip,
   Stack,
   Typography,
-  Chip,
-  Box,
 } from "@mui/material";
 import React from "react";
 

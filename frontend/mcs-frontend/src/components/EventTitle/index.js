@@ -1,1 +1,1 @@
-export { default } from "./EventTitle";
+export { default as EventTitle } from "./EventTitle.jsx";
