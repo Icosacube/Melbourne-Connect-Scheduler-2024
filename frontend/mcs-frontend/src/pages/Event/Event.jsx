@@ -1,8 +1,8 @@
+import { Box } from "@mui/material";
 import Container from "@mui/material/Container";
 import React from "react";
-import { BackButton, EventTitle, ProfileCard } from "../../components";
+import { BackButton, EventTitle } from "../../components";
 import EventTabs from "./EventTabs";
-import { Box } from "@mui/material";
 
 function Event() {
   return (
