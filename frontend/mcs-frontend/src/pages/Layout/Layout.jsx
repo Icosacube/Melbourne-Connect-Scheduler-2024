@@ -7,8 +7,8 @@ function Layout() {
     <>
       <TopNavBar />
       <Divider />
-      <Box className="container m-auto mt-12 border-solid border-2">
-        <Outlet className="mt-6" />
+      <Box className="container m-auto mt-12 ">
+        <Outlet className="mt-6 " />
       </Box>
       {/* Temporary navigation */}
       {/* <Box>
