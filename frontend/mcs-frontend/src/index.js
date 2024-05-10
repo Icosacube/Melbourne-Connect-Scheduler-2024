@@ -1,20 +1,74 @@
-import React from "react";
+import React, { Children } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
-import { BrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { StyledEngineProvider } from "@mui/material";
+import {
+  Components,
+  Dashboard,
+  ErrorPage,
+  Event,
+  Layout,
+  Login,
+  People,
+  Trips,
+  Finance,
+} from "./pages";
+
 // Material UI CSS needs to be injectFirst so that it does not override tailwind
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/event",
+        element: <Event />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/people",
+        element: <People />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/components",
+        element: <Components />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/trips",
+        element: <Trips />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/finance",
+        element: <Finance />,
+        errorElement: <ErrorPage />,
+      },
+    ],
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <StyledEngineProvider injectFirst>
-        <App />
-      </StyledEngineProvider>
-    </BrowserRouter>
+    <StyledEngineProvider injectFirst>
+      <RouterProvider router={router} />
+    </StyledEngineProvider>
   </React.StrictMode>
 );
 
