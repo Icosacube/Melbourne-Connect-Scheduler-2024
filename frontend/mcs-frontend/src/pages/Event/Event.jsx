@@ -16,14 +16,7 @@ function Event() {
         />
       </Box>
 
-      <Box className="flex space-x-10">
-        <Box className=" w-3/5">
-          <EventTabs />
-        </Box>
-        <Box className=" w-2/5">
-          <ProfileCard firstname="Bruce" lastname="Wayne" roletag="CEO" />
-        </Box>
-      </Box>
+      <EventTabs />
     </Container>
   );
 }
