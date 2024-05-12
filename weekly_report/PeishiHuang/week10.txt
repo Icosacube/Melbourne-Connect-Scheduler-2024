@@ -1,0 +1,4 @@
+
+This week, I have spent around one hour to add components and change existing components made by Quang to fit the dashboard page and commit my work on front-end/dashboard branch. I have spent another hour to test some color schemes approved by our client on the dashboard page of the lo-fi prototype.  
+
+For my personal task, I have encountered an issue where the calendar component on Dashboard might be too complicated to be developed from scratch in the amount of time I have in one week. As this component has a relatively low priority on our system, I decided to put a placeholder for this component and work on more important pages such as event and trip for now. For next week, I will try to work on the user stories for front-end development and find any suitable  existing library for the calendar component. 
