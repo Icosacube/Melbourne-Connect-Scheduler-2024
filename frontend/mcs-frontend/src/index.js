@@ -16,6 +16,7 @@ import {
   Finance,
 } from "./pages";
 import Profile from "./pages/People/Profile";
+import Events from "./pages/Event/Events";
 
 // Material UI CSS needs to be injectFirst so that it does not override tailwind
 
@@ -31,7 +32,12 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: "/event",
+        path: "/events",
+        element: <Events />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/events/:id",
         element: <Event />,
         errorElement: <ErrorPage />,
       },
