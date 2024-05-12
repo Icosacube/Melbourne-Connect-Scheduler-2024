@@ -15,6 +15,7 @@ import {
   Trips,
   Finance,
 } from "./pages";
+import Profile from "./pages/People/Profile";
 
 // Material UI CSS needs to be injectFirst so that it does not override tailwind
 
@@ -42,6 +43,11 @@ const router = createBrowserRouter([
       {
         path: "/people",
         element: <People />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/people/:id",
+        element: <Profile />,
         errorElement: <ErrorPage />,
       },
       {
