@@ -1,0 +1,10 @@
+What I have done:
+- Continued discussion with 2 other team members (Brendan and Ray) about API endpoints, both documentation and implementation.
+- Revised architectural diagrams under 'Architecture' artifacts to help prepare the team better for Friday's peer review session.
+
+Issues that I faced:
+- Assignments coming up, combined with certain health-related issues (supported by Professional Health Report from GP at Unimelb clinic) prevented me from contributing more
+
+My plan for the next week:
+- Keep track of my health, rearrange and re-prioritise tasks for a more manageable workload
+- Continue with API endpoints and implement certain routes to help the front-end team test their features.
