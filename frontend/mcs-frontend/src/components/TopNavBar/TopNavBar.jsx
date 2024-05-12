@@ -8,7 +8,7 @@ import * as React from "react";
 const pages = [
   {
     name: "Events",
-    url: "/event",
+    url: "/events",
   },
   {
     name: "Trips",
