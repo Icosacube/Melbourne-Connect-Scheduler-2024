@@ -1,1 +1,5 @@
+/mcs-app/src/main/java/com/example/mcsbackend/repository/service/SpeakerService.java
+/mcs-app/src/main/java/com/example/mcsbackend/model/Speaker.java
 /mcs-app/src/main/java/com/example/mcsbackend/McsBackendApplication.java
+/mcs-app/src/main/java/com/example/mcsbackend/repository/Speakerrepo.java
+/mcs-app/src/main/java/com/example/mcsbackend/controller/SpeakerController.java
