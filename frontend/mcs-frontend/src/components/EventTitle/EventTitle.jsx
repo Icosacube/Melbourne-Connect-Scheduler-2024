@@ -6,7 +6,7 @@ import React from "react";
 function EventTitle({ eventName, dateTime, guestName }) {
   return (
     <Card>
-      <CardContent className="space-y-4 bg-blue-400 min-w-96 text-white">
+      <CardContent className="space-y-4 bg-primary min-w-96 text-stone-800">
         <Stack direction="row" spacing={1} className="place-items-center">
           <CalendarMonthIcon fontSize="large" />
           <Typography className="text-4xl">{eventName}</Typography>

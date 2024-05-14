@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 import * as React from "react";
+import { ReactComponent as Logo} from "../../Hex Logo (Colour).svg"
 
 const pages = [
   {
@@ -31,15 +32,15 @@ const pages = [
 function TopNavBar() {
   return (
     <AppBar position="sticky">
-      <Toolbar>
+      <Toolbar className="bg-primary">
         <Box className="flex">
           <Button key="Dashboard" className="text-white " href="/dashboard">
-            Dashboard
+            <Logo />
           </Button>
         </Box>
         <Box className="flex justify-end grow space-x-10">
           {pages.map((page) => (
-            <Button key={page.name} className="text-white " href={page.url}>
+            <Button key={page.name} className="text-black " href={page.url}>
               {page.name}
             </Button>
           ))}
