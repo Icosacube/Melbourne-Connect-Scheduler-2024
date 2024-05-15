@@ -1,1 +1,1 @@
-export { default as SpeakerTitle } from "./SpeakerTitle.jsx";
+export { default as SpeakerTitle } from './SpeakerTitle.jsx';
