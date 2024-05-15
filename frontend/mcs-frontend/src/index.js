@@ -1,87 +1,87 @@
-import React, { Children } from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import reportWebVitals from "./reportWebVitals";
-import { StyledEngineProvider } from "@mui/material";
+import { StyledEngineProvider } from '@mui/material';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './index.css';
 import {
   Components,
   Dashboard,
   ErrorPage,
   Event,
+  Finance,
   Layout,
   Login,
   People,
-  Trips,
-  Finance,
-} from "./pages";
-import Profile from "./pages/People/Profile";
-import Events from "./pages/Event/Events";
-import Trip from "./pages/Trips/Trip";
+  Trips
+} from './pages';
+import Events from './pages/Event/Events';
+import Profile from './pages/People/Profile';
+import Trip from './pages/Trips/Trip';
+import reportWebVitals from './reportWebVitals';
 
 // Material UI CSS needs to be injectFirst so that it does not override tailwind
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/dashboard",
+        path: '/dashboard',
         element: <Dashboard />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />
       },
       {
-        path: "/events",
+        path: '/events',
         element: <Events />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />
       },
       {
-        path: "/events/:id",
+        path: '/events/:id',
         element: <Event />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />
       },
       {
-        path: "/login",
+        path: '/login',
         element: <Login />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />
       },
       {
-        path: "/people",
+        path: '/people',
         element: <People />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />
       },
       {
-        path: "/people/:id",
+        path: '/people/:id',
         element: <Profile />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />
       },
       {
-        path: "/components",
+        path: '/components',
         element: <Components />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />
       },
       {
-        path: "/trips",
+        path: '/trips',
         element: <Trips />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />
       },
       {
-        path: "/trips/:id",
+        path: '/trips/:id',
         element: <Trip />,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />
       },
       {
-        path: "/finance",
+        path: '/finance',
         element: <Finance />,
-        errorElement: <ErrorPage />,
-      },
-    ],
-  },
+        errorElement: <ErrorPage />
+      }
+    ]
+  }
 ]);
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <StyledEngineProvider injectFirst>
