@@ -1,12 +1,12 @@
-import { Box, Button, Container, Typography } from "@mui/material";
+import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
+import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { BackButton } from "../../components";
 import TripsTab from "./TripsTab";
-import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
 
 function Trip() {
   return (
-    <Container className=" container flex  space-x-10">
+    <Box className=" flex  space-x-10">
       <Box className="w-2/3 space-y-10">
         <BackButton text="Back" />
         <Box>
@@ -23,7 +23,7 @@ function Trip() {
         <Typography variant="h6">Schedule</Typography>
         <Button variant="contained" className="w-10/12 min-h-80 " />
       </Box>
-    </Container>
+    </Box>
   );
 }
 
