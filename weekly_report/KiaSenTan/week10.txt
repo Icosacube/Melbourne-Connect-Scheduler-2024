@@ -1,0 +1,5 @@
+This week, my primary contributions were to the frontend. I worked with Mabs and Ella on the style guide, discussing whether features such as light mode and dark mode were to be added, in addition to tightening up routing across frontend pages. In addition, I worked with Quang to review his pull requests on the frontend branch (his quick work has left me with very little to do).
+
+In addition, on Monday we had a client meeting for a sprint review. While largely intended to show off the low fidelity prototype, I also answered some questions about our project in addition to contributing to the discussion around what to do next.
+
+In the coming week, I intend to provide further contributions to the frontend, in addition to refining the product roadmap.

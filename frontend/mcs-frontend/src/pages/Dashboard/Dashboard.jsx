@@ -66,6 +66,7 @@ export default function Dashboard() {
             isCompleted={event.isCompleted}
             />
           ))}
+
           </Stack>
         </Grid>
       </Grid>

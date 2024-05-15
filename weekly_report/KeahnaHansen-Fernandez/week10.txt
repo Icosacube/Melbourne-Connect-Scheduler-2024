@@ -1,0 +1,15 @@
+Done:
+- recorded notes for client and supervisor meetings
+- investigated issues with standup bot
+    - still not sure why some team members aren't getting notifications, have raised issue with tech team
+- discussed use of AirTable or Postgres for storing user details, with Brendan
+    - Went with Postgres
+- set up db on local host and initialised it
+- implemented user repo, service and model classes -> not pushed because haven't tested
+- set up security structure including config and JWT classes
+    - began implementation of config class
+Issues:
+- lots of difficulty setting up Postgres which delayed my progress, resolved now
+To do:
+- test user repo, service and model classes -> should be able to retrieve user details based on username
+- finish implementation of authentication and JWTs 
