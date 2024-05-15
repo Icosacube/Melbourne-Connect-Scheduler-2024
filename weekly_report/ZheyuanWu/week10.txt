@@ -1,0 +1,10 @@
+Regarding my contribution for the project this week, I mainly discuss peer reviews with BH and AW team.Also,
+I have understand the structure of database and have initlised model with JPA to test with 
+postman if db is working fine.
+
+Key issues me and my teammates may have encountered:
+1.need to speed up developing both frontend and backend
+
+
+plan to do for the project next week individually:
+Keep developing the backend and see if backend can successfully interacts with the frontend

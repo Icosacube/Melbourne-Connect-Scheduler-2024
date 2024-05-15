@@ -1,0 +1,7 @@
+This week I started the API documentation using Swagger. The speaker APIs are all documented.Backend have been mostly set up and now we can start the development of the APIs.
+I Reviewd the documentation for Bleeding Heart and for Author's Workbench to give feedback to them.
+
+No key isses at the moment but I think we need to speed up a little bit on backend development, which I am part of.
+
+Next week I will try to start development of APIs. However, it will be a busy week as there is the research essay
+on top as well as other assignments piling up.
