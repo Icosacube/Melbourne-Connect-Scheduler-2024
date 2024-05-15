@@ -1,14 +1,14 @@
-import FilterList from "@mui/icons-material/FilterList";
-import { Box, Button, Container, Typography } from "@mui/material";
-import React from "react";
-import { BackButton, EventTitle } from "../../components";
-import EditCalendar from "@mui/icons-material/EditCalendar";
 import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
+import EditCalendar from "@mui/icons-material/EditCalendar";
+import FilterList from "@mui/icons-material/FilterList";
+import { Box, Button, Typography } from "@mui/material";
+import React from "react";
 import { NavLink } from "react-router-dom";
+import { BackButton, EventTitle } from "../../components";
 
 function Events() {
   return (
-    <Container className="container flex space-x-10">
+    <Box className="flex space-x-10">
       <Box className="w-2/3 space-y-6">
         <Box className="flex justify-between ">
           <BackButton text={"Back"} />
@@ -25,7 +25,7 @@ function Events() {
         </Box>
         <Box className="grid grid-cols-2 gap-5 p-5 overflow-scroll max-w-screen-lg">
           {Array.from(Array(20)).map((_, index) => (
-            <NavLink to={`/events/${index}`} key={index} >
+            <NavLink to={`/events/${index}`} key={index}>
               <EventTitle
                 eventName="Birthday Party"
                 dateTime="30/04/2024 16:20"
@@ -40,7 +40,7 @@ function Events() {
         <Typography variant="h5">Event Time</Typography>
         <Typography variant="h5">Status</Typography>
       </Box>
-    </Container>
+    </Box>
   );
 }
 

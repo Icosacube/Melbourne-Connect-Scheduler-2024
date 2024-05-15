@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { TopNavBar } from "../../components";
 
@@ -7,7 +7,9 @@ function Layout() {
     <>
       <TopNavBar />
       <Box className=" flex items-center justify-center mt-10">
-        <Outlet />
+        <Container maxWidth="xl">
+          <Outlet />
+        </Container>
       </Box>
     </>
   );

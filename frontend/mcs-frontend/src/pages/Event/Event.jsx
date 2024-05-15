@@ -1,12 +1,11 @@
 import { Box, Button, Typography } from "@mui/material";
-import Container from "@mui/material/Container";
 import React from "react";
-import { BackButton, EventTitle } from "../../components";
+import { BackButton } from "../../components";
 import EventTabs from "./EventTabs";
 
 function Event() {
   return (
-    <Container className="container flex flex-col space-y-5">
+    <Box className="flex flex-col space-y-5">
       <Box className="space-y-5">
         <BackButton text="Back" />
         <Button variant="contained" className="w-full min-h-32 bg-gray-200" />
@@ -15,7 +14,7 @@ function Event() {
       </Box>
 
       <EventTabs />
-    </Container>
+    </Box>
   );
 }
 
