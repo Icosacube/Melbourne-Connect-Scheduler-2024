@@ -1,24 +1,38 @@
-import { Card, CardContent, Stack, Typography } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
+import { Avatar, Card, CardActionArea, CardContent, Chip, Stack, Typography } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PendingIcon from '@mui/icons-material/Pending';
+import PlaceIcon from "@mui/icons-material/Place";
 import React from "react";
-
-function EventTitle({ eventName, dateTime, guestName }) {
+function EventTitle({ eventName, dateTime, venue, guestName, isCompleted=false }) {
   return (
-    <Card>
-      <CardContent className="space-y-4 bg-primary min-w-96 text-stone-800">
-        <Stack direction="row" spacing={1} className="place-items-center">
-          <CalendarMonthIcon fontSize="large" />
-          <Typography className="text-4xl">{eventName}</Typography>
-        </Stack>
-
-        <Typography className="text-lg ">{dateTime}</Typography>
-
-        <Stack direction="row" spacing={1} className="place-items-center">
-          <PersonIcon fontSize="medium" />
-          <Typography className="text-2xl ">{guestName}</Typography>
-        </Stack>
-      </CardContent>
+    <Card p={1} sx={{ flexGrow:1, minWidth: "320px", maxWidth: "480px", height: "136px" }}>
+      <CardActionArea>
+        <CardContent>
+          <Stack direction="row" spacing={0.5}>
+            {isCompleted ? (
+              <CheckCircleIcon fontSize="medium" />
+            ) : (
+              <PendingIcon fontSize="medium" />
+            )}
+            <Typography fontSize="large" noWrap>
+              {eventName}
+            </Typography>
+          </Stack>
+          <Stack direction="row" spacing={0.5}>
+            <CalendarMonthIcon fontSize="small" />
+            <Typography color="text.secondary">{dateTime}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={0.5}>
+            <PlaceIcon fontSize="small" />
+            <Typography Nowrap color="text.secondary">
+              {venue}
+            </Typography>
+          </Stack>
+          {/* change avatar to headshot: <Avatar alt="guestName" src="/static/images/avatar.jpg" />} */}
+          <Chip avatar={<Avatar>B</Avatar>} label={guestName} />
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 }

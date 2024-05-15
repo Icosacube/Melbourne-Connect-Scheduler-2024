@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getSpeakers } from "../../api/axios";
 import {
+  AddButton,
   BackButton,
   EventTitle,
   ProfileCard,
@@ -30,14 +31,16 @@ function Components() {
       <EventTitle
         eventName="Birthday Party"
         dateTime="30/04/2024 16:20"
+        venue="M01, Level M"
         guestName="Bruce Wayne"
       />
 
-      <SpeakerTitle firstname="Bruce" lastname="Wayne">
-        <Typography>CEO of Wayne Enterprises</Typography>
+      <SpeakerTitle firstname="Bruce" lastname="Wayne" organisation="CEO of Wayne Enterprises">
         <Typography>Hammer of Justice</Typography>
         <Typography>Dark Knight</Typography>
       </SpeakerTitle>
+
+      <AddButton type="Event"></AddButton>
 
       <ProfileHeader
         title="Mr"
