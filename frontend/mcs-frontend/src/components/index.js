@@ -7,3 +7,4 @@ export * from './TopNavBar';
 export * from './SpeakerTitle';
 export * from './ProfileHeader';
 export * from './SpeakerTag';
+export * from './Calendar';

@@ -1,21 +1,22 @@
-import { Avatar, Card, CardActionArea, CardContent, Chip, Stack, Typography } from "@mui/material";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { Avatar, Card, CardActionArea, CardContent, Chip, Stack, Typography } from '@mui/material';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
-import PlaceIcon from "@mui/icons-material/Place";
-import React from "react";
-function EventTitle({ eventName, dateTime, venue, guestName, isCompleted=false }) {
+import PlaceIcon from '@mui/icons-material/Place';
+import React from 'react';
+import { yellow } from '@mui/material/colors';
+function EventTitle({ eventName, dateTime, venue, guestName, isCompleted = false }) {
   return (
-    <Card p={1} sx={{ flexGrow:1, minWidth: "320px", maxWidth: "480px", height: "136px" }}>
+    <Card p={1} sx={{ flexGrow: 1, minWidth: '320px', maxWidth: '480px', height: '136px' }}>
       <CardActionArea>
         <CardContent>
           <Stack direction="row" spacing={0.5}>
             {isCompleted ? (
-              <CheckCircleIcon fontSize="medium" />
+              <CheckCircleIcon fontSize="medium" color="success" />
             ) : (
-              <PendingIcon fontSize="medium" />
+              <PendingIcon fontSize="medium" sx={{ color: yellow[700] }} />
             )}
-            <Typography fontSize="large" noWrap>
+            <Typography className="text-textAccent font-medium" fontSize="large" noWrap>
               {eventName}
             </Typography>
           </Stack>
@@ -30,7 +31,7 @@ function EventTitle({ eventName, dateTime, venue, guestName, isCompleted=false }
             </Typography>
           </Stack>
           {/* change avatar to headshot: <Avatar alt="guestName" src="/static/images/avatar.jpg" />} */}
-          <Chip avatar={<Avatar>B</Avatar>} label={guestName} />
+          <Chip className="bg-primary" avatar={<Avatar>B</Avatar>} label={guestName} />
         </CardContent>
       </CardActionArea>
     </Card>

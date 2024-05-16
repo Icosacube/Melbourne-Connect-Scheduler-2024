@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import * as React from 'react';
-import { ReactComponent as Logo } from '../../Hex Logo (Colour).svg';
+import { ReactComponent as Logo } from '../../assets/Hex Logo (Colour).svg';
 import { useLocation } from 'react-router-dom';
 
 const pages = [
