@@ -1,7 +1,6 @@
+import { Box, Grid, Stack, Typography } from '@mui/material/';
 import * as React from 'react';
-import { Box, Grid, Paper, Stack, Typography } from '@mui/material/';
-import { AddButton, EventTitle } from '../../components';
-import { Calendar } from '../../components';
+import { AddButton, Calendar, EventTitle } from '../../components';
 
 // eslint-disable-next-line no-lone-blocks
 {
@@ -36,20 +35,30 @@ export default function Dashboard() {
       <Grid
         container
         direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        spacing={4}>
+        justifyContent="start"
+        alignItems="start"
+        rowSpacing={4}
+        columnSpacing={10}>
         {/* left top calendar */}
-        <Grid item xs={12} md={8} lg={10}>
+        <Grid item xs={12} md={8} lg={9}>
           <Calendar />
         </Grid>
         {/* right top */}
-        <Grid container direction={'column'} xs={12} md={4} lg={2} spacing={4}>
+        <Grid
+          item
+          container
+          direction={'column'}
+          xs={12}
+          md={4}
+          lg={2}
+          spacing={2}
+          className="space-y-5">
           {/* "add" buttons */}
           <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
             <AddButton type={'Profile'}></AddButton>
             <AddButton type={'Event'}></AddButton>
           </Stack>
+
           {/* list of upcoming events */}
           <Stack direction="column" spacing={1}>
             <Typography className="text-2xl">Upcoming Events</Typography>
