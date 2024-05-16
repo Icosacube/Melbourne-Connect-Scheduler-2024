@@ -1,16 +1,9 @@
-import {
-  Avatar,
-  Box,
-  Container,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/material";
-import React from "react";
-import { BackButton } from "../../components";
-import EditCalendar from "@mui/icons-material/EditCalendar";
-import { NavLink } from "react-router-dom";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import EditCalendar from '@mui/icons-material/EditCalendar';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { Avatar, Box, Divider, Stack, Typography } from '@mui/material';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { BackButton } from '../../components';
 
 function Trips() {
   return (
