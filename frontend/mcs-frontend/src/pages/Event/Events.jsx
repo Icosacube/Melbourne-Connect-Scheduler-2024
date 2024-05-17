@@ -5,6 +5,7 @@ import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { BackButton, EventTitle } from "../../components";
+import createEvent from "../../scripts/createEvent";
 
 function Events() {
   return (
@@ -18,15 +19,16 @@ function Events() {
           <Button
             variant="contained"
             className="w-11/12 min-h-28 flex space-x-2 bg-secondary hover:bg-accent hover:text-black"
+            onClick={createEvent}
           >
             <AddCircleOutlineOutlined className="size-20" />
             <Typography variant="h5">Create Event</Typography>
           </Button>
         </Box>
-        <Box className="grid grid-cols-2 gap-5 p-5 overflow-scroll max-w-screen-lg">
+        <Box className="grid grid-cols-1 md:max-w-screen-2xl md:grid-cols-2 p-5 overflow-scroll max-w-screen-xl">
           {Array.from(Array(20)).map((_, index) => (
             <NavLink to={`/events/${index}`} key={index}>
-              <EventTitle
+              <EventTitle className="md:flex"
                 eventName="Birthday Party"
                 dateTime="30/04/2024 16:20"
                 guestName="Bruce Wayne"
