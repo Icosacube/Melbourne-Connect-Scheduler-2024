@@ -1,6 +1,6 @@
-import { Route, Routes } from "react-router-dom";
-import React from "react";
-import { Dashboard, Layout, Login, Event, People, Components } from "./pages/";
+import { Route, Routes } from 'react-router-dom';
+import React from 'react';
+import { Dashboard, Layout, Login, Event, People, Components } from './pages/';
 
 function App() {
   return (

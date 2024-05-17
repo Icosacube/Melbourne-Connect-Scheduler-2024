@@ -1,7 +1,7 @@
-import { Box, Container, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import React from "react";
-import { BackButton, ProfileHeader } from "../../components";
 import { useParams } from "react-router-dom";
+import { BackButton, ProfileHeader } from "../../components";
 
 function Profile() {
   const params = useParams();
@@ -14,7 +14,7 @@ function Profile() {
     "Speaker " + params.id,
   ];
   return (
-    <Container className="container flex space-x-6">
+    <Box className=" flex space-x-6">
       <Box className="w-2/3  bg-gray-200">
         <BackButton text="Back" />
         <Box className="p-10">
@@ -57,7 +57,7 @@ function Profile() {
           <Typography variant="h6">Traveler Info</Typography>
         </Stack>
       </Box>
-    </Container>
+    </Box>
   );
 }
 

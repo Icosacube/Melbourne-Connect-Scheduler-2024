@@ -1,5 +1,5 @@
-import { Box, Chip, Grid, Typography } from "@mui/material";
-import React from "react";
+import { Box, Chip, Typography } from '@mui/material';
+import React from 'react';
 
 function Services() {
   return (

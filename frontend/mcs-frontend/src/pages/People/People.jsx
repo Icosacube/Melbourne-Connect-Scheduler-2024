@@ -1,13 +1,12 @@
-import React from "react";
-import Container from "@mui/material/Container";
-import { Box, Divider, Typography } from "@mui/material";
-import { BackButton, ProfileCard } from "../../components";
 import EditCalendar from "@mui/icons-material/EditCalendar";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import { Box, Divider, Typography } from "@mui/material";
+import React from "react";
 import { NavLink } from "react-router-dom";
+import { BackButton, ProfileCard } from "../../components";
 function People() {
   return (
-    <Container className="container flex space-x-10">
+    <Box className=" flex space-x-10">
       <Box className="w-2/3 space-y-4">
         <Box className="flex justify-between">
           <BackButton text="Back" />
@@ -28,7 +27,7 @@ function People() {
         <Typography variant="body1"></Typography>
         <Typography variant="h6">Some other field</Typography>
       </Box>
-    </Container>
+    </Box>
   );
 }
 
