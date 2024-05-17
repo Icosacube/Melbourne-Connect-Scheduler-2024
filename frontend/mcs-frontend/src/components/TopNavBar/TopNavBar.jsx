@@ -1,13 +1,13 @@
-import { Avatar, Typography } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { Typography } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import * as React from 'react';
-import { ReactComponent as Logo } from '../../assets/Hex Logo (Colour).svg';
 import { useLocation } from 'react-router-dom';
 
 const pages = [
+  {
+    name: 'Dashboard',
+    url: '/dashboard'
+  },
   {
     name: 'Events',
     url: '/events'
@@ -32,30 +32,14 @@ const pages = [
 
 function TopNavBar() {
   const curPath = useLocation().pathname;
+  const pageName = pages.find((page) => curPath.includes(page.url))?.name;
 
   return (
-    <AppBar position="sticky">
-      <Toolbar className="bg-primary">
-        <Box className="flex">
-          <Button key="Dashboard" className="text-white " href="/dashboard">
-            <Logo />
-          </Button>
-        </Box>
-        <Box className="flex justify-end grow space-x-10">
-          {pages.map((page) => (
-            <Button key={page.name} href={page.url}>
-              <Typography
-                variant="h6"
-                className={`text-yellow-700 font-bold text-xl ${curPath.includes(page.url) ? 'underline decoration-4' : ''}`}>
-                {page.name}
-              </Typography>
-            </Button>
-          ))}
-
-          <Avatar className="size-14"></Avatar>
-        </Box>
-      </Toolbar>
-    </AppBar>
+    <Toolbar className="bg-white h-24 shadow-md w-full">
+      <Typography variant="h4" className="text-black ml-6">
+        {pageName}
+      </Typography>
+    </Toolbar>
   );
 }
 export default TopNavBar;
