@@ -1,37 +1,71 @@
-import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, Chip, Menu, MenuItem } from '@mui/material';
+import * as React from 'react';
+import { getStatus } from './function';
 
 const columns = [
-  { field: 'id', headerName: 'id', width: 50 },
-  { field: 'eventName', headerName: 'Event Name', width: 280 },
-  { field: 'date', headerName: 'Date', type: 'date', width: 130 },
+  { field: 'id', headerName: 'id', headerClassName: 'event-table', flex: 1, width: 50 },
+  {
+    field: 'eventName',
+    headerName: 'Event Name',
+    headerClassName: 'event-table',
+    flex: 1,
+    width: 280
+  },
+  {
+    field: 'date',
+    headerName: 'Date',
+    headerClassName: 'event-table',
+    type: 'date',
+    flex: 1,
+    flex: 1,
+    width: 130
+  },
   {
     field: 'venue',
+    headerClassName: 'event-table',
     headerName: 'Venue',
+    flex: 1,
     width: 120
   },
   {
     field: 'keyNoteSpeaker',
+    headerClassName: 'event-table',
     headerName: 'Key Note Speaker',
+    flex: 1,
     width: 150
   },
   {
     field: 'status',
-    align: 'center',
+    headerClassName: 'event-table',
     headerName: 'Status',
-    width: 120,
+    flex: 1,
+    width: 150,
     renderCell({ row }) {
-      return <Chip label={row.status} color="success" />;
+      return getStatus(row.status);
     }
   },
   {
     field: 'organizer',
+    headerClassName: 'event-table',
     headerName: 'Organizer',
+    flex: 1,
     width: 160
+  },
+  {
+    field: 'caterer',
+    headerClassName: 'event-table',
+    headerName: 'Caterer',
+    flex: 1,
+    width: 130
+  },
+  {
+    field: 'attendees',
+    headerClassName: 'event-table',
+    headerName: 'Attendees',
+    flex: 1,
+    width: 100
   }
 ];
-const status = ['completed', 'cancelled', 'ongoing', 'preparation', 'implementation'];
 const rows = [
   {
     id: 1,
@@ -42,6 +76,8 @@ const rows = [
     keyNoteSpeaker: 'Dr. Alice Johnson',
     organizer: 'Dr. Bob Brown',
     status: 'Completed',
+    caterer: 'Whole Foods',
+    attendees: 100,
     date: new Date(2024, 5, 15)
   },
   {
@@ -52,6 +88,9 @@ const rows = [
     venue: 'Room 204',
     keyNoteSpeaker: 'Dr. Carol White',
     organizer: 'Dr. Dave Black',
+    status: 'Cancelled',
+    caterer: 'Chipotle',
+    attendees: 50,
     date: new Date(2024, 5, 16)
   },
   {
@@ -62,6 +101,9 @@ const rows = [
     venue: 'Main Hall',
     keyNoteSpeaker: 'Dr. Eve Green',
     organizer: 'Dr. Frank Blue',
+    status: 'Ongoing',
+    caterer: 'McDonalds',
+    attendees: 200,
     date: new Date(2024, 5, 17)
   },
   {
@@ -72,6 +114,9 @@ const rows = [
     venue: 'Lecture Theatre 1',
     keyNoteSpeaker: 'Dr. Grace Red',
     organizer: 'Dr. Heidi Yellow',
+    status: 'Preparation',
+    caterer: 'KFC',
+    attendees: 150,
     date: new Date(2024, 5, 18)
   },
   {
@@ -82,6 +127,9 @@ const rows = [
     venue: 'Conference Room B',
     keyNoteSpeaker: 'Dr. Ivan Orange',
     organizer: 'Dr. Judy Purple',
+    status: 'Implementation',
+    caterer: 'Subway',
+    attendees: 75,
     date: new Date(2024, 5, 19)
   },
   {
@@ -92,6 +140,9 @@ const rows = [
     venue: 'Auditorium A',
     keyNoteSpeaker: 'Dr. Alice Johnson',
     organizer: 'Dr. Bob Brown',
+    status: 'Completed',
+    caterer: 'Starbucks',
+    attendees: 80,
     date: new Date(2024, 5, 20)
   },
   {
@@ -102,6 +153,9 @@ const rows = [
     venue: 'Room 204',
     keyNoteSpeaker: 'Dr. Carol White',
     organizer: 'Dr. Dave Black',
+    status: 'Cancelled',
+    caterer: 'Taco Bell',
+    attendees: 90,
     date: new Date(2024, 5, 21)
   },
   {
@@ -112,6 +166,9 @@ const rows = [
     venue: 'Main Hall',
     keyNoteSpeaker: 'Dr. Eve Green',
     organizer: 'Dr. Frank Blue',
+    status: 'Implementation',
+    caterer: 'Wendys',
+    attendees: 120,
     date: new Date(2024, 5, 22)
   },
   {
@@ -122,6 +179,9 @@ const rows = [
     venue: 'Lecture Theatre 1',
     keyNoteSpeaker: 'Dr. Grace Red',
     organizer: 'Dr. Heidi Yellow',
+    status: 'Ongoing',
+    caterer: 'Pizza Hut',
+    attendees: 70,
     date: new Date(2024, 5, 23)
   },
   {
@@ -132,6 +192,9 @@ const rows = [
     venue: 'Conference Room B',
     keyNoteSpeaker: 'Dr. Ivan Orange',
     organizer: 'Dr. Judy Purple',
+    status: 'Cancelled',
+    caterer: 'Popeyes',
+    attendees: 110,
     date: new Date(2024, 5, 24)
   }
 ];
@@ -147,6 +210,15 @@ export default function EventsTable() {
       }}
       pageSizeOptions={[5, 10]}
       checkboxSelection
+      sx={{
+        '& .event-table': {
+          backgroundColor: '#FBE418',
+          color: 'black'
+        },
+        '.MuiDataGrid-columnHeaderTitleContainer': {
+          backgroundColor: '#FBE418'
+        }
+      }}
     />
   );
 }
