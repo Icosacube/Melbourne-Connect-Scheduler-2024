@@ -8,7 +8,8 @@ module.exports = {
         primary: '#FBAB18',
         secondary: '#BC8012',
         accent: '#FBE418',
-        textAccent: '#4F2373'
+        textAccent: '#4F2373',
+        backGround: '#F5F5F5'
       }
     }
   },
