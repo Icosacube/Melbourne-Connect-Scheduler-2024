@@ -5,7 +5,9 @@ import { SideNavBar, TopNavBar } from '../../components';
 function Layout() {
   return (
     <>
-      <Box className="bg-backGround flex">
+      <Box
+        className="bg-backGround flex h-screen
+      ">
         <SideNavBar />
         <Box className=" w-full">
           <TopNavBar />

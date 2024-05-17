@@ -31,7 +31,7 @@ function EventTitle({ eventName, dateTime, venue, guestName, isCompleted = false
             </Typography>
           </Stack>
           {/* change avatar to headshot: <Avatar alt="guestName" src="/static/images/avatar.jpg" />} */}
-          <Chip className="bg-primary" avatar={<Avatar>B</Avatar>} label={guestName} />
+          <Chip className="bg-primary" avatar={<Avatar />} label={guestName} />
         </CardContent>
       </CardActionArea>
     </Card>

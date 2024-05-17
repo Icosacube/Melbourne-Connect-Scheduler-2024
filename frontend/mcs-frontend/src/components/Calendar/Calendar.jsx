@@ -34,7 +34,7 @@ function Calendar() {
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
       events={events}
-      height={600}
+      height={550}
     />
   );
 }
