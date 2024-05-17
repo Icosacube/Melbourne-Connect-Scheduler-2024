@@ -1,0 +1,13 @@
+Week 10 – Weekly Report – James Dinh (888972)
+
+Done:
+- Attended the Friday class virtually and participated in peer assessment of teams AW and BH.
+- Finished coding guidelines and added justification to each guideline to provide insight into reasoning behind guideline choices
+- Drafted a Quality Assurance (QA) Plan added to the QA section of the documentation
+
+Issues:
+- N/a
+
+To do:
+- Flesh out QA plan more
+- Assist with planning and implementation of Authentication of our application

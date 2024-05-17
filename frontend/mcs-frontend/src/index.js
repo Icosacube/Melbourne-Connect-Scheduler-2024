@@ -1,16 +1,91 @@
-import React from "react";
+import React, { Children } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { StyledEngineProvider } from "@mui/material";
+import {
+  Components,
+  Dashboard,
+  ErrorPage,
+  Event,
+  Layout,
+  Login,
+  People,
+  Trips,
+  Finance,
+} from "./pages";
+import Profile from "./pages/People/Profile";
+import Events from "./pages/Event/Events";
+import Trip from "./pages/Trips/Trip";
+
 // Material UI CSS needs to be injectFirst so that it does not override tailwind
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/events",
+        element: <Events />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/events/:id",
+        element: <Event />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/people",
+        element: <People />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/people/:id",
+        element: <Profile />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/components",
+        element: <Components />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/trips",
+        element: <Trips />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/trips/:id",
+        element: <Trip />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/finance",
+        element: <Finance />,
+        errorElement: <ErrorPage />,
+      },
+    ],
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <StyledEngineProvider injectFirst>
-      <App />
+      <RouterProvider router={router} />
     </StyledEngineProvider>
   </React.StrictMode>
 );

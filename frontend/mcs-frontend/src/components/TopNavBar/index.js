@@ -1,1 +1,1 @@
-export { default } from "./TopNavBar";
+export { default as TopNavBar } from "./TopNavBar.jsx";

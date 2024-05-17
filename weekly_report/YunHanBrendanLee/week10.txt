@@ -1,0 +1,11 @@
+In week 10, I discussed with 2 team members with regard to some basic functionality API design, including the API URL and the API body, which decided on what should some API being used to carry what data from the backend to the frontend. After the discussion, I created another GitHub Repository with GitHub Pages to test and host a separate Swagger API documentation page, which this GitHub will be dedicated to the API documentation in a Swagger UI. This page is also embedded in the Our Notion page under the Technology page and is pending merge with the previous API Template page. 
+After the API is designed and created fully, I would ask the team whether should move the API documentation to the MC GitHub repository and enable the GitHub page to host the documentation. 
+
+After Mabrur’s discussion with the project Mentor, I was requested to create a system block diagram to better showcase our system design in a higher-level representation. I spent an hour creating the system block diagram and embedded it into our notion page under the Design concept page.
+
+I also spent a few hours exporting our notion page to our GitHub repository for a peer review session, during which I re-organised our notion page to enable navigation in the exported HTML file while updating some diagrams and links to resolve the visibility of those diagrams in the exported static HTML file.
+
+During this week, I haven’t worked as much as the previous week since the research essay is on top of the project, as well as other project assignments had collectively piled up. Causing a shift in focus. 
+
+Next week, the piled-up assignment including the research essay will also block my ability and time in contributing to the project. Yet, I’m planning to create another version of the API design, which will be used to compare and merge with other team members’ API designs. 
+

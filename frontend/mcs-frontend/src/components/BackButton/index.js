@@ -1,1 +1,1 @@
-export { default } from "./BackButton";
+export { default as BackButton } from "./BackButton.jsx";

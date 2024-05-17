@@ -1,1 +1,1 @@
-export { default } from "./SpeakerTag.jsx";
+export { default as SpeakerTag } from "./SpeakerTag.jsx";
