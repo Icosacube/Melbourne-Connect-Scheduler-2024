@@ -3,6 +3,8 @@ package com.example.mcsbackend.controller;
 import com.example.mcsbackend.model.Speaker;
 import com.example.mcsbackend.repository.service.SpeakerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,9 +28,9 @@ public class SpeakerController {
         // return speakerService.getAllUsers();
     }
     @PostMapping
-    public void createUser(@RequestBody Speaker speaker) {
+    public ResponseEntity<Speaker> createUser(@RequestBody Speaker speaker) {
         System.out.println("Received Speaker Data: " + speaker);
-
+        return new ResponseEntity<>(speaker, HttpStatus.OK);
         //speakerService.createUser(speaker);
     }
 }
