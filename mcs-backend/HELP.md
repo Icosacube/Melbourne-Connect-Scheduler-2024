@@ -1,4 +1,5 @@
 # Getting Started
+To run, use `docker-compose up --build`, removing the `postgres_authdb` folder first.
 
 ### Reference Documentation
 
