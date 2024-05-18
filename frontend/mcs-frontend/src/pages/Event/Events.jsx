@@ -39,7 +39,6 @@ function Events() {
             <AddCircleOutlineOutlined className="size-20" />
             <Typography variant="h5">Create Event</Typography>
           </Button>
-          <!-- THIS IS A PLACEHOLDER MODAL -->
           <Modal
             open={open}
             onClose={handleClose}
