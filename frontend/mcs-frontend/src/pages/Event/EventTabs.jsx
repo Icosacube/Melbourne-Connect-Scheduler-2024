@@ -19,7 +19,8 @@ export default function EventTabs({ getTabName }) {
         aria-label="event tabs"
         sx={{
           '& .MuiTabs-indicator': {
-            backgroundColor: '#FBB533'
+            backgroundColor: '#FBB533',
+            color: '#FBB533'
             // Change the indicator color
           },
           '& .MuiTab-root': {
