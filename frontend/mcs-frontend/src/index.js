@@ -18,6 +18,7 @@ import Events from './pages/Event/Events';
 import Profile from './pages/People/Profile';
 import Trip from './pages/Trips/Trip';
 import reportWebVitals from './reportWebVitals';
+require('cors');
 
 // Material UI CSS needs to be injectFirst so that it does not override tailwind
 
