@@ -1,6 +1,6 @@
 import { Box, Breadcrumbs, Button, Toolbar, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import EventTabs from '../../pages/Event/EventTabs';
 import CreateIcon from '@mui/icons-material/Create';
@@ -8,17 +8,21 @@ import ShareIcon from '@mui/icons-material/Share';
 
 function EventTopNavBar({ getCurTab }) {
   const [tabName, settabName] = useState('About');
+  const navigate = useNavigate();
 
   function getTabName(data) {
     settabName(data);
     getCurTab(data);
   }
-  function handleClick(event) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-  }
+
   const breadcrumbs = [
-    <Link underline="hover" key="1" color="inherit" href="/" onClick={handleClick}>
+    <Link
+      underline="hover"
+      key="1"
+      color="inherit"
+      onClick={() => {
+        navigate('/events');
+      }}>
       Events Overview
     </Link>,
     <Typography key="2" color="text.primary">
@@ -30,7 +34,13 @@ function EventTopNavBar({ getCurTab }) {
       <Toolbar className="bg-white h-24 shadow-md w-[90%] fixed  top-0 right-0 z-20">
         <Box className="text-gray-500 flex justify-between pl-4 w-full">
           <Box className="flex place-items-center">
-            <ArrowBackIosIcon />
+            <Button
+              startIcon={<ArrowBackIosIcon />}
+              className="text-gray-600 "
+              onClick={() => {
+                navigate(-1);
+              }}
+            />
             <Box className="ml-2">
               <Typography variant="h4">{tabName}</Typography>
               <Breadcrumbs separator="›" aria-label="breadcrumb">
