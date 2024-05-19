@@ -1,7 +1,7 @@
-import { Box, Button, Typography } from "@mui/material";
-import React from "react";
-import { BackButton } from "../../components";
-import EventTabs from "./EventTabs";
+import { Box, Button, Typography } from '@mui/material';
+import React from 'react';
+import { BackButton } from '../../components';
+import EventTabs from './EventTabs';
 
 function Event() {
   return (
