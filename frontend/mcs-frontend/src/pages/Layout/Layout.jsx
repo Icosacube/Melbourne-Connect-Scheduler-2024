@@ -11,7 +11,7 @@ function Layout() {
         <SideNavBar />
         <Box className=" w-full">
           <TopNavBar />
-          <Box className=" flex items-center justify-center mt-10">
+          <Box className=" flex items-center justify-center p-6">
             <Container maxWidth="xl">
               <Outlet />
             </Container>
