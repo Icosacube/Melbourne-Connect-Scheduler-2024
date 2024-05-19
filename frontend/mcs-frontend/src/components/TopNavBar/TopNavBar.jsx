@@ -1,7 +1,7 @@
-import { Typography } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
+import DefaultTopNavBar from './DefaultTopNavBar';
 
 const pages = [
   {
@@ -27,18 +27,19 @@ const pages = [
   {
     name: 'Components',
     url: '/components'
-  }
+  },
+  { name: 'Event', url: '/events/:id' }
 ];
 
 function TopNavBar() {
   const curPath = useLocation().pathname;
+  const eventDetailRegex = /^\/events\/[^/]+$/;
+  const isEventDetailPage = eventDetailRegex.test(curPath);
   const pageName = pages.find((page) => curPath.includes(page.url))?.name;
 
   return (
     <Toolbar className="bg-white h-24 shadow-md w-full">
-      <Typography variant="h4" className="text-black ml-6">
-        {pageName}
-      </Typography>
+      {isEventDetailPage ? <></> : <DefaultTopNavBar pageName={pageName} />}
     </Toolbar>
   );
 }

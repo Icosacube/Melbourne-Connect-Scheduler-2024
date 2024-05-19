@@ -1,6 +1,7 @@
 import { DataGrid } from '@mui/x-data-grid';
 import * as React from 'react';
 import { getStatus } from './function';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
   { field: 'id', headerName: 'id', headerClassName: 'event-table', flex: 1, width: 50 },
@@ -16,7 +17,6 @@ const columns = [
     headerName: 'Date',
     headerClassName: 'event-table',
     type: 'date',
-    flex: 1,
     flex: 1,
     width: 130
   },
@@ -199,6 +199,11 @@ const rows = [
   }
 ];
 export default function EventsTable() {
+  const navigate = useNavigate();
+  const handleRowClick = (params) => {
+    console.log(params.row.id);
+    navigate(`/events/${params.row.id}`);
+  };
   return (
     <DataGrid
       rows={rows}
@@ -209,7 +214,7 @@ export default function EventsTable() {
         }
       }}
       pageSizeOptions={[5, 10]}
-      checkboxSelection
+      // checkboxSelection
       sx={{
         '& .event-table': {
           backgroundColor: '#FBE418',
@@ -219,6 +224,7 @@ export default function EventsTable() {
           backgroundColor: '#FBE418'
         }
       }}
+      onRowClick={handleRowClick}
     />
   );
 }
