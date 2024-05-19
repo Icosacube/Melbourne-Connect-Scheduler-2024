@@ -1,7 +1,6 @@
 import Toolbar from '@mui/material/Toolbar';
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
-import EventTopNavBar from './EventTopNavBar';
 import DefaultTopNavBar from './DefaultTopNavBar';
 
 const pages = [
@@ -40,11 +39,7 @@ function TopNavBar() {
 
   return (
     <Toolbar className="bg-white h-24 shadow-md w-full">
-      {isEventDetailPage ? (
-        <EventTopNavBar pageName={pageName} />
-      ) : (
-        <DefaultTopNavBar pageName={pageName} />
-      )}
+      {isEventDetailPage ? <></> : <DefaultTopNavBar pageName={pageName} />}
     </Toolbar>
   );
 }

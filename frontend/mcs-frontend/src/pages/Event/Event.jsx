@@ -1,19 +1,33 @@
-import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
-import { BackButton } from '../../components';
-import EventTabs from './EventTabs';
+import About from './TabPages/About';
+import Participants from './TabPages/Participants';
+import Programme from './TabPages/Programme';
+import Services from './TabPages/Services';
+import EventTopNavBar from '../../components/TopNavBar/EventTopNavBar';
+import { Box } from '@mui/material';
 
 function Event() {
-  return (
-    <Box className="flex flex-col space-y-5">
-      <Box className="space-y-5">
-        <BackButton text="Back" />
-        <Button variant="contained" className="w-full min-h-32 bg-gray-200" />
-        <Typography variant="h7">05/07/2001 | 13:50</Typography>
-        <Typography variant="h4">Birthday Party</Typography>
-      </Box>
+  const [tabName, setTabName] = React.useState('About');
 
-      <EventTabs />
+  const renderTabContent = () => {
+    switch (tabName) {
+      case 'About':
+        return <About />;
+      case 'Participants':
+        return <Participants />;
+      case 'Programme':
+        return <Programme />;
+      case 'Services':
+        return <Services />;
+      default:
+        return <About />;
+    }
+  };
+
+  return (
+    <Box>
+      <EventTopNavBar getCurTab={setTabName} />
+      {renderTabContent()}
     </Box>
   );
 }
