@@ -19,7 +19,7 @@ const eventData = [
     isCompleted: false
   },
   {
-    name: 'Gotham City Charity Fund Event',
+    name: 'ML Workshop',
     dateTime: '01/05/2024 12:40',
     venue: 'M01, Level M',
     guestName: 'Mac Wayne',
@@ -32,7 +32,7 @@ const eventData = [
     guestName: 'Bruce Mannor'
   },
   {
-    name: 'Birthday Party',
+    name: 'Tech Startup Event',
     dateTime: '20/05/2024 12:00',
     venue: 'M01, Level M',
     guestName: 'Josh Keilor'
@@ -56,7 +56,7 @@ export default function Dashboard() {
           ))}
         </Stack>
       </Box>
-      <Box className="w-7/12 space-y-5">
+      <Box className="w-9/12 space-y-5">
         <Box className="space-y-2">
           <Typography variant="h5">Quick Actions</Typography>
           <Stack direction="row" spacing={3}>
