@@ -1,4 +1,5 @@
-import { Box, Button } from '@mui/material';
+import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
+import { Box, Button, Modal, Typography } from '@mui/material';
 import React from 'react';
 import EventsTable from './EventsTable';
 import EventsWidgets from './EventsWidgets';
@@ -23,10 +24,35 @@ function Events() {
   return (
     <>
       <Box className="  mb-4 flex flex-col">
-        <Button className="bg-secondary text-white hover:bg-primary mb-3 self-end">
+        {/* <Button className="bg-secondary text-white hover:bg-primary mb-3 self-end">
           {' '}
           + Add Event
-        </Button>
+        </Button> */}
+        <Box className=" flex flex-col">
+          <Button
+            variant="contained"
+            className=" flex space-x-2 bg-secondary hover:bg-accent hover:text-black mb-3 self-end h-12"
+            onClick={handleOpen}>
+            <AddCircleOutlineOutlined />
+            <Typography>Create Event</Typography>
+          </Button>
+
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description">
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Text in a modal
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </Typography>
+            </Box>
+          </Modal>
+        </Box>
+
         <EventsWidgets />
       </Box>
       <Box className="w-full bg-white shadow-md">
