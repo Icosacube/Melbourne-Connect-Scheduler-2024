@@ -1,29 +1,64 @@
-import { Box, Typography, Stack } from "@mui/material";
-import React from "react";
-import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import { Box, Divider, Stack, Typography } from '@mui/material';
+import React from 'react';
 
 function Programme() {
+  const subEvent = [
+    {
+      date: '05/07/2024',
+      time: '15:30',
+      title: 'Current Climate',
+      location: 'Auditorium A'
+    },
+    {
+      date: '06/07/2024',
+      time: '09:30',
+      title: 'Future Climate',
+      location: 'Auditorium B'
+    },
+    {
+      date: '07/07/2024',
+      time: '15:30',
+      title: 'Meet and Greets',
+      location: 'Auditorium C'
+    },
+    {
+      date: '08/07/2024',
+      time: '15:30',
+      title: 'Food Service',
+      location: 'Auditorium D'
+    },
+    {
+      date: '09/07/2024',
+      time: '15:30',
+      title: 'AI Application',
+      location: 'Auditorium E'
+    }
+  ];
   return (
-    <Box className="flex space-x-10">
-      <Box className="w-1/2 ">
-        <Typography variant="h5">Availabilities</Typography>
-        <Box className="flex">
-          <Box className="min-h-80 bg-gray-300 w-4/5 flex flex-col items-center justify-center">
-            <AddCircleOutlineOutlinedIcon fontSize="large" />
-            <Typography variant="h6">Request Availabilities</Typography>
-          </Box>
-          <Stack className="bg-gray-400 w-1/5 p-3">
-            <Typography>People</Typography>
-            <Typography>Name 1</Typography>
-            <Typography>Name 2</Typography>
-          </Stack>
-        </Box>
+    <Box className="space-y-5">
+      <Box>
+        <Typography variant="h6" className="text-gray-500">
+          05/07/2024 | 15:30 - 12/07/2024 | 18:30
+        </Typography>
+        <Typography variant="h4">
+          Data-Driven Futures: Responsible AI in Climate and Health Policy
+        </Typography>
       </Box>
-      <Box className="w-1/2 ">
-        <Typography variant="h5">Schedule</Typography>
-        <Box className="min-h-80 bg-gray-300 flex flex-col items-center justify-center">
-          <AddCircleOutlineOutlinedIcon fontSize="large" />
-          <Typography variant="h6">Add Events</Typography>
+      <Box className="w-7/12 bg-white shadow-2xl rounded-md h-[40rem] flex ">
+        <Box className="w-8/12 bg-[#AA9494] h-full"></Box>
+        <Box className="w-4/12 pl-7 p-4">
+          {subEvent.map((event, index) => (
+            <Stack>
+              <Typography className="text-gray-400 mb-2">
+                {event.date} | {event.time}
+              </Typography>
+              <Typography variant="h6" className="font-bold">
+                {event.title}
+              </Typography>
+              <Typography className="text-gray-400 pl-5">{event.location}</Typography>
+              <Divider className="mb-2 mt-2" />
+            </Stack>
+          ))}
         </Box>
       </Box>
     </Box>
