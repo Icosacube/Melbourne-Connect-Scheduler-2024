@@ -27,7 +27,7 @@ function EventTopNavBar({ getCurTab }) {
   ];
   return (
     <>
-      <Toolbar className="bg-white h-24 shadow-md w-[90%] fixed top-0 right-0 ">
+      <Toolbar className="bg-white h-24 shadow-md w-[90%] fixed  top-0 right-0 z-20">
         <Box className="text-gray-500 flex justify-between pl-4 w-full">
           <Box className="flex place-items-center">
             <ArrowBackIosIcon />
