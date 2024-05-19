@@ -1,0 +1,12 @@
+What I have done:
+- Finished API documentation for the current executable architecture
+- Not much else, week11 and 12 are so busy for me
+
+Issues faced:
+- Multiple things due next week for NLP, CIE and HIS
+- research essay
+
+Things I will do:
+- Discuss with the team the plan for the break
+- Prepare for the presentation
+- Get an executable architecture going on for the back end use.
