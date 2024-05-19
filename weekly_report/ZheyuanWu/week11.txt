@@ -1,0 +1,11 @@
+Regarding my contribution for the project this week, I mainly connect frontend to backend and test 
+createSpeaker User story.
+
+Key issues me and my teammates may have encountered:
+1.need to speed up developing both frontend and backend
+2.prepare for the final presentation
+
+
+plan to do for the project next week individually:
+Keep developing the backend and see if some other features can developed for the demo of final
+presentation.
