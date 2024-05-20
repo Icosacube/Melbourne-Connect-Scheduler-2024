@@ -1,4 +1,4 @@
-package com.example.mcsbackend.repository.service;
+package com.example.mcsbackend.service;
 
 import com.example.mcsbackend.model.Speaker;
 import com.example.mcsbackend.repository.Speakerrepo;

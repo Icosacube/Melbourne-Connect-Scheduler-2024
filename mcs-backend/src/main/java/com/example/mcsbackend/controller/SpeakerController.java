@@ -1,7 +1,7 @@
 package com.example.mcsbackend.controller;
 
 import com.example.mcsbackend.model.Speaker;
-import com.example.mcsbackend.repository.service.SpeakerService;
+import com.example.mcsbackend.service.SpeakerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
