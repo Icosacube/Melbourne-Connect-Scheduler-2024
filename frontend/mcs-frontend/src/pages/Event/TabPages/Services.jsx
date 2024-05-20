@@ -126,7 +126,7 @@ function Services() {
           ))}
         </Box>
         {/* Invoice section */}
-        <Box className="bg-white shadow-md rounded-xl p-8 w-1/2">
+        <Box className="bg-white shadow-md rounded-xl p-8 w-1/2 h-fit">
           <Box className="flex justify-between">
             <Typography variant="h5" className="font-semibold mb-8">
               Invoices

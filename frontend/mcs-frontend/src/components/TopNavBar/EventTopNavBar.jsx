@@ -53,7 +53,7 @@ function EventTopNavBar({ getCurTab }) {
             <Box className="flex h-14 space-x-4 ml-20 mr-20">
               <Button
                 variant="contained"
-                className="bg-accent hover:bg-secondary hover:text-white text-black">
+                className="bg-accent2 hover:bg-secondary hover:text-white text-white">
                 <ShareIcon />
                 <Typography variant="h7" className="ml-3">
                   Share
