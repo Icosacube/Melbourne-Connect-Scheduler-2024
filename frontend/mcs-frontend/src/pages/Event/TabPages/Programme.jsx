@@ -1,5 +1,6 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 import React from 'react';
+import TitleCard from './TitleCard';
 
 function Programme() {
   const subEvent = [
@@ -36,14 +37,7 @@ function Programme() {
   ];
   return (
     <Box className="space-y-5">
-      <Box>
-        <Typography variant="h6" className="text-gray-500">
-          05/07/2024 | 15:30 - 12/07/2024 | 18:30
-        </Typography>
-        <Typography variant="h4">
-          Data-Driven Futures: Responsible AI in Climate and Health Policy
-        </Typography>
-      </Box>
+      <TitleCard />
       <Box className="w-7/12 bg-white shadow-2xl rounded-md h-[40rem] flex ">
         <Box className="w-8/12 bg-[#AA9494] h-full"></Box>
         <Box className="w-4/12 pl-7 p-4">

@@ -1,9 +1,10 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Chip, Stack, Typography } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import React from 'react';
+import TitleCard from './TitleCard';
 
 function Services() {
   const invoices = [
@@ -61,15 +62,7 @@ function Services() {
   ];
   return (
     <Box className="space-y-5">
-      <Box>
-        <Typography variant="h6" className="text-gray-500">
-          05/07/2024 | 15:30 - 12/07/2024 | 18:30
-        </Typography>
-        <Typography variant="h4">
-          Data-Driven Futures: Responsible AI in Climate and Health Policy
-        </Typography>
-      </Box>
-
+      <TitleCard />
       <Box className="flex space-x-10">
         {/* Billing Section */}
         <Box className="bg-white shadow-md rounded-xl p-6 w-1/2">
