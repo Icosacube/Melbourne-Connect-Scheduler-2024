@@ -14,7 +14,7 @@ export function getStatus(status) {
       );
     case 'Implementation':
       return (
-        <Chip label={status} sx={{ color: 'purple', borderColor: 'orange' }} variant="outlined" />
+        <Chip label={status} sx={{ color: 'purple', borderColor: 'purple' }} variant="outlined" />
       );
     default:
       return <></>;

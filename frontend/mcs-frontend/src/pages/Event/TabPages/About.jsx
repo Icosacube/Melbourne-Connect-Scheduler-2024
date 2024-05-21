@@ -1,29 +1,31 @@
 import { Avatar, Box, Paper, Typography } from '@mui/material';
 import React from 'react';
 import AboutTable from './AboutTable';
+import TitleCard from './TitleCard';
+import EventBanner from '../../../assets/event-banner.jpg';
 
-function About() {
+function About({ event }) {
   return (
     <Box className="flex justify-between space-x-8 mt-5">
       <Box className="w-9/12 space-y-5">
-        <Box className=" bg-[#AA9494] shadow-lg h-72" />
-        <Box>
-          <Typography variant="h6" className="text-gray-500">
-            05/07/2024 | 15:30 - 12/07/2024 | 18:30
-          </Typography>
-          <Typography variant="h4">
-            Data-Driven Futures: Responsible AI in Climate and Health Policy
-          </Typography>
-        </Box>
+        <Box
+          component="img"
+          alt="Descriptive Alt Text"
+          src={EventBanner}
+          className="w-full  h-72 object-cover "
+          style={{ objectPosition: '50% 75%' }}
+        />
+
+        <TitleCard />
         <Box className=" bg-white rounded-2xl shadow-lg">
-          <AboutTable />
+          <AboutTable event={event} />
         </Box>
       </Box>
       <Box className="w-3/12 bg-white rounded-2xl shadow-lg flex flex-col place-items-center pt-14 ">
         <Avatar className="size-40 mb-4 z-10" />
 
-        <Typography variant="h4">John</Typography>
-        <Typography variant="h4">Steward</Typography>
+        <Typography variant="h4">{event.host.split(' ')[0]}</Typography>
+        <Typography variant="h4">{event.host.split(' ')[1]}</Typography>
 
         <Typography variant="h5" className="text-gray-400 mt-6 pl-14 mb-6">
           Professor, University of Cambridge

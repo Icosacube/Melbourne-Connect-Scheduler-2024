@@ -10,32 +10,105 @@ import { AddButton, Calendar, EventTitle } from '../../components';
 {
   /* PlaceHolders */
 }
-const eventData = [
+const events = [
   {
-    name: 'AI Workshop',
-    dateTime: '30/04/2024 13:20',
-    venue: 'M01, Level M',
-    guestName: 'Wade Johnson',
+    title: 'The Rise of AI',
+    start: '2024-04-10',
+    end: '2024-04-12',
+    backgroundColor: '#FAAB19',
+    time: '10:00 AM',
+    speakerFirstName: 'John',
+    speakerLastName: 'Doe',
+    venue: 'Auditorium A',
     isCompleted: false
   },
   {
-    name: 'ML Workshop',
-    dateTime: '01/05/2024 12:40',
-    venue: 'M01, Level M',
-    guestName: 'Mac Wayne',
+    title: 'Is ChatGPT Evil',
+    start: '2024-04-22',
+    end: '2024-04-25',
+    backgroundColor: '#734023',
+    time: '2:00 PM',
+    speakerFirstName: 'Alice',
+    speakerLastName: 'Smith',
+    venue: 'Conference Room B',
     isCompleted: true
   },
   {
-    name: 'ChatGPT Event',
-    dateTime: '20/05/2024 12:00',
-    venue: 'M01, Level M',
-    guestName: 'Bruce Mannor'
+    title: 'The Future of Robotics',
+    start: '2024-04-30',
+    end: '2024-05-02',
+    backgroundColor: 'blue',
+    time: '9:00 AM',
+    speakerFirstName: 'Robert',
+    speakerLastName: 'Jones',
+    venue: 'Auditorium A',
+    isCompleted: false
   },
   {
-    name: 'Tech Startup Event',
-    dateTime: '20/05/2024 12:00',
-    venue: 'M01, Level M',
-    guestName: 'Josh Keilor'
+    title: 'Is C++ Still Relevant',
+    start: '2024-05-10',
+    end: '2024-05-12',
+    backgroundColor: 'tomato',
+    time: '11:00 AM',
+    speakerFirstName: 'Michael',
+    speakerLastName: 'Johnson',
+    venue: 'Main Hall',
+    isCompleted: false
+  },
+  {
+    title: 'Will AI Take Over the World',
+    start: '2024-05-22',
+    end: '2024-05-24',
+    backgroundColor: 'green',
+    time: '3:00 PM',
+    speakerFirstName: 'Emma',
+    speakerLastName: 'Brown',
+    venue: 'Lecture Theatre 1',
+    isCompleted: false
+  },
+  {
+    title: 'Ethical Considerations in AI',
+    start: '2024-05-30',
+    end: '2024-06-01',
+    backgroundColor: 'purple',
+    time: '1:00 PM',
+    speakerFirstName: 'Sarah',
+    speakerLastName: 'Taylor',
+    venue: 'Conference Room B',
+    isCompleted: false
+  },
+  {
+    title: 'AI and Humanity',
+    start: '2024-06-10',
+    end: '2024-06-12',
+    backgroundColor: '#FF5733',
+    time: '9:00 AM',
+    speakerFirstName: 'David',
+    speakerLastName: 'Williams',
+    venue: 'Auditorium A',
+    isCompleted: false
+  },
+  {
+    title: 'The Future of Quantum Computing',
+    start: '2024-06-20',
+    end: '2024-06-22',
+    backgroundColor: '#2E86C1',
+    time: '10:00 AM',
+    speakerFirstName: 'Sophia',
+    speakerLastName: 'Clark',
+    venue: 'Main Hall',
+    isCompleted: false
+  },
+  {
+    title: 'The Power of Machine Learning',
+    start: '2024-06-28',
+    end: '2024-06-30',
+    backgroundColor: '#3498DB',
+    time: '2:00 PM',
+    speakerFirstName: 'Daniel',
+    speakerLastName: 'Anderson',
+    venue: 'Conference Room B',
+    isCompleted: false
   }
 ];
 
@@ -45,14 +118,8 @@ export default function Dashboard() {
       <Box className="w-3/12">
         <Stack direction="column" spacing={3}>
           <Typography variant="h5">Recently Edited Pages</Typography>
-          {eventData.map((event) => (
-            <EventTitle
-              eventName={event.name}
-              dateTime={event.dateTime}
-              venue={event.venue}
-              guestName={event.guestName}
-              isCompleted={event.isCompleted}
-            />
+          {events.slice(0, 4).map((event) => (
+            <EventTitle event={event} />
           ))}
         </Stack>
       </Box>
@@ -76,22 +143,26 @@ export default function Dashboard() {
         </Box>
         <Box className="bg-white rounded-lg p-8 flex space-x-3 justify-between shadow-sm">
           <Box className="w-8/12">
-            <Calendar />
+            <Calendar events={events} />
           </Box>
           <Divider orientation="vertical" flexItem />
-          <Box className="flex flex-col w-4/12">
+          <Box className="flex flex-col w-4/12 ">
             <Typography variant="h5" className="mb-2">
               Upcoming Events
             </Typography>
-            <Divider className="mb-2" />
-            {eventData.map((event) => (
-              <>
-                <Typography className="text-s text-gray-400">{event.dateTime}</Typography>
-                <Typography className="text-lg font-semibold">{event.name}</Typography>
-                <Typography className="text-s text-gray-400">{event.venue}</Typography>
-                <Divider className="mb-2" />
-              </>
-            ))}
+            <Box className=" overflow-scroll h-[35rem]">
+              <Divider className="mb-2" />
+              {events.map((event) => (
+                <>
+                  <Typography className="text-s text-gray-400">
+                    {event.start} - {event.end} | {event.time}
+                  </Typography>
+                  <Typography className="text-lg font-semibold">{event.title}</Typography>
+                  <Typography className="text-s text-gray-400">{event.venue}</Typography>
+                  <Divider className="mb-2" />
+                </>
+              ))}
+            </Box>
           </Box>
         </Box>
       </Box>

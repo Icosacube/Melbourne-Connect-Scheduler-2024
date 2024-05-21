@@ -1,10 +1,63 @@
 import { DataGrid } from '@mui/x-data-grid';
 import * as React from 'react';
-import { getStatus } from './function';
 import { useNavigate } from 'react-router-dom';
+import { getStatus } from './function';
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+
+function StatusInputValue(props) {
+  const { item, applyValue, focusElementRef } = props;
+
+  const handleFilterChange = (event) => {
+    applyValue({ ...item, value: event.target.value });
+  };
+
+  return (
+    <Box
+      sx={{
+        display: 'inline-flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 48,
+        pl: '20px'
+      }}>
+      <FormControl fullWidth variant="standard">
+        <InputLabel id="status-filter-label">Status</InputLabel>
+        <Select
+          labelId="status-filter-label"
+          value={item.value || ''}
+          onChange={handleFilterChange}
+          ref={focusElementRef}>
+          <MenuItem value="Completed">Completed</MenuItem>
+          <MenuItem value="Cancelled">Cancelled</MenuItem>
+          <MenuItem value="Ongoing">Ongoing</MenuItem>
+          <MenuItem value="Preparation">Preparation</MenuItem>
+          <MenuItem value="Implementation">Implementation</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+  );
+}
+
+const statusOnlyOperators = [
+  {
+    label: 'Is',
+    value: 'is',
+    getApplyFilterFn: (filterItem) => {
+      if (!filterItem.value || !filterItem.field) {
+        return null;
+      }
+      return (value) => {
+        return value === filterItem.value;
+      };
+    },
+    InputComponent: StatusInputValue,
+    InputComponentProps: { type: 'string' },
+    getValueAsString: (value) => value
+  }
+];
 
 const columns = [
-  { field: 'id', headerName: 'id', headerClassName: 'event-table', flex: 1, width: 50 },
+  { field: 'id', headerName: 'ID', headerClassName: 'event-table', flex: 1, width: 50 },
   {
     field: 'eventName',
     headerName: 'Event Name',
@@ -40,6 +93,7 @@ const columns = [
     headerName: 'Status',
     flex: 1,
     width: 150,
+    filterOperators: statusOnlyOperators,
     renderCell({ row }) {
       return getStatus(row.status);
     }
@@ -228,3 +282,225 @@ export default function EventsTable({data}) {
     />
   );
 }
+
+// import * as React from 'react';
+// import { Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+// import { DataGrid, GridToolbarFilterButton } from '@mui/x-data-grid';
+
+// // Custom filter component for the status column
+// function StatusInputValue(props) {
+//   const { item, applyValue, focusElementRef } = props;
+
+//   const handleFilterChange = (event) => {
+//     applyValue({ ...item, value: event.target.value });
+//   };
+
+//   return (
+//     <Box
+//       sx={{
+//         display: 'inline-flex',
+//         flexDirection: 'row',
+//         alignItems: 'center',
+//         height: 48,
+//         pl: '20px'
+//       }}>
+//       <FormControl variant="standard">
+//         <InputLabel id="status-filter-label">Status</InputLabel>
+//         <Select
+//           labelId="status-filter-label"
+//           value={item.value || ''}
+//           onChange={handleFilterChange}
+//           ref={focusElementRef}>
+//           <MenuItem value="Completed">Completed</MenuItem>
+//           <MenuItem value="Cancelled">Cancelled</MenuItem>
+//           <MenuItem value="Pending">Pending</MenuItem>
+//         </Select>
+//       </FormControl>
+//     </Box>
+//   );
+// }
+
+// const statusOnlyOperators = [
+//   {
+//     label: 'Is',
+//     value: 'is',
+//     getApplyFilterFn: (filterItem) => {
+//       if (!filterItem.value || !filterItem.field) {
+//         return null;
+//       }
+//       return (value) => {
+//         return value === filterItem.value;
+//       };
+//     },
+//     InputComponent: StatusInputValue,
+//     InputComponentProps: { type: 'string' },
+//     getValueAsString: (value) => value
+//   }
+// ];
+
+// const columns = [
+//   { field: 'title', headerName: 'Title', width: 200 },
+//   { field: 'start', headerName: 'Start Date', width: 150 },
+//   { field: 'end', headerName: 'End Date', width: 150 },
+//   { field: 'time', headerName: 'Time', width: 100 },
+//   { field: 'speakerFirstName', headerName: 'Speaker First Name', width: 150 },
+//   { field: 'speakerLastName', headerName: 'Speaker Last Name', width: 150 },
+//   { field: 'venue', headerName: 'Venue', width: 200 },
+//   {
+//     field: 'status',
+//     headerName: 'Status',
+//     width: 150,
+//     filterOperators: statusOnlyOperators
+//   }
+// ];
+
+// const rows = [
+//   {
+//     id: 1,
+//     title: 'The Rise of AI',
+//     start: '2024-04-01',
+//     end: '2024-04-03',
+//     time: '10:00 AM',
+//     speakerFirstName: 'Alice',
+//     speakerLastName: 'Smith',
+//     venue: 'Hall A',
+//     status: 'Completed'
+//   },
+//   {
+//     id: 2,
+//     title: 'Is ChatGPT Evil',
+//     start: '2024-04-05',
+//     end: '2024-04-07',
+//     time: '2:00 PM',
+//     speakerFirstName: 'Bob',
+//     speakerLastName: 'Johnson',
+//     venue: 'Hall B',
+//     status: 'Pending'
+//   },
+//   {
+//     id: 3,
+//     title: 'The Future of Work',
+//     start: '2024-04-10',
+//     end: '2024-04-12',
+//     time: '1:00 PM',
+//     speakerFirstName: 'Charlie',
+//     speakerLastName: 'Brown',
+//     venue: 'Conference Room',
+//     status: 'Cancelled'
+//   },
+//   {
+//     id: 4,
+//     title: 'Is C++ Still Relevant?',
+//     start: '2024-05-01',
+//     end: '2024-05-03',
+//     time: '9:00 AM',
+//     speakerFirstName: 'David',
+//     speakerLastName: 'Williams',
+//     venue: 'Hall C',
+//     status: 'Completed'
+//   },
+//   {
+//     id: 5,
+//     title: 'Will AI Take Over the World?',
+//     start: '2024-05-10',
+//     end: '2024-05-12',
+//     time: '11:00 AM',
+//     speakerFirstName: 'Emma',
+//     speakerLastName: 'Davis',
+//     venue: 'Main Auditorium',
+//     status: 'Pending'
+//   },
+//   {
+//     id: 6,
+//     title: 'Cybersecurity in 2024',
+//     start: '2024-05-20',
+//     end: '2024-05-22',
+//     time: '3:00 PM',
+//     speakerFirstName: 'Frank',
+//     speakerLastName: 'Miller',
+//     venue: 'Room 101',
+//     status: 'Cancelled'
+//   },
+//   {
+//     id: 7,
+//     title: 'Blockchain Technology',
+//     start: '2024-06-02',
+//     end: '2024-06-04',
+//     time: '4:00 PM',
+//     speakerFirstName: 'Grace',
+//     speakerLastName: 'Wilson',
+//     venue: 'Hall D',
+//     status: 'Completed'
+//   },
+//   {
+//     id: 8,
+//     title: 'Quantum Computing',
+//     start: '2024-06-10',
+//     end: '2024-06-12',
+//     time: '12:00 PM',
+//     speakerFirstName: 'Henry',
+//     speakerLastName: 'Taylor',
+//     venue: 'Conference Room',
+//     status: 'Pending'
+//   },
+//   {
+//     id: 9,
+//     title: 'Big Data Analytics',
+//     start: '2024-06-15',
+//     end: '2024-06-17',
+//     time: '10:00 AM',
+//     speakerFirstName: 'Ivy',
+//     speakerLastName: 'Anderson',
+//     venue: 'Hall E',
+//     status: 'Cancelled'
+//   },
+//   {
+//     id: 10,
+//     title: 'Machine Learning Advances',
+//     start: '2024-06-20',
+//     end: '2024-06-22',
+//     time: '9:00 AM',
+//     speakerFirstName: 'Jack',
+//     speakerLastName: 'Thomas',
+//     venue: 'Room 202',
+//     status: 'Completed'
+//   }
+// ];
+
+// function Toolbar() {
+//   return (
+//     <div>
+//       <GridToolbarFilterButton />
+//     </div>
+//   );
+// }
+
+// function CustomStatusOperator() {
+//   return (
+//     <div style={{ height: 400, width: '100%' }}>
+//       <DataGrid
+//         rows={rows}
+//         columns={columns}
+//         slots={{
+//           toolbar: Toolbar
+//         }}
+//         initialState={{
+//           filter: {
+//             filterModel: {
+//               items: [
+//                 {
+//                   id: 1,
+//                   field: 'status',
+//                   value: 'Completed',
+//                   operator: 'is'
+//                 }
+//               ]
+//             }
+//           }
+//         }}
+//       />
+//     </div>
+//   );
+// }
+
+// export default CustomStatusOperator;
