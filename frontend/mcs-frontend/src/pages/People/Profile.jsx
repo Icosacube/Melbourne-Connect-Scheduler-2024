@@ -104,9 +104,9 @@ ${contactInformation}`;
           <Typography className=" font-bold">Availability Canvassing</Typography>
         </Button>
 
-        <Box className="bg-white shadow-lg p-7 rounded-xl w-full">
+        {/* <Box className="bg-white shadow-lg p-7 rounded-xl w-full">
           <Typography variant="h4">Correspondance</Typography>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

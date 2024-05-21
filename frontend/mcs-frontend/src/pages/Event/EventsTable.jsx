@@ -57,7 +57,7 @@ const statusOnlyOperators = [
 ];
 
 const columns = [
-  { field: 'id', headerName: 'id', headerClassName: 'event-table', flex: 1, width: 50 },
+  { field: 'id', headerName: 'ID', headerClassName: 'event-table', flex: 1, width: 50 },
   {
     field: 'eventName',
     headerName: 'Event Name',

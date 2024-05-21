@@ -1,4 +1,4 @@
-import { Avatar, Box, Chip, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 
 function ProfileHeader({ title, firstname, lastname, organisation, role, faculty, tags }) {
