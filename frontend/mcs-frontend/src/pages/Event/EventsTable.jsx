@@ -28,9 +28,9 @@ const columns = [
     width: 120
   },
   {
-    field: 'keyNoteSpeaker',
+    field: 'speakerName',
     headerClassName: 'event-table',
-    headerName: 'Key Note Speaker',
+    headerName: 'Speakers',
     flex: 1,
     width: 150
   },
@@ -45,23 +45,23 @@ const columns = [
     }
   },
   {
-    field: 'organizer',
+    field: 'eventType',
     headerClassName: 'event-table',
-    headerName: 'Organizer',
+    headerName: 'Event Type',
     flex: 1,
     width: 160
   },
   {
-    field: 'caterer',
+    field: 'cateringReference',
     headerClassName: 'event-table',
-    headerName: 'Caterer',
+    headerName: 'Catering Reference',
     flex: 1,
     width: 130
   },
   {
-    field: 'attendees',
+    field: 'duration',
     headerClassName: 'event-table',
-    headerName: 'Attendees',
+    headerName: 'Duration',
     flex: 1,
     width: 100
   }
@@ -198,7 +198,7 @@ const rows = [
     date: new Date(2024, 5, 24)
   }
 ];
-export default function EventsTable() {
+export default function EventsTable({data}) {
   const navigate = useNavigate();
   const handleRowClick = (params) => {
     console.log(params.row.id);
@@ -206,7 +206,7 @@ export default function EventsTable() {
   };
   return (
     <DataGrid
-      rows={rows}
+      rows={data}
       columns={columns}
       initialState={{
         pagination: {
