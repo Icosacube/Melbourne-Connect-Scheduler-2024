@@ -1,4 +1,4 @@
-import { Box, Stack, TextField, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 
 function AboutTable() {
