@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { ProfileHeader } from '../../components';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 
@@ -75,7 +75,7 @@ ${contactInformation}`;
           </Typography>
         </Box>
       </Box>
-      <Box className="w-3/12  flex-col space-x-6 h-fit">
+      <Box className="w-3/12  flex-col space-y-5 h-fit">
         <Box className="bg-white shadow-lg p-7 rounded-xl w-full">
           <Typography variant="h4">Contact</Typography>
           <Box className="flex space-x-4 mt-3">
@@ -91,6 +91,7 @@ ${contactInformation}`;
             </Typography>
           </Box>
         </Box>
+
         <Button
           startIcon={<ForwardToInboxIcon />}
           variant="contained"
@@ -99,9 +100,13 @@ ${contactInformation}`;
             e.preventDefault();
           }}
           // sx={{ textTransform: 'none' }}
-          className="p-6 mt-4 text-lowercase bg-primary normal-case  hover:bg-secondary text-black">
+          className="p-6 text-lowercase bg-primary normal-case  hover:bg-secondary text-black ">
           <Typography className=" font-bold">Availability Canvassing</Typography>
         </Button>
+
+        <Box className="bg-white shadow-lg p-7 rounded-xl w-full">
+          <Typography variant="h4">Correspondance</Typography>
+        </Box>
       </Box>
     </Box>
   );
