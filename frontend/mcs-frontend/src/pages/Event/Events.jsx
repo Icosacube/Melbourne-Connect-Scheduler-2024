@@ -3,8 +3,12 @@ import { Box, Button, Modal, Typography } from '@mui/material';
 import React from 'react';
 import EventsTable from './EventsTable';
 import EventsWidgets from './EventsWidgets';
+import {
+  useLoaderData,
+} from "react-router-dom";
 
 function Events() {
+  const events = useLoaderData();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -20,6 +24,8 @@ function Events() {
     boxShadow: 24,
     p: 4
   };
+
+  console.log(events);
 
   return (
     <>
@@ -56,7 +62,7 @@ function Events() {
         <EventsWidgets />
       </Box>
       <Box className="w-full bg-white shadow-md">
-        <EventsTable />
+        <EventsTable data={events}/>
       </Box>
     </>
   );
