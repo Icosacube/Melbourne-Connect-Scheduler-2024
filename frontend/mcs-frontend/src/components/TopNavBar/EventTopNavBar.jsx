@@ -6,7 +6,7 @@ import EventTabs from '../../pages/Event/EventTabs';
 import CreateIcon from '@mui/icons-material/Create';
 import ShareIcon from '@mui/icons-material/Share';
 
-function EventTopNavBar({ getCurTab }) {
+function EventTopNavBar({ getCurTab, openEditModal }) {
   const [tabName, settabName] = useState('About');
   const navigate = useNavigate();
 
@@ -61,6 +61,7 @@ function EventTopNavBar({ getCurTab }) {
               </Button>
               <Button
                 variant="contained"
+                onClick={openEditModal}
                 className="bg-primary hover:bg-secondary hover:text-white  text-black">
                 <CreateIcon />
                 <Typography variant="h7" className="ml-3">
