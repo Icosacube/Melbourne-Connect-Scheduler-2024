@@ -157,17 +157,6 @@ function Services() {
           </Box>
         </Box>
       </Box>
-
-      {/* <Box>
-        <Typography variant="h6" className="font-semibold">
-          Catering
-        </Typography>
-      </Box>
-      <Box>
-        <Typography variant="h6" className="font-semibold">
-          Event AV
-        </Typography>
-      </Box> */}
     </Box>
   );
 }

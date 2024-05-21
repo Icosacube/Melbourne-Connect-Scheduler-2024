@@ -1,6 +1,6 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ProfileHeader } from '../../components';
 
 function Profile() {
@@ -10,13 +10,18 @@ function Profile() {
   const tags = ['Applied Linguistics', 'Validation', 'Second Language Writing'];
   const role = 'Professor in Language Testing';
   const faculty = 'Languages and Linguistics';
-  const firstname = 'Eve';
-  const lastname = 'Brown';
+  const firstname = 'Frances';
+  const lastname = 'Haugen';
   const title = 'Prof';
   const organisation = 'Stockton University';
-  const bio =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrudexercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+  const bio = `Frances Haugen holds a degree in Electrical and Computer Engineering from Olin College and an MBA from Harvard University. With expertise in algorithmic product management, she has contributed to ranking algorithms at Google. Pinterest, Yelp, and Facebook. At Facebook, she served as the lead Product Manager on the Civic Misinformation team. addressing democracy and misinformation issues, and later expanded her focus to counter-espionage. 
+  During her tenure at Facebook, Frances became increasingly concemed about the company's prioritisation of profits over public safety, endangering lives. Taking a significant personal risk, Frances bravely blew the whistle on Facebook, which led to "The Facebook Files', exposé by the Wall Street Joumal. 
+  Since her revelations. Frances has testified before 10+ legislatures around the world. including the US Congress, UK and EU Parliaments, the French Senate and National Assembly, and has engaged with lawmakers worldwide to address the adverse impacts of social media platforms. 
+  `;
   const divisions = 'Arts';
+  function handleMailing() {
+    window.location.href = `mailto"${email}"`;
+  }
   return (
     <Box className=" flex space-x-6">
       <Box className="w-9/12  ">
@@ -35,7 +40,7 @@ function Profile() {
         <Box className="p-10 bg-white shadow-lg rounded-xl">
           <Typography variant="h6">Bio</Typography>
           <Typography paragraph className="bg-gray-200 rounded-xl p-5 mt-4">
-            {bio} {bio} {bio}
+            {bio}
           </Typography>
         </Box>
       </Box>
@@ -54,6 +59,14 @@ function Profile() {
               {phone}
             </Typography>
           </Box>
+          <Link
+            to="#"
+            onClick={(e) => {
+              window.location.href = 'mailto:examplemail@example.com?body=this is the body';
+              e.preventDefault();
+            }}>
+            send canvassing, send invitation
+          </Link>
         </Box>
       </Box>
     </Box>

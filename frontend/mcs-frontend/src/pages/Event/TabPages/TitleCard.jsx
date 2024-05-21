@@ -15,7 +15,7 @@ function TitleCard() {
         />
       </Box>
       <Typography variant="h4">
-        Data-Driven Futures: Responsible AI in Climate and Health Policy
+        Social Media and AI Safety with Meta Whistleblower Frances Haugen
       </Typography>
     </Box>
   );
