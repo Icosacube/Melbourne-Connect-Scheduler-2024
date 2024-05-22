@@ -9,31 +9,30 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="Event")
+@Table(name="MainEvent")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int eventId;
+    private int id;
 
-    private String eventName;
+    private String name;
 
-    private String eventType;
-
-    private String cateringReference;
-
-    private String venue;
-
-    @ElementCollection
-    private List<String> speakerName;
-
-    private LocalDateTime date;
-
-    private String duration;
+    private String eventAbstract;
 
     private String description;
 
+    private String banner;
+
+    private LocalDateTime date;
+
+    @ElementCollection
+    private List<String> speakers;
+
+    private String catering;
+
+    private String venue;
 
 }
