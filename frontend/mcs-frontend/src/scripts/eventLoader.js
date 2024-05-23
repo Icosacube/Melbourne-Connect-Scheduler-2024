@@ -1,20 +1,20 @@
 import axios from 'axios';
 
-export async function loader() {
+export async function loader({ params }) {
   try {
-    const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/event');
+    const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/event/' + params.id);
     const events = res.data;
+    var event;
 
-    // Resolve difference between model and expected data
+    // Quick and ugly search for now
     events.forEach((obj) => {
-      // Tables expect id, not eventId
-      obj.id = obj.eventId;
-      delete obj.eventId;
-
-      obj.date = new Date(obj.date);
+      if (obj.id == params.id) {
+        event = obj
+        event.date = new Date(event.Date)
+        return event;
+      }
     });
-    console.log(events);
-    return events;
+    return null;
   } catch (error) {
     return null;
   }

@@ -12,27 +12,36 @@ import {
   Typography
 } from '@mui/material';
 import React, { useState } from 'react';
-import updateEvent from '../../scripts/updateEvent';
+import createEvent from '../../scripts/createEvent';
 
-function EditEventModal({ event, handleClose, open, setEvent }) {
-  const [editedEvent, setEditedEvent] = useState(event);
+function CreateEventModal({ handleClose, open }) {
+  const [newEvent, setNewEvent] = useState({
+    host: '',
+    venue: '',
+    name: '',
+    talkAbstract: '',
+    eventDescription: ''
+  });
   const [showSuccess, setShowSuccess] = useState(false);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     // Otherwise, update the edited event data
-    setEditedEvent({ ...editedEvent, [name]: value });
+    setNewEvent({ ...newEvent, [name]: value });
   };
   const handleSave = () => {
-    setEvent(editedEvent);
-    updateEvent(editedEvent);
     setShowSuccess(false);
     handleClose();
-    setTimeout(() => {
-      setShowSuccess(true);
+    var res = createEvent(newEvent);
+    if (res) {
       setTimeout(() => {
-        setShowSuccess(false);
-      }, 2000);
-    }, 0);
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 2000);
+      }, 0);
+    } else {
+      // handle failure
+    }
   };
   const speakers = [
     'Frances Haugen',
@@ -65,8 +74,8 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                   <Box className="bg-gray-100 p-4 rounded-xl ">
                     <Select
                       fullWidth
-                      defaultValue={editedEvent.host}
-                      value={editedEvent.host}
+                      defaultValue={newEvent.host}
+                      value={newEvent.host}
                       onChange={handleInputChange}
                       name="host">
                       {speakers.map((speaker) => (
@@ -75,17 +84,6 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                     </Select>
                   </Box>
                 </Stack>
-                <Stack className="w-1/2">
-                  <Typography variant="h6">Category</Typography>
-                  <TextField
-                    className="bg-gray-100 p-4 rounded-xl "
-                    variant="outlined"
-                    defaultValue={editedEvent.category}
-                    value={editedEvent.category}
-                    name="category"
-                    onChange={handleInputChange}
-                  />
-                </Stack>
               </Box>
               <Stack>
                 <Typography variant="h6">Venue</Typography>
@@ -93,8 +91,8 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
                   name="venue"
-                  defaultValue={editedEvent.venue}
-                  value={editedEvent.venue}
+                  defaultValue={newEvent.venue}
+                  value={newEvent.venue}
                   onChange={handleInputChange}
                 />
               </Stack>
@@ -103,10 +101,10 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                 <TextField
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
-                  name="description"
-                  defaultValue={editedEvent.description}
+                  name="eventDescription"
+                  defaultValue={newEvent.eventDescription}
                   onChange={handleInputChange}
-                  value={editedEvent.description}
+                  value={newEvent.eventDescription}
                   multiline
                 />
               </Stack>
@@ -117,8 +115,8 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                 <TextField
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
-                  defaultValue={editedEvent.name}
-                  value={editedEvent.name}
+                  defaultValue={newEvent.name}
+                  value={newEvent.name}
                   onChange={handleInputChange}
                   name="name"
                 />
@@ -128,11 +126,11 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                 <TextField
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
-                  defaultValue={editedEvent.eventAbstract}
+                  defaultValue={newEvent.talkAbstract}
                   multiline
-                  value={editedEvent.eventAbstract}
+                  value={newEvent.talkAbstract}
                   onChange={handleInputChange}
-                  name="eventAbstract"
+                  name="talkAbstract"
                 />
               </Stack>
             </Box>
@@ -159,4 +157,4 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
   );
 }
 
-export default EditEventModal;
+export default CreateEventModal;
