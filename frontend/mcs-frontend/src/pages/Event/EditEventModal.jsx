@@ -11,6 +11,10 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import 'dayjs/locale/en-au';
 import React, { useState } from 'react';
 import updateEvent from '../../scripts/updateEvent';
 
@@ -21,6 +25,10 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
     const { name, value } = e.target;
     // Otherwise, update the edited event data
     setEditedEvent({ ...editedEvent, [name]: value });
+  };
+  const handleDate = (e) => {
+    // datepicker already has it
+    setEditedEvent({ ...editedEvent, date: e });
   };
   const handleSave = () => {
     setEvent(editedEvent);
@@ -79,15 +87,18 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                   </Box>
                 </Stack>
                 <Stack className="w-1/2">
-                  <Typography variant="h6">Category</Typography>
-                  <TextField
-                    className="bg-gray-100 p-4 rounded-xl "
-                    variant="outlined"
-                    defaultValue={editedEvent.category}
-                    value={editedEvent.category}
-                    name="category"
-                    onChange={handleInputChange}
-                  />
+                  <Typography variant="h6">Date</Typography>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      className="bg-gray-100 p-4 rounded-xl "
+                      variant="outlined"
+                      defaultValue={editedEvent.date}
+                      value={editedEvent.date}
+                      name="date"
+                      onChange={handleDate}
+                      adapterLocale="en-au"
+                    />
+                  </LocalizationProvider>
                 </Stack>
               </Box>
               <Stack>

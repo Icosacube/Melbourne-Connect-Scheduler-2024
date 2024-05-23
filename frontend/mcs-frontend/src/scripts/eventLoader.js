@@ -1,4 +1,5 @@
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 export async function loader({ params }) {
   try {
@@ -10,7 +11,7 @@ export async function loader({ params }) {
     events.forEach((obj) => {
       if (obj.id == params.id) {
         event = obj
-        event.date = new Date(event.date)
+        event.date = dayjs(event.date)
         if (event.speakers == null) {
             event.speakers = []
         }
