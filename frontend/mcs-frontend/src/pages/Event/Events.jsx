@@ -1,9 +1,10 @@
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import EventsTable from './EventsTable';
 import EventsWidgets from './EventsWidgets';
 import { useLoaderData } from 'react-router-dom';
+import CreateEventModal from './CreateEventModal';
 
 function Events() {
   const events = useLoaderData();
@@ -39,20 +40,7 @@ function Events() {
             <Typography>Create Event</Typography>
           </Button>
 
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description">
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography>
-            </Box>
-          </Modal>
+          <CreateEventModal open={open} handleClose={handleClose} />
         </Box>
 
         <EventsWidgets />

@@ -1,12 +1,12 @@
 import { Box, Chip, Typography } from '@mui/material';
 import React from 'react';
 
-function TitleCard() {
+function TitleCard({date, name}) {
   return (
     <Box>
       <Box className="flex align-middle space-x-4">
         <Typography variant="h6" className="text-gray-500">
-          05/07/2024 | 15:30 - 12/07/2024 | 18:30
+          {date}
         </Typography>
         <Chip
           label={'Preparation'}
@@ -15,7 +15,7 @@ function TitleCard() {
         />
       </Box>
       <Typography variant="h4">
-        Social Media and AI Safety with Meta Whistleblower Frances Haugen
+        {name}
       </Typography>
     </Box>
   );

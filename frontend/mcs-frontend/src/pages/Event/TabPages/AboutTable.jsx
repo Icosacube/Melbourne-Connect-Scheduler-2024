@@ -22,19 +22,15 @@ function AboutTable({ event }) {
         <Stack>
           <Typography variant="h6">Event Description</Typography>
           <Typography variant="body2" className="bg-gray-100 p-4 rounded-xl">
-            {event.eventDescription}
+            {event.description}
           </Typography>
         </Stack>
       </Box>
       <Box className="w-1/2 space-y-4">
         <Stack>
-          <Typography variant="h6">Talk Area</Typography>
-          <Typography className="bg-gray-100 p-4 rounded-xl">{event.talkArea}</Typography>
-        </Stack>
-        <Stack>
           <Typography variant="h6">Talk Abstract</Typography>
           <Typography variant="body2" className="bg-gray-100 p-4 rounded-xl">
-            {event.talkAbstract}
+            {event.eventAbstract}
           </Typography>
         </Stack>
       </Box>

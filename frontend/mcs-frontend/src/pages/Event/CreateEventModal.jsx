@@ -11,36 +11,48 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import React, { useState } from 'react';
+import createEvent from '../../scripts/createEvent';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 import 'dayjs/locale/en-au';
-import React, { useState } from 'react';
-import updateEvent from '../../scripts/updateEvent';
 
-function EditEventModal({ event, handleClose, open, setEvent }) {
-  const [editedEvent, setEditedEvent] = useState(event);
+function CreateEventModal({ handleClose, open }) {
+  const [newEvent, setNewEvent] = useState({
+    speakers: [],
+    venue: '',
+    name: '',
+    talkAbstract: '',
+    eventDescription: '',
+    date: dayjs()
+  });
   const [showSuccess, setShowSuccess] = useState(false);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     // Otherwise, update the edited event data
-    setEditedEvent({ ...editedEvent, [name]: value });
+    setNewEvent({ ...newEvent, [name]: value });
   };
   const handleDate = (e) => {
     // datepicker already has it
-    setEditedEvent({ ...editedEvent, date: e });
-  };
+    setNewEvent({ ...newEvent, date: e });
+  }
   const handleSave = () => {
-    setEvent(editedEvent);
-    updateEvent(editedEvent);
     setShowSuccess(false);
     handleClose();
-    setTimeout(() => {
-      setShowSuccess(true);
+    console.log(newEvent);
+    var res = createEvent(newEvent);
+    if (res) {
       setTimeout(() => {
-        setShowSuccess(false);
-      }, 2000);
-    }, 0);
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 2000);
+      }, 0);
+    } else {
+      // handle failure
+    }
   };
   const speakers = [
     'Frances Haugen',
@@ -71,12 +83,12 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
             <Box className="w-1/2 space-y-4">
               <Box className="flex justify-between space-x-2">
                 <Stack className="w-1/2">
-                  <Typography variant="h6">Host</Typography>
+                  <Typography variant="h6">Speakers</Typography>
                   <Box className="bg-gray-100 p-4 rounded-xl ">
                     <Select
                       fullWidth
-                      defaultValue={editedEvent.speakers}
-                      value={editedEvent.speakers}
+                      defaultValue={newEvent.speakers}
+                      value={newEvent.speakers}
                       onChange={handleInputChange}
                       name="speakers"
                       multiple>
@@ -92,8 +104,8 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                     <DatePicker
                       className="bg-gray-100 p-4 rounded-xl "
                       variant="outlined"
-                      defaultValue={editedEvent.date}
-                      value={editedEvent.date}
+                      defaultValue={newEvent.date}
+                      value={newEvent.date}
                       name="date"
                       onChange={handleDate}
                       adapterLocale="en-au"
@@ -107,8 +119,8 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
                   name="venue"
-                  defaultValue={editedEvent.venue}
-                  value={editedEvent.venue}
+                  defaultValue={newEvent.venue}
+                  value={newEvent.venue}
                   onChange={handleInputChange}
                 />
               </Stack>
@@ -117,10 +129,10 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                 <TextField
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
-                  name="description"
-                  defaultValue={editedEvent.description}
+                  name="eventDescription"
+                  defaultValue={newEvent.eventDescription}
                   onChange={handleInputChange}
-                  value={editedEvent.description}
+                  value={newEvent.eventDescription}
                   multiline
                 />
               </Stack>
@@ -131,8 +143,8 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                 <TextField
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
-                  defaultValue={editedEvent.name}
-                  value={editedEvent.name}
+                  defaultValue={newEvent.name}
+                  value={newEvent.name}
                   onChange={handleInputChange}
                   name="name"
                 />
@@ -142,11 +154,11 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                 <TextField
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
-                  defaultValue={editedEvent.eventAbstract}
+                  defaultValue={newEvent.talkAbstract}
                   multiline
-                  value={editedEvent.eventAbstract}
+                  value={newEvent.talkAbstract}
                   onChange={handleInputChange}
-                  name="eventAbstract"
+                  name="talkAbstract"
                 />
               </Stack>
             </Box>
@@ -173,4 +185,4 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
   );
 }
 
-export default EditEventModal;
+export default CreateEventModal;

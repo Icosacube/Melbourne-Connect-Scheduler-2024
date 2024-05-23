@@ -16,7 +16,7 @@ function About({ event }) {
           style={{ objectPosition: '50% 75%' }}
         />
 
-        <TitleCard />
+        <TitleCard date={event.date.toString()} name={event.name}/>
         <Box className=" bg-white rounded-2xl shadow-lg">
           <AboutTable event={event} />
         </Box>
@@ -24,8 +24,9 @@ function About({ event }) {
       <Box className="w-3/12 bg-white rounded-2xl shadow-lg flex flex-col place-items-center pt-14 ">
         <Avatar className="size-40 mb-4 z-10" />
 
-        <Typography variant="h4">{event.host.split(' ')[0]}</Typography>
-        <Typography variant="h4">{event.host.split(' ')[1]}</Typography>
+        {event.speakers.map(name => (
+          <Typography variant="h4">{name}</Typography>
+        ))}
 
         <Typography variant="h5" className="text-gray-400 mt-6 pl-14 mb-6">
           Professor, University of Cambridge

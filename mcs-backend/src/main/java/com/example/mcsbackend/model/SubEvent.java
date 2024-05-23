@@ -9,10 +9,11 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="MainEvent")
+@Table(name="SubEvent")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Event {
+
+public class SubEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,19 +21,20 @@ public class Event {
 
     private String name;
 
-    private String eventAbstract;
-
-    private String description;
-
-    private String banner;
+    private String type;
 
     private LocalDateTime date;
 
     @ElementCollection
     private List<String> speakers;
 
-    private String catering;
+    @ElementCollection
+    private List<String> guestAcademic;
 
-    private String venue;
+    private double cost;
+
+    private double funding;
+
+    private boolean completed;
 
 }
