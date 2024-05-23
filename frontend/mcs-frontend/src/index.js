@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { loader as eventsLoader } from './scripts/eventsLoader';
+import { loader as eventLoader } from './scripts/eventLoader';
 import './index.css';
 import {
   Components,
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
       {
         path: '/events/:id',
         element: <Event />,
-        loader: eventsLoader,
+        loader: eventLoader,
         errorElement: <ErrorPage />
       },
       {

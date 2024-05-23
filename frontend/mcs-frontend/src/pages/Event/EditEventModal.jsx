@@ -46,7 +46,9 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
     'Heidi Moore',
     'Ivan Taylor',
     'Judy Anderson',
-    'Judy Anderson'
+    'Kia Tan',
+    'Brandon Wii',
+    'Brendan Lee'
   ];
 
   return (
@@ -65,10 +67,11 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                   <Box className="bg-gray-100 p-4 rounded-xl ">
                     <Select
                       fullWidth
-                      defaultValue={editedEvent.host}
-                      value={editedEvent.host}
+                      defaultValue={editedEvent.speakers}
+                      value={editedEvent.speakers}
                       onChange={handleInputChange}
-                      name="host">
+                      name="speakers"
+                      multiple>
                       {speakers.map((speaker) => (
                         <MenuItem value={speaker}>{speaker}</MenuItem>
                       ))}

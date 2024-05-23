@@ -16,7 +16,7 @@ import createEvent from '../../scripts/createEvent';
 
 function CreateEventModal({ handleClose, open }) {
   const [newEvent, setNewEvent] = useState({
-    host: '',
+    speakers: [],
     venue: '',
     name: '',
     talkAbstract: '',
@@ -31,6 +31,7 @@ function CreateEventModal({ handleClose, open }) {
   const handleSave = () => {
     setShowSuccess(false);
     handleClose();
+    console.log(newEvent);
     var res = createEvent(newEvent);
     if (res) {
       setTimeout(() => {
@@ -55,7 +56,9 @@ function CreateEventModal({ handleClose, open }) {
     'Heidi Moore',
     'Ivan Taylor',
     'Judy Anderson',
-    'Judy Anderson'
+    'Kia Tan',
+    'Brandon Wii',
+    'Brendan Lee'
   ];
 
   return (
@@ -70,18 +73,25 @@ function CreateEventModal({ handleClose, open }) {
             <Box className="w-1/2 space-y-4">
               <Box className="flex justify-between space-x-2">
                 <Stack className="w-1/2">
-                  <Typography variant="h6">Host</Typography>
+                  <Typography variant="h6">Speakers</Typography>
                   <Box className="bg-gray-100 p-4 rounded-xl ">
                     <Select
                       fullWidth
-                      defaultValue={newEvent.host}
-                      value={newEvent.host}
+                      defaultValue={newEvent.speakers}
+                      value={newEvent.speakers}
                       onChange={handleInputChange}
-                      name="host">
+                      name="speakers"
+                      multiple>
                       {speakers.map((speaker) => (
                         <MenuItem value={speaker}>{speaker}</MenuItem>
                       ))}
                     </Select>
+                  </Box>
+                </Stack>
+                <Stack className="w-1/2">
+                  <Typography variant="h6">Date</Typography>
+                  <Box className="bg-gray-100 p-4 rounded-xl ">
+                    
                   </Box>
                 </Stack>
               </Box>

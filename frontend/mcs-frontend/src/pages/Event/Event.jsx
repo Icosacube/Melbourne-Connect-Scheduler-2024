@@ -13,8 +13,8 @@ function Event() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const loadedEvent = useLoaderData()[0];
-  console.log(loadedEvent);
+  const loadedEvent = useLoaderData();
+  console.log(loadedEvent)
   const [event, setEvent] = useState(loadedEvent);
 
   const renderTabContent = (event) => {

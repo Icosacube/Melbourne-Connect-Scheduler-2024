@@ -14,8 +14,6 @@ function Events() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  console.log(events);
-
   return (
     <>
       <Box className="  mb-4 flex flex-col">

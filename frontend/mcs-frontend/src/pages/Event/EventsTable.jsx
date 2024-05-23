@@ -59,7 +59,7 @@ const statusOnlyOperators = [
 const columns = [
   { field: 'id', headerName: 'ID', headerClassName: 'event-table', flex: 1, width: 50 },
   {
-    field: 'eventName',
+    field: 'name',
     headerName: 'Event Name',
     headerClassName: 'event-table',
     flex: 1,
@@ -81,7 +81,7 @@ const columns = [
     width: 120
   },
   {
-    field: 'speakerName',
+    field: 'speakers',
     headerClassName: 'event-table',
     headerName: 'Speakers',
     flex: 1,
@@ -255,7 +255,6 @@ const rows = [
 export default function EventsTable({data}) {
   const navigate = useNavigate();
   const handleRowClick = (params) => {
-    console.log(params.row.id);
     navigate(`/events/${params.row.id}`);
   };
   return (
