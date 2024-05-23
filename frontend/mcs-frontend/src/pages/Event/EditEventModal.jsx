@@ -27,6 +27,7 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
     handleClose();
     setTimeout(() => {
       setShowSuccess(true);
+      // POST to backend here
       setTimeout(() => {
         setShowSuccess(false);
       }, 2000);

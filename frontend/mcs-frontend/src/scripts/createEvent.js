@@ -3,7 +3,7 @@ import axios from 'axios';
 // call to backend URL to
 export default async function createEvent() {
   console.log('POSTing to ' + process.env.REACT_APP_BACKEND_URL);
-  const res = await axios.post(process.env.REACT_APP_BACKEND_URL + 'api/events', {
+  const res = await axios.post(process.env.REACT_APP_BACKEND_URL + 'event', {
     event_name: 'string',
     event_type: 'string',
     catering_reference: 'string',
