@@ -9,14 +9,11 @@ function About({ event }) {
     <Box className="flex justify-between space-x-8 mt-5">
       <Box className="w-9/12 space-y-5">
         <Box
-          component="img"
-          alt="Descriptive Alt Text"
-          src={EventBanner}
-          className="w-full  h-72 object-cover "
+          className="w-full  h-72 object-cover bg-gray-400 rounded-2xl shadow-lg"
           style={{ objectPosition: '50% 75%' }}
         />
 
-        <TitleCard date={event.date.toString()} name={event.name}/>
+        <TitleCard date={event.date.toString()} name={event.name} />
         <Box className=" bg-white rounded-2xl shadow-lg">
           <AboutTable event={event} />
         </Box>
@@ -24,7 +21,7 @@ function About({ event }) {
       <Box className="w-3/12 bg-white rounded-2xl shadow-lg flex flex-col place-items-center pt-14 ">
         <Avatar className="size-40 mb-4 z-10" />
 
-        {event.speakers.map(name => (
+        {event.speakers.map((name) => (
           <Typography variant="h4">{name}</Typography>
         ))}
 

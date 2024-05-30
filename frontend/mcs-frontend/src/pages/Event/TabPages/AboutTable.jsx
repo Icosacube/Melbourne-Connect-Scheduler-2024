@@ -2,13 +2,16 @@ import { Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 
 function AboutTable({ event }) {
+  console.log(event.speakers);
   return (
     <Box className="w-full p-7 flex space-x-6">
       <Box className="w-1/2 space-y-4">
         <Box className="flex justify-between space-x-2">
           <Stack className="w-1/2">
             <Typography variant="h6">Host</Typography>
-            <Typography className="bg-gray-100 p-4 rounded-xl ">{event.host}</Typography>
+            <Typography className="bg-gray-100 p-4 rounded-xl ">
+              {event.speakers.toString()}
+            </Typography>
           </Stack>
           <Stack className="w-1/2">
             <Typography variant="h6">Category</Typography>
