@@ -1,53 +1,46 @@
-import { Avatar } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Toolbar from "@mui/material/Toolbar";
-import * as React from "react";
+import Toolbar from '@mui/material/Toolbar';
+import * as React from 'react';
+import { useLocation } from 'react-router-dom';
+import DefaultTopNavBar from './DefaultTopNavBar';
 
 const pages = [
   {
-    name: "Events",
-    url: "/events",
+    name: 'Dashboard',
+    url: '/dashboard'
   },
   {
-    name: "Trips",
-    url: "/trips",
+    name: 'Events',
+    url: '/events'
   },
   {
-    name: "People",
-    url: "/people",
+    name: 'Trips',
+    url: '/trips'
   },
   {
-    name: "Finance",
-    url: "/finance",
+    name: 'People',
+    url: '/people'
   },
   {
-    name: "Components",
-    url: "/components",
+    name: 'Finance',
+    url: '/finance'
   },
+  {
+    name: 'Components',
+    url: '/components'
+  },
+  { name: 'Event', url: '/events/:id' }
 ];
 
 function TopNavBar() {
-  return (
-    <AppBar position="sticky">
-      <Toolbar>
-        <Box className="flex">
-          <Button key="Dashboard" className="text-white " href="/dashboard">
-            Dashboard
-          </Button>
-        </Box>
-        <Box className="flex justify-end grow space-x-10">
-          {pages.map((page) => (
-            <Button key={page.name} className="text-white " href={page.url}>
-              {page.name}
-            </Button>
-          ))}
+  const curPath = useLocation().pathname;
+  const eventDetailRegex = /^\/events\/[^/]+$/;
+  const isEventDetailPage = eventDetailRegex.test(curPath);
+  const pageName = pages.find((page) => curPath.includes(page.url))?.name;
 
-          <Avatar className="size-8">A</Avatar>
-        </Box>
-      </Toolbar>
-    </AppBar>
+  return (
+    <Toolbar className="bg-white h-24 shadow-md w-full">
+      {isEventDetailPage ? <></> : <DefaultTopNavBar pageName={pageName} />}
+    </Toolbar>
   );
 }
 export default TopNavBar;

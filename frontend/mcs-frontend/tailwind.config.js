@@ -1,8 +1,20 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#FBAB18',
+        secondary: '#BC8012',
+        tertiary: '#FFC901',
+        accent: '#8C1C13',
+        accent2: '#BF4242',
+        textAccent: '#4F2373',
+        backGround: '#F5F5F5'
+      }
+    }
   },
-  plugins: [],
+  plugins: []
 };
+// TODO: custom colors?

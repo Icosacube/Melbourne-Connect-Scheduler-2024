@@ -1,20 +1,13 @@
-import {
-  Avatar,
-  Box,
-  Container,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/material";
-import React from "react";
-import { BackButton } from "../../components";
-import EditCalendar from "@mui/icons-material/EditCalendar";
-import { NavLink } from "react-router-dom";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import EditCalendar from '@mui/icons-material/EditCalendar';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { Avatar, Box, Divider, Stack, Typography } from '@mui/material';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { BackButton } from '../../components';
 
 function Trips() {
   return (
-    <Container className="container flex space-x-10">
+    <Box className=" flex space-x-10">
       <Box className="w-2/3 space-y-4">
         <Box className="flex justify-between">
           <BackButton text="Back" />
@@ -47,7 +40,7 @@ function Trips() {
         <Typography variant="body1"></Typography>
         <Typography variant="h6">Status</Typography>
       </Box>
-    </Container>
+    </Box>
   );
 }
 

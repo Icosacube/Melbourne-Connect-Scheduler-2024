@@ -1,21 +1,43 @@
-import { Box, Button, Typography } from "@mui/material";
-import Container from "@mui/material/Container";
-import React from "react";
-import { BackButton, EventTitle } from "../../components";
-import EventTabs from "./EventTabs";
+import { Box } from '@mui/material';
+import React, { useState } from 'react';
+import EventTopNavBar from '../../components/TopNavBar/EventTopNavBar';
+import EditEventModal from './EditEventModal';
+import About from './TabPages/About';
+import Participants from './TabPages/Participants';
+import Programme from './TabPages/Programme';
+import Services from './TabPages/Services';
+import { useLoaderData } from 'react-router-dom';
 
 function Event() {
-  return (
-    <Container className="container flex flex-col space-y-5">
-      <Box className="space-y-5">
-        <BackButton text="Back" />
-        <Button variant="contained" className="w-full min-h-32 bg-gray-200" />
-        <Typography variant="h7">05/07/2001 | 13:50</Typography>
-        <Typography variant="h4">Birthday Party</Typography>
-      </Box>
+  const [tabName, setTabName] = useState('About');
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const loadedEvent = useLoaderData();
+  console.log(loadedEvent)
+  const [event, setEvent] = useState(loadedEvent);
 
-      <EventTabs />
-    </Container>
+  const renderTabContent = (event) => {
+    switch (tabName) {
+      case 'About':
+        return <About event={event} />;
+      case 'Participants':
+        return <Participants />;
+      case 'Programme':
+        return <Programme />;
+      case 'Services':
+        return <Services />;
+      default:
+        return <About />;
+    }
+  };
+
+  return (
+    <Box>
+      <EventTopNavBar getCurTab={setTabName} openEditModal={handleOpen} />
+      <EditEventModal event={event} open={open} handleClose={handleClose} setEvent={setEvent} />
+      {renderTabContent(event)}
+    </Box>
   );
 }
 

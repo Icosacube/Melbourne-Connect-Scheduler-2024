@@ -1,20 +1,140 @@
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import SideBarItems from "./SideBarItems";
+import BarChartIcon from '@mui/icons-material/BarChart';
+import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
+import EventIcon from '@mui/icons-material/Event';
+import PeopleIcon from '@mui/icons-material/People';
+import {
+  Box,
+  Button,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography
+} from '@mui/material';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import * as React from 'react';
+import { NavLink } from 'react-router-dom';
+import { ReactComponent as Logo } from '../../assets/Hex Logo (Colour).svg';
+import { ReactComponent as LogoText } from '../../assets/MCS EVENT SCHEDULER.svg';
 
 function SideNavBar() {
-  const itemList = ["Inbox", "Starred", "Send email", "Drafts"];
+  // const overviewTabs = ['People', 'Trip', 'Event', 'Finance'];
+  const eventTabs = ['About', 'Participant', 'Programme', 'Services'];
+  const canvassingTabs = ['Availability', 'Booking'];
+  const tripTabs = ['Schedule', 'Travel', 'Accomodation', 'Costs'];
+  const overviewTabs = [
+    {
+      name: 'Events',
+      url: '/events'
+    },
+    {
+      name: 'Trips',
+      url: '/trips'
+    },
+    {
+      name: 'People',
+      url: '/people'
+    },
+    {
+      name: 'Finance',
+      url: '/finance'
+    }
+  ];
+
+  function overviewTabsIcons(tabName) {
+    switch (tabName) {
+      case 'People':
+        return (
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+        );
+      case 'Trips':
+        return (
+          <ListItemIcon>
+            <ConnectingAirportsIcon />
+          </ListItemIcon>
+        );
+      case 'Events':
+        return (
+          <ListItemIcon>
+            <EventIcon />
+          </ListItemIcon>
+        );
+      case 'Finance':
+        return (
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+        );
+      default:
+        return <></>;
+    }
+  }
   return (
     <>
-      <Drawer open={true} variant="permanent">
-        <Box className="bg-blue-500 grow justify-center p-4">
-          <Typography className="text-white text-center ">Menu</Typography>
+      <Drawer variant="permanent" className="w-48">
+        <NavLink to="dashboard">
+          <Button className=" bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
+            <Logo />
+            <LogoText />
+          </Button>
+        </NavLink>
+        <Box>
+          <List className="w-48 bg-primary grow ">
+            <Typography variant="h6" className="ml-4">
+              Overview
+            </Typography>
+            {overviewTabs.map((page, index) => (
+              <NavLink to={`${page.url}`} key={page.name}>
+                <ListItem key={page.name} disablePadding>
+                  <ListItemButton>
+                    {overviewTabsIcons(page.name)}
+                    <ListItemText primary={page.name} />
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
+            ))}
+          </List>
+          <Divider className="bg-[#FBE418]" />
+        </Box>
+        <Box className="bg-[#FFC901] grow">
           <List>
-            {itemList.map((text, index) => (
-              <SideBarItems key={index} text={text} />
+            <Typography variant="h6" className="ml-3">
+              Event
+            </Typography>
+            {eventTabs.map((text, index) => (
+              <ListItem key={text} disablePadding className="pl-3">
+                <ListItemButton>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          <List>
+            <Typography variant="h6" className="ml-3">
+              Canvassing
+            </Typography>
+            {canvassingTabs.map((text, index) => (
+              <ListItem key={text} disablePadding className="pl-3">
+                <ListItemButton>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          <List>
+            <Typography variant="h6" className="ml-3">
+              Trip
+            </Typography>
+            {tripTabs.map((text, index) => (
+              <ListItem key={text} disablePadding className="pl-3 ">
+                <ListItemButton>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
             ))}
           </List>
         </Box>
