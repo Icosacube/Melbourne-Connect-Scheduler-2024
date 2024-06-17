@@ -1,0 +1,7 @@
+Done:
+- event and trip endpoints set up with dummy data and tested
+Issues:
+- no db connection so can't complete backend implementation for events and trips
+- docker issues delayed progress - resolved now
+To do:
+- finish backend functionality for events and trips, pending db connection
