@@ -1,10 +1,10 @@
-import { Avatar, Box, Chip, Stack, Typography } from "@mui/material";
-import React from "react";
+import { Avatar, Box, Stack, Typography } from '@mui/material';
+import React from 'react';
 
-function ProfileHeader({ title, firstname, lastname, organisation, tags }) {
+function ProfileHeader({ title, firstname, lastname, organisation, role, faculty, tags }) {
   return (
-    <Box className="flex justify-between">
-      <Box className="w-1/2 flex space-x-4">
+    <Box className="flex justify-between text-accent place-items-center">
+      <Box className="w-5/12 flex space-x-4">
         <Avatar className="size-40"></Avatar>
         <Stack className="justify-center space-y-3">
           <Typography className="text-2xl">{title}</Typography>
@@ -14,10 +14,18 @@ function ProfileHeader({ title, firstname, lastname, organisation, tags }) {
           <Typography className="text-lg ">{organisation}</Typography>
         </Stack>
       </Box>
-      <Box className="w-1/3 flex space-x-4 flex-wrap justify-center place-items-center">
-        {tags.map((tag, i) => {
-          return <Chip label={tag} className="p-5" />;
-        })}
+
+      <Box className="flex flex-wrap gap-3 w-5/12 font-semibold text-black">
+        <Box class=" rounded-full    shadow-lg  p-3 bg-gray-200">
+          Language Assessment for Academic and Professional Purposes
+        </Box>
+        {tags.map((tag) => (
+          <Box class=" rounded-full shadow-lg  p-3 bg-gray-200">{tag}</Box>
+        ))}
+
+        <Box class="  rounded-full  shadow-lg p-3 bg-primary">Language Assessment</Box>
+
+        <Box class="  rounded-full   shadow-lg p-3 bg-tertiary">Policy Evaluation</Box>
       </Box>
     </Box>
   );

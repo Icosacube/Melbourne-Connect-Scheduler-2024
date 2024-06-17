@@ -18,19 +18,16 @@ export default function EventTabs({ getTabName }) {
         onChange={handleChange}
         aria-label="event tabs"
         sx={{
+          '& .MuiTab-root.Mui-selected': {
+            color: '#FBB533' // Text color when selected
+          },
           '& .MuiTabs-indicator': {
-            backgroundColor: '#FBB533',
-            color: '#FBB533'
+            backgroundColor: '#FBB533'
             // Change the indicator color
           },
           '& .MuiTab-root': {
-            color: 'default',
             fontWeight: 'bold',
             fontSize: '1.25rem'
-            // Default text color
-          },
-          '& .Mui-selected': {
-            color: '#FBB533' // Text color when selected
           }
         }}>
         <Tab label="About" value="About" />

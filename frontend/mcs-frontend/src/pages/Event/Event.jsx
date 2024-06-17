@@ -1,18 +1,26 @@
-import React from 'react';
+import { Box } from '@mui/material';
+import React, { useState } from 'react';
+import EventTopNavBar from '../../components/TopNavBar/EventTopNavBar';
+import EditEventModal from './EditEventModal';
 import About from './TabPages/About';
 import Participants from './TabPages/Participants';
 import Programme from './TabPages/Programme';
 import Services from './TabPages/Services';
-import EventTopNavBar from '../../components/TopNavBar/EventTopNavBar';
-import { Box } from '@mui/material';
+import { useLoaderData } from 'react-router-dom';
 
 function Event() {
-  const [tabName, setTabName] = React.useState('About');
+  const [tabName, setTabName] = useState('About');
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const loadedEvent = useLoaderData();
+  console.log(loadedEvent)
+  const [event, setEvent] = useState(loadedEvent);
 
-  const renderTabContent = () => {
+  const renderTabContent = (event) => {
     switch (tabName) {
       case 'About':
-        return <About />;
+        return <About event={event} />;
       case 'Participants':
         return <Participants />;
       case 'Programme':
@@ -26,8 +34,9 @@ function Event() {
 
   return (
     <Box>
-      <EventTopNavBar getCurTab={setTabName} />
-      {renderTabContent()}
+      <EventTopNavBar getCurTab={setTabName} openEditModal={handleOpen} />
+      <EditEventModal event={event} open={open} handleClose={handleClose} setEvent={setEvent} />
+      {renderTabContent(event)}
     </Box>
   );
 }

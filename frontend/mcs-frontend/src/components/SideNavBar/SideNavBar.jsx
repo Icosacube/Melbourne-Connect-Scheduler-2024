@@ -88,7 +88,7 @@ function SideNavBar() {
               Overview
             </Typography>
             {overviewTabs.map((page, index) => (
-              <NavLink to={`${page.url}`}>
+              <NavLink to={`${page.url}`} key={page.name}>
                 <ListItem key={page.name} disablePadding>
                   <ListItemButton>
                     {overviewTabsIcons(page.name)}

@@ -1,0 +1,3 @@
+
+This week, our team received feedback from the client for the loft prototype and I have spent around four hours to adjust the current prototype according to the feedback and make high-fidelity(?) prototype with the approved colour scheme for dashboard, event and the main page for trip as a reference for our frontend team to development the UI. 
+There is no issue encountered this week. For next week, I will try to work on more pages of the hi-fi prototype and implement the pages in react if needed.

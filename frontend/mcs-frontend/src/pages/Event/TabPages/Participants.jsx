@@ -1,17 +1,18 @@
 import { Avatar, Box, Chip, Typography } from '@mui/material';
 import React from 'react';
+import TitleCard from './TitleCard';
 
 function Participants() {
+  const participants = [
+    { firstName: 'Alice', lastName: 'Smith' },
+    { firstName: 'Bob', lastName: 'Johnson' },
+    { firstName: 'Carol', lastName: 'Williams' },
+    { firstName: 'David', lastName: 'Brown' },
+    { firstName: 'Eve', lastName: 'Davis' }
+  ];
   return (
     <Box>
-      <Box>
-        <Typography variant="h6" className="text-gray-500">
-          05/07/2024 | 15:30 - 12/07/2024 | 18:30
-        </Typography>
-        <Typography variant="h4">
-          Data-Driven Futures: Responsible AI in Climate and Health Policy
-        </Typography>
-      </Box>
+      <TitleCard />
       <Box className="flex space-x-4 mt-4">
         <Chip label="All (65)" className="rounded-none   p-4 bg-primary" />
         <Chip label="Speakers (1)" className="rounded-none p-4 " />
@@ -21,17 +22,17 @@ function Participants() {
         <Box className="space-y-3 p-5 shadow-md bg-white w-2/12 flex flex-col place-items-center">
           <Avatar className="size-28" />
           <Box className="grid place-items-center">
-            <Typography variant="h6">John</Typography>
-            <Typography variant="h6">Steward</Typography>
+            <Typography variant="h6">France</Typography>
+            <Typography variant="h6">Haugen</Typography>
           </Box>
           <Chip label="Speaker" className="bg-primary" />
         </Box>
-        {Array.from(Array(6)).map((_, index) => (
+        {participants.map((participants, index) => (
           <Box className="space-y-3 p-5 shadow-md bg-white w-2/12 flex flex-col place-items-center">
             <Avatar className="size-28" />
             <Box className="grid place-items-center">
-              <Typography variant="h6">John</Typography>
-              <Typography variant="h6">Steward</Typography>
+              <Typography variant="h6">{participants.firstName}</Typography>
+              <Typography variant="h6">{participants.lastName}</Typography>
             </Box>
             <Chip label="Guest" />
           </Box>

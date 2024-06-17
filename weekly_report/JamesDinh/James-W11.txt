@@ -1,0 +1,14 @@
+Week 11 – Weekly Report – James Dinh (888972)
+
+Done:
+- Finished the QA plan but it needs work based on feedback from our supervisor. 
+- Revised and re-wrote User Stories to be more specific and aligned with requirements gathered after meeting with the client numerous times after the initial conception of the first iteration of user stories.
+- Revised the Acceptance Criteria to again be more specific and aligned with the new revised User Stories.
+- Created Acceptance Tests for the 'must have' user stories
+
+Issues:
+- Creating specific User Stories that are contextually meaningful and that are useful for developers when reading can be difficult. Bouncing ideas off of each other enhances the fluidity of this creation process.
+
+To do:
+- Add specific goals, defined activities, tools used, techniques used and timeframes to the QA plan. Also need to address code reviewing processes that will be used and specifics around the UAT process and usability testing.
+

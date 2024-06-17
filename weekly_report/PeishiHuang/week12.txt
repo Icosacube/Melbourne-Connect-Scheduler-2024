@@ -1,0 +1,3 @@
+
+This week, I have spent around one hours to continue making and adjusting high-fidelity(?) prototype.
+There is no issue encountered this week. For the next sprint, I will start on the code implementation in parallel with the design. 

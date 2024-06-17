@@ -160,7 +160,7 @@ export default function PeopleTable() {
   const navigate = useNavigate();
   const handleRowClick = (params) => {
     console.log(params.row.id);
-    navigate(`/events/${params.row.id}`);
+    navigate(`/people/${params.row.id}`);
   };
   return (
     <DataGrid
@@ -175,11 +175,11 @@ export default function PeopleTable() {
       // checkboxSelection
       sx={{
         '& .speaker-table': {
-          backgroundColor: '#FBE418',
-          color: 'black'
+          backgroundColor: '#BF4242',
+          color: '#EBF5EE'
         },
         '.MuiDataGrid-columnHeaderTitleContainer': {
-          backgroundColor: '#FBE418'
+          backgroundColor: '#BF4242'
         }
       }}
       onRowClick={handleRowClick}

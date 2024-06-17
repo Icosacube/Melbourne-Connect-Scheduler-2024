@@ -1,0 +1,13 @@
+What I have done:
+- Wrote frontend styling and basic backend connections
+- Created progress presentation template for others
+- Updated frontend documentation
+
+Issues faced:
+- chronic exhaustion and mental health struggles interfering with ability to work
+- research essay
+
+Things I will do:
+- Connect more frontend to backend
+- discuss with frontend team about what we will aim to achieve over semester break
+- Figure out interactive elements (hover, etc) for readability

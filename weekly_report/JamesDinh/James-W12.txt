@@ -1,0 +1,14 @@
+Week 12 – Weekly Report – James Dinh (888972)
+
+Done:
+- Scheduled meetings with team members to discuss details related to the specific goals that are relevant to the QA plan. Also discussed potential code reviewing processes
+- Worked on final report for the semester
+- Drafted new version of QA plan
+
+Issues:
+- 
+
+To do:
+- Finish report
+- Finish and upload new QA plan
+

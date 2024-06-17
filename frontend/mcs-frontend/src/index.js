@@ -2,6 +2,8 @@ import { StyledEngineProvider } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { loader as eventsLoader } from './scripts/eventsLoader';
+import { loader as eventLoader } from './scripts/eventLoader';
 import './index.css';
 import {
   Components,
@@ -35,12 +37,14 @@ const router = createBrowserRouter([
       },
       {
         path: '/events',
+        loader: eventsLoader,
         element: <Events />,
         errorElement: <ErrorPage />
       },
       {
         path: '/events/:id',
         element: <Event />,
+        loader: eventLoader,
         errorElement: <ErrorPage />
       },
       {

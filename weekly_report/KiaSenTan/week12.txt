@@ -1,0 +1,5 @@
+This week was a hectic week wherein my main contributions were connecting the frontend to the backend in our frontend-integration branch. While these changes were relatively basic to implement, doing so allowed me to bridge the common understanding between the backend and frontend teams. This in turn helped the live demo that we had on the last day of semester.
+
+However, the research essay has proved to be a constant weight on our minds, and had I not asked for an extension I would only be sitting at 1.9k words.
+
+In the following week, as agreed upon by the team, we are going to take a break to study for exams - and in my case, finish off the research essay.
