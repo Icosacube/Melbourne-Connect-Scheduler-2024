@@ -1,7 +1,17 @@
 import { Avatar, Box, Stack, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 
-function ProfileHeader({ title, firstname, lastname, organisation, role, faculty, tags }) {
+interface ProfileHeaderProps {
+  title: string;
+  firstname: string;
+  lastname: string;
+  organisation: string;
+  role: string;
+  faculty: string;
+  tags: string[];
+}
+
+export const ProfileHeader: FC<ProfileHeaderProps> = ({ title, firstname, lastname, organisation, role, faculty, tags }) => {
   return (
     <Box className="flex justify-between text-accent place-items-center">
       <Box className="w-5/12 flex space-x-4">
@@ -16,19 +26,20 @@ function ProfileHeader({ title, firstname, lastname, organisation, role, faculty
       </Box>
 
       <Box className="flex flex-wrap gap-3 w-5/12 font-semibold text-black">
-        <Box class=" rounded-full    shadow-lg  p-3 bg-gray-200">
+        <Box className="rounded-full shadow-lg p-3 bg-gray-200">
           Language Assessment for Academic and Professional Purposes
         </Box>
-        {tags.map((tag) => (
-          <Box class=" rounded-full shadow-lg  p-3 bg-gray-200">{tag}</Box>
+        {tags.map((tag, index) => (
+          <Box key={index} className="rounded-full shadow-lg p-3 bg-gray-200">
+            {tag}
+          </Box>
         ))}
 
-        <Box class="  rounded-full  shadow-lg p-3 bg-primary">Language Assessment</Box>
+        <Box className="rounded-full shadow-lg p-3 bg-primary">Language Assessment</Box>
 
-        <Box class="  rounded-full   shadow-lg p-3 bg-tertiary">Policy Evaluation</Box>
+        <Box className="rounded-full shadow-lg p-3 bg-tertiary">Policy Evaluation</Box>
       </Box>
     </Box>
   );
 }
 
-export default ProfileHeader;

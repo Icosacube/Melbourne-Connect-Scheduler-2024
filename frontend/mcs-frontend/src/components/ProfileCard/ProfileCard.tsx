@@ -1,21 +1,24 @@
+import { Avatar, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
+import React, { FC } from "react";
 
-import { Avatar, Card, CardContent, Chip,  Stack, Typography } from "@mui/material";
-import React from "react";
+interface ProfileCardProps {
+  firstname: string;
+  lastname: string;
+  roletag: string;
+}
 
-function ProfileCard({ firstname, lastname, roletag }) {
+export const ProfileCard: FC<ProfileCardProps> = ({ firstname, lastname, roletag }) => {
   return (
-    <Card p={1} sx={{ flexGrow:1, minWidth: "210px", maxWidth: "270px", height: "128px" }}>
+    <Card sx={{ padding: 1, flexGrow: 1, minWidth: "210px", maxWidth: "270px", height: "128px" }}>
       <CardContent className="flex flex-row space-x-4 space-y-1">
         <Avatar className="size-24">A</Avatar>
-        <Stack   
-        justifyContent="center"
-        alignItems="flex-start">
+        <Stack justifyContent="center" alignItems="flex-start">
           <Typography className="text-2xl">{firstname} {lastname}</Typography>
-          <Chip label={roletag}/>
+          <Chip label={roletag} />
         </Stack>
       </CardContent>
     </Card>
   );
 }
 
-export default ProfileCard;
+

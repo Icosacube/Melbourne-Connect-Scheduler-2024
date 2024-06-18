@@ -1,9 +1,15 @@
 import { Card, CardActionArea, CardContent, Stack, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 
-function AddButton({ type, children }) {
+// Define the interface for the component props
+interface AddButtonProps {
+  type: string;
+}
+
+// Update the component definition
+export const AddButton: FC<PropsWithChildren<AddButtonProps>> = ({ type, children }) => {
   return (
-    <Card p={1} sx={{ flexGrow: 1 }} className="bg-primary">
+    <Card sx={{ flexGrow: 1, padding: 1 }} className="bg-primary">
       <CardActionArea>
         <CardContent>
           <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={2}>
@@ -16,4 +22,3 @@ function AddButton({ type, children }) {
   );
 }
 
-export default AddButton;

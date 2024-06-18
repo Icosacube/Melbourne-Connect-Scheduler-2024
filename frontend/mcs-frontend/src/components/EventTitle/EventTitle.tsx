@@ -1,18 +1,33 @@
+import React from 'react';
 import { Avatar, Card, CardActionArea, CardContent, Chip, Stack, Typography } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
 import PlaceIcon from '@mui/icons-material/Place';
-import React from 'react';
 import { yellow } from '@mui/material/colors';
-function EventTitle({ event }) {
+
+interface Event {
+  title: string;
+  date: string; // Assuming date is a string for simplicity
+  time: string; // Assuming time is a string for simplicity
+  venue: string;
+  isCompleted: boolean;
+  speakerFirstName: string;
+  speakerLastName: string;
+}
+
+interface EventTitleProps {
+  event: Event;
+}
+
+export const EventTitle: React.FC<EventTitleProps> = ({ event }) => {
   return (
-    <Card p={1} sx={{ flexGrow: 1, minWidth: '320px', maxWidth: '480px', height: '136px' }}>
+    <Card  sx={{  padding: 1, flexGrow: 1, minWidth: '320px', maxWidth: '480px', height: '136px' }}>
       <CardActionArea>
         <CardContent>
           <Stack direction="row" spacing={0.5}>
             {event.isCompleted ? (
-              <CheckCircleIcon fontSize="medium" color="success" />
+              <CheckCircleIcon fontSize="medium" sx={{ color: 'success.main' }} />
             ) : (
               <PendingIcon fontSize="medium" sx={{ color: yellow[700] }} />
             )}
@@ -23,17 +38,16 @@ function EventTitle({ event }) {
           <Stack direction="row" spacing={0.5}>
             <CalendarMonthIcon fontSize="small" />
             <Typography color="text.secondary">
-              {event.date}
-              {event.time}
+              {event.date} {event.time}
             </Typography>
           </Stack>
           <Stack direction="row" spacing={0.5}>
             <PlaceIcon fontSize="small" />
-            <Typography Nowrap color="text.secondary">
+            <Typography noWrap color="text.secondary">
               {event.venue}
             </Typography>
           </Stack>
-          {/* change avatar to headshot: <Avatar alt="guestName" src="/static/images/avatar.jpg" />} */}
+          {/* Change avatar to headshot: <Avatar alt="guestName" src="/static/images/avatar.jpg" />} */}
           <Chip
             className="bg-primary"
             avatar={<Avatar />}
@@ -43,6 +57,4 @@ function EventTitle({ event }) {
       </CardActionArea>
     </Card>
   );
-}
-
-export default EventTitle;
+};

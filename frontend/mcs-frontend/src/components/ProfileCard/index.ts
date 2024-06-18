@@ -1,1 +1,1 @@
-export { default as ProfileCard } from './ProfileCard.jsx';
+export { ProfileCard } from './ProfileCard';

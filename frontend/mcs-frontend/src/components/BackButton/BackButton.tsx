@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import { yellow } from '@mui/material/colors';
 import { Typography } from '@mui/material';
 
-function BackButton({ text }) {
+interface BackButtonProps {
+  text: string;
+}
+
+export const BackButton: FC<BackButtonProps> = ({ text }) => {
   const navigate = useNavigate();
   return (
     <Button
@@ -18,4 +22,3 @@ function BackButton({ text }) {
   );
 }
 
-export default BackButton;

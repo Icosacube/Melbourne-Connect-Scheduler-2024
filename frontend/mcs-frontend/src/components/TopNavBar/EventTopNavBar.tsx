@@ -1,42 +1,53 @@
-import { Box, Breadcrumbs, Button, Toolbar, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Toolbar,
+  Typography
+} from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import EventTabs from '../../pages/Event/EventTabs';
 import CreateIcon from '@mui/icons-material/Create';
 import ShareIcon from '@mui/icons-material/Share';
 
-function EventTopNavBar({ getCurTab, openEditModal }) {
-  const [tabName, settabName] = useState('About');
+interface EventTopNavBarProps {
+  getCurTab: (data: string) => void;
+  openEditModal: () => void;
+}
+
+const EventTopNavBar: React.FC<EventTopNavBarProps> = ({ getCurTab, openEditModal }) => {
+  const [tabName, setTabName] = useState('About');
   const navigate = useNavigate();
 
-  function getTabName(data) {
-    settabName(data);
+  const handleTabChange = (data: string) => {
+    setTabName(data);
     getCurTab(data);
-  }
+  };
 
   const breadcrumbs = [
     <Link
-      underline="hover"
       key="1"
+      // underline="hover"
+      to={'/events'}
       color="inherit"
-      onClick={() => {
-        navigate('/events');
-      }}>
+    >
       Events Overview
     </Link>,
     <Typography key="2" color="text.primary">
       Event
-    </Typography>
+    </Typography>,
   ];
+
   return (
     <>
-      <Toolbar className="bg-white h-24 shadow-md w-[90%] fixed  top-0 right-0 z-20">
+      <Toolbar className="bg-white h-24 shadow-md w-[90%] fixed top-0 right-0 z-20">
         <Box className="text-gray-500 flex justify-between pl-4 w-full">
           <Box className="flex place-items-center">
             <Button
               startIcon={<ArrowBackIosIcon />}
-              className="text-gray-600 "
+              className="text-gray-600"
               onClick={() => {
                 navigate(-1);
               }}
@@ -49,22 +60,24 @@ function EventTopNavBar({ getCurTab, openEditModal }) {
             </Box>
           </Box>
           <Box className="flex place-items-center">
-            <EventTabs getTabName={getTabName} />
+            <EventTabs getTabName={handleTabChange} />
             <Box className="flex h-14 space-x-4 ml-20 mr-20">
               <Button
                 variant="contained"
-                className="bg-accent2 hover:bg-secondary hover:text-white text-white">
+                className="bg-accent2 hover:bg-secondary hover:text-white text-white"
+              >
                 <ShareIcon />
-                <Typography variant="h7" className="ml-3">
+                <Typography variant="h6" className="ml-3">
                   Share
                 </Typography>
               </Button>
               <Button
                 variant="contained"
                 onClick={openEditModal}
-                className="bg-primary hover:bg-secondary hover:text-white  text-black">
+                className="bg-primary hover:bg-secondary hover:text-white text-black"
+              >
                 <CreateIcon />
-                <Typography variant="h7" className="ml-3">
+                <Typography variant="h6" className="ml-3">
                   Edit
                 </Typography>
               </Button>
@@ -74,6 +87,6 @@ function EventTopNavBar({ getCurTab, openEditModal }) {
       </Toolbar>
     </>
   );
-}
+};
 
 export default EventTopNavBar;

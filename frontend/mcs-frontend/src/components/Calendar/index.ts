@@ -1,1 +1,1 @@
-export { default as Calendar } from './Calendar.jsx';
+export { Calendar } from './Calendar';

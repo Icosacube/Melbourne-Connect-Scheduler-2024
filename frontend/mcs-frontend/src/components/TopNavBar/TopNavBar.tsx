@@ -31,7 +31,7 @@ const pages = [
   { name: 'Event', url: '/events/:id' }
 ];
 
-function TopNavBar() {
+export const TopNavBar: React.FC = () => {
   const curPath = useLocation().pathname;
   const eventDetailRegex = /^\/events\/[^/]+$/;
   const isEventDetailPage = eventDetailRegex.test(curPath);
@@ -43,4 +43,3 @@ function TopNavBar() {
     </Toolbar>
   );
 }
-export default TopNavBar;

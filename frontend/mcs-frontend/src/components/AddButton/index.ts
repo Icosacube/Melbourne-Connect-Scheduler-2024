@@ -1,1 +1,2 @@
-export { default as AddButton } from './AddButton.jsx';
+export { AddButton } from './AddButton';
+

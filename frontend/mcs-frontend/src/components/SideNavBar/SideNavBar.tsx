@@ -1,26 +1,25 @@
-import BarChartIcon from '@mui/icons-material/BarChart';
-import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
-import EventIcon from '@mui/icons-material/Event';
-import PeopleIcon from '@mui/icons-material/People';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+// import { ReactComponent as Logo } from '../../assets/Hex Logo (Colour).svg';
+// import { ReactComponent as LogoText } from '../../assets/MCS EVENT SCHEDULER.svg';
 import {
   Box,
   Button,
+  Divider,
+  Drawer,
+  List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Typography
 } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import * as React from 'react';
-import { NavLink } from 'react-router-dom';
-import { ReactComponent as Logo } from '../../assets/Hex Logo (Colour).svg';
-import { ReactComponent as LogoText } from '../../assets/MCS EVENT SCHEDULER.svg';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
+import EventIcon from '@mui/icons-material/Event';
+import PeopleIcon from '@mui/icons-material/People';
 
-function SideNavBar() {
-  // const overviewTabs = ['People', 'Trip', 'Event', 'Finance'];
+export const SideNavBar: React.FC = () => {
   const eventTabs = ['About', 'Participant', 'Programme', 'Services'];
   const canvassingTabs = ['Availability', 'Booking'];
   const tripTabs = ['Schedule', 'Travel', 'Accomodation', 'Costs'];
@@ -42,8 +41,7 @@ function SideNavBar() {
       url: '/finance'
     }
   ];
-
-  function overviewTabsIcons(tabName) {
+  function overviewTabsIcons(tabName: string): JSX.Element {
     switch (tabName) {
       case 'People':
         return (
@@ -73,22 +71,26 @@ function SideNavBar() {
         return <></>;
     }
   }
+
   return (
     <>
       <Drawer variant="permanent" className="w-48">
-        <NavLink to="dashboard">
-          <Button className=" bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
-            <Logo />
-            <LogoText />
+        <NavLink to="/dashboard">
+          <Button className="bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
+            {/* <Logo />
+            <LogoText /> */}
+            <Typography variant="h4" className="text-white">
+              MCS Logo
+            </Typography>
           </Button>
         </NavLink>
         <Box>
-          <List className="w-48 bg-primary grow ">
+          <List className="w-48 bg-primary grow">
             <Typography variant="h6" className="ml-4">
               Overview
             </Typography>
-            {overviewTabs.map((page, index) => (
-              <NavLink to={`${page.url}`} key={page.name}>
+            {overviewTabs.map((page) => (
+              <NavLink to={page.url} key={page.name}>
                 <ListItem key={page.name} disablePadding>
                   <ListItemButton>
                     {overviewTabsIcons(page.name)}
@@ -105,7 +107,7 @@ function SideNavBar() {
             <Typography variant="h6" className="ml-3">
               Event
             </Typography>
-            {eventTabs.map((text, index) => (
+            {eventTabs.map((text) => (
               <ListItem key={text} disablePadding className="pl-3">
                 <ListItemButton>
                   <ListItemText primary={text} />
@@ -117,7 +119,7 @@ function SideNavBar() {
             <Typography variant="h6" className="ml-3">
               Canvassing
             </Typography>
-            {canvassingTabs.map((text, index) => (
+            {canvassingTabs.map((text) => (
               <ListItem key={text} disablePadding className="pl-3">
                 <ListItemButton>
                   <ListItemText primary={text} />
@@ -129,8 +131,8 @@ function SideNavBar() {
             <Typography variant="h6" className="ml-3">
               Trip
             </Typography>
-            {tripTabs.map((text, index) => (
-              <ListItem key={text} disablePadding className="pl-3 ">
+            {tripTabs.map((text) => (
+              <ListItem key={text} disablePadding className="pl-3">
                 <ListItemButton>
                   <ListItemText primary={text} />
                 </ListItemButton>
@@ -143,4 +145,3 @@ function SideNavBar() {
   );
 }
 
-export default SideNavBar;

@@ -1,10 +1,17 @@
+import React, { ReactNode } from 'react';
 import { Avatar, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
-import React from 'react';
 
-function SpeakerTitle({ firstname, lastname, organisation, children }) {
+interface SpeakerTitleProps {
+  firstname: string;
+  lastname: string;
+  organisation: string;
+  children: ReactNode[]; // ReactNode[] allows any valid JSX/React children
+}
+
+export const SpeakerTitle: React.FC<SpeakerTitleProps> = ({ firstname, lastname, organisation, children }) => {
   return (
     <Card>
-      <Card p={1} sx={{ flexGrow: 1, minWidth: '320px', maxWidth: '480px', height: '128px' }}>
+      <Card sx={{ p: 1, flexGrow: 1, minWidth: '320px', maxWidth: '480px', height: '128px' }}>
         <CardContent className="flex flex-row space-x-4 space-y-1">
           <Avatar className="size-24">A</Avatar>
           <Stack>
@@ -12,9 +19,9 @@ function SpeakerTitle({ firstname, lastname, organisation, children }) {
               {firstname} {lastname}
             </Typography>
             <Typography color="text.secondary">{organisation}</Typography>
-            <Stack direction={'row'} flexWrap={1} spacing={1}>
-              {children.map((child) => (
-                <Chip label={child} />
+            <Stack direction="row" flexWrap="wrap" spacing={1}>
+              {children.map((child, index) => (
+                <Chip key={index} label={child} />
               ))}
             </Stack>
           </Stack>
@@ -24,4 +31,3 @@ function SpeakerTitle({ firstname, lastname, organisation, children }) {
   );
 }
 
-export default SpeakerTitle;

@@ -1,1 +1,1 @@
-export { default as SideNavBar } from './SideNavBar.jsx';
+export { SideNavBar } from './SideNavBar';

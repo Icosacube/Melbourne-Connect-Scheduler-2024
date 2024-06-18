@@ -1,5 +1,5 @@
 export * from './AddButton';
-export * from './BackButton';
+export *  from './BackButton';
 export * from './EventTitle';
 export * from './ProfileCard';
 export * from './SideNavBar';
