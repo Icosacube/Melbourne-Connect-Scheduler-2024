@@ -1,10 +1,10 @@
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
-import EventsTable from './EventsTable';
+import {EventsTable} from './EventsTable';
 import EventsWidgets from './EventsWidgets';
 import { useLoaderData } from 'react-router-dom';
-import CreateEventModal from './CreateEventModal';
+import {CreateEventModal} from './CreateEventModal';
 
 function Events() {
   const events = useLoaderData();
@@ -46,7 +46,7 @@ function Events() {
         <EventsWidgets />
       </Box>
       <Box className="w-full bg-white shadow-md">
-        <EventsTable data={events} />
+        <EventsTable events={events} />
       </Box>
     </>
   );

@@ -19,7 +19,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-au';
 
-function CreateEventModal({ handleClose, open }) {
+interface CreateEventModalProps {
+  handleClose: () => void;
+  open: boolean;
+}
+
+export const CreateEventModal: React.FC<CreateEventModalProps> = ({ handleClose, open }) => {
   const [newEvent, setNewEvent] = useState({
     speakers: [],
     venue: '',
@@ -29,12 +34,12 @@ function CreateEventModal({ handleClose, open }) {
     date: dayjs()
   });
   const [showSuccess, setShowSuccess] = useState(false);
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     // Otherwise, update the edited event data
     setNewEvent({ ...newEvent, [name]: value });
   };
-  const handleDate = (e) => {
+  const handleDate = (e: any) => {
     // datepicker already has it
     setNewEvent({ ...newEvent, date: e });
   }
@@ -103,12 +108,12 @@ function CreateEventModal({ handleClose, open }) {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       className="bg-gray-100 p-4 rounded-xl "
-                      variant="outlined"
+                      // variant="outlined"
                       defaultValue={newEvent.date}
                       value={newEvent.date}
                       name="date"
                       onChange={handleDate}
-                      adapterLocale="en-au"
+                      // adapterLocale="en-au"
                     />
                   </LocalizationProvider>
                 </Stack>
@@ -184,5 +189,3 @@ function CreateEventModal({ handleClose, open }) {
     </>
   );
 }
-
-export default CreateEventModal;

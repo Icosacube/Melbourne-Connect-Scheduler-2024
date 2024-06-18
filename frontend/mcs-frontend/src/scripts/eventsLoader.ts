@@ -1,4 +1,6 @@
 import axios from 'axios';
+import dayjs from 'dayjs';
+import { Event } from '../types/types';
 
 export async function loader() {
   try {
@@ -6,9 +8,9 @@ export async function loader() {
     const events = res.data;
 
     // Resolve difference between model and expected data
-    events.forEach((obj) => {
+    events.forEach((obj:Event) => {
       // type conversion
-      obj.date = new Date(obj.date);
+      obj.date = dayjs(obj.date);
     });
     console.log(events);
     return events;

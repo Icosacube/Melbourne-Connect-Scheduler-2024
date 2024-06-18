@@ -8,7 +8,7 @@ import {
   Typography
 } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import EventTabs from '../../pages/Event/EventTabs';
+import {EventTabs} from '../../pages/Event/EventTabs';
 import CreateIcon from '@mui/icons-material/Create';
 import ShareIcon from '@mui/icons-material/Share';
 

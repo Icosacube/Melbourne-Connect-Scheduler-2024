@@ -1,23 +1,23 @@
 import { Box } from '@mui/material';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import EventTopNavBar from '../../components/TopNavBar/EventTopNavBar';
 import EditEventModal from './EditEventModal';
-import About from './TabPages/About';
+import {About} from './TabPages/About';
 import Participants from './TabPages/Participants';
 import Programme from './TabPages/Programme';
 import Services from './TabPages/Services';
 import { useLoaderData } from 'react-router-dom';
+import { Event as EventType } from '../../types/types';
 
-function Event() {
+export const Event:FC=()=> {
   const [tabName, setTabName] = useState('About');
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const loadedEvent = useLoaderData();
-  console.log(loadedEvent)
   const [event, setEvent] = useState(loadedEvent);
 
-  const renderTabContent = (event) => {
+  const renderTabContent = (event: EventType) => {
     switch (tabName) {
       case 'About':
         return <About event={event} />;
@@ -28,7 +28,7 @@ function Event() {
       case 'Services':
         return <Services />;
       default:
-        return <About />;
+        return <About event={event}/>;
     }
   };
 
@@ -41,4 +41,3 @@ function Event() {
   );
 }
 
-export default Event;

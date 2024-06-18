@@ -3,7 +3,7 @@ import ConnectingAirports from '@mui/icons-material/ConnectingAirports';
 import Event from '@mui/icons-material/Event';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Box, Divider, Stack, Typography } from '@mui/material/';
-import * as React from 'react';
+import React, {FC} from 'react';
 import { AddButton, Calendar, EventTitle } from '../../components';
 
 // eslint-disable-next-line no-lone-blocks
@@ -11,11 +11,11 @@ import { AddButton, Calendar, EventTitle } from '../../components';
   /* PlaceHolders */
 }
 
-export default function Dashboard() {
+export const Dashboard: FC = () => {
   const events = [
     {
       title: 'The Rise of AI',
-      start: '2024-04-10',
+      date: '2024-04-10',
       end: '2024-04-12',
       backgroundColor: '#FAAB19',
       time: '10:00 AM',
@@ -26,7 +26,7 @@ export default function Dashboard() {
     },
     {
       title: 'Is ChatGPT Evil',
-      start: '2024-04-22',
+      date: '2024-04-22',
       end: '2024-04-25',
       backgroundColor: '#734023',
       time: '2:00 PM',
@@ -37,7 +37,7 @@ export default function Dashboard() {
     },
     {
       title: 'The Future of Robotics',
-      start: '2024-04-30',
+      date: '2024-04-30',
       end: '2024-05-02',
       backgroundColor: 'blue',
       time: '9:00 AM',
@@ -48,7 +48,7 @@ export default function Dashboard() {
     },
     {
       title: 'Is C++ Still Relevant',
-      start: '2024-05-10',
+      date: '2024-05-10',
       end: '2024-05-12',
       backgroundColor: 'tomato',
       time: '11:00 AM',
@@ -59,7 +59,7 @@ export default function Dashboard() {
     },
     {
       title: 'Will AI Take Over the World',
-      start: '2024-05-22',
+      date: '2024-05-22',
       end: '2024-05-24',
       backgroundColor: 'green',
       time: '3:00 PM',
@@ -70,7 +70,7 @@ export default function Dashboard() {
     },
     {
       title: 'Ethical Considerations in AI',
-      start: '2024-05-30',
+      date: '2024-05-30',
       end: '2024-06-01',
       backgroundColor: 'purple',
       time: '1:00 PM',
@@ -81,7 +81,7 @@ export default function Dashboard() {
     },
     {
       title: 'AI and Humanity',
-      start: '2024-06-10',
+      date: '2024-06-10',
       end: '2024-06-12',
       backgroundColor: '#FF5733',
       time: '9:00 AM',
@@ -92,7 +92,7 @@ export default function Dashboard() {
     },
     {
       title: 'The Future of Quantum Computing',
-      start: '2024-06-20',
+      date: '2024-06-20',
       end: '2024-06-22',
       backgroundColor: '#2E86C1',
       time: '10:00 AM',
@@ -103,7 +103,7 @@ export default function Dashboard() {
     },
     {
       title: 'The Power of Machine Learning',
-      start: '2024-06-28',
+      date: '2024-06-28',
       end: '2024-06-30',
       backgroundColor: '#3498DB',
       time: '2:00 PM',
@@ -155,7 +155,7 @@ export default function Dashboard() {
               {events.map((event) => (
                 <>
                   <Typography className="text-s text-gray-400">
-                    {event.start} - {event.end} | {event.time}
+                    {event.date} - {event.end} | {event.time}
                   </Typography>
                   <Typography className="text-lg font-semibold">{event.title}</Typography>
                   <Typography className="text-s text-gray-400">{event.venue}</Typography>

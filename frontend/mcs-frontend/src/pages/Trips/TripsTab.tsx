@@ -3,15 +3,16 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 import Accomodation from "./TabPages/Accomodation";
 import Costs from "./TabPages/Costs";
 import Report from "./TabPages/Report";
 import Travel from "./TabPages/Travel";
-function TripsTab() {
+
+export const TripsTab:FC =()=> {
   const [value, setValue] = useState("Travel");
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: any, newValue: React.SetStateAction<string>) => {
     setValue(newValue);
   };
   return (
@@ -39,5 +40,3 @@ function TripsTab() {
     </Box>
   );
 }
-
-export default TripsTab;

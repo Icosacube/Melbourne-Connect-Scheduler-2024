@@ -1,1 +1,1 @@
-export { default as Dashboard } from './Dashboard.jsx';
+export { Dashboard } from './Dashboard';

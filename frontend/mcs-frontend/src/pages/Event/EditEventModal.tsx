@@ -15,18 +15,26 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import 'dayjs/locale/en-au';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import updateEvent from '../../scripts/updateEvent';
+import { Event } from '../../types/types';
 
-function EditEventModal({ event, handleClose, open, setEvent }) {
+interface EditEventModalProps {
+  event: Event;
+  handleClose: () => void;
+  open: boolean;
+  setEvent: (event: any) => void;
+}
+
+export const EditEventModal:FC<EditEventModalProps> = ({ event, handleClose, open, setEvent }) => {
   const [editedEvent, setEditedEvent] = useState(event);
   const [showSuccess, setShowSuccess] = useState(false);
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     // Otherwise, update the edited event data
     setEditedEvent({ ...editedEvent, [name]: value });
   };
-  const handleDate = (e) => {
+  const handleDate = (e: any) => {
     // datepicker already has it
     setEditedEvent({ ...editedEvent, date: e });
   };
@@ -91,12 +99,12 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       className="bg-gray-100 p-4 rounded-xl "
-                      variant="outlined"
+                      // variant="outlined"
                       defaultValue={editedEvent.date}
                       value={editedEvent.date}
                       name="date"
                       onChange={handleDate}
-                      adapterLocale="en-au"
+                      // adapterLocale="en-au"
                     />
                   </LocalizationProvider>
                 </Stack>
@@ -142,9 +150,9 @@ function EditEventModal({ event, handleClose, open, setEvent }) {
                 <TextField
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
-                  defaultValue={editedEvent.eventAbstract}
+                  defaultValue={editedEvent.abstract}
                   multiline
-                  value={editedEvent.eventAbstract}
+                  value={editedEvent.abstract}
                   onChange={handleInputChange}
                   name="eventAbstract"
                 />

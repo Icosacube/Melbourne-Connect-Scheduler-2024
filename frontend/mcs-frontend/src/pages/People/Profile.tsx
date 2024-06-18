@@ -1,10 +1,10 @@
 import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProfileHeader } from '../../components';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 
-function Profile() {
+export const Profile:FC=()=> {
   const params = useParams();
   console.log(params.id);
   const email = 'evebrown@gmail.com';
@@ -111,5 +111,3 @@ ${contactInformation}`;
     </Box>
   );
 }
-
-export default Profile;

@@ -6,7 +6,7 @@ function EventsWidgets() {
     <Box className="flex space-x-3 w-full">
       <Card className="w-1/4 p-3 rounded-2xl">
         <CardContent>
-          <Typography variant="h7" className="font-medium text-gray-500 ">
+          <Typography variant="h6" className="font-medium text-gray-500 ">
             New Events
           </Typography>
           <Box className="flex justify-between mt-4">
@@ -19,7 +19,7 @@ function EventsWidgets() {
       </Card>
       <Card className="w-1/4 p-3 rounded-2xl">
         <CardContent>
-          <Typography variant="h7" className="font-medium text-gray-500 ">
+          <Typography variant="h6" className="font-medium text-gray-500 ">
             Events Completed
           </Typography>
           <Box className="flex justify-between mt-4">
@@ -32,7 +32,7 @@ function EventsWidgets() {
       </Card>
       <Card className="w-1/4 p-3 rounded-2xl">
         <CardContent>
-          <Typography variant="h7" className="font-medium text-gray-500 ">
+          <Typography variant="h6" className="font-medium text-gray-500 ">
             Events Happening Soon
           </Typography>
           <Box className="flex justify-between mt-4">
@@ -45,7 +45,7 @@ function EventsWidgets() {
       </Card>
       <Card className="w-1/4 p-3 rounded-2xl">
         <CardContent>
-          <Typography variant="h7" className="font-medium text-gray-500 ">
+          <Typography variant="h6" className="font-medium text-gray-500 ">
             Upcoming Spend
           </Typography>
           <Box className="flex justify-between mt-4">

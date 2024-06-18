@@ -1,10 +1,14 @@
 import { Avatar, Box, Paper, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 import AboutTable from './AboutTable';
 import TitleCard from './TitleCard';
-import EventBanner from '../../../assets/event-banner.jpg';
+import { Event, Speaker } from '../../../types/types';
 
-function About({ event }) {
+interface AboutProps {
+  event: Event;
+}
+
+export const About:FC<AboutProps>=({ event })=> {
   return (
     <Box className="flex justify-between space-x-8 mt-5">
       <Box className="w-9/12 space-y-5">
@@ -21,8 +25,8 @@ function About({ event }) {
       <Box className="w-3/12 bg-white rounded-2xl shadow-lg flex flex-col place-items-center pt-14 ">
         <Avatar className="size-40 mb-4 z-10" />
 
-        {event.speakers.map((name) => (
-          <Typography variant="h4">{name}</Typography>
+        {event.speakers.map((speaker: Speaker) => (
+          <Typography variant="h4">{speaker.first_name} {speaker.last_name}</Typography>
         ))}
 
         <Typography variant="h5" className="text-gray-400 mt-6 pl-14 mb-6">
@@ -45,5 +49,3 @@ function About({ event }) {
     </Box>
   );
 }
-
-export default About;

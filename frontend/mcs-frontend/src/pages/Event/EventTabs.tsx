@@ -1,12 +1,16 @@
 import { Tabs } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
-export default function EventTabs({ getTabName }) {
+interface EventTabsProps {
+  getTabName: (tabName: string) => void;
+}
+
+export const EventTabs:FC<EventTabsProps> = ({ getTabName }) => {
   const [value, setValue] = useState('About');
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (_event: any, newValue: string) => {
     setValue(newValue);
     getTabName(newValue);
   };

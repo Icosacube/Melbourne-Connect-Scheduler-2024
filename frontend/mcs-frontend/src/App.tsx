@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import React from 'react';
-import { Dashboard, Layout, Login, Event, People, Components } from './pages/';
+import { Dashboard, Layout, Login, Event, People } from './pages';
 
 function App() {
   return (
@@ -10,7 +10,6 @@ function App() {
         <Route path="/event" element={<Event />} />
         <Route path="/people" element={<People />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/components" element={<Components />} />
       </Route>
     </Routes>
   );

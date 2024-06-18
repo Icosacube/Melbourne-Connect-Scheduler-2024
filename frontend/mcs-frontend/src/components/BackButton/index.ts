@@ -1,1 +1,1 @@
-export { BackButton } from './BackButton.js';
+export { BackButton } from './BackButton';

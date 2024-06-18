@@ -1,12 +1,12 @@
 import { Box, Card, CardContent, Typography } from '@mui/material';
-import React from 'react';
+import React, {FC} from 'react';
 
-function PeopleWidgets() {
+export const PeopleWidgets:FC=()=> {
   return (
     <Box className="flex space-x-3 w-full">
       <Card className="w-1/4 p-3 rounded-2xl">
         <CardContent>
-          <Typography variant="h7" className="font-medium text-gray-500 ">
+          <Typography variant="h6" className="font-medium text-gray-500 ">
             Previously Invited
           </Typography>
           <Box className="flex justify-between mt-4">
@@ -19,7 +19,7 @@ function PeopleWidgets() {
       </Card>
       <Card className="w-1/4 p-3 rounded-2xl">
         <CardContent>
-          <Typography variant="h7" className="font-medium text-gray-500 ">
+          <Typography variant="h6" className="font-medium text-gray-500 ">
             Confirmed
           </Typography>
           <Box className="flex justify-between mt-4">
@@ -32,7 +32,7 @@ function PeopleWidgets() {
       </Card>
       <Card className="w-1/4 p-3 rounded-2xl">
         <CardContent>
-          <Typography variant="h7" className="font-medium text-gray-500 ">
+          <Typography variant="h6" className="font-medium text-gray-500 ">
             Pending
           </Typography>
           <Box className="flex justify-between mt-4">
@@ -45,7 +45,7 @@ function PeopleWidgets() {
       </Card>
       <Card className="w-1/4 p-3 rounded-2xl">
         <CardContent>
-          <Typography variant="h7" className="font-medium text-gray-500 ">
+          <Typography variant="h6" className="font-medium text-gray-500 ">
             Coming Soon
           </Typography>
           <Box className="flex justify-between mt-4">
@@ -59,5 +59,3 @@ function PeopleWidgets() {
     </Box>
   );
 }
-
-export default PeopleWidgets;

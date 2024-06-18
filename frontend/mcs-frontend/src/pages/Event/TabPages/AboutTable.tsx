@@ -1,7 +1,12 @@
 import { Box, Stack, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
+import { Event } from '../../../types/types';
 
-function AboutTable({ event }) {
+interface AboutTableProps {
+  event: Event;
+}
+
+export const AboutTable:FC<AboutTableProps>=({ event })=> {
   console.log(event.speakers);
   return (
     <Box className="w-full p-7 flex space-x-6">
@@ -13,14 +18,14 @@ function AboutTable({ event }) {
               {event.speakers.toString()}
             </Typography>
           </Stack>
-          <Stack className="w-1/2">
+          {/* <Stack className="w-1/2">
             <Typography variant="h6">Category</Typography>
             <Typography className="bg-gray-100 p-4 rounded-xl">{event.category}</Typography>
-          </Stack>
+          </Stack> */}
         </Box>
         <Stack>
           <Typography variant="h6">Venue</Typography>
-          <Typography className="bg-gray-100 p-4 rounded-xl">{event.venue}</Typography>
+          {/* <Typography className="bg-gray-100 p-4 rounded-xl">{event.venue}</Typography> */}
         </Stack>
         <Stack>
           <Typography variant="h6">Event Description</Typography>
@@ -33,7 +38,7 @@ function AboutTable({ event }) {
         <Stack>
           <Typography variant="h6">Talk Abstract</Typography>
           <Typography variant="body2" className="bg-gray-100 p-4 rounded-xl">
-            {event.eventAbstract}
+            {event.abstract}
           </Typography>
         </Stack>
       </Box>

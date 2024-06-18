@@ -1,1 +1,1 @@
-export { default as Finance } from './Finance.jsx';
+export { Finance } from './Finance';

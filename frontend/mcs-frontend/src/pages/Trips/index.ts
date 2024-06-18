@@ -1,1 +1,1 @@
-export { default as Trips } from './Trips.jsx';
+export { Trips } from './Trips';

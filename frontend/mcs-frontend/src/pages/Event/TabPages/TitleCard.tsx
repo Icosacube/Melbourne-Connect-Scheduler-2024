@@ -1,7 +1,12 @@
 import { Box, Chip, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 
-function TitleCard({date, name}) {
+interface TitleCardProps {
+  date?: string ;
+  name?: string ;
+}
+
+export const TitleCard:FC<TitleCardProps> = ({date, name}) => {
   return (
     <Box>
       <Box className="flex align-middle space-x-4">

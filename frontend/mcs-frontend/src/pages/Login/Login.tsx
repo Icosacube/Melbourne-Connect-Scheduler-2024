@@ -1,7 +1,7 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { FC } from "react";
 
-function Login() {
+export const Login:FC=()=> {
   return (
     <Stack component="form" className="space-y-8">
       <Typography variant="h4">Login</Typography>
@@ -17,4 +17,3 @@ function Login() {
   );
 }
 
-export default Login;

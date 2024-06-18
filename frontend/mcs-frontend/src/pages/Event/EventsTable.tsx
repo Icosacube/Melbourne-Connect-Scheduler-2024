@@ -1,14 +1,20 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import * as React from 'react';
+import React, {FC} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getStatus } from './function';
+import { Event } from '../../types/types';
 
-export default function EventsTable({ data }) {
-  function StatusInputValue(props) {
+
+interface EventsTableProps {
+  events: Event[];
+}
+
+export const EventsTable:FC<EventsTableProps> = ({ events })=> {
+  function StatusInputValue(props: { item: any; applyValue: any; focusElementRef: any; }) {
     const { item, applyValue, focusElementRef } = props;
 
-    const handleFilterChange = (event) => {
+    const handleFilterChange = (event: { target: { value: any; }; }) => {
       applyValue({ ...item, value: event.target.value });
     };
 
@@ -43,17 +49,17 @@ export default function EventsTable({ data }) {
     {
       label: 'Is',
       value: 'is',
-      getApplyFilterFn: (filterItem) => {
+      getApplyFilterFn: (filterItem: { value: any; field: any; }) => {
         if (!filterItem.value || !filterItem.field) {
           return null;
         }
-        return (value) => {
+        return (value: any) => {
           return value === filterItem.value;
         };
       },
       InputComponent: StatusInputValue,
       InputComponentProps: { type: 'string' },
-      getValueAsString: (value) => value
+      getValueAsString: (value: any) => value
     }
   ];
 
@@ -95,7 +101,7 @@ export default function EventsTable({ data }) {
       flex: 1,
       width: 150,
       filterOperators: statusOnlyOperators,
-      renderCell({ row }) {
+      renderCell({ row }: { row: Event }) {
         return getStatus(row.status);
       }
     },
@@ -122,147 +128,11 @@ export default function EventsTable({ data }) {
     }
   ];
   const rows = [
-    // {
-    //   id: 1,
-    //   name: 'AI and Machine Learning Symposium',
-    //   eventType: 'Symposium',
-    //   catering_BookingReference: 'C123',
-    //   venue: 'Auditorium A',
-    //   speakers: 'Alice Johnson',
-    //   organizer: 'Bob Brown',
-    //   status: 'Completed',
-    //   caterer: 'Whole Foods',
-    //   attendees: 100,
-    //   date: new Date(2024, 5, 15)
-    // },
-    // {
-    //   id: 2,
-    //   name: 'Quantum Computing Workshop',
-    //   eventType: 'Workshop',
-    //   catering_BookingReference: 'C124',
-    //   venue: 'Room 204',
-    //   speakers: 'Carol White',
-    //   organizer: 'Dave Black',
-    //   status: 'Cancelled',
-    //   caterer: 'Chipotle',
-    //   attendees: 50,
-    //   date: new Date(2024, 5, 16)
-    // },
-    {
-      id: 31,
-      name: 'Data Science Conference',
-      eventType: 'Conference',
-      catering_BookingReference: 'C125',
-      venue: 'Main Hall',
-      speakers: 'Eve Green',
-      organizer: 'Frank Blue',
-      status: 'Ongoing',
-      caterer: 'McDonalds',
-      attendees: 200,
-      date: new Date(2024, 5, 17)
-    },
-    {
-      id: 41,
-      name: 'Cybersecurity Summit',
-      eventType: 'Summit',
-      catering_BookingReference: 'C126',
-      venue: 'Lecture Theatre 1',
-      speakers: 'Grace Red',
-      organizer: 'Heidi Yellow',
-      status: 'Preparation',
-      caterer: 'KFC',
-      attendees: 150,
-      date: new Date(2024, 5, 18)
-    },
-    {
-      id: 51,
-      name: 'Machine Learning Bootcamp',
-      eventType: 'Bootcamp',
-      catering_BookingReference: 'C127',
-      venue: 'Conference Room B',
-      speakers: 'Ivan Orange',
-      organizer: 'Judy Purple',
-      status: 'Implementation',
-      caterer: 'Subway',
-      attendees: 75,
-      date: new Date(2024, 5, 19)
-    },
-    {
-      id: 61,
-      name: 'Cloud Computing Workshop',
-      eventType: 'Workshop',
-      catering_BookingReference: 'C128',
-      venue: 'Auditorium A',
-      speakers: 'Alice Johnson',
-      organizer: 'Bob Brown',
-      status: 'Completed',
-      caterer: 'Starbucks',
-      attendees: 80,
-      date: new Date(2024, 5, 20)
-    },
-    {
-      id: 71,
-      name: 'Blockchain Symposium',
-      eventType: 'Symposium',
-      catering_BookingReference: 'C129',
-      venue: 'Room 204',
-      speakers: 'Carol White',
-      organizer: 'Dave Black',
-      status: 'Cancelled',
-      caterer: 'Taco Bell',
-      attendees: 90,
-      date: new Date(2024, 5, 21)
-    },
-    {
-      id: 81,
-      name: 'Software Engineering Conference',
-      eventType: 'Conference',
-      catering_BookingReference: 'C130',
-      venue: 'Main Hall',
-      speakers: 'Eve Green',
-      organizer: 'Frank Blue',
-      status: 'Implementation',
-      caterer: 'Wendys',
-      attendees: 120,
-      date: new Date(2024, 5, 22)
-    },
-    {
-      id: 91,
-      name: 'Full Stack Development Workshop',
-      eventType: 'Workshop',
-      catering_BookingReference: 'C131',
-      venue: 'Lecture Theatre 1',
-      speakers: 'Grace Red',
-      organizer: 'Heidi Yellow',
-      status: 'Ongoing',
-      caterer: 'Pizza Hut',
-      attendees: 70,
-      date: new Date(2024, 5, 23)
-    },
-    {
-      id: 101,
-      name: 'DevOps Summit',
-      eventType: 'Summit',
-      catering_BookingReference: 'C132',
-      venue: 'Conference Room B',
-      speakers: 'Ivan Orange',
-      organizer: 'Judy Purple',
-      status: 'Cancelled',
-      caterer: 'Popeyes',
-      attendees: 110,
-      date: new Date(2024, 5, 24)
-    }
   ];
 
   const navigate = useNavigate();
 
-  for (let index = 0; index < data.length; index++) {
-    data[index].status = 'Preparation';
-    console.log(data[index]);
-    rows.unshift(data[index]);
-  }
-
-  const handleRowClick = (params) => {
+  const handleRowClick = (params: { row: { id: any; }; }) => {
     navigate(`/events/${params.row.id}`);
   };
 

@@ -1,10 +1,10 @@
 import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
 import { Box, Button, Typography } from "@mui/material";
-import React from "react";
+import React, {FC} from "react";
 import { BackButton } from "../../components";
-import TripsTab from "./TripsTab";
+import {TripsTab} from "./TripsTab";
 
-function Trip() {
+export const Trip:FC=()=> {
   return (
     <Box className=" flex  space-x-10">
       <Box className="w-2/3 space-y-10">
@@ -26,5 +26,3 @@ function Trip() {
     </Box>
   );
 }
-
-export default Trip;

@@ -1,9 +1,9 @@
 import { Box, Button } from '@mui/material';
-import React from 'react';
-import PeopleTable from './PeopleTable';
-import PeopleWidgets from './PeopleWidgets';
+import React, { FC } from 'react';
+import {PeopleTable} from './PeopleTable';
+import {PeopleWidgets} from './PeopleWidgets';
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
-function People() {
+export const People:FC=()=> {
   return (
     <Box className="space-y-8 flex flex-col">
       <Button
@@ -19,4 +19,4 @@ function People() {
   );
 }
 
-export default People;
+

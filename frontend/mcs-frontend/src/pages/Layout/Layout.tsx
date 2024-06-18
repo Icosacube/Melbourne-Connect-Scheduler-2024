@@ -1,13 +1,13 @@
 import { Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { SideNavBar, TopNavBar } from '../../components';
+import React,{ FC } from 'react';
 
-function Layout() {
+export const Layout:FC=()=> {
   return (
     <>
       <Box
-        className="bg-backGround flex h-screen
-      ">
+        className="bg-backGround flex h-screen">
         <SideNavBar />
         <Box className=" w-full">
           <TopNavBar />
@@ -21,5 +21,3 @@ function Layout() {
     </>
   );
 }
-
-export default Layout;

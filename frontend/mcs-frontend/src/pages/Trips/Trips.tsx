@@ -1,11 +1,11 @@
 import EditCalendar from '@mui/icons-material/EditCalendar';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { Avatar, Box, Divider, Stack, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { BackButton } from '../../components';
 
-function Trips() {
+export const Trips:FC=()=> {
   return (
     <Box className=" flex space-x-10">
       <Box className="w-2/3 space-y-4">
@@ -21,12 +21,12 @@ function Trips() {
                   <Avatar className="size-20" />
                   <Stack>
                     <Typography variant="h6">John Stevens</Typography>
-                    <Typography variant="h7">Birthday Party</Typography>
+                    <Typography variant="h6">Birthday Party</Typography>
                   </Stack>
                 </Box>
                 <Box>
                   <Typography variant="h6">On-Going</Typography>
-                  <Typography variant="h7">05/07/2001</Typography>
+                  <Typography variant="h6">05/07/2001</Typography>
                 </Box>
               </Box>
             </NavLink>
@@ -43,5 +43,3 @@ function Trips() {
     </Box>
   );
 }
-
-export default Trips;

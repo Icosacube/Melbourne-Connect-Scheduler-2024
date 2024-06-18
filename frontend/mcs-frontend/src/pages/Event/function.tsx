@@ -1,6 +1,8 @@
+import React from 'react';
+import { EventStatus } from '../../types/types';
 import { Chip } from '@mui/material';
 
-export function getStatus(status) {
+export function getStatus(status: EventStatus): React.ReactElement | null {
   switch (status) {
     case 'Completed':
       return <Chip label={status} color="success" variant="outlined" />;
@@ -17,6 +19,6 @@ export function getStatus(status) {
         <Chip label={status} sx={{ color: 'purple', borderColor: 'purple' }} variant="outlined" />
       );
     default:
-      return <></>;
+      return null; // Return null for cases where status does not match any known types
   }
 }

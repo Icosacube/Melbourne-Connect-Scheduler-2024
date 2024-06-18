@@ -1,1 +1,1 @@
-export { default as People } from './People';
+export { People } from './People';

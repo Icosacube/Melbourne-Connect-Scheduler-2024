@@ -1,7 +1,6 @@
-import React from "react";
+import React, { FC } from "react";
 
-function Finance() {
+export const Finance:FC= () => {
   return <div>Finance</div>;
 }
 
-export default Finance;
