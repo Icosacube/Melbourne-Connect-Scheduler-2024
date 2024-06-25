@@ -16,4 +16,16 @@ module.exports = function(app:any) {
         }
     })
 
+    // Create a new event
+    app.post("/event", async (req:any, res:any, next:any) => {
+
+    })
+
+    // Update existing event
+    app.put("/event/:eventID", async (req:any, res:any, next:any) => {
+        req.params.eventID
+    })
+
+    // delete existing event
+    app.delete("/event/:eventID", async (req:any, res:any, next:any) => {})
 }
