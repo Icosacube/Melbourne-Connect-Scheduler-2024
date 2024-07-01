@@ -14,8 +14,8 @@ export const Event:FC=()=> {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const loadedEvent = useLoaderData();
-  const [event, setEvent] = useState(loadedEvent);
+  const loadedEvent = useLoaderData() as EventType;
+  const [event, setEvent] = useState(loadedEvent) ;
 
   const renderTabContent = (event: EventType) => {
     switch (tabName) {

@@ -17,7 +17,7 @@ export const About:FC<AboutProps>=({ event })=> {
           style={{ objectPosition: '50% 75%' }}
         />
 
-        <TitleCard date={event.date.toString()} name={event.name} />
+        <TitleCard date={event.date?.toString()} name={event.name} />
         <Box className=" bg-white rounded-2xl shadow-lg">
           <AboutTable event={event} />
         </Box>
@@ -25,7 +25,7 @@ export const About:FC<AboutProps>=({ event })=> {
       <Box className="w-3/12 bg-white rounded-2xl shadow-lg flex flex-col place-items-center pt-14 ">
         <Avatar className="size-40 mb-4 z-10" />
 
-        {event.speakers.map((speaker: Speaker) => (
+        {event.speakers?.map((speaker: Speaker) => (
           <Typography variant="h4">{speaker.first_name} {speaker.last_name}</Typography>
         ))}
 

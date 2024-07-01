@@ -5,9 +5,10 @@ import {EventsTable} from './EventsTable';
 import EventsWidgets from './EventsWidgets';
 import { useLoaderData } from 'react-router-dom';
 import {CreateEventModal} from './CreateEventModal';
+import { Event } from '../../types/types';
 
 function Events() {
-  const events = useLoaderData();
+  const events = useLoaderData() as Event[];
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -47,7 +48,7 @@ function Events() {
       </Box>
       <Box className="w-full bg-white shadow-md">
         <EventsTable events={events} />
-      </Box>
+      </Box>  
     </>
   );
 }

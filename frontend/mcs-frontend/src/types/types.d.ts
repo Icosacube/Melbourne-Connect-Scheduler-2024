@@ -15,23 +15,24 @@ export type Venue = {
     capacity: number;
 }
 
-enum EventStatus {
+export enum EventStatus {
     Preparation = 'Preparation',
     Implementation = 'Implementation',
     Ongoing = 'Ongoing',
     Completed = 'Completed',
-    Cancelled = 'Cancelled'}
+    Cancelled = 'Cancelled'
+}
 
 export type Event = {
-    id: number;
-    name: string;
-    date: dayjs.Dayjs;
-    venue: Venue[];
-    speakers: Speaker[];
-    description: string;
-    abstract: string;
+    id: string;
+    name?: string;
+    date?: dayjs.Dayjs;
+    venue?: Venue[];
+    speakers?: Speaker[];
+    description?: string;
+    abstract?: string;
     status: EventStatus;
-    catering: Cater;
+    catering?: Cater;
 }
 
 export type Cater= {

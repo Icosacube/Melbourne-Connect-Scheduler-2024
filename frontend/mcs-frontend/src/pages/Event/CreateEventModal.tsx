@@ -1,38 +1,64 @@
-import {
-  Alert,
-  Box,
-  Button,
-  MenuItem,
-  Modal,
-  Select,
-  Slide,
-  Snackbar,
-  Stack,
-  TextField,
-  Typography
-} from '@mui/material';
+import {Alert,Box,Button,MenuItem,Modal,Select,Slide,Snackbar,Stack,TextField,Typography} from '@mui/material';
 import React, { useState } from 'react';
 import createEvent from '../../scripts/createEvent';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
-import 'dayjs/locale/en-au';
 
 interface CreateEventModalProps {
   handleClose: () => void;
   open: boolean;
 }
 
+// These are here because there were some import errors
+
+type Event = {
+  id: string;
+  name?: string;
+  date?: dayjs.Dayjs;
+  venue?: Venue[];
+  speakers?: Speaker[];
+  description?: string;
+  abstract?: string;
+  status: EventStatus;
+  catering?: Cater;
+}
+
+
+ type Speaker = {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+}
+
+ type Venue = {
+    id: number;
+    name: string;
+    location: string;
+    capacity: number;
+}
+
+ enum EventStatus {
+    Preparation = 'Preparation',
+    Implementation = 'Implementation',
+    Ongoing = 'Ongoing',
+    Completed = 'Completed',
+    Cancelled = 'Cancelled'
+}
+
+ type Cater= {
+  id: number;
+  name: string;
+}
+
 export const CreateEventModal: React.FC<CreateEventModalProps> = ({ handleClose, open }) => {
-  const [newEvent, setNewEvent] = useState({
-    speakers: [],
-    venue: '',
-    name: '',
-    talkAbstract: '',
-    eventDescription: '',
-    date: dayjs()
-  });
+  const [newEvent, setNewEvent] = useState<Event>({
+    id: uuidv4(),
+    status: EventStatus.Preparation
+  })
   const [showSuccess, setShowSuccess] = useState(false);
   const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
@@ -43,11 +69,11 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({ handleClose,
     // datepicker already has it
     setNewEvent({ ...newEvent, date: e });
   }
-  const handleSave = () => {
+  const handleSave = async () => {
     setShowSuccess(false);
     handleClose();
     console.log(newEvent);
-    var res = createEvent(newEvent);
+    var res = await createEvent(newEvent);
     if (res) {
       setTimeout(() => {
         setShowSuccess(true);
@@ -135,9 +161,9 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({ handleClose,
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
                   name="eventDescription"
-                  defaultValue={newEvent.eventDescription}
+                  defaultValue={newEvent.description}
                   onChange={handleInputChange}
-                  value={newEvent.eventDescription}
+                  value={newEvent.description}
                   multiline
                 />
               </Stack>
@@ -159,9 +185,9 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({ handleClose,
                 <TextField
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
-                  defaultValue={newEvent.talkAbstract}
+                  defaultValue={newEvent.abstract}
                   multiline
-                  value={newEvent.talkAbstract}
+                  value={newEvent.abstract}
                   onChange={handleInputChange}
                   name="talkAbstract"
                 />

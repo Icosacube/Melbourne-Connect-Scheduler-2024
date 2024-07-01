@@ -15,7 +15,7 @@ export const AboutTable:FC<AboutTableProps>=({ event })=> {
           <Stack className="w-1/2">
             <Typography variant="h6">Host</Typography>
             <Typography className="bg-gray-100 p-4 rounded-xl ">
-              {event.speakers.toString()}
+              {event.speakers?.toString()}
             </Typography>
           </Stack>
           {/* <Stack className="w-1/2">

@@ -1,9 +1,11 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { Event } from '../types/types';
+import { LoaderFunctionArgs } from 'react-router-dom';
 
-export async function loader({id}: {id: number}) {
+export async function loader({ params }: LoaderFunctionArgs): Promise<Event | null> {
   try {
+    const id = String(params.id);
     const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/event');
     const events = res.data;
     var event;
@@ -19,6 +21,9 @@ export async function loader({id}: {id: number}) {
         return event;
       }
     });
+    if (event == null) {
+      return null;
+    }
 
     return event;
   } catch (error) {

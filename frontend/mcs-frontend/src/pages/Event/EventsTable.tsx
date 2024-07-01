@@ -1,9 +1,10 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid,GridFilterItem, GridFilterOperator } from '@mui/x-data-grid';
 import React, {FC} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getStatus } from './function';
 import { Event } from '../../types/types';
+import type { GridColDef } from '@mui/x-data-grid';
 
 
 interface EventsTableProps {
@@ -45,11 +46,11 @@ export const EventsTable:FC<EventsTableProps> = ({ events })=> {
     );
   }
 
-  const statusOnlyOperators = [
+  const statusOnlyOperators: GridFilterOperator<Event, any, any>[] = [
     {
       label: 'Is',
       value: 'is',
-      getApplyFilterFn: (filterItem: { value: any; field: any; }) => {
+      getApplyFilterFn: (filterItem: GridFilterItem) => {
         if (!filterItem.value || !filterItem.field) {
           return null;
         }
@@ -63,7 +64,7 @@ export const EventsTable:FC<EventsTableProps> = ({ events })=> {
     }
   ];
 
-  const columns = [
+  const columns: GridColDef<Event>[] = [
     { field: 'id', headerName: 'ID', headerClassName: 'event-table', flex: 1, width: 50 },
     {
       field: 'name',
@@ -127,8 +128,6 @@ export const EventsTable:FC<EventsTableProps> = ({ events })=> {
       width: 100
     }
   ];
-  const rows = [
-  ];
 
   const navigate = useNavigate();
 
@@ -138,7 +137,7 @@ export const EventsTable:FC<EventsTableProps> = ({ events })=> {
 
   return (
     <DataGrid
-      rows={rows}
+      rows={events}
       columns={columns}
       initialState={{
         pagination: {

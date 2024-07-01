@@ -2,7 +2,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { Event } from '../types/types';
 
-export async function loader() {
+export async function loader(): Promise<Event[] | null>{
   try {
     const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/event');
     const events = res.data;

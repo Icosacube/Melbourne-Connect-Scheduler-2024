@@ -2,7 +2,7 @@ import React from 'react';
 import { EventStatus } from '../../types/types';
 import { Chip } from '@mui/material';
 
-export function getStatus(status: EventStatus): React.ReactElement | null {
+export function getStatus(status: EventStatus | null): React.ReactElement | null {
   switch (status) {
     case 'Completed':
       return <Chip label={status} color="success" variant="outlined" />;
