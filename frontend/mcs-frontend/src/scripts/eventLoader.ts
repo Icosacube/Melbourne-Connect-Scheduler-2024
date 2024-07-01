@@ -12,7 +12,7 @@ export async function loader({ params }: LoaderFunctionArgs): Promise<Event | nu
 
     // Quick and ugly search for now
     events.forEach((obj: Event) => {
-      if (obj.id == id) {
+      if (obj.id === id) {
         event = obj;
         event.date = dayjs(event.date);
         if (event.speakers == null) {
