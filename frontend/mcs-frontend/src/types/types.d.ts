@@ -2,7 +2,7 @@
 import dayjs from 'dayjs';
 
 export type Speaker = {
-    id: number;
+    id: string;
     first_name: string;
     last_name: string;
     email: string;
