@@ -37,7 +37,7 @@ module.exports = function (app: any) {
   app.put("/event/:eventID", async (req: any, res: any, next: any) => {
     if (req.params.eventID >= 0 && eventExists(req.params.eventID)) {
       let body = await req.body
-      let newEvent = new MainEvent(events.length, req=body);
+      let newEvent = new MainEvent(req.params.eventID, req=body);
       const index = events.findIndex((event) => event.id = req.params.eventID)
       events[index] = newEvent
       // assert that the ID remains the same?

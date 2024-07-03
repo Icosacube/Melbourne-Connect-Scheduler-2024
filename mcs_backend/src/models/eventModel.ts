@@ -8,18 +8,13 @@ class MainEvent {
   catering: string;
   venue: string;
 
-  // type guard
+  // type guard (sample for validating request bodies)
   private isNumber(obj: any): obj is number {
     return obj !== undefined;
   }
 
-  constructor(id?: number, req?: any) {
-    if (this.isNumber(id)) {
-      this.id = id;
-    } else {
-      this.id = -1;
-    }
-
+  constructor(id: number, req?: any) {
+    this.id = id;
     this.name = "";
     this.eventAbstract = "";
     this.description = "";
@@ -27,6 +22,7 @@ class MainEvent {
     this.speakers = [];
     this.catering = "";
     this.venue = "";
+    // can't explicitly overload
     if (req != null) {
       for (const [key, value] of Object.entries(req)) {
         switch (key) {
