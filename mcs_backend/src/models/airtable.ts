@@ -74,33 +74,15 @@ export function updateRecord(table: string, record: any[]): void {
     }, function done(err) {
         if (err) { console.error(err); return; }
     });
-
-    // base(table).update([
-    //     {
-    //         "id": "recRNH28QXRrlCCk5",
-    //         "fields": {
-    //             "Guest Speaker": [
-    //                 "receEKIfMHyMAeve9"
-    //             ],
-    //             "Completed": true
-    //         }
-    //     }
-    // ]).then( records => {
-    //     records.forEach(function(record) {
-    //         console.log(record.getId());
-    //     });
-    // }, function done(err) {
-    //     if (err) { console.error(err); return; }
-    // });
 }
 
 
 export function deleteRecords(table: string, records: string[]): void {
-    base(table).destroy(records, (err, deletedRecords:any) => {
+    base(table).destroy(records, (err, deletedRecords) => {
         if (err) {
             console.error(err);
             return;
         }
-        console.log('Deleted', deletedRecords.length, 'records');
+        console.log('Deleted', deletedRecords!.length, 'records');
     });
 }
