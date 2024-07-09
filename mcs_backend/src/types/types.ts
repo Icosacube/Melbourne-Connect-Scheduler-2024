@@ -36,7 +36,7 @@ export type Speaker = {
     Postcode?: string;
     Emergency_Contact_Name: string;	
     Emergency_Contact_Relationship: string;
-    Emergency_Contact_Number: string;
+    Emergency_Contact_Number: Number;
     Flyer_Membership_Name: string;
     Flyer_Membership_Number: string;
     Bio: string;
