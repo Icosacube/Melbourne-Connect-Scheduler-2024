@@ -1,5 +1,6 @@
 import MainEvent from "../models/eventModel";
 
+// TODO: replace with db connection
 const events: MainEvent[] = [new MainEvent(0)];
 
 function eventExists(eventId:number) {
