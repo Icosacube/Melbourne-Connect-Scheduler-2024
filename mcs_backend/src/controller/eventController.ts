@@ -3,8 +3,8 @@ import MainEvent from "../models/eventModel";
 // TODO: replace with db connection
 const events: MainEvent[] = [new MainEvent(0)];
 
-function eventExists(eventId:number) {
-  return events.some((event) => event.id == eventId)
+function eventExists(eventId: number) {
+  return events.some((event) => event.id == eventId);
 }
 
 /**
@@ -26,32 +26,49 @@ module.exports = function (app: any) {
   app.post("/event", async (req: any, res: any, next: any) => {
     // cast request body to Main Event
     try {
-      let body = await req.body
-      let newEvent = new MainEvent(events.length, req=body);
+      let body = await req.body;
+      let newEvent = new MainEvent(events.length, (req = body));
       events.push(newEvent);
       console.log(newEvent);
       res.sendStatus(200);
-    } catch (err) {}
+    } catch (err) {
+      res.sendStatus(400);
+      console.error(err);
+    }
   });
 
   // Update existing event
   app.put("/event/:eventID", async (req: any, res: any, next: any) => {
-    if (req.params.eventID >= 0 && eventExists(req.params.eventID)) {
-      let body = await req.body
-      let newEvent = new MainEvent(req.params.eventID, req=body);
-      const index = events.findIndex((event) => event.id = req.params.eventID)
-      events[index] = newEvent
-      // assert that the ID remains the same?
-      // possible that the ID got updated but what Ever
+    try {
+      if (req.params.eventID >= 0 && eventExists(req.params.eventID)) {
+        let body = await req.body;
+        let newEvent = new MainEvent(req.params.eventID, (req = body));
+        const index = events.findIndex(
+          (event) => (event.id = req.params.eventID)
+        );
+        events[index] = newEvent;
+        // assert that the ID remains the same?
+        // possible that the ID got updated but what Ever
+      }
+    } catch (err) {
+      res.sendStatus(400);
+      console.error(err);
     }
   });
 
   // delete existing event
   app.delete("/event/:eventID", async (req: any, res: any, next: any) => {
-    if (req.params.eventID >= 0 && eventExists(req.params.eventID)) {
-      // find its index in the array
-      const index = events.findIndex((event) => event.id = req.params.eventID)
-      events.splice(index, 1)
+    try {
+      if (req.params.eventID >= 0 && eventExists(req.params.eventID)) {
+        // find its index in the array
+        const index = events.findIndex(
+          (event) => (event.id = req.params.eventID)
+        );
+        events.splice(index, 1);
+      }
+    } catch (err) {
+      res.sendStatus(400);
+      console.error(err);
     }
   });
 };

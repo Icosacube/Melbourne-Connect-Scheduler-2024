@@ -9,7 +9,7 @@ module.exports = function (app: any) {
         try {
             res.json(speakers)
         } catch (err) {
-            res.sendStatus(404);
+            res.sendStatus(400);
             console.error(err);
         }
     })
@@ -21,7 +21,10 @@ module.exports = function (app: any) {
             let newSpeaker = new Speaker(speakers.length, req=body);
             speakers.push(newSpeaker);
             console.log(newSpeaker);
-            res.sendStatus(200);
-          } catch (err) {}
+            res.sendStatus(201);
+          } catch (err) {
+            res.sendStatus(400);
+            console.error(err);
+          }
     })
 }
