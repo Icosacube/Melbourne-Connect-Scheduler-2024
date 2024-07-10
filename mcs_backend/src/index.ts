@@ -2,6 +2,8 @@ import express, { Application, Request, Response } from 'express';
 import path from 'node:path';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
+import cors from 'cors';
+
 
 import { 
     getTable,
@@ -19,14 +21,16 @@ import {
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
-// app.use(express.static(path.resolve(__dirname, '../game-101/build')));
-app.use(bodyParser.json({limit: '200mb'})); //, type:'*/json'})); //! test to see if needed
+
+app.use(cors())
+app.use(bodyParser.json({limit: '200mb'})); 
 app.use(bodyParser.urlencoded({limit: "200mb", extended: true, parameterLimit:100000}));
 app.use(bodyParser.text({ limit: '2000mb' }));
 
+require('./controller/events')(app);
 
 app.get('*', (req: Request, res: Response) => {
-  res.sendFile(path.resolve(__dirname, )); // '../game-101/build/index.html')); //! Change to Frontend index (home) page 
+  res.sendFile(path.resolve(__dirname, )); //! Change to Frontend index (home) page 
 });
 
 app.set('port', process.env.PORT || 4000);
@@ -57,3 +61,4 @@ app.listen(app.get('port'), async () => {
 });
 
 export default app;
+
