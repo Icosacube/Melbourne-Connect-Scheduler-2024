@@ -36,15 +36,15 @@ let trip = String(process.env.TRIP);
 let test : TableFields = {
   "id": "receTHv9Ryfr4RSI2",
   "fields": {
-    "Guest_Speaker": [
+    "GuestSpeaker": [
       "reclU2YPWmZwKE8Hd"
     ],
     "StartDate": "2024-04-01",
     "EndDate": "2024-04-30",
     "Accommodation": [],
-    "Local_Transport": [],
+    "Miscellaneous": [],
     "Flight": [],
-    "Academic_Canvassing": [],
+    "AcademicCanvassing": [],
     "Completed": false,
   }
 };
