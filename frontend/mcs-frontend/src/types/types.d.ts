@@ -39,3 +39,10 @@ export type Cater= {
     id: number;
     name: string;
 }
+
+export type Trip = {
+    id: string;
+    event?: Event;
+    date?: dayjs.Dayjs;
+    speaker?: Speaker;
+}
