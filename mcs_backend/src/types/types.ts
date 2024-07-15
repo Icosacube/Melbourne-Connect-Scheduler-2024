@@ -10,7 +10,7 @@ export type Creation = {
 }
 
 export type TableFields = {
-    id: string;
+    id?: string;
     fields: Speaker | Trip | MainEvent | SubEvent | Academic | Accommodation |
     Miscellaneous | Flight | Venue | Catering | Service | FundingAccount | 
     Canvassing;

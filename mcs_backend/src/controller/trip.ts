@@ -39,7 +39,7 @@ router.get('/trip/:speaker_id', async (req, res) => {
     
     trips.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields);
-      if (plainFields.Guest_Speaker && plainFields.Guest_Speaker.includes(speaker_id)) {
+      if (plainFields.GuestSpeaker && plainFields.GuestSpeaker.includes(speaker_id)) {
         guestSpeakerTrips.push({ id, fields: plainFields });
       }
     });
@@ -57,15 +57,15 @@ router.post('/trip/:speaker_id', async (req, res) => {
   const newTrip: Trip = req.body as Trip; 
   const { speaker_id } = req.params;
   newTrip.GuestSpeaker = [speaker_id];
-
+  console.log("newtrip:",newTrip)
   const tableFields: TableFields = {
-    id: '', 
+    // id: '', 
     fields: newTrip
   };
-
+  console.log("tableFields:",tableFields)
   try {
     await createRecord('Trip', [tableFields]);
-    res.status(201).json({ message: 'Trip created successfully' });
+    res.status(200).json({ message: 'Trip created successfully' });
   } catch (error) {
     console.error("Failed to create trip:", error);
     res.status(500).json({ error: 'Failed to create trip' });
