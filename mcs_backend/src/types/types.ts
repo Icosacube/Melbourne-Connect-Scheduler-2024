@@ -109,16 +109,17 @@ export type Accommodation = {
 
 export type Flight = {
     FlightReference: string;
-    Airlines: string;
+    Airline: string;
     FlightNumber: string;
     DepartureFrom: String;
     ArrivedTo: String;
     DepartDate: string;
     ArriveDate: string;
     Cost: number;
-    ReturnFlight: string[];
-    FundingAccount: string[];
     Trip: string[];
+    FundingAccount: string[];
+    Returnflight: string[];
+    
 }
 
 export type Miscellaneous = {

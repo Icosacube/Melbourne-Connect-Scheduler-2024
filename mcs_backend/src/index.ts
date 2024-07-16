@@ -23,6 +23,8 @@ const tripRouter = require('./controller/trip');
 const accommodationRouter = require('./controller/accomodation');
 const miscellaneousRouter = require('./controller/miscellaneous');
 const flightRouter = require('./controller/flight'); 
+const academicRouter = require('./controller/academic'); 
+const canvassingRouter = require('./controller/Canvassing'); 
 const app = express();
 
 app.use(cors())
@@ -35,6 +37,8 @@ app.use('/', tripRouter);
 app.use('/', accommodationRouter);
 app.use('/', miscellaneousRouter);
 app.use('/', flightRouter);
+app.use('/', academicRouter);
+app.use('/', canvassingRouter);
 app.get('*', (req: Request, res: Response) => {
   res.sendFile(path.resolve(__dirname, )); //! Change to Frontend index (home) page 
 });

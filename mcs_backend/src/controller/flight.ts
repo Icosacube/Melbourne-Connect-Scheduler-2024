@@ -48,15 +48,16 @@ router.get('/:tripID/flight', async (req, res) => {
     }
   });
 router.post('/:tripID/flight', async (req, res) => {
+    const tripID = req.params.tripID;
     const newFlight : Flight  = req.body;
-
+    newFlight.Trip = [tripID];
     const FlightRecord = {
         fields: newFlight 
     };
 
     try {
         await createRecord('Flight', [FlightRecord]);
-        res.status(201).json({ message: 'flight created successfully' });
+        res.status(200).json({ message: 'flight created successfully' });
     } catch (error) {
         console.error("Failed to create flight:", error);
         res.status(500).json({ error: 'Failed to create flight' });

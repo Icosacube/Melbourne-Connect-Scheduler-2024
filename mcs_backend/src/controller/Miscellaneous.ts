@@ -50,8 +50,9 @@ router.get('/:tripID/miscellaneous', async (req, res) => {
 });
 
 router.post('/:tripID/miscellaneous', async (req, res) => {
+  const tripID = req.params.tripID;
   const newMiscellaneousItem: Miscellaneous = req.body;
-
+  newMiscellaneousItem.Trip = [tripID];
   const miscellaneousRecord = {
     fields: newMiscellaneousItem 
   };

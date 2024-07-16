@@ -26,7 +26,7 @@ router.get('/accommodation', async (req, res) => {
   }
 });
 
-router.get('/accommodation/:tripID', async (req, res) => {
+router.get('/:tripID/accommodation', async (req, res) => {
   const { tripID } = req.params;
 
   try {
@@ -50,7 +50,7 @@ router.get('/accommodation/:tripID', async (req, res) => {
   }
 });
 
-router.post('/accommodation/:tripID', async (req, res) => {
+router.post('/:tripID/accommodation', async (req, res) => {
   const newAccommodation: Accommodation = req.body;
   const { tripID } = req.params;
   newAccommodation.Trip = [tripID];
