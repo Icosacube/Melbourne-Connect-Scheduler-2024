@@ -46,21 +46,10 @@ export async function getTable(table: string, filter: string = ""): Promise<Map<
 export async function getRecord(table: string, id: string): Promise<Map<string, any>> {
     let retrieved = new Map<string, any>();
 
-    await new Promise<void>((resolve, reject) => {
-        base(table).find(id, function(err, record) {
-            if (err) {
-                console.error("Error fetching record:", err);
-                reject(err);
-            } else {
-                if (record) {
-                    retrieved.set(record["id"], new Map(Object.entries(record["fields"])));
-                    console.log("Retrieved record:", record);
-                } else {
-                    console.log(`Record with ID ${id} not found.`);
-                }
-                resolve();
-            }
-        });
+    await base(table).find(id, function(err, record) {
+        if (err) { console.error(err); return; }
+        retrieved.set(record!["id"], new Map(Object.entries(record!["fields"])));
+        console.log(retrieved.keys());
     });
 
     return retrieved;
