@@ -11,8 +11,8 @@ import {
     createRecord,
     updateRecord,
     deleteRecords
-
   } from './models/airtable';
+
 import { 
     PresetFilter,
     TableFields
@@ -67,7 +67,7 @@ app.listen(app.get('port'), async () => {
   console.log(`Express web app available at localhost: ${app.get('port')}`);
   // console.log( await getTable(speaker));
   // console.log( await getTable(trip, PresetFilter.completed));
-  console.log( await updateRecord(trip, [test]));
+  // console.log( await updateRecord(trip, [test]));
 });
 
 export default app;

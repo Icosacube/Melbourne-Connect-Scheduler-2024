@@ -118,7 +118,7 @@ export type Flight = {
     Cost: number;
     Trip: string[];
     FundingAccount: string[];
-    Returnflight: string[];
+    ReturnFlight: string[];
     
 }
 
