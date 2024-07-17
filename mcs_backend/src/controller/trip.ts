@@ -1,0 +1,109 @@
+import express from 'express';
+
+import { 
+  getTable,
+  getRecord,
+  createRecord,
+  updateRecord,
+  deleteRecords
+
+} from '../models/airtable';
+import { 
+  PresetFilter,
+  TableFields
+} from '../types/types';
+import { Trip } from '../types/types';
+const router = express.Router();
+
+router.get('/trip', async (req, res) => {
+  try {
+    const trips = await getTable('Trip', "");
+    const formattedtrips: { id: string, fields: any }[] = [];
+    trips.forEach((fields, id) => {
+      const plainFields = Object.fromEntries(fields); 
+      formattedtrips.push({ id, fields: plainFields });
+      console.log(`ID: ${id}, Fields:`, plainFields);
+    });
+    res.json(formattedtrips);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/trip/:speaker_id', async (req, res) => {
+  const { speaker_id} = req.params;
+
+  try {
+    const trips = await getTable('Trip', "");
+    const guestSpeakerTrips: { id: string, fields: any }[] = [];
+    
+    trips.forEach((fields, id) => {
+      const plainFields = Object.fromEntries(fields);
+      if (plainFields.GuestSpeaker && plainFields.GuestSpeaker.includes(speaker_id)) {
+        guestSpeakerTrips.push({ id, fields: plainFields });
+      }
+    });
+    if (guestSpeakerTrips.length === 0) {
+      return res.status(404).json({ message: 'No trips found for this guest speaker' });
+    }
+
+    res.json(guestSpeakerTrips);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/trip/:speaker_id', async (req, res) => {
+  const newTrip: Trip = req.body as Trip; 
+  const { speaker_id } = req.params;
+  newTrip.GuestSpeaker = [speaker_id];
+  console.log("newtrip:",newTrip)
+  const tableFields: TableFields = {
+    // id: '', 
+    fields: newTrip
+  };
+  console.log("tableFields:",tableFields)
+  try {
+    await createRecord('Trip', [tableFields]);
+    res.status(200).json({ message: 'Trip created successfully' });
+  } catch (error) {
+    console.error("Failed to create trip:", error);
+    res.status(500).json({ error: 'Failed to create trip' });
+  }
+});
+
+router.put('/trip/:trip_record_id', async (req, res) => {
+  const { trip_record_id } = req.params;
+  const updatedTrip: Trip = req.body as Trip;
+
+  const recordToUpdate = [{
+    id: trip_record_id,
+    fields: updatedTrip
+  }];
+
+  try {
+    await updateRecord('Trip', recordToUpdate);
+    res.status(200).json({ message: 'Trip updated successfully' });
+  } catch (error) {
+    console.error("Failed to update trip:", error);
+    res.status(500).json({ error: 'Failed to update trip' });
+  }
+});
+router.delete('/trip/:trip_record_id', async (req, res) => {
+  const { trip_record_id } = req.params;
+
+  try {
+    await deleteRecords('Trip', [trip_record_id]);
+    res.status(200).json({ message: 'Trip deleted successfully' });
+  } catch (error) {
+    console.error("Failed to delete trip:", error);
+    res.status(500).json({ error: 'Failed to delete trip' });
+  }
+});
+module.exports = router;
+
+
+
+
+
+
