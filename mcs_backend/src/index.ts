@@ -47,29 +47,8 @@ app.get('*', (req: Request, res: Response) => {
 
 app.set('port', process.env.PORT || 4000);
 
-let speaker = String(process.env.SPEAKERS);
-let trip = String(process.env.TRIP);
-let test : TableFields = {
-  "id": "receTHv9Ryfr4RSI2",
-  "fields": {
-    "GuestSpeaker": [
-      "reclU2YPWmZwKE8Hd"
-    ],
-    "StartDate": "2024-04-01",
-    "EndDate": "2024-04-30",
-    "Accommodation": [],
-    "Miscellaneous": [],
-    "Flight": [],
-    "AcademicCanvassing": [],
-    "Completed": false,
-  }
-};
-
 app.listen(app.get('port'), async () => {
   console.log(`Express web app available at localhost: ${app.get('port')}`);
-  // console.log( await getTable(speaker));
-  // console.log( await getTable(trip, PresetFilter.completed));
-  // console.log( await updateRecord(trip, [test]));
 });
 
 export default app;
