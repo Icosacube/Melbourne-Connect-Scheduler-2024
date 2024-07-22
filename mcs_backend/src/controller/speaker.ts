@@ -42,6 +42,22 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+//   router.get('/speakers/:speaker_record_id', async (req, res) => {
+//     const { speaker_record_id } = req.params;
+    
+//     try {
+//         const speakerRecord = await getRecord('Speakers', speaker_record_id);
+
+//         if (speakerRecord.size === 0) {
+//             return res.status(404).json({ message: 'Speaker not found' });
+//         }
+        
+//         res.json(Object.fromEntries(speakerRecord));
+//     } catch (error) {
+//         console.error("Error fetching speaker:", error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
 
   router.post('/speakers', async (req, res) => {
     const newSpeakerItem: Speaker = req.body;

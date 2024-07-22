@@ -73,6 +73,7 @@ export type MainEvent = {
     Venue: string[];
     Service: string[];
     Completed: boolean;
+    Trip: string[]; 
 }
 
 export type SubEvent = {
