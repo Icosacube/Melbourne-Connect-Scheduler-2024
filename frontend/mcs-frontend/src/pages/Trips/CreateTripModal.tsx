@@ -1,5 +1,6 @@
-import { Alert, Box, Button, MenuItem, Modal, Paper, Select, SelectChangeEvent, Slide, Snackbar, Grid, TextField, Typography } from '@mui/material';
-import React, { ChangeEvent, useState } from 'react';
+import { Alert, Button, MenuItem, Modal, Paper, Select, SelectChangeEvent, Slide, Snackbar, Grid, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import createTrip from '../../scripts/createTrip';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -13,8 +14,8 @@ interface CreateTripModalProps {
 
 type Trip = {
   id: string;
-  event?: string;
-  speaker?: string;
+  event_id?: string;
+  speaker_id?: string;
   startDate?: dayjs.Dayjs;
   //add more
 }
@@ -36,17 +37,20 @@ type Event = {
 export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, open }) => {
   const [newTrip, setNewTrip] = useState<Trip>({
     id: uuidv4(),
+    speaker_id: String(),
+    event_id: String(),
+    // ADD MORE FIELDS
   });
   const [showSuccess, setShowSuccess] = useState(false);
 
   const handleEventChange = (event: SelectChangeEvent<string>) => {
     const selectedEventId = event.target.value as string;
-    setNewTrip({ ...newTrip, event: selectedEventId });
+    setNewTrip({ ...newTrip, event_id: selectedEventId });
   };
 
   const handleSpeakerChange = (event: SelectChangeEvent<string>) => {
     const selectedSpeakerId = event.target.value as string;
-    setNewTrip({ ...newTrip, speaker: selectedSpeakerId });
+    setNewTrip({ ...newTrip, speaker_id: selectedSpeakerId });
   };
 
   const handleDateChange = (date: dayjs.Dayjs | null) => {
@@ -56,6 +60,8 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
   const onClose = () => {
     setNewTrip({
       id: uuidv4(),
+      speaker_id: String(),
+      event_id: String(),
       // ADD MORE FIELDS
     });
     handleClose();
@@ -66,14 +72,15 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
     handleClose();
     console.log(newTrip);
 
-    const res = true; // await createTrip(newTrip);
+    const res = await createTrip(newTrip);
 
     if (res) {
       // handle success
       // reset useState variables
       setNewTrip({
         id: uuidv4(),
-        // ADD MORE FIELDS
+        speaker_id: String(),
+        event_id: String(),
       });
 
       // display success message
@@ -135,7 +142,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
                 <Typography variant="h6">Event</Typography>
                 <Select
                     fullWidth
-                    value={newTrip.speaker || ''}
+                    value={newTrip.event_id || ''}
                     onChange={handleEventChange}
                     name="event">
                     {events.map((event) => (
@@ -147,7 +154,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
                 <Typography variant="h6">Speaker</Typography>
                   <Select
                     fullWidth
-                    value={newTrip.speaker || ''}
+                    value={newTrip.speaker_id || ''}
                     onChange={handleSpeakerChange}
                     name="speaker">
                     {speakers.map((speaker) => (

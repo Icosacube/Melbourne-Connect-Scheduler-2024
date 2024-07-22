@@ -42,7 +42,8 @@ export type Cater= {
 
 export type Trip = {
     id: string;
-    event?: Event;
-    date?: dayjs.Dayjs;
-    speaker?: Speaker;
-}
+    event_id?: string;
+    speaker_id?: string;
+    startDate?: dayjs.Dayjs;
+    //add more
+  }
