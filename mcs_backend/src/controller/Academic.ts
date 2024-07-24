@@ -25,5 +25,27 @@ router.get('/academic', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+router.get('/:canvassingID/Academic', async (req, res) => {
+  const { canvassingID } = req.params;
 
+  try {
+    const Canvassing = await getTable('Academic', "");
+    const academicCanvassing: { id: string, fields: any }[] = [];
+
+    Canvassing.forEach((fields, id) => {
+      const plainFields = Object.fromEntries(fields);
+      if (plainFields.Canvassing && plainFields.Canvassing.includes(canvassingID)) {
+        academicCanvassing.push({ id, fields: plainFields });
+      }
+    });
+
+    if (academicCanvassing.length === 0) {
+      return res.status(404).json({ message: 'No Canvassing found for this academic' });
+    }
+
+    res.json(academicCanvassing);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 module.exports = router;
