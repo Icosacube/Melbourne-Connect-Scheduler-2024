@@ -24,25 +24,28 @@ jobs:
         with:
           node-version: '20'
 
-      - name: navigate to directory
-        run: cd frontend/mcs-frontend 
-
       - name: Install dependencies
+        working-directory: /frontend/mcs-frontend
         run: npm install
 
       - name: Lint code
+        working-directory: /frontend/mcs-frontend
         run: npm run lint
 
       - name: Fix lint issues
+        working-directory: /frontend/mcs-frontend
         run: npm run lint:fix
 
       - name: Format code
+        working-directory: /frontend/mcs-frontend
         run: npm run format
 
       - name: Run tests
+        working-directory: /frontend/mcs-frontend
         run: npm run test -- --watchAll=false
 
       - name: Build frontend
+        working-directory: /frontend/mcs-frontend
         run: npm run build
 
       - name: Upload build artifacts
