@@ -9,10 +9,11 @@ import {
 import { TableFields, Speaker } from '../types/types';
 
 const router = express.Router();
+const speakerTable = String(process.env.SPEAKERS);
 
 router.get('/speakers', async (req, res) => {
   try {
-    const speakerItems = await getTable(String(process.env.SPEAKERS), "");
+    const speakerItems = await getTable(speakerTable, "");
     const formattedSpeakers: { id: string, fields: any }[] = [];
     speakerItems.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields);
@@ -29,7 +30,7 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
     const { speaker_record_id } = req.params;
     
     try {
-      const speakerRecord = await getRecord(String(process.env.SPEAKERS), speaker_record_id);
+      const speakerRecord = await getRecord(speakerTable, speaker_record_id);
       
       if (!speakerRecord) {
         return res.status(404).json({ message: 'Speaker not found' });
@@ -51,7 +52,7 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
     };
   
     try {
-      await createRecord(String(process.env.SPEAKERS), [speakerRecord]);
+      await createRecord(speakerTable, [speakerRecord]);
       res.status(200).json({ message: 'Speaker created successfully' });
     } catch (error) {
       console.error("Failed to create speaker:", error);
@@ -69,7 +70,7 @@ router.put('/speakers/:speaker_record_id', async (req, res) => {
   }];
 
   try {
-    await updateRecord(String(process.env.SPEAKERS), recordToUpdate);
+    await updateRecord(speakerTable, recordToUpdate);
     res.status(200).json({ message: 'Speaker updated successfully' });
   } catch (error) {
     console.error("Failed to update speaker:", error);
@@ -81,7 +82,7 @@ router.delete('/speakers/:speaker_record_id', async (req, res) => {
   const { speaker_record_id } = req.params;
 
   try {
-    await deleteRecords(String(process.env.SPEAKERS), [speaker_record_id]);
+    await deleteRecords(speakerTable, [speaker_record_id]);
     res.status(200).json({ message: 'Speaker deleted successfully' });
   } catch (error) {
     console.error("Failed to delete speaker:", error);
