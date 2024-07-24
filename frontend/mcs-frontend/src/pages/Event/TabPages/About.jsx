@@ -2,7 +2,7 @@ import { Avatar, Box, Paper, Typography } from '@mui/material';
 import React from 'react';
 import AboutTable from './AboutTable';
 import TitleCard from './TitleCard';
-import EventBanner from '../../../assets/event-banner.jpg';
+// import EventBanner from '../../../assets/event-banner.jpg';
 
 function About({ event }) {
   return (

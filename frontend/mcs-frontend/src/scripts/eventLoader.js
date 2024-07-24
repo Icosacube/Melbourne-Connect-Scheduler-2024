@@ -9,7 +9,7 @@ export async function loader({ params }) {
 
     // Quick and ugly search for now
     events.forEach((obj) => {
-      if (obj.id == params.id) {
+      if (obj.id === params.id) {
         event = obj;
         event.date = dayjs(event.date);
         if (event.speakers == null) {
