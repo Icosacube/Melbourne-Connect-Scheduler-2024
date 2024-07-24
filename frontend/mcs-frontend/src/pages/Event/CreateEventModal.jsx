@@ -21,7 +21,7 @@ import 'dayjs/locale/en-au';
 
 function CreateEventModal({ handleClose, open }) {
   const [newEvent, setNewEvent] = useState({
-    speakers: [],
+    Speaker: [],
     venue: '',
     name: '',
     talkAbstract: '',
@@ -87,10 +87,10 @@ function CreateEventModal({ handleClose, open }) {
                   <Box className="bg-gray-100 p-4 rounded-xl ">
                     <Select
                       fullWidth
-                      defaultValue={newEvent.speakers}
-                      value={newEvent.speakers}
+                      defaultValue={newEvent.Speaker}
+                      value={newEvent.Speaker}
                       onChange={handleInputChange}
-                      name="speakers"
+                      name="Speaker"
                       multiple>
                       {speakers.map((speaker) => (
                         <MenuItem value={speaker}>{speaker}</MenuItem>
