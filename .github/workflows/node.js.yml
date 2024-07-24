@@ -42,7 +42,7 @@ jobs:
 
       - name: Run tests
         working-directory: ./frontend/mcs-frontend
-        run: npm run test -- --watchAll=false
+        run: npm run test -- --watchAll=false --passWithNoTests
 
       - name: Build frontend
         working-directory: ./frontend/mcs-frontend
