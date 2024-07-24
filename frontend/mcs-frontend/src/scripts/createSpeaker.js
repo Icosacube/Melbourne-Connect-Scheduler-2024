@@ -1,1 +1,1 @@
-export default async function createSpeaker(data) {}
+export default async function createSpeaker() {}
