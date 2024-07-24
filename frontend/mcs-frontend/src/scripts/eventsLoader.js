@@ -13,6 +13,6 @@ export async function loader() {
     console.log(events);
     return events;
   } catch (error) {
-    return null;
+    return {};
   }
 }

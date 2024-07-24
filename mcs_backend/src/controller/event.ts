@@ -35,7 +35,7 @@ router.post("/event", async (req, res) => {
       fields: newEvent,
     };
 
-    await createRecord("MainEvent", [eventRecord]);
+    await createRecord(String(process.env.MAINEVENT), [eventRecord]);
     res.status(200).json({ message: "Event created successfully" });
   } catch (err) {
     console.error(err);
