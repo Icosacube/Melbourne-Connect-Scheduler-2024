@@ -24,10 +24,11 @@ jobs:
         with:
           node-version: '20'
 
+      - name: navigate to directory
+        run: cd frontend/mcs-frontend 
+
       - name: Install dependencies
-        run: > 
-         cd frontend/mcs-frontend 
-         npm install
+        run: npm install
 
       - name: Lint code
         run: npm run lint
