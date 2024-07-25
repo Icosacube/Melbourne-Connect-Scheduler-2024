@@ -43,7 +43,7 @@ router.get('/event/:speaker_id', async (req, res) => {
       }
     });
     if (events.length === 0) {
-      return res.status(404).json({ message: 'No events found for this guest speaker' });
+      return res.status(404).json({ message: 'No main events found for this guest speaker' });
     }
 
     res.json(events);
@@ -80,10 +80,10 @@ router.put("/event/:eventID", async (req, res) => {
 
   try {
     await updateRecord(mainEventTable, [updatedRecord]);
-    res.status(200).json({ message: "Event updated successfully" });
+    res.status(200).json({ message: "main Event updated successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Event could not be updated" });
+    res.status(500).json({ message: "main Event could not be updated" });
   }
 });
 
@@ -91,10 +91,10 @@ router.delete("/event/:eventID", async (req, res) => {
   const { eventID } = req.params;
   try {
     await deleteRecords(mainEventTable, [eventID]);
-    res.status(200).json({ message: "Event deleted successfully" });
+    res.status(200).json({ message: "main Event deleted successfully" });
   } catch (err) {
-    console.error("Failed to delete flight:", err);
-    res.status(500).json({ error: "Failed to delete flight" });
+    console.error("Failed to delete main event:", err);
+    res.status(500).json({ error: "Failed to delete main event" });
   }
 });
 
