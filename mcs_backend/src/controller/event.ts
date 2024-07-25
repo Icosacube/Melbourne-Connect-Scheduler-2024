@@ -7,13 +7,16 @@ import {
   updateRecord,
   deleteRecords,
 } from "../models/airtable";
-
+import { 
+  PresetFilter,
+  TableFields
+} from '../types/types';
 const router = express.Router();
 
-// get all events
+const mainEventTable = String(process.env.MAINEVENT)
 router.get("/event", async (req, res) => {
   try {
-    const events = await getTable("MainEvent", "");
+    const events = await getTable(mainEventTable, "");
     const formattedEvents: { id: string; fields: any }[] = [];
     events.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields);
@@ -26,24 +29,46 @@ router.get("/event", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+router.get('/event/:speaker_id', async (req, res) => {
+  const { speaker_id} = req.params;
 
-// create new event
-router.post("/event", async (req, res) => {
   try {
-    const newEvent: MainEvent = req.body;
-    const eventRecord = {
-      fields: newEvent,
-    };
+    const trips = await getTable(mainEventTable, "");
+    const events: { id: string, fields: any }[] = [];
+    
+    trips.forEach((fields, id) => {
+      const plainFields = Object.fromEntries(fields);
+      if (plainFields.Speaker && plainFields.Speaker.includes(speaker_id)) {
+        events.push({ id, fields: plainFields });
+      }
+    });
+    if (events.length === 0) {
+      return res.status(404).json({ message: 'No events found for this guest speaker' });
+    }
 
-    await createRecord(String(process.env.MAINEVENT), [eventRecord]);
-    res.status(200).json({ message: "Event created successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Event could not be created" });
+    res.json(events);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+router.post('/event/:speaker_id', async (req, res) => {
+  const newMainEvent: MainEvent = req.body as MainEvent; 
+  const { speaker_id } = req.params;
+  newMainEvent.Speaker = [speaker_id];
+  const tableFields: TableFields = {
+    // id: '', 
+    fields: newMainEvent
+  };
+  console.log("tableFields:",tableFields)
+  try {
+    await createRecord(mainEventTable, [tableFields]);
+    res.status(200).json({ message: 'new Main Event created successfully' });
+  } catch (error) {
+    console.error("Failed to create new MainEvent:", error);
+    res.status(500).json({ error: 'Failed to create new Main Event' });
   }
 });
 
-// update event with givent event ID
 router.put("/event/:eventID", async (req, res) => {
   const { eventID } = req.params;
   const updatedEvent: MainEvent = req.body;
@@ -54,7 +79,7 @@ router.put("/event/:eventID", async (req, res) => {
   };
 
   try {
-    await updateRecord("MainEvent", [updatedRecord]);
+    await updateRecord(mainEventTable, [updatedRecord]);
     res.status(200).json({ message: "Event updated successfully" });
   } catch (err) {
     console.error(err);
@@ -62,11 +87,10 @@ router.put("/event/:eventID", async (req, res) => {
   }
 });
 
-// delete specific event
 router.delete("/event/:eventID", async (req, res) => {
   const { eventID } = req.params;
   try {
-    await deleteRecords("MainEvent", [eventID]);
+    await deleteRecords(mainEventTable, [eventID]);
     res.status(200).json({ message: "Event deleted successfully" });
   } catch (err) {
     console.error("Failed to delete flight:", err);
@@ -76,65 +100,3 @@ router.delete("/event/:eventID", async (req, res) => {
 
 module.exports = router;
 
-// module.exports = function (app: any) {
-//   // Get all events
-//   app.get("/event", async (req: any, res: any, next: any) => {
-//     console.log("get all events");
-//     try {
-//       res.json(events);
-//     } catch (err) {
-//       res.sendStatus(404);
-//       console.error(err);
-//     }
-//   });
-
-//   // Create a new event
-//   app.post("/event", async (req: any, res: any, next: any) => {
-//     // cast request body to Main Event
-//     try {
-//       let body = await req.body;
-//       let newEvent = new MainEvent(events.length, (req = body));
-//       events.push(newEvent);
-//       console.log(newEvent);
-//       res.sendStatus(200);
-//     } catch (err) {
-//       res.sendStatus(400);
-//       console.error(err);
-//     }
-//   });
-
-//   // Update existing event
-//   app.put("/event/:eventID", async (req: any, res: any, next: any) => {
-//     try {
-//       if (req.params.eventID >= 0 && eventExists(req.params.eventID)) {
-//         let body = await req.body;
-//         let newEvent = new MainEvent(req.params.eventID, (req = body));
-//         const index = events.findIndex(
-//           (event) => (event.id = req.params.eventID)
-//         );
-//         events[index] = newEvent;
-//         // assert that the ID remains the same?
-//         // possible that the ID got updated but what Ever
-//       }
-//     } catch (err) {
-//       res.sendStatus(400);
-//       console.error(err);
-//     }
-//   });
-
-//   // delete existing event
-//   app.delete("/event/:eventID", async (req: any, res: any, next: any) => {
-//     try {
-//       if (req.params.eventID >= 0 && eventExists(req.params.eventID)) {
-//         // find its index in the array
-//         const index = events.findIndex(
-//           (event) => (event.id = req.params.eventID)
-//         );
-//         events.splice(index, 1);
-//       }
-//     } catch (err) {
-//       res.sendStatus(400);
-//       console.error(err);
-//     }
-//   });
-// };

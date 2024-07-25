@@ -26,7 +26,7 @@ const flightRouter = require('./controller/flight');
 const academicRouter = require('./controller/academic'); 
 const canvassingRouter = require('./controller/Canvassing'); 
 const speakerRouter = require('./controller/speaker'); 
-const eventRouter = require('../src/controller/event')
+const eventRouter = require('./controller/event')
 const app = express();
 
 app.use(cors())
