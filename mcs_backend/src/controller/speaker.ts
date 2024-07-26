@@ -10,9 +10,10 @@ import { Speaker } from '../types/types';
 
 const router = express.Router();
 //get all speakers
+const SpeakersTable = String(process.env.SPEAKERS)
 router.get('/speakers', async (req, res) => {
   try {
-    const speakerItems = await getTable('Speakers', "");
+    const speakerItems = await getTable(SpeakersTable, "");
     const formattedSpeakers: { id: string, fields: any }[] = [];
     speakerItems.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields);
@@ -29,7 +30,7 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
     const { speaker_record_id } = req.params;
     
     try {
-      const speakers = await getTable('Speakers', `RECORD_ID() = '${speaker_record_id}'`);
+      const speakers = await getTable(SpeakersTable, `RECORD_ID() = '${speaker_record_id}'`);
       const speakerRecord = speakers.get(speaker_record_id);
   
       if (!speakerRecord) {
@@ -50,7 +51,7 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
     };
   
     try {
-      await createRecord('Speakers', [speakerRecord]);
+      await createRecord(SpeakersTable, [speakerRecord]);
       res.status(200).json({ message: 'Speaker created successfully' });
     } catch (error) {
       console.error("Failed to create speaker:", error);
@@ -68,7 +69,7 @@ router.put('/speakers/:speaker_record_id', async (req, res) => {
   }];
 
   try {
-    await updateRecord('Speakers', recordToUpdate);
+    await updateRecord(SpeakersTable, recordToUpdate);
     res.status(200).json({ message: 'Speaker updated successfully' });
   } catch (error) {
     console.error("Failed to update speaker:", error);
@@ -80,7 +81,7 @@ router.delete('/speakers/:speaker_record_id', async (req, res) => {
   const { speaker_record_id } = req.params;
 
   try {
-    await deleteRecords('Speakers', [speaker_record_id]);
+    await deleteRecords(SpeakersTable, [speaker_record_id]);
     res.status(200).json({ message: 'Speaker deleted successfully' });
   } catch (error) {
     console.error("Failed to delete speaker:", error);

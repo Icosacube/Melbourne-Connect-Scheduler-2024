@@ -14,10 +14,11 @@ import {
 } from '../types/types';
 import { Trip } from '../types/types';
 const router = express.Router();
+const TripTable = String(process.env.TRIP)
 //get all trips
 router.get('/trip', async (req, res) => {
   try {
-    const trips = await getTable('Trip', "");
+    const trips = await getTable(TripTable, "");
     const formattedtrips: { id: string, fields: any }[] = [];
     trips.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields); 
@@ -34,7 +35,7 @@ router.get('/trip/:speaker_id', async (req, res) => {
   const { speaker_id} = req.params;
 
   try {
-    const trips = await getTable('Trip', "");
+    const trips = await getTable(TripTable, "");
     const guestSpeakerTrips: { id: string, fields: any }[] = [];
     
     trips.forEach((fields, id) => {
@@ -64,7 +65,7 @@ router.post('/trip/:speaker_id', async (req, res) => {
   };
   console.log("tableFields:",tableFields)
   try {
-    await createRecord('Trip', [tableFields]);
+    await createRecord(TripTable, [tableFields]);
     res.status(200).json({ message: 'Trip created successfully' });
   } catch (error) {
     console.error("Failed to create trip:", error);
@@ -82,7 +83,7 @@ router.put('/trip/:trip_record_id', async (req, res) => {
   }];
 
   try {
-    await updateRecord('Trip', recordToUpdate);
+    await updateRecord(TripTable, recordToUpdate);
     res.status(200).json({ message: 'Trip updated successfully' });
   } catch (error) {
     console.error("Failed to update trip:", error);
@@ -94,7 +95,7 @@ router.delete('/trip/:trip_record_id', async (req, res) => {
   const { trip_record_id } = req.params;
 
   try {
-    await deleteRecords('Trip', [trip_record_id]);
+    await deleteRecords(TripTable, [trip_record_id]);
     res.status(200).json({ message: 'Trip deleted successfully' });
   } catch (error) {
     console.error("Failed to delete trip:", error);

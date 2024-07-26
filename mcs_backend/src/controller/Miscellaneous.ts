@@ -9,10 +9,11 @@ import {
 
 const router = express.Router();
 import { Miscellaneous } from '../types/types'; 
+const miscellaneousTable = String(process.env.MISCELLANEOUS)
 //get all miscellaneous
 router.get('/miscellaneous', async (req, res) => {
   try {
-    const miscellaneousItems = await getTable('Miscellaneous', "");
+    const miscellaneousItems = await getTable(miscellaneousTable, "");
     const formattedMiscellaneous: { id: string, fields: any }[] = [];
     miscellaneousItems.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields); 
@@ -25,11 +26,11 @@ router.get('/miscellaneous', async (req, res) => {
   }
 });
 //get all miscellaneous for one trip
-router.get('/:tripID/miscellaneous', async (req, res) => {
+router.get('/miscellaneous/:tripID', async (req, res) => {
   const { tripID } = req.params;
 
   try {
-    const miscellaneousItems = await getTable('Miscellaneous', "");
+    const miscellaneousItems = await getTable(miscellaneousTable, "");
     const tripMiscellaneousItems: { id: string, fields: any }[] = [];
 
     miscellaneousItems.forEach((fields, id) => {
@@ -49,7 +50,7 @@ router.get('/:tripID/miscellaneous', async (req, res) => {
   }
 });
 //create one miscellaneous for one trip
-router.post('/:tripID/miscellaneous', async (req, res) => {
+router.post('/miscellaneous/:tripID', async (req, res) => {
   const tripID = req.params.tripID;
   const newMiscellaneousItem: Miscellaneous = req.body;
   newMiscellaneousItem.Trip = [tripID];
@@ -58,7 +59,7 @@ router.post('/:tripID/miscellaneous', async (req, res) => {
   };
 
   try {
-    await createRecord('Miscellaneous', [miscellaneousRecord]);
+    await createRecord(miscellaneousTable, [miscellaneousRecord]);
     res.status(201).json({ message: 'Miscellaneous item created successfully' });
   } catch (error) {
     console.error("Failed to create miscellaneous item:", error);
@@ -76,7 +77,7 @@ router.put('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   }];
 
   try {
-    await updateRecord('Miscellaneous', recordToUpdate);
+    await updateRecord(miscellaneousTable, recordToUpdate);
     res.status(200).json({ message: 'Miscellaneous item updated successfully' });
   } catch (error) {
     console.error("Failed to update miscellaneous item:", error);
@@ -88,7 +89,7 @@ router.delete('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   const { miscellaneous_record_id } = req.params;
 
   try {
-    await deleteRecords('Miscellaneous', [miscellaneous_record_id]);
+    await deleteRecords(miscellaneousTable, [miscellaneous_record_id]);
     res.status(200).json({ message: 'Miscellaneous item deleted successfully' });
   } catch (error) {
     console.error("Failed to delete miscellaneous item:", error);

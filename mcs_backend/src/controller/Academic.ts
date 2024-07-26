@@ -10,11 +10,11 @@ import {
 import { Academic, TableFields } from '../types/types';
 
 const router = express.Router();
-
+const AcademicTable = String(process.env.ACADEMIC)
 //get all academics
 router.get('/academic', async (req, res) => {
   try {
-    const accommodations = await getTable('Academic', "");
+    const accommodations = await getTable(AcademicTable, "");
     const formattedAcademics: { id: string, fields: any }[] = [];
     accommodations.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields);
@@ -28,11 +28,11 @@ router.get('/academic', async (req, res) => {
 });
 
 //get all academics for one Canvassing
-router.get('/:canvassingID/Academic', async (req, res) => {
+router.get('/Academic/:canvassingID', async (req, res) => {
   const { canvassingID } = req.params;
 
   try {
-    const Canvassing = await getTable('Academic', "");
+    const Canvassing = await getTable(AcademicTable, "");
     const academicCanvassing: { id: string, fields: any }[] = [];
 
     Canvassing.forEach((fields, id) => {
