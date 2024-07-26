@@ -15,6 +15,6 @@ export async function loader(): Promise<Event[] | null>{
     console.log(events);
     return events;
   } catch (error) {
-    return null;
+    return {};
   }
 }
