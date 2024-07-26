@@ -85,7 +85,7 @@ export const SideNavBar: React.FC = () => {
           </Button>
         </NavLink>
         <Box>
-          <List className="w-48 bg-primary grow">
+          <List className="w-full bg-primary grow">
             <Typography variant="h6" className="ml-4">
               Overview
             </Typography>
