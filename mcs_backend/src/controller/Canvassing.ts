@@ -10,10 +10,11 @@ import {
 import { Canvassing, TableFields } from '../types/types';
 
 const router = express.Router();
+const CanvassingTable = String(process.env.CANVASSING)
 //get all canvassings
 router.get('/canvassing', async (req, res) => {
   try {
-    const accommodations = await getTable('Canvassing', "");
+    const accommodations = await getTable(CanvassingTable, "");
     const formattedCanvassing: { id: string, fields: any }[] = [];
     accommodations.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields);
@@ -26,11 +27,11 @@ router.get('/canvassing', async (req, res) => {
   }
 });
 //get all canvassings for one trip
-router.get('/:tripID/Canvassing', async (req, res) => {
+router.get('/Canvassing/:tripID', async (req, res) => {
   const { tripID } = req.params;
 
   try {
-    const Canvassing = await getTable('Canvassing', "");
+    const Canvassing = await getTable(CanvassingTable, "");
     const tripCanvassing: { id: string, fields: any }[] = [];
 
     Canvassing.forEach((fields, id) => {

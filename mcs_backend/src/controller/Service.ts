@@ -10,9 +10,10 @@ import {
 const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
 //get all services
+const ServiceTable = String(process.env.SERVICE)
 router.get('/service', async (req, res) => {
     try {
-        const services = await getTable('Service', "");
+        const services = await getTable(ServiceTable, "");
         const formattedServices: { id: string, fields: any }[] = [];
         services.forEach((fields, id) => {
             const plainFields = Object.fromEntries(fields); 
@@ -25,11 +26,11 @@ router.get('/service', async (req, res) => {
     }
 });
 //get all services for a main event
-router.get('/:mainEventID/service', async (req, res) => {
+router.get('/service/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;
 
     try {
-        const services = await getTable('Service', "");
+        const services = await getTable(ServiceTable, "");
         const eventServices: { id: string, fields: any }[] = [];
 
         services.forEach((fields, id) => {
@@ -49,7 +50,7 @@ router.get('/:mainEventID/service', async (req, res) => {
     }
 });
 //create one service for a main event
-router.post('/:mainEventID/service', async (req, res) => {
+router.post('/service/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;
     const newService: Service = req.body;
     newService.MainEvent = [mainEventID];
@@ -58,7 +59,7 @@ router.post('/:mainEventID/service', async (req, res) => {
     };
 
     try {
-        await createRecord('Service', [serviceRecord]);
+        await createRecord(ServiceTable, [serviceRecord]);
         res.status(200).json({ message: 'Service created successfully' });
     } catch (error) {
         console.error("Failed to create service:", error);
@@ -76,7 +77,7 @@ router.put('/service/:service_record_id', async (req, res) => {
     }];
 
     try {
-        await updateRecord('Service', recordToUpdate);
+        await updateRecord(ServiceTable, recordToUpdate);
         res.status(200).json({ message: 'Service updated successfully' });
     } catch (error) {
         console.error("Failed to update service:", error);
@@ -88,7 +89,7 @@ router.delete('/service/:service_record_id', async (req, res) => {
     const { service_record_id } = req.params;
 
     try {
-        await deleteRecords('Service', [service_record_id]);
+        await deleteRecords(ServiceTable, [service_record_id]);
         res.status(200).json({ message: 'Service deleted successfully' });
     } catch (error) {
         console.error("Failed to delete service:", error);

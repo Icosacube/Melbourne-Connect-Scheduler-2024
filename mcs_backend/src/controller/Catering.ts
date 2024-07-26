@@ -6,13 +6,13 @@ import {
     updateRecord,
     deleteRecords
 } from '../models/airtable';
-
+const CateringTable = String(process.env.CATERING)
 const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
 //get all caterings
 router.get('/catering', async (req, res) => {
     try {
-        const caterings = await getTable('Catering', "");
+        const caterings = await getTable(CateringTable, "");
         const formattedCaterings: { id: string, fields: any }[] = [];
         caterings.forEach((fields, id) => {
             const plainFields = Object.fromEntries(fields); 
@@ -25,11 +25,11 @@ router.get('/catering', async (req, res) => {
     }
 });
 //get all caterings for one main event
-router.get('/:mainEventID/catering', async (req, res) => {
+router.get('/catering/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;
 
     try {
-        const caterings = await getTable('Catering', "");
+        const caterings = await getTable(CateringTable, "");
         const eventCaterings: { id: string, fields: any }[] = [];
 
         caterings.forEach((fields, id) => {
@@ -49,7 +49,7 @@ router.get('/:mainEventID/catering', async (req, res) => {
     }
 });
 //create one catering for one main event
-router.post('/:mainEventID/catering', async (req, res) => {
+router.post('/catering/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;
     const newCatering: Catering = req.body;
     newCatering.MainEvent = [mainEventID];
@@ -58,7 +58,7 @@ router.post('/:mainEventID/catering', async (req, res) => {
     };
 
     try {
-        await createRecord('Catering', [cateringRecord]);
+        await createRecord(CateringTable, [cateringRecord]);
         res.status(200).json({ message: 'Catering created successfully' });
     } catch (error) {
         console.error("Failed to create catering:", error);
@@ -76,7 +76,7 @@ router.put('/catering/:catering_record_id', async (req, res) => {
     }];
 
     try {
-        await updateRecord('Catering', recordToUpdate);
+        await updateRecord(CateringTable, recordToUpdate);
         res.status(200).json({ message: 'Catering updated successfully' });
     } catch (error) {
         console.error("Failed to update catering:", error);
@@ -89,7 +89,7 @@ router.delete('/catering/:catering_record_id', async (req, res) => {
     const { catering_record_id } = req.params;
 
     try {
-        await deleteRecords('Catering', [catering_record_id]);
+        await deleteRecords(CateringTable, [catering_record_id]);
         res.status(200).json({ message: 'Catering deleted successfully' });
     } catch (error) {
         console.error("Failed to delete catering:", error);
