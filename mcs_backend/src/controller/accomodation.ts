@@ -11,6 +11,7 @@ import { Accommodation, TableFields } from '../types/types';
 
 const router = express.Router();
 
+//get all accomodations
 router.get('/accommodation', async (req, res) => {
   try {
     const accommodations = await getTable('Accommodation', "");
@@ -26,6 +27,7 @@ router.get('/accommodation', async (req, res) => {
   }
 });
 
+//get all accomodations for one trip
 router.get('/:tripID/accommodation', async (req, res) => {
   const { tripID } = req.params;
 
@@ -50,6 +52,7 @@ router.get('/:tripID/accommodation', async (req, res) => {
   }
 });
 
+//create one accomodation for a trip
 router.post('/:tripID/accommodation', async (req, res) => {
   const newAccommodation: Accommodation = req.body;
   const { tripID } = req.params;
@@ -69,10 +72,10 @@ router.post('/:tripID/accommodation', async (req, res) => {
   }
 });
 
-router.put('/:tripID/accommodation/:accommodation_record_id', async (req, res) => {
-    const { tripID, accommodation_record_id } = req.params;
+//modify one accomodation 
+router.put('/accommodation/:accommodation_record_id', async (req, res) => {
+    const {  accommodation_record_id } = req.params;
     const updatedAccommodation: Accommodation = req.body;
-    updatedAccommodation.Trip = [tripID];
   
     const recordToUpdate = [{
       id: accommodation_record_id,
@@ -87,7 +90,7 @@ router.put('/:tripID/accommodation/:accommodation_record_id', async (req, res) =
       res.status(500).json({ error: 'Failed to update accommodation' });
     }
   });
-  
+  //delete one accomodation 
   router.delete('/accommodation/:accommodation_record_id', async (req, res) => {
     const { accommodation_record_id } = req.params;
   

@@ -11,6 +11,7 @@ import { Academic, TableFields } from '../types/types';
 
 const router = express.Router();
 
+//get all academics
 router.get('/academic', async (req, res) => {
   try {
     const accommodations = await getTable('Academic', "");
@@ -25,6 +26,8 @@ router.get('/academic', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+//get all academics for one Canvassing
 router.get('/:canvassingID/Academic', async (req, res) => {
   const { canvassingID } = req.params;
 

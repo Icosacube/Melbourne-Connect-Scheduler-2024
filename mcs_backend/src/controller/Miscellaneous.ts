@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 import { Miscellaneous } from '../types/types'; 
-
+//get all miscellaneous
 router.get('/miscellaneous', async (req, res) => {
   try {
     const miscellaneousItems = await getTable('Miscellaneous', "");
@@ -24,7 +24,7 @@ router.get('/miscellaneous', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
+//get all miscellaneous for one trip
 router.get('/:tripID/miscellaneous', async (req, res) => {
   const { tripID } = req.params;
 
@@ -48,7 +48,7 @@ router.get('/:tripID/miscellaneous', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
+//create one miscellaneous for one trip
 router.post('/:tripID/miscellaneous', async (req, res) => {
   const tripID = req.params.tripID;
   const newMiscellaneousItem: Miscellaneous = req.body;
@@ -65,7 +65,7 @@ router.post('/:tripID/miscellaneous', async (req, res) => {
     res.status(500).json({ error: 'Failed to create miscellaneous item' });
   }
 });
-
+//modify one miscellaneous 
 router.put('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   const { miscellaneous_record_id } = req.params;
   const updatedMiscellaneousItem: Miscellaneous = req.body;
@@ -83,7 +83,7 @@ router.put('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update miscellaneous item' });
   }
 });
-
+//delete one miscellaneous 
 router.delete('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   const { miscellaneous_record_id } = req.params;
 

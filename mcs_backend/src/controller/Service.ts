@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
-
+//get all services
 router.get('/service', async (req, res) => {
     try {
         const services = await getTable('Service', "");
@@ -24,7 +24,7 @@ router.get('/service', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
+//get all services for a main event
 router.get('/:mainEventID/service', async (req, res) => {
     const { mainEventID } = req.params;
 
@@ -48,7 +48,7 @@ router.get('/:mainEventID/service', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
+//create one service for a main event
 router.post('/:mainEventID/service', async (req, res) => {
     const { mainEventID } = req.params;
     const newService: Service = req.body;
@@ -65,7 +65,7 @@ router.post('/:mainEventID/service', async (req, res) => {
         res.status(500).json({ error: 'Failed to create service' });
     }
 });
-
+//modify one service 
 router.put('/service/:service_record_id', async (req, res) => {
     const { service_record_id } = req.params;
     const updatedService: Service = req.body;
@@ -83,7 +83,7 @@ router.put('/service/:service_record_id', async (req, res) => {
         res.status(500).json({ error: 'Failed to update service' });
     }
 });
-
+//delete one service 
 router.delete('/service/:service_record_id', async (req, res) => {
     const { service_record_id } = req.params;
 

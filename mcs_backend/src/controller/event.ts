@@ -14,6 +14,7 @@ import {
 const router = express.Router();
 
 const mainEventTable = String(process.env.MAINEVENT)
+//get all main events
 router.get("/event", async (req, res) => {
   try {
     const events = await getTable(mainEventTable, "");
@@ -29,6 +30,7 @@ router.get("/event", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+//get all main events for one speaker
 router.get('/event/:speaker_id', async (req, res) => {
   const { speaker_id} = req.params;
 
@@ -51,6 +53,7 @@ router.get('/event/:speaker_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+//create one main event for one speaker
 router.post('/event/:speaker_id', async (req, res) => {
   const newMainEvent: MainEvent = req.body as MainEvent; 
   const { speaker_id } = req.params;
@@ -68,7 +71,7 @@ router.post('/event/:speaker_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to create new Main Event' });
   }
 });
-
+//modify one main event 
 router.put("/event/:eventID", async (req, res) => {
   const { eventID } = req.params;
   const updatedEvent: MainEvent = req.body;
@@ -86,7 +89,7 @@ router.put("/event/:eventID", async (req, res) => {
     res.status(500).json({ message: "main Event could not be updated" });
   }
 });
-
+//delete one main event 
 router.delete("/event/:eventID", async (req, res) => {
   const { eventID } = req.params;
   try {

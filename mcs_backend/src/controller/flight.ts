@@ -10,6 +10,7 @@ import {
 
 const router = express.Router();
 import { Flight } from '../types/types';
+//get all flights
 router.get('/flight', async (req, res) => {
     try {
       const flights = await getTable('Flight', "");
@@ -24,6 +25,7 @@ router.get('/flight', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+  //get all flights for one trip
 router.get('/:tripID/flight', async (req, res) => {
     const { tripID } = req.params;
   
@@ -47,6 +49,7 @@ router.get('/:tripID/flight', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+    //create one flight for one trip
 router.post('/:tripID/flight', async (req, res) => {
     const tripID = req.params.tripID;
     const newFlight : Flight  = req.body;
@@ -63,6 +66,7 @@ router.post('/:tripID/flight', async (req, res) => {
         res.status(500).json({ error: 'Failed to create flight' });
     }
 });
+  //modify one flight 
 router.put('/flight/:flight_record_id', async (req, res) => {
     const { flight_record_id } = req.params;
     const updatedFlight: Flight = req.body;
@@ -80,7 +84,7 @@ router.put('/flight/:flight_record_id', async (req, res) => {
       res.status(500).json({ error: 'Failed to update flight' });
     }
   });
-  
+   //delete one flight 
   router.delete('/flight/:flight_record_id', async (req, res) => {
     const { flight_record_id } = req.params;
   

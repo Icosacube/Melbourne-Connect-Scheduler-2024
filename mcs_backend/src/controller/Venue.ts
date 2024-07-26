@@ -10,6 +10,7 @@ import {
 const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
 
+//get all venues
 router.get('/venue', async (req, res) => {
     try {
         const venues = await getTable('Venue', "");
@@ -24,7 +25,7 @@ router.get('/venue', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
+//get all venues for a main event
 router.get('/:mainEventID/venue', async (req, res) => {
     const { mainEventID } = req.params;
 
@@ -48,7 +49,7 @@ router.get('/:mainEventID/venue', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
+//create one venue for a main event
 router.post('/:mainEventID/venue', async (req, res) => {
     const { mainEventID } = req.params;
     const newVenue: Venue = req.body;
@@ -65,7 +66,7 @@ router.post('/:mainEventID/venue', async (req, res) => {
         res.status(500).json({ error: 'Failed to create venue' });
     }
 });
-
+//modify one venue 
 router.put('/venue/:venue_record_id', async (req, res) => {
     const { venue_record_id } = req.params;
     const updatedVenue: Venue = req.body;
@@ -83,7 +84,7 @@ router.put('/venue/:venue_record_id', async (req, res) => {
         res.status(500).json({ error: 'Failed to update venue' });
     }
 });
-
+//delete one venue 
 router.delete('/venue/:venue_record_id', async (req, res) => {
     const { venue_record_id } = req.params;
 

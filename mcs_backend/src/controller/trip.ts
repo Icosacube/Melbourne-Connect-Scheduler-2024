@@ -14,7 +14,7 @@ import {
 } from '../types/types';
 import { Trip } from '../types/types';
 const router = express.Router();
-
+//get all trips
 router.get('/trip', async (req, res) => {
   try {
     const trips = await getTable('Trip', "");
@@ -29,7 +29,7 @@ router.get('/trip', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
+//get all trips for a speaker
 router.get('/trip/:speaker_id', async (req, res) => {
   const { speaker_id} = req.params;
 
@@ -52,7 +52,7 @@ router.get('/trip/:speaker_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
+//create one trip for a speaker
 router.post('/trip/:speaker_id', async (req, res) => {
   const newTrip: Trip = req.body as Trip; 
   const { speaker_id } = req.params;
@@ -71,7 +71,7 @@ router.post('/trip/:speaker_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to create trip' });
   }
 });
-
+//modify one trip
 router.put('/trip/:trip_record_id', async (req, res) => {
   const { trip_record_id } = req.params;
   const updatedTrip: Trip = req.body as Trip;
@@ -89,6 +89,7 @@ router.put('/trip/:trip_record_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update trip' });
   }
 });
+//delete one trip
 router.delete('/trip/:trip_record_id', async (req, res) => {
   const { trip_record_id } = req.params;
 

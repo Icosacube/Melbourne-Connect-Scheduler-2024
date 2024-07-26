@@ -9,7 +9,7 @@ import {
 import { Speaker } from '../types/types';
 
 const router = express.Router();
-
+//get all speakers
 router.get('/speakers', async (req, res) => {
   try {
     const speakerItems = await getTable('Speakers', "");
@@ -24,7 +24,7 @@ router.get('/speakers', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
+//get one speaker
 router.get('/speakers/:speaker_record_id', async (req, res) => {
     const { speaker_record_id } = req.params;
     
@@ -42,7 +42,7 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-
+//create one speaker
   router.post('/speakers', async (req, res) => {
     const newSpeakerItem: Speaker = req.body;
     const speakerRecord = {
@@ -57,7 +57,7 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
       res.status(500).json({ error: 'Failed to create speaker' });
     }
   });
-
+//modify one speaker
 router.put('/speakers/:speaker_record_id', async (req, res) => {
   const { speaker_record_id } = req.params;
   const updatedSpeakerItem: Speaker = req.body;
@@ -75,7 +75,7 @@ router.put('/speakers/:speaker_record_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update speaker' });
   }
 });
-
+//delete one speaker
 router.delete('/speakers/:speaker_record_id', async (req, res) => {
   const { speaker_record_id } = req.params;
 

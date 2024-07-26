@@ -10,7 +10,7 @@ import {
 import { Canvassing, TableFields } from '../types/types';
 
 const router = express.Router();
-
+//get all canvassings
 router.get('/canvassing', async (req, res) => {
   try {
     const accommodations = await getTable('Canvassing', "");
@@ -25,6 +25,7 @@ router.get('/canvassing', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+//get all canvassings for one trip
 router.get('/:tripID/Canvassing', async (req, res) => {
   const { tripID } = req.params;
 
