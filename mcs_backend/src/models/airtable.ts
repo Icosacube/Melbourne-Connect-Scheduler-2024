@@ -7,6 +7,7 @@ require('dotenv').config({ path: pathResolve.resolve(__dirname, '../../.env') })
 
 const airTableApi = process.env.AIRTABLE_API
 const airTableBase = String(process.env.AIRTABLE_BASE)
+import { AirtableError } from '../utils/AirtableErr';
 
 var base = new Airtable({
     endpointUrl: 'https://api.airtable.com', 
@@ -30,7 +31,7 @@ export async function getTable(table: string, filter: string = ""): Promise<Map<
             err => {
                 if (err) {
                     console.error("Error fetching records:", err);
-                    reject(err);
+                    reject(new AirtableError(err.statusCode, err.message));
                 } else {
                     resolve();
                 }
@@ -50,7 +51,13 @@ export async function getRecord(table: string, id: string): Promise<Map<string, 
         base(table).find(id, function(err, record) {
             if (err) { 
                 reject(err); 
-                return; 
+                if (err instanceof Error) {
+                    console.error("Error fetching record:", err);
+                    throw new AirtableError((err as any).statusCode || 500, err.message);
+                } else {
+                    console.error("Unknown error:", err);
+                    throw new AirtableError(500, "An unknown error occurred");
+                }
             }else {
                 resolve();
             }
@@ -61,36 +68,51 @@ export async function getRecord(table: string, id: string): Promise<Map<string, 
     return retrieved;
 }
 
-export function createRecord(table: string, record: any[]): void {
-
-    base(table).create(record).then(records => {
-        records.forEach(function (record) {
+export async function createRecord(table: string, record: any[]): Promise<void> {
+    try {
+        const records = await base(table).create(record);
+        records.forEach(record => {
             console.log(record.getId());
         });
-    }, function done(err) {
-        if (err) { console.error(err); return; }
-    });
-}
-
-
-export function updateRecord(table: string, record: any[]): void {    
-
-    base(table).update(record).then( records => {
-        records.forEach(function(record) {
-            console.log(record.getId());
-        });
-    }, function done(err) {
-        if (err) { console.error(err); return; }
-    });
-}
-
-
-export function deleteRecords(table: string, records: string[]): void {
-    base(table).destroy(records, (err, deletedRecords) => {
-        if (err) {
-            console.error(err);
-            return;
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error creating record:", err);
+            throw new AirtableError((err as any).statusCode || 500, err.message);
+        } else {
+            console.error("Unknown error:", err);
+            throw new AirtableError(500, "An unknown error occurred");
         }
-        console.log('Deleted', deletedRecords!.length, 'records');
+    }
+}
+
+
+export async function updateRecord(table: string, record: any[]): Promise<void> {
+    try {
+        const records = await base(table).update(record);
+        records.forEach(record => {
+            console.log(record.getId());
+        });
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            console.error("Error updating record:", err);
+            throw new AirtableError((err as any).statusCode || 500, err.message);
+        } else {
+            console.error("Unknown error:", err);
+            throw new AirtableError(500, "An unknown error occurred");
+        }
+    }
+}
+
+
+export async function deleteRecords(table: string, records: string[]): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+        base(table).destroy(records, (err, deletedRecords) => {
+            if (err) {
+                reject(new AirtableError(err.statusCode, err.message));
+                return;
+            }
+            console.log('Deleted', deletedRecords!.length, 'records');
+            resolve();
+        });
     });
 }
