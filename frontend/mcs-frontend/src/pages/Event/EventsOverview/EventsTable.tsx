@@ -1,40 +1,45 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { DataGrid,GridFilterItem, GridFilterOperator } from '@mui/x-data-grid';
-import React, {FC} from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getStatus } from '../function';
-import { Event } from '../../../types/types';
-import type { GridColDef } from '@mui/x-data-grid';
-
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { DataGrid, GridFilterItem, GridFilterOperator } from "@mui/x-data-grid";
+import React, { FC } from "react";
+import { useNavigate } from "react-router-dom";
+import { getStatus } from "../function";
+import { Event } from "../../../types/types";
+import type { GridColDef } from "@mui/x-data-grid";
 
 interface EventsTableProps {
   events: Event[];
 }
 
-export const EventsTable:FC<EventsTableProps> = ({ events })=> {
-  function StatusInputValue(props: { item: any; applyValue: any; focusElementRef: any; }) {
+export const EventsTable: FC<EventsTableProps> = ({ events }) => {
+  function StatusInputValue(props: {
+    item: any;
+    applyValue: any;
+    focusElementRef: any;
+  }) {
     const { item, applyValue, focusElementRef } = props;
 
-    const handleFilterChange = (event: { target: { value: any; }; }) => {
+    const handleFilterChange = (event: { target: { value: any } }) => {
       applyValue({ ...item, value: event.target.value });
     };
 
     return (
       <Box
         sx={{
-          display: 'inline-flex',
-          flexDirection: 'row',
-          alignItems: 'center',
+          display: "inline-flex",
+          flexDirection: "row",
+          alignItems: "center",
           height: 48,
-          pl: '20px'
-        }}>
+          pl: "20px",
+        }}
+      >
         <FormControl fullWidth variant="standard">
           <InputLabel id="status-filter-label">Status</InputLabel>
           <Select
             labelId="status-filter-label"
-            value={item.value || ''}
+            value={item.value || ""}
             onChange={handleFilterChange}
-            ref={focusElementRef}>
+            ref={focusElementRef}
+          >
             <MenuItem value="Completed">Completed</MenuItem>
             <MenuItem value="Cancelled">Cancelled</MenuItem>
             <MenuItem value="Ongoing">Ongoing</MenuItem>
@@ -48,8 +53,8 @@ export const EventsTable:FC<EventsTableProps> = ({ events })=> {
 
   const statusOnlyOperators: GridFilterOperator<Event, any, any>[] = [
     {
-      label: 'Is',
-      value: 'is',
+      label: "Is",
+      value: "is",
       getApplyFilterFn: (filterItem: GridFilterItem) => {
         if (!filterItem.value || !filterItem.field) {
           return null;
@@ -59,19 +64,25 @@ export const EventsTable:FC<EventsTableProps> = ({ events })=> {
         };
       },
       InputComponent: StatusInputValue,
-      InputComponentProps: { type: 'string' },
-      getValueAsString: (value: any) => value
-    }
+      InputComponentProps: { type: "string" },
+      getValueAsString: (value: any) => value,
+    },
   ];
 
   const columns: GridColDef<Event>[] = [
-    { field: 'id', headerName: 'ID', headerClassName: 'event-table', flex: 1, width: 50 },
     {
-      field: 'name',
-      headerName: 'Event Name',
-      headerClassName: 'event-table',
+      field: "id",
+      headerName: "ID",
+      headerClassName: "event-table",
       flex: 1,
-      width: 280
+      width: 50,
+    },
+    {
+      field: "name",
+      headerName: "Event Name",
+      headerClassName: "event-table",
+      flex: 1,
+      width: 280,
     },
     // {
     //   field: 'date',
@@ -82,56 +93,42 @@ export const EventsTable:FC<EventsTableProps> = ({ events })=> {
     //   width: 130
     // },
     {
-      field: 'venue',
-      headerClassName: 'event-table',
-      headerName: 'Venue',
+      field: "venue",
+      headerClassName: "event-table",
+      headerName: "Venue",
       flex: 1,
-      width: 120
+      width: 120,
     },
     {
-      field: 'speakers',
-      headerClassName: 'event-table',
-      headerName: 'Speakers',
+      field: "speakers",
+      headerClassName: "event-table",
+      headerName: "Speakers",
       flex: 1,
-      width: 150
+      width: 150,
     },
     {
-      field: 'status',
-      headerClassName: 'event-table',
-      headerName: 'Status',
+      field: "status",
+      headerClassName: "event-table",
+      headerName: "Status",
       flex: 1,
       width: 150,
       filterOperators: statusOnlyOperators,
       renderCell({ row }: { row: Event }) {
         return getStatus(row.status);
-      }
+      },
     },
-    // {
-    //   field: 'eventType',
-    //   headerClassName: 'event-table',
-    //   headerName: 'Event Type',
-    //   flex: 1,
-    //   width: 160
-    // },
-    // {
-    //   field: 'catering',
-    //   headerClassName: 'event-table',
-    //   headerName: 'Catering Reference',
-    //   flex: 1,
-    //   width: 130
-    // },
     {
-      field: 'date',
-      headerClassName: 'event-table',
-      headerName: 'Date',
+      field: "date",
+      headerClassName: "event-table",
+      headerName: "Date",
       flex: 1,
-      width: 100
-    }
+      width: 100,
+    },
   ];
 
   const navigate = useNavigate();
 
-  const handleRowClick = (params: { row: { id: any; }; }) => {
+  const handleRowClick = (params: { row: { id: any } }) => {
     navigate(`/events/${params.row.id}`);
   };
 
@@ -141,27 +138,27 @@ export const EventsTable:FC<EventsTableProps> = ({ events })=> {
       columns={columns}
       initialState={{
         pagination: {
-          paginationModel: { page: 0, pageSize: 10 }
+          paginationModel: { page: 0, pageSize: 10 },
         },
         columns: {
           columnVisibilityModel: {
             // Hide columns status and traderName, the other columns will remain visible
-            id: false
-          }
-        }
+            id: false,
+          },
+        },
       }}
       pageSizeOptions={[5, 10]}
       // checkboxSelection
       sx={{
-        '& .event-table': {
-          backgroundColor: '#FBE418',
-          color: 'black'
+        "& .event-table": {
+          backgroundColor: "#FBE418",
+          color: "black",
         },
-        '.MuiDataGrid-columnHeaderTitleContainer': {
-          backgroundColor: '#FBE418'
-        }
+        ".MuiDataGrid-columnHeaderTitleContainer": {
+          backgroundColor: "#FBE418",
+        },
       }}
       onRowClick={handleRowClick}
     />
   );
-}
+};
