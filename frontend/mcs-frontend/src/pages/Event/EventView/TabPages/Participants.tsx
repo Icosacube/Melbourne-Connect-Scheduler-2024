@@ -1,6 +1,7 @@
 import { Avatar, Box, Chip, Typography } from "@mui/material";
 import React from "react";
 import Headline from "./Headline";
+import { ParticipantsTable } from "./ParticipantsTable";
 
 function Participants() {
   const participants = [
@@ -13,7 +14,8 @@ function Participants() {
   return (
     <Box>
       <Headline />
-      <Box className="flex space-x-4 mt-4">
+      <ParticipantsTable />
+      {/* <Box className="flex space-x-4 mt-4">
         <Chip label="All (65)" className="rounded-none   p-4 bg-primary" />
         <Chip label="Speakers (1)" className="rounded-none p-4 " />
         <Chip label="Guest (6)" className="rounded-none p-4 " />
@@ -49,7 +51,7 @@ function Participants() {
           </Box>
           <Chip label="Audience" />
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 }
