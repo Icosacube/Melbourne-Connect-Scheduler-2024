@@ -19,6 +19,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
+import BottomSuccessSnackbar from "../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar";
 
 interface CreateEventModalProps {
   handleClose: () => void;
@@ -116,7 +117,8 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     setShowSuccess(false);
     handleClose();
     console.log(newEvent);
-    var res = await createEvent(newEvent);
+    // TODO change to actual speaker id
+    var res = await createEvent(newEvent, "");
     if (res) {
       // handle success
       // reset useState variables
@@ -278,17 +280,11 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
       </Modal>
 
       {/* Snackbar for success message after event creation */}
-      <Snackbar
-        open={showSuccess}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        autoHideDuration={2000}
-        onClose={() => setShowSuccess(false)}
-        TransitionComponent={(props) => <Slide {...props} direction="up" />}
-      >
-        <Alert severity="success" onClose={() => setShowSuccess(false)}>
-          Event updated successfully!
-        </Alert>
-      </Snackbar>
+      <BottomSuccessSnackbar
+        showSuccess={showSuccess}
+        setShowSuccess={setShowSuccess}
+        message="Event created successfully"
+      />
     </>
   );
 };
