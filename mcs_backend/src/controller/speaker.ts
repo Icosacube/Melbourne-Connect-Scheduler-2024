@@ -6,14 +6,14 @@ import {
   updateRecord,
   deleteRecords
 } from '../models/airtable';
-import { Speaker } from '../types/types';
+import { TableFields, Speaker } from '../types/types';
 
 const router = express.Router();
-//get all speakers
-const SpeakersTable = String(process.env.SPEAKERS)
+const speakerTable = String(process.env.SPEAKERS);
+
 router.get('/speakers', async (req, res) => {
   try {
-    const speakerItems = await getTable(SpeakersTable, "");
+    const speakerItems = await getTable(speakerTable, "");
     const formattedSpeakers: { id: string, fields: any }[] = [];
     speakerItems.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields);
@@ -30,14 +30,15 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
     const { speaker_record_id } = req.params;
     
     try {
-      const speakers = await getTable(SpeakersTable, `RECORD_ID() = '${speaker_record_id}'`);
-      const speakerRecord = speakers.get(speaker_record_id);
-  
+      const speakerRecord = await getRecord(speakerTable, speaker_record_id);
+      
       if (!speakerRecord) {
         return res.status(404).json({ message: 'Speaker not found' });
       }
-      
-      res.json(Object.fromEntries(speakerRecord));
+      let plainFields = Object.fromEntries(speakerRecord.get(speaker_record_id));
+      let formattedSpeakers: {id: string, fields: any} = {id: speaker_record_id, fields: plainFields}
+      res.json(formattedSpeakers)
+
     } catch (error) {
       console.error("Error fetching speaker:", error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -51,7 +52,7 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
     };
   
     try {
-      await createRecord(SpeakersTable, [speakerRecord]);
+      await createRecord(speakerTable, [speakerRecord]);
       res.status(200).json({ message: 'Speaker created successfully' });
     } catch (error) {
       console.error("Failed to create speaker:", error);
@@ -69,7 +70,7 @@ router.put('/speakers/:speaker_record_id', async (req, res) => {
   }];
 
   try {
-    await updateRecord(SpeakersTable, recordToUpdate);
+    await updateRecord(speakerTable, recordToUpdate);
     res.status(200).json({ message: 'Speaker updated successfully' });
   } catch (error) {
     console.error("Failed to update speaker:", error);
@@ -81,7 +82,7 @@ router.delete('/speakers/:speaker_record_id', async (req, res) => {
   const { speaker_record_id } = req.params;
 
   try {
-    await deleteRecords(SpeakersTable, [speaker_record_id]);
+    await deleteRecords(speakerTable, [speaker_record_id]);
     res.status(200).json({ message: 'Speaker deleted successfully' });
   } catch (error) {
     console.error("Failed to delete speaker:", error);

@@ -47,19 +47,23 @@ export async function getTable(table: string, filter: string = ""): Promise<Map<
 export async function getRecord(table: string, id: string): Promise<Map<string, any>> {
     let retrieved = new Map<string, any>();
 
-    try {
-        const record = await base(table).find(id);
-        retrieved.set(record.id, new Map(Object.entries(record.fields)));
-        console.log(retrieved.keys());
-    } catch (err: unknown) {
-        if (err instanceof Error) {
-            console.error("Error fetching record:", err);
-            throw new AirtableError((err as any).statusCode || 500, err.message);
-        } else {
-            console.error("Unknown error:", err);
-            throw new AirtableError(500, "An unknown error occurred");
-        }
-    }
+    await new Promise<void>((resolve, reject) => {
+        base(table).find(id, function(err, record) {
+            if (err) { 
+                reject(err); 
+                if (err instanceof Error) {
+                    console.error("Error fetching record:", err);
+                    throw new AirtableError((err as any).statusCode || 500, err.message);
+                } else {
+                    console.error("Unknown error:", err);
+                    throw new AirtableError(500, "An unknown error occurred");
+                }
+            }else {
+                resolve();
+            }
+            retrieved.set(record!["id"], new Map(Object.entries(record!["fields"])));
+        });
+    });
 
     return retrieved;
 }
