@@ -15,7 +15,7 @@ import {
   People,
   Trips
 } from './pages';
-import Events from './pages/Event/Events';
+import Events from './pages/Event/EventsOverview/Events';
 import {Profile} from './pages/People/Profile';
 import {Trip} from './pages/Trips/Trip';
 import reportWebVitals from './reportWebVitals';

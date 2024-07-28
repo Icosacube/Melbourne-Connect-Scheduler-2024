@@ -5,7 +5,7 @@ import {EventsTable} from './EventsTable';
 import EventsWidgets from './EventsWidgets';
 import { useLoaderData } from 'react-router-dom';
 import {CreateEventModal} from './CreateEventModal';
-import { Event } from '../../types/types';
+import { Event } from '../../../types/types';
 
 function Events() {
   const events = useLoaderData() as Event[];

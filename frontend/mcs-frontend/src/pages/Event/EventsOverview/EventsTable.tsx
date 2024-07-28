@@ -2,8 +2,8 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { DataGrid,GridFilterItem, GridFilterOperator } from '@mui/x-data-grid';
 import React, {FC} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getStatus } from './function';
-import { Event } from '../../types/types';
+import { getStatus } from '../function';
+import { Event } from '../../../types/types';
 import type { GridColDef } from '@mui/x-data-grid';
 
 

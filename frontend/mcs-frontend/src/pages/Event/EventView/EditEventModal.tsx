@@ -16,8 +16,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import 'dayjs/locale/en-au';
 import React, { FC, useState } from 'react';
-import updateEvent from '../../scripts/updateEvent';
-import { Event } from '../../types/types';
+import updateEvent from '../../../scripts/updateEvent';
+import { Event } from '../../../types/types';
 
 interface EditEventModalProps {
   event: Event;

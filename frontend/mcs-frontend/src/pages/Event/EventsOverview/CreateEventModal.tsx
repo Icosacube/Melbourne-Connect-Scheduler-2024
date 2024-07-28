@@ -1,6 +1,6 @@
 import {Alert,Box,Button,MenuItem,Modal,Select,SelectChangeEvent,Slide,Snackbar,Stack,TextField,Typography} from '@mui/material';
 import React, { ChangeEvent, useState } from 'react';
-import createEvent from '../../scripts/createEvent';
+import createEvent from '../../../scripts/createEvent';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';

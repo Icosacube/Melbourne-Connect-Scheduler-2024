@@ -2,7 +2,7 @@ import { Avatar, Box, Paper, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import AboutTable from './AboutTable';
 import TitleCard from './TitleCard';
-import { Event, Speaker } from '../../../types/types';
+import { Event, Speaker } from '../../../../types/types';
 
 interface AboutProps {
   event: Event;
