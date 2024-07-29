@@ -1,10 +1,10 @@
-import { Alert, Button, MenuItem, Modal, Paper, Select, SelectChangeEvent, Slide, Snackbar, Grid, TextField, Typography } from '@mui/material';
+import { Alert, Button, MenuItem, Modal, Paper, Select, SelectChangeEvent, Slide, Snackbar, Grid, InputAdornment, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import createTrip from '../../scripts/createTrip';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { v4 as uuidv4 } from 'uuid';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import dayjs from 'dayjs';
 
 interface CreateTripModalProps {
@@ -13,10 +13,10 @@ interface CreateTripModalProps {
 }
 
 type Trip = {
-  id: string;
-  event_id?: string;
-  speaker_id?: string;
-  startDate?: dayjs.Dayjs;
+  MainEvent?: string[];
+  GuestSpeaker?: string[];
+  StartDate?: dayjs.Dayjs;
+  EndDate?: dayjs.Dayjs;
   //add more
 }
 
@@ -36,32 +36,40 @@ type Event = {
 
 export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, open }) => {
   const [newTrip, setNewTrip] = useState<Trip>({
-    id: uuidv4(),
-    speaker_id: String(),
-    event_id: String(),
+    MainEvent: [],
+    GuestSpeaker: []
     // ADD MORE FIELDS
   });
+  const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
+  const [selectedSpeakers, setSelectedSpeakers] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const handleEventChange = (event: SelectChangeEvent<string>) => {
-    const selectedEventId = event.target.value as string;
-    setNewTrip({ ...newTrip, event_id: selectedEventId });
+
+  const handleEventChange = (event: SelectChangeEvent<string[]>) => {
+    const selectedIds = event.target.value as string[];
+    const selectedEvents = events.filter(e => selectedIds.includes(e.id));
+    setSelectedEvents(selectedIds);
+    setNewTrip({ ...newTrip, MainEvent: selectedIds });
   };
 
-  const handleSpeakerChange = (event: SelectChangeEvent<string>) => {
-    const selectedSpeakerId = event.target.value as string;
-    setNewTrip({ ...newTrip, speaker_id: selectedSpeakerId });
+  const handleSpeakerChange = (event: SelectChangeEvent<string[]>) => {
+    const selectedIds = event.target.value as string[];
+    const selectedSpeakers = speakers.filter(speaker => selectedIds.includes(speaker.id));
+    setSelectedSpeakers(selectedIds);
+    setNewTrip({ ...newTrip, GuestSpeaker: selectedIds });
   };
 
-  const handleDateChange = (date: dayjs.Dayjs | null) => {
-    setNewTrip({ ...newTrip, startDate: date || undefined });
+  const handleStartDateChange = (date: dayjs.Dayjs | null) => {
+    setNewTrip({ ...newTrip, StartDate: date || undefined });
+  };
+  const handleEndDateChange = (date: dayjs.Dayjs | null) => {
+    setNewTrip({ ...newTrip, EndDate: date || undefined });
   };
 
   const onClose = () => {
     setNewTrip({
-      id: uuidv4(),
-      speaker_id: String(),
-      event_id: String(),
+      MainEvent: [],
+      GuestSpeaker: [],
       // ADD MORE FIELDS
     });
     handleClose();
@@ -76,11 +84,11 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
 
     if (res) {
       // handle success
+      console.log(res);
       // reset useState variables
       setNewTrip({
-        id: uuidv4(),
-        speaker_id: String(),
-        event_id: String(),
+        MainEvent: [],
+        GuestSpeaker: []
       });
 
       // display success message
@@ -93,13 +101,14 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
 
     } else {
       // handle failure
+      console.log("error");
     }
   };
 
   const events: Event[] = [
     {
-      id: '1',
-      title: 'The Rise of AI',
+      id: 'recjrkkDyd9iLafZi',
+      title: 'Uncovering Truths and Threats: Social Media and AI Safety with Meta Whistleblower Frances Haugen',
       date: '2024-04-10',
     },
     {
@@ -107,25 +116,20 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
       title: 'Is ChatGPT Evil',
       date: '2024-04-22',
     },
-    {
-      id: '3',
-      title: 'The Future of Robotics',
-      date: '2024-04-30',
-    }
   ];
 
   const speakers: Speaker[] = [
     {
-      id: '1',
-      first_name: 'John',
-      last_name: 'Jones',
-      email: 'john.jones@example.com'
+      id: 'rec84tlMiSb0NPfgQ',
+      first_name: 'Belinda',
+      last_name: 'Chen',
+      email: 'belinda@email.com'
     },
     {
-      id: '2',
-      first_name: 'Jane',
-      last_name: 'Smith',
-      email: 'jane.smith@example.com'
+      id: 'reclU2YPWmZwKE8Hd',
+      first_name: 'Bernard',
+      last_name: 'asper',
+      email: 'bernard@email.com'
     },
   ];
 
@@ -142,7 +146,8 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
                 <Typography variant="h6">Event</Typography>
                 <Select
                     fullWidth
-                    value={newTrip.event_id || ''}
+                    multiple
+                    value={selectedEvents}
                     onChange={handleEventChange}
                     name="event">
                     {events.map((event) => (
@@ -154,31 +159,53 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
                 <Typography variant="h6">Speaker</Typography>
                   <Select
                     fullWidth
-                    value={newTrip.speaker_id || ''}
+                    multiple
+                    value={selectedSpeakers}
                     onChange={handleSpeakerChange}
-                    name="speaker">
+                    name="speaker"
+                    startAdornment = {
+                      <InputAdornment position="start">
+                        <AccountCircle />
+                      </InputAdornment>
+                      }
+                    >
                     {speakers.map((speaker) => (
                       <MenuItem value={speaker.id} key={speaker.id}>{speaker.first_name} {speaker.last_name}</MenuItem>
                     ))}
                   </Select>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Typography variant="h6">Starting Date</Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    defaultValue={newTrip.startDate}
-                    value={newTrip.startDate}
-                    onChange={handleDateChange}
+                    slotProps={{ textField: { fullWidth: true } }}
+                    defaultValue={newTrip.StartDate}
+                    value={newTrip.StartDate}
+                    onChange={handleStartDateChange}
                   />
                 </LocalizationProvider>
               </Grid>
+              <Grid item xs={3}>
+                <Typography variant="h6">End Date</Typography>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    slotProps={{ textField: { fullWidth: true } }}
+                    defaultValue={newTrip.EndDate}
+                    value={newTrip.EndDate}
+                    onChange={handleEndDateChange}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  onClick={handleSave}
+                  className="bg-primary text-white hover:bg-tertiary ">
+                  Save
+                </Button>
+              </Grid>
           </Grid>
-          <Button
-            variant="contained"
-            onClick={handleSave}
-            className="bg-primary text-white hover:bg-tertiary ">
-            Save
-          </Button>
+          
         </Paper>
       </Modal>
       <Snackbar

@@ -1,20 +1,24 @@
 
-import {Box, Grid } from "@mui/material";
+import {Box, Grid, Typography } from "@mui/material";
 import React, { useState, FC } from "react";
 import Accomodation from "./TabPages/Accomodation";
 import Costs from "./TabPages/Costs";
 import Report from "./TabPages/Report";
-import Travel from "./TabPages/Travel";
+import TravelView from "./TabPages/TravelView";
+import TravelEdit from "./TabPages/TravelEdit";
 
 export const TripsTab:FC =()=> {
   return (
     <Box className="w-full">
         <Grid container className="flex justify-between items-center" spacing={2}>
-          <Grid item md={12} lg={6}>
-            <Travel />
+          <Grid item xs={12}>
+            <Typography>Flight Tickets</Typography>
           </Grid>
           <Grid item md={12} lg={6}>
-            <Travel />
+            <TravelView />
+          </Grid>
+          <Grid item md={12} lg={6}>
+            <TravelEdit />
           </Grid>
           <Grid item md={12}>
             <Accomodation />

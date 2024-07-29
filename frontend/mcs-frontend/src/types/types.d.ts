@@ -40,10 +40,10 @@ export type Cater= {
     name: string;
 }
 
-export type Trip = {
-    id: string;
-    event_id?: string;
-    speaker_id?: string;
-    startDate?: dayjs.Dayjs;
+type Trip = {
+    MainEvent?: string[];
+    GuestSpeaker?: string[];
+    StartDate?: dayjs.Dayjs;
+    EndDate?: dayjs.Dayjs;
     //add more
   }
