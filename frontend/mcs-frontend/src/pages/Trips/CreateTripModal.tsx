@@ -1,37 +1,25 @@
 import { Alert, Button, MenuItem, Modal, Paper, Select, SelectChangeEvent, Slide, Snackbar, Grid, InputAdornment, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import createTrip from '../../scripts/createTrip';
+import axios from 'axios';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import dayjs from 'dayjs';
+import {Trip, Event} from "../../types/types";
 
 interface CreateTripModalProps {
   handleClose: () => void;
   open: boolean;
 }
 
-type Trip = {
-  MainEvent?: string[];
-  GuestSpeaker?: string[];
-  StartDate?: dayjs.Dayjs;
-  EndDate?: dayjs.Dayjs;
-  //add more
-}
-
+// placeholder
 type Speaker = {
   id: string;
   first_name: string;
   last_name: string;
   email: string;
-}
-
-type Event = {
-    id: string;
-    title: string;
-    date: string;
-    //add more...
 }
 
 export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, open }) => {
@@ -43,6 +31,27 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
   const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
   const [selectedSpeakers, setSelectedSpeakers] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [speakers, setSpeakers] = useState<Speaker[]>([]);
+
+  useEffect(() => {
+    if (open) {
+      loadEvents();
+    }
+  }, [open]);
+
+  // temporary solution
+  const loadEvents = async () => {
+    try {
+      const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/events'); 
+      const events = res.data;
+      setEvents(events);
+      setSpeakers(events.speakers == null ? [] : events.speakers);
+      console.log(events);
+    } catch (error) {
+      console.error("Failed to load events", error);
+    }
+  };
 
 
   const handleEventChange = (event: SelectChangeEvent<string[]>) => {
@@ -105,16 +114,12 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
     }
   };
 
-  const events: Event[] = [
+  /*const events: Event[] = 
+  [
     {
       id: 'recjrkkDyd9iLafZi',
       title: 'Uncovering Truths and Threats: Social Media and AI Safety with Meta Whistleblower Frances Haugen',
       date: '2024-04-10',
-    },
-    {
-      id: '2',
-      title: 'Is ChatGPT Evil',
-      date: '2024-04-22',
     },
   ];
 
@@ -132,6 +137,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
       email: 'bernard@email.com'
     },
   ];
+  */
 
   return (
     <>
@@ -151,7 +157,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
                     onChange={handleEventChange}
                     name="event">
                     {events.map((event) => (
-                      <MenuItem value={event.id} key={event.id}>{event.title}</MenuItem>
+                      <MenuItem value={event.id} key={event.id}>{event.name}</MenuItem>
                     ))}
                   </Select>
               </Grid>
