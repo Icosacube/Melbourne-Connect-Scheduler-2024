@@ -4,20 +4,6 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-
-import { 
-    getTable,
-    getRecord,
-    createRecord,
-    updateRecord,
-    deleteRecords
-  } from './models/airtable';
-
-import { 
-    PresetFilter,
-    TableFields
-  } from './types/types';
-
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const tripRouter = require('./controller/trip'); 
 const accommodationRouter = require('./controller/accomodation');

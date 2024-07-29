@@ -9,11 +9,11 @@ import {
 
 const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
-
+const VenueTable = String(process.env.VENUE)
 //get all venues
 router.get('/venue', async (req, res) => {
     try {
-        const venues = await getTable('Venue', "");
+        const venues = await getTable(VenueTable, "");
         const formattedVenues: { id: string, fields: any }[] = [];
         venues.forEach((fields, id) => {
             const plainFields = Object.fromEntries(fields); 
@@ -26,11 +26,11 @@ router.get('/venue', async (req, res) => {
     }
 });
 //get all venues for a main event
-router.get('/:mainEventID/venue', async (req, res) => {
+router.get('/venue/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;
 
     try {
-        const venues = await getTable('Venue', "");
+        const venues = await getTable(VenueTable, "");
         const eventVenues: { id: string, fields: any }[] = [];
 
         venues.forEach((fields, id) => {
@@ -50,7 +50,7 @@ router.get('/:mainEventID/venue', async (req, res) => {
     }
 });
 //create one venue for a main event
-router.post('/:mainEventID/venue', async (req, res) => {
+router.post('/venue/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;
     const newVenue: Venue = req.body;
     newVenue.MainEvent = [mainEventID];
@@ -59,7 +59,7 @@ router.post('/:mainEventID/venue', async (req, res) => {
     };
 
     try {
-        await createRecord('Venue', [venueRecord]);
+        await createRecord(VenueTable, [venueRecord]);
         res.status(200).json({ message: 'Venue created successfully' });
     } catch (error) {
         console.error("Failed to create venue:", error);
@@ -77,7 +77,7 @@ router.put('/venue/:venue_record_id', async (req, res) => {
     }];
 
     try {
-        await updateRecord('Venue', recordToUpdate);
+        await updateRecord(VenueTable, recordToUpdate);
         res.status(200).json({ message: 'Venue updated successfully' });
     } catch (error) {
         console.error("Failed to update venue:", error);
@@ -89,7 +89,7 @@ router.delete('/venue/:venue_record_id', async (req, res) => {
     const { venue_record_id } = req.params;
 
     try {
-        await deleteRecords('Venue', [venue_record_id]);
+        await deleteRecords(VenueTable, [venue_record_id]);
         res.status(200).json({ message: 'Venue deleted successfully' });
     } catch (error) {
         console.error("Failed to delete venue:", error);
