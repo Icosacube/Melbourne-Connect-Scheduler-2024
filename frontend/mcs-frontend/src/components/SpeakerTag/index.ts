@@ -1,0 +1,1 @@
+export { SpeakerTag } from './SpeakerTag';
