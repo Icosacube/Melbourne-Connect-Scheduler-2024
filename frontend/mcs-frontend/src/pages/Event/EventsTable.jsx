@@ -60,20 +60,20 @@ export default function EventsTable({ data }) {
   const columns = [
     { field: 'id', headerName: 'ID', headerClassName: 'event-table', flex: 1, width: 50 },
     {
-      field: 'name',
+      field: 'EventName',
       headerName: 'Event Name',
       headerClassName: 'event-table',
       flex: 1,
       width: 280
     },
-    // {
-    //   field: 'date',
-    //   headerName: 'Date',
-    //   headerClassName: 'event-table',
-    //   type: 'date',
-    //   flex: 1,
-    //   width: 130
-    // },
+    {
+      field: 'date',
+      headerName: 'Date',
+      headerClassName: 'event-table',
+      type: 'date',
+      flex: 1,
+      width: 130
+    },
     {
       field: 'venue',
       headerClassName: 'event-table',
@@ -82,7 +82,7 @@ export default function EventsTable({ data }) {
       width: 120
     },
     {
-      field: 'speakers',
+      field: 'Speaker',
       headerClassName: 'event-table',
       headerName: 'Speakers',
       flex: 1,
@@ -114,7 +114,7 @@ export default function EventsTable({ data }) {
     //   width: 130
     // },
     {
-      field: 'date',
+      field: 'Date',
       headerClassName: 'event-table',
       headerName: 'Date',
       flex: 1,
@@ -259,7 +259,7 @@ export default function EventsTable({ data }) {
   for (let index = 0; index < data.length; index++) {
     data[index].status = 'Preparation';
     console.log(data[index]);
-    rows.unshift(data[index]);
+    //rows.unshift(data[index]);
   }
 
   const handleRowClick = (params) => {
@@ -268,7 +268,7 @@ export default function EventsTable({ data }) {
 
   return (
     <DataGrid
-      rows={rows}
+      rows={data}
       columns={columns}
       initialState={{
         pagination: {

@@ -4,12 +4,14 @@ import PeopleTable from './PeopleTable';
 import PeopleWidgets from './PeopleWidgets';
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
 import CreatePeopleModal from './CreatePeopleModal';
+import { useLoaderData } from 'react-router-dom';
 
 function People() {
   // TODO: handle loaded info
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const speakers = useLoaderData();
 
   return (
     <Box className="space-y-8 flex flex-col">
@@ -26,7 +28,7 @@ function People() {
         </Box>
 
       <PeopleWidgets />
-      <PeopleTable />
+      <PeopleTable data={speakers}/>
     </Box>
   );
 }

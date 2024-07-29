@@ -5,31 +5,31 @@ import { useNavigate } from 'react-router-dom';
 const columns = [
   { field: 'id', headerName: 'ID', headerClassName: 'speaker-table', width: 50 },
   {
-    field: 'firstName',
+    field: 'FirstName',
     headerName: 'First Name',
     headerClassName: 'speaker-table',
 
     width: 100
   },
   {
-    field: 'lastName',
+    field: 'LastName',
     headerName: 'Last Name',
     headerClassName: 'speaker-table',
     flex: 1,
     width: 120
   },
-  { field: 'email', headerName: 'Email', headerClassName: 'speaker-table', flex: 1, width: 300 },
+  { field: 'PrimaryEmail', headerName: 'Email', headerClassName: 'speaker-table', flex: 1, width: 300 },
   {
-    field: 'university',
-    headerName: 'University',
+    field: 'Organisation',
+    headerName: 'Organisation',
     headerClassName: 'speaker-table',
     flex: 1,
     width: 200
   },
-  { field: 'role', headerName: 'Role', headerClassName: 'speaker-table', flex: 1, width: 150 },
+  { field: 'WorkTitle', headerName: 'Role', headerClassName: 'speaker-table', flex: 1, width: 150 },
   {
-    field: 'faculty',
-    headerName: 'Faculty',
+    field: 'Department',
+    headerName: 'Department',
     headerClassName: 'speaker-table',
     flex: 1,
     width: 150
@@ -156,7 +156,7 @@ const rows = [
   }
 ];
 
-export default function PeopleTable() {
+export default function PeopleTable({data}) {
   const navigate = useNavigate();
   const handleRowClick = (params) => {
     console.log(params.row.id);
@@ -164,7 +164,7 @@ export default function PeopleTable() {
   };
   return (
     <DataGrid
-      rows={rows}
+      rows={data}
       columns={columns}
       initialState={{
         pagination: {

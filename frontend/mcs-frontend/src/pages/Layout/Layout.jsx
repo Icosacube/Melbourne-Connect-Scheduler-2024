@@ -6,7 +6,7 @@ function Layout() {
   return (
     <>
       <Box
-        className="bg-backGround flex h-screen
+        className="bg-background flex h-screen
       ">
         <SideNavBar />
         <Box className=" w-full">
