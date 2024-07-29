@@ -1,13 +1,13 @@
 import { Box } from '@mui/material';
 import React, { FC, useState } from 'react';
-import EventTopNavBar from '../../components/TopNavBar/EventTopNavBar';
+import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar';
 import EditEventModal from './EditEventModal';
 import {About} from './TabPages/About';
 import Participants from './TabPages/Participants';
 import Programme from './TabPages/Programme';
 import Services from './TabPages/Services';
 import { useLoaderData } from 'react-router-dom';
-import { Event as EventType } from '../../types/types';
+import { Event as EventType } from '../../../types/types';
 
 export const Event:FC=()=> {
   const [tabName, setTabName] = useState('About');

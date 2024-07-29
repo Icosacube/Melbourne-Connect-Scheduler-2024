@@ -37,7 +37,7 @@ const columns: GridColDef[] = [
     headerName: "Last Name",
     headerClassName: "speaker-table",
     flex: 1,
-    width: 120,
+    width: 100,
   },
   {
     field: "email",
@@ -90,7 +90,7 @@ const rows = [
   // Add other rows as needed
 ];
 
-export const PeopleTable: FC = () => {
+export const ParticipantsTable: FC = () => {
   const navigate = useNavigate();
 
   const handleRowClick = (params: { row: { id: any } }) => {
