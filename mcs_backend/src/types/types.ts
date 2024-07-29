@@ -27,6 +27,8 @@ export type Speaker = {
     Bio: string;
     Headshot: string | any[]; // string: url to publicly accessible photos (google drive etc); any[] for receive 
     PreferredTimezone: string;
+    Category: string;
+    Area: string;
     WorkTitle: string;
     Organisation: string;
     Department: string;
@@ -73,6 +75,7 @@ export type MainEvent = {
     Venue: string[];
     Service: string[];
     Completed: boolean;
+    Trip: string[]; 
 }
 
 export type SubEvent = {

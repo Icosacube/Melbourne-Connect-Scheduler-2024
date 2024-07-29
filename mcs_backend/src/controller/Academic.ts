@@ -10,10 +10,11 @@ import {
 import { Academic, TableFields } from '../types/types';
 
 const router = express.Router();
-
+const AcademicTable = String(process.env.ACADEMIC)
+//get all academics
 router.get('/academic', async (req, res) => {
   try {
-    const accommodations = await getTable('Academic', "");
+    const accommodations = await getTable(AcademicTable, "");
     const formattedAcademics: { id: string, fields: any }[] = [];
     accommodations.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields);
@@ -26,4 +27,28 @@ router.get('/academic', async (req, res) => {
   }
 });
 
+//get all academics for one Canvassing
+router.get('/Academic/:canvassingID', async (req, res) => {
+  const { canvassingID } = req.params;
+
+  try {
+    const Canvassing = await getTable(AcademicTable, "");
+    const academicCanvassing: { id: string, fields: any }[] = [];
+
+    Canvassing.forEach((fields, id) => {
+      const plainFields = Object.fromEntries(fields);
+      if (plainFields.Canvassing && plainFields.Canvassing.includes(canvassingID)) {
+        academicCanvassing.push({ id, fields: plainFields });
+      }
+    });
+
+    if (academicCanvassing.length === 0) {
+      return res.status(404).json({ message: 'No Canvassing found for this academic' });
+    }
+
+    res.json(academicCanvassing);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 module.exports = router;
