@@ -7,32 +7,26 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import dayjs from 'dayjs';
-import {Trip} from "../../types/types";
+import {Trip, Speaker, MainEvent} from "../../types/types";
 
-
-export type MainEvent = {
-    EventName: string;
-    id: string;
-}
 
 interface CreateTripModalProps {
   handleClose: () => void;
   open: boolean;
 }
 
-// placeholder
-type Speaker = {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-}
 
 export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, open }) => {
   const [newTrip, setNewTrip] = useState<Trip>({
+    StartDate: dayjs(),
+    EndDate: dayjs(),
+    GuestSpeaker: [],
     MainEvent: [],
-    GuestSpeaker: []
-    // ADD MORE FIELDS
+    Accommodation: [],
+    Flight: [],
+    Miscellaneous: [],
+    AcademicCanvassing: [],
+    Completed: false,
   });
   const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
   const [selectedSpeakers, setSelectedSpeakers] = useState<string[]>([]);
@@ -42,30 +36,51 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
 
   useEffect(() => {
     if (open) {
-      axios.get(process.env.REACT_APP_BACKEND_URL + '/event').then(res => {
-        const events = res.data;
-        console.log(events[0]);
-        setEvents(events);
-        setSpeakers(events.speakers == null ? [] : events.fields.speakers);
-        console.log(events);
-        
-     }).catch(err => {
-      console.error("Failed to load events", err);
-     })
+      loadEvents();
+      loadSpeakers();
     }
   }, [open]);
 
 
+  // temporary fix
+  const loadEvents = async () => {
+    try {
+      axios.get(process.env.REACT_APP_BACKEND_URL + '/events').then(res => {
+        const events = res.data.map((obj: { fields: any; id: string }) => 
+                                    Object.assign({}, obj.fields, {RecordID: obj.id}) );
+        console.log(events);
+        setEvents(events);
+     })
+    } catch (error) {
+      console.error("Failed to load events", error);
+    }
+  };
+
+
+  const loadSpeakers = async () => {
+      try {
+        axios.get(process.env.REACT_APP_BACKEND_URL + '/speakers').then(res => {
+          const speakers = res.data.map((obj: { fields: any; id: string }) => 
+                                      Object.assign({}, obj.fields, {RecordID: obj.id}) );
+          console.log(speakers);
+          setSpeakers(speakers == null ? [] : speakers);
+       })
+      } catch (error) {
+        console.error("Failed to load speakers", error);
+      }
+    };
+
+
   const handleEventChange = (e: SelectChangeEvent<string[]>) => {
     const selectedIds = e.target.value as string[];
-    const selectedEvents = events.filter(e => selectedIds.includes(e.id));
+    const selectedEvents = events.filter(e => selectedIds.includes(e.RecordID));
     setSelectedEvents(selectedIds);
     setNewTrip({ ...newTrip, MainEvent: selectedIds });
   };
 
   const handleSpeakerChange = (event: SelectChangeEvent<string[]>) => {
     const selectedIds = event.target.value as string[];
-    const selectedSpeakers = speakers.filter(speaker => selectedIds.includes(speaker.id));
+    const selectedSpeakers = speakers.filter(speaker => selectedIds.includes(speaker.RecordID));
     setSelectedSpeakers(selectedIds);
     setNewTrip({ ...newTrip, GuestSpeaker: selectedIds });
   };
@@ -77,11 +92,18 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
     setNewTrip({ ...newTrip, EndDate: date || undefined });
   };
 
+
   const onClose = () => {
     setNewTrip({
-      MainEvent: [],
+      StartDate: dayjs(),
+      EndDate: dayjs(),
       GuestSpeaker: [],
-      // ADD MORE FIELDS
+      MainEvent: [],
+      Accommodation: [],
+      Flight: [],
+      Miscellaneous: [],
+      AcademicCanvassing: [],
+      Completed: false,
     });
     handleClose();
   }
@@ -98,8 +120,15 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
       console.log(res);
       // reset useState variables
       setNewTrip({
+        StartDate: dayjs(),
+        EndDate: dayjs(),
+        GuestSpeaker: [],
         MainEvent: [],
-        GuestSpeaker: []
+        Accommodation: [],
+        Flight: [],
+        Miscellaneous: [],
+        AcademicCanvassing: [],
+        Completed: false,
       });
 
       // display success message
@@ -115,31 +144,6 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
       console.log("error");
     }
   };
-
-  /*const events: Event[] = 
-  [
-    {
-      id: 'recjrkkDyd9iLafZi',
-      title: 'Uncovering Truths and Threats: Social Media and AI Safety with Meta Whistleblower Frances Haugen',
-      date: '2024-04-10',
-    },
-  ];
-
-  const speakers: Speaker[] = [
-    {
-      id: 'rec84tlMiSb0NPfgQ',
-      first_name: 'Belinda',
-      last_name: 'Chen',
-      email: 'belinda@email.com'
-    },
-    {
-      id: 'reclU2YPWmZwKE8Hd',
-      first_name: 'Bernard',
-      last_name: 'asper',
-      email: 'bernard@email.com'
-    },
-  ];
-  */
 
   return (
     <>
@@ -159,7 +163,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
                     onChange={handleEventChange}
                     name="event">
                     {events.map((event) => (
-                      <MenuItem value={event.id} key={event.id}>{event.EventName}</MenuItem>
+                      <MenuItem value={event.RecordID} key={event.RecordID}>{event.EventName}</MenuItem>
                     ))}
                   </Select>
               </Grid>
@@ -167,7 +171,6 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
                 <Typography variant="h6">Speaker</Typography>
                   <Select
                     fullWidth
-                    multiple
                     value={selectedSpeakers}
                     onChange={handleSpeakerChange}
                     name="speaker"
@@ -178,7 +181,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
                       }
                     >
                     {speakers.map((speaker) => (
-                      <MenuItem value={speaker.id} key={speaker.id}>{speaker.first_name} {speaker.last_name}</MenuItem>
+                      <MenuItem value={speaker.RecordID} key={speaker.RecordID}>{speaker.FirstName} {speaker.LastName}</MenuItem>
                     ))}
                   </Select>
               </Grid>

@@ -72,8 +72,8 @@ export type Speaker = {
 };
 
 export type Trip = {
-  StartDate: string; // Example Format: "2024-04-30"
-  EndDate: string; // Example Format: "2024-04-30"
+  StartDate?: Dayjs; // Example Format: "2024-04-30"
+  EndDate?: Dayjs; // Example Format: "2024-04-30"
   Duration?: number;
   GuestSpeaker: string[];
   MainEvent: string[];
