@@ -15,7 +15,7 @@ const router = express.Router();
 
 const mainEventTable = String(process.env.MAINEVENT)
 //get all main events
-router.get("/event", async (req, res) => {
+router.get("/events", async (req, res) => {
   try {
     const events = await getTable(mainEventTable, "");
     const formattedEvents: { id: string; fields: any }[] = [];

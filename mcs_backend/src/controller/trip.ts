@@ -16,7 +16,7 @@ import { Trip } from '../types/types';
 const router = express.Router();
 const TripTable = String(process.env.TRIP)
 //get all trips
-router.get('/trip', async (req, res) => {
+router.get('/trips', async (req, res) => {
   try {
     const trips = await getTable(TripTable, "");
     const formattedtrips: { id: string, fields: any }[] = [];

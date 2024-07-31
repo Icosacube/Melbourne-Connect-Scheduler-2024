@@ -12,7 +12,7 @@ import { Academic, TableFields } from '../types/types';
 const router = express.Router();
 const AcademicTable = String(process.env.ACADEMIC)
 //get all academics
-router.get('/academic', async (req, res) => {
+router.get('/academics', async (req, res) => {
   try {
     const accommodations = await getTable(AcademicTable, "");
     const formattedAcademics: { id: string, fields: any }[] = [];

@@ -26,7 +26,7 @@ router.get('/speakers', async (req, res) => {
   }
 });
 //get one speaker
-router.get('/speakers/:speaker_record_id', async (req, res) => {
+router.get('/speaker/:speaker_record_id', async (req, res) => {
     const { speaker_record_id } = req.params;
     
     try {
@@ -45,7 +45,7 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
     }
   });
 //create one speaker
-  router.post('/speakers', async (req, res) => {
+  router.post('/speaker', async (req, res) => {
     const newSpeakerItem: Speaker = req.body;
     const speakerRecord = {
       fields: newSpeakerItem 
@@ -60,7 +60,7 @@ router.get('/speakers/:speaker_record_id', async (req, res) => {
     }
   });
 //modify one speaker
-router.put('/speakers/:speaker_record_id', async (req, res) => {
+router.put('/speaker/:speaker_record_id', async (req, res) => {
   const { speaker_record_id } = req.params;
   const updatedSpeakerItem: Speaker = req.body;
 
@@ -78,7 +78,7 @@ router.put('/speakers/:speaker_record_id', async (req, res) => {
   }
 });
 //delete one speaker
-router.delete('/speakers/:speaker_record_id', async (req, res) => {
+router.delete('/speaker/:speaker_record_id', async (req, res) => {
   const { speaker_record_id } = req.params;
 
   try {

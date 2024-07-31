@@ -12,7 +12,7 @@ const router = express.Router();
 import { Flight } from '../types/types';
 const FlightTable = String(process.env.FLIGHT)
 //get all flights
-router.get('/flight', async (req, res) => {
+router.get('/flights', async (req, res) => {
     try {
       const flights = await getTable(FlightTable, "");
       const formattedFlights: { id: string, fields: any }[] = [];

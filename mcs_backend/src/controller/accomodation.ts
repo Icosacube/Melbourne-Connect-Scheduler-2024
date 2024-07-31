@@ -12,7 +12,7 @@ import { Accommodation, TableFields } from '../types/types';
 const router = express.Router();
 const AccomodationTable = String(process.env.ACCOMMODATION)
 //get all accomodations
-router.get('/accommodation', async (req, res) => {
+router.get('/accommodations', async (req, res) => {
   try {
     const accommodations = await getTable(AccomodationTable, "");
     const formattedAccommodations: { id: string, fields: any }[] = [];

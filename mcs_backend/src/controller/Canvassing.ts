@@ -12,7 +12,7 @@ import { Canvassing, TableFields } from '../types/types';
 const router = express.Router();
 const CanvassingTable = String(process.env.CANVASSING)
 //get all canvassings
-router.get('/canvassing', async (req, res) => {
+router.get('/canvassings', async (req, res) => {
   try {
     const accommodations = await getTable(CanvassingTable, "");
     const formattedCanvassing: { id: string, fields: any }[] = [];

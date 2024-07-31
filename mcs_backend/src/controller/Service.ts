@@ -11,7 +11,7 @@ const router = express.Router();
 import {  Service } from '../types/types';
 //get all services
 const ServiceTable = String(process.env.SERVICE)
-router.get('/service', async (req, res) => {
+router.get('/services', async (req, res) => {
     try {
         const services = await getTable(ServiceTable, "");
         const formattedServices: { id: string, fields: any }[] = [];
