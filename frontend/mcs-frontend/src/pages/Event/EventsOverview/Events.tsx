@@ -5,10 +5,10 @@ import { EventsTable } from "./EventsTable";
 import EventsWidgets from "./EventsWidgets";
 import { useLoaderData } from "react-router-dom";
 import { CreateEventModal } from "./CreateEventModal";
-import { Event } from "../../../types/types";
+import { MainEvent } from "../../../types/types";
 
 function Events() {
-  const events = useLoaderData() as Event[];
+  const events = useLoaderData() as MainEvent[];
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
