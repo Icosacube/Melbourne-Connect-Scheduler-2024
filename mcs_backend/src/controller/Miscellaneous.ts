@@ -9,10 +9,11 @@ import {
 
 const router = express.Router();
 import { Miscellaneous } from '../types/types'; 
-
+const miscellaneousTable = String(process.env.MISCELLANEOUS)
+//get all miscellaneous
 router.get('/miscellaneous', async (req, res) => {
   try {
-    const miscellaneousItems = await getTable('Miscellaneous', "");
+    const miscellaneousItems = await getTable(miscellaneousTable, "");
     const formattedMiscellaneous: { id: string, fields: any }[] = [];
     miscellaneousItems.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields); 
@@ -24,12 +25,31 @@ router.get('/miscellaneous', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+// Get a specific Miscellaneous by ID
+router.get('/miscellaneous/:Miscellaneous_record_id', async (req, res) => {
+  const { Miscellaneous_record_id } = req.params;
+  
+  try {
+    const MiscellaneousRecord = await getRecord(miscellaneousTable, Miscellaneous_record_id);
+    
+    if (!MiscellaneousRecord) {
+      return res.status(404).json({ message: 'Miscellaneous not found' });
+    }
+    let plainFields = Object.fromEntries(MiscellaneousRecord.get(Miscellaneous_record_id));
+    let formattedMiscellaneouss: {id: string, fields: any} = {id: Miscellaneous_record_id, fields: plainFields}
+    res.json(formattedMiscellaneouss)
 
-router.get('/:tripID/miscellaneous', async (req, res) => {
+  } catch (error) {
+    console.error("Error fetching Miscellaneous:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+//get all miscellaneous for one trip
+router.get('/miscellaneous/:tripID', async (req, res) => {
   const { tripID } = req.params;
 
   try {
-    const miscellaneousItems = await getTable('Miscellaneous', "");
+    const miscellaneousItems = await getTable(miscellaneousTable, "");
     const tripMiscellaneousItems: { id: string, fields: any }[] = [];
 
     miscellaneousItems.forEach((fields, id) => {
@@ -48,8 +68,8 @@ router.get('/:tripID/miscellaneous', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-router.post('/:tripID/miscellaneous', async (req, res) => {
+//create one miscellaneous for one trip
+router.post('/miscellaneous/:tripID', async (req, res) => {
   const tripID = req.params.tripID;
   const newMiscellaneousItem: Miscellaneous = req.body;
   newMiscellaneousItem.Trip = [tripID];
@@ -58,14 +78,14 @@ router.post('/:tripID/miscellaneous', async (req, res) => {
   };
 
   try {
-    await createRecord('Miscellaneous', [miscellaneousRecord]);
+    await createRecord(miscellaneousTable, [miscellaneousRecord]);
     res.status(201).json({ message: 'Miscellaneous item created successfully' });
   } catch (error) {
     console.error("Failed to create miscellaneous item:", error);
     res.status(500).json({ error: 'Failed to create miscellaneous item' });
   }
 });
-
+//modify one miscellaneous 
 router.put('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   const { miscellaneous_record_id } = req.params;
   const updatedMiscellaneousItem: Miscellaneous = req.body;
@@ -76,19 +96,19 @@ router.put('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   }];
 
   try {
-    await updateRecord('Miscellaneous', recordToUpdate);
+    await updateRecord(miscellaneousTable, recordToUpdate);
     res.status(200).json({ message: 'Miscellaneous item updated successfully' });
   } catch (error) {
     console.error("Failed to update miscellaneous item:", error);
     res.status(500).json({ error: 'Failed to update miscellaneous item' });
   }
 });
-
+//delete one miscellaneous 
 router.delete('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   const { miscellaneous_record_id } = req.params;
 
   try {
-    await deleteRecords('Miscellaneous', [miscellaneous_record_id]);
+    await deleteRecords(miscellaneousTable, [miscellaneous_record_id]);
     res.status(200).json({ message: 'Miscellaneous item deleted successfully' });
   } catch (error) {
     console.error("Failed to delete miscellaneous item:", error);

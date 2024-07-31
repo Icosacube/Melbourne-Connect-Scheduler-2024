@@ -14,10 +14,11 @@ import {
 } from '../types/types';
 import { Trip } from '../types/types';
 const router = express.Router();
-
-router.get('/trip', async (req, res) => {
+const TripTable = String(process.env.TRIP)
+//get all trips
+router.get('/trips', async (req, res) => {
   try {
-    const trips = await getTable('Trip', "");
+    const trips = await getTable(TripTable, "");
     const formattedtrips: { id: string, fields: any }[] = [];
     trips.forEach((fields, id) => {
       const plainFields = Object.fromEntries(fields); 
@@ -29,12 +30,31 @@ router.get('/trip', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+// Get a specific trip by ID
+router.get('/trip/:trip_record_id', async (req, res) => {
+  const { trip_record_id } = req.params;
+  
+  try {
+    const tripRecord = await getRecord(TripTable, trip_record_id);
+    
+    if (!tripRecord) {
+      return res.status(404).json({ message: 'trip not found' });
+    }
+    let plainFields = Object.fromEntries(tripRecord.get(trip_record_id));
+    let formattedtrips: {id: string, fields: any} = {id: trip_record_id, fields: plainFields}
+    res.json(formattedtrips)
 
+  } catch (error) {
+    console.error("Error fetching trip:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+//get all trips for a speaker
 router.get('/trip/:speaker_id', async (req, res) => {
   const { speaker_id} = req.params;
 
   try {
-    const trips = await getTable('Trip', "");
+    const trips = await getTable(TripTable, "");
     const guestSpeakerTrips: { id: string, fields: any }[] = [];
     
     trips.forEach((fields, id) => {
@@ -52,7 +72,7 @@ router.get('/trip/:speaker_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
+//create one trip for a speaker
 router.post('/trip/:speaker_id', async (req, res) => {
   const newTrip: Trip = req.body as Trip; 
   const { speaker_id } = req.params;
@@ -64,14 +84,14 @@ router.post('/trip/:speaker_id', async (req, res) => {
   };
   console.log("tableFields:",tableFields)
   try {
-    await createRecord('Trip', [tableFields]);
+    await createRecord(TripTable, [tableFields]);
     res.status(200).json({ message: 'Trip created successfully' });
   } catch (error) {
     console.error("Failed to create trip:", error);
     res.status(500).json({ error: 'Failed to create trip' });
   }
 });
-
+//modify one trip
 router.put('/trip/:trip_record_id', async (req, res) => {
   const { trip_record_id } = req.params;
   const updatedTrip: Trip = req.body as Trip;
@@ -82,18 +102,19 @@ router.put('/trip/:trip_record_id', async (req, res) => {
   }];
 
   try {
-    await updateRecord('Trip', recordToUpdate);
+    await updateRecord(TripTable, recordToUpdate);
     res.status(200).json({ message: 'Trip updated successfully' });
   } catch (error) {
     console.error("Failed to update trip:", error);
     res.status(500).json({ error: 'Failed to update trip' });
   }
 });
+//delete one trip
 router.delete('/trip/:trip_record_id', async (req, res) => {
   const { trip_record_id } = req.params;
 
   try {
-    await deleteRecords('Trip', [trip_record_id]);
+    await deleteRecords(TripTable, [trip_record_id]);
     res.status(200).json({ message: 'Trip deleted successfully' });
   } catch (error) {
     console.error("Failed to delete trip:", error);
