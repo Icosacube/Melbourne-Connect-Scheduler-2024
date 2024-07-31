@@ -30,6 +30,25 @@ router.get('/trip', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+// Get a specific trip by ID
+router.get('/trip/:trip_record_id', async (req, res) => {
+  const { trip_record_id } = req.params;
+  
+  try {
+    const tripRecord = await getRecord(TripTable, trip_record_id);
+    
+    if (!tripRecord) {
+      return res.status(404).json({ message: 'trip not found' });
+    }
+    let plainFields = Object.fromEntries(tripRecord.get(trip_record_id));
+    let formattedtrips: {id: string, fields: any} = {id: trip_record_id, fields: plainFields}
+    res.json(formattedtrips)
+
+  } catch (error) {
+    console.error("Error fetching trip:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 //get all trips for a speaker
 router.get('/trip/:speaker_id', async (req, res) => {
   const { speaker_id} = req.params;

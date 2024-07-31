@@ -26,7 +26,25 @@ router.get('/accommodation', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+// Get a specific Accomodation by ID
+router.get('/accomodation/:Accomodation_record_id', async (req, res) => {
+  const { Accomodation_record_id } = req.params;
+  
+  try {
+    const AccomodationRecord = await getRecord(AccomodationTable, Accomodation_record_id);
+    
+    if (!AccomodationRecord) {
+      return res.status(404).json({ message: 'Accomodation not found' });
+    }
+    let plainFields = Object.fromEntries(AccomodationRecord.get(Accomodation_record_id));
+    let formattedAccomodations: {id: string, fields: any} = {id: Accomodation_record_id, fields: plainFields}
+    res.json(formattedAccomodations)
 
+  } catch (error) {
+    console.error("Error fetching Accomodation:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 //get all accomodations for one trip
 router.get('/accommodation/:tripID', async (req, res) => {
   const { tripID } = req.params;

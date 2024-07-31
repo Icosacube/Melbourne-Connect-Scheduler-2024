@@ -26,6 +26,25 @@ router.get('/flight', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+  // Get a specific Flight by ID
+router.get('/flight/:Flight_record_id', async (req, res) => {
+  const { Flight_record_id } = req.params;
+  
+  try {
+    const FlightRecord = await getRecord(FlightTable, Flight_record_id);
+    
+    if (!FlightRecord) {
+      return res.status(404).json({ message: 'Flight not found' });
+    }
+    let plainFields = Object.fromEntries(FlightRecord.get(Flight_record_id));
+    let formattedFlights: {id: string, fields: any} = {id: Flight_record_id, fields: plainFields}
+    res.json(formattedFlights)
+
+  } catch (error) {
+    console.error("Error fetching Flight:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
   //get all flights for one trip
 router.get('/flight/:tripID', async (req, res) => {
     const { tripID } = req.params;
