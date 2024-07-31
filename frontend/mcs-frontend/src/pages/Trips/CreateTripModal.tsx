@@ -7,7 +7,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import dayjs from 'dayjs';
-import {Trip, Event} from "../../types/types";
+import {Trip} from "../../types/types";
+
+
+export type MainEvent = {
+    EventName: string;
+    id: string;
+}
 
 interface CreateTripModalProps {
   handleClose: () => void;
@@ -31,31 +37,27 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
   const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
   const [selectedSpeakers, setSelectedSpeakers] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<MainEvent[]>([]);
   const [speakers, setSpeakers] = useState<Speaker[]>([]);
 
   useEffect(() => {
     if (open) {
-      loadEvents();
+      axios.get(process.env.REACT_APP_BACKEND_URL + '/event').then(res => {
+        const events = res.data;
+        console.log(events[0]);
+        setEvents(events);
+        setSpeakers(events.speakers == null ? [] : events.fields.speakers);
+        console.log(events);
+        
+     }).catch(err => {
+      console.error("Failed to load events", err);
+     })
     }
   }, [open]);
 
-  // temporary solution
-  const loadEvents = async () => {
-    try {
-      const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/events'); 
-      const events = res.data;
-      setEvents(events);
-      setSpeakers(events.speakers == null ? [] : events.speakers);
-      console.log(events);
-    } catch (error) {
-      console.error("Failed to load events", error);
-    }
-  };
 
-
-  const handleEventChange = (event: SelectChangeEvent<string[]>) => {
-    const selectedIds = event.target.value as string[];
+  const handleEventChange = (e: SelectChangeEvent<string[]>) => {
+    const selectedIds = e.target.value as string[];
     const selectedEvents = events.filter(e => selectedIds.includes(e.id));
     setSelectedEvents(selectedIds);
     setNewTrip({ ...newTrip, MainEvent: selectedIds });
@@ -157,7 +159,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
                     onChange={handleEventChange}
                     name="event">
                     {events.map((event) => (
-                      <MenuItem value={event.id} key={event.id}>{event.name}</MenuItem>
+                      <MenuItem value={event.id} key={event.id}>{event.EventName}</MenuItem>
                     ))}
                   </Select>
               </Grid>
