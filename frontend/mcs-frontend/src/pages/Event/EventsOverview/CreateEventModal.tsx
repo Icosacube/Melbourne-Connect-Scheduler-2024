@@ -1,178 +1,72 @@
-import {
-  Alert,
-  Box,
-  Button,
-  MenuItem,
-  Modal,
-  Select,
-  SelectChangeEvent,
-  Slide,
-  Snackbar,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import React, { ChangeEvent, useState } from "react";
-import createEvent from "../../../scripts/createEvent";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { v4 as uuidv4 } from "uuid";
-import dayjs from "dayjs";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import BottomSuccessSnackbar from "../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar";
+import { FormInputDate } from "../../../components/FormComponents/FormInputDate";
+import { FormInputMultiSelect } from "../../../components/FormComponents/FormInputDropdown";
+import { FormInputText } from "../../../components/FormComponents/FormInputText";
+import dayjs, { Dayjs } from "dayjs";
 
 interface CreateEventModalProps {
   handleClose: () => void;
   open: boolean;
 }
 
-// These are here because there were some import errors
-
-type Event = {
-  id: string;
-  name?: string;
-  date?: dayjs.Dayjs;
-  venue?: Venue[];
-  speakers?: Speaker[];
-  description?: string;
-  abstract?: string;
-  status: EventStatus;
-  catering?: Cater;
-};
-
-type Speaker = {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-};
-
-type Venue = {
-  id: number;
-  name: string;
-  location: string;
-  capacity: number;
-};
-
-enum EventStatus {
-  Preparation = "Preparation",
-  Implementation = "Implementation",
-  Ongoing = "Ongoing",
-  Completed = "Completed",
-  Cancelled = "Cancelled",
+interface CreateEventFormInput {
+  speaker: string[];
+  venue: string[];
+  date: Dayjs;
+  eventDescription: string;
+  eventName: string;
+  eventAbstract: string;
 }
 
-type Cater = {
-  id: number;
-  name: string;
+const CreateEventFormDefaultValues = {
+  speaker: [],
+  venue: [],
+  date: dayjs(),
+  eventDescription: "",
+  eventName: "",
+  eventAbstract: "",
 };
 
-export const CreateEventModal: React.FC<CreateEventModalProps> = ({
+const speakers = [
+  {
+    label: "Speaker 1",
+    value: "1",
+  },
+  {
+    label: "Speaker 2",
+    value: "2",
+  },
+];
+
+const venue = [
+  {
+    label: "Venue 1",
+    value: "1",
+  },
+  {
+    label: "Venue 2",
+    value: "2",
+  },
+];
+
+export const CreateEventModal: React.FC<CreateEventModalProps> = (
   handleClose,
-  open,
-}) => {
-  const [newEvent, setNewEvent] = useState<Event>({
-    id: uuidv4(),
-    status: EventStatus.Preparation,
-    venue: [],
-    speakers: [],
-  });
-  const [selectedSpeakers, setSelectedSpeakers] = useState<string[]>([]);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setNewEvent({ ...newEvent, [name]: value });
-  };
-
-  const handleSpeakerChange = (event: SelectChangeEvent<string[]>) => {
-    const selectedIds = event.target.value as string[];
-    const selectedSpeakers = speakers.filter((speaker) =>
-      selectedIds.includes(speaker.id)
-    );
-    setSelectedSpeakers(selectedIds);
-    setNewEvent({ ...newEvent, speakers: selectedSpeakers });
-  };
-
-  const handleDate = (e: any) => {
-    // datepicker already has it
-    setNewEvent({ ...newEvent, date: e });
-  };
-
-  const onClose = () => {
-    // reset useState variables
-    setNewEvent({
-      id: uuidv4(),
-      status: EventStatus.Preparation,
-      venue: [],
-      speakers: [],
+  open
+) => {
+  const { handleSubmit, reset, control, setValue } =
+    useForm<CreateEventFormInput>({
+      defaultValues: CreateEventFormDefaultValues,
     });
-    setSelectedSpeakers([]);
-    // close modal
-    handleClose();
-  };
-  const handleSave = async () => {
-    setShowSuccess(false);
-    handleClose();
-    console.log(newEvent);
-    // TODO change to actual speaker id
-    var res = await createEvent(newEvent, "");
-    if (res) {
-      // handle success
-      // reset useState variables
-      setNewEvent({
-        id: uuidv4(),
-        status: EventStatus.Preparation,
-        venue: [],
-        speakers: [],
-      });
-      setSelectedSpeakers([]);
 
-      // display success message
-      setTimeout(() => {
-        setShowSuccess(true);
-        setTimeout(() => {
-          setShowSuccess(false);
-        }, 2000);
-      }, 0);
-    } else {
-      // handle failure
-    }
+  const onSubmit = (data: CreateEventFormInput) => console.log(data);
+  const onClose = () => {
+    reset();
   };
-  const speakers: Speaker[] = [
-    {
-      id: "1",
-      first_name: "John",
-      last_name: "Jones",
-      email: "john.jones@example.com",
-    },
-    {
-      id: "2",
-      first_name: "Jane",
-      last_name: "Smith",
-      email: "jane.smith@example.com",
-    },
-    {
-      id: "3",
-      first_name: "Alice",
-      last_name: "Johnson",
-      email: "alice.johnson@example.com",
-    },
-    {
-      id: "4",
-      first_name: "Bob",
-      last_name: "Williams",
-      email: "bob.williams@example.com",
-    },
-    {
-      id: "5",
-      first_name: "Eve",
-      last_name: "Brown",
-      email: "eve.brown@example.com",
-    },
-  ];
+
+  const [showSuccess, setShowSuccess] = useState(false);
 
   return (
     <>
@@ -183,99 +77,50 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         aria-describedby="modal-modal-description"
       >
         <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
-          <Box className="w-full p-7 flex space-x-6">
-            <Box className="w-1/2 space-y-4">
-              <Box className="flex justify-between space-x-2">
-                <Stack className="w-1/2">
-                  <Typography variant="h6">Speakers</Typography>
-                  <Box className="bg-gray-100 p-4 rounded-xl ">
-                    <Select
-                      fullWidth
-                      value={selectedSpeakers}
-                      onChange={handleSpeakerChange}
-                      name="speakers"
-                      multiple
-                    >
-                      {speakers.map((speaker) => (
-                        <MenuItem value={speaker.id} key={speaker.id}>
-                          {speaker.first_name} {speaker.last_name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </Box>
-                </Stack>
-                <Stack className="w-1/2">
-                  <Typography variant="h6">Date</Typography>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      className="bg-gray-100 p-4 rounded-xl "
-                      // variant="outlined"
-                      defaultValue={newEvent.date}
-                      value={newEvent.date}
-                      name="date"
-                      onChange={handleDate}
-                      // adapterLocale="en-au"
-                    />
-                  </LocalizationProvider>
-                </Stack>
-              </Box>
-              <Stack>
-                <Typography variant="h6">Venue</Typography>
-                <TextField
-                  className="bg-gray-100 p-4 rounded-xl "
-                  variant="outlined"
-                  name="venue"
-                  defaultValue={newEvent.venue}
-                  value={newEvent.venue}
-                  onChange={handleInputChange}
-                />
-              </Stack>
-              <Stack>
-                <Typography variant="h6">Event Description</Typography>
-                <TextField
-                  className="bg-gray-100 p-4 rounded-xl "
-                  variant="outlined"
-                  name="eventDescription"
-                  defaultValue={newEvent.description}
-                  onChange={handleInputChange}
-                  value={newEvent.description}
-                  multiline
-                />
-              </Stack>
+          <Typography className="heading">Create Event</Typography>
+          <Box className="space-y-4 flex space-x-10">
+            <Box className="space-y-4">
+              <FormInputText
+                name="eventName"
+                control={control}
+                label="Event Name"
+              />
+              <FormInputMultiSelect
+                name="venue"
+                control={control}
+                label="Venue"
+                options={venue}
+              />
+              <FormInputMultiSelect
+                name="speaker"
+                control={control}
+                label="Speaker"
+                options={speakers}
+              />
             </Box>
-            <Box className="w-1/2 space-y-4">
-              <Stack>
-                <Typography variant="h6">Event Name</Typography>
-                <TextField
-                  className="bg-gray-100 p-4 rounded-xl "
-                  variant="outlined"
-                  defaultValue={newEvent.name}
-                  value={newEvent.name}
-                  onChange={handleInputChange}
-                  name="name"
-                />
-              </Stack>
-              <Stack>
-                <Typography variant="h6">Talk Abstract</Typography>
-                <TextField
-                  className="bg-gray-100 p-4 rounded-xl "
-                  variant="outlined"
-                  defaultValue={newEvent.abstract}
-                  multiline
-                  value={newEvent.abstract}
-                  onChange={handleInputChange}
-                  name="talkAbstract"
-                />
-              </Stack>
+            <Box>
+              <FormInputText
+                name="eventDescription"
+                control={control}
+                label="Event Description"
+              />
+
+              <FormInputText
+                name="eventAbstract"
+                control={control}
+                label="Event Abstract"
+              />
+              <FormInputDate name="date" control={control} label="Date" />
             </Box>
           </Box>
-          <Button
-            variant="contained"
-            onClick={handleSave}
-            className="bg-primary text-white hover:bg-tertiary "
-          >
-            Save
-          </Button>
+          <Box>
+            <Button onClick={handleSubmit(onSubmit)} variant={"contained"}>
+              Submit
+            </Button>
+            <Button onClick={() => reset()} variant={"outlined"}>
+              Reset
+            </Button>
+          </Box>
         </Box>
       </Modal>
 
@@ -288,3 +133,187 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     </>
   );
 };
+
+// These are here because there were some import errors
+// export const CreateEventModal: React.FC<CreateEventModalProps> = ({
+//   handleClose,
+//   open,
+// }) => {
+//   const [newEvent, setNewEvent] = useState<MainEvent>({});
+//   const [selectedSpeakers, setSelectedSpeakers] = useState<string[]>([]);
+//   const [showSuccess, setShowSuccess] = useState(false);
+//   // TODO load in speakers
+//   const speakers: Speaker[] = [];
+
+//   const handleInputChange = (
+//     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+//   ) => {
+//     const { name, value } = e.target;
+//     setNewEvent({ ...newEvent, [name]: value });
+//   };
+
+//   const handleSpeakerChange = (event: SelectChangeEvent<string[]>) => {
+//     const selectedSpeakerIds = event.target.value as string[];
+//     setNewEvent({ ...newEvent, Speaker: selectedSpeakerIds });
+//   };
+
+//   const handleDate = (e: any) => {
+//     // datepicker already has it
+//     setNewEvent({ ...newEvent, Date: e });
+//   };
+
+//   const onClose = () => {
+//     // reset useState variables
+//     // setNewEvent({
+//     //   venue: [],
+//     //   speakers: [],
+//     // });
+//     setSelectedSpeakers([]);
+//     // close modal
+//     handleClose();
+//   };
+//   const handleSave = async () => {
+//     setShowSuccess(false);
+//     handleClose();
+//     console.log(newEvent);
+//     // TODO change to actual speaker id
+//     var res = await createEvent(newEvent, "");
+//     if (res) {
+//       // handle success
+//       // reset useState variables
+//       // setNewEvent({
+//       //   Venue: [],
+//       //   Speaker: [],
+//       // });
+//       setSelectedSpeakers([]);
+
+//       // display success message
+//       setTimeout(() => {
+//         setShowSuccess(true);
+//         setTimeout(() => {
+//           setShowSuccess(false);
+//         }, 2000);
+//       }, 0);
+//     } else {
+//       // handle failure
+//     }
+//   };
+
+//   return (
+//     <>
+//       <Modal
+//         open={open}
+//         onClose={onClose}
+//         aria-labelledby="modal-modal-title"
+//         aria-describedby="modal-modal-description"
+//       >
+//       </Modal>
+//         {/* <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
+//           <Box className="w-full p-7 flex space-x-6">
+//             <Box className="w-1/2 space-y-4">
+//               <Box className="flex justify-between space-x-2">
+//                 <Stack className="w-1/2">
+//                   <Typography variant="h6">Speakers</Typography>
+//                   <Box className="bg-gray-100 p-4 rounded-xl ">
+//                     <Select
+//                       fullWidth
+//                       value={selectedSpeakers}
+//                       onChange={handleSpeakerChange}
+//                       name="speakers"
+//                       multiple
+//                     >
+//                       {speakers.map((speaker) => (
+//                         <MenuItem
+//                           value={speaker.RecordID}
+//                           key={speaker.RecordID}
+//                         >
+//                           {speaker.FirstName} {speaker.LastName}
+//                         </MenuItem>
+//                       ))}
+//                     </Select>
+//                   </Box>
+//                 </Stack>
+//                 <Stack className="w-1/2">
+//                   <Typography variant="h6">Date</Typography>
+//                   <LocalizationProvider dateAdapter={AdapterDayjs}>
+//                     <DatePicker
+//                       className="bg-gray-100 p-4 rounded-xl "
+//                       // variant="outlined"
+//                       defaultValue={newEvent.Date}
+//                       value={newEvent.Date}
+//                       name="date"
+//                       onChange={handleDate}
+//                       // adapterLocale="en-au"
+//                     />
+//                   </LocalizationProvider>
+//                 </Stack>
+//               </Box>
+//               <Stack>
+//                 <Typography variant="h6">Venue</Typography>
+//                 <TextField
+//                   className="bg-gray-100 p-4 rounded-xl "
+//                   variant="outlined"
+//                   name="venue"
+//                   defaultValue={newEvent.Venue}
+//                   value={newEvent.Venue}
+//                   onChange={handleInputChange}
+//                 />
+//               </Stack>
+//               <Stack>
+//                 <Typography variant="h6">Event Description</Typography>
+//                 <TextField
+//                   className="bg-gray-100 p-4 rounded-xl "
+//                   variant="outlined"
+//                   name="eventDescription"
+//                   defaultValue={newEvent.EventDescription}
+//                   onChange={handleInputChange}
+//                   value={newEvent.EventDescription}
+//                   multiline
+//                 />
+//               </Stack>
+//             </Box>
+//             <Box className="w-1/2 space-y-4">
+//               <Stack>
+//                 <Typography variant="h6">Event Name</Typography>
+//                 <TextField
+//                   className="bg-gray-100 p-4 rounded-xl "
+//                   variant="outlined"
+//                   defaultValue={newEvent.EventName}
+//                   value={newEvent.EventName}
+//                   onChange={handleInputChange}
+//                   name="name"
+//                 />
+//               </Stack>
+//               <Stack>
+//                 <Typography variant="h6">Event Abstract</Typography>
+//                 <TextField
+//                   className="bg-gray-100 p-4 rounded-xl "
+//                   variant="outlined"
+//                   defaultValue={newEvent.EventAbstract}
+//                   multiline
+//                   value={newEvent.EventAbstract}
+//                   onChange={handleInputChange}
+//                   name="talkAbstract"
+//                 />
+//               </Stack>
+//             </Box>
+//           </Box>
+//           <Button
+//             variant="contained"
+//             onClick={handleSave}
+//             className="bg-primary text-white hover:bg-tertiary "
+//           >
+//             Save
+//           </Button>
+//         </Box> */}
+//       </Modal>
+
+//       {/* Snackbar for success message after event creation */}
+//       <BottomSuccessSnackbar
+//         showSuccess={showSuccess}
+//         setShowSuccess={setShowSuccess}
+//         message="Event created successfully"
+//       />
+//     </>
+//   );
+// };

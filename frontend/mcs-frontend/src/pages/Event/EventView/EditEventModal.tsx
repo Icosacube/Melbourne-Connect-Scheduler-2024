@@ -1,27 +1,24 @@
 import {
-  Alert,
   Box,
   Button,
   MenuItem,
   Modal,
   Select,
-  Slide,
-  Snackbar,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import "dayjs/locale/en-au";
 import React, { FC, useState } from "react";
-import updateEvent from "../../../scripts/updateEvent";
-import { Event } from "../../../types/types";
 import BottomSuccessSnackbar from "../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar";
+import updateEvent from "../../../scripts/updateEvent";
+import { MainEvent } from "../../../types/types";
 
 interface EditEventModalProps {
-  event: Event;
+  event: MainEvent;
   handleClose: () => void;
   open: boolean;
   setEvent: (event: any) => void;
@@ -42,7 +39,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
   };
   const handleDate = (e: any) => {
     // datepicker already has it
-    setEditedEvent({ ...editedEvent, date: e });
+    setEditedEvent({ ...editedEvent, Date: e });
   };
   const handleSave = () => {
     setEvent(editedEvent);
@@ -90,8 +87,8 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                   <Box className="bg-gray-100 p-4 rounded-xl ">
                     <Select
                       fullWidth
-                      defaultValue={editedEvent.speakers}
-                      value={editedEvent.speakers}
+                      defaultValue={editedEvent.Speaker}
+                      value={editedEvent.Speaker}
                       onChange={handleInputChange}
                       name="speakers"
                       multiple
@@ -108,8 +105,8 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                     <DatePicker
                       className="bg-gray-100 p-4 rounded-xl "
                       // variant="outlined"
-                      defaultValue={editedEvent.date}
-                      value={editedEvent.date}
+                      defaultValue={editedEvent.Date}
+                      value={editedEvent.Date}
                       name="date"
                       onChange={handleDate}
                       // adapterLocale="en-au"
@@ -123,8 +120,8 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
                   name="venue"
-                  defaultValue={editedEvent.venue}
-                  value={editedEvent.venue}
+                  defaultValue={editedEvent.Venue}
+                  value={editedEvent.Venue}
                   onChange={handleInputChange}
                 />
               </Stack>
@@ -134,9 +131,9 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
                   name="description"
-                  defaultValue={editedEvent.description}
+                  defaultValue={editedEvent.EventDescription}
                   onChange={handleInputChange}
-                  value={editedEvent.description}
+                  value={editedEvent.EventDescription}
                   multiline
                 />
               </Stack>
@@ -147,8 +144,8 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                 <TextField
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
-                  defaultValue={editedEvent.name}
-                  value={editedEvent.name}
+                  defaultValue={editedEvent.EventName}
+                  value={editedEvent.EventName}
                   onChange={handleInputChange}
                   name="name"
                 />
@@ -158,9 +155,9 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                 <TextField
                   className="bg-gray-100 p-4 rounded-xl "
                   variant="outlined"
-                  defaultValue={editedEvent.abstract}
+                  defaultValue={editedEvent.EventAbstract}
                   multiline
-                  value={editedEvent.abstract}
+                  value={editedEvent.EventAbstract}
                   onChange={handleInputChange}
                   name="eventAbstract"
                 />
