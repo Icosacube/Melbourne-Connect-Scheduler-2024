@@ -1,12 +1,12 @@
-import { Avatar, Box, Chip, Paper, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Chip, Stack, Typography } from "@mui/material";
 import React, { FC } from "react";
+import { MainEvent } from "../../../../types/types";
 import AboutTable from "./AboutTable";
-import Headline from "./Headline";
-import { Event, Speaker } from "../../../../types/types";
 import Banner from "./Banner";
+import Headline from "./Headline";
 
 interface AboutProps {
-  event: Event;
+  event: MainEvent;
 }
 
 interface NameCardProps {
@@ -38,7 +38,7 @@ export const About: FC<AboutProps> = ({ event }) => {
         <Banner image={"ADD ACTUAL IMAGE INFO"} />
         <Box className="pl-8 pr-8">
           {/* Date and Status */}
-          <Headline date={event.date?.toString()} name={event.name} />
+          <Headline date={event.Date?.toString()} name={event.EventName} />
 
           {/* Info Table */}
           <AboutTable event={event} />

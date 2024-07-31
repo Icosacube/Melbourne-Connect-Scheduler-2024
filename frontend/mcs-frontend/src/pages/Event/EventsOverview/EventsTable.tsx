@@ -2,12 +2,12 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { DataGrid, GridFilterItem, GridFilterOperator } from "@mui/x-data-grid";
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { getStatus } from "../function";
-import { Event } from "../../../types/types";
+// import { getStatus } from "../function";
+import { MainEvent } from "../../../types/types";
 import type { GridColDef } from "@mui/x-data-grid";
 
 interface EventsTableProps {
-  events: Event[];
+  events: MainEvent[];
 }
 
 export const EventsTable: FC<EventsTableProps> = ({ events }) => {
@@ -69,7 +69,7 @@ export const EventsTable: FC<EventsTableProps> = ({ events }) => {
     },
   ];
 
-  const columns: GridColDef<Event>[] = [
+  const columns: GridColDef<MainEvent>[] = [
     {
       field: "id",
       headerName: "ID",
@@ -84,14 +84,14 @@ export const EventsTable: FC<EventsTableProps> = ({ events }) => {
       flex: 1,
       width: 280,
     },
-    // {
-    //   field: 'date',
-    //   headerName: 'Date',
-    //   headerClassName: 'event-table',
-    //   type: 'date',
-    //   flex: 1,
-    //   width: 130
-    // },
+    {
+      field: "date",
+      headerName: "Date",
+      headerClassName: "event-table",
+      type: "date",
+      flex: 1,
+      width: 130,
+    },
     {
       field: "venue",
       headerClassName: "event-table",
@@ -105,17 +105,6 @@ export const EventsTable: FC<EventsTableProps> = ({ events }) => {
       headerName: "Speakers",
       flex: 1,
       width: 150,
-    },
-    {
-      field: "status",
-      headerClassName: "event-table",
-      headerName: "Status",
-      flex: 1,
-      width: 150,
-      filterOperators: statusOnlyOperators,
-      renderCell({ row }: { row: Event }) {
-        return getStatus(row.status);
-      },
     },
     {
       field: "date",
