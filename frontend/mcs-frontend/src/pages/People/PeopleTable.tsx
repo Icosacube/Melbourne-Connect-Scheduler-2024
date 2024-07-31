@@ -90,7 +90,7 @@ const rows = [
   // Add other rows as needed
 ];
 
-export const PeopleTable: FC = () => {
+export const PeopleTable: FC = ({data}) => {
   const navigate = useNavigate();
 
   const handleRowClick = (params: { row: { id: any } }) => {
