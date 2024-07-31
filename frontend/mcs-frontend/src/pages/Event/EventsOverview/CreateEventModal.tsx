@@ -52,17 +52,22 @@ const venue = [
   },
 ];
 
-export const CreateEventModal: React.FC<CreateEventModalProps> = (
+export const CreateEventModal: React.FC<CreateEventModalProps> = ({
   handleClose,
-  open
-) => {
+  open,
+}) => {
   const { handleSubmit, reset, control, setValue } =
     useForm<CreateEventFormInput>({
       defaultValues: CreateEventFormDefaultValues,
     });
 
-  const onSubmit = (data: CreateEventFormInput) => console.log(data);
+  const onSubmit = (data: CreateEventFormInput) => {
+    setShowSuccess(true);
+    handleClose();
+    console.log(data);
+  };
   const onClose = () => {
+    handleClose();
     reset();
   };
 
@@ -77,8 +82,11 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = (
         aria-describedby="modal-modal-description"
       >
         <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
-          <Typography className="heading">Create Event</Typography>
-          <Box className="space-y-4 flex space-x-10">
+          <Typography variant="h5" className="mb-4">
+            Create Event
+          </Typography>
+          {/* Left */}
+          <Box className="flex space-x-10 mb-4">
             <Box className="space-y-4">
               <FormInputText
                 name="eventName"
@@ -98,13 +106,13 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = (
                 options={speakers}
               />
             </Box>
-            <Box>
+            {/* Right */}
+            <Box className="space-y-4">
               <FormInputText
                 name="eventDescription"
                 control={control}
                 label="Event Description"
               />
-
               <FormInputText
                 name="eventAbstract"
                 control={control}
@@ -113,7 +121,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = (
               <FormInputDate name="date" control={control} label="Date" />
             </Box>
           </Box>
-          <Box>
+          <Box className="space-x-4">
             <Button onClick={handleSubmit(onSubmit)} variant={"contained"}>
               Submit
             </Button>
