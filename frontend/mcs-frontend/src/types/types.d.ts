@@ -39,3 +39,16 @@ export type Cater= {
     id: number;
     name: string;
 }
+
+export type Trip = {
+    StartDate: string; // Example Format: "2024-04-30"
+    EndDate: string; // Example Format: "2024-04-30"
+    Duration?: number;
+    GuestSpeaker: string[];
+    MainEvent: string[];
+    Accommodation: string[];
+    Flight: string[];
+    Miscellaneous: string[];
+    AcademicCanvassing: string[];
+    Completed: boolean;
+}

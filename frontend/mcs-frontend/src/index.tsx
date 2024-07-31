@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { loader as eventsLoader } from './scripts/eventsLoader';
 import { loader as eventLoader } from './scripts/eventLoader';
+import { loader as speakersLoader } from "./scripts/speakersLoader";
 import './index.css';
 import {
   Dashboard,
@@ -62,7 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         {
           path: '/people',
           element: <People />,
-          errorElement: <ErrorPage />
+          errorElement: <ErrorPage />,
+          loader: speakersLoader,
         },
         {
           path: '/people/:id',
