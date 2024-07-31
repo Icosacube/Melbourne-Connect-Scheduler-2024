@@ -1,9 +1,9 @@
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import React, { FC } from "react";
-import { Event } from "../../../../types/types";
+import { MainEvent } from "../../../../types/types";
 
 interface AboutTableProps {
-  event: Event;
+  event: MainEvent;
 }
 
 interface CustomTextAreaProps {

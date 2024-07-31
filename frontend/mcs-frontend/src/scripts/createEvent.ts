@@ -1,8 +1,8 @@
 import axios from "axios";
-import { Event } from "../types/types";
+import { MainEvent } from "../types/types";
 
 // call to backend URL to
-export default async function createEvent(event: Event, speakerId: string) {
+export default async function createEvent(event: MainEvent, speakerId: string) {
   console.log("POSTing to " + process.env.REACT_APP_BACKEND_URL);
   const testSpeakerId = "rec0aszZKr8m7Fb6W";
   const res = await axios.post(
