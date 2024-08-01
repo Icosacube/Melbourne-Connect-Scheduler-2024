@@ -34,8 +34,8 @@ router.get('/catering/:Catering_record_id', async (req, res) => {
       if (!CateringRecord) {
         return res.status(404).json({ message: 'Catering not found' });
       }
-      let plainFields = Object.fromEntries(CateringRecord.get(Catering_record_id));
-      let formattedCaterings: {id: string, fields: any} = {id: Catering_record_id, fields: plainFields}
+      let plainFields = Object.fromEntries(CateringRecord);
+      let formattedCaterings: { [k: string]: any; } = plainFields
       res.json(formattedCaterings)
 
     } catch (error) {

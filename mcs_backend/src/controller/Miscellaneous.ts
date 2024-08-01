@@ -35,9 +35,9 @@ router.get('/miscellaneous/:Miscellaneous_record_id', async (req, res) => {
     if (!MiscellaneousRecord) {
       return res.status(404).json({ message: 'Miscellaneous not found' });
     }
-    let plainFields = Object.fromEntries(MiscellaneousRecord.get(Miscellaneous_record_id));
-    let formattedMiscellaneouss: {id: string, fields: any} = {id: Miscellaneous_record_id, fields: plainFields}
-    res.json(formattedMiscellaneouss)
+    let plainFields = Object.fromEntries(MiscellaneousRecord);
+    let formattedMiscellaneous: { [k: string]: any; } = plainFields
+    res.json(formattedMiscellaneous)
 
   } catch (error) {
     console.error("Error fetching Miscellaneous:", error);

@@ -36,8 +36,8 @@ router.get('/flight/:Flight_record_id', async (req, res) => {
     if (!FlightRecord) {
       return res.status(404).json({ message: 'Flight not found' });
     }
-    let plainFields = Object.fromEntries(FlightRecord.get(Flight_record_id));
-    let formattedFlights: {id: string, fields: any} = {id: Flight_record_id, fields: plainFields}
+    let plainFields = Object.fromEntries(FlightRecord);
+    let formattedFlights: { [k: string]: any; } = plainFields
     res.json(formattedFlights)
 
   } catch (error) {

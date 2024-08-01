@@ -36,9 +36,9 @@ router.get('/academic/:academic_record_id', async (req, res) => {
     if (!academicRecord) {
       return res.status(404).json({ message: 'academic not found' });
     }
-    let plainFields = Object.fromEntries(academicRecord.get(academic_record_id));
-    let formattedacademics: {id: string, fields: any} = {id: academic_record_id, fields: plainFields}
-    res.json(formattedacademics)
+    let plainFields = Object.fromEntries(academicRecord);
+    let formattedAcademics: { [k: string]: any; } = plainFields
+    res.json(formattedAcademics)
 
   } catch (error) {
     console.error("Error fetching academic:", error);

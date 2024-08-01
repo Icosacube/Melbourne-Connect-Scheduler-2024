@@ -35,8 +35,8 @@ router.get('/service/:Service_record_id', async (req, res) => {
       if (!ServiceRecord) {
         return res.status(404).json({ message: 'Service not found' });
       }
-      let plainFields = Object.fromEntries(ServiceRecord.get(Service_record_id));
-      let formattedServices: {id: string, fields: any} = {id: Service_record_id, fields: plainFields}
+      let plainFields = Object.fromEntries(ServiceRecord);
+      let formattedServices: { [k: string]: any; } = plainFields
       res.json(formattedServices)
 
     } catch (error) {

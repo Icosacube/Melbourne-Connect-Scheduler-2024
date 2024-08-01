@@ -64,7 +64,8 @@ export async function getRecord(table: string, id: string): Promise<Map<string, 
             }else {
                 resolve();
             }
-            retrieved.set(record!["id"], new Map(Object.entries(record!["fields"])));
+            retrieved = new Map(Object.entries(record!["fields"]))
+            retrieved.set("id", record!["id"])
         });
     });
 

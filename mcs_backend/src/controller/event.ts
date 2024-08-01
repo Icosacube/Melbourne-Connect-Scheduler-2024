@@ -63,9 +63,9 @@ router.get('/event/:event_record_id', async (req, res) => {
       if (!eventRecord) {
         return res.status(404).json({ message: 'event not found' });
       }
-      let plainFields = Object.fromEntries(eventRecord.get(event_record_id));
-      let formattedevents: {id: string, fields: any} = {id: event_record_id, fields: plainFields}
-      res.json(formattedevents)
+      let plainFields = Object.fromEntries(eventRecord);
+      let formattedEvents: { [k: string]: any; } = plainFields
+      res.json(formattedEvents)
 
     } catch (error) {
       console.error("Error fetching event:", error);

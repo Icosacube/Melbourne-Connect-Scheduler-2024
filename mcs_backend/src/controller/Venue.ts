@@ -35,9 +35,9 @@ router.get('/venue/:venue_record_id', async (req, res) => {
       if (!venueRecord) {
         return res.status(404).json({ message: 'venue not found' });
       }
-      let plainFields = Object.fromEntries(venueRecord.get(venue_record_id));
-      let formattedvenues: {id: string, fields: any} = {id: venue_record_id, fields: plainFields}
-      res.json(formattedvenues)
+      let plainFields = Object.fromEntries(venueRecord);
+      let formattedVenues: { [k: string]: any; } = plainFields
+      res.json(formattedVenues)
 
     } catch (error) {
       console.error("Error fetching venue:", error);

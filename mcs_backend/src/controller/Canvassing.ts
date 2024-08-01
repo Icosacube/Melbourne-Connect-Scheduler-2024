@@ -36,9 +36,9 @@ router.get('/canvassing/:Canvassing_record_id', async (req, res) => {
     if (!CanvassingRecord) {
       return res.status(404).json({ message: 'Canvassing not found' });
     }
-    let plainFields = Object.fromEntries(CanvassingRecord.get(Canvassing_record_id));
-    let formattedCanvassings: {id: string, fields: any} = {id: Canvassing_record_id, fields: plainFields}
-    res.json(formattedCanvassings)
+    let plainFields = Object.fromEntries(CanvassingRecord);
+    let formattedCanvassing: { [k: string]: any; } = plainFields
+    res.json(formattedCanvassing)
 
   } catch (error) {
     console.error("Error fetching Canvassing:", error);

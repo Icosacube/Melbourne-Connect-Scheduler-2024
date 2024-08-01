@@ -40,9 +40,9 @@ router.get('/trip/:trip_record_id', async (req, res) => {
     if (!tripRecord) {
       return res.status(404).json({ message: 'trip not found' });
     }
-    let plainFields = Object.fromEntries(tripRecord.get(trip_record_id));
-    let formattedtrips: {id: string, fields: any} = {id: trip_record_id, fields: plainFields}
-    res.json(formattedtrips)
+    let plainFields = Object.fromEntries(tripRecord);
+    let formattedTrips: { [k: string]: any; } = plainFields
+    res.json(formattedTrips)
 
   } catch (error) {
     console.error("Error fetching trip:", error);
