@@ -14,11 +14,11 @@ const miscellaneousTable = String(process.env.MISCELLANEOUS)
 router.get('/miscellaneous', async (req, res) => {
   try {
     const miscellaneousItems = await getTable(miscellaneousTable, "");
-    const formattedMiscellaneous: { id: string, fields: any }[] = [];
-    miscellaneousItems.forEach((fields, id) => {
+    const formattedMiscellaneous: { [k: string]: any; }[] = [];
+    miscellaneousItems.forEach((fields) => {
       const plainFields = Object.fromEntries(fields); 
-      formattedMiscellaneous.push({ id, fields: plainFields });
-      console.log(`ID: ${id}, Fields:`, plainFields);
+      formattedMiscellaneous.push(plainFields);
+      console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
     res.json(formattedMiscellaneous);
   } catch (error) {
@@ -31,12 +31,12 @@ router.get('/miscellaneous/:tripID', async (req, res) => {
 
   try {
     const miscellaneousItems = await getTable(miscellaneousTable, "");
-    const tripMiscellaneousItems: { id: string, fields: any }[] = [];
+    const tripMiscellaneousItems: { [k: string]: any; }[] = [];
 
-    miscellaneousItems.forEach((fields, id) => {
+    miscellaneousItems.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
       if (plainFields.Trip && plainFields.Trip.includes(tripID)) {
-        tripMiscellaneousItems.push({ id, fields: plainFields });
+        tripMiscellaneousItems.push(plainFields);
       }
     });
 

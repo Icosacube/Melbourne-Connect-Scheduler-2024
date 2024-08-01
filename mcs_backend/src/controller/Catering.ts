@@ -13,11 +13,11 @@ import { Catering, Service, Venue } from '../types/types';
 router.get('/catering', async (req, res) => {
     try {
         const caterings = await getTable(CateringTable, "");
-        const formattedCaterings: { id: string, fields: any }[] = [];
-        caterings.forEach((fields, id) => {
+        const formattedCaterings: { [k: string]: any; }[] = [];
+        caterings.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
-            formattedCaterings.push({ id, fields: plainFields });
-            console.log(`ID: ${id}, Fields:`, plainFields);
+            formattedCaterings.push(plainFields);
+            console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
         res.json(formattedCaterings);
     } catch (error) {
@@ -30,12 +30,12 @@ router.get('/catering/:mainEventID', async (req, res) => {
 
     try {
         const caterings = await getTable(CateringTable, "");
-        const eventCaterings: { id: string, fields: any }[] = [];
+        const eventCaterings: { [k: string]: any; }[] = [];
 
-        caterings.forEach((fields, id) => {
+        caterings.forEach((fields) => {
             const plainFields = Object.fromEntries(fields);
             if (plainFields.MainEvent && plainFields.MainEvent.includes(mainEventID)) {
-                eventCaterings.push({ id, fields: plainFields });
+                eventCaterings.push(plainFields);
             }
         });
 

@@ -18,11 +18,11 @@ const mainEventTable = String(process.env.MAINEVENT)
 router.get("/event", async (req, res) => {
   try {
     const events = await getTable(mainEventTable, "");
-    const formattedEvents: { id: string; fields: any }[] = [];
-    events.forEach((fields, id) => {
+    const formattedEvents: { [k: string]: any; }[] = [];
+    events.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
-      formattedEvents.push({ id, fields: plainFields });
-      console.log(`ID: ${id}, Fields:`, plainFields);
+      formattedEvents.push(plainFields);
+      console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
     res.json(formattedEvents).status(200);
   } catch (err) {
@@ -36,12 +36,12 @@ router.get('/event/:speaker_id', async (req, res) => {
 
   try {
     const trips = await getTable(mainEventTable, "");
-    const events: { id: string, fields: any }[] = [];
+    const events: { [k: string]: any; }[] = [];
     
-    trips.forEach((fields, id) => {
+    trips.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
       if (plainFields.Speaker && plainFields.Speaker.includes(speaker_id)) {
-        events.push({ id, fields: plainFields });
+        events.push(plainFields);
       }
     });
     if (events.length === 0) {

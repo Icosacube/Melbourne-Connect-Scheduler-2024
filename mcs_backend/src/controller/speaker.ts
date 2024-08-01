@@ -14,7 +14,6 @@ const speakerTable = String(process.env.SPEAKERS);
 router.get('/speakers', async (req, res) => {
   try {
     const speakerItems = await getTable(speakerTable, "");
-    // const formattedSpeakers: { id: string, fields: any }[] = [];
     const formattedSpeakers: { [k: string]: any; }[] = [];
     speakerItems.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);

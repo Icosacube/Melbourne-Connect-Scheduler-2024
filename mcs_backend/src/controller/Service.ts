@@ -14,11 +14,11 @@ const ServiceTable = String(process.env.SERVICE)
 router.get('/service', async (req, res) => {
     try {
         const services = await getTable(ServiceTable, "");
-        const formattedServices: { id: string, fields: any }[] = [];
-        services.forEach((fields, id) => {
+        const formattedServices: { [k: string]: any; }[] = [];
+        services.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
-            formattedServices.push({ id, fields: plainFields });
-            console.log(`ID: ${id}, Fields:`, plainFields);
+            formattedServices.push(plainFields);
+            console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
         res.json(formattedServices);
     } catch (error) {
@@ -31,12 +31,12 @@ router.get('/service/:mainEventID', async (req, res) => {
 
     try {
         const services = await getTable(ServiceTable, "");
-        const eventServices: { id: string, fields: any }[] = [];
+        const eventServices: { [k: string]: any; }[] = [];
 
-        services.forEach((fields, id) => {
+        services.forEach((fields) => {
             const plainFields = Object.fromEntries(fields);
             if (plainFields.MainEvent && plainFields.MainEvent.includes(mainEventID)) {
-                eventServices.push({ id, fields: plainFields });
+                eventServices.push(plainFields);
             }
         });
 

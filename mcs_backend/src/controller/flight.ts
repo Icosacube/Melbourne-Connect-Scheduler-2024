@@ -15,11 +15,11 @@ const FlightTable = String(process.env.FLIGHT)
 router.get('/flight', async (req, res) => {
     try {
       const flights = await getTable(FlightTable, "");
-      const formattedFlights: { id: string, fields: any }[] = [];
-      flights.forEach((fields, id) => {
+      const formattedFlights: { [k: string]: any; }[] = [];
+      flights.forEach((fields) => {
         const plainFields = Object.fromEntries(fields); 
-        formattedFlights.push({ id, fields: plainFields });
-        console.log(`ID: ${id}, Fields:`, plainFields);
+        formattedFlights.push(plainFields);
+        console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
       });
       res.json(formattedFlights);
     } catch (error) {
@@ -32,12 +32,12 @@ router.get('/flight/:tripID', async (req, res) => {
   
     try {
       const flights = await getTable(FlightTable, "");
-      const tripFlights: { id: string, fields: any }[] = [];
+      const tripFlights: { [k: string]: any; }[] = [];
   
       flights.forEach((fields, id) => {
         const plainFields = Object.fromEntries(fields);
         if (plainFields.Trip && plainFields.Trip.includes(tripID)) {
-          tripFlights.push({ id, fields: plainFields });
+          tripFlights.push(plainFields);
         }
       });
   

@@ -15,11 +15,11 @@ const AcademicTable = String(process.env.ACADEMIC)
 router.get('/academic', async (req, res) => {
   try {
     const accommodations = await getTable(AcademicTable, "");
-    const formattedAcademics: { id: string, fields: any }[] = [];
-    accommodations.forEach((fields, id) => {
+    const formattedAcademics: { [k: string]: any; }[] = [];
+    accommodations.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
-      formattedAcademics.push({ id, fields: plainFields });
-      console.log(`ID: ${id}, Fields:`, plainFields);
+      formattedAcademics.push(plainFields);
+      console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
     res.json(formattedAcademics);
   } catch (error) {
@@ -33,12 +33,12 @@ router.get('/Academic/:canvassingID', async (req, res) => {
 
   try {
     const Canvassing = await getTable(AcademicTable, "");
-    const academicCanvassing: { id: string, fields: any }[] = [];
+    const academicCanvassing: { [k: string]: any; }[] = [];
 
-    Canvassing.forEach((fields, id) => {
+    Canvassing.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
       if (plainFields.Canvassing && plainFields.Canvassing.includes(canvassingID)) {
-        academicCanvassing.push({ id, fields: plainFields });
+        academicCanvassing.push(plainFields);
       }
     });
 
