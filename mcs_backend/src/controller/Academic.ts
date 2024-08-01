@@ -12,7 +12,7 @@ import { Academic, TableFields } from '../types/types';
 const router = express.Router();
 const AcademicTable = String(process.env.ACADEMIC)
 //get all academics
-router.get('/academic', async (req, res) => {
+router.get('/academics', async (req, res) => {
   try {
     const accommodations = await getTable(AcademicTable, "");
     const formattedAcademics: { id: string, fields: any }[] = [];
@@ -26,7 +26,25 @@ router.get('/academic', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+// Get a specific academic by ID
+router.get('/academic/:academic_record_id', async (req, res) => {
+  const { academic_record_id } = req.params;
+  
+  try {
+    const academicRecord = await getRecord(AcademicTable, academic_record_id);
+    
+    if (!academicRecord) {
+      return res.status(404).json({ message: 'academic not found' });
+    }
+    let plainFields = Object.fromEntries(academicRecord.get(academic_record_id));
+    let formattedacademics: {id: string, fields: any} = {id: academic_record_id, fields: plainFields}
+    res.json(formattedacademics)
 
+  } catch (error) {
+    console.error("Error fetching academic:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 //get all academics for one Canvassing
 router.get('/Academic/:canvassingID', async (req, res) => {
   const { canvassingID } = req.params;

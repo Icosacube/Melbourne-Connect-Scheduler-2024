@@ -12,7 +12,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Typography
+  Typography,
 } from '@mui/material';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
@@ -26,24 +26,24 @@ export const SideNavBar: React.FC = () => {
   const overviewTabs = [
     {
       name: 'Events',
-      url: '/events'
+      url: '/events',
     },
     {
       name: 'Trips',
-      url: '/trips'
+      url: '/trips',
     },
     {
-      name: 'People',
-      url: '/people'
+      name: 'Speakers',
+      url: '/speakers',
     },
     {
       name: 'Finance',
-      url: '/finance'
-    }
+      url: '/finance',
+    },
   ];
   function overviewTabsIcons(tabName: string): JSX.Element {
     switch (tabName) {
-      case 'People':
+      case 'Speakers':
         return (
           <ListItemIcon>
             <PeopleIcon />
@@ -74,19 +74,19 @@ export const SideNavBar: React.FC = () => {
 
   return (
     <>
-      <Drawer variant="permanent" className="w-48">
-        <NavLink to="/dashboard">
-          <Button className="bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
+      <Drawer variant='permanent' className='w-48'>
+        <NavLink to='/dashboard'>
+          <Button className='bg-primary hover:bg-primary flex place-items-center w-full rounded-none'>
             {/* <Logo />
             <LogoText /> */}
-            <Typography variant="h4" className="text-white">
+            <Typography variant='h4' className='text-white'>
               MCS Logo
             </Typography>
           </Button>
         </NavLink>
         <Box>
-          <List className="w-full bg-primary grow">
-            <Typography variant="h6" className="ml-4">
+          <List className='w-full bg-primary grow'>
+            <Typography variant='h6' className='ml-4'>
               Overview
             </Typography>
             {overviewTabs.map((page) => (
@@ -100,15 +100,15 @@ export const SideNavBar: React.FC = () => {
               </NavLink>
             ))}
           </List>
-          <Divider className="bg-[#FBE418]" />
+          <Divider className='bg-[#FBE418]' />
         </Box>
-        <Box className="bg-[#FFC901] grow">
+        <Box className='bg-[#FFC901] grow'>
           <List>
-            <Typography variant="h6" className="ml-3">
+            <Typography variant='h6' className='ml-3'>
               Event
             </Typography>
             {eventTabs.map((text) => (
-              <ListItem key={text} disablePadding className="pl-3">
+              <ListItem key={text} disablePadding className='pl-3'>
                 <ListItemButton>
                   <ListItemText primary={text} />
                 </ListItemButton>
@@ -116,11 +116,11 @@ export const SideNavBar: React.FC = () => {
             ))}
           </List>
           <List>
-            <Typography variant="h6" className="ml-3">
+            <Typography variant='h6' className='ml-3'>
               Canvassing
             </Typography>
             {canvassingTabs.map((text) => (
-              <ListItem key={text} disablePadding className="pl-3">
+              <ListItem key={text} disablePadding className='pl-3'>
                 <ListItemButton>
                   <ListItemText primary={text} />
                 </ListItemButton>
@@ -128,11 +128,11 @@ export const SideNavBar: React.FC = () => {
             ))}
           </List>
           <List>
-            <Typography variant="h6" className="ml-3">
+            <Typography variant='h6' className='ml-3'>
               Trip
             </Typography>
             {tripTabs.map((text) => (
-              <ListItem key={text} disablePadding className="pl-3">
+              <ListItem key={text} disablePadding className='pl-3'>
                 <ListItemButton>
                   <ListItemText primary={text} />
                 </ListItemButton>
@@ -143,5 +143,4 @@ export const SideNavBar: React.FC = () => {
       </Drawer>
     </>
   );
-}
-
+};

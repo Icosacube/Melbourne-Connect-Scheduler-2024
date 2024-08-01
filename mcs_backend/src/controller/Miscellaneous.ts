@@ -25,6 +25,25 @@ router.get('/miscellaneous', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+// Get a specific Miscellaneous by ID
+router.get('/miscellaneous/:Miscellaneous_record_id', async (req, res) => {
+  const { Miscellaneous_record_id } = req.params;
+  
+  try {
+    const MiscellaneousRecord = await getRecord(miscellaneousTable, Miscellaneous_record_id);
+    
+    if (!MiscellaneousRecord) {
+      return res.status(404).json({ message: 'Miscellaneous not found' });
+    }
+    let plainFields = Object.fromEntries(MiscellaneousRecord.get(Miscellaneous_record_id));
+    let formattedMiscellaneouss: {id: string, fields: any} = {id: Miscellaneous_record_id, fields: plainFields}
+    res.json(formattedMiscellaneouss)
+
+  } catch (error) {
+    console.error("Error fetching Miscellaneous:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 //get all miscellaneous for one trip
 router.get('/miscellaneous/:tripID', async (req, res) => {
   const { tripID } = req.params;
