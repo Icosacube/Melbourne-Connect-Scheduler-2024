@@ -1,12 +1,12 @@
 import { Box, Button, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { PeopleTable } from './PeopleTable';
-import { PeopleWidgets } from './PeopleWidgets';
+import { SpeakerTable } from './SpeakerTable';
+import { SpeakerWidgets } from './SpeakerWidgets';
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
 import { CreateSpeakerModal } from './CreateSpeakerModal';
 import { useLoaderData } from 'react-router-dom';
 
-export const People: FC = () => {
+export const Speaker: FC = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -27,8 +27,8 @@ export const People: FC = () => {
         <CreateSpeakerModal handleClose={handleClose} open={open} />
       </Box>
 
-      <PeopleWidgets />
-      <PeopleTable data={speakers} />
+      <SpeakerWidgets />
+      <SpeakerTable data={speakers} />
     </Box>
   );
 };

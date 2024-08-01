@@ -1,15 +1,15 @@
 import { Route, Routes } from 'react-router-dom';
 import React from 'react';
-import { Dashboard, Layout, Login, Event, People } from './pages';
+import { Dashboard, Layout, Login, Event, Speaker } from './pages';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/event" element={<Event />} />
-        <Route path="/people" element={<People />} />
-        <Route path="/login" element={<Login />} />
+      <Route path='/' element={<Layout />}>
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/event' element={<Event />} />
+        <Route path='/speaker' element={<Speaker />} />
+        <Route path='/login' element={<Login />} />
       </Route>
     </Routes>
   );

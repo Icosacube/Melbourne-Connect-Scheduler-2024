@@ -1,10 +1,9 @@
-import { Avatar } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Speaker } from '../../types/types';
 
-interface PeopleTableProps {
+interface SpeakerTableProps {
   data: any;
 }
 
@@ -64,11 +63,11 @@ const columns: GridColDef[] = [
   },
 ];
 
-export const PeopleTable: FC<PeopleTableProps> = ({ data }) => {
+export const SpeakerTable: FC<SpeakerTableProps> = ({ data }) => {
   const navigate = useNavigate();
 
   const handleRowClick = (params: { row: Speaker }) => {
-    navigate(`/people/${params.row.RecordID}`);
+    navigate(`/speaker/${params.row.RecordID}`);
   };
 
   function getRowId(row: Speaker): string {

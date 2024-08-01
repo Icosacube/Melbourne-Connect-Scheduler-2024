@@ -13,11 +13,11 @@ import {
   Finance,
   Layout,
   Login,
-  People,
+  Speaker,
   Trips,
 } from './pages';
 import Events from './pages/Event/EventsOverview/Events';
-import { Profile } from './pages/People/Profile';
+import { Profile } from './pages/Speaker/Profile';
 import { Trip } from './pages/Trips/Trip';
 import reportWebVitals from './reportWebVitals';
 require('cors');
@@ -59,13 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
           errorElement: <ErrorPage />,
         },
         {
-          path: '/people',
-          element: <People />,
+          path: '/speakers',
+          element: <Speaker />,
           errorElement: <ErrorPage />,
           loader: speakersLoader,
         },
         {
-          path: '/people/:id',
+          path: '/speaker/:id',
           element: <Profile />,
           errorElement: <ErrorPage />,
         },
