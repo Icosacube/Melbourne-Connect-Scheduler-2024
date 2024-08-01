@@ -26,7 +26,7 @@ router.get('/miscellaneous', async (req, res) => {
   }
 });
 // Get a specific Miscellaneous by ID
-router.get('/miscellaneous/:Miscellaneous_record_id', async (req, res) => {
+router.get('/miscellaneous/miscellaneous/:Miscellaneous_record_id', async (req, res) => {
   const { Miscellaneous_record_id } = req.params;
   
   try {

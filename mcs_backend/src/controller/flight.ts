@@ -27,7 +27,7 @@ router.get('/flights', async (req, res) => {
     }
   });
   // Get a specific Flight by ID
-router.get('/flight/:Flight_record_id', async (req, res) => {
+router.get('/flights/flight/:Flight_record_id', async (req, res) => {
   const { Flight_record_id } = req.params;
   
   try {
@@ -52,7 +52,7 @@ router.get('/flight/:tripID', async (req, res) => {
     try {
       const flights = await getTable(FlightTable, "");
       const tripFlights: { id: string, fields: any }[] = [];
-  
+      console.log(flights)
       flights.forEach((fields, id) => {
         const plainFields = Object.fromEntries(fields);
         if (plainFields.Trip && plainFields.Trip.includes(tripID)) {

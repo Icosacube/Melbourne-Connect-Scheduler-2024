@@ -26,7 +26,7 @@ router.get('/venus', async (req, res) => {
     }
 });
 // Get a specific venue by ID
-router.get('/venue/:venue_record_id', async (req, res) => {
+router.get('/venues/venue/:venue_record_id', async (req, res) => {
     const { venue_record_id } = req.params;
     
     try {
