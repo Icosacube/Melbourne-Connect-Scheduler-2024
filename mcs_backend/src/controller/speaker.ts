@@ -14,11 +14,12 @@ const speakerTable = String(process.env.SPEAKERS);
 router.get('/speakers', async (req, res) => {
   try {
     const speakerItems = await getTable(speakerTable, "");
-    const formattedSpeakers: { id: string, fields: any }[] = [];
-    speakerItems.forEach((fields, id) => {
+    // const formattedSpeakers: { id: string, fields: any }[] = [];
+    const formattedSpeakers: { [k: string]: any; }[] = [];
+    speakerItems.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
-      formattedSpeakers.push({ id, fields: plainFields });
-      console.log(`ID: ${id}, Fields:`, plainFields);
+      formattedSpeakers.push(plainFields);
+      console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
     res.json(formattedSpeakers);
   } catch (error) {

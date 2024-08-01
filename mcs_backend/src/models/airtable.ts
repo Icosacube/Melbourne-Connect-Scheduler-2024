@@ -15,8 +15,9 @@ var base = new Airtable({
 }).base(airTableBase);
 
 
-export async function getTable(table: string, filter: string = ""): Promise<Map<string, Map<string, any>>> {
-    let retrieved = new Map<string, Map<string, any>>();
+export async function getTable(table: string, filter: string = ""): Promise<Array<Map<string, any>>> {
+    // let retrieved = new Map<string, Map<string, any>>();
+    let retrieved: Array<Map<string, any>> = new Array<Map<string, any>>;
 
     await new Promise<void>((resolve, reject) => {
         base(table).select({
@@ -24,7 +25,9 @@ export async function getTable(table: string, filter: string = ""): Promise<Map<
         }).eachPage(
             (records, fetchNextPage) => {
                 records.forEach(record => {
-                    retrieved.set(record.id, new Map(Object.entries(record.fields)));
+                    let content = new  Map(Object.entries(record.fields))
+                    content.set("id", record.id);
+                    retrieved.push(content);
                 });
                 fetchNextPage();
             },
