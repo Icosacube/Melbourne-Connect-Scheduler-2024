@@ -14,11 +14,11 @@ const VenueTable = String(process.env.VENUE)
 router.get('/venue', async (req, res) => {
     try {
         const venues = await getTable(VenueTable, "");
-        const formattedVenues: { id: string, fields: any }[] = [];
-        venues.forEach((fields, id) => {
+        const formattedVenues: { [k: string]: any; }[] = [];
+        venues.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
-            formattedVenues.push({ id, fields: plainFields });
-            console.log(`ID: ${id}, Fields:`, plainFields);
+            formattedVenues.push(plainFields);
+            console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
         res.json(formattedVenues);
     } catch (error) {
@@ -31,12 +31,12 @@ router.get('/venue/:mainEventID', async (req, res) => {
 
     try {
         const venues = await getTable(VenueTable, "");
-        const eventVenues: { id: string, fields: any }[] = [];
+        const eventVenues: { [k: string]: any; }[] = [];
 
-        venues.forEach((fields, id) => {
+        venues.forEach((fields) => {
             const plainFields = Object.fromEntries(fields);
             if (plainFields.MainEvent && plainFields.MainEvent.includes(mainEventID)) {
-                eventVenues.push({ id, fields: plainFields });
+                eventVenues.push(plainFields);
             }
         });
 
