@@ -1,25 +1,29 @@
-import { Avatar } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import React, { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { Avatar } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+interface PeopleTableProps {
+  data: any;
+}
 
 const columns: GridColDef[] = [
   {
-    field: "id",
-    headerName: "ID",
-    headerClassName: "speaker-table",
+    field: 'id',
+    headerName: 'ID',
+    headerClassName: 'speaker-table',
     width: 50,
   },
   {
-    field: "avatar",
-    headerName: "Avatar",
-    headerClassName: "speaker-table",
+    field: 'avatar',
+    headerName: 'Avatar',
+    headerClassName: 'speaker-table',
     width: 100,
     renderCell: (params) => {
       console.log(params);
       return (
         <>
-          <Avatar className="mt-1" />
+          <Avatar className='mt-1' />
           {/* <Avatar src={params.value.avatar} /> */}
           {/* {params.value.username} */}
         </>
@@ -27,70 +31,56 @@ const columns: GridColDef[] = [
     },
   },
   {
-    field: "firstName",
-    headerName: "First Name",
-    headerClassName: "speaker-table",
+    field: 'firstName',
+    headerName: 'First Name',
+    headerClassName: 'speaker-table',
     width: 100,
   },
   {
-    field: "lastName",
-    headerName: "Last Name",
-    headerClassName: "speaker-table",
+    field: 'lastName',
+    headerName: 'Last Name',
+    headerClassName: 'speaker-table',
     flex: 1,
     width: 120,
   },
   {
-    field: "email",
-    headerName: "Email",
-    headerClassName: "speaker-table",
+    field: 'email',
+    headerName: 'Email',
+    headerClassName: 'speaker-table',
     flex: 1,
     width: 300,
   },
   {
-    field: "university",
-    headerName: "University",
-    headerClassName: "speaker-table",
+    field: 'university',
+    headerName: 'University',
+    headerClassName: 'speaker-table',
     flex: 1,
     width: 200,
   },
   {
-    field: "role",
-    headerName: "Role",
-    headerClassName: "speaker-table",
+    field: 'role',
+    headerName: 'Role',
+    headerClassName: 'speaker-table',
     flex: 1,
     width: 150,
   },
   {
-    field: "faculty",
-    headerName: "Faculty",
-    headerClassName: "speaker-table",
+    field: 'faculty',
+    headerName: 'Faculty',
+    headerClassName: 'speaker-table',
     flex: 1,
     width: 150,
   },
   {
-    field: "lastArrived",
-    headerName: "Last Arrived",
-    headerClassName: "speaker-table",
+    field: 'lastArrived',
+    headerName: 'Last Arrived',
+    headerClassName: 'speaker-table',
     flex: 1,
     width: 130,
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    firstName: "Alice",
-    lastName: "Johnson",
-    email: "alice.johnson@university.edu",
-    university: "University of Wonderland",
-    role: "Professor",
-    faculty: "Computer Science",
-    lastArrived: new Date(2024, 5, 15),
-  },
-  // Add other rows as needed
-];
-
-export const PeopleTable: FC = ({data}) => {
+export const PeopleTable: FC<PeopleTableProps> = ({ data }) => {
   const navigate = useNavigate();
 
   const handleRowClick = (params: { row: { id: any } }) => {
@@ -100,7 +90,7 @@ export const PeopleTable: FC = ({data}) => {
 
   return (
     <DataGrid
-      rows={rows}
+      rows={data}
       columns={columns}
       pageSizeOptions={[5, 10]}
       initialState={{
@@ -110,12 +100,12 @@ export const PeopleTable: FC = ({data}) => {
       }}
       checkboxSelection
       sx={{
-        "& .speaker-table": {
-          backgroundColor: "#BF4242",
-          color: "#EBF5EE",
+        '& .speaker-table': {
+          backgroundColor: '#BF4242',
+          color: '#EBF5EE',
         },
-        ".MuiDataGrid-columnHeaderTitleContainer": {
-          backgroundColor: "#BF4242",
+        '.MuiDataGrid-columnHeaderTitleContainer': {
+          backgroundColor: '#BF4242',
         },
       }}
       onRowClick={handleRowClick}

@@ -1,11 +1,10 @@
-import { Box, Button, Typography } from "@mui/material";
-import React, { FC } from "react";
-import { PeopleTable } from "./PeopleTable";
-import { PeopleWidgets } from "./PeopleWidgets";
-import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
-import CreatePeopleModal from "./CreatePeopleModal";
-import { useLoaderData } from "react-router-dom";
-
+import { Box, Button, Typography } from '@mui/material';
+import React, { FC } from 'react';
+import { PeopleTable } from './PeopleTable';
+import { PeopleWidgets } from './PeopleWidgets';
+import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
+import { CreateSpeakerModal } from './CreateSpeakerModal';
+import { useLoaderData } from 'react-router-dom';
 
 export const People: FC = () => {
   // TODO: handle loaded info
@@ -14,18 +13,18 @@ export const People: FC = () => {
   const handleClose = () => setOpen(false);
   const speakers = useLoaderData();
   return (
-    <Box className="space-y-8 flex flex-col">
-      <Box className=" flex flex-col">
+    <Box className='space-y-8 flex flex-col'>
+      <Box className=' flex flex-col'>
         <Button
-          variant="contained"
-          className=" flex space-x-2 bg-secondary hover:bg-accent hover:text-black mb-3 self-end h-12"
+          variant='contained'
+          className=' flex space-x-2 bg-secondary hover:bg-accent hover:text-black mb-3 self-end h-12'
           onClick={handleOpen}
         >
           <AddCircleOutlineOutlined />
           <Typography>New Speaker</Typography>
         </Button>
 
-        <CreatePeopleModal open={open} handleClose={handleClose} />
+        <CreateSpeakerModal handleClose={handleClose} open={open} />
       </Box>
 
       <PeopleWidgets />
