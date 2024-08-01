@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { loader as eventsLoader } from './scripts/eventsLoader';
 import { loader as eventLoader } from './scripts/eventLoader';
 import { loader as speakersLoader } from './scripts/speaker/speakersLoader';
+import { loader as speakerLoader } from './scripts/speaker/speakerLoader';
 import './index.css';
 import {
   Dashboard,
@@ -43,15 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
           path: '/events',
-          loader: eventsLoader,
           element: <Events />,
           errorElement: <ErrorPage />,
+          loader: eventsLoader,
         },
         {
           path: '/events/:id',
           element: <Event />,
-          loader: eventLoader,
           errorElement: <ErrorPage />,
+          loader: eventLoader,
         },
         {
           path: '/login',
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
           path: '/speaker/:id',
           element: <Profile />,
           errorElement: <ErrorPage />,
+          loader: speakerLoader,
         },
         {
           path: '/trips',

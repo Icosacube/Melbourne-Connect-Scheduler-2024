@@ -1,14 +1,13 @@
-import axios from "axios";
-import dayjs from "dayjs";
-import { MainEvent } from "../types/types";
-import { LoaderFunctionArgs } from "react-router-dom";
+import axios from 'axios';
+import { MainEvent } from '../types/types';
+import { LoaderFunctionArgs } from 'react-router-dom';
 
 export async function loader({
   params,
 }: LoaderFunctionArgs): Promise<MainEvent | null> {
   try {
     const id = String(params.id);
-    const res = await axios.get(process.env.REACT_APP_BACKEND_URL + "/event");
+    const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/event');
     const events = res.data;
     var event;
 

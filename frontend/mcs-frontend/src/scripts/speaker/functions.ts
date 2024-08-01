@@ -19,7 +19,7 @@ export async function getAllSpeakers(): Promise<Speaker[]> {
 export async function getSpeakerById(id: string): Promise<Speaker> {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/speakers/${id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/speaker/${id}`,
     );
     const rawSpeaker = res.data;
     const formattedSpeaker = reformatSpeakerResponseData(rawSpeaker);
