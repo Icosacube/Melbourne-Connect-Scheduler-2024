@@ -75,17 +75,17 @@ export type MainEvent = {
     Venue: string[];
     Service: string[];
     Completed: boolean;
-    Trip: string[]; 
+    Trip: string[];
 }
 
 export type SubEvent = {
     EventName: string;
     EventDescription: string;
-    EventType: string; // or Enum
+    EventType: string;
     Date: string; // Example Format: "2024-04-30"
     Cost: number;
     Notes: string;
-    Speaker: string[];
+    Speakers: string[];
     FundingAccount: string[];
     Completed: boolean;
 }
