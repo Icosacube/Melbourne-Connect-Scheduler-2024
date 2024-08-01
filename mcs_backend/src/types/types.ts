@@ -39,7 +39,7 @@ export type Speaker = {
     Postcode?: string;
     EmergencyContactName: string;	
     EmergencyContactRelationship: string;
-    EmergencyContactNumber: number;
+    EmergencyContactNumber: string;
     FlyerMembershipName: string;
     FlyerMembershipNumber: string; // Using string to account for string type ID
     Confirmed: boolean;	
