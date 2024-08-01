@@ -15,7 +15,7 @@ const router = express.Router();
 
 const mainEventTable = String(process.env.MAINEVENT)
 //get all main events
-router.get("/event", async (req, res) => {
+router.get("/events", async (req, res) => {
   try {
     const events = await getTable(mainEventTable, "");
     const formattedEvents: { [k: string]: any; }[] = [];
@@ -53,6 +53,25 @@ router.get('/event/:speaker_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+// Get a specific event by ID
+router.get('/event/:event_record_id', async (req, res) => {
+    const { event_record_id } = req.params;
+    
+    try {
+      const eventRecord = await getRecord(mainEventTable, event_record_id);
+      
+      if (!eventRecord) {
+        return res.status(404).json({ message: 'event not found' });
+      }
+      let plainFields = Object.fromEntries(eventRecord.get(event_record_id));
+      let formattedevents: {id: string, fields: any} = {id: event_record_id, fields: plainFields}
+      res.json(formattedevents)
+
+    } catch (error) {
+      console.error("Error fetching event:", error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 //create one main event for one speaker
 router.post('/event/:speaker_id', async (req, res) => {
   const newMainEvent: MainEvent = req.body as MainEvent; 

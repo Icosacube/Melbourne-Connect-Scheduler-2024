@@ -11,7 +11,7 @@ const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
 const VenueTable = String(process.env.VENUE)
 //get all venues
-router.get('/venue', async (req, res) => {
+router.get('/venus', async (req, res) => {
     try {
         const venues = await getTable(VenueTable, "");
         const formattedVenues: { [k: string]: any; }[] = [];
@@ -25,6 +25,25 @@ router.get('/venue', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+// Get a specific venue by ID
+router.get('/venue/:venue_record_id', async (req, res) => {
+    const { venue_record_id } = req.params;
+    
+    try {
+      const venueRecord = await getRecord(VenueTable, venue_record_id);
+      
+      if (!venueRecord) {
+        return res.status(404).json({ message: 'venue not found' });
+      }
+      let plainFields = Object.fromEntries(venueRecord.get(venue_record_id));
+      let formattedvenues: {id: string, fields: any} = {id: venue_record_id, fields: plainFields}
+      res.json(formattedvenues)
+
+    } catch (error) {
+      console.error("Error fetching venue:", error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 //get all venues for a main event
 router.get('/venue/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;

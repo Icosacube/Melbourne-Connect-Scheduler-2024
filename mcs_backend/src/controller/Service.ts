@@ -8,10 +8,10 @@ import {
 } from '../models/airtable';
 
 const router = express.Router();
-import { Catering, Service, Venue } from '../types/types';
+import {  Service } from '../types/types';
 //get all services
 const ServiceTable = String(process.env.SERVICE)
-router.get('/service', async (req, res) => {
+router.get('/services', async (req, res) => {
     try {
         const services = await getTable(ServiceTable, "");
         const formattedServices: { [k: string]: any; }[] = [];
@@ -25,6 +25,25 @@ router.get('/service', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+// Get a specific Service by ID
+router.get('/service/:Service_record_id', async (req, res) => {
+    const { Service_record_id } = req.params;
+    
+    try {
+      const ServiceRecord = await getRecord(ServiceTable, Service_record_id);
+      
+      if (!ServiceRecord) {
+        return res.status(404).json({ message: 'Service not found' });
+      }
+      let plainFields = Object.fromEntries(ServiceRecord.get(Service_record_id));
+      let formattedServices: {id: string, fields: any} = {id: Service_record_id, fields: plainFields}
+      res.json(formattedServices)
+
+    } catch (error) {
+      console.error("Error fetching Service:", error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 //get all services for a main event
 router.get('/service/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;

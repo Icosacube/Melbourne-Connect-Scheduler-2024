@@ -8,7 +8,7 @@ import {
 } from '../models/airtable';
 const CateringTable = String(process.env.CATERING)
 const router = express.Router();
-import { Catering, Service, Venue } from '../types/types';
+import { Catering} from '../types/types';
 //get all caterings
 router.get('/catering', async (req, res) => {
     try {
@@ -24,6 +24,25 @@ router.get('/catering', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+// Get a specific Catering by ID
+router.get('/catering/:Catering_record_id', async (req, res) => {
+    const { Catering_record_id } = req.params;
+    
+    try {
+      const CateringRecord = await getRecord(CateringTable, Catering_record_id);
+      
+      if (!CateringRecord) {
+        return res.status(404).json({ message: 'Catering not found' });
+      }
+      let plainFields = Object.fromEntries(CateringRecord.get(Catering_record_id));
+      let formattedCaterings: {id: string, fields: any} = {id: Catering_record_id, fields: plainFields}
+      res.json(formattedCaterings)
+
+    } catch (error) {
+      console.error("Error fetching Catering:", error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 //get all caterings for one main event
 router.get('/catering/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;

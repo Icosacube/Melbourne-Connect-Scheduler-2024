@@ -16,7 +16,7 @@ import { Trip } from '../types/types';
 const router = express.Router();
 const TripTable = String(process.env.TRIP)
 //get all trips
-router.get('/trip', async (req, res) => {
+router.get('/trips', async (req, res) => {
   try {
     const trips = await getTable(TripTable, "");
     const formattedTrips: { [k: string]: any; }[] = [];
@@ -27,6 +27,25 @@ router.get('/trip', async (req, res) => {
     });
     res.json(formattedTrips);
   } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+// Get a specific trip by ID
+router.get('/trip/:trip_record_id', async (req, res) => {
+  const { trip_record_id } = req.params;
+  
+  try {
+    const tripRecord = await getRecord(TripTable, trip_record_id);
+    
+    if (!tripRecord) {
+      return res.status(404).json({ message: 'trip not found' });
+    }
+    let plainFields = Object.fromEntries(tripRecord.get(trip_record_id));
+    let formattedtrips: {id: string, fields: any} = {id: trip_record_id, fields: plainFields}
+    res.json(formattedtrips)
+
+  } catch (error) {
+    console.error("Error fetching trip:", error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
