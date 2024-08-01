@@ -19,29 +19,29 @@ const TripTable = String(process.env.TRIP)
 router.get('/trip', async (req, res) => {
   try {
     const trips = await getTable(TripTable, "");
-    const formattedtrips: { id: string, fields: any }[] = [];
-    trips.forEach((fields, id) => {
+    const formattedTrips: { [k: string]: any; }[] = [];
+    trips.forEach((fields) => {
       const plainFields = Object.fromEntries(fields); 
-      formattedtrips.push({ id, fields: plainFields });
-      console.log(`ID: ${id}, Fields:`, plainFields);
+      formattedTrips.push(plainFields);
+      console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
-    res.json(formattedtrips);
+    res.json(formattedTrips);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//get all trips for a speaker
+// get all trips for a speaker
 router.get('/trip/:speaker_id', async (req, res) => {
   const { speaker_id} = req.params;
 
   try {
     const trips = await getTable(TripTable, "");
-    const guestSpeakerTrips: { id: string, fields: any }[] = [];
+    const guestSpeakerTrips: { [k: string]: any; }[] = [];
     
-    trips.forEach((fields, id) => {
+    trips.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
       if (plainFields.GuestSpeaker && plainFields.GuestSpeaker.includes(speaker_id)) {
-        guestSpeakerTrips.push({ id, fields: plainFields });
+        guestSpeakerTrips.push(plainFields);
       }
     });
     if (guestSpeakerTrips.length === 0) {
@@ -58,7 +58,7 @@ router.post('/trip/:speaker_id', async (req, res) => {
   const newTrip: Trip = req.body as Trip; 
   const { speaker_id } = req.params;
   newTrip.GuestSpeaker = [speaker_id];
-  console.log("newtrip:",newTrip)
+  console.log("newTrip:",newTrip)
   const tableFields: TableFields = {
     // id: '', 
     fields: newTrip
