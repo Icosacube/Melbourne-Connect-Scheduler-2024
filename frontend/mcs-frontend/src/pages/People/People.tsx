@@ -7,11 +7,11 @@ import { CreateSpeakerModal } from './CreateSpeakerModal';
 import { useLoaderData } from 'react-router-dom';
 
 export const People: FC = () => {
-  // TODO: handle loaded info
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const speakers = useLoaderData();
+  console.log(speakers);
   return (
     <Box className='space-y-8 flex flex-col'>
       <Box className=' flex flex-col'>

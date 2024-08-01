@@ -2,6 +2,7 @@ import { Avatar } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Speaker } from '../../types/types';
 
 interface PeopleTableProps {
   data: any;
@@ -9,89 +10,76 @@ interface PeopleTableProps {
 
 const columns: GridColDef[] = [
   {
-    field: 'id',
-    headerName: 'ID',
+    field: 'Title',
+    headerName: 'Title',
     headerClassName: 'speaker-table',
-    width: 50,
+    width: 70,
   },
   {
-    field: 'avatar',
-    headerName: 'Avatar',
-    headerClassName: 'speaker-table',
-    width: 100,
-    renderCell: (params) => {
-      console.log(params);
-      return (
-        <>
-          <Avatar className='mt-1' />
-          {/* <Avatar src={params.value.avatar} /> */}
-          {/* {params.value.username} */}
-        </>
-      );
-    },
-  },
-  {
-    field: 'firstName',
+    field: 'FirstName',
     headerName: 'First Name',
     headerClassName: 'speaker-table',
     width: 100,
   },
   {
-    field: 'lastName',
+    field: 'LastName',
     headerName: 'Last Name',
     headerClassName: 'speaker-table',
-    flex: 1,
-    width: 120,
+    width: 100,
   },
   {
-    field: 'email',
+    field: 'PrimaryEmail',
     headerName: 'Email',
     headerClassName: 'speaker-table',
     flex: 1,
     width: 300,
   },
   {
-    field: 'university',
-    headerName: 'University',
+    field: 'Phone',
+    headerName: 'Phone',
     headerClassName: 'speaker-table',
     flex: 1,
-    width: 200,
+    width: 300,
   },
   {
-    field: 'role',
-    headerName: 'Role',
+    field: 'Organisation',
+    headerName: 'Organisation',
     headerClassName: 'speaker-table',
     flex: 1,
-    width: 150,
+    width: 300,
   },
   {
-    field: 'faculty',
-    headerName: 'Faculty',
+    field: 'Country',
+    headerName: 'Country',
     headerClassName: 'speaker-table',
     flex: 1,
-    width: 150,
+    width: 300,
   },
   {
-    field: 'lastArrived',
-    headerName: 'Last Arrived',
+    field: 'Trip',
+    headerName: 'Upcoming Trip',
     headerClassName: 'speaker-table',
     flex: 1,
-    width: 130,
+    width: 300,
   },
 ];
 
 export const PeopleTable: FC<PeopleTableProps> = ({ data }) => {
   const navigate = useNavigate();
 
-  const handleRowClick = (params: { row: { id: any } }) => {
-    console.log(params.row.id);
-    navigate(`/people/${params.row.id}`);
+  const handleRowClick = (params: { row: Speaker }) => {
+    navigate(`/people/${params.row.RecordID}`);
   };
+
+  function getRowId(row: Speaker): string {
+    return row.RecordID;
+  }
 
   return (
     <DataGrid
       rows={data}
       columns={columns}
+      getRowId={getRowId}
       pageSizeOptions={[5, 10]}
       initialState={{
         pagination: {
