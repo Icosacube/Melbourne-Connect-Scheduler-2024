@@ -23,7 +23,7 @@ export type Speaker = {
     Pronouns: string;
     Title: string;
     AlternativeTitle: string;
-    Phone: number; 
+    Phone: string; 
     Bio: string;
     Headshot: string | any[]; // string: url to publicly accessible photos (google drive etc); any[] for receive 
     PreferredTimezone: string;
