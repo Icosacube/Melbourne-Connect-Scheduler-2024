@@ -7,18 +7,19 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import "dayjs/locale/en-au";
-import React, { FC, useState } from "react";
-import BottomSuccessSnackbar from "../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar";
-import updateEvent from "../../../scripts/updateEvent";
-import { MainEvent } from "../../../types/types";
+} from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import 'dayjs/locale/en-au';
+import React, { FC, useState } from 'react';
+import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
+import updateEvent from '../../../scripts/event/updateEvent';
+import { MainEvent, Speaker } from '../../../types/types';
 
 interface EditEventModalProps {
   event: MainEvent;
+  speakers: Speaker[];
   handleClose: () => void;
   open: boolean;
   setEvent: (event: any) => void;
@@ -54,20 +55,20 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     }, 0);
   };
   const speakers = [
-    "Frances Haugen",
-    "Alice Johnson",
-    "Bob Smith",
-    "Carol Williams",
-    "Dave Brown",
-    "Eve Davis",
-    "Frank Miller",
-    "Grace Wilson",
-    "Heidi Moore",
-    "Ivan Taylor",
-    "Judy Anderson",
-    "Kia Tan",
-    "Brandon Wii",
-    "Brendan Lee",
+    'Frances Haugen',
+    'Alice Johnson',
+    'Bob Smith',
+    'Carol Williams',
+    'Dave Brown',
+    'Eve Davis',
+    'Frank Miller',
+    'Grace Wilson',
+    'Heidi Moore',
+    'Ivan Taylor',
+    'Judy Anderson',
+    'Kia Tan',
+    'Brandon Wii',
+    'Brendan Lee',
   ];
 
   return (
@@ -75,22 +76,22 @@ export const EditEventModal: FC<EditEventModalProps> = ({
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
       >
-        <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
-          <Box className="w-full p-7 flex space-x-6">
-            <Box className="w-1/2 space-y-4">
-              <Box className="flex justify-between space-x-2">
-                <Stack className="w-1/2">
-                  <Typography variant="h6">Host</Typography>
-                  <Box className="bg-gray-100 p-4 rounded-xl ">
+        <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12'>
+          <Box className='w-full p-7 flex space-x-6'>
+            <Box className='w-1/2 space-y-4'>
+              <Box className='flex justify-between space-x-2'>
+                <Stack className='w-1/2'>
+                  <Typography variant='h6'>Host</Typography>
+                  <Box className='bg-gray-100 p-4 rounded-xl '>
                     <Select
                       fullWidth
                       defaultValue={editedEvent.Speaker}
                       value={editedEvent.Speaker}
                       onChange={handleInputChange}
-                      name="speakers"
+                      name='speakers'
                       multiple
                     >
                       {speakers.map((speaker) => (
@@ -99,15 +100,15 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                     </Select>
                   </Box>
                 </Stack>
-                <Stack className="w-1/2">
-                  <Typography variant="h6">Date</Typography>
+                <Stack className='w-1/2'>
+                  <Typography variant='h6'>Date</Typography>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
-                      className="bg-gray-100 p-4 rounded-xl "
+                      className='bg-gray-100 p-4 rounded-xl '
                       // variant="outlined"
                       defaultValue={editedEvent.Date}
                       value={editedEvent.Date}
-                      name="date"
+                      name='date'
                       onChange={handleDate}
                       // adapterLocale="en-au"
                     />
@@ -115,22 +116,22 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                 </Stack>
               </Box>
               <Stack>
-                <Typography variant="h6">Venue</Typography>
+                <Typography variant='h6'>Venue</Typography>
                 <TextField
-                  className="bg-gray-100 p-4 rounded-xl "
-                  variant="outlined"
-                  name="venue"
+                  className='bg-gray-100 p-4 rounded-xl '
+                  variant='outlined'
+                  name='venue'
                   defaultValue={editedEvent.Venue}
                   value={editedEvent.Venue}
                   onChange={handleInputChange}
                 />
               </Stack>
               <Stack>
-                <Typography variant="h6">Event Description</Typography>
+                <Typography variant='h6'>Event Description</Typography>
                 <TextField
-                  className="bg-gray-100 p-4 rounded-xl "
-                  variant="outlined"
-                  name="description"
+                  className='bg-gray-100 p-4 rounded-xl '
+                  variant='outlined'
+                  name='description'
                   defaultValue={editedEvent.EventDescription}
                   onChange={handleInputChange}
                   value={editedEvent.EventDescription}
@@ -138,36 +139,36 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                 />
               </Stack>
             </Box>
-            <Box className="w-1/2 space-y-4">
+            <Box className='w-1/2 space-y-4'>
               <Stack>
-                <Typography variant="h6">Event Name</Typography>
+                <Typography variant='h6'>Event Name</Typography>
                 <TextField
-                  className="bg-gray-100 p-4 rounded-xl "
-                  variant="outlined"
+                  className='bg-gray-100 p-4 rounded-xl '
+                  variant='outlined'
                   defaultValue={editedEvent.EventName}
                   value={editedEvent.EventName}
                   onChange={handleInputChange}
-                  name="name"
+                  name='name'
                 />
               </Stack>
               <Stack>
-                <Typography variant="h6">Talk Abstract</Typography>
+                <Typography variant='h6'>Talk Abstract</Typography>
                 <TextField
-                  className="bg-gray-100 p-4 rounded-xl "
-                  variant="outlined"
+                  className='bg-gray-100 p-4 rounded-xl '
+                  variant='outlined'
                   defaultValue={editedEvent.EventAbstract}
                   multiline
                   value={editedEvent.EventAbstract}
                   onChange={handleInputChange}
-                  name="eventAbstract"
+                  name='eventAbstract'
                 />
               </Stack>
             </Box>
           </Box>
           <Button
-            variant="contained"
+            variant='contained'
             onClick={handleSave}
-            className="bg-primary text-white hover:bg-tertiary "
+            className='bg-primary text-white hover:bg-tertiary '
           >
             Save
           </Button>
@@ -178,7 +179,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
       <BottomSuccessSnackbar
         showSuccess={showSuccess}
         setShowSuccess={setShowSuccess}
-        message="Event updated successfully"
+        message='Event updated successfully'
       />
     </>
   );
