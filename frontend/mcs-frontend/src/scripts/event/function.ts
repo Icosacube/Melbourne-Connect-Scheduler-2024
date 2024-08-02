@@ -7,22 +7,22 @@ function reformatMainEventResponseData(data: any): MainEvent {
   const mainEvent: MainEvent = {
     ...defaultMainEvent,
     RecordID: data.id || defaultMainEvent.RecordID,
-    EventName: data.fields.EventName || defaultMainEvent.EventName,
-    EventAbstract: data.fields.EventAbstract || defaultMainEvent.EventAbstract,
+    EventName: data.EventName || defaultMainEvent.EventName,
+    EventAbstract: data.EventAbstract || defaultMainEvent.EventAbstract,
     EventDescription:
-      data.fields.EventDescription || defaultMainEvent.EventDescription,
+      data.EventDescription || defaultMainEvent.EventDescription,
     EventbriteLink:
-      data.fields.EventbriteLink || defaultMainEvent.EventbriteLink,
-    EventBanner: data.fields.EventBanner || defaultMainEvent.EventBanner,
-    Date: data.fields.Date ? dayjs(data.fields.Date) : defaultMainEvent.Date,
-    Notes: data.fields.Notes || defaultMainEvent.Notes,
-    Speaker: data.fields.Speaker || defaultMainEvent.Speaker,
-    GuestAcademic: data.fields.GuestAcademic || defaultMainEvent.GuestAcademic,
-    Catering: data.fields.Catering || defaultMainEvent.Catering,
-    Venue: data.fields.Venue || defaultMainEvent.Venue,
-    Service: data.fields.Service || defaultMainEvent.Service,
-    Completed: data.fields.Completed || defaultMainEvent.Completed,
-    Trip: data.fields.Trip || defaultMainEvent.Trip,
+      data.EventbriteLink || defaultMainEvent.EventbriteLink,
+    EventBanner: data.EventBanner || defaultMainEvent.EventBanner,
+    Date: data.Date ? dayjs(data.Date) : defaultMainEvent.Date,
+    Notes: data.Notes || defaultMainEvent.Notes,
+    Speaker: data.Speaker || defaultMainEvent.Speaker,
+    GuestAcademic: data.GuestAcademic || defaultMainEvent.GuestAcademic,
+    Catering: data.Catering || defaultMainEvent.Catering,
+    Venue: data.Venue || defaultMainEvent.Venue,
+    Service: data.Service || defaultMainEvent.Service,
+    Completed: data.Completed || defaultMainEvent.Completed,
+    Trip: data.Trip || defaultMainEvent.Trip,
   };
 
   return mainEvent;
