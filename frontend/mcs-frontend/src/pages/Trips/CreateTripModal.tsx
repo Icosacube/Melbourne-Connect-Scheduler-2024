@@ -1,14 +1,14 @@
 import { Alert, Button, MenuItem, Modal, Paper, Select, SelectChangeEvent, Slide, Snackbar, Grid, InputAdornment, Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import createTrip from '../../scripts/createTrip';
-import axios from 'axios';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import dayjs from 'dayjs';
 import {Trip, Speaker, MainEvent} from "../../types/types";
-
+import { getAllMainEvents } from '../../scripts/event/function';
+import { getAllSpeakers } from '../../scripts/speaker/functions';
+import { createTrip, defaultTrip,} from '../../scripts/trip/function';
 
 interface CreateTripModalProps {
   handleClose: () => void;
@@ -17,19 +17,9 @@ interface CreateTripModalProps {
 
 
 export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, open }) => {
-  const [newTrip, setNewTrip] = useState<Trip>({
-    StartDate: dayjs(),
-    EndDate: dayjs(),
-    GuestSpeaker: [],
-    MainEvent: [],
-    Accommodation: [],
-    Flight: [],
-    Miscellaneous: [],
-    AcademicCanvassing: [],
-    Completed: false,
-  });
+  const [newTrip, setNewTrip] = useState<Trip>(defaultTrip);
   const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
-  const [selectedSpeakers, setSelectedSpeakers] = useState<string[]>([]);
+  const [selectedSpeakers, setSelectedSpeakers] = useState<string>('');
   const [showSuccess, setShowSuccess] = useState(false);
   const [events, setEvents] = useState<MainEvent[]>([]);
   const [speakers, setSpeakers] = useState<Speaker[]>([]);
@@ -42,13 +32,9 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
   }, [open]);
 
 
-  // temporary fix
   const loadEvents = async () => {
     try {
-      axios.get(process.env.REACT_APP_BACKEND_URL + '/events').then(res => {
-        const events = res.data.map((obj: { fields: any; id: string }) => 
-                                    Object.assign({}, obj.fields, {RecordID: obj.id}) );
-        console.log(events);
+      getAllMainEvents().then(events => {
         setEvents(events);
      })
     } catch (error) {
@@ -56,13 +42,9 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
     }
   };
 
-
   const loadSpeakers = async () => {
       try {
-        axios.get(process.env.REACT_APP_BACKEND_URL + '/speakers').then(res => {
-          const speakers = res.data.map((obj: { fields: any; id: string }) => 
-                                      Object.assign({}, obj.fields, {RecordID: obj.id}) );
-          console.log(speakers);
+        getAllSpeakers().then(speakers => {
           setSpeakers(speakers == null ? [] : speakers);
        })
       } catch (error) {
@@ -78,11 +60,11 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
     setNewTrip({ ...newTrip, MainEvent: selectedIds });
   };
 
-  const handleSpeakerChange = (event: SelectChangeEvent<string[]>) => {
-    const selectedIds = event.target.value as string[];
-    const selectedSpeakers = speakers.filter(speaker => selectedIds.includes(speaker.RecordID));
+  const handleSpeakerChange = (e: SelectChangeEvent<string>) => {
+    const selectedIds = e.target.value as string;
+    const selectedSpeakers = speakers.filter(e => selectedIds.includes(e.RecordID));
     setSelectedSpeakers(selectedIds);
-    setNewTrip({ ...newTrip, GuestSpeaker: selectedIds });
+    setNewTrip({ ...newTrip, GuestSpeaker: [selectedIds] });
   };
 
   const handleStartDateChange = (date: dayjs.Dayjs | null) => {
@@ -94,17 +76,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
 
 
   const onClose = () => {
-    setNewTrip({
-      StartDate: dayjs(),
-      EndDate: dayjs(),
-      GuestSpeaker: [],
-      MainEvent: [],
-      Accommodation: [],
-      Flight: [],
-      Miscellaneous: [],
-      AcademicCanvassing: [],
-      Completed: false,
-    });
+    setNewTrip(defaultTrip);
     handleClose();
   }
 
@@ -112,24 +84,12 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({ handleClose, o
     setShowSuccess(false);
     handleClose();
     console.log(newTrip);
-
     const res = await createTrip(newTrip);
-
     if (res) {
       // handle success
       console.log(res);
       // reset useState variables
-      setNewTrip({
-        StartDate: dayjs(),
-        EndDate: dayjs(),
-        GuestSpeaker: [],
-        MainEvent: [],
-        Accommodation: [],
-        Flight: [],
-        Miscellaneous: [],
-        AcademicCanvassing: [],
-        Completed: false,
-      });
+      setNewTrip(defaultTrip);
 
       // display success message
       setTimeout(() => {

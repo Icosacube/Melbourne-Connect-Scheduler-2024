@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Trip } from '../types/types';
+import { Trip } from '../../types/types';
 
 export async function loader(): Promise<Map<string, Trip[]> | any> {
   try {
