@@ -1,6 +1,6 @@
-import { Dayjs } from "dayjs";
+import { Dayjs } from 'dayjs';
 export enum PresetFilter {
-  completed = "( {Completed} = FALSE() )",
+  completed = '( {Completed} = FALSE() )',
 }
 
 export type Creation = {
@@ -126,8 +126,8 @@ export type Accommodation = {
   HotelName: string;
   Address: string;
   Room: string;
-  CheckIn: string; // Example Format: "2024-04-30"
-  CheckOut: string; // Example Format: "2024-04-30"
+  CheckIn: Dayjs; // Example Format: "2024-04-30"
+  CheckOut: Dayjs; // Example Format: "2024-04-30"
   NumberOfNight?: number;
   Cost: number;
   Notes: string;
