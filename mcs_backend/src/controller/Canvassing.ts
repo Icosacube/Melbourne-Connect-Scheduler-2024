@@ -15,11 +15,11 @@ const CanvassingTable = String(process.env.CANVASSING)
 router.get('/canvassings', async (req, res) => {
   try {
     const accommodations = await getTable(CanvassingTable, "");
-    const formattedCanvassing: { id: string, fields: any }[] = [];
-    accommodations.forEach((fields, id) => {
+    const formattedCanvassing: { [k: string]: any; }[] = [];
+    accommodations.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
-      formattedCanvassing.push({ id, fields: plainFields });
-      console.log(`ID: ${id}, Fields:`, plainFields);
+      formattedCanvassing.push(plainFields);
+      console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
     res.json(formattedCanvassing);
   } catch (error) {
@@ -36,9 +36,9 @@ router.get('/canvassing/:Canvassing_record_id', async (req, res) => {
     if (!CanvassingRecord) {
       return res.status(404).json({ message: 'Canvassing not found' });
     }
-    let plainFields = Object.fromEntries(CanvassingRecord.get(Canvassing_record_id));
-    let formattedCanvassings: {id: string, fields: any} = {id: Canvassing_record_id, fields: plainFields}
-    res.json(formattedCanvassings)
+    let plainFields = Object.fromEntries(CanvassingRecord);
+    let formattedCanvassing: { [k: string]: any; } = plainFields
+    res.json(formattedCanvassing)
 
   } catch (error) {
     console.error("Error fetching Canvassing:", error);
@@ -51,12 +51,12 @@ router.get('/Canvassing/:tripID', async (req, res) => {
 
   try {
     const Canvassing = await getTable(CanvassingTable, "");
-    const tripCanvassing: { id: string, fields: any }[] = [];
+    const tripCanvassing: { [k: string]: any; }[] = [];
 
-    Canvassing.forEach((fields, id) => {
+    Canvassing.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
       if (plainFields.Trip && plainFields.Trip.includes(tripID)) {
-        tripCanvassing.push({ id, fields: plainFields });
+        tripCanvassing.push(plainFields);
       }
     });
 

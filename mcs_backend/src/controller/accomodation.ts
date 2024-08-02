@@ -10,16 +10,16 @@ import {
 import { Accommodation, TableFields } from '../types/types';
 
 const router = express.Router();
-const AccomodationTable = String(process.env.ACCOMMODATION)
+const AccommodationTable = String(process.env.ACCOMMODATION)
 //get all accomodations
 router.get('/accommodations', async (req, res) => {
   try {
-    const accommodations = await getTable(AccomodationTable, "");
-    const formattedAccommodations: { id: string, fields: any }[] = [];
-    accommodations.forEach((fields, id) => {
+    const accommodations = await getTable(AccommodationTable, "");
+    const formattedAccommodations: { [k: string]: any; }[] = [];
+    accommodations.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
-      formattedAccommodations.push({ id, fields: plainFields });
-      console.log(`ID: ${id}, Fields:`, plainFields);
+      formattedAccommodations.push(plainFields);
+      console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
     res.json(formattedAccommodations);
   } catch (error) {
@@ -31,13 +31,13 @@ router.get('/accomodation/:Accomodation_record_id', async (req, res) => {
   const { Accomodation_record_id } = req.params;
   
   try {
-    const AccomodationRecord = await getRecord(AccomodationTable, Accomodation_record_id);
+    const AccomodationRecord = await getRecord(AccommodationTable, Accomodation_record_id);
     
     if (!AccomodationRecord) {
       return res.status(404).json({ message: 'Accomodation not found' });
     }
-    let plainFields = Object.fromEntries(AccomodationRecord.get(Accomodation_record_id));
-    let formattedAccomodations: {id: string, fields: any} = {id: Accomodation_record_id, fields: plainFields}
+    let plainFields = Object.fromEntries(AccomodationRecord);
+    let formattedAccomodations: { [k: string]: any; } = plainFields
     res.json(formattedAccomodations)
 
   } catch (error) {
@@ -45,18 +45,18 @@ router.get('/accomodation/:Accomodation_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//get all accomodations for one trip
+//get all accommodations for one trip
 router.get('/accommodation/:tripID', async (req, res) => {
   const { tripID } = req.params;
 
   try {
-    const accommodations = await getTable(AccomodationTable, "");
-    const tripAccommodations: { id: string, fields: any }[] = [];
+    const accommodations = await getTable(AccommodationTable, "");
+    const tripAccommodations: { [k: string]: any; }[] = [];
 
-    accommodations.forEach((fields, id) => {
+    accommodations.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
       if (plainFields.Trip && plainFields.Trip.includes(tripID)) {
-        tripAccommodations.push({ id, fields: plainFields });
+        tripAccommodations.push(plainFields);
       }
     });
 
@@ -82,7 +82,7 @@ router.post('/accommodation/:tripID', async (req, res) => {
   };
 
   try {
-    await createRecord(AccomodationTable, [tableFields]);
+    await createRecord(AccommodationTable, [tableFields]);
     res.status(201).json({ message: 'Accommodation created successfully' });
   } catch (error) {
     console.error("Failed to create accommodation:", error);
@@ -101,7 +101,7 @@ router.put('/accommodation/:accommodation_record_id', async (req, res) => {
     }];
   
     try {
-      await updateRecord(AccomodationTable, recordToUpdate);
+      await updateRecord(AccommodationTable, recordToUpdate);
       res.status(200).json({ message: 'Accommodation updated successfully' });
     } catch (error) {
       console.error("Failed to update accommodation:", error);
