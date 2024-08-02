@@ -15,11 +15,11 @@ const FlightTable = String(process.env.FLIGHT)
 router.get('/flights', async (req, res) => {
     try {
       const flights = await getTable(FlightTable, "");
-      const formattedFlights: { id: string, fields: any }[] = [];
-      flights.forEach((fields, id) => {
+      const formattedFlights: { [k: string]: any; }[] = [];
+      flights.forEach((fields) => {
         const plainFields = Object.fromEntries(fields); 
-        formattedFlights.push({ id, fields: plainFields });
-        console.log(`ID: ${id}, Fields:`, plainFields);
+        formattedFlights.push(plainFields);
+        console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
       });
       res.json(formattedFlights);
     } catch (error) {
@@ -27,7 +27,7 @@ router.get('/flights', async (req, res) => {
     }
   });
   // Get a specific Flight by ID
-router.get('/flights/flight/:Flight_record_id', async (req, res) => {
+router.get('/flight/:Flight_record_id', async (req, res) => {
   const { Flight_record_id } = req.params;
   
   try {
@@ -36,8 +36,8 @@ router.get('/flights/flight/:Flight_record_id', async (req, res) => {
     if (!FlightRecord) {
       return res.status(404).json({ message: 'Flight not found' });
     }
-    let plainFields = Object.fromEntries(FlightRecord.get(Flight_record_id));
-    let formattedFlights: {id: string, fields: any} = {id: Flight_record_id, fields: plainFields}
+    let plainFields = Object.fromEntries(FlightRecord);
+    let formattedFlights: { [k: string]: any; } = plainFields
     res.json(formattedFlights)
 
   } catch (error) {
@@ -51,12 +51,12 @@ router.get('/flight/:tripID', async (req, res) => {
   
     try {
       const flights = await getTable(FlightTable, "");
-      const tripFlights: { id: string, fields: any }[] = [];
-      console.log(flights)
+      const tripFlights: { [k: string]: any; }[] = [];
+  
       flights.forEach((fields, id) => {
         const plainFields = Object.fromEntries(fields);
         if (plainFields.Trip && plainFields.Trip.includes(tripID)) {
-          tripFlights.push({ id, fields: plainFields });
+          tripFlights.push(plainFields);
         }
       });
   

@@ -14,11 +14,11 @@ const ServiceTable = String(process.env.SERVICE)
 router.get('/services', async (req, res) => {
     try {
         const services = await getTable(ServiceTable, "");
-        const formattedServices: { id: string, fields: any }[] = [];
-        services.forEach((fields, id) => {
+        const formattedServices: { [k: string]: any; }[] = [];
+        services.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
-            formattedServices.push({ id, fields: plainFields });
-            console.log(`ID: ${id}, Fields:`, plainFields);
+            formattedServices.push(plainFields);
+            console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
         res.json(formattedServices);
     } catch (error) {
@@ -35,8 +35,8 @@ router.get('/services/service/:Service_record_id', async (req, res) => {
       if (!ServiceRecord) {
         return res.status(404).json({ message: 'Service not found' });
       }
-      let plainFields = Object.fromEntries(ServiceRecord.get(Service_record_id));
-      let formattedServices: {id: string, fields: any} = {id: Service_record_id, fields: plainFields}
+      let plainFields = Object.fromEntries(ServiceRecord);
+      let formattedServices: { [k: string]: any; } = plainFields
       res.json(formattedServices)
 
     } catch (error) {
@@ -50,12 +50,12 @@ router.get('/service/:mainEventID', async (req, res) => {
 
     try {
         const services = await getTable(ServiceTable, "");
-        const eventServices: { id: string, fields: any }[] = [];
+        const eventServices: { [k: string]: any; }[] = [];
 
-        services.forEach((fields, id) => {
+        services.forEach((fields) => {
             const plainFields = Object.fromEntries(fields);
             if (plainFields.MainEvent && plainFields.MainEvent.includes(mainEventID)) {
-                eventServices.push({ id, fields: plainFields });
+                eventServices.push(plainFields);
             }
         });
 
