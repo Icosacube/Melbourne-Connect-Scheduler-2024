@@ -83,7 +83,6 @@ export type SubEvent = {
     EventDescription: string;
     EventType: string; // or Enum
     Date: string; // Example Format: "2024-04-30"
-    Cost: number;
     Notes: string;
     MainEvent: string[];
     FundingAccount: string[];
@@ -130,7 +129,7 @@ export type Miscellaneous = {
     Cost: number;
     Description: string;
     Date: string;
-    TransportationType: string; // or enum 
+    Type: string; // or enum 
     Notes: string;
     Trip: string[];
     FundingAccount: string[];
