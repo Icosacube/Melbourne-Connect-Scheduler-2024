@@ -45,7 +45,6 @@ export type Speaker = {
     Confirmed: boolean;	
     Trip: string[]; 
     MainEvent: string[];
-    SubEvent: string[];
 }
 
 export type Trip = {
@@ -76,6 +75,7 @@ export type MainEvent = {
     Service: string[];
     Completed: boolean;
     Trip: string[]; 
+    SubEvent: string[];
 }
 
 export type SubEvent = {
@@ -85,7 +85,7 @@ export type SubEvent = {
     Date: string; // Example Format: "2024-04-30"
     Cost: number;
     Notes: string;
-    Speaker: string[];
+    MainEvent: string[];
     FundingAccount: string[];
     Completed: boolean;
 }
