@@ -1,14 +1,14 @@
-import axios from 'axios';
-import { Speaker } from '../../types/types';
+import axios, { AxiosResponse } from "axios";
+import { Speaker } from "../../types/types";
 
 export async function getAllSpeakers(): Promise<Speaker[]> {
   try {
     const res = await axios.get(
-      process.env.REACT_APP_BACKEND_URL + '/speakers',
+      process.env.REACT_APP_BACKEND_URL + "/speakers"
     );
     const rawSpeakers = res.data;
     const formattedSpeakers = rawSpeakers.map((speaker: any) =>
-      reformatSpeakerResponseData(speaker),
+      reformatSpeakerResponseData(speaker)
     );
     return formattedSpeakers;
   } catch (error) {
@@ -19,58 +19,55 @@ export async function getAllSpeakers(): Promise<Speaker[]> {
 export async function getSpeakerById(id: string): Promise<Speaker> {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/speaker/${id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/speaker/${id}`
     );
     const rawSpeaker = res.data;
     const formattedSpeaker = reformatSpeakerResponseData(rawSpeaker);
     return formattedSpeaker;
   } catch (error) {
-    console.error('Error fetching speaker:', error);
+    console.error("Error fetching speaker:", error);
     return {} as Speaker;
   }
 }
 
-export async function createSpeaker(speaker: Speaker) {
-  try {
-    const res = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/speaker`,
-      speaker,
-    );
-    // Server return message: Speaker created successfully if success
-    console.log(res.data);
-  } catch (error) {
-    console.error('Error creating speaker:', error);
-    return {} as Speaker;
-  }
+export async function createSpeaker(speaker: Speaker): Promise<AxiosResponse> {
+  const toSend:any = {...speaker}
+  delete (toSend.RecordID)
+  const res = await axios.post(
+    `${process.env.REACT_APP_BACKEND_URL}/speaker`,
+    toSend
+  );
+  // Server return message: Speaker created successfully if success
+  return res;
 }
 
 export const defaultSpeaker: Speaker = {
-  RecordID: '',
-  PrimaryEmail: '',
-  FirstName: '',
-  LastName: '',
-  Pronouns: '',
-  Title: '',
-  AlternativeTitle: '',
-  Phone: '',
-  Bio: '',
-  Headshot: '',
-  PreferredTimezone: '',
-  Category: '',
-  Area: '',
-  WorkTitle: '',
-  Organisation: '',
-  Department: '',
-  Address: '',
-  CitySuburb: '',
-  State: '',
-  Country: '',
-  Postcode: '',
-  EmergencyContactName: '',
-  EmergencyContactRelationship: '',
-  EmergencyContactNumber: '',
-  FlyerMembershipName: '',
-  FlyerMembershipNumber: '',
+  RecordID: "",
+  PrimaryEmail: "",
+  FirstName: "",
+  LastName: "",
+  Pronouns: "",
+  Title: "",
+  AlternativeTitle: "",
+  Phone: "",
+  Bio: "",
+  Headshot: "",
+  PreferredTimezone: "",
+  Category: "",
+  Area: "",
+  WorkTitle: "",
+  Organisation: "",
+  Department: "",
+  Address: "",
+  CitySuburb: "",
+  State: "",
+  Country: "",
+  Postcode: "",
+  EmergencyContactName: "",
+  EmergencyContactRelationship: "",
+  EmergencyContactNumber: "",
+  FlyerMembershipName: "",
+  FlyerMembershipNumber: "",
   Confirmed: false,
   Trip: [],
   MainEvent: [],
@@ -86,8 +83,7 @@ function reformatSpeakerResponseData(data: any): Speaker {
     LastName: data.LastName || defaultSpeaker.LastName,
     Pronouns: data.Pronouns || defaultSpeaker.Pronouns,
     Title: data.Title || defaultSpeaker.Title,
-    AlternativeTitle:
-      data.AlternativeTitle || defaultSpeaker.AlternativeTitle,
+    AlternativeTitle: data.AlternativeTitle || defaultSpeaker.AlternativeTitle,
     Phone: data.Phone || defaultSpeaker.Phone,
     Bio: data.Bio || defaultSpeaker.Bio,
     Headshot: data.Headshot || defaultSpeaker.Headshot,
@@ -109,8 +105,7 @@ function reformatSpeakerResponseData(data: any): Speaker {
       data.EmergencyContactRelationship ||
       defaultSpeaker.EmergencyContactRelationship,
     EmergencyContactNumber:
-      data.EmergencyContactNumber ||
-      defaultSpeaker.EmergencyContactNumber,
+      data.EmergencyContactNumber || defaultSpeaker.EmergencyContactNumber,
     FlyerMembershipName:
       data.FlyerMembershipName || defaultSpeaker.FlyerMembershipName,
     FlyerMembershipNumber:

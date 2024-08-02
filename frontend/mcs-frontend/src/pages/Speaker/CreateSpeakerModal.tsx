@@ -6,7 +6,7 @@ import { FormInputMultiSelect } from '../../components/FormComponents/FormInputD
 import { FormInputText } from '../../components/FormComponents/FormInputText';
 import { Speaker } from '../../types/types';
 import { createSpeaker } from '../../scripts/speaker/functions';
-import { Speaker } from './Speaker';
+import { AxiosResponse } from 'axios';
 
 interface CreateSpeakerModalProps {
   handleClose: () => void;
@@ -87,10 +87,14 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
     defaultValues: CreateSpeakerFormDefaultValues,
   });
 
-  const onSubmit = (data: Speaker) => {
+  const onSubmit = async (data: Speaker) => {
     try {
-      createSpeaker(data)
-      setShowSuccess(true);
+      const res: AxiosResponse = await createSpeaker(data)
+      if (res.status == 200) {
+        setShowSuccess(true);
+      } else {
+        console.log("Failed to create speaker")
+      }
     } catch (error) {
       console.error(error)
     } finally {
