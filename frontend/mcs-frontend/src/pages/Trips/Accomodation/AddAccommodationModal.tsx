@@ -5,28 +5,16 @@ import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/Bot
 import { FormInputDate } from '../../../components/FormComponents/FormInputDate';
 import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown';
 import { FormInputText } from '../../../components/FormComponents/FormInputText';
-import dayjs, { Dayjs } from 'dayjs';
+import {
+  createAccommodation,
+  defaultAccommodation,
+} from '../../../scripts/accommodation/function';
 import { Accommodation } from '../../../types/types';
-import { Trips } from '../Trips';
 
 interface AddAccommodationModalProps {
   handleClose: () => void;
   open: boolean;
 }
-
-const AddAccommodationFormDefaultValues = {
-  BookingReference: '',
-  HotelName: '',
-  Address: '',
-  Room: '',
-  CheckIn: dayjs(),
-  CheckOut: dayjs(),
-  NumberOfNight: 0,
-  Cost: 0,
-  Notes: '',
-  FundingAccount: [],
-  Trip: [],
-};
 
 const speakers = [
   {
@@ -55,10 +43,12 @@ export const AddAccommodationModal: React.FC<AddAccommodationModalProps> = ({
   open,
 }) => {
   const { handleSubmit, reset, control, setValue } = useForm<Accommodation>({
-    defaultValues: AddAccommodationFormDefaultValues,
+    defaultValues: defaultAccommodation,
   });
 
-  const onSubmit = (data: Accommodation) => {
+  const onSubmit = async (data: Accommodation) => {
+    const res = await createAccommodation(data);
+    console.log(res);
     setShowSuccess(true);
     reset();
     handleClose();
