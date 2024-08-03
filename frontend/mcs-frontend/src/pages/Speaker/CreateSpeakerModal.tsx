@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
 import { FormInputMultiSelect } from '../../components/FormComponents/FormInputDropdown';
 import { FormInputText } from '../../components/FormComponents/FormInputText';
-import { Speaker } from '../../types/types';
+import { Speaker } from '../../types/frontendTypes';
 import { createSpeaker } from '../../scripts/speaker/functions';
 import { AxiosResponse } from 'axios';
 
@@ -89,14 +89,14 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
 
   const onSubmit = async (data: Speaker) => {
     try {
-      const res: AxiosResponse = await createSpeaker(data)
+      const res: AxiosResponse = await createSpeaker(data);
       if (res.status == 200) {
         setShowSuccess(true);
       } else {
-        console.log("Failed to create speaker")
+        console.log('Failed to create speaker');
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
       reset();
       handleClose();

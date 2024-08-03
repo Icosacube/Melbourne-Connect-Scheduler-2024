@@ -2,7 +2,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { GridColDef } from '@mui/x-data-grid';
-import { MainEvent, Speaker } from '../../../types/types';
+import { MainEvent, Speaker } from '../../../types/frontendTypes';
 
 interface EventsTableProps {
   events: MainEvent[];

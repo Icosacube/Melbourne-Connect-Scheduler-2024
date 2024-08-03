@@ -1,6 +1,6 @@
-import { LoaderFunctionArgs } from "react-router-dom";
-import { Trip } from "../../types/types";
-import { getTripById } from "./functions";
+import { LoaderFunctionArgs } from 'react-router-dom';
+import { Trip } from '../../types/frontendTypes';
+import { getTripById } from './functions';
 
 // Load ONE trip from ONE trip record ID
 
@@ -10,7 +10,7 @@ export async function loader({
   try {
     const tripID = String(params.id);
     const trip = await getTripById(tripID);
-    return trip
+    return trip;
   } catch (error) {
     console.log(error);
     return {};

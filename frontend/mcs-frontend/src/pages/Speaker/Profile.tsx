@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { useLoaderData, useParams } from 'react-router-dom';
 import { ProfileHeader } from '../../components';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import { Speaker } from '../../types/types';
+import { Speaker } from '../../types/frontendTypes';
 
 export const Profile: FC = () => {
   const speaker = useLoaderData() as Speaker;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Trip } from '../../types/types';
+import { Trip } from '../../types/frontendTypes';
 
 export async function loader(): Promise<Map<string, Trip[]> | any> {
   try {

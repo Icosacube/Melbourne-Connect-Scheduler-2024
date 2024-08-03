@@ -1,9 +1,53 @@
 import axios from 'axios';
-import { Trip, Flight, Accommodation } from '../../types/types';
 import dayjs from 'dayjs';
+import { Trip as TripFrontend } from '../../types/frontendTypes';
+import { Trip as TripBackend } from '../../types/backendTypes';
+
+// Function to get all Trips
+export async function getAllTrips(): Promise<TripFrontend[]> {
+  try {
+    const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/trips');
+    const rawTrips = res.data;
+    const formattedTrips = rawTrips.map((trip: any) =>
+      reformatTripResponse(trip),
+    );
+    console.log(formattedTrips);
+    return formattedTrips;
+  } catch (error) {
+    console.error('Error fetching all trips:', error);
+    return [];
+  }
+}
+
+// Function to get a Trip by ID
+export async function getTripById(id: string): Promise<TripFrontend> {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/trips/${id}`,
+    );
+    const rawTrip = res.data;
+    const formattedTrip = reformatTripResponse(rawTrip);
+    return formattedTrip;
+  } catch (error) {
+    console.error('Error fetching trip by ID:', error);
+    return {} as TripFrontend;
+  }
+}
+
+// Function to create a new Trip
+export async function createTrip(trip: TripFrontend) {
+  const speakerID = trip.GuestSpeaker![0];
+  // formatting DayJS to String
+  const tripBackend = reformatTripRequest(trip);
+  const res = await axios.post(
+    `${process.env.REACT_APP_BACKEND_URL}/trip/` + speakerID,
+    tripBackend,
+  );
+  return res.status;
+}
 
 // Default Trip object
-export const defaultTrip: Trip = {
+export const defaultTrip: TripFrontend = {
   RecordID: '',
   StartDate: dayjs(),
   EndDate: dayjs(),
@@ -17,9 +61,9 @@ export const defaultTrip: Trip = {
   Completed: false,
 };
 
-// Function to reformat Trip response data
-function reformatTripResponseData(data: any): Trip {
-  const trip: Trip = {
+// Function to reformat Trip response to frontend format
+function reformatTripResponse(data: any): TripFrontend {
+  const trip: TripFrontend = {
     ...defaultTrip,
     RecordID: data.id || defaultTrip.RecordID,
     StartDate: data.StartDate ? dayjs(data.StartDate) : defaultTrip.StartDate,
@@ -38,54 +82,19 @@ function reformatTripResponseData(data: any): Trip {
   return trip;
 }
 
-// Function to get all Trips
-export async function getAllTrips(): Promise<Trip[]> {
-  try {
-    const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/trips');
-    const rawTrips = res.data;
-    const formattedTrips = rawTrips.map((trip: any) =>
-      reformatTripResponseData(trip),
-    );
-    console.log(formattedTrips);
-    return formattedTrips;
-  } catch (error) {
-    console.error('Error fetching all trips:', error);
-    return [];
-  }
-}
-
-// Function to get a Trip by ID
-export async function getTripById(id: string): Promise<Trip> {
-  try {
-    const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/trips/${id}`,
-    );
-    const rawTrip = res.data;
-    const formattedTrip = reformatTripResponseData(rawTrip);
-    return formattedTrip;
-  } catch (error) {
-    console.error('Error fetching trip by ID:', error);
-    return {} as Trip;
-  }
-}
-
-// Function to create a new Trip
-export async function createTrip(trip: Trip) {
-  const speakerID = trip.GuestSpeaker![0];
-  // formatting DayJS to String
-  const formattedTrip = {
-    ...trip,
-    StartDate: trip.StartDate?.format('YYYY-MM-DD'),
-    EndDate: trip.EndDate?.format('YYYY-MM-DD'),
+// Function to reformat Trip to backend format
+function reformatTripRequest(data: TripFrontend): TripBackend {
+  const trip: TripBackend = {
+    StartDate: data.StartDate.format('YYYY-MM-DD'),
+    EndDate: data.EndDate.format('YYYY-MM-DD'),
+    GuestSpeaker: data.GuestSpeaker,
+    MainEvent: data.MainEvent,
+    Accommodation: data.Accommodation,
+    Flight: data.Flight,
+    Miscellaneous: data.Miscellaneous,
+    AcademicCanvassing: data.AcademicCanvassing,
+    Completed: data.Completed,
   };
-  delete formattedTrip.RecordID;
-  delete formattedTrip.Duration;
 
-  console.log(formattedTrip);
-
-  const res = await axios.post(
-    `${process.env.REACT_APP_BACKEND_URL}/trip/` + speakerID,
-    formattedTrip,
-  );
-  return res.status;
+  return trip;
 }

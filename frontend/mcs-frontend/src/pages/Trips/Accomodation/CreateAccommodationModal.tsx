@@ -1,5 +1,5 @@
 import { Box, Button, Modal, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
 import { FormInputDate } from '../../../components/FormComponents/FormInputDate';
@@ -9,7 +9,10 @@ import {
   createAccommodation,
   defaultAccommodation,
 } from '../../../scripts/accommodation/function';
-import { Accommodation } from '../../../types/types';
+import { Accommodation, Speaker, Trip } from '../../../types/frontendTypes';
+import { DropdownOptions } from '../../../components/FormComponents/FormInputProps';
+import { getAllTrips } from '../../../scripts/trip/function';
+import { getAllSpeakers } from '../../../scripts/speaker/functions';
 
 interface CreateAccommodationModalProps {
   handleClose: () => void;
@@ -44,7 +47,38 @@ export const CreateAccommodationModal: React.FC<
   const { handleSubmit, reset, control, setValue } = useForm<Accommodation>({
     defaultValues: defaultAccommodation,
   });
+  const [tripOptions, setTripOptions] = useState<DropdownOptions[]>([]);
+  const [speakerOptions, setSpeakerOptions] = useState<DropdownOptions[]>([]);
 
+  // Dropdown data fetching
+  useEffect(() => {
+    if (open) {
+      loadTrips();
+      loadSpeakers();
+    }
+  }, [open]);
+
+  const loadTrips = async () => {
+    const trips = await getAllTrips();
+    console.log(trips);
+    const tripOptions = trips.map((trip: Trip) => ({
+      label: trip.EndDate.toString(),
+      value: trip.EndDate.toString(),
+    }));
+    setTripOptions(tripOptions);
+  };
+
+  const loadSpeakers = async () => {
+    const speakers = await getAllSpeakers();
+    console.log(speakers);
+    const speakerOptions = speakers.map((speaker: Speaker) => ({
+      label: speaker.FirstName + ' ' + speaker.LastName,
+      value: speaker.RecordID,
+    }));
+    setSpeakerOptions(speakerOptions);
+  };
+
+  // Form functions
   const onSubmit = async (data: Accommodation) => {
     const res = await createAccommodation(data);
     console.log(res);
@@ -91,7 +125,7 @@ export const CreateAccommodationModal: React.FC<
                 name='speaker'
                 control={control}
                 label='Speaker'
-                options={speakers}
+                options={speakerOptions}
               />
             </Box>
             {/* Right */}
@@ -119,7 +153,7 @@ export const CreateAccommodationModal: React.FC<
                 name='Trip'
                 control={control}
                 label='Trip'
-                options={trips}
+                options={tripOptions}
               />
             </Box>
           </Box>

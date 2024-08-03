@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MainEvent } from '../../types/types';
+import { MainEvent } from '../../types/frontendTypes';
 
 // call to backend URL to
 export default async function createEvent(event: MainEvent, speakerId: string) {

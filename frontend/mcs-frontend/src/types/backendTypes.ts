@@ -1,4 +1,3 @@
-import dayjs, { Dayjs } from 'dayjs';
 export enum PresetFilter {
   completed = '( {Completed} = FALSE() )',
 }
@@ -39,7 +38,6 @@ export type TableFields = {
 };
 
 export type Speaker = {
-  RecordID: string;
   PrimaryEmail: string;
   FirstName: string;
   LastName: string;
@@ -68,13 +66,11 @@ export type Speaker = {
   Confirmed: boolean;
   Trip: string[];
   MainEvent: string[];
-  SubEvent: string[];
 };
 
 export type Trip = {
-  RecordID?: string;
-  StartDate: Dayjs; // Example Format: "2024-04-30"
-  EndDate: Dayjs; // Example Format: "2024-04-30"
+  StartDate: string; // Example Format: "2024-04-30"
+  EndDate: string; // Example Format: "2024-04-30"
   Duration?: number;
   GuestSpeaker: string[];
   MainEvent: string[];
@@ -86,13 +82,12 @@ export type Trip = {
 };
 
 export type MainEvent = {
-  RecordID: string;
   EventName: string;
   EventAbstract: string;
   EventDescription: string;
   EventbriteLink: string;
   EventBanner: string | any[]; // string: url to publicly accessible photos (google drive etc); any[] for receive
-  Date: Dayjs; // Example Format: "2024-04-30"
+  Date: string; // Example Format: "2024-04-30"
   Notes: string;
   Speaker: string[];
   GuestAcademic: string[];
@@ -101,6 +96,7 @@ export type MainEvent = {
   Service: string[];
   Completed: boolean;
   Trip: string[];
+  SubEvent: string[];
 };
 
 export type SubEvent = {
@@ -108,9 +104,8 @@ export type SubEvent = {
   EventDescription: string;
   EventType: string; // or Enum
   Date: string; // Example Format: "2024-04-30"
-  Cost: number;
   Notes: string;
-  Speaker: string[];
+  MainEvent: string[];
   FundingAccount: string[];
   Completed: boolean;
 };
@@ -123,13 +118,12 @@ export type Academic = {
 };
 
 export type Accommodation = {
-  RecordID?: string;
   BookingReference: string;
   HotelName: string;
   Address: string;
   Room: string;
-  CheckIn: Dayjs; // Example Format: "2024-04-30"
-  CheckOut: Dayjs; // Example Format: "2024-04-30"
+  CheckIn: string; // Example Format: "2024-04-30"
+  CheckOut: string; // Example Format: "2024-04-30"
   NumberOfNight?: number;
   Cost: number;
   Notes: string;
@@ -138,14 +132,13 @@ export type Accommodation = {
 };
 
 export type Flight = {
-  RecordID: string;
   FlightReference: string;
   Airline: string;
   FlightNumber: string;
   DepartureFrom: String;
   ArrivedTo: String;
-  DepartDate: Dayjs;
-  ArriveDate: Dayjs;
+  DepartDate: string;
+  ArriveDate: string;
   Cost: number;
   Trip: string[];
   FundingAccount: string[];
@@ -156,7 +149,7 @@ export type Miscellaneous = {
   Cost: number;
   Description: string;
   Date: string;
-  TransportationType: string; // or enum
+  Type: string; // or enum
   Notes: string;
   Trip: string[];
   FundingAccount: string[];
