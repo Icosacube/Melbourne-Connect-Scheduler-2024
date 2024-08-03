@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from 'react-router-dom';
-import { Speaker } from '../../types/types';
+import { Speaker } from '../../types/frontendTypes';
 import { getSpeakerById } from './functions';
 
 export async function loader({

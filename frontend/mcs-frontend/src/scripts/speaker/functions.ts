@@ -1,14 +1,14 @@
-import axios, { AxiosResponse } from "axios";
-import { Speaker } from "../../types/types";
+import axios, { AxiosResponse } from 'axios';
+import { Speaker } from '../../types/frontendTypes';
 
 export async function getAllSpeakers(): Promise<Speaker[]> {
   try {
     const res = await axios.get(
-      process.env.REACT_APP_BACKEND_URL + "/speakers"
+      process.env.REACT_APP_BACKEND_URL + '/speakers',
     );
     const rawSpeakers = res.data;
     const formattedSpeakers = rawSpeakers.map((speaker: any) =>
-      reformatSpeakerResponseData(speaker)
+      reformatSpeakerResponseData(speaker),
     );
     return formattedSpeakers;
   } catch (error) {
@@ -19,55 +19,55 @@ export async function getAllSpeakers(): Promise<Speaker[]> {
 export async function getSpeakerById(id: string): Promise<Speaker> {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/speaker/${id}`
+      `${process.env.REACT_APP_BACKEND_URL}/speaker/${id}`,
     );
     const rawSpeaker = res.data;
     const formattedSpeaker = reformatSpeakerResponseData(rawSpeaker);
     return formattedSpeaker;
   } catch (error) {
-    console.error("Error fetching speaker:", error);
+    console.error('Error fetching speaker:', error);
     return {} as Speaker;
   }
 }
 
 export async function createSpeaker(speaker: Speaker): Promise<AxiosResponse> {
-  const toSend:any = {...speaker}
-  delete (toSend.RecordID)
+  const toSend: any = { ...speaker };
+  delete toSend.RecordID;
   const res = await axios.post(
     `${process.env.REACT_APP_BACKEND_URL}/speaker`,
-    toSend
+    toSend,
   );
   // Server return message: Speaker created successfully if success
   return res;
 }
 
 export const defaultSpeaker: Speaker = {
-  RecordID: "",
-  PrimaryEmail: "",
-  FirstName: "",
-  LastName: "",
-  Pronouns: "",
-  Title: "",
-  AlternativeTitle: "",
-  Phone: "",
-  Bio: "",
-  Headshot: "",
-  PreferredTimezone: "",
-  Category: "",
-  Area: "",
-  WorkTitle: "",
-  Organisation: "",
-  Department: "",
-  Address: "",
-  CitySuburb: "",
-  State: "",
-  Country: "",
-  Postcode: "",
-  EmergencyContactName: "",
-  EmergencyContactRelationship: "",
-  EmergencyContactNumber: "",
-  FlyerMembershipName: "",
-  FlyerMembershipNumber: "",
+  RecordID: '',
+  PrimaryEmail: '',
+  FirstName: '',
+  LastName: '',
+  Pronouns: '',
+  Title: '',
+  AlternativeTitle: '',
+  Phone: '',
+  Bio: '',
+  Headshot: '',
+  PreferredTimezone: '',
+  Category: '',
+  Area: '',
+  WorkTitle: '',
+  Organisation: '',
+  Department: '',
+  Address: '',
+  CitySuburb: '',
+  State: '',
+  Country: '',
+  Postcode: '',
+  EmergencyContactName: '',
+  EmergencyContactRelationship: '',
+  EmergencyContactNumber: '',
+  FlyerMembershipName: '',
+  FlyerMembershipNumber: '',
   Confirmed: false,
   Trip: [],
   MainEvent: [],

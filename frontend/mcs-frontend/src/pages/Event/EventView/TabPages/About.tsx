@@ -1,6 +1,6 @@
 import { Avatar, Box, Chip, Stack, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { MainEvent, Speaker } from '../../../../types/types';
+import { MainEvent, Speaker } from '../../../../types/frontendTypes';
 import AboutTable from './AboutTable';
 import Banner from './Banner';
 import Headline from './Headline';

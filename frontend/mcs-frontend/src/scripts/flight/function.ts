@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Flight } from '../../types/types';
+import { Flight } from '../../types/frontendTypes';
 import axios from 'axios';
 
 // Function to reformat Flight response data

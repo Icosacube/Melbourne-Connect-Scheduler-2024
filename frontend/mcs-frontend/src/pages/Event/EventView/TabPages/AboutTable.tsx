@@ -1,6 +1,6 @@
 import { Box, Stack, TextField, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { MainEvent } from '../../../../types/types';
+import { MainEvent } from '../../../../types/frontendTypes';
 
 interface AboutTableProps {
   event: MainEvent;

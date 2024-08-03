@@ -15,7 +15,7 @@ import 'dayjs/locale/en-au';
 import React, { FC, useState } from 'react';
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
 import updateEvent from '../../../scripts/event/updateEvent';
-import { MainEvent, Speaker } from '../../../types/types';
+import { MainEvent, Speaker } from '../../../types/frontendTypes';
 
 interface EditEventModalProps {
   event: MainEvent;

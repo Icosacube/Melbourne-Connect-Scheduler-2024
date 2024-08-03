@@ -7,7 +7,7 @@ import Participants from './TabPages/Participants';
 import Programme from './TabPages/Programme';
 import Services from './TabPages/Services';
 import { useLoaderData } from 'react-router-dom';
-import { MainEvent } from '../../../types/types';
+import { MainEvent } from '../../../types/frontendTypes';
 
 export const Event: FC = () => {
   const [tabName, setTabName] = useState('About');

@@ -1,4 +1,4 @@
-import { MainEvent, Speaker } from '../../types/types';
+import { MainEvent, Speaker } from '../../types/frontendTypes';
 import { getAllSpeakers } from '../speaker/functions';
 import { getAllMainEvents } from './function';
 

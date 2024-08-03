@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MainEvent } from '../../types/types';
+import { MainEvent } from '../../types/frontendTypes';
 import dayjs from 'dayjs';
 
 // Function to reformat MainEvent response data
@@ -11,8 +11,7 @@ function reformatMainEventResponseData(data: any): MainEvent {
     EventAbstract: data.EventAbstract || defaultMainEvent.EventAbstract,
     EventDescription:
       data.EventDescription || defaultMainEvent.EventDescription,
-    EventbriteLink:
-      data.EventbriteLink || defaultMainEvent.EventbriteLink,
+    EventbriteLink: data.EventbriteLink || defaultMainEvent.EventbriteLink,
     EventBanner: data.EventBanner || defaultMainEvent.EventBanner,
     Date: data.Date ? dayjs(data.Date) : defaultMainEvent.Date,
     Notes: data.Notes || defaultMainEvent.Notes,

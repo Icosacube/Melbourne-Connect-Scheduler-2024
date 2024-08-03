@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from 'react-router-dom';
-import { MainEvent, Speaker } from '../../types/types';
+import { MainEvent, Speaker } from '../../types/frontendTypes';
 import { getAllMainEvents, getMainEventById } from './function';
 import { getSpeakerById } from '../speaker/functions';
 

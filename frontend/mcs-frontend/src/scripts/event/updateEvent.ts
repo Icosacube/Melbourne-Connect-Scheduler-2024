@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MainEvent } from '../../types/types';
+import { MainEvent } from '../../types/frontendTypes';
 
 export default async function updateEvent(event: MainEvent) {
   console.log('POSTing to ' + process.env.REACT_APP_BACKEND_URL);

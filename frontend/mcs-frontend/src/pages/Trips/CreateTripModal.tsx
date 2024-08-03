@@ -8,7 +8,7 @@ import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
 import { getAllMainEvents } from '../../scripts/event/function';
 import { getAllSpeakers } from '../../scripts/speaker/functions';
 import { createTrip, defaultTrip } from '../../scripts/trip/function';
-import { MainEvent, Speaker, Trip } from '../../types/types';
+import { MainEvent, Speaker, Trip } from '../../types/frontendTypes';
 
 interface CreateTripModalProps {
   handleClose: () => void;

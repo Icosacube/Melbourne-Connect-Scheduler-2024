@@ -1,13 +1,13 @@
-import axios from "axios";
-import { Trip } from "../../types/types";
-import dayjs from "dayjs";
+import axios from 'axios';
+import { Trip } from '../../types/frontendTypes';
+import dayjs from 'dayjs';
 
 export async function getAllTrips(): Promise<Trip[]> {
   try {
-    const res = await axios.get(process.env.REACT_APP_BACKEND_URL + "/trips");
+    const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/trips');
     const rawTrips = res.data;
     const formattedTrips = rawTrips.map((trip: any) =>
-      reformatTripResponseData(trip)
+      reformatTripResponseData(trip),
     );
     return formattedTrips;
   } catch (error) {
@@ -19,13 +19,13 @@ export async function getAllTrips(): Promise<Trip[]> {
 export async function getTripById(tripID: string): Promise<Trip> {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/trip/${tripID}`
+      `${process.env.REACT_APP_BACKEND_URL}/trip/${tripID}`,
     );
     const rawTrip = res.data;
     const formattedTrip = reformatTripResponseData(rawTrip);
     return formattedTrip;
   } catch (error) {
-    console.error("Error fetching trip:", error);
+    console.error('Error fetching trip:', error);
     return {} as Trip;
   }
 }
@@ -33,11 +33,11 @@ export async function getTripById(tripID: string): Promise<Trip> {
 export async function getTripsBySpeakerId(speakerID: string): Promise<Trip[]> {
   try {
     const res = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/trip/${speakerID}`
-      );
+      `${process.env.REACT_APP_BACKEND_URL}/trip/${speakerID}`,
+    );
     const rawTrips = res.data;
     const formattedTrips = rawTrips.map((trip: any) =>
-      reformatTripResponseData(trip)
+      reformatTripResponseData(trip),
     );
     return formattedTrips;
   } catch (error) {
@@ -48,18 +48,18 @@ export async function getTripsBySpeakerId(speakerID: string): Promise<Trip[]> {
 export async function createTrip(id: string) {
   try {
     const res = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/trip/${id}`
+      `${process.env.REACT_APP_BACKEND_URL}/trip/${id}`,
     );
     // Server return message: Trip created successfully if success
     console.log(res.data);
   } catch (error) {
-    console.error("Error creating trip:", error);
+    console.error('Error creating trip:', error);
     return {} as Trip;
   }
 }
 
 export const defaultTrip: Trip = {
-  RecordID: "",
+  RecordID: '',
   StartDate: dayjs(),
   EndDate: dayjs(),
   GuestSpeaker: [],
