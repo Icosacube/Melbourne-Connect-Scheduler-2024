@@ -1,6 +1,6 @@
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from 'dayjs';
 export enum PresetFilter {
-  completed = "( {Completed} = FALSE() )",
+  completed = '( {Completed} = FALSE() )',
 }
 
 export type Creation = {
@@ -72,9 +72,9 @@ export type Speaker = {
 };
 
 export type Trip = {
-  RecordID?: string;
-  StartDate?: Dayjs; // Example Format: "2024-04-30"
-  EndDate?: Dayjs; // Example Format: "2024-04-30"
+  RecordID: string;
+  StartDate: Dayjs; // Example Format: "2024-04-30"
+  EndDate: Dayjs; // Example Format: "2024-04-30"
   Duration?: number;
   GuestSpeaker: string[];
   MainEvent: string[];
