@@ -79,24 +79,6 @@ export async function getAllAccom(): Promise<Accommodation[]> {
   }
 }
 
-import axios from 'axios';
-import { Accommodation } from '../../types/types';
-import dayjs from 'dayjs';
-
-export const defaultAccommodation: Accommodation = {
-  BookingReference: '',
-  HotelName: '',
-  Address: '',
-  Room: '',
-  CheckIn: dayjs(),
-  CheckOut: dayjs(),
-  NumberOfNight: 0,
-  Cost: 0,
-  Notes: '',
-  FundingAccount: [],
-  Trip: [],
-};
-
 function convertAccommodationDatesToString(accommodation: Accommodation): any {
   return {
     ...accommodation,
