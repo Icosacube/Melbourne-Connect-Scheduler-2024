@@ -72,7 +72,7 @@ export type Speaker = {
 };
 
 export type Trip = {
-  RecordID: string;
+  RecordID?: string;
   StartDate: Dayjs; // Example Format: "2024-04-30"
   EndDate: Dayjs; // Example Format: "2024-04-30"
   Duration?: number;
