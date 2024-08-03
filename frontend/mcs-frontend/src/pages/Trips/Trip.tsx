@@ -27,8 +27,11 @@ export const Trip: FC = () => {
       <Box className='w-1/3 space-y-4'>
         <Typography variant='h6'>Main Event</Typography>
         <Button variant='contained' className='w-full min-h-60' />
+        <Button onClick={handleOpen} variant='contained'>
+          Add Accommodation
+        </Button>
       </Box>
-      <Button onClick={handleOpen}>Add Accommodation</Button>
+
       <CreateAccommodationModal handleClose={handleClose} open={open} />
     </Box>
   );
