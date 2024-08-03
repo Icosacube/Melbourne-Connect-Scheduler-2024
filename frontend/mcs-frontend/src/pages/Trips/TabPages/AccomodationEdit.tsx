@@ -1,7 +1,7 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import React from "react";
 
-function Accomodation() {
+function AccomodationEdit() {
   return (
     <Paper className="w-full px-6 py-4 rounded-lg">
       <Grid container className="flex space-between items-center">
@@ -45,4 +45,4 @@ function Accomodation() {
   );
 }
 
-export default Accomodation;
+export default AccomodationEdit;

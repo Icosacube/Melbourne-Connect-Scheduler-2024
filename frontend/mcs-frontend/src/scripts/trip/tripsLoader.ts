@@ -1,14 +1,14 @@
-import { Trip } from "../../types/types";
-import { getAllTrips, getTripById } from "./functions";
+import axios from 'axios';
+import { Trip } from '../../types/types';
 
-// load ALL trips
-
-export async function loader(): Promise<Trip | any> {
+export async function loader(): Promise<Map<string, Trip[]> | any> {
   try {
-    const trip = await getAllTrips();
-    return trip;
+    const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/trip');
+    const rawTrips = res.data;
+
+    console.log(rawTrips);
+    return rawTrips;
   } catch (error) {
-    console.log(error);
     return {};
   }
 }

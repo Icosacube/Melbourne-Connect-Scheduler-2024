@@ -1,12 +1,20 @@
 import EditCalendar from '@mui/icons-material/EditCalendar';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { Avatar, Box, Divider, Stack, Typography } from '@mui/material';
+import AddCircleOutlineOutlined from '@mui/icons-material/FilterList';
+import { Avatar, Box, Button, Divider, Stack, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { BackButton } from '../../components';
+import { CreateTripModal } from './CreateTripModal';
+import { useLoaderData } from 'react-router-dom';
+import { Trip } from '../../types/types';
 
-export const Trips:FC=()=> {
+export const Trips: FC=()=> {
+  const trips = useLoaderData() as Trip[];
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
+
     <Box className=" flex space-x-10">
       <Box className="w-2/3 space-y-4">
         <Box className="flex justify-between">
@@ -35,10 +43,15 @@ export const Trips:FC=()=> {
       </Box>
       <Divider orientation="vertical" flexItem />
       <Box className="w-1/3 space-y-5">
-        <FilterListIcon fontSize="large" />
-        <Typography variant="h6">Event Time</Typography>
-        <Typography variant="body1"></Typography>
-        <Typography variant="h6">Status</Typography>
+          <Button
+            variant="contained"
+            className=" flex space-x-2 bg-secondary hover:bg-accent hover:text-black mb-3 self-end h-12"
+            onClick={handleOpen}>
+            <AddCircleOutlineOutlined />
+            <Typography>Create Trip</Typography>
+          </Button>
+
+          <CreateTripModal open={open} handleClose={handleClose} />
       </Box>
     </Box>
   );

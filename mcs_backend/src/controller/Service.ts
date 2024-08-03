@@ -26,7 +26,7 @@ router.get('/services', async (req, res) => {
     }
 });
 // Get a specific Service by ID
-router.get('/service/:Service_record_id', async (req, res) => {
+router.get('/services/service/:Service_record_id', async (req, res) => {
     const { Service_record_id } = req.params;
     
     try {

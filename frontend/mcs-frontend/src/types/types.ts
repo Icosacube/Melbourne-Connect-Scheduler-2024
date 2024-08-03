@@ -1,6 +1,6 @@
-import dayjs, { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from 'dayjs';
 export enum PresetFilter {
-  completed = "( {Completed} = FALSE() )",
+  completed = '( {Completed} = FALSE() )',
 }
 
 export type Creation = {
@@ -123,12 +123,13 @@ export type Academic = {
 };
 
 export type Accommodation = {
+  RecordID: string;
   BookingReference: string;
   HotelName: string;
   Address: string;
   Room: string;
-  CheckIn: string; // Example Format: "2024-04-30"
-  CheckOut: string; // Example Format: "2024-04-30"
+  CheckIn: Dayjs; // Example Format: "2024-04-30"
+  CheckOut: Dayjs; // Example Format: "2024-04-30"
   NumberOfNight?: number;
   Cost: number;
   Notes: string;
@@ -137,13 +138,14 @@ export type Accommodation = {
 };
 
 export type Flight = {
+  RecordID: string;
   FlightReference: string;
   Airline: string;
   FlightNumber: string;
   DepartureFrom: String;
   ArrivedTo: String;
-  DepartDate: string;
-  ArriveDate: string;
+  DepartDate: Dayjs;
+  ArriveDate: Dayjs;
   Cost: number;
   Trip: string[];
   FundingAccount: string[];

@@ -27,7 +27,7 @@ router.get('/academics', async (req, res) => {
   }
 });
 // Get a specific academic by ID
-router.get('/academic/:academic_record_id', async (req, res) => {
+router.get('/academics/academic/:academic_record_id', async (req, res) => {
   const { academic_record_id } = req.params;
   
   try {

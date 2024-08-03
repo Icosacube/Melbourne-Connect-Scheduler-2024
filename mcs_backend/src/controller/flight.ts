@@ -27,7 +27,7 @@ router.get('/flights', async (req, res) => {
     }
   });
   // Get a specific Flight by ID
-router.get('/flight/:Flight_record_id', async (req, res) => {
+router.get('/flights/flight/:Flight_record_id', async (req, res) => {
   const { Flight_record_id } = req.params;
   
   try {
@@ -36,7 +36,7 @@ router.get('/flight/:Flight_record_id', async (req, res) => {
     if (!FlightRecord) {
       return res.status(404).json({ message: 'Flight not found' });
     }
-    let plainFields = Object.fromEntries(FlightRecord);
+    let plainFields = Object.fromEntries(FlightRecord.get(Flight_record_id));
     let formattedFlights: { [k: string]: any; } = plainFields
     res.json(formattedFlights)
 
