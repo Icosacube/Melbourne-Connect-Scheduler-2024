@@ -6,7 +6,7 @@ export interface FormInputProps {
   options?: DropdownOptions[];
 }
 
-interface DropdownOptions {
+export interface DropdownOptions {
   value: string;
   label: string;
 }

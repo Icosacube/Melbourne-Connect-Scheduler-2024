@@ -14,11 +14,11 @@ const miscellaneousTable = String(process.env.MISCELLANEOUS)
 router.get('/miscellaneous', async (req, res) => {
   try {
     const miscellaneousItems = await getTable(miscellaneousTable, "");
-    const formattedMiscellaneous: { id: string, fields: any }[] = [];
-    miscellaneousItems.forEach((fields, id) => {
+    const formattedMiscellaneous: { [k: string]: any; }[] = [];
+    miscellaneousItems.forEach((fields) => {
       const plainFields = Object.fromEntries(fields); 
-      formattedMiscellaneous.push({ id, fields: plainFields });
-      console.log(`ID: ${id}, Fields:`, plainFields);
+      formattedMiscellaneous.push(plainFields);
+      console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
     res.json(formattedMiscellaneous);
   } catch (error) {
@@ -26,7 +26,7 @@ router.get('/miscellaneous', async (req, res) => {
   }
 });
 // Get a specific Miscellaneous by ID
-router.get('/miscellaneous/:Miscellaneous_record_id', async (req, res) => {
+router.get('/miscellaneous/miscellaneous/:Miscellaneous_record_id', async (req, res) => {
   const { Miscellaneous_record_id } = req.params;
   
   try {
@@ -35,9 +35,9 @@ router.get('/miscellaneous/:Miscellaneous_record_id', async (req, res) => {
     if (!MiscellaneousRecord) {
       return res.status(404).json({ message: 'Miscellaneous not found' });
     }
-    let plainFields = Object.fromEntries(MiscellaneousRecord.get(Miscellaneous_record_id));
-    let formattedMiscellaneouss: {id: string, fields: any} = {id: Miscellaneous_record_id, fields: plainFields}
-    res.json(formattedMiscellaneouss)
+    let plainFields = Object.fromEntries(MiscellaneousRecord);
+    let formattedMiscellaneous: { [k: string]: any; } = plainFields
+    res.json(formattedMiscellaneous)
 
   } catch (error) {
     console.error("Error fetching Miscellaneous:", error);
@@ -50,12 +50,12 @@ router.get('/miscellaneous/:tripID', async (req, res) => {
 
   try {
     const miscellaneousItems = await getTable(miscellaneousTable, "");
-    const tripMiscellaneousItems: { id: string, fields: any }[] = [];
+    const tripMiscellaneousItems: { [k: string]: any; }[] = [];
 
-    miscellaneousItems.forEach((fields, id) => {
+    miscellaneousItems.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
       if (plainFields.Trip && plainFields.Trip.includes(tripID)) {
-        tripMiscellaneousItems.push({ id, fields: plainFields });
+        tripMiscellaneousItems.push(plainFields);
       }
     });
 

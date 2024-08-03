@@ -1,14 +1,14 @@
-import axios from 'axios';
-import { Speaker } from '../../types/types';
+import axios, { AxiosResponse } from "axios";
+import { Speaker } from "../../types/types";
 
 export async function getAllSpeakers(): Promise<Speaker[]> {
   try {
     const res = await axios.get(
-      process.env.REACT_APP_BACKEND_URL + '/speakers',
+      process.env.REACT_APP_BACKEND_URL + "/speakers"
     );
     const rawSpeakers = res.data;
     const formattedSpeakers = rawSpeakers.map((speaker: any) =>
-      reformatSpeakerResponseData(speaker),
+      reformatSpeakerResponseData(speaker)
     );
     return formattedSpeakers;
   } catch (error) {
@@ -19,58 +19,55 @@ export async function getAllSpeakers(): Promise<Speaker[]> {
 export async function getSpeakerById(id: string): Promise<Speaker> {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/speaker/${id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/speaker/${id}`
     );
     const rawSpeaker = res.data;
     const formattedSpeaker = reformatSpeakerResponseData(rawSpeaker);
     return formattedSpeaker;
   } catch (error) {
-    console.error('Error fetching speaker:', error);
+    console.error("Error fetching speaker:", error);
     return {} as Speaker;
   }
 }
 
-export async function createSpeaker(speaker: Speaker) {
-  try {
-    const res = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/speaker`,
-      speaker,
-    );
-    // Server return message: Speaker created successfully if success
-    console.log(res.data);
-  } catch (error) {
-    console.error('Error creating speaker:', error);
-    return {} as Speaker;
-  }
+export async function createSpeaker(speaker: Speaker): Promise<AxiosResponse> {
+  const toSend:any = {...speaker}
+  delete (toSend.RecordID)
+  const res = await axios.post(
+    `${process.env.REACT_APP_BACKEND_URL}/speaker`,
+    toSend
+  );
+  // Server return message: Speaker created successfully if success
+  return res;
 }
 
 export const defaultSpeaker: Speaker = {
-  RecordID: '',
-  PrimaryEmail: '',
-  FirstName: '',
-  LastName: '',
-  Pronouns: '',
-  Title: '',
-  AlternativeTitle: '',
-  Phone: '',
-  Bio: '',
-  Headshot: '',
-  PreferredTimezone: '',
-  Category: '',
-  Area: '',
-  WorkTitle: '',
-  Organisation: '',
-  Department: '',
-  Address: '',
-  CitySuburb: '',
-  State: '',
-  Country: '',
-  Postcode: '',
-  EmergencyContactName: '',
-  EmergencyContactRelationship: '',
-  EmergencyContactNumber: '',
-  FlyerMembershipName: '',
-  FlyerMembershipNumber: '',
+  RecordID: "",
+  PrimaryEmail: "",
+  FirstName: "",
+  LastName: "",
+  Pronouns: "",
+  Title: "",
+  AlternativeTitle: "",
+  Phone: "",
+  Bio: "",
+  Headshot: "",
+  PreferredTimezone: "",
+  Category: "",
+  Area: "",
+  WorkTitle: "",
+  Organisation: "",
+  Department: "",
+  Address: "",
+  CitySuburb: "",
+  State: "",
+  Country: "",
+  Postcode: "",
+  EmergencyContactName: "",
+  EmergencyContactRelationship: "",
+  EmergencyContactNumber: "",
+  FlyerMembershipName: "",
+  FlyerMembershipNumber: "",
   Confirmed: false,
   Trip: [],
   MainEvent: [],
@@ -81,44 +78,42 @@ function reformatSpeakerResponseData(data: any): Speaker {
   const speaker: Speaker = {
     ...defaultSpeaker,
     RecordID: data.id || defaultSpeaker.RecordID,
-    PrimaryEmail: data.fields.PrimaryEmail || defaultSpeaker.PrimaryEmail,
-    FirstName: data.fields.FirstName || defaultSpeaker.FirstName,
-    LastName: data.fields.LastName || defaultSpeaker.LastName,
-    Pronouns: data.fields.Pronouns || defaultSpeaker.Pronouns,
-    Title: data.fields.Title || defaultSpeaker.Title,
-    AlternativeTitle:
-      data.fields.AlternativeTitle || defaultSpeaker.AlternativeTitle,
-    Phone: data.fields.Phone || defaultSpeaker.Phone,
-    Bio: data.fields.Bio || defaultSpeaker.Bio,
-    Headshot: data.fields.Headshot || defaultSpeaker.Headshot,
+    PrimaryEmail: data.PrimaryEmail || defaultSpeaker.PrimaryEmail,
+    FirstName: data.FirstName || defaultSpeaker.FirstName,
+    LastName: data.LastName || defaultSpeaker.LastName,
+    Pronouns: data.Pronouns || defaultSpeaker.Pronouns,
+    Title: data.Title || defaultSpeaker.Title,
+    AlternativeTitle: data.AlternativeTitle || defaultSpeaker.AlternativeTitle,
+    Phone: data.Phone || defaultSpeaker.Phone,
+    Bio: data.Bio || defaultSpeaker.Bio,
+    Headshot: data.Headshot || defaultSpeaker.Headshot,
     PreferredTimezone:
-      data.fields.PreferredTimezone || defaultSpeaker.PreferredTimezone,
-    Category: data.fields.Category || defaultSpeaker.Category,
-    Area: data.fields.Area || defaultSpeaker.Area,
-    WorkTitle: data.fields.WorkTitle || defaultSpeaker.WorkTitle,
-    Organisation: data.fields.Organisation || defaultSpeaker.Organisation,
-    Department: data.fields.Department || defaultSpeaker.Department,
-    Address: data.fields.Address || defaultSpeaker.Address,
-    CitySuburb: data.fields.CitySuburb || defaultSpeaker.CitySuburb,
-    State: data.fields.State || defaultSpeaker.State,
-    Country: data.fields.Country || defaultSpeaker.Country,
-    Postcode: data.fields.Postcode || defaultSpeaker.Postcode,
+      data.PreferredTimezone || defaultSpeaker.PreferredTimezone,
+    Category: data.Category || defaultSpeaker.Category,
+    Area: data.Area || defaultSpeaker.Area,
+    WorkTitle: data.WorkTitle || defaultSpeaker.WorkTitle,
+    Organisation: data.Organisation || defaultSpeaker.Organisation,
+    Department: data.Department || defaultSpeaker.Department,
+    Address: data.Address || defaultSpeaker.Address,
+    CitySuburb: data.CitySuburb || defaultSpeaker.CitySuburb,
+    State: data.State || defaultSpeaker.State,
+    Country: data.Country || defaultSpeaker.Country,
+    Postcode: data.Postcode || defaultSpeaker.Postcode,
     EmergencyContactName:
-      data.fields.EmergencyContactName || defaultSpeaker.EmergencyContactName,
+      data.EmergencyContactName || defaultSpeaker.EmergencyContactName,
     EmergencyContactRelationship:
-      data.fields.EmergencyContactRelationship ||
+      data.EmergencyContactRelationship ||
       defaultSpeaker.EmergencyContactRelationship,
     EmergencyContactNumber:
-      data.fields.EmergencyContactNumber ||
-      defaultSpeaker.EmergencyContactNumber,
+      data.EmergencyContactNumber || defaultSpeaker.EmergencyContactNumber,
     FlyerMembershipName:
-      data.fields.FlyerMembershipName || defaultSpeaker.FlyerMembershipName,
+      data.FlyerMembershipName || defaultSpeaker.FlyerMembershipName,
     FlyerMembershipNumber:
-      data.fields.FlyerMembershipNumber || defaultSpeaker.FlyerMembershipNumber,
-    Confirmed: data.fields.Confirmed || defaultSpeaker.Confirmed,
-    Trip: data.fields.Trip || defaultSpeaker.Trip,
-    MainEvent: data.fields.MainEvent || defaultSpeaker.MainEvent,
-    SubEvent: data.fields.SubEvent || defaultSpeaker.SubEvent,
+      data.FlyerMembershipNumber || defaultSpeaker.FlyerMembershipNumber,
+    Confirmed: data.Confirmed || defaultSpeaker.Confirmed,
+    Trip: data.Trip || defaultSpeaker.Trip,
+    MainEvent: data.MainEvent || defaultSpeaker.MainEvent,
+    SubEvent: data.SubEvent || defaultSpeaker.SubEvent,
   };
 
   return speaker;

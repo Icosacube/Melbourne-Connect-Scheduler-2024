@@ -23,7 +23,7 @@ export type Speaker = {
     Pronouns: string;
     Title: string;
     AlternativeTitle: string;
-    Phone: number; 
+    Phone: string; 
     Bio: string;
     Headshot: string | any[]; // string: url to publicly accessible photos (google drive etc); any[] for receive 
     PreferredTimezone: string;
@@ -39,13 +39,12 @@ export type Speaker = {
     Postcode?: string;
     EmergencyContactName: string;	
     EmergencyContactRelationship: string;
-    EmergencyContactNumber: number;
+    EmergencyContactNumber: string;
     FlyerMembershipName: string;
     FlyerMembershipNumber: string; // Using string to account for string type ID
     Confirmed: boolean;	
     Trip: string[]; 
     MainEvent: string[];
-    SubEvent: string[];
 }
 
 export type Trip = {
@@ -76,6 +75,7 @@ export type MainEvent = {
     Service: string[];
     Completed: boolean;
     Trip: string[]; 
+    SubEvent: string[];
 }
 
 export type SubEvent = {
@@ -83,9 +83,8 @@ export type SubEvent = {
     EventDescription: string;
     EventType: string; // or Enum
     Date: string; // Example Format: "2024-04-30"
-    Cost: number;
     Notes: string;
-    Speaker: string[];
+    MainEvent: string[];
     FundingAccount: string[];
     Completed: boolean;
 }
@@ -130,7 +129,7 @@ export type Miscellaneous = {
     Cost: number;
     Description: string;
     Date: string;
-    TransportationType: string; // or enum 
+    Type: string; // or enum 
     Notes: string;
     Trip: string[];
     FundingAccount: string[];

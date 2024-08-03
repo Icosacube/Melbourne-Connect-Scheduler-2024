@@ -5,6 +5,8 @@ import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/Bottom
 import { FormInputMultiSelect } from '../../components/FormComponents/FormInputDropdown';
 import { FormInputText } from '../../components/FormComponents/FormInputText';
 import { Speaker } from '../../types/types';
+import { createSpeaker } from '../../scripts/speaker/functions';
+import { AxiosResponse } from 'axios';
 
 interface CreateSpeakerModalProps {
   handleClose: () => void;
@@ -85,11 +87,21 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
     defaultValues: CreateSpeakerFormDefaultValues,
   });
 
-  const onSubmit = (data: Speaker) => {
-    setShowSuccess(true);
-    reset();
-    handleClose();
-    console.log(data);
+  const onSubmit = async (data: Speaker) => {
+    try {
+      const res: AxiosResponse = await createSpeaker(data)
+      if (res.status == 200) {
+        setShowSuccess(true);
+      } else {
+        console.log("Failed to create speaker")
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      reset();
+      handleClose();
+      console.log(data);
+    }
   };
   const onClose = () => {
     handleClose();
