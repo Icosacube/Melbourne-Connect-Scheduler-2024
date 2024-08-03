@@ -27,7 +27,7 @@ router.get('/accommodations', async (req, res) => {
   }
 });
 // Get a specific Accomodation by ID
-router.get('/accomodation/:Accomodation_record_id', async (req, res) => {
+router.get('/accommodations/accommodation/:Accomodation_record_id', async (req, res) => {
   const { Accomodation_record_id } = req.params;
   
   try {

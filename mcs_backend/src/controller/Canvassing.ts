@@ -27,7 +27,7 @@ router.get('/canvassings', async (req, res) => {
   }
 });
 // Get a specific Canvassing by ID
-router.get('/canvassing/:Canvassing_record_id', async (req, res) => {
+router.get('/canvassings/canvasssing/:Canvassing_record_id', async (req, res) => {
   const { Canvassing_record_id } = req.params;
   
   try {

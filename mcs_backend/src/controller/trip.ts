@@ -31,7 +31,7 @@ router.get('/trips', async (req, res) => {
   }
 });
 // Get a specific trip by ID
-router.get('/trip/:trip_record_id', async (req, res) => {
+router.get('/trips/trip/:trip_record_id', async (req, res) => {
   const { trip_record_id } = req.params;
   
   try {
