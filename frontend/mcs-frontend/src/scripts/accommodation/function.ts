@@ -79,12 +79,15 @@ export async function getAllAccom(): Promise<Accommodation[]> {
   }
 }
 
-function convertAccommodationDatesToString(accommodation: Accommodation): any {
-  return {
+function convertAccommodationTypeToPayload(accommodation: Accommodation): any {
+  const payload = {
     ...accommodation,
     CheckIn: accommodation.CheckIn.format('YYYY-MM-DD'),
     CheckOut: accommodation.CheckOut.format('YYYY-MM-DD'),
   };
+  delete payload.NumberOfNight;
+  delete payload.RecordID;
+  return payload;
 }
 
 export async function createAccommodation(
@@ -92,7 +95,7 @@ export async function createAccommodation(
 ): Promise<Accommodation> {
   try {
     // TODO replace the hardcoded tripid
-    const accommodationData = convertAccommodationDatesToString(accommodation);
+    const accommodationData = convertAccommodationTypeToPayload(accommodation);
     const res = await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/accommodation/recH3rQzJMWavjKGA`,
       accommodationData,

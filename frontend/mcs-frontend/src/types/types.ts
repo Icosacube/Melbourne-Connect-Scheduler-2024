@@ -123,7 +123,7 @@ export type Academic = {
 };
 
 export type Accommodation = {
-  RecordID: string;
+  RecordID?: string;
   BookingReference: string;
   HotelName: string;
   Address: string;
