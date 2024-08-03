@@ -3,7 +3,7 @@ import { Box, Button, Typography } from '@mui/material';
 import React, { FC, useState } from 'react';
 import { BackButton } from '../../components';
 import { TripsTab } from './TripsTab';
-import { AddAccommodationModal } from './Accomodation/AddAccommodationModal';
+import { CreateAccommodationModal } from './Accomodation/CreateAccommodationModal';
 
 export const Trip: FC = () => {
   const [open, setOpen] = useState(false);
@@ -29,7 +29,7 @@ export const Trip: FC = () => {
         <Button variant='contained' className='w-full min-h-60' />
       </Box>
       <Button onClick={handleOpen}>Add Accommodation</Button>
-      <AddAccommodationModal handleClose={handleClose} open={open} />
+      <CreateAccommodationModal handleClose={handleClose} open={open} />
     </Box>
   );
 };

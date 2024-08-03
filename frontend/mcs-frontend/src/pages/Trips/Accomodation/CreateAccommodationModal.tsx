@@ -11,7 +11,7 @@ import {
 } from '../../../scripts/accommodation/function';
 import { Accommodation } from '../../../types/types';
 
-interface AddAccommodationModalProps {
+interface CreateAccommodationModalProps {
   handleClose: () => void;
   open: boolean;
 }
@@ -38,10 +38,9 @@ const trips = [
   },
 ];
 
-export const AddAccommodationModal: React.FC<AddAccommodationModalProps> = ({
-  handleClose,
-  open,
-}) => {
+export const CreateAccommodationModal: React.FC<
+  CreateAccommodationModalProps
+> = ({ handleClose, open }) => {
   const { handleSubmit, reset, control, setValue } = useForm<Accommodation>({
     defaultValues: defaultAccommodation,
   });
