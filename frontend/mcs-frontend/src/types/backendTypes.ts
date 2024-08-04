@@ -132,7 +132,8 @@ export type Accommodation = {
 };
 
 export type Flight = {
-  FlightReference: string;
+  // temporary change to adapt to computed field error
+  FlightReference?: string;
   Airline: string;
   FlightNumber: string;
   DepartureFrom: String;

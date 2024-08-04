@@ -1,10 +1,29 @@
 import dayjs from 'dayjs';
-import { Flight } from '../../types/frontendTypes';
+import { Flight as FlightFrontend } from '../../types/frontendTypes';
+import { Flight as FlightBackend } from '../../types/backendTypes';
 import axios from 'axios';
 
+
+// Default Flight object
+export const defaultFlight: FlightFrontend = {
+  RecordID: '',
+  FlightReference: '',
+  Airline: '',
+  FlightNumber: '',
+  DepartureFrom: '',
+  ArrivedTo: '',
+  DepartDate: dayjs(),
+  ArriveDate: dayjs(),
+  Cost: 0,
+  Trip: [],
+  FundingAccount: [],
+  ReturnFlight: [],
+};
+
+
 // Function to reformat Flight response data
-function reformatFlightResponseData(data: any): Flight {
-  const flight: Flight = {
+function reformatFlightResponseData(data: any): FlightFrontend {
+  const flight: FlightFrontend = {
     ...defaultFlight,
     RecordID: data.id || defaultFlight.RecordID,
     FlightReference: data.FlightReference || defaultFlight.FlightReference,
@@ -27,24 +46,28 @@ function reformatFlightResponseData(data: any): Flight {
   return flight;
 }
 
-// Default Flight object
-export const defaultFlight: Flight = {
-  RecordID: '',
-  FlightReference: '',
-  Airline: '',
-  FlightNumber: '',
-  DepartureFrom: '',
-  ArrivedTo: '',
-  DepartDate: dayjs(),
-  ArriveDate: dayjs(),
-  Cost: 0,
-  Trip: [],
-  FundingAccount: [],
-  ReturnFlight: [],
-};
+
+// Function to reformat Flight to backend format
+function reformatFlightRequest(data: FlightFrontend): FlightBackend {
+  const flight: FlightBackend = {
+    //FlightReference: data.FlightReference,
+    Airline: data.Airline,
+    FlightNumber: data.FlightNumber,
+    DepartureFrom: data.DepartureFrom,
+    ArrivedTo: data.ArrivedTo,
+    DepartDate: data.DepartDate.format('YYYY-MM-DD'),
+    ArriveDate: data.ArriveDate.format('YYYY-MM-DD'),
+    Cost: Number(data.Cost),
+    Trip: data.Trip,
+    FundingAccount: data.FundingAccount,
+    ReturnFlight: data.ReturnFlight,
+  };
+
+  return flight;
+}
 
 // function to get All flights
-export async function getAllFlights(): Promise<Flight[]> {
+export async function getAllFlights(): Promise<FlightFrontend[]> {
   try {
     const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/flights');
     const rawFlights = res.data;
@@ -59,7 +82,7 @@ export async function getAllFlights(): Promise<Flight[]> {
   }
 }
 
-export async function getFlightsByTripID(tripID: string): Promise<Flight[]> {
+export async function getFlightsByTripID(tripID: string): Promise<FlightFrontend[]> {
   try {
     const res = await axios.get(
       process.env.REACT_APP_BACKEND_URL + '/flight/' + tripID,
@@ -74,4 +97,15 @@ export async function getFlightsByTripID(tripID: string): Promise<Flight[]> {
     console.log(error);
     return [];
   }
+}
+
+// Function to create a new Flight
+export async function createFlight(flight: FlightFrontend) {
+  const tripID = flight.Trip![0];
+  const flightBackend = reformatFlightRequest(flight);
+  const res = await axios.post(
+    `${process.env.REACT_APP_BACKEND_URL}/flight/` + tripID,
+    flightBackend,
+  );
+  return res.status;
 }

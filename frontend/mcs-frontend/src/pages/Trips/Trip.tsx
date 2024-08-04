@@ -2,16 +2,26 @@ import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlin
 import { Box, Button, Typography } from '@mui/material';
 import React, { FC, useState } from 'react';
 import { BackButton } from '../../components';
-import { TripsTab } from './TripsTab';
 import { CreateAccommodationModal } from './Accomodation/CreateAccommodationModal';
+import { CreateFlightModal } from './Flight/CreateFlightModal';
+import TripsTab from './TripsTab';
+
 
 export const Trip: FC = () => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
+  const [openAccom, setOpenAccom] = useState(false);
+  const [openFlight, setOpenFlight] = useState(false);
+
+  const handleOpenAccom = () => {
+    setOpenAccom(true);
   };
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseAccom = () => {
+    setOpenAccom(false);
+  };
+  const handleOpenFlight = () => {
+    setOpenFlight(true);
+  };
+  const handleCloseFlight = () => {
+    setOpenFlight(false);
   };
   return (
     <Box className=' flex space-x-10'>
@@ -27,12 +37,16 @@ export const Trip: FC = () => {
       <Box className='w-1/3 space-y-4'>
         <Typography variant='h6'>Main Event</Typography>
         <Button variant='contained' className='w-full min-h-60' />
-        <Button onClick={handleOpen} variant='contained'>
+        <Button onClick={handleOpenAccom} variant='contained'>
           Add Accommodation
+        </Button>
+        <Button onClick={handleOpenFlight} variant='contained'>
+          Add Flight
         </Button>
       </Box>
 
-      <CreateAccommodationModal handleClose={handleClose} open={open} />
+      <CreateFlightModal handleClose={handleCloseFlight} open={openFlight} />
+      <CreateAccommodationModal handleClose={handleCloseAccom} open={openAccom} />
     </Box>
   );
 };
