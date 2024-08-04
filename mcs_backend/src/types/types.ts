@@ -83,11 +83,11 @@ export type SubEvent = {
     EventDescription: string;
     EventType: string;
     Date: string; // Example Format: "2024-04-30"
-    Cost: number;
     Notes: string;
-    Speakers: string[];
     FundingAccount: string[];
     Completed: boolean;
+    Speakers: string[];
+    MainEvent: string[];
 }
 
 export type Academic = {
