@@ -1,0 +1,12 @@
+Semester 2 - Week 2 – Weekly Report – James Dinh (888972)
+
+Done:
+- Added written descriptions of unit tests, integration testing, error handling tests, and general security testing to the Quality Assurance plan. This will be critical in guiding implementation of tests in the CI/CD pipeline. 
+- Implemented functional unit tests in frontend for the axios api communication framework, frontend scripts, and components that are used in the frontend pages.
+
+Issues:
+- 5 out of 27 tests are currently failing and require investigation into why and debugged
+
+To do:
+- Fix failing unit tests for the front end
+- Begin implementing Integration testing with the frontend to backend communication.
