@@ -7,7 +7,7 @@ import {
     updateRecord,
     deleteRecords
 } from '../models/airtable';
-import {SubEvent} from "../types/types";
+import {MainEvent, SubEvent} from "../types/types";
 
 const router = express.Router();
 const subeventTable = String(process.env.SUBEVENT)
@@ -32,14 +32,16 @@ router.get('/subevents', async (req, res) => {
 
 // route to get subevents for a specific event
 router.get('/subevents/:event_id', async (req, res) => {
-    const { event_id } = req.params;
+    const { event_id: eventId } = req.params;
     try {
-        const subevents = await getTable(subeventTable, event_id);
+        const subevents = await getTable(subeventTable, );
 
         const formattedSubevents: { id: string, fields: any }[] = [];
         subevents.forEach((fields, id) => {
             const plainFields = Object.fromEntries(fields);
-            formattedSubevents.push({ id, fields: plainFields });
+            if (plainFields.MainEvent && plainFields.MainEvent.includes(eventId)) {
+                formattedSubevents.push({id, fields: plainFields});
+            }
         });
         res.json(formattedSubevents);
     } catch (error) {
@@ -50,16 +52,16 @@ router.get('/subevents/:event_id', async (req, res) => {
 
 // route to get a subevent
 router.get('/subevent/:subevent_id', async (req, res) => {
-    const { subevent_id } = req.params;
+    const { subevent_id: subeventId } = req.params;
     try {
-        const subevent = await getRecord(subeventTable, subevent_id);
+        const subevent = await getRecord(subeventTable, subeventId);
 
         if (!subevent) {
             return res.status(404).json({ message: 'Subevent Not Found' });
         }
 
-        let plainFields = Object.fromEntries(subevent.get(subevent_id));
-        let formattedSubevents: { id: string, fields: any } = {id: subevent_id, fields: plainFields}
+        let plainFields = Object.fromEntries(subevent.get(subeventId));
+        let formattedSubevents: { id: string, fields: any } = {id: subeventId, fields: plainFields}
         res.json(formattedSubevents)
     } catch (error) {
         console.error("Error fetching subevent:", error);
@@ -69,7 +71,7 @@ router.get('/subevent/:subevent_id', async (req, res) => {
 
 // route to create a subevent
 router.post('/subevent', async (req, res) => {
-    const newSubevent: SubEvent = req.body as SubEvent;
+    const newSubevent: SubEvent = req.body;
 
     const tableFields = {
         fields: newSubevent
@@ -77,11 +79,43 @@ router.post('/subevent', async (req, res) => {
 
     try {
         await createRecord(subeventTable, [tableFields]);
-        res.status(201).json({ message: 'New subevent created successfully' });
+        res.status(201).json({ error: 'New subevent created successfully' });
     } catch (error) {
         console.error("Failed to create new subevent:", error);
         res.status(500).json({ error: 'Failed to create new subevent' });
         }
+});
+
+// route to update a subevent
+router.put('/subevent/:subevent_id', async (req, res) => {
+    const { subevent_id: subeventId } = req.params;
+    const updatedSubevent: SubEvent = req.body;
+
+    const updatedRecord = {
+        id: subeventId,
+        fields: updatedSubevent
+    };
+
+    try {
+        await updateRecord(subeventTable, [updatedRecord]);
+        res.status(200).json({ error: "Subevent updated successfully" });
+    } catch (error) {
+        console.error("Failed to create new subevent:", error);
+        res.status(500).json({ error: "Subevent could not be updated" });
+    }
+});
+
+//delete one main event
+router.delete("/subevent/:subevent_id", async (req, res) => {
+    const { subevent_id: subeventId } = req.params;
+
+    try {
+        await deleteRecords(subeventTable, [subeventId]);
+        res.status(200).json({ message: "Subevent deleted successfully" });
+    } catch (err) {
+        console.error("Failed to delete main event:", err);
+        res.status(500).json({ error: "Failed to delete subevent" });
+    }
 });
 
 module.exports = router;
