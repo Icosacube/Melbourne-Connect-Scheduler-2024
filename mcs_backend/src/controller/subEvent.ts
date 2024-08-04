@@ -7,7 +7,7 @@ import {
     updateRecord,
     deleteRecords
 } from '../models/airtable';
-import {MainEvent, SubEvent} from "../types/types";
+import { SubEvent } from "../types/types";
 
 const router = express.Router();
 const subeventTable = String(process.env.SUBEVENT)
@@ -26,7 +26,7 @@ router.get('/subevents', async (req, res) => {
         res.json(formattedSubevents);
     } catch (error) {
         console.error("Error fetching subevents:", error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Failed to fetch subevents'});
     }
 });
 
@@ -34,7 +34,7 @@ router.get('/subevents', async (req, res) => {
 router.get('/subevents/:event_id', async (req, res) => {
     const { event_id: eventId } = req.params;
     try {
-        const subevents = await getTable(subeventTable, );
+        const subevents = await getTable(subeventTable, "");
 
         const formattedSubevents: { id: string, fields: any }[] = [];
         subevents.forEach((fields, id) => {
@@ -46,7 +46,7 @@ router.get('/subevents/:event_id', async (req, res) => {
         res.json(formattedSubevents);
     } catch (error) {
         console.error("Error fetching subevents:", error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Failed to fetch subevent'});
     }
 });
 
@@ -57,7 +57,7 @@ router.get('/subevent/:subevent_id', async (req, res) => {
         const subevent = await getRecord(subeventTable, subeventId);
 
         if (!subevent) {
-            return res.status(404).json({ message: 'Subevent Not Found' });
+            return res.status(404).json({ error: 'Subevent not found' });
         }
 
         let plainFields = Object.fromEntries(subevent.get(subeventId));
@@ -65,7 +65,7 @@ router.get('/subevent/:subevent_id', async (req, res) => {
         res.json(formattedSubevents)
     } catch (error) {
         console.error("Error fetching subevent:", error);
-        res.status(500).json({error: 'Internal Server Error'});
+        res.status(500).json({error: 'Failed to fetch subevent'});
     }
 });
 
@@ -79,7 +79,7 @@ router.post('/subevent', async (req, res) => {
 
     try {
         await createRecord(subeventTable, [tableFields]);
-        res.status(201).json({ error: 'New subevent created successfully' });
+        res.status(201).json({ message: 'Subevent created successfully' });
     } catch (error) {
         console.error("Failed to create new subevent:", error);
         res.status(500).json({ error: 'Failed to create new subevent' });
@@ -98,7 +98,7 @@ router.put('/subevent/:subevent_id', async (req, res) => {
 
     try {
         await updateRecord(subeventTable, [updatedRecord]);
-        res.status(200).json({ error: "Subevent updated successfully" });
+        res.status(200).json({ message: "Subevent updated successfully" });
     } catch (error) {
         console.error("Failed to create new subevent:", error);
         res.status(500).json({ error: "Subevent could not be updated" });
