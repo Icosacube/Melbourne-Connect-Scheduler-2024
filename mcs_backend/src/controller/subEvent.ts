@@ -7,15 +7,16 @@ import {
     updateRecord,
     deleteRecords
 } from '../models/airtable';
+import {SubEvent} from "../types/types";
 
 const router = express.Router();
-const SubeventTable = String(process.env.SUBEVENT)
+const subeventTable = String(process.env.SUBEVENT)
 
 // route to get all subevents
 router.get('/subevents', async (req, res) => {
     try {
         // fetch subevents
-        const subevents = await getTable(SubeventTable, "");
+        const subevents = await getTable(subeventTable, "");
         // format subevents
         const formattedSubevents: { id: string, fields: any }[] = [];
         subevents.forEach((fields, id) => {
@@ -24,7 +25,7 @@ router.get('/subevents', async (req, res) => {
         });
         res.json(formattedSubevents);
     } catch (error) {
-        console.error("Error Fetching Subevents:", error);
+        console.error("Error fetching subevents:", error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -33,7 +34,7 @@ router.get('/subevents', async (req, res) => {
 router.get('/subevents/:event_id', async (req, res) => {
     const { event_id } = req.params;
     try {
-        const subevents = await getTable(SubeventTable, event_id);
+        const subevents = await getTable(subeventTable, event_id);
 
         const formattedSubevents: { id: string, fields: any }[] = [];
         subevents.forEach((fields, id) => {
@@ -42,7 +43,7 @@ router.get('/subevents/:event_id', async (req, res) => {
         });
         res.json(formattedSubevents);
     } catch (error) {
-        console.error("Error Fetching Subevents:", error);
+        console.error("Error fetching subevents:", error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -51,7 +52,7 @@ router.get('/subevents/:event_id', async (req, res) => {
 router.get('/subevent/:subevent_id', async (req, res) => {
     const { subevent_id } = req.params;
     try {
-        const subevent = await getRecord(SubeventTable, subevent_id);
+        const subevent = await getRecord(subeventTable, subevent_id);
 
         if (!subevent) {
             return res.status(404).json({ message: 'Subevent Not Found' });
@@ -61,9 +62,26 @@ router.get('/subevent/:subevent_id', async (req, res) => {
         let formattedSubevents: { id: string, fields: any } = {id: subevent_id, fields: plainFields}
         res.json(formattedSubevents)
     } catch (error) {
-        console.error("Error Fetching Subevent:", error);
+        console.error("Error fetching subevent:", error);
         res.status(500).json({error: 'Internal Server Error'});
-}
+    }
+});
+
+// route to create a subevent
+router.post('/subevent', async (req, res) => {
+    const newSubevent: SubEvent = req.body as SubEvent;
+
+    const tableFields = {
+        fields: newSubevent
+    };
+
+    try {
+        await createRecord(subeventTable, [tableFields]);
+        res.status(201).json({ message: 'New subevent created successfully' });
+    } catch (error) {
+        console.error("Failed to create new subevent:", error);
+        res.status(500).json({ error: 'Failed to create new subevent' });
+        }
 });
 
 module.exports = router;
