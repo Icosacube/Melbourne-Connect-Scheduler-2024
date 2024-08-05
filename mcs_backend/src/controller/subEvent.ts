@@ -15,38 +15,41 @@ const subeventTable = String(process.env.SUBEVENT)
 // route to get all subevents
 router.get('/subevents', async (req, res) => {
     try {
-        // fetch subevents
-        const subevents = await getTable(subeventTable, "");
-        // format subevents
-        const formattedSubevents: { id: string, fields: any }[] = [];
-        subevents.forEach((fields, id) => {
-            const plainFields = Object.fromEntries(fields);
-            formattedSubevents.push({ id, fields: plainFields });
+        const subevents= await getTable(subeventTable, "");
+        const formattedsubevents: { [k: string]: any; }[] = [];
+        subevents.forEach((fields) => {
+            const plainFields = Object.fromEntries(fields); 
+            formattedsubevents.push(plainFields);
+            console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
-        res.json(formattedSubevents);
+        res.json(formattedsubevents);
     } catch (error) {
-        console.error("Error fetching subevents:", error);
-        res.status(500).json({ error: 'Failed to fetch subevents'});
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 // route to get subevents for a specific event
-router.get('/subevents/:event_id', async (req, res) => {
-    const { event_id: eventId } = req.params;
-    try {
-        const subevents = await getTable(subeventTable, "");
+router.get('/subevent/:mainEventID', async (req, res) => {
+    const { mainEventID } = req.params;
 
-        const formattedSubevents: { id: string, fields: any }[] = [];
-        subevents.forEach((fields, id) => {
+    try {
+        const services = await getTable(subeventTable, "");
+        const eventServices: { [k: string]: any; }[] = [];
+
+        services.forEach((fields) => {
             const plainFields = Object.fromEntries(fields);
-            if (plainFields.MainEvent && plainFields.MainEvent.includes(eventId)) {
-                formattedSubevents.push({id, fields: plainFields});
+            if (plainFields.MainEvent && plainFields.MainEvent.includes(mainEventID)) {
+                eventServices.push(plainFields);
             }
         });
-        res.json(formattedSubevents);
+
+        if (eventServices.length === 0) {
+            return res.status(404).json({ message: 'No subevents found for this main event' });
+        }
+
+        res.json(eventServices);
     } catch (error) {
-        console.error("Error fetching subevents:", error);
-        res.status(500).json({ error: 'Failed to fetch subevent'});
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
