@@ -2,13 +2,7 @@ import { Box, Grid, Paper, Typography } from '@mui/material';
 import React, { useState } from 'react';
 
 function Accomodation() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   return (
     <Paper className='w-full px-6 py-4 rounded-lg'>
       <Grid container className='flex space-between items-center'>
