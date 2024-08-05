@@ -70,8 +70,11 @@ router.get('/subevent/:subevent_id', async (req, res) => {
 });
 
 // route to create a subevent
-router.post('/subevent', async (req, res) => {
+router.post('/subevent/:event_id', async (req, res) => {
+    const { event_id: eventId } = req.params;
     const newSubevent: SubEvent = req.body;
+
+    newSubevent.MainEvent = [eventId];
 
     const tableFields = {
         fields: newSubevent
