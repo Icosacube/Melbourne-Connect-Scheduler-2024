@@ -1,30 +1,27 @@
-import { Box, Chip, Typography } from "@mui/material";
-import React, { FC } from "react";
+import { Box, Chip, Typography } from '@mui/material';
+import React, { FC } from 'react';
 
 interface HeadlineProps {
   date?: string;
   name?: string;
-  status?: string;
 }
 
-export const Headline: FC<HeadlineProps> = ({ date, name, status }) => {
+export const Headline: FC<HeadlineProps> = ({ date, name }) => {
   return (
-    <Box className="mb-14">
+    <Box className='mb-14'>
       {/* Date */}
-      <Box className="flex align-middle space-x-4 mt-4">
-        <Typography variant="h6" className="text-gray-500">
-          DD/MM/YYYY | XX:XX - DD/MM/YYYY | XX:XX
+      <Box className='flex align-middle space-x-4 mt-4'>
+        <Typography variant='h6' className='text-gray-500'>
+          {date}
         </Typography>
         {/* Status */}
         <Chip
-          label={"Preparation"}
-          sx={{ color: "orange", borderColor: "orange" }}
-          variant="outlined"
+          label={'Preparation'}
+          sx={{ color: 'orange', borderColor: 'orange' }}
+          variant='outlined'
         />
       </Box>
-      <Typography variant="h4">
-        {name} Data-Driven Futures: Responsible AI in Climate and Health Policy{" "}
-      </Typography>
+      <Typography variant='h4'>{name}</Typography>
     </Box>
   );
 };

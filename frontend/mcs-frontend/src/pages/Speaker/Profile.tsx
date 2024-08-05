@@ -1,12 +1,13 @@
 import { Box, Button, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useParams } from 'react-router-dom';
 import { ProfileHeader } from '../../components';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+import { Speaker } from '../../types/frontendTypes';
 
-export const Profile:FC=()=> {
-  const params = useParams();
-  console.log(params.id);
+export const Profile: FC = () => {
+  const speaker = useLoaderData() as Speaker;
+  console.log(speaker);
   const email = 'evebrown@gmail.com';
   const phone = '1234567890';
   const tags = ['Applied Linguistics', 'Validation', 'Second Language Writing'];
@@ -29,9 +30,10 @@ export const Profile:FC=()=> {
     'Monday, June 6th, 10:00 AM',
     'Wednesday, June 8th, 2:00 PM',
     'Friday, June 10th, 11:00 AM',
-    'Tuesday, June 14th, 3:00 PM'
+    'Tuesday, June 14th, 3:00 PM',
   ];
-  const contactInformation = 'Email: frances@example.com | Phone: +1 (123) 456-7890';
+  const contactInformation =
+    'Email: frances@example.com | Phone: +1 (123) 456-7890';
 
   const emailSubject = `Meeting Availability for ${professorName}`;
   const emailBody = `Dear ${recipientName},
@@ -52,12 +54,14 @@ I look forward to hearing from you and finding a mutually convenient time to mee
 Best regards,
 Professor ${professorName}
 ${contactInformation}`;
-  const mailtoLink = `mailto:fhughes@stockton.edu.au?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+  const mailtoLink = `mailto:fhughes@stockton.edu.au?subject=${encodeURIComponent(
+    emailSubject,
+  )}&body=${encodeURIComponent(emailBody)}`;
   return (
-    <Box className=" flex space-x-6">
-      <Box className="w-9/12  ">
+    <Box className=' flex space-x-6'>
+      <Box className='w-9/12  '>
         {/* <BackButton text="Back" /> */}
-        <Box className="p-10">
+        <Box className='p-10'>
           <ProfileHeader
             title={title}
             firstname={firstname}
@@ -68,25 +72,25 @@ ${contactInformation}`;
             tags={tags}
           />
         </Box>
-        <Box className="p-10 bg-white shadow-lg rounded-xl">
-          <Typography variant="h6">Bio</Typography>
-          <Typography paragraph className="bg-gray-100 rounded-xl p-5 mt-4">
+        <Box className='p-10 bg-white shadow-lg rounded-xl'>
+          <Typography variant='h6'>Bio</Typography>
+          <Typography paragraph className='bg-gray-100 rounded-xl p-5 mt-4'>
             {bio}
           </Typography>
         </Box>
       </Box>
-      <Box className="w-3/12  flex-col space-y-5 h-fit">
-        <Box className="bg-white shadow-lg p-7 rounded-xl w-full">
-          <Typography variant="h4">Contact</Typography>
-          <Box className="flex space-x-4 mt-3">
-            <Typography variant="h6">Email: </Typography>
-            <Typography variant="h6" className="font-semibold">
+      <Box className='w-3/12  flex-col space-y-5 h-fit'>
+        <Box className='bg-white shadow-lg p-7 rounded-xl w-full'>
+          <Typography variant='h4'>Contact</Typography>
+          <Box className='flex space-x-4 mt-3'>
+            <Typography variant='h6'>Email: </Typography>
+            <Typography variant='h6' className='font-semibold'>
               {email}
             </Typography>
           </Box>
-          <Box className="flex space-x-4 mt-3">
-            <Typography variant="h6">Phone: </Typography>
-            <Typography variant="h6" className="font-semibold">
+          <Box className='flex space-x-4 mt-3'>
+            <Typography variant='h6'>Phone: </Typography>
+            <Typography variant='h6' className='font-semibold'>
               {phone}
             </Typography>
           </Box>
@@ -94,14 +98,17 @@ ${contactInformation}`;
 
         <Button
           startIcon={<ForwardToInboxIcon />}
-          variant="contained"
+          variant='contained'
           onClick={(e) => {
             window.location.href = mailtoLink;
             e.preventDefault();
           }}
           // sx={{ textTransform: 'none' }}
-          className="p-6 text-lowercase bg-primary normal-case  hover:bg-secondary text-black ">
-          <Typography className=" font-bold">Availability Canvassing</Typography>
+          className='p-6 text-lowercase bg-primary normal-case  hover:bg-secondary text-black '
+        >
+          <Typography className=' font-bold'>
+            Availability Canvassing
+          </Typography>
         </Button>
 
         {/* <Box className="bg-white shadow-lg p-7 rounded-xl w-full">
@@ -110,4 +117,4 @@ ${contactInformation}`;
       </Box>
     </Box>
   );
-}
+};

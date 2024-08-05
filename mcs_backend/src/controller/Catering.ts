@@ -13,11 +13,11 @@ import { Catering} from '../types/types';
 router.get('/catering', async (req, res) => {
     try {
         const caterings = await getTable(CateringTable, "");
-        const formattedCaterings: { id: string, fields: any }[] = [];
-        caterings.forEach((fields, id) => {
+        const formattedCaterings: { [k: string]: any; }[] = [];
+        caterings.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
-            formattedCaterings.push({ id, fields: plainFields });
-            console.log(`ID: ${id}, Fields:`, plainFields);
+            formattedCaterings.push(plainFields);
+            console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
         res.json(formattedCaterings);
     } catch (error) {
@@ -25,7 +25,7 @@ router.get('/catering', async (req, res) => {
     }
 });
 // Get a specific Catering by ID
-router.get('/catering/:Catering_record_id', async (req, res) => {
+router.get('/catering/catering/:Catering_record_id', async (req, res) => {
     const { Catering_record_id } = req.params;
     
     try {
@@ -34,8 +34,8 @@ router.get('/catering/:Catering_record_id', async (req, res) => {
       if (!CateringRecord) {
         return res.status(404).json({ message: 'Catering not found' });
       }
-      let plainFields = Object.fromEntries(CateringRecord.get(Catering_record_id));
-      let formattedCaterings: {id: string, fields: any} = {id: Catering_record_id, fields: plainFields}
+      let plainFields = Object.fromEntries(CateringRecord);
+      let formattedCaterings: { [k: string]: any; } = plainFields
       res.json(formattedCaterings)
 
     } catch (error) {
@@ -49,12 +49,12 @@ router.get('/catering/:mainEventID', async (req, res) => {
 
     try {
         const caterings = await getTable(CateringTable, "");
-        const eventCaterings: { id: string, fields: any }[] = [];
+        const eventCaterings: { [k: string]: any; }[] = [];
 
-        caterings.forEach((fields, id) => {
+        caterings.forEach((fields) => {
             const plainFields = Object.fromEntries(fields);
             if (plainFields.MainEvent && plainFields.MainEvent.includes(mainEventID)) {
-                eventCaterings.push({ id, fields: plainFields });
+                eventCaterings.push(plainFields);
             }
         });
 
