@@ -85,7 +85,6 @@ export type SubEvent = {
     Date: string; // Example Format: "2024-04-30"
     Notes: string;
     MainEvent: string[];
-    FundingAccount: string[];
     Completed: boolean;
 }
 
@@ -175,7 +174,6 @@ export type FundingAccount = {
     Catering: string[];
     Flight: string[];
     Service: string[];
-    SubEvent: string[];
 }
 
 export type Canvassing = {
