@@ -25,7 +25,7 @@ router.get('/catering', async (req, res) => {
     }
 });
 // Get a specific Catering by ID
-router.get('/catering/:Catering_record_id', async (req, res) => {
+router.get('/catering/catering/:Catering_record_id', async (req, res) => {
     const { Catering_record_id } = req.params;
     
     try {

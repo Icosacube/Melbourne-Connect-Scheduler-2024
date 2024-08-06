@@ -11,7 +11,7 @@ module.exports = {
         accent: '#8C1C13',
         accent2: '#BF4242',
         textAccent: '#4F2373',
-        backGround: '#F5F5F5'
+        background: '#F5F5F5'
       }
     }
   },

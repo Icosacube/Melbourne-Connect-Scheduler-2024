@@ -7,7 +7,7 @@ import {
   deleteRecords
 } from '../models/airtable';
 
-import { Accommodation, TableFields } from '../types/types';
+import { Accommodation, Creation } from '../types/types';
 
 const router = express.Router();
 const AccommodationTable = String(process.env.ACCOMMODATION)
@@ -27,7 +27,7 @@ router.get('/accommodations', async (req, res) => {
   }
 });
 // Get a specific Accomodation by ID
-router.get('/accomodation/:Accomodation_record_id', async (req, res) => {
+router.get('/accommodations/accommodation/:Accomodation_record_id', async (req, res) => {
   const { Accomodation_record_id } = req.params;
   
   try {
@@ -76,13 +76,12 @@ router.post('/accommodation/:tripID', async (req, res) => {
   const { tripID } = req.params;
   newAccommodation.Trip = [tripID];
 
-  const tableFields: TableFields = {
-    id: '',
+  const creation: Creation = {
     fields: newAccommodation
   };
 
   try {
-    await createRecord(AccommodationTable, [tableFields]);
+    await createRecord(AccommodationTable, [creation]);
     res.status(201).json({ message: 'Accommodation created successfully' });
   } catch (error) {
     console.error("Failed to create accommodation:", error);

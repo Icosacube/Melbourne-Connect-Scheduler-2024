@@ -54,7 +54,7 @@ router.get('/event/:speaker_id', async (req, res) => {
   }
 });
 // Get a specific event by ID
-router.get('/event/:event_record_id', async (req, res) => {
+router.get('/events/event/:event_record_id', async (req, res) => {
     const { event_record_id } = req.params;
     
     try {
