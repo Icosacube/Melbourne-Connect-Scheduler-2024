@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form";
 import { FormInputProps } from "./FormInputProps";
 import React from "react";
-import { TimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export const FormInputTime = ({ name, control, label }: FormInputProps) => {
@@ -11,7 +11,7 @@ export const FormInputTime = ({ name, control, label }: FormInputProps) => {
         control={control}
         render={({ field: { onChange, value } }) => (
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <TimePicker
+            <DateTimePicker
               label={label}
               value={value}
               onChange={onChange}

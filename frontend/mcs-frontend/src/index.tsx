@@ -6,6 +6,8 @@ import { loader as eventsLoader } from './scripts/event/eventsLoader';
 import { loader as eventLoader } from './scripts/event/eventLoader';
 import { loader as speakersLoader } from './scripts/speaker/speakersLoader';
 import { loader as speakerLoader } from './scripts/speaker/speakerLoader';
+import { loader as tripsLoader } from './scripts/trip/tripsLoader';
+import { loader as tripLoader } from './scripts/trip/tripLoader';
 import './index.css';
 import {
   Dashboard,
@@ -75,11 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
           path: '/trips',
           element: <Trips />,
           errorElement: <ErrorPage />,
+          loader: tripsLoader,
         },
         {
           path: '/trips/:id',
           element: <Trip />,
           errorElement: <ErrorPage />,
+          loader: tripLoader,
         },
         {
           path: '/finance',

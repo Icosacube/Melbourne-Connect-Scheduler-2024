@@ -70,46 +70,32 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
             spacing={3}
             className="w-full p-7 flex space-between justify-items"
           >
-            <Grid item xs={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <FormInputText name="Airline" control={control} label="Airline" />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <FormInputText name="FlightNumber" control={control} label="Flight Number" />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={6} lg={4}>
               <FormInputText name="FundingAccount" control={control} label="Funding Account" />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={12} md={6} lg={2}>
               <FormInputText name="Cost" control={control} label="Price" />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6} lg={3}>
               <FormInputText name="DepartureFrom" control={control} label="Departure City" />
             </Grid>
-            <Grid item xs={6}>
-              <FormInputText name="ArrivedTo" control={control} label="Arrival City" />
-            </Grid>
-            <Grid item xs={3}>
-              <FormInputDate
-                name="DepartDate"
-                control={control}
-                label="Departure Date"
-              />
-            </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <FormInputTime
                 name="DepartDate"
                 control={control}
                 label="Departure Time"
               />
             </Grid>
-            <Grid item xs={3}>
-              <FormInputDate
-                name="ArriveDate"
-                control={control}
-                label="Arrival Date"
-              />
+            <Grid item xs={12} md={6} lg={3}>
+              <FormInputText name="ArrivedTo" control={control} label="Arrival City" />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} md={6} lg={3}>
               <FormInputTime
                 name="ArriveDate"
                 control={control}

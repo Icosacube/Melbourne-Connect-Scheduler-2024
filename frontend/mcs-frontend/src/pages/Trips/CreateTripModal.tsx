@@ -13,46 +13,24 @@ import { MainEvent, Speaker, Trip } from '../../types/frontendTypes';
 interface CreateTripModalProps {
   handleClose: () => void;
   open: boolean;
+  events: MainEvent[];
+  speakers: Speaker[];
 }
 
 export const CreateTripModal: React.FC<CreateTripModalProps> = ({
   handleClose,
   open,
+  events,
+  speakers
 }) => {
   const { handleSubmit, reset, control, setValue } = useForm<Trip>({
     defaultValues: defaultTrip,
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
-  const [events, setEvents] = useState<MainEvent[]>([]);
-  const [speakers, setSpeakers] = useState<Speaker[]>([]);
 
   useEffect(() => {
-    if (open) {
-      loadEvents();
-      loadSpeakers();
-    }
   }, [open]);
-
-  const loadEvents = async () => {
-    try {
-      getAllMainEvents().then((events) => {
-        setEvents(events);
-      });
-    } catch (error) {
-      console.error('Failed to load events', error);
-    }
-  };
-
-  const loadSpeakers = async () => {
-    try {
-      getAllSpeakers().then((speakers) => {
-        setSpeakers(speakers == null ? [] : speakers);
-      });
-    } catch (error) {
-      console.error('Failed to load speakers', error);
-    }
-  };
 
   const onClose = () => {
     reset();
