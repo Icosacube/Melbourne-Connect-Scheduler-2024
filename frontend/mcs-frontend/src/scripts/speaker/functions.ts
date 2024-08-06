@@ -22,7 +22,9 @@ export async function getSpeakerById(id: string): Promise<Speaker> {
       `${process.env.REACT_APP_BACKEND_URL}/speaker/${id}`,
     );
     const rawSpeaker = res.data;
+    
     const formattedSpeaker = reformatSpeakerResponseData(rawSpeaker);
+    console.log(formattedSpeaker)
     return formattedSpeaker;
   } catch (error) {
     console.error('Error fetching speaker:', error);

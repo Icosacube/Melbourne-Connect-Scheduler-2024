@@ -18,7 +18,7 @@ import {
   Trips,
 } from './pages';
 import Events from './pages/Event/EventsOverview/Events';
-import { Profile } from './pages/Speaker/Profile';
+import { Profile } from './pages/Speaker/SpeakerProfile/Profile';
 import { Trip } from './pages/Trips/Trip';
 import reportWebVitals from './reportWebVitals';
 require('cors');
