@@ -1,1 +1,2 @@
-export { Speaker } from './SpeakerOverview/Speaker';
+export { Speakers } from './SpeakerOverview/Speaker';
+export { Profile } from './SpeakerProfile/Profile'
