@@ -43,6 +43,17 @@ export async function createSpeaker(speaker: Speaker): Promise<AxiosResponse> {
   return res;
 }
 
+export async function updateSpeaker(speaker: Speaker): Promise<AxiosResponse> {
+  const toSend: any = { ...speaker };
+  delete toSend.RecordID;
+  const res = await axios.put(
+    `${process.env.REACT_APP_BACKEND_URL}/speaker/${speaker.RecordID}`,
+    toSend,
+  );
+  // Server return message: Speaker created successfully if success
+  return res;
+}
+
 export const defaultSpeaker: Speaker = {
   RecordID: '',
   PrimaryEmail: '',
