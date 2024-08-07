@@ -1,23 +1,12 @@
-<<<<<<< HEAD:frontend/mcs-frontend/src/pages/Speaker/SpeakerOverview/CreateSpeakerModal.tsx
-import { Box, Button, Modal, Typography } from "@mui/material";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import BottomSuccessSnackbar from "../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar";
-import { FormInputText } from "../../../components/FormComponents/FormInputText";
-import { Speaker } from "../../../types/frontendTypes";
-import { createSpeaker } from "../../../scripts/speaker/functions";
-import { AxiosResponse } from "axios";
-=======
 import { Box, Button, Modal, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
-import { FormInputMultiSelect } from '../../components/FormComponents/FormInputDropdown';
-import { FormInputText } from '../../components/FormComponents/FormInputText';
-import { Speaker } from '../../types/frontendTypes';
-import { createSpeaker } from '../../scripts/speaker/functions';
+import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
+import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown';
+import { FormInputText } from '../../../components/FormComponents/FormInputText';
+import { Speaker } from '../../../types/frontendTypes';
+import { createSpeaker } from '../../../scripts/speaker/functions';
 import { AxiosResponse } from 'axios';
->>>>>>> origin/main:frontend/mcs-frontend/src/pages/Speaker/CreateSpeakerModal.tsx
 
 interface CreateSpeakerModalProps {
   handleClose: () => void;
@@ -25,32 +14,32 @@ interface CreateSpeakerModalProps {
 }
 
 const CreateSpeakerFormDefaultValues: Speaker = {
-  RecordID: "",
-  PrimaryEmail: "",
-  FirstName: "",
-  LastName: "",
-  Pronouns: "",
-  Title: "",
-  AlternativeTitle: "",
-  Phone: "",
-  Bio: "",
-  Headshot: "",
-  PreferredTimezone: "",
-  Category: "",
-  Area: "",
-  WorkTitle: "",
-  Organisation: "",
-  Department: "",
-  Address: "",
-  CitySuburb: "",
-  State: "",
-  Country: "",
-  Postcode: "",
-  EmergencyContactName: "",
-  EmergencyContactRelationship: "",
-  EmergencyContactNumber: "",
-  FlyerMembershipName: "",
-  FlyerMembershipNumber: "",
+  RecordID: '',
+  PrimaryEmail: '',
+  FirstName: '',
+  LastName: '',
+  Pronouns: '',
+  Title: '',
+  AlternativeTitle: '',
+  Phone: '',
+  Bio: '',
+  Headshot: '',
+  PreferredTimezone: '',
+  Category: '',
+  Area: '',
+  WorkTitle: '',
+  Organisation: '',
+  Department: '',
+  Address: '',
+  CitySuburb: '',
+  State: '',
+  Country: '',
+  Postcode: '',
+  EmergencyContactName: '',
+  EmergencyContactRelationship: '',
+  EmergencyContactNumber: '',
+  FlyerMembershipName: '',
+  FlyerMembershipNumber: '',
   Confirmed: false,
   Trip: [],
   MainEvent: [],
@@ -59,34 +48,34 @@ const CreateSpeakerFormDefaultValues: Speaker = {
 
 const trips = [
   {
-    label: "Trip 1",
-    value: "1",
+    label: 'Trip 1',
+    value: '1',
   },
   {
-    label: "Trip 2",
-    value: "2",
+    label: 'Trip 2',
+    value: '2',
   },
 ];
 
 const mainEvents = [
   {
-    label: "Main Event 1",
-    value: "1",
+    label: 'Main Event 1',
+    value: '1',
   },
   {
-    label: "Main Event 2",
-    value: "2",
+    label: 'Main Event 2',
+    value: '2',
   },
 ];
 
 const subEvents = [
   {
-    label: "Sub Event 1",
-    value: "1",
+    label: 'Sub Event 1',
+    value: '1',
   },
   {
-    label: "Sub Event 2",
-    value: "2",
+    label: 'Sub Event 2',
+    value: '2',
   },
 ];
 
@@ -104,7 +93,7 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
       if (res.status == 200) {
         setShowSuccess(true);
       } else {
-        console.log("Failed to create speaker");
+        console.log('Failed to create speaker');
       }
     } catch (error) {
       console.error(error);
@@ -126,128 +115,128 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
       <Modal
         open={open}
         onClose={onClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
       >
-        <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
-          <Typography variant="h5" className="mb-4">
+        <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12'>
+          <Typography variant='h5' className='mb-4'>
             Create Event
           </Typography>
           {/* Left */}
-          <Box className="flex space-x-10 mb-4">
-            <Box className="space-y-4">
-              <Typography variant="h6">About</Typography>
-              <FormInputText name="Title" control={control} label="Title" />
+          <Box className='flex space-x-10 mb-4'>
+            <Box className='space-y-4'>
+              <Typography variant='h6'>About</Typography>
+              <FormInputText name='Title' control={control} label='Title' />
               <FormInputText
-                name="AlternativeTitle"
+                name='AlternativeTitle'
                 control={control}
-                label="Alternative Title"
+                label='Alternative Title'
               />
               <FormInputText
-                name="Pronouns"
+                name='Pronouns'
                 control={control}
-                label="Pronouns"
+                label='Pronouns'
               />
               <FormInputText
-                name="FirstName"
+                name='FirstName'
                 control={control}
-                label="First Name"
+                label='First Name'
               />
               <FormInputText
-                name="LastName"
+                name='LastName'
                 control={control}
-                label="Last Name"
+                label='Last Name'
               />
-              <FormInputText name="Bio" control={control} label="Bio" />
+              <FormInputText name='Bio' control={control} label='Bio' />
               <FormInputText
-                name="Headshot"
+                name='Headshot'
                 control={control}
-                label="Headshot"
+                label='Headshot'
               />
             </Box>
             {/* Right */}
-            <Box className="space-y-4">
-              <Typography variant="h6">Address & Contact</Typography>
+            <Box className='space-y-4'>
+              <Typography variant='h6'>Address & Contact</Typography>
               <FormInputText
-                name="PrimaryEmail"
+                name='PrimaryEmail'
                 control={control}
-                label="Primary Email"
+                label='Primary Email'
               />
-              <FormInputText name="Phone" control={control} label="Phone" />
-              <FormInputText name="Address" control={control} label="Address" />
+              <FormInputText name='Phone' control={control} label='Phone' />
+              <FormInputText name='Address' control={control} label='Address' />
               <FormInputText
-                name="CitySuburb"
+                name='CitySuburb'
                 control={control}
-                label="CitySuburb"
+                label='CitySuburb'
               />
-              <FormInputText name="State" control={control} label="State" />
-              <FormInputText name="Country" control={control} label="Country" />
+              <FormInputText name='State' control={control} label='State' />
+              <FormInputText name='Country' control={control} label='Country' />
               <FormInputText
-                name="Postcode"
+                name='Postcode'
                 control={control}
-                label="Postcode"
-              />
-              <FormInputText
-                name="PreferredTimezone"
-                control={control}
-                label="Preferred Timezone"
-              />
-            </Box>
-            <Box className="space-y-4">
-              <Typography variant="h6">Work</Typography>
-              <FormInputText name="Area" control={control} label="Area" />
-              <FormInputText
-                name="Category"
-                control={control}
-                label="Category"
+                label='Postcode'
               />
               <FormInputText
-                name="WorkTitle"
+                name='PreferredTimezone'
                 control={control}
-                label="WorkTitle"
-              />
-              <FormInputText
-                name="Organisation"
-                control={control}
-                label="Organisation"
-              />
-              <FormInputText
-                name="Department"
-                control={control}
-                label="Department"
+                label='Preferred Timezone'
               />
             </Box>
-            <Box className="space-y-4">
-              <Typography variant="h6">Misc</Typography>
+            <Box className='space-y-4'>
+              <Typography variant='h6'>Work</Typography>
+              <FormInputText name='Area' control={control} label='Area' />
               <FormInputText
-                name="EmergencyContactName"
+                name='Category'
                 control={control}
-                label="Emergency Contact Name"
+                label='Category'
               />
               <FormInputText
-                name="EmergencyContactRelationship"
+                name='WorkTitle'
                 control={control}
-                label="Emergency Contact Relationship"
+                label='WorkTitle'
               />
               <FormInputText
-                name="EmergencyContactNumber"
+                name='Organisation'
                 control={control}
-                label="Emergency Contact Number"
+                label='Organisation'
               />
               <FormInputText
-                name="FlyerMembershipName"
+                name='Department'
                 control={control}
-                label="Flyer Membership Name"
+                label='Department'
+              />
+            </Box>
+            <Box className='space-y-4'>
+              <Typography variant='h6'>Misc</Typography>
+              <FormInputText
+                name='EmergencyContactName'
+                control={control}
+                label='Emergency Contact Name'
               />
               <FormInputText
-                name="FlyerMembershipNumber"
+                name='EmergencyContactRelationship'
                 control={control}
-                label="Flyer Membership Number"
+                label='Emergency Contact Relationship'
               />
               <FormInputText
-                name="Confirmed"
+                name='EmergencyContactNumber'
                 control={control}
-                label="Confirmed"
+                label='Emergency Contact Number'
+              />
+              <FormInputText
+                name='FlyerMembershipName'
+                control={control}
+                label='Flyer Membership Name'
+              />
+              <FormInputText
+                name='FlyerMembershipNumber'
+                control={control}
+                label='Flyer Membership Number'
+              />
+              <FormInputText
+                name='Confirmed'
+                control={control}
+                label='Confirmed'
               />
               <FormInputMultiSelect
                 name='Trip'
@@ -269,11 +258,11 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
               />
             </Box>
           </Box>
-          <Box className="space-x-4">
-            <Button onClick={handleSubmit(onSubmit)} variant={"contained"}>
+          <Box className='space-x-4'>
+            <Button onClick={handleSubmit(onSubmit)} variant={'contained'}>
               Submit
             </Button>
-            <Button onClick={() => reset()} variant={"outlined"}>
+            <Button onClick={() => reset()} variant={'outlined'}>
               Reset
             </Button>
           </Box>
@@ -284,7 +273,7 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
       <BottomSuccessSnackbar
         showSuccess={showSuccess}
         setShowSuccess={setShowSuccess}
-        message="Speaker created successfully"
+        message='Speaker created successfully'
       />
     </>
   );
