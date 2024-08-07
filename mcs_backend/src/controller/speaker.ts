@@ -36,7 +36,6 @@ router.get('/speaker/:speaker_record_id', async (req, res) => {
         return res.status(404).json({ message: 'Speaker not found' });
       }
       let plainFields = Object.fromEntries(speakerRecord);
-      console.log(plainFields)
       let formattedSpeakers: { [k: string]: any; } = plainFields
       res.json(formattedSpeakers)
 
