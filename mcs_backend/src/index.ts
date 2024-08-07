@@ -15,8 +15,9 @@ const speakerRouter = require('./controller/speaker');
 const eventRouter = require('./controller/event')
 const CateringRouter = require('./controller/Catering'); 
 const ServiceRouter = require('./controller/Service'); 
-const VenueRouter = require('./controller/Venue')
-const subeventRouter = require('./controller/subevent')
+const VenueRouter = require('./controller/Venue');
+const subeventRouter = require('./controller/subevent');
+const fundingAccountRouter = require('./controller/FundingAccount');
 const app = express();
 
 app.use(cors())
@@ -35,8 +36,9 @@ app.use('/', speakerRouter);
 app.use('/', eventRouter)
 app.use('/', CateringRouter);
 app.use('/', ServiceRouter);
-app.use('/', VenueRouter)
-app.use('/', subeventRouter)
+app.use('/', VenueRouter);
+app.use('/', subeventRouter);
+app.use('/', fundingAccountRouter);
 app.get('*', (req: Request, res: Response) => {
   res.sendFile(path.resolve(__dirname, )); //! Change to Frontend index (home) page 
 });
