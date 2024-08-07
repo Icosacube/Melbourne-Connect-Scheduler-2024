@@ -1,3 +1,4 @@
+<<<<<<< HEAD:frontend/mcs-frontend/src/pages/Speaker/SpeakerOverview/CreateSpeakerModal.tsx
 import { Box, Button, Modal, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -6,6 +7,17 @@ import { FormInputText } from "../../../components/FormComponents/FormInputText"
 import { Speaker } from "../../../types/frontendTypes";
 import { createSpeaker } from "../../../scripts/speaker/functions";
 import { AxiosResponse } from "axios";
+=======
+import { Box, Button, Modal, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
+import { FormInputMultiSelect } from '../../components/FormComponents/FormInputDropdown';
+import { FormInputText } from '../../components/FormComponents/FormInputText';
+import { Speaker } from '../../types/frontendTypes';
+import { createSpeaker } from '../../scripts/speaker/functions';
+import { AxiosResponse } from 'axios';
+>>>>>>> origin/main:frontend/mcs-frontend/src/pages/Speaker/CreateSpeakerModal.tsx
 
 interface CreateSpeakerModalProps {
   handleClose: () => void;
@@ -237,10 +249,6 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                 control={control}
                 label="Confirmed"
               />
-              {/* 
-                NOT NECESSARY, THESE ARE MEANT TO BE LINKED BY CREATING TRIPS
-                AND EVENTS
-
               <FormInputMultiSelect
                 name='Trip'
                 control={control}
@@ -258,7 +266,7 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                 control={control}
                 label='Sub Event'
                 options={subEvents}
-              /> */}
+              />
             </Box>
           </Box>
           <Box className="space-x-4">
