@@ -16,12 +16,12 @@ import {
     Finance,
     Layout,
     Login,
-    Trips,
     Events,
+    Speakers,
+    Profile,
 } from './pages'
-import { Speakers } from './pages/Speaker/SpeakerOverview/Speakers'
-import { Profile } from './pages/Speaker/SpeakerProfile/Profile'
 import { Trip } from './pages/Trips/Trip'
+import { Trips } from './pages/Trips/TripsOverview/Trips'
 import reportWebVitals from './reportWebVitals'
 require('cors')
 
