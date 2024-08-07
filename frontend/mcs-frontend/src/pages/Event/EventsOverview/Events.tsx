@@ -1,15 +1,15 @@
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
 import { Box, Button, Typography } from '@mui/material';
-import React, { FC } from 'react';
+import React from 'react';
 import { EventsTable } from './EventsTable';
 import EventsWidgets from './EventsWidgets';
 import { useLoaderData } from 'react-router-dom';
 import { CreateEventModal } from './CreateEventModal';
 import { MainEvent } from '../../../types/frontendTypes';
 
-export const Events: FC = () => {
+function Events() {
   const { events, speakers } = useLoaderData() as {
-    events: MainEvent[]
+    events: MainEvent[];
     speakers: any[];
   };
   const [open, setOpen] = React.useState(false);
@@ -40,3 +40,5 @@ export const Events: FC = () => {
     </>
   );
 }
+
+export default Events;

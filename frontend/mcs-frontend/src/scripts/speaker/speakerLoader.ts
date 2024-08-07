@@ -4,7 +4,7 @@ import { getSpeakerById } from './functions';
 
 export async function loader({
   params,
-}: LoaderFunctionArgs): Promise<Speaker | any> {
+}: LoaderFunctionArgs): Promise<Map<string, Speaker> | any> {
   try {
     const speakerID = String(params.id);
     const speaker = await getSpeakerById(speakerID);
