@@ -1,10 +1,10 @@
 
 import { Box, Button, Typography } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
-import { BackButton } from '../../components';
-import TripsTab from './TripsTab';
-import { Trip as TripType, Speaker, MainEvent } from '../../types/frontendTypes';
 import { useLoaderData } from 'react-router-dom';
+import { BackButton } from '../../components';
+import TripBody from './TripBody';
+import { Trip as TripType, Speaker, MainEvent } from '../../types/frontendTypes';
 import { defaultMainEvent, getMainEventById } from '../../scripts/event/function';
 import { EventCard } from '../../components/EventCard/EventCard';
 
@@ -30,7 +30,7 @@ export const Trip: FC = () => {
             <Typography>Guest</Typography>
           </Button>
         </Box>
-        <TripsTab />
+        <TripBody tripID={trip.RecordID} />
       </Box>
       <Box className='w-1/4 space-y-6'>
         <Typography variant='h6'>Main Event</Typography>

@@ -12,17 +12,18 @@ import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
 interface CreateAccomModalProps {
   handleClose: () => void;
   open: boolean;
+  tripID: string;
 }
 
 export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
   handleClose,
   open,
+  tripID
 }) => {
   const { handleSubmit, reset, control } = useForm<Accommodation>({
     defaultValues: defaultAccommodation,
   });
 
-  const tripID = "recuUrK43y0D3b0ua"; // placeholder
   const [showSuccess, setShowSuccess] = useState(false);
   const [fundingAccounts, setFundingAccounts] = useState<FundingAccount[]>([]);
 

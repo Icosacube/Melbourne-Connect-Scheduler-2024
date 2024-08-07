@@ -9,7 +9,13 @@ import Accomodation from "./Accomodation/Accomodation";
 import Costs from "./TabPages/Costs";
 import FlightCard from "./Flight/FlightCard";
 
-export const TripsTab: FC = () => {
+interface TripBodyProps {
+  tripID: string
+}
+
+export const TripBody: React.FC<TripBodyProps> = ({
+  tripID
+}) => {
   // Placeholder
   const emptyFlights: Flight[] = [];
   const exampleFlights: Flight[] = [
@@ -104,10 +110,10 @@ export const TripsTab: FC = () => {
         </Grid>
       </Grid>
 
-      <CreateFlightModal handleClose={handleCloseFlight} open={openFlight} />
-      <CreateAccomModal handleClose={handleCloseAccom} open={openAccom} />
+      <CreateFlightModal handleClose={handleCloseFlight} open={openFlight} tripID={tripID} />
+      <CreateAccomModal handleClose={handleCloseAccom} open={openAccom} tripID={tripID}/>
     </Box>
   );
 };
 
-export default TripsTab;
+export default TripBody;
