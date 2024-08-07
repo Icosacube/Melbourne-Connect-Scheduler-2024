@@ -1,17 +1,11 @@
-import { Speaker, Trip } from "../../types/frontendTypes";
-import { getAllTrips } from "../trip/function";
-import { getAllSpeakers } from "./functions";
+import { Speaker } from '../../types/frontendTypes';
+import { getAllSpeakers } from './functions';
 
-interface LoaderData {
-  speakers: Speaker[];
-  trips: Trip[];
-}
-
-export async function loader(): Promise<LoaderData | any> {
+export async function loader(): Promise<Map<string, Speaker[]> | any> {
   try {
     const speakers = await getAllSpeakers();
-    const trips = await getAllTrips();
-    return { speakers, trips };
+    console.log(speakers);
+    return speakers;
   } catch (error) {
     return {};
   }

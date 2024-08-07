@@ -14,10 +14,11 @@ import {
   Finance,
   Layout,
   Login,
-  Speakers,
-  Profile,
+  Speaker,
   Trips,
 } from './pages';
+import Events from './pages/Event/EventsOverview/Events';
+import { Profile } from './pages/Speaker/Profile';
 import { Trip } from './pages/Trips/Trip';
 import reportWebVitals from './reportWebVitals';
 require('cors');
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
           path: '/events',
-          element: <Event />,
+          element: <Events />,
           errorElement: <ErrorPage />,
           loader: eventsLoader,
         },
@@ -60,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
           path: '/speakers',
-          element: <Speakers />,
+          element: <Speaker />,
           errorElement: <ErrorPage />,
           loader: speakersLoader,
         },
