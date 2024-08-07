@@ -5,8 +5,6 @@ import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/Bottom
 import { FormInputDate } from '../../components/FormComponents/FormInputDate';
 import { FormInputMultiSelect } from '../../components/FormComponents/FormInputDropdown';
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps';
-import { getAllMainEvents } from '../../scripts/event/function';
-import { getAllSpeakers } from '../../scripts/speaker/functions';
 import { createTrip, defaultTrip } from '../../scripts/trip/function';
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes';
 import { FormInputDropdownSingle } from '../../components/FormComponents/FormInputDropdownSingle';
@@ -31,8 +29,6 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
 
   const [showSuccess, setShowSuccess] = useState(false);
 
-  useEffect(() => {
-  }, [open]);
 
   const onClose = () => {
     reset();

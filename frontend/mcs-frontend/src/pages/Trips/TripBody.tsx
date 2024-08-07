@@ -1,15 +1,14 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from 'react';
 import { Accommodation, Flight } from "../../types/frontendTypes";
-import dayjs from "dayjs";
 import CreateCard from "./CreateCard";
 import { CreateFlightModal } from "./Flight/CreateFlightModal";
 import { CreateAccomModal } from "./Accomodation/CreateAccomModal";
-import Accomodation from "./Accomodation/Accomodation";
+import AccomCard from "./Accomodation/AccomCard";
 import Costs from "./TabPages/Costs";
 import FlightCard from "./Flight/FlightCard";
-import { getAllFlights, getFlightsByTripID } from "../../scripts/flight/function";
-import { getAllAccom } from "../../scripts/accommodation/function";
+import { getFlightsByTripID } from "../../scripts/flight/function";
+import { getAccomByTripID } from "../../scripts/accommodation/function";
 
 interface TripBodyProps {
   tripID: string
@@ -24,7 +23,25 @@ export const TripBody: React.FC<TripBodyProps> = ({
   const [openFlight, setOpenFlight] = useState(false);
   const [openAccom, setOpenAccom] = useState(false);
 
-  useEffect(() => {getFlightsByTripID(tripID).then((flights) => setFlights(flights));});
+  useEffect(() => {
+    getFlightsByTripID(tripID)
+      .then((flights) => {
+        setFlights(flights);
+      })
+      .catch((error) => {
+        console.error('Error fetching flights:', error);
+        setFlights([]);
+      });
+  
+    getAccomByTripID(tripID)
+      .then((accommodations) => {
+        setAccom(accommodations);
+      })
+      .catch((error) => {
+        console.error('Error fetching accommodations:', error);
+        setAccom([]);
+      });
+  }, [tripID]);
 
   const handleOpenFlight = () => {
     setOpenFlight(true);
@@ -65,9 +82,9 @@ export const TripBody: React.FC<TripBodyProps> = ({
           <Typography>Accommodation</Typography>
         </Grid>
         
-        {accom.length > 0 && accom.map((accommodation, index) => (
+        {accom.length > 0 && accom.map((accom, index) => (
           <Grid item md={12} key={index}>
-          
+            <AccomCard accom={accom}></AccomCard>
           </Grid>
         ))}
         

@@ -9,7 +9,7 @@ export async function getAccomByTripID(
 ): Promise<AccommodationFrontend[]> {
   try {
     const res = await axios.get(
-      process.env.REACT_APP_BACKEND_URL + '/accommodation/' + tripID,
+      `${process.env.REACT_APP_BACKEND_URL}/accommodation/${tripID}`,
     );
     const rawAccommodations = res.data;
     const formattedAccommodations = rawAccommodations.map(
@@ -18,7 +18,7 @@ export async function getAccomByTripID(
     console.log(formattedAccommodations);
     return formattedAccommodations;
   } catch (error) {
-    console.error('Error fetching all accommodations:', error);
+    console.error(`Error fetching trip ${tripID} accommodations:`, error);
     return [];
   }
 }
