@@ -69,32 +69,36 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
             spacing={3}
             className="w-full p-7 flex space-between justify-items"
           >
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={4} lg={3}>
               <FormInputText name="Airline" control={control} label="Airline" />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={4} lg={4.5}>
               <FormInputText name="FlightNumber" control={control} label="Flight Number" />
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={12} md={4} lg={4.5}>
+              <FormInputText name="FlightReference" control={control} label="Flight Reference" />
+            </Grid>
+
+            <Grid item xs={12} md={9} lg={9}>
               <FormInputText name="FundingAccount" control={control} label="Funding Account" />
             </Grid>
-            <Grid item xs={12} md={6} lg={2}>
+            <Grid item xs={12} md={3} lg={3}>
               <FormInputText name="Cost" control={control} label="Price" />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={4} lg={2.5}>
               <FormInputText name="DepartureFrom" control={control} label="Departure City" />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={8} lg={3.5}>
               <FormInputTime
                 name="DepartDate"
                 control={control}
                 label="Departure Time"
               />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={4} lg={2.5}>
               <FormInputText name="ArrivedTo" control={control} label="Arrival City" />
             </Grid>
-            <Grid item xs={12} md={6} lg={3}>
+            <Grid item xs={12} md={8} lg={3.5}>
               <FormInputTime
                 name="ArriveDate"
                 control={control}

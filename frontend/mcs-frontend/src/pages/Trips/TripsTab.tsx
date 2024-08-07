@@ -4,7 +4,7 @@ import { Accommodation, Flight } from "../../types/frontendTypes";
 import dayjs from "dayjs";
 import CreateCard from "./CreateCard";
 import { CreateFlightModal } from "./Flight/CreateFlightModal";
-import { CreateAccommodationModal } from "./Accomodation/CreateAccommodationModal";
+import { CreateAccomModal } from "./Accomodation/CreateAccomModal";
 import Accomodation from "./Accomodation/Accomodation";
 import Costs from "./TabPages/Costs";
 import FlightCard from "./Flight/FlightCard";
@@ -105,7 +105,7 @@ export const TripsTab: FC = () => {
       </Grid>
 
       <CreateFlightModal handleClose={handleCloseFlight} open={openFlight} />
-      <CreateAccommodationModal handleClose={handleCloseAccom} open={openAccom} />
+      <CreateAccomModal handleClose={handleCloseAccom} open={openAccom} />
     </Box>
   );
 };

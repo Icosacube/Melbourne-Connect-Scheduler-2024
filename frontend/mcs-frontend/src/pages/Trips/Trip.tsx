@@ -22,8 +22,8 @@ export const Trip: FC = () => {
   }, []);
   
   return (
-    <Box className=' flex space-x-10'>
-      <Box className='w-3/4 space-y-10'>
+    <Box className='flex space-x-10'>
+      <Box className='w-3/4 space-y-6'>
         <BackButton text='Back' />
         <Box>
           <Button variant='contained' className='w-full min-h-60'>
@@ -32,7 +32,7 @@ export const Trip: FC = () => {
         </Box>
         <TripsTab />
       </Box>
-      <Box className='w-1/4 space-y-4'>
+      <Box className='w-1/4 space-y-6'>
         <Typography variant='h6'>Main Event</Typography>
         <EventCard event={event}></EventCard>
       </Box>
