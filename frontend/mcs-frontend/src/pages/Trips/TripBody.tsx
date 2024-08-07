@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React, { useState, FC } from "react";
+import React, { useEffect, useState } from 'react';
 import { Accommodation, Flight } from "../../types/frontendTypes";
 import dayjs from "dayjs";
 import CreateCard from "./CreateCard";
@@ -8,6 +8,8 @@ import { CreateAccomModal } from "./Accomodation/CreateAccomModal";
 import Accomodation from "./Accomodation/Accomodation";
 import Costs from "./TabPages/Costs";
 import FlightCard from "./Flight/FlightCard";
+import { getAllFlights, getFlightsByTripID } from "../../scripts/flight/function";
+import { getAllAccom } from "../../scripts/accommodation/function";
 
 interface TripBodyProps {
   tripID: string
@@ -16,43 +18,13 @@ interface TripBodyProps {
 export const TripBody: React.FC<TripBodyProps> = ({
   tripID
 }) => {
-  // Placeholder
-  const emptyFlights: Flight[] = [];
-  const exampleFlights: Flight[] = [
-    {
-      RecordID: '1',
-      FlightReference: 'ABC123',
-      Airline: 'Qantas',
-      FlightNumber: 'EA1234',
-      DepartureFrom: 'City A',
-      ArrivedTo: 'City B',
-      DepartDate: dayjs('2024-08-01T10:00:00'),
-      ArriveDate: dayjs('2024-08-01T12:00:00'),
-      Cost: 500,
-      Trip: ['001', '002'],
-      FundingAccount: ['a12', 'b34'],
-      ReturnFlight: ['c341', 'd4576'],
-    },
-    {
-      RecordID: '2',
-      FlightReference: 'DEF456',
-      Airline: 'Emirates',
-      FlightNumber: 'EA5678',
-      DepartureFrom: 'City C',
-      ArrivedTo: 'City D',
-      DepartDate: dayjs('2024-08-02T14:00:00'),
-      ArriveDate: dayjs('2024-08-02T18:00:00'),
-      Cost: 700,
-      Trip: ['003', '004'],
-      FundingAccount: ['c56', 'd78'],
-      ReturnFlight: ['e567', 'f890'],
-    },
-  ];
 
-  const [flights, setFlights] = useState<Flight[]>(emptyFlights);
+  const [flights, setFlights] = useState<Flight[]>([]);
   const [accom, setAccom] = useState<Accommodation[]>([]);
   const [openFlight, setOpenFlight] = useState(false);
   const [openAccom, setOpenAccom] = useState(false);
+
+  useEffect(() => {getFlightsByTripID(tripID).then((flights) => setFlights(flights));});
 
   const handleOpenFlight = () => {
     setOpenFlight(true);

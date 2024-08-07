@@ -10,14 +10,14 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
   return (
   <Paper className="px-5 pb-4 pt-2 rounded-lg">
       <Grid container className="w-full flex justify-between items-center space-y-0.5">
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Typography noWrap variant="body2">{flight.Airline}</Typography>
         </Grid>
-        <Grid item xs={3}>
-          <Typography variant="body2">{flight.FlightNumber}</Typography>
+        <Grid item xs={4}>
+          <Typography noWrap variant="body2">{flight.FlightNumber}</Typography>
         </Grid>
-        <Grid item xs={5}>
-          <Typography noWrap variant="body2">Funding Account</Typography>
+        <Grid item xs={4}>
+          <Typography noWrap variant="body2">{flight.FlightReference == '' ? "unknown" : flight.FlightReference}</Typography>
         </Grid>
         <Grid item xs={1}>
               <IconButton>
@@ -27,14 +27,18 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
         <Grid item xs={5}>
           <Typography variant="h6">{flight.DepartureFrom}</Typography>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={7}>
           <Typography variant="h6">{flight.ArrivedTo}</Typography>
         </Grid>
         <Grid item xs={5}>
-          <Typography variant="body2">XX:XX</Typography>
+          <Typography variant="body2">{flight.DepartDate.format("HH:mm A")}</Typography>
         </Grid>
-        <Grid item xs={5}>
-          <Typography variant="body2">XX:XX</Typography>
+        <Grid item xs={4}>
+          <Typography variant="body2">{flight.ArriveDate.format("HH:mm A")}</Typography>
+        </Grid>
+
+        <Grid item xs={3} >
+          <Typography noWrap variant="body2" align="right">{flight.FundingAccount[0]}</Typography>
         </Grid>
         <Grid item xs={5}>
           <Typography variant="body2">{flight.DepartDate.format('DD MMM YY')}</Typography>
