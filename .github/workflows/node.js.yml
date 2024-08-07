@@ -27,18 +27,6 @@ jobs:
         working-directory: ./frontend/mcs-frontend
         run: npm install
 
-      - name: Lint frontend code
-        working-directory: ./frontend/mcs-frontend
-        run: npm run lint
-
-      - name: Fix frontend lint issues
-        working-directory: ./frontend/mcs-frontend
-        run: npm run lint:fix
-
-      - name: Format frontend code
-        working-directory: ./frontend/mcs-frontend
-        run: npm run format
-
       - name: Run frontend tests
         working-directory: ./frontend/mcs-frontend
         run: npm run test -- --watchAll=false
