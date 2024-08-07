@@ -16,11 +16,11 @@ import {
   Finance,
   Layout,
   Login,
-  Speaker,
+  Speakers,
+  Profile,
   Trips,
+  Events,
 } from './pages';
-import Events from './pages/Event/EventsOverview/Events';
-import { Profile } from './pages/Speaker/Profile';
 import { Trip } from './pages/Trips/Trip';
 import reportWebVitals from './reportWebVitals';
 require('cors');
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
           loader: eventsLoader,
         },
         {
-          path: '/events/:id',
+          path: '/event/:id',
           element: <Event />,
           errorElement: <ErrorPage />,
           loader: eventLoader,
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
           path: '/speakers',
-          element: <Speaker />,
+          element: <Speakers />,
           errorElement: <ErrorPage />,
           loader: speakersLoader,
         },
@@ -105,17 +105,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   reportWebVitals(console.log);
 });
-
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <React.StrictMode>
-//     <StyledEngineProvider injectFirst>
-//       <RouterProvider router={router} />
-//     </StyledEngineProvider>
-//   </React.StrictMode>
-// );
-
-// // If you want to start measuring performance in your app, pass a function
-// // to log results (for example: reportWebVitals(console.log))
-// // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals(console.log);

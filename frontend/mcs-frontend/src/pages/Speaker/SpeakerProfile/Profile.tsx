@@ -1,26 +1,25 @@
 import { Box, Button, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { useLoaderData, useParams } from 'react-router-dom';
-import { ProfileHeader } from '../../components';
+import { useLoaderData } from 'react-router-dom';
+import { ProfileHeader } from '../../../components';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import { Speaker } from '../../types/frontendTypes';
+import { Speaker } from '../../../types/frontendTypes';
+import { EditSpeakerModal } from './EditSpeakerModal';
+import { ModeEdit } from '@mui/icons-material';
 
 export const Profile: FC = () => {
   const speaker = useLoaderData() as Speaker;
-  console.log(speaker);
-  const email = 'evebrown@gmail.com';
-  const phone = '1234567890';
-  const tags = ['Applied Linguistics', 'Validation', 'Second Language Writing'];
+  const email = speaker.PrimaryEmail;
+  const phone = speaker.Phone;
+  const tags = ['Applied Linguistics', 'Validation', 'Second Language Writing']; // How do we do this
   const role = 'Professor in Language Testing';
   const faculty = 'Languages and Linguistics';
-  const firstname = 'Frances';
-  const lastname = 'Haugen';
-  const title = 'Prof';
-  const organisation = 'Stockton University';
-  const bio = `Frances Haugen holds a degree in Electrical and Computer Engineering from Olin College and an MBA from Harvard University. With expertise in algorithmic product management, she has contributed to ranking algorithms at Google. Pinterest, Yelp, and Facebook. At Facebook, she served as the lead Product Manager on the Civic Misinformation team. addressing democracy and misinformation issues, and later expanded her focus to counter-espionage. 
-  During her tenure at Facebook, Frances became increasingly concemed about the company's prioritisation of profits over public safety, endangering lives. Taking a significant personal risk, Frances bravely blew the whistle on Facebook, which led to "The Facebook Files', exposé by the Wall Street Joumal. 
-  Since her revelations. Frances has testified before 10+ legislatures around the world. including the US Congress, UK and EU Parliaments, the French Senate and National Assembly, and has engaged with lawmakers worldwide to address the adverse impacts of social media platforms. 
-  `;
+  const pronouns = speaker.Pronouns;
+  const firstname = speaker.FirstName;
+  const lastname = speaker.LastName;
+  const title = speaker.Title;
+  const organisation = speaker.Organisation;
+  const bio = speaker.Bio;
 
   // email variables and stuff
   const professorName = 'Ellen Xhaka';
@@ -57,10 +56,16 @@ ${contactInformation}`;
   const mailtoLink = `mailto:fhughes@stockton.edu.au?subject=${encodeURIComponent(
     emailSubject,
   )}&body=${encodeURIComponent(emailBody)}`;
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Box className=' flex space-x-6'>
       <Box className='w-9/12  '>
         {/* <BackButton text="Back" /> */}
+
         <Box className='p-10'>
           <ProfileHeader
             title={title}
@@ -69,9 +74,23 @@ ${contactInformation}`;
             organisation={organisation}
             role={role}
             faculty={faculty}
+            pronouns={pronouns}
             tags={tags}
           />
         </Box>
+        <Button
+          variant='contained'
+          className=' flex space-x-2 bg-secondary hover:bg-accent hover:text-black mb-3 self-end h-12'
+          onClick={handleOpen}
+        >
+          <ModeEdit />
+          <Typography>Edit Speaker</Typography>
+        </Button>
+        <EditSpeakerModal
+          handleClose={handleClose}
+          open={open}
+          speaker={speaker}
+        />
         <Box className='p-10 bg-white shadow-lg rounded-xl'>
           <Typography variant='h6'>Bio</Typography>
           <Typography paragraph className='bg-gray-100 rounded-xl p-5 mt-4'>

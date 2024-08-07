@@ -30,10 +30,10 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
   const [showSuccess, setShowSuccess] = useState(false);
 
 
-  const onClose = () => {
-    reset();
-    handleClose();
-  };
+    const onClose = () => {
+        reset()
+        handleClose()
+    }
 
   const onSubmit = async (data: Trip) => {
     try {
@@ -50,14 +50,15 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
       reset();
       onClose();
     }
-  };
 
-  const reformatEventForDropdown = (events: MainEvent[]): DropdownOptions[] => {
-    return events.map((event) => ({
-      label: event.EventName,
-      value: event.RecordID,
-    }));
-  };
+    const reformatEventForDropdown = (
+        events: MainEvent[]
+    ): DropdownOptions[] => {
+        return events.map((event) => ({
+            label: event.EventName,
+            value: event.RecordID,
+        }))
+    }
 
   return (
     <>
