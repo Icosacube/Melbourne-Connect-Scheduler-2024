@@ -1,14 +1,22 @@
-import axios from 'axios';
-import { Trip } from '../../types/frontendTypes';
+import { MainEvent, Speaker, Trip } from '../../types/frontendTypes';
+import { getAllSpeakers } from '../speaker/functions';
+import { getAllMainEvents } from '../event/function';
+import { getAllTrips } from '../trip/function'; 
 
-export async function loader(): Promise<Map<string, Trip[]> | any> {
+interface LoaderData {
+  events: MainEvent[];
+  speakers: Speaker[];
+  trips: Trip[];
+}
+
+export async function loader(): Promise<LoaderData | {}> {
   try {
-    const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/trip');
-    const rawTrips = res.data;
-
-    console.log(rawTrips);
-    return rawTrips;
+    const events = await getAllMainEvents();
+    const speakers = await getAllSpeakers();
+    const trips = await getAllTrips();
+    return { events, speakers, trips };
   } catch (error) {
+    console.error(error);
     return {};
   }
 }

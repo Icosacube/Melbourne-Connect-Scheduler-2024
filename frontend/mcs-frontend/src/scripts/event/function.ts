@@ -66,7 +66,7 @@ export async function getAllMainEvents(): Promise<MainEvent[]> {
 export async function getMainEventById(id: string): Promise<MainEvent> {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/events/${id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/events/event/${id}`,
     );
     const rawEvent = res.data;
     const formattedEvent = reformatMainEventResponseData(rawEvent);

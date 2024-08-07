@@ -5,54 +5,28 @@ import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/Bottom
 import { FormInputDate } from '../../components/FormComponents/FormInputDate'
 import { FormInputMultiSelect } from '../../components/FormComponents/FormInputDropdown'
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
-import { getAllMainEvents } from '../../scripts/event/function'
-import { getAllSpeakers } from '../../scripts/speaker/functions'
 import { createTrip, defaultTrip } from '../../scripts/trip/function'
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes'
+import { FormInputDropdownSingle } from '../../components/FormComponents/FormInputDropdownSingle'
 
 interface CreateTripModalProps {
     handleClose: () => void
     open: boolean
+    events: MainEvent[]
+    speakers: Speaker[]
 }
 
 export const CreateTripModal: React.FC<CreateTripModalProps> = ({
     handleClose,
     open,
+    events,
+    speakers,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Trip>({
+    const { handleSubmit, reset, control, setValue } = useForm<Trip>({
         defaultValues: defaultTrip,
     })
 
     const [showSuccess, setShowSuccess] = useState(false)
-    const [events, setEvents] = useState<MainEvent[]>([])
-    const [speakers, setSpeakers] = useState<Speaker[]>([])
-
-    useEffect(() => {
-        if (open) {
-            loadEvents()
-            loadSpeakers()
-        }
-    }, [open])
-
-    const loadEvents = async () => {
-        try {
-            getAllMainEvents().then((events) => {
-                setEvents(events)
-            })
-        } catch (error) {
-            console.error('Failed to load events', error)
-        }
-    }
-
-    const loadSpeakers = async () => {
-        try {
-            getAllSpeakers().then((speakers) => {
-                setSpeakers(speakers == null ? [] : speakers)
-            })
-        } catch (error) {
-            console.error('Failed to load speakers', error)
-        }
-    }
 
     const onClose = () => {
         reset()
@@ -61,6 +35,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
 
     const onSubmit = async (data: Trip) => {
         try {
+            console.log(data)
             const res = await createTrip(data)
             if (res) {
                 setShowSuccess(true)
@@ -109,7 +84,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                         </Grid>
                         <Grid item xs={6}>
                             <Typography variant="h6">Speaker</Typography>
-                            <FormInputMultiSelect
+                            <FormInputDropdownSingle
                                 name="GuestSpeaker"
                                 control={control}
                                 label="Speaker"

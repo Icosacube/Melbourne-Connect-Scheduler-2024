@@ -1,1 +1,1 @@
-export { Trips } from './Trips';
+export {Trips} from "./TripsOverview/Trips";
