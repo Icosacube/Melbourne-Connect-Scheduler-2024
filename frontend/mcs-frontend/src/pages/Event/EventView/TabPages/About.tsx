@@ -4,7 +4,6 @@ import { MainEvent, Speaker } from "../../../../types/frontendTypes";
 import AboutTable from "./AboutTable";
 import Banner from "./Banner";
 import Headline from "./Headline";
-import { s } from "@fullcalendar/core/internal-common";
 
 interface AboutProps {
   event: MainEvent;

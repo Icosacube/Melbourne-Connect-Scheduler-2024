@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { FC } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { ProfileHeader } from "../../../components";
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
 import { Speaker } from "../../../types/frontendTypes";
@@ -67,7 +67,6 @@ ${contactInformation}`;
         {/* <BackButton text="Back" /> */}
 
         <Box className="p-10">
-          
           <ProfileHeader
             title={title}
             firstname={firstname}
@@ -80,14 +79,18 @@ ${contactInformation}`;
           />
         </Box>
         <Button
-            variant="contained"
-            className=" flex space-x-2 bg-secondary hover:bg-accent hover:text-black mb-3 self-end h-12"
-            onClick={handleOpen}
-          >
-            <ModeEdit />
-            <Typography>Edit Speaker</Typography>
-          </Button>
-          <EditSpeakerModal handleClose={handleClose} open={open} speaker={speaker}/>
+          variant="contained"
+          className=" flex space-x-2 bg-secondary hover:bg-accent hover:text-black mb-3 self-end h-12"
+          onClick={handleOpen}
+        >
+          <ModeEdit />
+          <Typography>Edit Speaker</Typography>
+        </Button>
+        <EditSpeakerModal
+          handleClose={handleClose}
+          open={open}
+          speaker={speaker}
+        />
         <Box className="p-10 bg-white shadow-lg rounded-xl">
           <Typography variant="h6">Bio</Typography>
           <Typography paragraph className="bg-gray-100 rounded-xl p-5 mt-4">

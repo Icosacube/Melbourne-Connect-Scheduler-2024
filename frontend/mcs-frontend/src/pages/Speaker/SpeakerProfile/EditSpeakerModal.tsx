@@ -16,7 +16,7 @@ interface CreateSpeakerModalProps {
 export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
   handleClose,
   open,
-  speaker
+  speaker,
 }) => {
   const { handleSubmit, reset, control, setValue } = useForm<Speaker>({
     defaultValues: speaker,
@@ -25,7 +25,7 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
   const onSubmit = async (data: Speaker) => {
     try {
       const res: AxiosResponse = await updateSpeaker(data);
-      if (res.status == 200) {
+      if (res.status === 200) {
         setShowSuccess(true);
         window.location.reload();
       } else {
