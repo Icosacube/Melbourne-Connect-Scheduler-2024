@@ -30,7 +30,7 @@ export const Event: FC = () => {
       case 'Participants':
         return <Participants />;
       case 'Programme':
-        return <Programme />;
+        return <Programme event={event} />;
       case 'Services':
         return <Services />;
       default:
