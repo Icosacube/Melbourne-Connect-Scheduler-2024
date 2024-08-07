@@ -19,67 +19,19 @@ interface CreateAccommodationModalProps {
   open: boolean;
 }
 
-const speakers = [
-  {
-    label: 'Speaker 1',
-    value: '1',
-  },
-  {
-    label: 'Speaker 2',
-    value: '2',
-  },
-];
 
-const trips = [
-  {
-    label: 'Trip 1',
-    value: '1',
-  },
-  {
-    label: 'Trip 2',
-    value: '2',
-  },
-];
-
-export const CreateAccommodationModal: React.FC<
-  CreateAccommodationModalProps
-> = ({ handleClose, open }) => {
+export const CreateAccommodationModal: React.FC<CreateAccommodationModalProps> = 
+({ handleClose, open }) => {
   const { handleSubmit, reset, control, setValue } = useForm<Accommodation>({
     defaultValues: defaultAccommodation,
   });
-  const [tripOptions, setTripOptions] = useState<DropdownOptions[]>([]);
-  const [speakerOptions, setSpeakerOptions] = useState<DropdownOptions[]>([]);
-
-  // Dropdown data fetching
-  useEffect(() => {
-    if (open) {
-      loadTrips();
-      loadSpeakers();
-    }
-  }, [open]);
-
-  const loadTrips = async () => {
-    const trips = await getAllTrips();
-    console.log(trips);
-    const tripOptions = trips.map((trip: Trip) => ({
-      label: trip.EndDate.toString(),
-      value: trip.EndDate.toString(),
-    }));
-    setTripOptions(tripOptions);
-  };
-
-  const loadSpeakers = async () => {
-    const speakers = await getAllSpeakers();
-    console.log(speakers);
-    const speakerOptions = speakers.map((speaker: Speaker) => ({
-      label: speaker.FirstName + ' ' + speaker.LastName,
-      value: speaker.RecordID,
-    }));
-    setSpeakerOptions(speakerOptions);
-  };
-
   // Form functions
+
+  const tripID = "recuUrK43y0D3b0ua"; // placeholder
+  
   const onSubmit = async (data: Accommodation) => {
+    data.Trip = [tripID];
+    //placeholder
     const res = await createAccommodation(data);
     console.log(res);
     setShowSuccess(true);
@@ -121,12 +73,7 @@ export const CreateAccommodationModal: React.FC<
               />
               <FormInputText name='Address' control={control} label='Address' />
               <FormInputText name='Room' control={control} label='Room' />
-              <FormInputMultiSelect
-                name='speaker'
-                control={control}
-                label='Speaker'
-                options={speakerOptions}
-              />
+            
             </Box>
             {/* Right */}
             <Box className='space-y-4'>
@@ -148,12 +95,6 @@ export const CreateAccommodationModal: React.FC<
                 name='FundingAccount'
                 control={control}
                 label='Funding Account'
-              />
-              <FormInputMultiSelect
-                name='Trip'
-                control={control}
-                label='Trip'
-                options={tripOptions}
               />
             </Box>
           </Box>

@@ -2,7 +2,6 @@ import { Button, Grid, Modal, Paper } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
-import { FormInputDate } from '../../../components/FormComponents/FormInputDate';
 import { FormInputTime } from '../../../components/FormComponents/FormInputTime';
 import { FormInputText } from '../../../components/FormComponents/FormInputText';
 import { DropdownOptions } from '../../../components/FormComponents/FormInputProps';

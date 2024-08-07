@@ -7,7 +7,7 @@ import { CreateFlightModal } from "./Flight/CreateFlightModal";
 import { CreateAccommodationModal } from "./Accomodation/CreateAccommodationModal";
 import Accomodation from "./Accomodation/Accomodation";
 import Costs from "./TabPages/Costs";
-import TravelView from "./Flight/TravelView";
+import FlightCard from "./Flight/FlightCard";
 
 export const TripsTab: FC = () => {
   // Placeholder
@@ -73,7 +73,7 @@ export const TripsTab: FC = () => {
         
         {flights.length > 0 && flights.map((flight, index) => (
           <Grid item md={12} lg={6} key={index}>
-            <TravelView flight={flight} />
+            <FlightCard flight={flight} />
           </Grid>
         ))}
         

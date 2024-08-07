@@ -44,10 +44,10 @@ export async function createAccommodation(
   accommodation: AccommodationFrontend,
 ): Promise<AccommodationFrontend> {
   try {
-    // TODO replace the hardcoded tripid
+    const tripID = accommodation.Trip[0];
     const accommodationData = reformatAccommodationRequest(accommodation);
     const res = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/accommodation/recH3rQzJMWavjKGA`,
+      `${process.env.REACT_APP_BACKEND_URL}/accommodation/${tripID}`,
       accommodationData,
     );
     console.log(res.data);
@@ -109,7 +109,7 @@ function reformatAccommodationRequest(
     Room: accommodation.Room,
     CheckIn: accommodation.CheckIn.format('YYYY-MM-DD'),
     CheckOut: accommodation.CheckOut.format('YYYY-MM-DD'),
-    Cost: accommodation.Cost,
+    Cost: Number(accommodation.Cost),
     Notes: accommodation.Notes,
     FundingAccount: accommodation.FundingAccount,
     Trip: accommodation.Trip,
