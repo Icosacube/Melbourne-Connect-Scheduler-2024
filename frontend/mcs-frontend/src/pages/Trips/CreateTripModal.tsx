@@ -9,6 +9,8 @@ import { getAllMainEvents } from '../../scripts/event/function';
 import { getAllSpeakers } from '../../scripts/speaker/functions';
 import { createTrip, defaultTrip } from '../../scripts/trip/function';
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes';
+import { FormInputDropdownSingle } from '../../components/FormComponents/FormInputDropdownSingle';
+
 
 interface CreateTripModalProps {
   handleClose: () => void;
@@ -39,6 +41,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
 
   const onSubmit = async (data: Trip) => {
     try {
+      console.log(data)
       const res = await createTrip(data);
       if (res) {
         setShowSuccess(true);
@@ -85,7 +88,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
             </Grid>
             <Grid item xs={6}>
               <Typography variant='h6'>Speaker</Typography>
-              <FormInputMultiSelect
+              <FormInputDropdownSingle
                 name='GuestSpeaker'
                 control={control}
                 label='Speaker'
