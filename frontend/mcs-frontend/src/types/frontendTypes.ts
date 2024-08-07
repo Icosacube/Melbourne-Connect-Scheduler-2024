@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 export enum PresetFilter {
     completed = '( {Completed} = FALSE() )',
 }
@@ -189,6 +189,7 @@ export type Service = {
 }
 
 export type FundingAccount = {
+    RecordID: string
     ThemisString: string
     Description: string
     AccountUser: string
@@ -202,22 +203,6 @@ export type FundingAccount = {
     Catering: string[]
     Flight: string[]
     Service: string[]
-    SubEvent: string[]
-}
-  RecordID: string;
-  ThemisString: string;
-  Description: string;
-  AccountUser: string;
-  AccountType: string;
-  Notes: string;
-  Limit: number;
-  ExpiryDate: string;
-  Accommodation: string[];
-  Miscellaneous: string[];
-  Venue: string[];
-  Catering: string[];
-  Flight: string[];
-  Service: string[];
 }
 
 export type Canvassing = {
