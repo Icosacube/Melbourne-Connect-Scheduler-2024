@@ -8,10 +8,11 @@ interface ProfileHeaderProps {
   organisation: string;
   role: string;
   faculty: string;
+  pronouns: string;
   tags: string[];
 }
 
-export const ProfileHeader: FC<ProfileHeaderProps> = ({ title, firstname, lastname, organisation, role, faculty, tags }) => {
+export const ProfileHeader: FC<ProfileHeaderProps> = ({ title, firstname, lastname, organisation, role, faculty, pronouns, tags }) => {
   return (
     <Box className="flex justify-between text-accent place-items-center">
       <Box className="w-5/12 flex space-x-4">
@@ -22,6 +23,7 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ title, firstname, lastna
             {firstname} {lastname}
           </Typography>
           <Typography className="text-lg ">{organisation}</Typography>
+          <Typography className="text-lg">{pronouns}</Typography>
         </Stack>
       </Box>
 
