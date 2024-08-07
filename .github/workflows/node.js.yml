@@ -82,8 +82,7 @@ jobs:
 
       - name: Run integration tests
         run: echo "Run your integration tests here"
-        # Replace the echo command with your actual integration test command
-        # For example: npm run integration-test
+        # Insert integration tests
 
   build:
     runs-on: ubuntu-latest
