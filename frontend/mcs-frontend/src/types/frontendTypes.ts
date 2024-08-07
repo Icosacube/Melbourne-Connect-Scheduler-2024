@@ -189,6 +189,7 @@ export type Service = {
 };
 
 export type FundingAccount = {
+  RecordID: string;
   ThemisString: string;
   Description: string;
   AccountUser: string;
@@ -202,8 +203,7 @@ export type FundingAccount = {
   Catering: string[];
   Flight: string[];
   Service: string[];
-  SubEvent: string[];
-};
+}
 
 export type Canvassing = {
   StartTime: string;

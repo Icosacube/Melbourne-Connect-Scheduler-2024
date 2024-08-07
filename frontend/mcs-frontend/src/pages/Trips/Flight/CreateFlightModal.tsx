@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
 import { FormInputTime } from '../../../components/FormComponents/FormInputTime';
 import { FormInputText } from '../../../components/FormComponents/FormInputText';
-import { DropdownOptions } from '../../../components/FormComponents/FormInputProps';
+import { FormInputDropdownSingle } from '../../../components/FormComponents/FormInputDropdownSingle';
 import { createFlight, defaultFlight } from '../../../scripts/flight/function';
-import { Flight } from '../../../types/frontendTypes';
-
+import { Flight, FundingAccount } from '../../../types/frontendTypes';
+import { defaultFundingAccount, getAllFundingAccounts, getFundingAccountByID } from '../../../scripts/fundingAccount/function';
 
 interface CreateFlightModalProps {
   handleClose: () => void;
@@ -24,9 +24,12 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
 
   const tripID = "recuUrK43y0D3b0ua"; // placeholder
   const [showSuccess, setShowSuccess] = useState(false);
+  const [fundingAccounts, setFundingAccounts] = useState<FundingAccount[]>([]);
+
 
   useEffect(() => {
     if (open) {
+      getAllFundingAccounts().then((accounts) => setFundingAccounts(accounts));
     }
   }, [open]);
 
@@ -39,7 +42,6 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
     try {
       data.Trip = [tripID];
       //placeholder
-      data.FundingAccount = ["recTAtMeRLOFmJAJ8"];
       console.log(data);
       const res = await createFlight(data);
       if (res) {
@@ -80,7 +82,15 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
             </Grid>
 
             <Grid item xs={12} md={9} lg={9}>
-              <FormInputText name="FundingAccount" control={control} label="Funding Account" />
+              <FormInputDropdownSingle
+                name='FundingAccount'
+                control={control}
+                label='Funding Account'
+                options={fundingAccounts.map((account) => ({
+                  label: `${account.AccountUser} - ${account.ThemisString}`,
+                  value: account.RecordID,
+                }))}
+              />
             </Grid>
             <Grid item xs={12} md={3} lg={3}>
               <FormInputText name="Cost" control={control} label="Price" />

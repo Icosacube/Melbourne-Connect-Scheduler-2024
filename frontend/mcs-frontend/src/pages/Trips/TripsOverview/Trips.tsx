@@ -1,26 +1,3 @@
-
-        /*
-        <Box className='grid gap-5 p-5 overflow-scroll max-h-[45rem]'>
-          {Array.from(Array(1)).map((_, index) => (
-            <NavLink to={`/trips/${index}`} key={index}>
-              <Box className='flex justify-between bg-gray-300 rounded p-5 place-items-center'>
-                <Box className='flex place-items-center space-x-4'>
-                  <Avatar className='size-20' />
-                  <Stack>
-                    <Typography variant='h6'>John Stevens</Typography>
-                    <Typography variant='h6'>Birthday Party</Typography>
-                  </Stack>
-                </Box>
-                <Box>
-                  <Typography variant='h6'>On-Going</Typography>
-                  <Typography variant='h6'>05/07/2001</Typography>
-                </Box>
-              </Box>
-            </NavLink>
-          ))}
-        </Box>
-      */
-
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined';
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';

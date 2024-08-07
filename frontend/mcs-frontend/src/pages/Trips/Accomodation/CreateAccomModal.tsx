@@ -5,7 +5,9 @@ import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/Bot
 import { FormInputText } from '../../../components/FormComponents/FormInputText';
 import { FormInputDate } from '../../../components/FormComponents/FormInputDate';
 import { createAccommodation, defaultAccommodation } from '../../../scripts/accommodation/function';
-import { Accommodation } from '../../../types/frontendTypes';
+import { Accommodation, FundingAccount } from '../../../types/frontendTypes';
+import { FormInputDropdownSingle } from '../../../components/FormComponents/FormInputDropdownSingle';
+import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function';
 
 interface CreateAccomModalProps {
   handleClose: () => void;
@@ -22,13 +24,13 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
 
   const tripID = "recuUrK43y0D3b0ua"; // placeholder
   const [showSuccess, setShowSuccess] = useState(false);
+  const [fundingAccounts, setFundingAccounts] = useState<FundingAccount[]>([]);
 
   useEffect(() => {
     if (open) {
-      // Any logic to run when modal opens
+      getAllFundingAccounts().then((accounts) => setFundingAccounts(accounts));
     }
   }, [open]);
-
   const onClose = () => {
     reset();
     handleClose();
@@ -37,8 +39,6 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
   const onSubmit = async (data: Accommodation) => {
     try {
       data.Trip = [tripID];
-      // Placeholder funding account
-      data.FundingAccount = ["recTAtMeRLOFmJAJ8"];
       console.log(data);
       const res = await createAccommodation(data);
       if (res) {
@@ -84,7 +84,15 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
               <FormInputDate name="CheckOut" control={control} label="Check-Out Date" />
             </Grid>
             <Grid item xs={12} md={9}>
-              <FormInputText name="FundingAccount" control={control} label="Funding Account" />
+              <FormInputDropdownSingle
+                name='FundingAccount'
+                control={control}
+                label='Funding Account'
+                options={fundingAccounts.map((account) => ({
+                  label: `${account.AccountUser} - ${account.ThemisString}`,
+                  value: account.RecordID,
+                }))}
+              />
             </Grid>
             <Grid item xs={12} md={3}>
               <FormInputText name="Cost" control={control} label="Cost ($)" />
