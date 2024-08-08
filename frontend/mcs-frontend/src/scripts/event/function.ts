@@ -22,6 +22,7 @@ function reformatMainEventResponseData(data: any): MainEvent {
     Service: data.Service || defaultMainEvent.Service,
     Completed: data.Completed || defaultMainEvent.Completed,
     Trip: data.Trip || defaultMainEvent.Trip,
+    SubEvent: data.SubEvent || defaultMainEvent.SubEvent,
   };
 
   return mainEvent;
@@ -44,6 +45,7 @@ export const defaultMainEvent: MainEvent = {
   Service: [],
   Completed: false,
   Trip: [],
+  SubEvent: [],
 };
 
 // Function to get all MainEvents

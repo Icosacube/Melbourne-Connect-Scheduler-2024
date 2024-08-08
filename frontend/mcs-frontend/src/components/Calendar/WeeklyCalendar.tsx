@@ -3,29 +3,40 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import {MainEvent} from "../../types/frontendTypes";
+import {SubEvent} from "../../types/frontendTypes";
 
 interface WeeklyCalendarProps {
     event: MainEvent,
+    subevents: SubEvent[],
 }
 
-const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ event }) => {
-    console.log(event);
-    const eventProp = {
+const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ event, subevents}) => {
+    const mainEventProp = {
         title: event.EventName,
         start: event.Date.toDate(),
         // allDay: true,
     };
+    const subEventsProp= subevents.map(subevent => ({
+        title: subevent.EventName,
+        start: subevent.Date.toDate(),
+    }));
+
+    const allEvents = [mainEventProp, ...subEventsProp];
+
     return (
         <FullCalendar
             plugins={[timeGridPlugin, interactionPlugin]}
             initialView="timeGridWeek"
             height="auto"
-            events={[eventProp]}
+            events={allEvents}
             headerToolbar={{
                 left: 'prev,next today',
                 center: 'title',
-                right: 'timeGridWeek'
+                right: 'timeGridWeek,timeGridDay'
             }}
+            slotMinTime="08:00:00"
+            slotMaxTime="20:00:00"
+            locale="en-GB"
         />
     );
 };
