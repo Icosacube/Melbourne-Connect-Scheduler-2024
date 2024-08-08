@@ -29,8 +29,8 @@ router.get('/subevents', async (req, res) => {
 });
 
 // route to get subevents for a specific event
-router.get('/subevent/:mainEventID', async (req, res) => {
-    const { mainEventID } = req.params;
+router.get('/subevents/:event_id', async (req, res) => {
+    const { event_id: eventId } = req.params;
 
     try {
         const services = await getTable(subeventTable, "");
@@ -38,7 +38,7 @@ router.get('/subevent/:mainEventID', async (req, res) => {
 
         services.forEach((fields) => {
             const plainFields = Object.fromEntries(fields);
-            if (plainFields.MainEvent && plainFields.MainEvent.includes(mainEventID)) {
+            if (plainFields.MainEvent && plainFields.MainEvent.includes(eventId)) {
                 eventServices.push(plainFields);
             }
         });
