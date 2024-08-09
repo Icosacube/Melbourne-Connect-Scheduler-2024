@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import { SubEvent } from '../../types/frontendTypes';
 import dayjs from 'dayjs';
 
@@ -12,8 +12,8 @@ function reformatSubEventResponseData(data: any): SubEvent {
         Date: data.Date ? dayjs(data.Date) : defaultSubEvent.Date,
         Notes: data.Notes || defaultSubEvent.Notes,
         MainEvent: data.MainEvent || defaultSubEvent.MainEvent,
-        FundingAccount: data.FundingAccount || defaultSubEvent.FundingAccount,
         Completed: data.Completed || defaultSubEvent.Completed,
+        Speakers: data.Speakers || defaultSubEvent.Speakers,
     };
 
     return subEvent;
@@ -28,12 +28,12 @@ export const defaultSubEvent: SubEvent = {
     Date: dayjs(),
     Notes: '',
     MainEvent: [],
-    FundingAccount: [],
     Completed: false,
+    Speakers: [],
 };
 
 // Function to get all subevents for a main event
-export async function getAllSubEventsByEventID(id: string): Promise<SubEvent[]> {
+export async function getSubEventsByEventID(id: string): Promise<SubEvent[]> {
     try {
         const res = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}/subevents/${id}`,
@@ -42,10 +42,19 @@ export async function getAllSubEventsByEventID(id: string): Promise<SubEvent[]> 
         const formattedSubEvents = rawSubEvents.map((subEvent: any) =>
             reformatSubEventResponseData(subEvent),
         );
-        console.log(formattedSubEvents);
         return formattedSubEvents;
     } catch (error) {
         console.error('Error fetching all sub events:', error);
         return [];
     }
+}
+
+export async function createSubEvent(subEvent: SubEvent, id: String): Promise<AxiosResponse> {
+    const toSend: any = { ...subEvent };
+    delete toSend.RecordID;
+    const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/subevent/${id}`,
+        toSend,
+    );
+    return res;
 }

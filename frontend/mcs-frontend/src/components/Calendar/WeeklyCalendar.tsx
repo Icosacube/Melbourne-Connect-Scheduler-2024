@@ -7,16 +7,16 @@ import {SubEvent} from "../../types/frontendTypes";
 
 interface WeeklyCalendarProps {
     event: MainEvent,
-    subevents: SubEvent[],
+    subEvents: SubEvent[],
 }
 
-const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ event, subevents}) => {
+const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({ event, subEvents}) => {
     const mainEventProp = {
         title: event.EventName,
         start: event.Date.toDate(),
         // allDay: true,
     };
-    const subEventsProp= subevents.map(subevent => ({
+    const subEventsProp= subEvents.map(subevent => ({
         title: subevent.EventName,
         start: subevent.Date.toDate(),
     }));
