@@ -7,8 +7,10 @@ import { FormInputMultiSelect } from '../../../components/FormComponents/FormInp
 import { FormInputText } from '../../../components/FormComponents/FormInputText'
 import dayjs, { Dayjs } from 'dayjs'
 import { Speaker, Venue } from '../../../types/frontendTypes'
+import { MainEvent } from '../../../types/backendTypes'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
+import createEvent from '../../../scripts/event/createEvent'
 
 interface CreateEventModalProps {
     handleClose: () => void
@@ -42,6 +44,25 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     })
 
     const onSubmit = (data: CreateEventFormInput) => {
+        // cast data to event type
+        const eventData: MainEvent = {
+            EventName: data.eventName,
+            EventAbstract: data.eventAbstract,
+            EventDescription: data.eventDescription,
+            EventbriteLink: '',
+            EventBanner: '',
+            Date: data.date.toString(),
+            Notes: '',
+            Speaker: data.speaker,
+            GuestAcademic: [],
+            Catering: [],
+            Venue: data.venue,
+            Service: [],
+            Completed: false,
+            Trip: [],
+            SubEvent: []
+        }
+        createEvent(eventData, eventData.Speaker[0])
         setShowSuccess(true)
         reset()
         handleClose()
