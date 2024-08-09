@@ -83,11 +83,10 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     // Process data into dropdown form
     const generateSpeakers = () => {
         var speakerList: { label: string; value: string }[] = []
-        var count = 1
         speakers.forEach((speaker) => {
             speakerList.push({
                 label: `${speaker.FirstName} ${speaker.LastName}`,
-                value: `${count++}`,
+                value: `${speaker.RecordID}`
             })
         })
 
@@ -96,11 +95,10 @@ export const EditEventModal: FC<EditEventModalProps> = ({
 
     const generateVenues = () => {
         var venueList: { label: string; value: string }[] = []
-        var count = 1
         venues.forEach((venue) => {
             venueList.push({
                 label: `${venue.VenueName}`,
-                value: `${count++}`,
+                value: `${venue.RecordID}`,
             })
         })
 

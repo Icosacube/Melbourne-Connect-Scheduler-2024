@@ -53,7 +53,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         reset()
     }
 
-    // Intent: load data when first opening it
+    // Intent: load data when first opening modal, and that's it
     const speakers_: Speaker[] = []
     const venues_: Venue[] = []
     const [showSuccess, setShowSuccess] = useState(false)
@@ -76,12 +76,11 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
 
     const generateSpeakers = () => {
         var speakerList: { label: string; value: string }[] = []
-        var count = 1
         speakers.forEach(speaker => {
             
             speakerList.push({
                 label: `${speaker.FirstName} ${speaker.LastName}`,
-                value: `${count++}`
+                value: `${speaker.RecordID}`
             })
         });
 
@@ -90,12 +89,11 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
 
     const generateVenues = () => {
         var venueList: { label: string; value: string }[] = []
-        var count = 1
         venues.forEach(venue => {
             
             venueList.push({
                 label: `${venue.VenueName}`,
-                value: `${count++}`
+                value: `${venue.RecordID}`
             })
         });
 
