@@ -6,10 +6,12 @@ import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
 import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown'
 import { FormInputText } from '../../../components/FormComponents/FormInputText'
 import dayjs, { Dayjs } from 'dayjs'
+import { Speaker } from '../../../types/frontendTypes'
 
 interface CreateEventModalProps {
     handleClose: () => void
     open: boolean
+    speakers: Speaker[]
 }
 
 interface CreateEventFormInput {
@@ -55,6 +57,7 @@ const venue = [
 export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     handleClose,
     open,
+    speakers
 }) => {
     const { handleSubmit, reset, control } = useForm<CreateEventFormInput>({
         defaultValues: CreateEventFormDefaultValues,
@@ -66,12 +69,27 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         handleClose()
         console.log(data)
     }
+
     const onClose = () => {
         handleClose()
         reset()
     }
 
     const [showSuccess, setShowSuccess] = useState(false)
+
+    const generateSpeakers = () => {
+        var speakerList: { label: string; value: string }[] = []
+        var count = 1
+        speakers.forEach(speaker => {
+            
+            speakerList.push({
+                label: `${speaker.FirstName} ${speaker.LastName}`,
+                value: `${count++}`
+            })
+        });
+
+        return speakerList;
+    }
 
     return (
         <>
@@ -103,7 +121,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                                 name="speaker"
                                 control={control}
                                 label="Speaker"
-                                options={speakers}
+                                options={generateSpeakers()}
                             />
                         </Box>
                         {/* Right */}

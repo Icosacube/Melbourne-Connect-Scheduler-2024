@@ -5,12 +5,12 @@ import { EventsTable } from './EventsTable';
 import EventsWidgets from './EventsWidgets';
 import { useLoaderData } from 'react-router-dom';
 import { CreateEventModal } from './CreateEventModal';
-import { MainEvent } from '../../../types/frontendTypes';
+import { MainEvent, Speaker } from '../../../types/frontendTypes';
 
 export const Events: FC = () => {
   const { events, speakers } = useLoaderData() as {
     events: MainEvent[];
-    speakers: any[];
+    speakers: Speaker[];
   };
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -29,7 +29,7 @@ export const Events: FC = () => {
             <Typography>Create Event</Typography>
           </Button>
 
-          <CreateEventModal open={open} handleClose={handleClose} />
+          <CreateEventModal open={open} handleClose={handleClose} speakers={speakers}/>
         </Box>
 
         <EventsWidgets />
