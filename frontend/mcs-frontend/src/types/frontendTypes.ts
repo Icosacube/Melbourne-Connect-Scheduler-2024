@@ -163,6 +163,7 @@ export type Miscellaneous = {
 }
 
 export type Venue = {
+    RecordID: string
     VenueName: string
     Location: string
     Cost: number

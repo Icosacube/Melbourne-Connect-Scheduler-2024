@@ -6,12 +6,13 @@ import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
 import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown'
 import { FormInputText } from '../../../components/FormComponents/FormInputText'
 import dayjs, { Dayjs } from 'dayjs'
-import { Speaker } from '../../../types/frontendTypes'
+import { Speaker, Venue } from '../../../types/frontendTypes'
 
 interface CreateEventModalProps {
     handleClose: () => void
     open: boolean
     speakers: Speaker[]
+    venues: Venue[]
 }
 
 interface CreateEventFormInput {
@@ -57,7 +58,8 @@ const venue = [
 export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     handleClose,
     open,
-    speakers
+    speakers,
+    venues
 }) => {
     const { handleSubmit, reset, control } = useForm<CreateEventFormInput>({
         defaultValues: CreateEventFormDefaultValues,
@@ -91,6 +93,20 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         return speakerList;
     }
 
+    const generateVenues = () => {
+        var venueList: { label: string; value: string }[] = []
+        var count = 1
+        venues.forEach(venue => {
+            
+            venueList.push({
+                label: `${venue.VenueName}`,
+                value: `${count++}`
+            })
+        });
+
+        return venueList;
+    }
+
     return (
         <>
             <Modal
@@ -115,7 +131,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                                 name="venue"
                                 control={control}
                                 label="Venue"
-                                options={venue}
+                                options={generateVenues()}
                             />
                             <FormInputMultiSelect
                                 name="speaker"
