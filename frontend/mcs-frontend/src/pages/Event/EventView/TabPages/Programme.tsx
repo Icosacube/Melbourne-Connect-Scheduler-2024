@@ -1,18 +1,21 @@
 import {Box, Button, Typography} from "@mui/material";
 import React, {FC, useEffect, useState} from "react";
 import WeeklyCalendar from "../../../../components/Calendar/WeeklyCalendar";
-import { MainEvent, SubEvent } from "../../../../types/frontendTypes";
+import { MainEvent, SubEvent, Speaker } from "../../../../types/frontendTypes";
 import {getSubEventsByEventID} from "../../../../scripts/subevent/function";
 import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
 import {CreateSubEventModal} from "./CreateSubEventModal";
 
 interface ProgrammeProps {
     event: MainEvent,
+    speakers: Speaker[]
 }
 
-export const Programme : FC<ProgrammeProps> = ({ event}) => {
+export const Programme : FC<ProgrammeProps> = ({ event, speakers}) => {
 
     const [subEvents, setSubEvents] = useState<SubEvent[]>([]);
+
+    console.log(speakers);
 
     useEffect(() => {
         const fetchSubEvents = async () => {
@@ -44,7 +47,7 @@ export const Programme : FC<ProgrammeProps> = ({ event}) => {
                     <Typography>Create Sub-Event</Typography>
                 </Button>
 
-                <CreateSubEventModal open={open} handleClose={handleClose} event={event}/>
+                <CreateSubEventModal open={open} handleClose={handleClose} event={event} speakers={speakers} />
                 </Box>
             </Box>
             <Box className="space-y-5">

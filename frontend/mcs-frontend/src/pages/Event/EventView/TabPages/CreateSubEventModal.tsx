@@ -1,32 +1,21 @@
 import { Box, Button, Modal, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-// import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
-// import { FormInputDate } from '../../../components/FormComponents/FormInputDate';
-// import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown';
-// import { FormInputText } from '../../../components/FormComponents/FormInputText';
 import dayjs, { Dayjs } from 'dayjs';
 import {FormInputText} from "../../../../components/FormComponents/FormInputText";
 import {FormInputDate} from "../../../../components/FormComponents/FormInputDate";
 import BottomSuccessSnackbar from "../../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar";
 import {AxiosResponse} from "axios";
-import {MainEvent, SubEvent} from "../../../../types/frontendTypes";
+import {MainEvent, SubEvent, Speaker} from "../../../../types/frontendTypes";
 import {createSubEvent} from "../../../../scripts/subevent/function";
+import {FormInputMultiSelect} from "../../../../components/FormComponents/FormInputDropdown";
 
 interface CreateSubEventModalProps {
     handleClose: () => void;
     open: boolean;
     event: MainEvent,
+    speakers: Speaker[]
 }
-
-// interface CreateSubEventFormInput {
-//     eventName: string;
-//     eventDescription: string;
-//     eventType: string;
-//     date: Dayjs;
-//     notes: string;
-//     mainEvent: string;
-// }
 
 const CreateSubEventFormDefaultValues : SubEvent = {
     RecordID: '',
@@ -40,11 +29,13 @@ const CreateSubEventFormDefaultValues : SubEvent = {
     Speakers: [],
 };
 
-export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({ handleClose, open, event }) => {
+export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({ handleClose, open, event, speakers }) => {
     const { handleSubmit, reset, control, setValue } =
         useForm<SubEvent>({
             defaultValues: CreateSubEventFormDefaultValues,
         });
+
+    console.log(speakers);
 
     const onSubmit = async (data: SubEvent) => {
         try {
@@ -52,7 +43,7 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({ handle
             if (res.status == 200) {
                 setShowSuccess(true);
             } else {
-                console.log('Failed to create sub-event');
+                console.log('Failed to create subevent');
             }
         } catch (error) {
             console.error(error);
@@ -107,6 +98,15 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({ handle
                                 name='Notes'
                                 control={control}
                                 label='Notes'
+                            />
+                            <FormInputMultiSelect
+                                name='Speakers'
+                                control={control}
+                                label='Speakers'
+                                options={speakers.map((speaker) => ({
+                                    label: `${speaker.FirstName} ${speaker.LastName}`,
+                                    value: speaker.RecordID,
+                                }))}
                             />
                             <FormInputDate name='Date' control={control} label='Date' />
                         </Box>

@@ -7,7 +7,7 @@ import Participants from './TabPages/Participants';
 import Programme from './TabPages/Programme';
 import Services from './TabPages/Services';
 import { useLoaderData } from 'react-router-dom';
-import { MainEvent } from '../../../types/frontendTypes';
+import {MainEvent, Speaker} from '../../../types/frontendTypes';
 
 export const Event: FC = () => {
   const [tabName, setTabName] = useState('About');
@@ -16,11 +16,11 @@ export const Event: FC = () => {
   const handleClose = () => setOpen(false);
   const { event, speakers } = useLoaderData() as {
     event: MainEvent;
-    speakers: any[];
+    speakers: Speaker[];
   };
 
-  console.log(event);
-  console.log(speakers);
+  // console.log(event);
+  // console.log(speakers);
   const [curEvent, setEvent] = useState(event);
 
   const renderTabContent = (event: MainEvent) => {
@@ -30,7 +30,7 @@ export const Event: FC = () => {
       case 'Participants':
         return <Participants />;
       case 'Programme':
-        return <Programme event={event} />;
+        return <Programme event={event} speakers={speakers} />;
       case 'Services':
         return <Services />;
       default:
