@@ -175,7 +175,6 @@ export type FundingAccount = {
     Catering: string[];
     Flight: string[];
     Service: string[];
-    SubEvent: string[];
 }
 
 export type Canvassing = {
