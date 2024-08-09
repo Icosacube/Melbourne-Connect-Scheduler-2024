@@ -8,10 +8,9 @@ import { CreateEventModal } from './CreateEventModal'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
 
 export const Events: FC = () => {
-    const { events, speakers, venues } = useLoaderData() as {
+    const { events, speakers } = useLoaderData() as {
         events: MainEvent[]
         speakers: Speaker[]
-        venues: Venue[]
     }
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => setOpen(true)
@@ -33,8 +32,6 @@ export const Events: FC = () => {
                     <CreateEventModal
                         open={open}
                         handleClose={handleClose}
-                        speakers={speakers}
-                        venues={venues}
                     />
                 </Box>
 

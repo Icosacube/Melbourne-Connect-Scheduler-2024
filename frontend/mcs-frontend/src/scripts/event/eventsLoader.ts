@@ -6,15 +6,14 @@ import { getAllMainEvents } from './function';
 interface LoaderData {
   events: MainEvent[];
   speakers: Speaker[];
-  venues: Venue[]
 }
 
 export async function loader(): Promise<LoaderData | {}> {
   try {
-    const events = await getAllMainEvents();
-    const speakers = await getAllSpeakers();
-    const venues = await getAllVenues();
-    return { events, speakers, venues };
+    const events = getAllMainEvents();
+    const speakers = getAllSpeakers();
+    await Promise.all([events, speakers])
+    return { events, speakers };
   } catch (error) {
     return {};
   }

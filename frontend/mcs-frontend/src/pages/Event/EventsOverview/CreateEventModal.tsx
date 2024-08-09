@@ -1,5 +1,5 @@
 import { Box, Button, Modal, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
@@ -7,12 +7,12 @@ import { FormInputMultiSelect } from '../../../components/FormComponents/FormInp
 import { FormInputText } from '../../../components/FormComponents/FormInputText'
 import dayjs, { Dayjs } from 'dayjs'
 import { Speaker, Venue } from '../../../types/frontendTypes'
+import { getAllSpeakers } from '../../../scripts/speaker/functions'
+import { getAllVenues } from '../../../scripts/venue/functions'
 
 interface CreateEventModalProps {
     handleClose: () => void
     open: boolean
-    speakers: Speaker[]
-    venues: Venue[]
 }
 
 interface CreateEventFormInput {
@@ -36,8 +36,6 @@ const CreateEventFormDefaultValues = {
 export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     handleClose,
     open,
-    speakers,
-    venues
 }) => {
     const { handleSubmit, reset, control } = useForm<CreateEventFormInput>({
         defaultValues: CreateEventFormDefaultValues,
@@ -55,7 +53,26 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         reset()
     }
 
+    // Intent: load data when first opening it
+    const speakers_: Speaker[] = []
+    const venues_: Venue[] = []
     const [showSuccess, setShowSuccess] = useState(false)
+    const [speakers, setSpeakers] = useState(speakers_)
+    const [venues, setVenues] = useState(venues_)
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        if (loading && open) {
+            const fetchData = async () => {
+                console.log("loading data!", loading, open)
+                setSpeakers(await getAllSpeakers())
+                setVenues(await getAllVenues())
+                setLoading(false)
+            }
+    
+            fetchData()
+        }
+        
+    }, [speakers, venues, open])
 
     const generateSpeakers = () => {
         var speakerList: { label: string; value: string }[] = []
