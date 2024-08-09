@@ -63,8 +63,8 @@ router.get('/subevent/:subevent_id', async (req, res) => {
             return res.status(404).json({ error: 'Subevent not found' });
         }
 
-        let plainFields = Object.fromEntries(subevent.get(subeventId));
-        let formattedSubevents: { id: string, fields: any } = {id: subeventId, fields: plainFields}
+        let plainFields = Object.fromEntries(subevent);
+        let formattedSubevents: { [k: string]: any; } = plainFields
         res.json(formattedSubevents)
     } catch (error) {
         console.error("Error fetching subevent:", error);
