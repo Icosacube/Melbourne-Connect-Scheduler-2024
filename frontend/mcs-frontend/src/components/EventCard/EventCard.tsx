@@ -1,21 +1,30 @@
-import React from 'react';
-import { Card, CardActionArea, CardContent, Chip, Stack, Typography } from '@mui/material';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import PendingIcon from '@mui/icons-material/Pending';
-import PlaceIcon from '@mui/icons-material/Place';
-import { yellow } from '@mui/material/colors';
-import { MainEvent } from '../../types/frontendTypes';
-
+import React from 'react'
+import { Card, CardActionArea, CardContent, Stack, Typography } from '@mui/material'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import PendingIcon from '@mui/icons-material/Pending'
+import PlaceIcon from '@mui/icons-material/Place'
+import { yellow } from '@mui/material/colors'
+import { MainEvent } from '../../types/frontendTypes'
+import { useNavigate } from 'react-router-dom'
 
 interface EventCardProps {
-  event: MainEvent;
+  event: MainEvent
 }
 
 export const EventCard: React.FC<EventCardProps> = ({ event }) => {
+  const navigate = useNavigate()
+
+  const handleCardClick = () => {
+    navigate(`/event/${event.RecordID}`)
+  }
+
   return (
-    <Card  >
-      <CardActionArea sx={{ flexGrow: 1, width:"100%", height: '100px' }}>
+    <Card>
+      <CardActionArea
+        onClick={handleCardClick}
+        sx={{ flexGrow: 1, width: '100%', height: '100px' }}
+      >
         <CardContent>
           <Stack direction="row" spacing={0.5}>
             {event.Completed ? (
@@ -30,7 +39,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
           <Stack direction="row" spacing={0.5}>
             <CalendarMonthIcon fontSize="small" />
             <Typography color="text.secondary">
-              {event.Date != undefined ? event.Date.format("DD MMM YY") : "unknown"}
+              {event.Date !== undefined ? event.Date.format('DD MMM YY') : 'unknown'}
             </Typography>
           </Stack>
           <Stack direction="row" spacing={0.5}>
@@ -42,7 +51,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
         </CardContent>
       </CardActionArea>
     </Card>
-  );
-};
+  )
+}
 
-export default EventCard;
+export default EventCard

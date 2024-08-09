@@ -10,7 +10,7 @@ export const AccomCard: FC<AccomProps> = ({ accom }) => {
   return (
     <Paper className='w-full px-6 py-4 rounded-lg'>
       <Grid container className='flex space-between items-center'>
-        <Grid container xs={10}>
+        <Grid item xs={10} container>
           <Grid item xs={9}>
             <Typography variant='h6' noWrap>{accom.HotelName}</Typography>
           </Grid>
