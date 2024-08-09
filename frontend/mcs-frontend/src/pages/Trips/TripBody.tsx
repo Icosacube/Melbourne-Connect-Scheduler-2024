@@ -30,7 +30,6 @@ export const TripBody: React.FC<TripBodyProps> = ({
       })
       .catch((error) => {
         console.error('Error fetching flights:', error);
-        setFlights([]);
       });
   
     getAccomByTripID(tripID)
@@ -39,7 +38,6 @@ export const TripBody: React.FC<TripBodyProps> = ({
       })
       .catch((error) => {
         console.error('Error fetching accommodations:', error);
-        setAccom([]);
       });
   }, [tripID]);
 
@@ -88,7 +86,7 @@ export const TripBody: React.FC<TripBodyProps> = ({
           </Grid>
         ))}
         
-        {accom.length <= 1 && (
+        {accom.length == 0 && (
           <Grid item md={12}>
             <CreateCard onClick={handleOpenAccom} name={"Accommodation"} />
           </Grid>
