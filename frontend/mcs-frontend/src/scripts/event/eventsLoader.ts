@@ -10,9 +10,8 @@ interface LoaderData {
 
 export async function loader(): Promise<LoaderData | {}> {
   try {
-    const events = getAllMainEvents();
-    const speakers = getAllSpeakers();
-    await Promise.all([events, speakers])
+    const events = await getAllMainEvents();
+    const speakers = await getAllSpeakers();
     return { events, speakers };
   } catch (error) {
     return {};
