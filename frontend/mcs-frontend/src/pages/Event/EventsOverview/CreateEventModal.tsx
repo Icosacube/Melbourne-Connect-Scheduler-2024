@@ -33,28 +33,6 @@ const CreateEventFormDefaultValues = {
     eventAbstract: '',
 }
 
-const speakers = [
-    {
-        label: 'Speaker 1',
-        value: '1',
-    },
-    {
-        label: 'Speaker 2',
-        value: '2',
-    },
-]
-
-const venue = [
-    {
-        label: 'Venue 1',
-        value: '1',
-    },
-    {
-        label: 'Venue 2',
-        value: '2',
-    },
-]
-
 export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     handleClose,
     open,
