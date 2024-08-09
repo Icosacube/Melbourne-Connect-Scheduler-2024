@@ -112,8 +112,8 @@ export type SubEvent = {
   Date: Dayjs; // Example Format: "2024-04-30"
   Notes: string;
   MainEvent: string[];
-  FundingAccount: string[];
   Completed: boolean;
+  Speakers: string[];
 }
 
 export type Academic = {
