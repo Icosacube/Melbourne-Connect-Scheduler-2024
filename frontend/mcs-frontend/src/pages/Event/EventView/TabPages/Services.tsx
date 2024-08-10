@@ -1,191 +1,114 @@
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DownloadIcon from "@mui/icons-material/Download";
-import EditIcon from "@mui/icons-material/Edit";
-import { Box, Button, Stack, Typography } from "@mui/material";
-import React from "react";
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import React, {FC, useEffect, useState} from 'react';
+import {Catering, MainEvent, FundingAccount} from "../../../../types/frontendTypes";
+import {getCateringByEventID} from "../../../../scripts/catering/functions";
 import Headline from "./Headline";
+import {Box} from "@mui/material";
+import {getFundingAccounts} from "../../../../scripts/fundingAccount/functions";
 
-function Services() {
-  const invoices = [
-    {
-      date: "March, 01, 2024",
-      amount: "100",
-      code: "INV-001",
-    },
-    {
-      date: "March, 05, 2024",
-      amount: "200",
-      code: "INV-002",
-    },
-    {
-      date: "March, 08, 2024",
-      amount: "300",
-      code: "INV-003",
-    },
-    {
-      date: "March, 12, 2024",
-      amount: "400",
-      code: "INV-004",
-    },
-    {
-      date: "March, 15, 2024",
-      amount: "500",
-      code: "INV-005",
-    },
-  ];
-  const billingInfo = [
-    {
-      repName: "Oliver Liam",
-      companyName: "Viking Burrito",
-      email: "oliver@gmail.com",
-      phone: "0424334556",
-      vatNumber: "FRB1482364",
-      service: "Catering",
-    },
-    {
-      repName: "Jonas Harper",
-      companyName: "Jonas Lightings",
-      email: "jlight@gmail.com",
-      phone: "0446775867",
-      vatNumber: "KOI1232543",
-      service: "Lighting",
-    },
-    {
-      repName: "Elon James",
-      companyName: "Fiber Notion",
-      email: "fiber@gmail.com",
-      phone: "045698457",
-      vatNumber: "FIB123456",
-      service: "Party Supplies",
-    },
-  ];
-  return (
-    <Box className="space-y-5">
-      <Headline />
-      <Box className="flex space-x-10">
-        {/* Billing Section */}
-        <Box className="bg-white shadow-md rounded-xl p-6 w-1/2">
-          <Box className="flex justify-between">
-            <Typography variant="h5" className="font-semibold mb-8">
-              Billing Information
-            </Typography>
-            <Box>
-              <Button
-                startIcon={<AddBoxIcon />}
-                variant="outlined"
-                className="text-secondary border-secondary h-10 mr-3"
-              >
-                Add New
-              </Button>
-              <Button
-                variant="outlined"
-                className="text-secondary border-secondary h-10"
-              >
-                View All
-              </Button>
-            </Box>
-          </Box>
-          {billingInfo.map((billing, index) => (
-            <Box className="bg-gray-200 mb-5 p-5 rounded-md">
-              <Stack>
-                <Box className="mb-3 flex justify-between ">
-                  <Typography variant="h6" className="font-bold mb-3">
-                    {billing.repName}
-                  </Typography>
-                  <Box className="flex place-items-center space-x-4">
-                    <Button startIcon={<DeleteIcon />} className="text-red-500">
-                      Delete
-                    </Button>
-                    <Button startIcon={<EditIcon />} className="text-black">
-                      Edit
-                    </Button>
-                  </Box>
-                </Box>
-                <Box className="flex space-x-3">
-                  <Typography className=" text-gray-600">
-                    Company Name:
-                  </Typography>
-                  <Typography className=" font-semibold">
-                    {billing.companyName}
-                  </Typography>
-                </Box>
-                <Box className="flex space-x-3">
-                  <Typography className=" text-gray-600">Email:</Typography>
-                  <Typography className=" font-semibold">
-                    {billing.email}
-                  </Typography>
-                </Box>
-                <Box className="flex space-x-3">
-                  <Typography className=" text-gray-600">
-                    Phone Number:
-                  </Typography>
-                  <Typography className=" font-semibold">
-                    {billing.phone}
-                  </Typography>
-                </Box>
-                <Box className="flex space-x-3">
-                  <Typography className=" text-gray-600">Service:</Typography>
-                  <Typography className=" font-semibold">
-                    {billing.service}
-                  </Typography>
-                </Box>
-              </Stack>
-            </Box>
-          ))}
-        </Box>
-        {/* Invoice section */}
-        <Box className="bg-white shadow-md rounded-xl p-8 w-1/2 h-fit">
-          <Box className="flex justify-between">
-            <Typography variant="h5" className="font-semibold mb-8">
-              Invoices
-            </Typography>
-            <Box>
-              <Button
-                startIcon={<AddBoxIcon />}
-                variant="outlined"
-                className="text-secondary border-secondary h-10 mr-3"
-              >
-                Add New
-              </Button>
-              <Button
-                variant="outlined"
-                className="text-secondary border-secondary h-10"
-              >
-                View All
-              </Button>
-            </Box>
-          </Box>
-          <Box>
-            {invoices.map((invoice, index) => (
-              <Box className="flex justify-between mb-7">
-                <Stack>
-                  <Typography variant="h6" className="font-bold">
-                    {invoice.date}
-                  </Typography>
-                  <Typography className="text-gray-400">
-                    #{invoice.code}
-                  </Typography>
-                </Stack>
-                <Box className="flex space-x-5 place-items-center">
-                  <Typography className="text-gray-400 mb-2">
-                    AUD {invoice.amount}
-                  </Typography>
-
-                  <Button
-                    startIcon={<DownloadIcon />}
-                    className="text-orange-500"
-                  >
-                    PDF
-                  </Button>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-        </Box>
-      </Box>
-    </Box>
-  );
+interface ServicesProps {
+    event: MainEvent;
 }
 
-export default Services;
+export const Services: FC<ServicesProps> = ({event}) => {
+
+    const [catering, setCatering] = useState<Catering[]>([]);
+    const [fundingAccounts, setFundingAccounts]
+        = useState<FundingAccount[]>([]);
+    const [fundingAccountMap, setFundingAccountMap]
+        = useState<Map<string, string>>(new Map());
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [fetchedCatering, fetchedFundingAccounts]
+                    = await Promise.all([
+                    getCateringByEventID(event.RecordID),
+                    getFundingAccounts()
+                ]);
+
+                setCatering(fetchedCatering);
+                setFundingAccounts(fetchedFundingAccounts);
+
+                // Map funding record ID to themis string
+                const map = new Map<string, string>();
+                fetchedFundingAccounts.forEach(account => {
+                    map.set(account.RecordID, account.ThemisString);
+                });
+                setFundingAccountMap(map);
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, [event.RecordID]);
+
+    function getRowId(catering: Catering) {
+        return catering.RecordID;
+    }
+
+    const columns: GridColDef<Catering>[] = [
+        {
+            field: 'BookingReference',
+            headerName: 'Booking Reference',
+            headerClassName: 'services-table',
+            flex: 1,
+        },
+        {
+            field: 'Description',
+            headerName: 'Description',
+            headerClassName: 'services-table',
+            flex: 1,
+        },
+        {
+            field: 'Cost',
+            headerName: 'Cost',
+            headerClassName: 'services-table',
+            flex: 1,
+            valueFormatter: (params) => {
+                const value = params as number;
+                return `$${value.toFixed(2)}`; // Format the number with 2 decimal places
+            }
+        },
+        {
+            field: 'FundingAccount',
+            headerName: 'Funding Account',
+            headerClassName: 'services-table',
+            flex: 1,
+            valueFormatter: (params) => {
+                const value = params[0] as string;
+                return fundingAccountMap.get(value);
+            }
+        }
+    ];
+
+    return (
+        <Box>
+            <Headline/>
+            <DataGrid
+                rows={catering}
+                columns={columns}
+                getRowId={getRowId}
+                autoHeight
+                pageSizeOptions={[5, 10]}
+                initialState={{
+                    pagination: {
+                        paginationModel: {page: 0, pageSize: 10},
+                    },
+                }}
+                checkboxSelection
+                sx={{
+                    '& .services-table': {
+                        backgroundColor: '#FBE418',
+                        color: 'black',
+                    },
+                    '.MuiDataGrid-columnHeaderTitleContainer': {
+                        backgroundColor: '#FBE418',
+                    },
+                }}
+            />
+        </Box>
+    );
+};
