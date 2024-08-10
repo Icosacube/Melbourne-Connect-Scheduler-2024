@@ -169,8 +169,8 @@ export type Catering = {
   BookingReference: number;
   Description: string;
   Cost: number;
-  FundingAccount: string[];
-  MainEvent: string[];
+  FundingAccount: string;
+  MainEvent: string;
 };
 
 export type Service = {
@@ -195,7 +195,6 @@ export type FundingAccount = {
   Catering: string[];
   Flight: string[];
   Service: string[];
-  SubEvent: string[];
 };
 
 export type Canvassing = {

@@ -173,11 +173,12 @@ export type Venue = {
 };
 
 export type Catering = {
+  RecordID: string;
   BookingReference: number;
   Description: string;
   Cost: number;
-  FundingAccount: string[];
-  MainEvent: string[];
+  FundingAccount: string;
+  MainEvent: string;
 };
 
 export type Service = {
@@ -189,20 +190,20 @@ export type Service = {
 };
 
 export type FundingAccount = {
+  RecordID: string;
   ThemisString: string;
   Description: string;
   AccountUser: string;
   AccountType: string;
   Notes: string;
   Limit: number;
-  ExpiryDate: string;
+  ExpiryDate: Dayjs;
   Accommodation: string[];
   Miscellaneous: string[];
   Venue: string[];
   Catering: string[];
   Flight: string[];
   Service: string[];
-  SubEvent: string[];
 };
 
 export type Canvassing = {
