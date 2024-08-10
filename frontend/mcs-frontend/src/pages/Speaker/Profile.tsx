@@ -21,6 +21,7 @@ export const Profile: FC = () => {
   During her tenure at Facebook, Frances became increasingly concemed about the company's prioritisation of profits over public safety, endangering lives. Taking a significant personal risk, Frances bravely blew the whistle on Facebook, which led to "The Facebook Files', exposé by the Wall Street Joumal. 
   Since her revelations. Frances has testified before 10+ legislatures around the world. including the US Congress, UK and EU Parliaments, the French Senate and National Assembly, and has engaged with lawmakers worldwide to address the adverse impacts of social media platforms. 
   `;
+  const formLink = 'https://airtable.com/app79kFx8O6KyDmzX/pag336RqzBNZZTYCd/form'
 
   // email variables and stuff
   const professorName = 'Ellen Xhaka';
@@ -48,6 +49,8 @@ I am available for a meeting at the following times:
 - ${availableTimes[3]}
 
 Please let me know which of these options works best for you, or if you have any alternative times in mind. Additionally, feel free to suggest a preferred meeting platform (e.g., Zoom, Microsoft Teams) or location if an in-person meeting is possible.
+
+Additionally, please use this form to submit personal information about yourself: ${formLink}
 
 I look forward to hearing from you and finding a mutually convenient time to meet.
 
