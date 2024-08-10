@@ -104,6 +104,7 @@ export type Accommodation = {
     CheckOut: string; // Example Format: "2024-04-30"
     NumberOfNight?: number;
     Cost: number;
+    ExpenseDate: string; // Example Format: "2024-04-30"
     Notes: string;
     FundingAccount: string[];
     Trip: string[];
@@ -118,6 +119,7 @@ export type Flight = {
     DepartDate: string;
     ArriveDate: string;
     Cost: number;
+    ExpenseDate: string; // Example Format: "2024-04-30"
     Trip: string[];
     FundingAccount: string[];
     ReturnFlight: string[];
@@ -127,7 +129,8 @@ export type Flight = {
 export type Miscellaneous = {
     Cost: number;
     Description: string;
-    Date: string;
+    Date: string; // Example Format: "2024-04-30"
+    ExpenseDate: string; // Example Format: "2024-04-30"
     Type: string; // or enum 
     Notes: string;
     Trip: string[];
@@ -138,6 +141,7 @@ export type Venue = {
     VenueName: string;
     Location: string;
     Cost: number;
+    ExpenseDate: string; // Example Format: "2024-04-30"
     InvoiceReference: string;
     Notes: string;
     FundingAccount: string[];
@@ -148,6 +152,7 @@ export type Catering = {
     BookingReference: number;
     Description: string;
     Cost: number;
+    ExpenseDate: string; // Example Format: "2024-04-30"
     FundingAccount: string[];
     MainEvent: string[];
 }
@@ -155,6 +160,7 @@ export type Catering = {
 export type Service = {
     Cost: number;
     ServiceDescription: string;
+    ExpenseDate: string; // Example Format: "2024-04-30"
     Notes: string;
     FundingAccount: string[];
     MainEvent: string[];
