@@ -9,11 +9,12 @@ function reformatSubEventResponseData(data: any): SubEvent {
         RecordID: data.id || defaultSubEvent.RecordID,
         EventName: data.EventName || defaultSubEvent.EventName,
         EventDescription: data.EventDescription || defaultSubEvent.EventDescription,
-        Date: data.Date ? dayjs(data.Date) : defaultSubEvent.Date,
+        StartDate: data.StartDate ? dayjs(data.StartDate) : defaultSubEvent.StartDate,
         Notes: data.Notes || defaultSubEvent.Notes,
         MainEvent: data.MainEvent || defaultSubEvent.MainEvent,
         Completed: data.Completed || defaultSubEvent.Completed,
         Speakers: data.Speakers || defaultSubEvent.Speakers,
+        EndDate: data.EndDate ? dayjs(data.EndDate) : defaultSubEvent.EndDate,
     };
 
     return subEvent;
@@ -25,11 +26,12 @@ export const defaultSubEvent: SubEvent = {
     EventName: '',
     EventDescription: '',
     EventType: '',
-    Date: dayjs(),
+    StartDate: dayjs(),
     Notes: '',
     MainEvent: [],
     Completed: false,
     Speakers: [],
+    EndDate: dayjs(),
 };
 
 // Function to get all subevents for a main event

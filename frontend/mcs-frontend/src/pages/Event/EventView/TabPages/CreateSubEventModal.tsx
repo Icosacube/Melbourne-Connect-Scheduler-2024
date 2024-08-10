@@ -7,8 +7,9 @@ import {FormInputDate} from "../../../../components/FormComponents/FormInputDate
 import BottomSuccessSnackbar from "../../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar";
 import {AxiosResponse} from "axios";
 import {MainEvent, SubEvent, Speaker} from "../../../../types/frontendTypes";
-import {createSubEvent} from "../../../../scripts/subevent/function";
+import {createSubEvent, defaultSubEvent} from "../../../../scripts/subevent/function";
 import {FormInputMultiSelect} from "../../../../components/FormComponents/FormInputDropdown";
+import {FormInputDateTime} from "../../../../components/FormComponents/FormInputDateTime";
 
 interface CreateSubEventModalProps {
     handleClose: () => void;
@@ -22,11 +23,12 @@ const CreateSubEventFormDefaultValues : SubEvent = {
     EventName: '',
     EventDescription: '',
     EventType: '',
-    Date: dayjs(),
+    StartDate: dayjs(),
     Notes: '',
     MainEvent: [],
     Completed: false,
     Speakers: [],
+    EndDate: dayjs(),
 };
 
 export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({ handleClose, open, event, speakers }) => {
@@ -108,7 +110,10 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({ handle
                                     value: speaker.RecordID,
                                 }))}
                             />
-                            <FormInputDate name='Date' control={control} label='Date' />
+                            <Box className="flex space-x-4">
+                                <FormInputDateTime name='StartDate' control={control} label='Start' />
+                                <FormInputDateTime name='EndDate' control={control} label='End' />
+                            </Box>
                         </Box>
                     </Box>
                     <Box className='space-x-4'>

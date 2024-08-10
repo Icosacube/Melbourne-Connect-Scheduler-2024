@@ -109,11 +109,12 @@ export type SubEvent = {
   EventName: string;
   EventDescription: string;
   EventType: string; // or Enum
-  Date: Dayjs; // Example Format: "2024-04-30"
+  StartDate: Dayjs; // Example Format: "2024-04-30"
   Notes: string;
   MainEvent: string[];
   Completed: boolean;
   Speakers: string[];
+  EndDate: Dayjs;
 }
 
 export type Academic = {
