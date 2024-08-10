@@ -174,11 +174,13 @@ export type Venue = {
 
 export type Catering = {
   RecordID: string;
-  BookingReference: number;
+  BookingReference: string;
   Description: string;
   Cost: number;
-  FundingAccount: string;
-  MainEvent: string;
+  ExpenseDate: Dayjs;
+  FundingAccount: string[];
+  MainEvent: string[];
+  Finance: string[];
 };
 
 export type Service = {
