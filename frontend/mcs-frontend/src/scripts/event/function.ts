@@ -54,7 +54,6 @@ export async function getAllMainEvents(): Promise<MainEvent[]> {
     const formattedEvents = rawEvents.map((event: any) =>
       reformatMainEventResponseData(event),
     );
-    console.log(formattedEvents);
     return formattedEvents;
   } catch (error) {
     console.error('Error fetching all main events:', error);

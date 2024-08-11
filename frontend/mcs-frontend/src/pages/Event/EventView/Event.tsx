@@ -2,20 +2,25 @@ import { Box } from '@mui/material'
 import React, { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar'
-import { MainEvent } from '../../../types/frontendTypes'
+import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
 import { About } from './TabPages/About'
 import Participants from './TabPages/Participants'
 import Programme from './TabPages/Programme'
 import Services from './TabPages/Services'
+import EditEventModal from './EditEventModal'
 
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')
     const [open, setOpen] = useState(false)
-    const handleOpen = () => setOpen(true)
-    const { event, speakers } = useLoaderData() as {
-        event: MainEvent
-        speakers: any[]
+    const handleOpen = async () => {
+        setOpen(true)
     }
+    const { event, speakers, venues } = useLoaderData() as {
+        event: MainEvent
+        speakers: Speaker[]
+        venues: Venue[]
+    }
+    const [statefulEvent, setEvent] = useState<MainEvent>(event)
 
     const renderTabContent = (event: MainEvent) => {
         switch (tabName) {
@@ -35,6 +40,14 @@ export const Event: FC = () => {
     return (
         <Box>
             <EventTopNavBar getCurTab={setTabName} openEditModal={handleOpen} />
+            <EditEventModal
+                event={event}
+                handleClose={() => {
+                    setOpen(false)
+                }}
+                open={open}
+                setEvent={setEvent}
+            />
             {renderTabContent(event)}
         </Box>
     )

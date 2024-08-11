@@ -1,11 +1,16 @@
 import { Box, Button, Modal, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
 import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown'
 import { FormInputText } from '../../../components/FormComponents/FormInputText'
 import dayjs, { Dayjs } from 'dayjs'
+import { Speaker, Venue } from '../../../types/frontendTypes'
+import { MainEvent } from '../../../types/backendTypes'
+import { getAllSpeakers } from '../../../scripts/speaker/functions'
+import { getAllVenues } from '../../../scripts/venue/functions'
+import createEvent from '../../../scripts/event/createEvent'
 
 interface CreateEventModalProps {
     handleClose: () => void
@@ -30,28 +35,6 @@ const CreateEventFormDefaultValues = {
     eventAbstract: '',
 }
 
-const speakers = [
-    {
-        label: 'Speaker 1',
-        value: '1',
-    },
-    {
-        label: 'Speaker 2',
-        value: '2',
-    },
-]
-
-const venue = [
-    {
-        label: 'Venue 1',
-        value: '1',
-    },
-    {
-        label: 'Venue 2',
-        value: '2',
-    },
-]
-
 export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     handleClose,
     open,
@@ -61,17 +44,82 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     })
 
     const onSubmit = (data: CreateEventFormInput) => {
+        // cast data to event type
+        const eventData: MainEvent = {
+            EventName: data.eventName,
+            EventAbstract: data.eventAbstract,
+            EventDescription: data.eventDescription,
+            EventbriteLink: '',
+            EventBanner: '',
+            Date: data.date.toString(),
+            Notes: '',
+            Speaker: data.speaker,
+            GuestAcademic: [],
+            Catering: [],
+            Venue: data.venue,
+            Service: [],
+            Completed: false,
+            Trip: [],
+            SubEvent: []
+        }
+        createEvent(eventData, eventData.Speaker[0])
         setShowSuccess(true)
         reset()
         handleClose()
         console.log(data)
     }
+
     const onClose = () => {
         handleClose()
         reset()
     }
 
+    // Intent: load data when first opening modal, and that's it
+    const speakers_: Speaker[] = []
+    const venues_: Venue[] = []
     const [showSuccess, setShowSuccess] = useState(false)
+    const [speakers, setSpeakers] = useState(speakers_)
+    const [venues, setVenues] = useState(venues_)
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        if (loading && open) {
+            const fetchData = async () => {
+                console.log("loading data!", loading, open)
+                setSpeakers(await getAllSpeakers())
+                setVenues(await getAllVenues())
+                setLoading(false)
+            }
+    
+            fetchData()
+        }
+        
+    }, [speakers, venues, open])
+
+    const generateSpeakers = () => {
+        var speakerList: { label: string; value: string }[] = []
+        speakers.forEach(speaker => {
+            
+            speakerList.push({
+                label: `${speaker.FirstName} ${speaker.LastName}`,
+                value: `${speaker.RecordID}`
+            })
+        });
+
+        return speakerList;
+    }
+
+    const generateVenues = () => {
+        var venueList: { label: string; value: string }[] = []
+        venues.forEach(venue => {
+            
+            venueList.push({
+                label: `${venue.VenueName}`,
+                value: `${venue.RecordID}`
+            })
+        });
+
+        return venueList;
+    }
 
     return (
         <>
@@ -97,13 +145,13 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                                 name="venue"
                                 control={control}
                                 label="Venue"
-                                options={venue}
+                                options={generateVenues()}
                             />
                             <FormInputMultiSelect
                                 name="speaker"
                                 control={control}
                                 label="Speaker"
-                                options={speakers}
+                                options={generateSpeakers()}
                             />
                         </Box>
                         {/* Right */}

@@ -11,7 +11,7 @@ const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
 const VenueTable = String(process.env.VENUE)
 //get all venues
-router.get('/venus', async (req, res) => {
+router.get('/venues', async (req, res) => {
     try {
         const venues = await getTable(VenueTable, "");
         const formattedVenues: { [k: string]: any; }[] = [];

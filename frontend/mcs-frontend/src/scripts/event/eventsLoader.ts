@@ -1,5 +1,6 @@
-import { MainEvent, Speaker } from '../../types/frontendTypes';
+import { MainEvent, Speaker, Venue } from '../../types/frontendTypes';
 import { getAllSpeakers } from '../speaker/functions';
+import { getAllVenues } from '../venue/functions';
 import { getAllMainEvents } from './function';
 
 interface LoaderData {
