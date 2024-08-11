@@ -28,10 +28,11 @@ router.get('/speakers', async (req, res) => {
 //get one speaker
 router.get('/speaker/:speaker_record_id', async (req, res) => {
     const { speaker_record_id } = req.params;
+    console.log(speaker_record_id);
     
     try {
       const speakerRecord = await getRecord(speakerTable, speaker_record_id);
-      
+      console.log('Speaker Record:', speakerRecord);
       if (!speakerRecord) {
         return res.status(404).json({ message: 'Speaker not found' });
       }

@@ -22,6 +22,7 @@ function reformatMainEventResponseData(data: any): MainEvent {
     Service: data.Service || defaultMainEvent.Service,
     Completed: data.Completed || defaultMainEvent.Completed,
     Trip: data.Trip || defaultMainEvent.Trip,
+    SubEvent: data.SubEvent || defaultMainEvent.SubEvent,
   };
 
   return mainEvent;
@@ -44,6 +45,7 @@ export const defaultMainEvent: MainEvent = {
   Service: [],
   Completed: false,
   Trip: [],
+  SubEvent: [],
 };
 
 // Function to get all MainEvents
@@ -54,7 +56,6 @@ export async function getAllMainEvents(): Promise<MainEvent[]> {
     const formattedEvents = rawEvents.map((event: any) =>
       reformatMainEventResponseData(event),
     );
-    console.log(formattedEvents);
     return formattedEvents;
   } catch (error) {
     console.error('Error fetching all main events:', error);
@@ -66,7 +67,7 @@ export async function getAllMainEvents(): Promise<MainEvent[]> {
 export async function getMainEventById(id: string): Promise<MainEvent> {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/events/${id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/events/event/${id}`,
     );
     const rawEvent = res.data;
     const formattedEvent = reformatMainEventResponseData(rawEvent);

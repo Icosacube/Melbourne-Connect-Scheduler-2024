@@ -23,7 +23,7 @@ export async function getAllTrips(): Promise<TripFrontend[]> {
 export async function getTripById(id: string): Promise<TripFrontend> {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/trips/${id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/trips/trip/${id}`,
     );
     const rawTrip = res.data;
     const formattedTrip = reformatTripResponse(rawTrip);
@@ -31,6 +31,21 @@ export async function getTripById(id: string): Promise<TripFrontend> {
   } catch (error) {
     console.error('Error fetching trip by ID:', error);
     return {} as TripFrontend;
+  }
+}
+
+export async function getTripsBySpeakerId(speakerID: string): Promise<TripFrontend[]> {
+  try {
+    const res = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/trip/${speakerID}`,
+    );
+    const rawTrips = res.data;
+    const formattedTrips = rawTrips.map((trip: any) =>
+      reformatTripResponse(trip),
+    );
+    return formattedTrips;
+  } catch (error) {
+    return [];
   }
 }
 
