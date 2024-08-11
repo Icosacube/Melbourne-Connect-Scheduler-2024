@@ -4,7 +4,16 @@ Melbourne Connect, powered by the University of Melbourne, is a collaborative di
 
 # Get started - Frontend
 
+## Environment variables 
+Please create a `.env` file with the variable and path descried in [Frontend ENV](https://melbourneconnectscheduler.notion.site/Environment-variables-0976a23502d4481f8cfb37ab251e741b?pvs=4) before proceeding
+
+---
+
 Please run the following commands in `frontend/mcs-frontend` directory 
+
+### `npm install`
+This command will install all necessary dependencies 
+Please run this before running any other NPM Scripts 
 
 ### `npm start`
 Runs this commend to start the app in the development mode.\
@@ -14,6 +23,11 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.\
 ### For more information please view the [Frontend README.md](frontend/mcs-frontend/README.md)
 
 # Get started - Backend
+
+## Environment variables 
+Please create a `.env` file with the variable and path descried in [Backend ENV](https://melbourneconnectscheduler.notion.site/Environment-variables-b50021cfd9ef4d6499b610931b5d274e?pvs=4) before proceeding
+
+---
 
 Please run the following commands in `mcs_backend` directory
 
@@ -34,7 +48,11 @@ backend API server at [http://localhost:4000](http://localhost:4000) \
 
 ## NPM Available Scripts
 
-In the project directory, you can run:
+In the `mcs_backend` directory, you can run:
+
+### `npm install`
+This command will install all necessary dependencies 
+Please run this before running any other NPM Scripts 
 
 ### `npm run dev`
 

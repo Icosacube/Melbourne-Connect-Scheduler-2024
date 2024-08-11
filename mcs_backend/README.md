@@ -1,3 +1,6 @@
+# Environment variables 
+Please create a `.env` file with the variable and path descried in [Backend ENV](https://melbourneconnectscheduler.notion.site/Environment-variables-b50021cfd9ef4d6499b610931b5d274e?pvs=4) before proceeding
+
 # Docker deployment for Backend
 ### `docker-compose up`
 
@@ -14,6 +17,10 @@ The `--build` flag tells Docker to build the Docker image from scratch for the f
 # NPM Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+This command will install all necessary dependencies 
+Please run this before running any other NPM Scripts 
 
 ### `npm run dev`
 
