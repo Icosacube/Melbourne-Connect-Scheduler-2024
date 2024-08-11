@@ -15,8 +15,9 @@ export const FormInputDate = ({ name, control, label }: FormInputProps) => {
           <DatePicker 
             label={label} 
             value={value} 
-            onChange={onChange} 
-            slotProps={{ textField: { fullWidth: true, size: "small" } 
+            onChange={onChange}
+            format="DD/MM/YYYY"
+            slotProps={{ textField: { fullWidth: true, size: "small" }
           }}/>
         </LocalizationProvider>
       )}
