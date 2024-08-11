@@ -132,7 +132,8 @@ export type Accommodation = {
 };
 
 export type Flight = {
-  FlightReference: string;
+  // temporary change to adapt to computed field error
+  FlightReference?: string;
   Airline: string;
   FlightNumber: string;
   DepartureFrom: String;
@@ -195,8 +196,7 @@ export type FundingAccount = {
   Catering: string[];
   Flight: string[];
   Service: string[];
-  SubEvent: string[];
-};
+}
 
 export type Canvassing = {
   StartTime: string;
