@@ -32,16 +32,18 @@ Please create a `.env` file with the variable and path descried in [Backend ENV]
 Please run the following commands in `mcs_backend` directory
 
 ## Docker runnable
-### `docker-compose up`
+### `docker-compose up` or `docker compose up`
 
-This command will start the containers. And run the 
+Depended on your docker compose version, version 1 and version 2 respectively,
+this command will start the containers. And run the 
 backend API server in development mode at [http://localhost:4000](http://localhost:4000) \
 (Please ensure port 4000 on host machine is available before run the command)
 
 
-### `docker-compose up --build`
+### `docker-compose up --build` or `docker compose up --build`
 
-This command will build the Docker image and start the containers. And run the 
+Depended on your docker compose version, version 1 and version 2 respectively,
+this command will build the Docker image and start the containers. And run the 
 backend API server at [http://localhost:4000](http://localhost:4000) \
 (Please ensure port 4000 on host machine is available before run the command)
 
