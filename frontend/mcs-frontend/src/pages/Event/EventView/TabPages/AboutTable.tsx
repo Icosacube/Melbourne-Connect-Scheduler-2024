@@ -1,6 +1,6 @@
-import { Box, Stack, TextField, Typography } from '@mui/material';
-import React, { FC } from 'react';
-import { MainEvent } from '../../../../types/frontendTypes';
+import { Box, Stack, TextField, Typography } from "@mui/material";
+import React, { FC } from "react";
+import { MainEvent } from "../../../../types/frontendTypes";
 
 interface AboutTableProps {
   event: MainEvent;
@@ -15,7 +15,7 @@ interface CustomTextAreaProps {
 const CustomTextArea: FC<CustomTextAreaProps> = ({ title, text, minRows }) => {
   return (
     <Stack>
-      <Typography variant='subtitle1' className='text-gray-400'>
+      <Typography variant="subtitle1" className="text-gray-400">
         {title}
       </Typography>
       <TextField
@@ -24,8 +24,8 @@ const CustomTextArea: FC<CustomTextAreaProps> = ({ title, text, minRows }) => {
         multiline
         defaultValue={text}
         sx={{
-          '& .MuiInputBase-input.Mui-disabled': {
-            WebkitTextFillColor: '#000000',
+          "& .MuiInputBase-input.Mui-disabled": {
+            WebkitTextFillColor: "#000000",
           },
         }}
       />
@@ -35,19 +35,19 @@ const CustomTextArea: FC<CustomTextAreaProps> = ({ title, text, minRows }) => {
 
 export const AboutTable: FC<AboutTableProps> = ({ event }) => {
   return (
-    <Box className='w-full flex space-x-6'>
-      <Box className='w-1/2 space-y-4'>
-        <CustomTextArea title='Venue' text={'Melbourne Connect'} minRows={1} />
+    <Box className="w-full flex space-x-6">
+      <Box className="w-1/2 space-y-4">
+        <CustomTextArea title="Venue" text={"Melbourne Connect"} minRows={1} />
         <CustomTextArea
-          title='Event Description'
-          text={event.EventDescription}
+          title="Event Description"
+          text={event?.EventDescription}
           minRows={5}
         />
       </Box>
-      <Box className='w-1/2 space-y-4'>
+      <Box className="w-1/2 space-y-4">
         <CustomTextArea
-          title='Talk Abstract'
-          text={event.EventAbstract}
+          title="Talk Abstract"
+          text={event?.EventAbstract}
           minRows={10}
         />
       </Box>

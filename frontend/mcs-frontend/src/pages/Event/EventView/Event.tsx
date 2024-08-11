@@ -10,18 +10,17 @@ import { useLoaderData } from 'react-router-dom';
 import { MainEvent } from '../../../types/frontendTypes';
 
 export const Event: FC = () => {
-  const [tabName, setTabName] = useState('About');
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const { event, speakers } = useLoaderData() as {
-    event: MainEvent;
-    speakers: any[];
-  };
-
-  console.log(event);
-  console.log(speakers);
-  const [curEvent, setEvent] = useState(event);
+    const [tabName, setTabName] = useState('About')
+    const [open, setOpen] = useState(false)
+    const handleOpen = async () => {
+        setOpen(true)
+    }
+    const { event, speakers, venues } = useLoaderData() as {
+        event: MainEvent
+        speakers: Speaker[]
+        venues: Venue[]
+    }
+    const [statefulEvent, setEvent] = useState<MainEvent>(event)
 
   const renderTabContent = (event: MainEvent) => {
     switch (tabName) {
@@ -36,19 +35,19 @@ export const Event: FC = () => {
       default:
         return <About event={event} speakers={speakers} />;
     }
-  };
 
-  return (
-    <Box>
-      <EventTopNavBar getCurTab={setTabName} openEditModal={handleOpen} />
-      {/* <EditEventModal
-        event={event}
-        speakers={speakers}
-        open={open}
-        handleClose={handleClose}
-        setEvent={setEvent}
-      /> */}
-      {renderTabContent(curEvent)}
-    </Box>
-  );
-};
+    return (
+        <Box>
+            <EventTopNavBar getCurTab={setTabName} openEditModal={handleOpen} />
+            <EditEventModal
+                event={event}
+                handleClose={() => {
+                    setOpen(false)
+                }}
+                open={open}
+                setEvent={setEvent}
+            />
+            {renderTabContent(event)}
+        </Box>
+    )
+}

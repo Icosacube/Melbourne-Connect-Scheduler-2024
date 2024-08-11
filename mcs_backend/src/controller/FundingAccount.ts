@@ -79,7 +79,8 @@ router.put('/funding-accounts/:funding_account_id', async (req, res) => {
         res.status(500).json({ error: 'Failed to update Funding Account' });
     }
 });
-//delete one venue 
+
+
 router.delete('/funding-accounts/:funding_account_id', async (req, res) => {
     const { funding_account_id } = req.params;
 

@@ -1,8 +1,8 @@
-import { DataGrid } from '@mui/x-data-grid';
-import React, { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { GridColDef } from '@mui/x-data-grid';
-import { MainEvent, Speaker } from '../../../types/frontendTypes';
+import { DataGrid } from "@mui/x-data-grid";
+import React, { FC } from "react";
+import { useNavigate } from "react-router-dom";
+import type { GridColDef } from "@mui/x-data-grid";
+import { MainEvent, Speaker } from "../../../types/frontendTypes";
 
 interface EventsTableProps {
   events: MainEvent[];
@@ -12,7 +12,7 @@ interface EventsTableProps {
 export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
   const navigate = useNavigate();
   const handleRowClick = (params: { row: MainEvent }) => {
-    navigate(`/events/${params.row.RecordID}`);
+    navigate(`/event/${params.row.RecordID}`);
   };
 
   function getRowId(event: MainEvent) {
@@ -21,22 +21,22 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
 
   const columns: GridColDef<MainEvent>[] = [
     {
-      field: 'EventName',
-      headerName: 'Event Name',
-      headerClassName: 'event-table',
+      field: "EventName",
+      headerName: "Event Name",
+      headerClassName: "event-table",
       flex: 1,
       width: 280,
     },
     {
-      field: 'Date',
-      headerName: 'Date',
-      headerClassName: 'event-table',
+      field: "Date",
+      headerName: "Date",
+      headerClassName: "event-table",
       width: 280,
     },
     {
-      field: 'Speaker',
-      headerName: 'Speaker',
-      headerClassName: 'event-table',
+      field: "Speaker",
+      headerName: "Speaker",
+      headerClassName: "event-table",
       flex: 0,
       minWidth: 280,
       renderCell: (params) => {
@@ -48,13 +48,13 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
           })
           .filter((name) => name !== null);
 
-        return speakerNames.join(', ');
+        return speakerNames.join(", ");
       },
     },
     {
-      field: 'Completed',
-      headerName: 'Completed',
-      headerClassName: 'event-table',
+      field: "Completed",
+      headerName: "Completed",
+      headerClassName: "event-table",
 
       width: 100,
     },
@@ -73,12 +73,12 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
       }}
       checkboxSelection
       sx={{
-        '& .event-table': {
-          backgroundColor: '#FBE418',
-          color: 'black',
+        "& .event-table": {
+          backgroundColor: "#FBE418",
+          color: "black",
         },
-        '.MuiDataGrid-columnHeaderTitleContainer': {
-          backgroundColor: '#FBE418',
+        ".MuiDataGrid-columnHeaderTitleContainer": {
+          backgroundColor: "#FBE418",
         },
       }}
       onRowClick={handleRowClick}
