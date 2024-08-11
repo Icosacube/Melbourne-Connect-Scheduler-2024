@@ -163,31 +163,26 @@ export type Miscellaneous = {
 }
 
 export type Venue = {
-  VenueName: string;
-  Location: string;
-  Cost: number;
-  InvoiceReference: string;
-  Notes: string;
-  FundingAccount: string[];
-  MainEvent: string[];
-};
-
-export type Catering = {
-    BookingReference: number
-    Description: string
+    RecordID: string
+    VenueName: string
+    Location: string
     Cost: number
+    InvoiceReference: string
+    Notes: string
     FundingAccount: string[]
     MainEvent: string[]
 }
-  RecordID: string;
-  BookingReference: string;
-  Description: string;
-  Cost: number;
-  ExpenseDate: Dayjs;
-  FundingAccount: string[];
-  MainEvent: string[];
-  Finance: string[];
-};
+
+export type Catering = {
+    RecordID: string
+    BookingReference: string
+    Description: string
+    Cost: number
+    ExpenseDate: Dayjs
+    FundingAccount: string[]
+    MainEvent: string[]
+    Finance: string[]
+}
 
 export type Service = {
     Cost: number
@@ -198,21 +193,21 @@ export type Service = {
 }
 
 export type FundingAccount = {
-  RecordID: string;
-  ThemisString: string;
-  Description: string;
-  AccountUser: string;
-  AccountType: string;
-  Notes: string;
-  Limit: number;
-  ExpiryDate: Dayjs;
-  Accommodation: string[];
-  Miscellaneous: string[];
-  Venue: string[];
-  Catering: string[];
-  Flight: string[];
-  Service: string[];
-};
+    RecordID: string
+    ThemisString: string
+    Description: string
+    AccountUser: string
+    AccountType: string
+    Notes: string
+    Limit: number
+    ExpiryDate: Dayjs
+    Accommodation: string[]
+    Miscellaneous: string[]
+    Venue: string[]
+    Catering: string[]
+    Flight: string[]
+    Service: string[]
+}
 
 export type Canvassing = {
     StartTime: string
