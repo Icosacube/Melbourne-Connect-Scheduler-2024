@@ -22,7 +22,9 @@ export async function getSpeakerById(id: string): Promise<Speaker> {
       `${process.env.REACT_APP_BACKEND_URL}/speaker/${id}`,
     );
     const rawSpeaker = res.data;
+
     const formattedSpeaker = reformatSpeakerResponseData(rawSpeaker);
+    console.log(formattedSpeaker);
     return formattedSpeaker;
   } catch (error) {
     console.error('Error fetching speaker:', error);
@@ -35,6 +37,17 @@ export async function createSpeaker(speaker: Speaker): Promise<AxiosResponse> {
   delete toSend.RecordID;
   const res = await axios.post(
     `${process.env.REACT_APP_BACKEND_URL}/speaker`,
+    toSend,
+  );
+  // Server return message: Speaker created successfully if success
+  return res;
+}
+
+export async function updateSpeaker(speaker: Speaker): Promise<AxiosResponse> {
+  const toSend: any = { ...speaker };
+  delete toSend.RecordID;
+  const res = await axios.put(
+    `${process.env.REACT_APP_BACKEND_URL}/speaker/${speaker.RecordID}`,
     toSend,
   );
   // Server return message: Speaker created successfully if success

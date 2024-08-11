@@ -11,7 +11,7 @@ import { Creation, TableFields, FundingAccount } from '../types/types';
 const router = express.Router();
 const AccountTable = String(process.env.FUNDINGACCOUNT)
 
-router.get('/funding-accounts', async (req, res) => {
+router.get('/funding_accounts', async (req, res) => {
     try {
         const account = await getTable(AccountTable, "");
         const formattedAccount: { [k: string]: any; }[] = [];
@@ -79,7 +79,8 @@ router.put('/funding-accounts/:funding_account_id', async (req, res) => {
         res.status(500).json({ error: 'Failed to update Funding Account' });
     }
 });
-//delete one venue 
+
+
 router.delete('/funding-accounts/:funding_account_id', async (req, res) => {
     const { funding_account_id } = req.params;
 
