@@ -101,18 +101,20 @@ export type MainEvent = {
     Service: string[]
     Completed: boolean
     Trip: string[]
+    SubEvent: string[]
 }
 
 export type SubEvent = {
+    RecordID: string
     EventName: string
     EventDescription: string
     EventType: string // or Enum
-    Date: string // Example Format: "2024-04-30"
-    Cost: number
+    StartDate: Dayjs // Example Format: "2024-04-30"
     Notes: string
-    Speaker: string[]
-    FundingAccount: string[]
+    MainEvent: string[]
     Completed: boolean
+    Speakers: string[]
+    EndDate: Dayjs
 }
 
 export type Academic = {
