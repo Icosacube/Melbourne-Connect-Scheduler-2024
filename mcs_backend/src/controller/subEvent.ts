@@ -29,8 +29,8 @@ router.get('/subevents', async (req, res) => {
 });
 
 // route to get subevents for a specific event
-router.get('/subevent/:mainEventID', async (req, res) => {
-    const { mainEventID } = req.params;
+router.get('/subevents/:event_id', async (req, res) => {
+    const { event_id: eventId } = req.params;
 
     try {
         const services = await getTable(subeventTable, "");
@@ -38,7 +38,7 @@ router.get('/subevent/:mainEventID', async (req, res) => {
 
         services.forEach((fields) => {
             const plainFields = Object.fromEntries(fields);
-            if (plainFields.MainEvent && plainFields.MainEvent.includes(mainEventID)) {
+            if (plainFields.MainEvent && plainFields.MainEvent.includes(eventId)) {
                 eventServices.push(plainFields);
             }
         });
@@ -63,8 +63,8 @@ router.get('/subevent/:subevent_id', async (req, res) => {
             return res.status(404).json({ error: 'Subevent not found' });
         }
 
-        let plainFields = Object.fromEntries(subevent.get(subeventId));
-        let formattedSubevents: { id: string, fields: any } = {id: subeventId, fields: plainFields}
+        let plainFields = Object.fromEntries(subevent);
+        let formattedSubevents: { [k: string]: any; } = plainFields
         res.json(formattedSubevents)
     } catch (error) {
         console.error("Error fetching subevent:", error);

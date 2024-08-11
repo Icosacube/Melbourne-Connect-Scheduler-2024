@@ -1,67 +1,62 @@
-import { Box, Divider, Stack, Typography } from "@mui/material";
-import React from "react";
-import Headline from "./Headline";
+import {Box, Button, Typography} from "@mui/material";
+import React, {FC, useEffect, useState} from "react";
+import WeeklyCalendar from "../../../../components/Calendar/WeeklyCalendar";
+import { MainEvent, SubEvent, Speaker } from "../../../../types/frontendTypes";
+import {getSubEventsByEventID} from "../../../../scripts/subevent/function";
+import AddCircleOutlineOutlined from "@mui/icons-material/AddCircleOutlineOutlined";
+import {CreateSubEventModal} from "./CreateSubEventModal";
 
-function Programme() {
-  const programme = [
-    {
-      date: "05/07/2024",
-      time: "09:00 - 09:15",
-      title: "Introduction and Welcome",
-      location: "Main Auditorium",
-    },
-    {
-      date: "05/07/2024",
-      time: "09:15 - 10:00",
-      title: "Keynote: Social Media and AI Safety",
-      speaker: "Frances Haugen, Meta Whistleblower",
-      location: "Main Auditorium",
-    },
-    {
-      date: "05/07/2024",
-      time: "10:00 - 11:00",
-      title: "Discussion: Transparency in Tech Companies",
-      speakers: "Industry Experts and Academics",
-      location: "Conference Hall A",
-    },
-    {
-      date: "05/07/2024",
-      time: "11:00 - 11:15",
-      title: "Networking Session",
-      location: "Foyer",
-    },
-    {
-      date: "05/07/2024",
-      time: "11:15 - 12:00",
-      title: "Interactive Workshop",
-      location: "Conference Hall B",
-    },
-  ];
+interface ProgrammeProps {
+    event: MainEvent,
+    speakers: Speaker[]
+}
 
-  return (
-    <Box className="space-y-5">
-      <Headline />
-      <Box className="w-7/12 bg-white shadow-2xl rounded-md h-[40rem] flex ">
-        <Box className="w-8/12 bg-[#AA9494] h-full"></Box>
-        <Box className="w-4/12 pl-7 p-4 overflow-scroll">
-          {programme.map((event, index) => (
-            <Stack>
-              <Typography className="text-gray-400 mb-2">
-                {event.date} | {event.time}
-              </Typography>
-              <Typography variant="h6" className="font-bold">
-                {event.title}
-              </Typography>
-              <Typography className="text-gray-400 pl-5">
-                {event.location}
-              </Typography>
-              <Divider className="mb-2 mt-2" />
-            </Stack>
-          ))}
-        </Box>
-      </Box>
-    </Box>
-  );
+export const Programme : FC<ProgrammeProps> = ({ event, speakers}) => {
+
+    const [subEvents, setSubEvents] = useState<SubEvent[]>([]);
+
+    console.log(speakers);
+
+    useEffect(() => {
+        const fetchSubEvents = async () => {
+            try {
+                const fetchedSubEvents = await getSubEventsByEventID(event.RecordID);
+                setSubEvents(fetchedSubEvents);
+            } catch (error) {
+                console.error("Error fetching subevents:", error);
+            }
+        };
+
+        fetchSubEvents();
+    }, [event.RecordID]);
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    return(
+        <>
+            <Box className='  mb-4 flex flex-col'>
+                <Box className=' flex flex-col'>
+                <Button
+                    variant='contained'
+                    className=' flex space-x-2 bg-secondary hover:bg-accent hover:text-black mb-3 self-end h-12'
+                    onClick={handleOpen}
+                >
+                    <AddCircleOutlineOutlined />
+                    <Typography>Create Sub-Event</Typography>
+                </Button>
+
+                <CreateSubEventModal open={open} handleClose={handleClose} event={event} speakers={speakers} />
+                </Box>
+            </Box>
+            <Box className="space-y-5">
+                {/*<Headline />*/}
+                <WeeklyCalendar event={event} subEvents={subEvents} />
+            </Box>
+        </>
+    );
+
 }
 
 export default Programme;

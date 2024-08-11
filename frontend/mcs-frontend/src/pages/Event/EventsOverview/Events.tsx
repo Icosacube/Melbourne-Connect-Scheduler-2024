@@ -29,10 +29,7 @@ export const Events: FC = () => {
                         <Typography>Create Event</Typography>
                     </Button>
 
-                    <CreateEventModal
-                        open={open}
-                        handleClose={handleClose}
-                    />
+                    <CreateEventModal open={open} handleClose={handleClose} />
                 </Box>
 
                 <EventsWidgets />

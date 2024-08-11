@@ -1,3 +1,6 @@
+# Environment variables 
+Please create a `.env` file with the variable and path descried in [Backend ENV](https://melbourneconnectscheduler.notion.site/Environment-variables-b50021cfd9ef4d6499b610931b5d274e?pvs=4) before proceeding
+
 # Docker deployment for Backend
 ### `docker-compose up`
 
@@ -15,6 +18,10 @@ The `--build` flag tells Docker to build the Docker image from scratch for the f
 
 In the project directory, you can run:
 
+### `npm install`
+This command will install all necessary dependencies 
+Please run this before running any other NPM Scripts 
+
 ### `npm run dev`
 
 Runs the app in the development mode.\
@@ -24,12 +31,12 @@ The page will reload when you make changes.
 
 ### `npm run start`
 
-Launches the test runner in the interactive watch mode.
+Launches the backend server in production mode  
 
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+It correctly bundles files in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
