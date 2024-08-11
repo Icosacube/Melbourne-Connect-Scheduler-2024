@@ -11,7 +11,7 @@ import { Creation, TableFields, FundingAccount } from '../types/types';
 const router = express.Router();
 const AccountTable = String(process.env.FUNDINGACCOUNT)
 
-router.get('/funding-accounts', async (req, res) => {
+router.get('/funding_accounts', async (req, res) => {
     try {
         const account = await getTable(AccountTable, "");
         const formattedAccount: { [k: string]: any; }[] = [];

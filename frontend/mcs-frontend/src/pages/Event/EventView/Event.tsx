@@ -1,13 +1,13 @@
 import { Box } from '@mui/material'
 import React, { FC, useState } from 'react'
-import { useLoaderData } from 'react-router-dom'
 import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar'
-import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
+import EditEventModal from './EditEventModal'
 import { About } from './TabPages/About'
 import Participants from './TabPages/Participants'
 import Programme from './TabPages/Programme'
-import Services from './TabPages/Services'
-import EditEventModal from './EditEventModal'
+import { Services } from './TabPages/Services'
+import { useLoaderData } from 'react-router-dom'
+import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
 
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')
@@ -31,7 +31,7 @@ export const Event: FC = () => {
             case 'Programme':
                 return <Programme />
             case 'Services':
-                return <Services />
+                return <Services event={event} />
             default:
                 return <About event={event} speakers={speakers} />
         }

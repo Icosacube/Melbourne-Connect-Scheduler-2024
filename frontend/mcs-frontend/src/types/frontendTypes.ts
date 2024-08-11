@@ -174,11 +174,14 @@ export type Venue = {
 }
 
 export type Catering = {
-    BookingReference: number
+    RecordID: string
+    BookingReference: string
     Description: string
     Cost: number
+    ExpenseDate: Dayjs
     FundingAccount: string[]
     MainEvent: string[]
+    Finance: string[]
 }
 
 export type Service = {
@@ -197,7 +200,7 @@ export type FundingAccount = {
     AccountType: string
     Notes: string
     Limit: number
-    ExpiryDate: string
+    ExpiryDate: Dayjs
     Accommodation: string[]
     Miscellaneous: string[]
     Venue: string[]

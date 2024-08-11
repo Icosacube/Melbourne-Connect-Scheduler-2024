@@ -1,8 +1,7 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
-import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
+import { MainEvent, Speaker } from '../../types/frontendTypes'
 import { getAllMainEvents } from './function'
 import { getSpeakerById } from '../speaker/functions'
-import { getAllVenues } from '../venue/functions';
 
 export async function loader({
     params,
