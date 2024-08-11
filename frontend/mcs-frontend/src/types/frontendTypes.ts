@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs'
 export enum PresetFilter {
     completed = '( {Completed} = FALSE() )',
 }
@@ -101,36 +101,20 @@ export type MainEvent = {
     Service: string[]
     Completed: boolean
     Trip: string[]
+    SubEvent: string[]
 }
-  RecordID: string;
-  EventName: string;
-  EventAbstract: string;
-  EventDescription: string;
-  EventbriteLink: string;
-  EventBanner: string | any[]; // string: url to publicly accessible photos (google drive etc); any[] for receive
-  Date: Dayjs; // Example Format: "2024-04-30"
-  Notes: string;
-  Speaker: string[];
-  GuestAcademic: string[];
-  Catering: string[];
-  Venue: string[];
-  Service: string[];
-  Completed: boolean;
-  Trip: string[];
-  SubEvent: string[];
-};
 
 export type SubEvent = {
-  RecordID: string;
-  EventName: string;
-  EventDescription: string;
-  EventType: string; // or Enum
-  StartDate: Dayjs; // Example Format: "2024-04-30"
-  Notes: string;
-  MainEvent: string[];
-  Completed: boolean;
-  Speakers: string[];
-  EndDate: Dayjs;
+    RecordID: string
+    EventName: string
+    EventDescription: string
+    EventType: string // or Enum
+    StartDate: Dayjs // Example Format: "2024-04-30"
+    Notes: string
+    MainEvent: string[]
+    Completed: boolean
+    Speakers: string[]
+    EndDate: Dayjs
 }
 
 export type Academic = {
