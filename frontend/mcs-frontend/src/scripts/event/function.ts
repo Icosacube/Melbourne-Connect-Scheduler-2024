@@ -54,7 +54,6 @@ export async function getAllMainEvents(): Promise<MainEvent[]> {
     const formattedEvents = rawEvents.map((event: any) =>
       reformatMainEventResponseData(event),
     );
-    console.log(formattedEvents);
     return formattedEvents;
   } catch (error) {
     console.error('Error fetching all main events:', error);
@@ -66,7 +65,7 @@ export async function getAllMainEvents(): Promise<MainEvent[]> {
 export async function getMainEventById(id: string): Promise<MainEvent> {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/events/${id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/events/event/${id}`,
     );
     const rawEvent = res.data;
     const formattedEvent = reformatMainEventResponseData(rawEvent);

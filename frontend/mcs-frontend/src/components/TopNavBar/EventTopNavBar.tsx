@@ -11,6 +11,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {EventTabs} from '../../pages/Event/EventView/EventTabs';
 import CreateIcon from '@mui/icons-material/Create';
 import ShareIcon from '@mui/icons-material/Share';
+import EditEventModal from '../../pages/Event/EventView/EditEventModal';
 
 interface EventTopNavBarProps {
   getCurTab: (data: string) => void;
@@ -85,6 +86,8 @@ const EventTopNavBar: React.FC<EventTopNavBarProps> = ({ getCurTab, openEditModa
           </Box>
         </Box>
       </Toolbar>
+
+      
     </>
   );
 };

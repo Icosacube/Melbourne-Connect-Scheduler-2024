@@ -1,188 +1,188 @@
-import {
-  Box,
-  Button,
-  MenuItem,
-  Modal,
-  Select,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import 'dayjs/locale/en-au';
-import React, { FC, useState } from 'react';
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
-import updateEvent from '../../../scripts/event/updateEvent';
-import { MainEvent, Speaker } from '../../../types/frontendTypes';
+import { Box, Button, Modal, Typography } from '@mui/material'
+import 'dayjs/locale/en-au'
+import React, { FC, useEffect, useState } from 'react'
+import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
+import updateEvent from '../../../scripts/event/updateEvent'
+import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
+import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
+import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown'
+import { FormInputText } from '../../../components/FormComponents/FormInputText'
+import { useForm } from 'react-hook-form'
+import { Dayjs } from 'dayjs'
+import { getAllSpeakers } from '../../../scripts/speaker/functions'
+import { getAllVenues } from '../../../scripts/venue/functions'
 
 interface EditEventModalProps {
-  event: MainEvent;
-  speakers: Speaker[];
-  handleClose: () => void;
-  open: boolean;
-  setEvent: (event: any) => void;
+    event: MainEvent
+    handleClose: () => void
+    open: boolean
+    setEvent: (event: any) => void
+}
+
+interface CreateEventFormInput {
+    speaker: string[]
+    venue: string[]
+    date: Dayjs
+    eventDescription: string
+    eventName: string
+    eventAbstract: string
 }
 
 export const EditEventModal: FC<EditEventModalProps> = ({
-  event,
-  handleClose,
-  open,
-  setEvent,
+    event,
+    handleClose,
+    open,
+    setEvent,
 }) => {
-  const [editedEvent, setEditedEvent] = useState(event);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const handleInputChange = (e: { target: { name: any; value: any } }) => {
-    const { name, value } = e.target;
-    // Otherwise, update the edited event data
-    setEditedEvent({ ...editedEvent, [name]: value });
-  };
-  const handleDate = (e: any) => {
-    // datepicker already has it
-    setEditedEvent({ ...editedEvent, Date: e });
-  };
-  const handleSave = () => {
-    setEvent(editedEvent);
-    updateEvent(editedEvent);
-    setShowSuccess(false);
-    handleClose();
-    setTimeout(() => {
-      setShowSuccess(true);
-      setTimeout(() => {
-        setShowSuccess(false);
-      }, 2000);
-    }, 0);
-  };
-  const speakers = [
-    'Frances Haugen',
-    'Alice Johnson',
-    'Bob Smith',
-    'Carol Williams',
-    'Dave Brown',
-    'Eve Davis',
-    'Frank Miller',
-    'Grace Wilson',
-    'Heidi Moore',
-    'Ivan Taylor',
-    'Judy Anderson',
-    'Kia Tan',
-    'Brandon Wii',
-    'Brendan Lee',
-  ];
+    const EditEventFormDefaultValues = {
+        speaker: event.Speaker,
+        venue: event.Venue,
+        date: event.Date,
+        eventDescription: event.EventDescription,
+        eventName: event.EventName,
+        eventAbstract: event.EventAbstract,
+    }
 
-  return (
-    <>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
-      >
-        <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12'>
-          <Box className='w-full p-7 flex space-x-6'>
-            <Box className='w-1/2 space-y-4'>
-              <Box className='flex justify-between space-x-2'>
-                <Stack className='w-1/2'>
-                  <Typography variant='h6'>Host</Typography>
-                  <Box className='bg-gray-100 p-4 rounded-xl '>
-                    <Select
-                      fullWidth
-                      defaultValue={editedEvent.Speaker}
-                      value={editedEvent.Speaker}
-                      onChange={handleInputChange}
-                      name='speakers'
-                      multiple
-                    >
-                      {speakers.map((speaker) => (
-                        <MenuItem value={speaker}>{speaker}</MenuItem>
-                      ))}
-                    </Select>
-                  </Box>
-                </Stack>
-                <Stack className='w-1/2'>
-                  <Typography variant='h6'>Date</Typography>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      className='bg-gray-100 p-4 rounded-xl '
-                      // variant="outlined"
-                      defaultValue={editedEvent.Date}
-                      value={editedEvent.Date}
-                      name='date'
-                      onChange={handleDate}
-                      // adapterLocale="en-au"
-                    />
-                  </LocalizationProvider>
-                </Stack>
-              </Box>
-              <Stack>
-                <Typography variant='h6'>Venue</Typography>
-                <TextField
-                  className='bg-gray-100 p-4 rounded-xl '
-                  variant='outlined'
-                  name='venue'
-                  defaultValue={editedEvent.Venue}
-                  value={editedEvent.Venue}
-                  onChange={handleInputChange}
-                />
-              </Stack>
-              <Stack>
-                <Typography variant='h6'>Event Description</Typography>
-                <TextField
-                  className='bg-gray-100 p-4 rounded-xl '
-                  variant='outlined'
-                  name='description'
-                  defaultValue={editedEvent.EventDescription}
-                  onChange={handleInputChange}
-                  value={editedEvent.EventDescription}
-                  multiline
-                />
-              </Stack>
-            </Box>
-            <Box className='w-1/2 space-y-4'>
-              <Stack>
-                <Typography variant='h6'>Event Name</Typography>
-                <TextField
-                  className='bg-gray-100 p-4 rounded-xl '
-                  variant='outlined'
-                  defaultValue={editedEvent.EventName}
-                  value={editedEvent.EventName}
-                  onChange={handleInputChange}
-                  name='name'
-                />
-              </Stack>
-              <Stack>
-                <Typography variant='h6'>Talk Abstract</Typography>
-                <TextField
-                  className='bg-gray-100 p-4 rounded-xl '
-                  variant='outlined'
-                  defaultValue={editedEvent.EventAbstract}
-                  multiline
-                  value={editedEvent.EventAbstract}
-                  onChange={handleInputChange}
-                  name='eventAbstract'
-                />
-              </Stack>
-            </Box>
-          </Box>
-          <Button
-            variant='contained'
-            onClick={handleSave}
-            className='bg-primary text-white hover:bg-tertiary '
-          >
-            Save
-          </Button>
-        </Box>
-      </Modal>
+    const { handleSubmit, reset, control } = useForm<CreateEventFormInput>({
+        defaultValues: EditEventFormDefaultValues,
+    })
+    const [editedEvent, setEditedEvent] = useState(event)
+    const [showSuccess, setShowSuccess] = useState(false)
+    const speakers_: Speaker[] = []
+    const venues_: Venue[] = []
+    
+    const onSubmit = () => {
+        setEvent(editedEvent)
+        updateEvent(editedEvent)
+        setShowSuccess(false)
+        handleClose()
+        setTimeout(() => {
+            setShowSuccess(true)
+            setTimeout(() => {
+                setShowSuccess(false)
+            }, 2000)
+        }, 0)
+    }
+    const [speakers, setSpeakers] = useState(speakers_)
+    const [venues, setVenues] = useState(venues_)
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+      if (loading && open) {
+          const fetchData = async () => {
+              console.log("loading data!", loading, open)
+              setSpeakers(await getAllSpeakers())
+              setVenues(await getAllVenues())
+              setLoading(false)
+          }
+  
+          fetchData()
+      }
+      
+  }, [speakers, venues, open])
 
-      {/* Snackbar for success message */}
-      <BottomSuccessSnackbar
-        showSuccess={showSuccess}
-        setShowSuccess={setShowSuccess}
-        message='Event updated successfully'
-      />
-    </>
-  );
-};
+    // Process data into dropdown form
+    const generateSpeakers = () => {
+        var speakerList: { label: string; value: string }[] = []
+        speakers.forEach((speaker) => {
+            speakerList.push({
+                label: `${speaker.FirstName} ${speaker.LastName}`,
+                value: `${speaker.RecordID}`
+            })
+        })
 
-export default EditEventModal;
+        return speakerList
+    }
+
+    const generateVenues = () => {
+        var venueList: { label: string; value: string }[] = []
+        venues.forEach((venue) => {
+            venueList.push({
+                label: `${venue.VenueName}`,
+                value: `${venue.RecordID}`,
+            })
+        })
+
+        return venueList
+    }
+
+    const loadingScreen = <>Loading...</>
+
+    const loadedModal = (
+        <>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
+                    <Typography variant="h5" className="mb-4">
+                        Create Event
+                    </Typography>
+                    {/* Left */}
+                    <Box className="flex space-x-10 mb-4">
+                        <Box className="space-y-4">
+                            <FormInputText
+                                name="eventName"
+                                control={control}
+                                label="Event Name"
+                            />
+                            <FormInputMultiSelect
+                                name="venue"
+                                control={control}
+                                label="Venue"
+                                options={generateVenues()}
+                            />
+                            <FormInputMultiSelect
+                                name="speaker"
+                                control={control}
+                                label="Speaker"
+                                options={generateSpeakers()}
+                            />
+                        </Box>
+                        {/* Right */}
+                        <Box className="space-y-4">
+                            <FormInputText
+                                name="eventDescription"
+                                control={control}
+                                label="Event Description"
+                            />
+                            <FormInputText
+                                name="eventAbstract"
+                                control={control}
+                                label="Event Abstract"
+                            />
+                            <FormInputDate
+                                name="date"
+                                control={control}
+                                label="Date"
+                            />
+                        </Box>
+                    </Box>
+                    <Box className="space-x-4">
+                        <Button
+                            onClick={handleSubmit(onSubmit)}
+                            variant={'contained'}
+                        >
+                            Submit
+                        </Button>
+                        <Button onClick={() => reset()} variant={'outlined'}>
+                            Reset
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
+
+            {/* Snackbar for success message after event creation */}
+            <BottomSuccessSnackbar
+                showSuccess={showSuccess}
+                setShowSuccess={setShowSuccess}
+                message="Event created successfully"
+            />
+        </>
+    )
+
+    return loading ? loadingScreen : loadedModal
+}
+
+export default EditEventModal
