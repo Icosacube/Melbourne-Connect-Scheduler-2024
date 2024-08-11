@@ -1,6 +1,8 @@
 # Melbourne Connect Visit Scheduler
 
-## Get started - Frontend
+Melbourne Connect, powered by the University of Melbourne, is a collaborative digital innovation ecosystem hosting various events, including the AI@Melbourne Colloquium series. The current workflow for organising these events is manual and time-consuming, involving multiple steps and systems. The main issues include manual communication, logistical tracking via Excel, and lack of system integration. The desired solution is an all-in-one event planning system to centralise logistical information, streamline processes, and reduce the executive assistant's cognitive load. The project aims to create a user-friendly central dashboard with smooth connectivity to existing systems, covering aspects like guest invitations, travel arrangements, scheduling, catering, and financial management.
+
+# Get started - Frontend
 
 Please run the following commands in `frontend/mcs-frontend` directory 
 
