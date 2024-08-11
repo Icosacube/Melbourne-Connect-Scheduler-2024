@@ -10,7 +10,7 @@ Runs this commend to start the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.\
 (Please ensure port 3000 on host machine is available before run the command)
 
-### For more information please view the [Frontend README.md|frontend/mcs-frontend/README.md]
+### For more information please view the [Frontend README.md](frontend/mcs-frontend/README.md)
 
 ## Backend
 
@@ -47,7 +47,7 @@ The page will reload when you make changes.
 Launches the backend server in production mode  
 
 
-### For more information please view the [Backend README.md|mcs_backend/README.md]
+### For more information please view the [Backend README.md](mcs_backend/README.md)
 
 
 # Artefacts, Deliverable and Documentation
