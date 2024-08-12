@@ -50,7 +50,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     const [showSuccess, setShowSuccess] = useState(false)
     const speakers_: Speaker[] = []
     const venues_: Venue[] = []
-    
+
     const onSubmit = () => {
         setEvent(editedEvent)
         updateEvent(editedEvent)
@@ -67,18 +67,17 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     const [venues, setVenues] = useState(venues_)
     const [loading, setLoading] = useState(true)
     useEffect(() => {
-      if (loading && open) {
-          const fetchData = async () => {
-              console.log("loading data!", loading, open)
-              setSpeakers(await getAllSpeakers())
-              setVenues(await getAllVenues())
-              setLoading(false)
-          }
-  
-          fetchData()
-      }
-      
-  }, [speakers, venues, open])
+        if (loading && open) {
+            const fetchData = async () => {
+                console.log('loading data!', loading, open)
+                setSpeakers(await getAllSpeakers())
+                setVenues(await getAllVenues())
+                setLoading(false)
+            }
+
+            fetchData()
+        }
+    }, [speakers, venues, open])
 
     // Process data into dropdown form
     const generateSpeakers = () => {
@@ -86,7 +85,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
         speakers.forEach((speaker) => {
             speakerList.push({
                 label: `${speaker.FirstName} ${speaker.LastName}`,
-                value: `${speaker.RecordID}`
+                value: `${speaker.RecordID}`,
             })
         })
 
@@ -117,7 +116,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
             >
                 <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
                     <Typography variant="h5" className="mb-4">
-                        Create Event
+                        Edit Event
                     </Typography>
                     {/* Left */}
                     <Box className="flex space-x-10 mb-4">
