@@ -1,4 +1,4 @@
-import { Button, Grid, Modal, Paper } from '@mui/material'
+import { Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
@@ -78,6 +78,11 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                         spacing={3}
                         className="w-full p-7 flex space-between justify-items"
                     >
+                        <Grid item xs={12}>
+                            <Typography variant="h4">
+                                Add New Flight
+                            </Typography>
+                        </Grid>
                         <Grid item xs={12} md={4} lg={3}>
                             <FormInputText
                                 name="Airline"
@@ -146,7 +151,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                                 label="Arrival Time"
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} container justifyContent="flex-end">
                             <Button
                                 variant="contained"
                                 onClick={handleSubmit(onSubmit)}

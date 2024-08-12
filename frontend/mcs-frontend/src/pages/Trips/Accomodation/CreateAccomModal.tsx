@@ -1,4 +1,4 @@
-import { Button, Grid, Modal, Paper } from '@mui/material'
+import { Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
@@ -78,6 +78,11 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
                         className="w-full p-7 flex space-between justify-items"
                     >
                         <Grid item xs={12}>
+                            <Typography variant="h4">
+                                Add New Accommodation 
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
                             <FormInputText
                                 name="HotelName"
                                 control={control}
@@ -145,7 +150,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
                                 label="Notes"
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} container justifyContent="flex-end">
                             <Button
                                 variant="contained"
                                 onClick={handleSubmit(onSubmit)}

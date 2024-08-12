@@ -77,7 +77,11 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                         className="w-full p-7 flex space-between justify-items"
                     >
                         <Grid item xs={12}>
-                            <Typography variant="h6">Event</Typography>
+                            <Typography variant="h4">
+                                Create New Trip
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
                             <FormInputMultiSelect
                                 name="MainEvent"
                                 control={control}
@@ -85,8 +89,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                                 options={reformatEventForDropdown(events)}
                             />
                         </Grid>
-                        <Grid item xs={6}>
-                            <Typography variant="h6">Speaker</Typography>
+                        <Grid item xs={12} sm={12} md={6}>
                             <FormInputDropdownSingle
                                 name="GuestSpeaker"
                                 control={control}
@@ -97,23 +100,21 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                                 }))}
                             />
                         </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h6">Starting Date</Typography>
+                        <Grid item xs={12} sm={6} md={3}>
                             <FormInputDate
                                 name="StartDate"
                                 control={control}
                                 label="Start Date"
                             />
                         </Grid>
-                        <Grid item xs={3}>
-                            <Typography variant="h6">End Date</Typography>
+                        <Grid item xs={12} sm={6} md={3}>
                             <FormInputDate
                                 name="EndDate"
                                 control={control}
                                 label="End Date"
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} container justifyContent="flex-end">
                             <Button
                                 variant="contained"
                                 onClick={handleSubmit(onSubmit)}
