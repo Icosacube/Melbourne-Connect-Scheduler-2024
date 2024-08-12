@@ -79,7 +79,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
                     >
                         <Grid item xs={12}>
                             <Typography variant="h4">
-                                Add New Accommodation 
+                                Add New Accommodation
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
@@ -131,7 +131,11 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
                                 control={control}
                                 label="Funding Account"
                                 options={fundingAccounts.map((account) => ({
-                                    label: `${account.AccountUser} - ${account.ThemisString}`,
+                                    label: `${
+                                        account.AccountUser == ''
+                                            ? 'unknown user'
+                                            : account.AccountUser
+                                    } - ${account.ThemisString}`,
                                     value: account.RecordID,
                                 }))}
                             />

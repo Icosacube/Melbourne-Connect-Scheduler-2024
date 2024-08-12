@@ -50,7 +50,7 @@ function reformatFlightResponseData(data: any): FlightFrontend {
 // Function to reformat Flight to backend format
 function reformatFlightRequest(data: FlightFrontend): FlightBackend {
   const flight: FlightBackend = {
-    //FlightReference: data.FlightReference,
+    FlightReference: data.FlightReference,
     Airline: data.Airline,
     FlightNumber: data.FlightNumber,
     DepartureFrom: data.DepartureFrom,

@@ -3,7 +3,11 @@ import { FundingAccount as fundingAccountFrontend } from '../../types/frontendTy
 import { FundingAccount as fundingAccountBackend } from '../../types/backendTypes'
 import dayjs from 'dayjs'
 
-// Default FundingAccount object
+
+
+
+
+// Default funding account object
 export const defaultFundingAccount: fundingAccountFrontend = {
     RecordID: '',
     ThemisString: '',
@@ -19,7 +23,8 @@ export const defaultFundingAccount: fundingAccountFrontend = {
     Catering: [],
     Flight: [],
     Service: [],
-}
+};
+
 
 // Get all funding accounts
 export async function getAllFundingAccounts(): Promise<
@@ -27,7 +32,7 @@ export async function getAllFundingAccounts(): Promise<
 > {
     try {
         const res = await axios.get(
-            process.env.REACT_APP_BACKEND_URL + '/funding-accounts'
+            process.env.REACT_APP_BACKEND_URL + '/funding_accounts'
         )
         const rawFundingAccounts = res.data
         const formattedFundingAccounts = rawFundingAccounts.map(
@@ -86,15 +91,14 @@ function reformatFundingAccountResponse(data: any): fundingAccountFrontend {
         RecordID: data.id || defaultFundingAccount.RecordID,
         ThemisString: data.ThemisString || defaultFundingAccount.ThemisString,
         Description: data.Description || defaultFundingAccount.Description,
-        AccountUser: data.AccountUser || defaultFundingAccount.AccountUser,
+        AccountUser:
+            data.AccountUser || defaultFundingAccount.AccountUser,
         AccountType: data.AccountType || defaultFundingAccount.AccountType,
         Notes: data.Notes || defaultFundingAccount.Notes,
         Limit: data.Limit || defaultFundingAccount.Limit,
-        ExpiryDate: data.ExpiryDate || defaultFundingAccount.ExpiryDate,
-        Accommodation:
-            data.Accommodation || defaultFundingAccount.Accommodation,
-        Miscellaneous:
-            data.Miscellaneous || defaultFundingAccount.Miscellaneous,
+        ExpiryDate: data.ExpiryDate ? dayjs(data.ExpiryDate) : defaultFundingAccount.ExpiryDate,
+        Accommodation: data.Accommodation || defaultFundingAccount.Accommodation,
+        Miscellaneous: data.Miscellaneous || defaultFundingAccount.Miscellaneous,
         Venue: data.Venue || defaultFundingAccount.Venue,
         Catering: data.Catering || defaultFundingAccount.Catering,
         Flight: data.Flight || defaultFundingAccount.Flight,
