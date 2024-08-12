@@ -55,7 +55,6 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
         } finally {
             reset()
             handleClose()
-            // window.location.reload()
             console.log(data)
         }
     }
