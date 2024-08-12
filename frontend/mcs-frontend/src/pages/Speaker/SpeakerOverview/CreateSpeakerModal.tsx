@@ -92,6 +92,9 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
             const res: AxiosResponse = await createSpeaker(data)
             if (res.status === 200) {
                 setShowSuccess(true)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
             } else {
                 console.log('Failed to create speaker')
             }

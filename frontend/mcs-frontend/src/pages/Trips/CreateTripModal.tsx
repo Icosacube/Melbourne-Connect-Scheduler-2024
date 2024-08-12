@@ -39,6 +39,9 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
             const res = await createTrip(data)
             if (res) {
                 setShowSuccess(true)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
             } else {
                 console.log('Failed to create trip')
             }
@@ -114,7 +117,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                             <Button
                                 variant="contained"
                                 onClick={handleSubmit(onSubmit)}
-                                className="bg-primary text-white hover:bg-tertiary "
+                                className="bg-primary text-white hover:bg-tertiary"
                             >
                                 Save
                             </Button>

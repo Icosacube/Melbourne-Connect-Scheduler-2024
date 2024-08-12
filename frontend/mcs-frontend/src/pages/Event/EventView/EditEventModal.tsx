@@ -50,7 +50,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     const [showSuccess, setShowSuccess] = useState(false)
     const speakers_: Speaker[] = []
     const venues_: Venue[] = []
-    
+
     const onSubmit = () => {
         setEvent(editedEvent)
         updateEvent(editedEvent)
@@ -62,23 +62,25 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                 setShowSuccess(false)
             }, 2000)
         }, 0)
+        setTimeout(() => {
+            window.location.reload()
+        }, 1000)
     }
     const [speakers, setSpeakers] = useState(speakers_)
     const [venues, setVenues] = useState(venues_)
     const [loading, setLoading] = useState(true)
     useEffect(() => {
-      if (loading && open) {
-          const fetchData = async () => {
-              console.log("loading data!", loading, open)
-              setSpeakers(await getAllSpeakers())
-              setVenues(await getAllVenues())
-              setLoading(false)
-          }
-  
-          fetchData()
-      }
-      
-  }, [speakers, venues, open])
+        if (loading && open) {
+            const fetchData = async () => {
+                console.log('loading data!', loading, open)
+                setSpeakers(await getAllSpeakers())
+                setVenues(await getAllVenues())
+                setLoading(false)
+            }
+
+            fetchData()
+        }
+    }, [speakers, venues, open])
 
     // Process data into dropdown form
     const generateSpeakers = () => {
@@ -86,7 +88,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
         speakers.forEach((speaker) => {
             speakerList.push({
                 label: `${speaker.FirstName} ${speaker.LastName}`,
-                value: `${speaker.RecordID}`
+                value: `${speaker.RecordID}`,
             })
         })
 

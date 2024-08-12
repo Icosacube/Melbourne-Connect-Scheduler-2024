@@ -47,11 +47,12 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
     const onSubmit = async (data: Flight) => {
         try {
             data.Trip = [tripID]
-            //placeholder
-            console.log(data)
             const res = await createFlight(data)
             if (res) {
                 setShowSuccess(true)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
             } else {
                 console.log('Failed to create flight')
             }
