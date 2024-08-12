@@ -60,10 +60,6 @@ router.get('/flight/:tripID', async (req, res) => {
         }
       });
   
-      if (tripFlights.length === 0) {
-        return res.status(404).json({ message: 'No flights found for this trip' });
-      }
-  
       res.json(tripFlights);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });

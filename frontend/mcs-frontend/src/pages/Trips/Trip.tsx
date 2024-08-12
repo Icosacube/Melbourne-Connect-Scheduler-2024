@@ -1,7 +1,7 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React, { FC, useEffect, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
-import { BackButton } from '../../components'
+import { BackButton, ProfileHeaderCard } from '../../components'
 import TripBody from './TripBody'
 import { Trip as TripType, Speaker, MainEvent } from '../../types/frontendTypes'
 import {
@@ -28,9 +28,7 @@ export const Trip: FC = () => {
             <Box className="w-3/4 space-y-6">
                 <BackButton text="Back" />
                 <Box>
-                    <Button variant="contained" className="w-full min-h-60">
-                        <Typography>Guest</Typography>
-                    </Button>
+                    <ProfileHeaderCard speaker={speaker}></ProfileHeaderCard>
                 </Box>
                 <TripBody tripID={trip.RecordID} />
             </Box>

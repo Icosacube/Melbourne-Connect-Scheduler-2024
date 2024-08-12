@@ -60,10 +60,6 @@ router.get('/accommodation/:tripID', async (req, res) => {
       }
     });
 
-    if (tripAccommodations.length === 0) {
-      return res.status(404).json({ message: 'No accommodations found for this trip' });
-    }
-
     res.json(tripAccommodations);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
