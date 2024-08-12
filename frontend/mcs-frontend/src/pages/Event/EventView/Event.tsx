@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react'
 import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar'
 import EditEventModal from './EditEventModal'
 import { About } from './TabPages/About'
-import Participants from './TabPages/Participants'
+import { Participants } from './TabPages/Participants'
 import Programme from './TabPages/Programme'
 import { Services } from './TabPages/Services'
 import { useLoaderData } from 'react-router-dom'
@@ -27,7 +27,7 @@ export const Event: FC = () => {
             case 'About':
                 return <About event={event} speakers={speakers} />
             case 'Participants':
-                return <Participants />
+                return <Participants speakers={speakers} />
             case 'Programme':
                 return <Programme event={event} speakers={speakers} />
             case 'Services':
