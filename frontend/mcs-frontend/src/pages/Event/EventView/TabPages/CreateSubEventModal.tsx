@@ -1,21 +1,21 @@
 import { Box, Button, Modal, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import {FormInputText} from "../../../../components/FormComponents/FormInputText";
-import {FormInputDate} from "../../../../components/FormComponents/FormInputDate";
 import BottomSuccessSnackbar from "../../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar";
 import {AxiosResponse} from "axios";
 import {MainEvent, SubEvent, Speaker} from "../../../../types/frontendTypes";
-import {createSubEvent, defaultSubEvent} from "../../../../scripts/subevent/function";
+import {createSubEvent} from "../../../../scripts/subevent/functions";
 import {FormInputMultiSelect} from "../../../../components/FormComponents/FormInputDropdown";
 import {FormInputDateTime} from "../../../../components/FormComponents/FormInputDateTime";
 
 interface CreateSubEventModalProps {
     handleClose: () => void;
     open: boolean;
-    event: MainEvent,
-    speakers: Speaker[]
+    event: MainEvent;
+    speakers: Speaker[];
+    onSubEventCreation: () => void;
 }
 
 const CreateSubEventFormDefaultValues : SubEvent = {
@@ -31,22 +31,22 @@ const CreateSubEventFormDefaultValues : SubEvent = {
     EndDate: dayjs(),
 };
 
-export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({ handleClose, open, event, speakers }) => {
+export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
+                                                                            handleClose,
+                                                                            open,
+                                                                            event,
+                                                                            speakers ,
+                                                                            onSubEventCreation}) => {
     const { handleSubmit, reset, control, setValue } =
         useForm<SubEvent>({
             defaultValues: CreateSubEventFormDefaultValues,
         });
 
-    console.log(speakers);
-
     const onSubmit = async (data: SubEvent) => {
         try {
             const res: AxiosResponse = await createSubEvent(data, event.RecordID);
-            if (res.status == 200) {
-                setShowSuccess(true);
-            } else {
-                console.log('Failed to create subevent');
-            }
+            setShowSuccess(true);
+            onSubEventCreation();
         } catch (error) {
             console.error(error);
         } finally {
