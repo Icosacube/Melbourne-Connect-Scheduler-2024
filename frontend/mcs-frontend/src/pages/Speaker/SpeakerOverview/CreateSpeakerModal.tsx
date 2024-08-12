@@ -271,24 +271,6 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                                 control={control}
                                 label="Confirmed"
                             />
-                            <FormInputMultiSelect
-                                name="Trip"
-                                control={control}
-                                label="Trip"
-                                options={trips}
-                            />
-                            <FormInputMultiSelect
-                                name="MainEvent"
-                                control={control}
-                                label="Main Event"
-                                options={mainEvents}
-                            />
-                            <FormInputMultiSelect
-                                name="SubEvent"
-                                control={control}
-                                label="Sub Event"
-                                options={subEvents}
-                            />
                         </Box>
                     </Box>
                     <Box className="space-x-4">
