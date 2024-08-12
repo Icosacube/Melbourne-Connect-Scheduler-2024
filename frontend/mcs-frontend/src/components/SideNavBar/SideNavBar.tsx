@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-// import { ReactComponent as Logo } from '../../assets/Hex Logo (Colour).svg';
-// import { ReactComponent as LogoText } from '../../assets/MCS EVENT SCHEDULER.svg';
+import { Logo1 } from '../../assets/logo1'
+import { Logo2 } from '../../assets/logo2'
 import {
     Box,
     Button,
@@ -20,9 +20,9 @@ import EventIcon from '@mui/icons-material/Event'
 import PeopleIcon from '@mui/icons-material/People'
 
 export const SideNavBar: React.FC = () => {
-    const eventTabs = ['About', 'Participant', 'Programme', 'Services']
-    const canvassingTabs = ['Availability', 'Booking']
-    const tripTabs = ['Schedule', 'Travel', 'Accomodation', 'Costs']
+    // const eventTabs = ['About', 'Participant', 'Programme', 'Services']
+    // const canvassingTabs = ['Availability', 'Booking']
+    // const tripTabs = ['Schedule', 'Travel', 'Accomodation', 'Costs']
     const overviewTabs = [
         {
             name: 'Events',
@@ -77,11 +77,8 @@ export const SideNavBar: React.FC = () => {
             <Drawer variant="permanent" className="w-48">
                 <NavLink to="/dashboard">
                     <Button className="bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
-                        {/* <Logo />
-            <LogoText /> */}
-                        <Typography variant="h4" className="text-white">
-                            MCS Logo
-                        </Typography>
+                        <Logo1 />
+                        <Logo2 />
                     </Button>
                 </NavLink>
                 <Box className="h-full bg-primary">
