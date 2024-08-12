@@ -30,7 +30,6 @@ const CreateSubEventFormDefaultValues: SubEvent = {
     Speakers: [],
     EndDate: dayjs(),
 }
-}
 
 export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
     handleClose,
@@ -56,7 +55,7 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
         } finally {
             reset()
             handleClose()
-            window.location.reload()
+            // window.location.reload()
             console.log(data)
         }
     }
@@ -84,7 +83,6 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
                     <Box className="flex space-x-10 mb-4">
                         <Box className="space-y-4">
                             <FormInputText
-                                name="EventName"
                                 name="EventName"
                                 control={control}
                                 label="Event Name"
