@@ -1,5 +1,5 @@
-import { Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import { FormInputDate } from '../../components/FormComponents/FormInputDate'
@@ -22,11 +22,44 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
     events,
     speakers,
 }) => {
-    const { handleSubmit, reset, control, setValue } = useForm<Trip>({
+    const { handleSubmit, reset, control, setValue, watch } = useForm<Trip>({
         defaultValues: defaultTrip,
     })
 
     const [showSuccess, setShowSuccess] = useState(false)
+    const [filteredSpeakers, setFilteredSpeakers] = useState<DropdownOptions[]>(
+        []
+    )
+    const selectedEventIds = watch('MainEvent') || []
+
+    useEffect(() => {
+        // Reset speaker options when no event is selected
+        if (selectedEventIds.length === 0) {
+            setFilteredSpeakers([])
+            return
+        }
+
+        // collect all speaker IDs from the selected events
+        const selectedEventSpeakers = new Set<string>()
+        selectedEventIds.forEach((eventId) => {
+            const event = events.find((e) => e.RecordID === eventId)
+            if (event) {
+                event.Speaker.forEach((speakerId) =>
+                    selectedEventSpeakers.add(speakerId)
+                )
+            }
+        })
+
+        // Filter speaker dropdown optionss
+        const newSpeakers = speakers
+            .filter((speaker) => selectedEventSpeakers.has(speaker.RecordID))
+            .map((speaker) => ({
+                label: `${speaker.FirstName} ${speaker.LastName}`,
+                value: speaker.RecordID,
+            }))
+
+        setFilteredSpeakers(newSpeakers)
+    }, [selectedEventIds, events, speakers])
 
     const onClose = () => {
         reset()
@@ -35,7 +68,6 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
 
     const onSubmit = async (data: Trip) => {
         try {
-            console.log(data)
             const res = await createTrip(data)
             if (res) {
                 setShowSuccess(true)
@@ -51,15 +83,6 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
             reset()
             onClose()
         }
-    }
-
-    const reformatEventForDropdown = (
-        events: MainEvent[]
-    ): DropdownOptions[] => {
-        return events.map((event) => ({
-            label: event.EventName,
-            value: event.RecordID,
-        }))
     }
 
     return (
@@ -86,7 +109,10 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                                 name="MainEvent"
                                 control={control}
                                 label="Event"
-                                options={reformatEventForDropdown(events)}
+                                options={events.map((event) => ({
+                                    label: event.EventName,
+                                    value: event.RecordID,
+                                }))}
                             />
                         </Grid>
                         <Grid item xs={12} sm={12} md={6}>
@@ -94,10 +120,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                                 name="GuestSpeaker"
                                 control={control}
                                 label="Speaker"
-                                options={speakers.map((speaker) => ({
-                                    label: `${speaker.FirstName} ${speaker.LastName}`,
-                                    value: speaker.RecordID,
-                                }))}
+                                options={filteredSpeakers}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
