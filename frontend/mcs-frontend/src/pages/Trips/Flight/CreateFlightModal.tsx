@@ -7,11 +7,7 @@ import { FormInputText } from '../../../components/FormComponents/FormInputText'
 import { FormInputDropdownSingle } from '../../../components/FormComponents/FormInputDropdownSingle'
 import { createFlight, defaultFlight } from '../../../scripts/flight/function'
 import { Flight, FundingAccount } from '../../../types/frontendTypes'
-import {
-    defaultFundingAccount,
-    getAllFundingAccounts,
-    getFundingAccountByID,
-} from '../../../scripts/fundingAccount/function'
+import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
 
 interface CreateFlightModalProps {
     handleClose: () => void
@@ -79,9 +75,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                         className="w-full p-7 flex space-between justify-items"
                     >
                         <Grid item xs={12}>
-                            <Typography variant="h4">
-                                Add New Flight
-                            </Typography>
+                            <Typography variant="h4">Add New Flight</Typography>
                         </Grid>
                         <Grid item xs={12} md={4} lg={3}>
                             <FormInputText

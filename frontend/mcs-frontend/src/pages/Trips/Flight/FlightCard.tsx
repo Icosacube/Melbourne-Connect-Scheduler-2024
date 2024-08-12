@@ -30,6 +30,7 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
             console.error('Error fetching funding accounts:', error)
         }
     }
+    
     return (
         <Paper className="px-5 pb-4 pt-2 rounded-lg">
             <Grid

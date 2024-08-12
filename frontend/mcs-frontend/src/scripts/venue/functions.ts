@@ -32,6 +32,23 @@ export async function getVenueById(id: string): Promise<Venue> {
     }
 }
 
+export async function getVenueByMainEventId(id: string): Promise<Venue[]> {
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}/venue/${id}`
+        )
+        const rawVenues = res.data
+        const formattedVenues = rawVenues.map(
+            (venue: any) => reformatVenueResponseData(venue)
+        )
+        console.log(formattedVenues)
+        return formattedVenues
+    } catch (error) {
+        console.error(`Error fetching venues for event ${id}`, error)
+        return [] as Venue[]
+    }
+}
+
 export const defaultVenue: Venue = {
     VenueName: '',
     Location: '',
