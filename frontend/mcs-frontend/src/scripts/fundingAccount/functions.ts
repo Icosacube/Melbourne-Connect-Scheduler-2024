@@ -46,7 +46,7 @@ export const defaultFundingAccount: FundingAccount = {
 // Function to get all funding accounts
 export async function getFundingAccounts(): Promise<FundingAccount[]> {
     try {
-        const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/funding_accounts');
+        const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/funding-accounts');
         const rawFundingAccounts = res.data;
         const formattedFundingAccounts = rawFundingAccounts.map((event: any) =>
             reformatFundingAccountResponseData(event),
