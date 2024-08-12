@@ -74,7 +74,7 @@ export const SideNavBar: React.FC = () => {
 
     return (
         <>
-            <Drawer variant="permanent" className="w-48">
+            <Box className="h-full w-full">
                 <NavLink to="/dashboard">
                     <Button className="bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
                         <Logo1 />
@@ -149,7 +149,7 @@ export const SideNavBar: React.FC = () => {
                         ))}
                     </List>
                 </Box> */}
-            </Drawer>
+            </Box>
         </>
     )
 }
