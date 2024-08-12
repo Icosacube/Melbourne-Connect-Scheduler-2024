@@ -62,6 +62,9 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                 setShowSuccess(false)
             }, 2000)
         }, 0)
+        setTimeout(() => {
+            window.location.reload()
+        }, 1000)
     }
     const [speakers, setSpeakers] = useState(speakers_)
     const [venues, setVenues] = useState(venues_)
