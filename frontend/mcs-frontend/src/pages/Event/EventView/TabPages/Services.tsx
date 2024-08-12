@@ -77,8 +77,17 @@ export const Services: FC<ServicesProps> = ({ event }) => {
             headerClassName: 'services-table',
             flex: 1,
             valueFormatter: (params) => {
-                const value = params as number // Access the value correctly
-                return `$${value.toFixed(2)}` // Format the number with 2 decimal places and add the $ symbol
+                const value = params as number;
+
+                // Format the number to two decimal places and with $ symbol
+                const formattedValue = new Intl.NumberFormat('en-AU', {
+                    style: 'currency',
+                    currency: 'AUD',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                }).format(value);
+
+                return formattedValue;
             },
         },
         {
