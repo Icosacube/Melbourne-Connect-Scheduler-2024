@@ -1,4 +1,4 @@
-import { Button, Grid, Modal, Paper } from '@mui/material'
+import { Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
@@ -7,11 +7,7 @@ import { FormInputText } from '../../../components/FormComponents/FormInputText'
 import { FormInputDropdownSingle } from '../../../components/FormComponents/FormInputDropdownSingle'
 import { createFlight, defaultFlight } from '../../../scripts/flight/function'
 import { Flight, FundingAccount } from '../../../types/frontendTypes'
-import {
-    defaultFundingAccount,
-    getAllFundingAccounts,
-    getFundingAccountByID,
-} from '../../../scripts/fundingAccount/function'
+import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
 
 interface CreateFlightModalProps {
     handleClose: () => void
@@ -47,11 +43,12 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
     const onSubmit = async (data: Flight) => {
         try {
             data.Trip = [tripID]
-            //placeholder
-            console.log(data)
             const res = await createFlight(data)
             if (res) {
                 setShowSuccess(true)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
             } else {
                 console.log('Failed to create flight')
             }
@@ -77,6 +74,9 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                         spacing={3}
                         className="w-full p-7 flex space-between justify-items"
                     >
+                        <Grid item xs={12}>
+                            <Typography variant="h4">Add New Flight</Typography>
+                        </Grid>
                         <Grid item xs={12} md={4} lg={3}>
                             <FormInputText
                                 name="Airline"
@@ -145,7 +145,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                                 label="Arrival Time"
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} container justifyContent="flex-end">
                             <Button
                                 variant="contained"
                                 onClick={handleSubmit(onSubmit)}

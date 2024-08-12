@@ -47,6 +47,9 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
             if (res.status == 200) {
                 setShowSuccess(true)
                 addCatering(data)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
             } else {
                 console.log('Failed to create catering')
             }

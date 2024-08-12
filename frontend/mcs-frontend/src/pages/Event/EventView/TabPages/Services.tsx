@@ -8,7 +8,7 @@ import {
 import { getCateringByEventID } from '../../../../scripts/catering/functions'
 import Headline from './Headline'
 import { Box, Button, Typography } from '@mui/material'
-import { getFundingAccounts } from '../../../../scripts/fundingAccount/functions'
+import { getAllFundingAccounts } from '../../../../scripts/fundingAccount/function'
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined'
 import { CreateCateringModal } from './CreateCateringModal'
 import dayjs from 'dayjs'
@@ -30,7 +30,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
                 const [fetchedCatering, fetchedFundingAccounts] =
                     await Promise.all([
                         getCateringByEventID(event.RecordID),
-                        getFundingAccounts(),
+                        getAllFundingAccounts(),
                     ])
 
                 setCatering(fetchedCatering)
@@ -77,7 +77,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
             headerClassName: 'services-table',
             flex: 1,
             valueFormatter: (params) => {
-                const value = params as number;
+                const value = params as number
 
                 // Format the number to two decimal places and with $ symbol
                 const formattedValue = new Intl.NumberFormat('en-AU', {
@@ -85,9 +85,9 @@ export const Services: FC<ServicesProps> = ({ event }) => {
                     currency: 'AUD',
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
-                }).format(value);
+                }).format(value)
 
-                return formattedValue;
+                return formattedValue
             },
         },
         {

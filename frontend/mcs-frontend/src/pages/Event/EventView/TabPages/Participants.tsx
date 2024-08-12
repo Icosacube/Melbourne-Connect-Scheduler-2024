@@ -1,15 +1,18 @@
-import { Box } from "@mui/material";
-import React from "react";
-import Headline from "./Headline";
-import { ParticipantsTable } from "./ParticipantsTable";
+import { Box } from '@mui/material'
+import React, { FC } from 'react'
+import Headline from './Headline'
+import { Speaker } from '../../../../types/frontendTypes'
+import { SpeakerTable } from '../../../Speaker/SpeakerOverview/SpeakerTable'
 
-function Participants() {
-  return (
-    <Box>
-      <Headline />
-      <ParticipantsTable />
-    </Box>
-  );
+interface ParticipantsProps {
+    speakers: Speaker[]
 }
 
-export default Participants;
+export const Participants: FC<ParticipantsProps> = ({ speakers }) => {
+    return (
+        <Box>
+            <Headline />
+            <SpeakerTable data={speakers} />
+        </Box>
+    )
+}
