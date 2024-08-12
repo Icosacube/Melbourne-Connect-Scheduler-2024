@@ -22,7 +22,6 @@ function reformatFundingAccountResponseData(data: any): FundingAccount {
         Flight: data.Flight || defaultFundingAccount.Flight,
         Service: data.Service || defaultFundingAccount.Service,
     };
-
     return fundingAccount;
 }
 
@@ -47,7 +46,7 @@ export const defaultFundingAccount: FundingAccount = {
 // Function to get all funding accounts
 export async function getFundingAccounts(): Promise<FundingAccount[]> {
     try {
-        const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/funding-accounts');
+        const res = await axios.get(process.env.REACT_APP_BACKEND_URL + '/funding_accounts');
         const rawFundingAccounts = res.data;
         const formattedFundingAccounts = rawFundingAccounts.map((event: any) =>
             reformatFundingAccountResponseData(event),
