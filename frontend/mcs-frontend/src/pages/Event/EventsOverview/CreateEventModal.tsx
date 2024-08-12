@@ -11,6 +11,7 @@ import { MainEvent } from '../../../types/backendTypes'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
 import createEvent from '../../../scripts/event/createEvent'
+import {FormInputDateTime} from "../../../components/FormComponents/FormInputDateTime";
 
 interface CreateEventModalProps {
     handleClose: () => void
@@ -166,7 +167,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                                 control={control}
                                 label="Event Abstract"
                             />
-                            <FormInputDate
+                            <FormInputDateTime
                                 name="date"
                                 control={control}
                                 label="Date"
