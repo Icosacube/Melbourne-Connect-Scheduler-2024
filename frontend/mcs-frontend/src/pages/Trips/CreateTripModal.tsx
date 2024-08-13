@@ -141,7 +141,6 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                             <Button
                                 variant="contained"
                                 onClick={handleSubmit(onSubmit)}
-                                className="bg-primary text-white hover:bg-tertiary"
                             >
                                 Save
                             </Button>

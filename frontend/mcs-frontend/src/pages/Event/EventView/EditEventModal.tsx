@@ -1,4 +1,4 @@
-import { Box, Button, Modal, Typography } from '@mui/material'
+import { Button, Modal, Typography, Paper, Grid } from '@mui/material'
 import 'dayjs/locale/en-au'
 import React, { FC, useEffect, useState } from 'react'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
@@ -7,6 +7,7 @@ import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
 import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
 import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown'
 import { FormInputText } from '../../../components/FormComponents/FormInputText'
+import { FormInputTextLong } from '../../../components/FormComponents/FormInputTextLong'
 import { useForm } from 'react-hook-form'
 import { Dayjs } from 'dayjs'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
@@ -108,80 +109,87 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     }
 
     const loadingScreen = <>Loading...</>
-
     const loadedModal = (
-        <>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
-                    <Typography variant="h5" className="mb-4">
-                        Edit Event
-                    </Typography>
-                    {/* Left */}
-                    <Box className="flex space-x-10 mb-4">
-                        <Box className="space-y-4">
-                            <FormInputText
-                                name="eventName"
-                                control={control}
-                                label="Event Name"
-                            />
-                            <FormInputMultiSelect
-                                name="venue"
-                                control={control}
-                                label="Venue"
-                                options={generateVenues()}
-                            />
-                            <FormInputMultiSelect
-                                name="speaker"
-                                control={control}
-                                label="Speaker"
-                                options={generateSpeakers()}
-                            />
-                        </Box>
-                        {/* Right */}
-                        <Box className="space-y-4">
-                            <FormInputText
-                                name="eventDescription"
-                                control={control}
-                                label="Event Description"
-                            />
-                            <FormInputText
-                                name="eventAbstract"
-                                control={control}
-                                label="Event Abstract"
-                            />
-                            <FormInputDate
-                                name="date"
-                                control={control}
-                                label="Date"
-                            />
-                        </Box>
-                    </Box>
-                    <Box className="space-x-4">
-                        <Button
-                            onClick={handleSubmit(onSubmit)}
-                            variant={'contained'}
-                        >
-                            Submit
-                        </Button>
-                        <Button onClick={() => reset()} variant={'outlined'}>
-                            Reset
-                        </Button>
-                    </Box>
-                </Box>
-            </Modal>
-
-            {/* Snackbar for success message after event creation */}
-            <BottomSuccessSnackbar
-                showSuccess={showSuccess}
-                setShowSuccess={setShowSuccess}
-                message="Event created successfully"
-            />
-        </>
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 w-9/12">
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <Typography variant="h4" className="mb-4">
+                            Edit Event
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormInputText
+                            name="eventName"
+                            control={control}
+                            label="Event Name"
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                        <FormInputDate
+                            name="date"
+                            control={control}
+                            label="Date"
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={5}>
+                        <FormInputMultiSelect
+                            name="speaker"
+                            control={control}
+                            label="Speaker"
+                            options={generateSpeakers()}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <FormInputMultiSelect
+                            name="venue"
+                            control={control}
+                            label="Venue"
+                            options={generateVenues()}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <FormInputTextLong
+                            name="eventDescription"
+                            control={control}
+                            label="Event Description"
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <FormInputTextLong
+                            name="eventAbstract"
+                            control={control}
+                            label="Event Abstract"
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justifyContent="flex-end" spacing={2}>
+                            <Grid item>
+                                <Button
+                                    onClick={handleSubmit(onSubmit)}
+                                    variant="contained"
+                                >
+                                    Submit
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    onClick={() => reset()}
+                                    variant="outlined"
+                                >
+                                    Reset
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Paper>
+        </Modal>
     )
 
     return loading ? loadingScreen : loadedModal
