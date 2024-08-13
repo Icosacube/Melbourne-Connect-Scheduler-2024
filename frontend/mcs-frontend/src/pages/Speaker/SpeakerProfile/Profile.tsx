@@ -33,7 +33,7 @@ export const Profile: FC = () => {
   ];
   const contactInformation =
     'Email: frances@example.com | Phone: +1 (123) 456-7890';
-
+  const formLink = 'https://airtable.com/app79kFx8O6KyDmzX/pag336RqzBNZZTYCd/form'
   const emailSubject = `Meeting Availability for ${professorName}`;
   const emailBody = `Dear ${recipientName},
 
@@ -47,6 +47,8 @@ I am available for a meeting at the following times:
 - ${availableTimes[3]}
 
 Please let me know which of these options works best for you, or if you have any alternative times in mind. Additionally, feel free to suggest a preferred meeting platform (e.g., Zoom, Microsoft Teams) or location if an in-person meeting is possible.
+
+Additionally, please use this form to submit personal information about yourself: ${formLink}
 
 I look forward to hearing from you and finding a mutually convenient time to meet.
 

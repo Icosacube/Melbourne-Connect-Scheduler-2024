@@ -19,6 +19,7 @@ import {
     Events,
     Speakers,
     Profile,
+    Homepage,
 } from './pages'
 import { Trip } from './pages/Trips/Trip'
 import { Trips } from './pages/Trips/TripsOverview/Trips'
@@ -42,6 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 {
                     path: '/dashboard',
                     element: <Dashboard />,
+                    errorElement: <ErrorPage />,
+                },
+                {
+                    path: '/',
+                    element: <Homepage />,
                     errorElement: <ErrorPage />,
                 },
                 {

@@ -92,6 +92,9 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
             const res: AxiosResponse = await createSpeaker(data)
             if (res.status === 200) {
                 setShowSuccess(true)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
             } else {
                 console.log('Failed to create speaker')
             }
@@ -267,24 +270,6 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                                 name="Confirmed"
                                 control={control}
                                 label="Confirmed"
-                            />
-                            <FormInputMultiSelect
-                                name="Trip"
-                                control={control}
-                                label="Trip"
-                                options={trips}
-                            />
-                            <FormInputMultiSelect
-                                name="MainEvent"
-                                control={control}
-                                label="Main Event"
-                                options={mainEvents}
-                            />
-                            <FormInputMultiSelect
-                                name="SubEvent"
-                                control={control}
-                                label="Sub Event"
-                                options={subEvents}
                             />
                         </Box>
                     </Box>

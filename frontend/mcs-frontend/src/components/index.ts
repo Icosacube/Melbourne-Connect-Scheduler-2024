@@ -8,3 +8,4 @@ export * from "./SpeakerTitle";
 export * from "./ProfileHeader";
 export * from "./SpeakerTag";
 export * from "./Calendar";
+export * from "./ProfileHeaderCard"

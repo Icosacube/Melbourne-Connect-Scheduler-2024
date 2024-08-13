@@ -11,6 +11,7 @@ import { MainEvent } from '../../../types/backendTypes'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
 import createEvent from '../../../scripts/event/createEvent'
+import {FormInputDateTime} from "../../../components/FormComponents/FormInputDateTime";
 
 interface CreateEventModalProps {
     handleClose: () => void
@@ -60,12 +61,15 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
             Service: [],
             Completed: false,
             Trip: [],
-            SubEvent: []
+            SubEvent: [],
         }
         createEvent(eventData, eventData.Speaker[0])
         setShowSuccess(true)
         reset()
         handleClose()
+        setTimeout(() => {
+            window.location.reload()
+        }, 1000)
         console.log(data)
     }
 
@@ -84,41 +88,38 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     useEffect(() => {
         if (loading && open) {
             const fetchData = async () => {
-                console.log("loading data!", loading, open)
+                console.log('loading data!', loading, open)
                 setSpeakers(await getAllSpeakers())
                 setVenues(await getAllVenues())
                 setLoading(false)
             }
-    
+
             fetchData()
         }
-        
     }, [speakers, venues, open])
 
     const generateSpeakers = () => {
         var speakerList: { label: string; value: string }[] = []
-        speakers.forEach(speaker => {
-            
+        speakers.forEach((speaker) => {
             speakerList.push({
                 label: `${speaker.FirstName} ${speaker.LastName}`,
-                value: `${speaker.RecordID}`
+                value: `${speaker.RecordID}`,
             })
-        });
+        })
 
-        return speakerList;
+        return speakerList
     }
 
     const generateVenues = () => {
         var venueList: { label: string; value: string }[] = []
-        venues.forEach(venue => {
-            
+        venues.forEach((venue) => {
             venueList.push({
                 label: `${venue.VenueName}`,
-                value: `${venue.RecordID}`
+                value: `${venue.RecordID}`,
             })
-        });
+        })
 
-        return venueList;
+        return venueList
     }
 
     return (
@@ -166,7 +167,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                                 control={control}
                                 label="Event Abstract"
                             />
-                            <FormInputDate
+                            <FormInputDateTime
                                 name="date"
                                 control={control}
                                 label="Date"
