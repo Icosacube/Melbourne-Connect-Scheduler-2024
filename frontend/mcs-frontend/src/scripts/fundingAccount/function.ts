@@ -32,7 +32,7 @@ export async function getAllFundingAccounts(): Promise<
 > {
     try {
         const res = await axios.get(
-            process.env.REACT_APP_BACKEND_URL + '/funding_accounts'
+            process.env.REACT_APP_BACKEND_URL + '/funding-accounts'
         )
         const rawFundingAccounts = res.data
         const formattedFundingAccounts = rawFundingAccounts.map(
