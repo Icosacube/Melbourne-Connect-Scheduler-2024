@@ -8,4 +8,5 @@ export * from "./SpeakerTitle";
 export * from "./ProfileHeader";
 export * from "./SpeakerTag";
 export * from "./Calendar";
-export * from "./ProfileHeaderCard"
+export * from "./ProfileHeaderCard/ProfileHeaderCard";
+export * from "./EventCard/EventCard";
