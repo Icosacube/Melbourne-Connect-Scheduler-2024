@@ -17,10 +17,10 @@ export const Speakers: FC = () => {
             <Box className=" flex flex-col">
                 <Button
                     variant="contained"
-                    className=" flex space-x-2 bg-secondary hover:bg-accent hover:text-black mb-3 self-end h-12"
+                    className="flex self-end h-12"
                     onClick={handleOpen}
                 >
-                    <AddCircleOutlineOutlined />
+                    <AddCircleOutlineOutlined className="mr-2" />
                     <Typography>New Speaker</Typography>
                 </Button>
 

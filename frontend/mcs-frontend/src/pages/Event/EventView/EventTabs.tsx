@@ -20,20 +20,7 @@ export const EventTabs:FC<EventTabsProps> = ({ getTabName }) => {
       <Tabs
         value={value}
         onChange={handleChange}
-        aria-label="event tabs"
-        sx={{
-          '& .MuiTab-root.Mui-selected': {
-            color: '#FBB533' // Text color when selected
-          },
-          '& .MuiTabs-indicator': {
-            backgroundColor: '#FBB533'
-            // Change the indicator color
-          },
-          '& .MuiTab-root': {
-            fontWeight: 'bold',
-            fontSize: '1.25rem'
-          }
-        }}>
+        aria-label="event tabs">
         <Tab label="About" value="About" />
         <Tab label="Participants" value="Participants" />
         <Tab label="Programme" value="Programme" />

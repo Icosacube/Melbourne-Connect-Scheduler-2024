@@ -59,7 +59,6 @@ export const ProfileHeaderCard: FC<ProfileHeaderCardProps> = ({ speaker }) => {
                                     color="text.secondary"
                                     sx={{
                                         marginTop: '4px',
-                                        fontFamily: 'Futura',
                                         lineHeight: 1.2,
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',

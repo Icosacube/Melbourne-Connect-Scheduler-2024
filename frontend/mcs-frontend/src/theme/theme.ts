@@ -48,44 +48,42 @@ const themeOptions: ThemeOptions = {
         },
         h5: {
             fontFamily: 'Futura, sans-serif',
-            color: 'text.primary',
+            color: '2A2A2A',
             maxLines: 2,
-            lineHeight: 1.3,
+            lineHeight: 1.2,
+            fontWeight: 500,
         },
         h6: {
             fontFamily: 'Futura, sans-serif',
-            color: 'text.primary',
+            color: '2A2A2A',
             maxLines: 2,
-            lineHeight: 1.3,
+            lineHeight: 1.2,
         },
         subtitle1: {
-            fontFamily: 'Poppins, sans-serif',
-            color: 'text.secondary',
+            color: '#595959',
             lineHeight: 1.3,
         },
         subtitle2: {
-            fontFamily: 'Poppins, sans-serif',
-            color: 'text.secondary',
+            color: '#595959',
             lineHeight: 1.3,
         },
         body1: {
-            fontFamily: 'Poppins, sans-serif',
+            color: '#2A2A2A',
             lineHeight: 1.3,
         },
         body2: {
-            fontFamily: 'Poppins, sans-serif',
+            color: '#2A2A2A',
             lineHeight: 1.2,
         },
         caption: {
-            fontFamily: 'Poppins, sans-serif',
             lineHeight: 1.2,
         },
         button: {
-            fontFamily: 'Poppins, sans-serif',
             lineHeight: 1.2,
         },
     },
     components: {
+        /* Text field styling */
         MuiTextField: {
             styleOverrides: {
                 root: {
@@ -121,6 +119,7 @@ const themeOptions: ThemeOptions = {
                 },
             },
         },
+        /* Dropdown select field styling */
         MuiSelect: {
             styleOverrides: {
                 select: {
@@ -137,6 +136,52 @@ const themeOptions: ThemeOptions = {
             styleOverrides: {
                 notchedOutline: {
                     border: 'none',
+                },
+            },
+        },
+        /* Tab styling */
+        MuiTabs: {
+            styleOverrides: {
+                root: {
+                    '& .MuiTab-root.Mui-selected': {
+                        color: '#FBAB18', // Text color when selected
+                    },
+                    '& .MuiTabs-indicator': {
+                        backgroundColor: '#FBAB18',
+                    },
+                },
+            },
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    fontSize: 20,
+                    textTransform: 'none', // avoid capitalization
+                    fontFamily: '"Futura", sans-serif',
+                    letterSpacing: '1px',
+                    '&.Mui-selected': {
+                        color: '#FBAB18',
+                    },
+                },
+            },
+        },
+
+        /* Button styling */
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    textTransform: 'none',
+                },
+            },
+        },
+
+        /* Paper styling */
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '6px',
+                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                    height: 'auto',
                 },
             },
         },

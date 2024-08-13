@@ -3,6 +3,8 @@ import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import type { GridColDef } from "@mui/x-data-grid";
 import { MainEvent, Speaker } from "../../../types/frontendTypes";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import PendingIcon from '@mui/icons-material/Pending'
 
 interface EventsTableProps {
   events: MainEvent[];
@@ -21,24 +23,27 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
 
   const columns: GridColDef<MainEvent>[] = [
     {
-      field: "EventName",
-      headerName: "Event Name",
-      headerClassName: "event-table",
-      flex: 1,
-      width: 280,
-    },
-    {
       field: "Date",
       headerName: "Date",
       headerClassName: "event-table",
-      width: 280,
+      width: 160,
+      renderCell: (params) => params.value.format('DD/MM/YYYY, HH:MM'),
+    },
+    {
+      field: "EventName",
+      headerName: "Event Name",
+      headerClassName: "event-table",
+      flex: 2,
+      minWidth: 200,
+      maxWidth: 800,
     },
     {
       field: "Speaker",
       headerName: "Speaker",
       headerClassName: "event-table",
-      flex: 0,
-      minWidth: 280,
+      flex: 1,
+      minWidth: 200,
+      maxWidth: 450,
       renderCell: (params) => {
         const speakerIds = params.row.Speaker;
         const speakerNames = speakerIds
@@ -52,12 +57,25 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
       },
     },
     {
-      field: "Completed",
-      headerName: "Completed",
-      headerClassName: "event-table",
-
-      width: 100,
-    },
+      field: 'Completed',
+      headerName: 'Status',
+      headerClassName: 'event-table',
+      width: 72,
+      align: 'center',
+      renderCell: (params) => {
+          return params.value ? (
+              <CheckCircleIcon
+                  fontSize="medium"
+                  sx={{ color: 'success.main' }}
+              />
+          ) : (
+              <PendingIcon
+                  fontSize="medium"
+                  sx={{ color: 'primary.main' }}
+              />
+          )
+      },
+  },
   ];
 
   return (

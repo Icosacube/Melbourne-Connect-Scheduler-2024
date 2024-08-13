@@ -54,7 +54,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
                 sx={{ flexGrow: 1, width: '100%', height: '100%' }}
             >
                 <CardContent>
-                    <Stack direction="column" spacing={1.2}>
+                    <Stack direction="column" spacing={1}>
                         <Stack direction="row" spacing={0.5}>
                             {event.Completed ? (
                                 <CheckCircleIcon
