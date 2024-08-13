@@ -6,7 +6,7 @@ import React, { FC } from 'react'
 export const Layout: FC = () => {
     return (
         <>
-            <Box className="bg-backGround flex h-screen w-full">
+            <Box className="flex h-screen w-full">
                 <Box className="w-56">
                     <SideNavBar />
                 </Box>
