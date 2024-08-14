@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { SpeakerTitle } from '../../components/SpeakerTitle/SpeakerTitle';
+import { SpeakerTitle } from '../../../components/SpeakerTitle/SpeakerTitle';
 
 describe('SpeakerTitle', () => {
   it('renders speaker information correctly', () => {

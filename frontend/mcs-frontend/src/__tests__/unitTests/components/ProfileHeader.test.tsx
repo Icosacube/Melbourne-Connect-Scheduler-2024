@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { ProfileHeader } from '../../components/ProfileHeader/ProfileHeader';
+import { ProfileHeader } from '../../../components/ProfileHeader/ProfileHeader';
 
 describe('ProfileHeader', () => {
   const props = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import DefaultTopNavBar from '../../components/TopNavBar/DefaultTopNavBar';
+import DefaultTopNavBar from '../../../components/TopNavBar/DefaultTopNavBar';
 
 describe('DefaultTopNavBar', () => {
   it('renders page name correctly', () => {

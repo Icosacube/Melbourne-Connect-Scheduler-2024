@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { ProfileCard } from '../../components/ProfileCard/ProfileCard';
+import { ProfileCard } from '../../../components/ProfileCard/ProfileCard';
 
 describe('ProfileCard', () => {
   it('renders profile information correctly', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
+import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar';
 
 describe('BottomSuccessSnackbar', () => {
   it('renders when showSuccess is true', () => {

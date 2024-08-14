@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { AddButton } from '../../components/AddButton/AddButton';
+import { AddButton } from '../../../components/AddButton/AddButton';
 
 describe('AddButton', () => {
   it('renders with correct type and children', () => {

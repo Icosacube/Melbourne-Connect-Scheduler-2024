@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { EventTitle } from '../../components/EventTitle/EventTitle';
+import { EventTitle } from '../../../components/EventTitle/EventTitle';
 
 const mockEvent = {
   title: 'Test Event',

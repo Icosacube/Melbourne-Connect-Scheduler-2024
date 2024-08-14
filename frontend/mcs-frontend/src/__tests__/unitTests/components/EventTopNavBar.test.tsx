@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import EventTopNavBar from '../../components/TopNavBar/EventTopNavBar';
+import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar';
 import { MemoryRouter } from 'react-router-dom';
 
 const mockNavigate = jest.fn();
