@@ -23,7 +23,7 @@ const NameCard: FC<NameCardProps> = ({ firstName, lastName, position }) => {
       <Stack>
         <Typography variant="h5">{firstName}</Typography>
         <Typography variant="h5">{lastName}</Typography>
-        <Typography variant="h6" className="text-gray-400">
+        <Typography variant="subtitle1">
           {position}
         </Typography>
       </Stack>
@@ -56,7 +56,7 @@ export const About: FC<AboutProps> = ({ event, speakers }) => {
             <Stack>
               <Typography variant="h5">{firstSpeaker.FirstName}</Typography>
               <Typography variant="h5">{firstSpeaker.LastName}</Typography>
-              <Typography variant="h6" className="text-gray-400">
+              <Typography variant="subtitle1">
                 {firstSpeaker.Organisation}
               </Typography>
             </Stack>

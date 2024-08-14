@@ -2,7 +2,7 @@ import { Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import { FormInputTime } from '../../../components/FormComponents/FormInputTime'
+import { FormInputDateTime } from '../../../components/FormComponents/FormInputDateTime'
 import { FormInputText } from '../../../components/FormComponents/FormInputText'
 import { FormInputDropdownSingle } from '../../../components/FormComponents/FormInputDropdownSingle'
 import { createFlight, defaultFlight } from '../../../scripts/flight/function'
@@ -125,7 +125,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12} md={8} lg={3.5}>
-                            <FormInputTime
+                            <FormInputDateTime
                                 name="DepartDate"
                                 control={control}
                                 label="Departure Time"
@@ -139,7 +139,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12} md={8} lg={3.5}>
-                            <FormInputTime
+                            <FormInputDateTime
                                 name="ArriveDate"
                                 control={control}
                                 label="Arrival Time"

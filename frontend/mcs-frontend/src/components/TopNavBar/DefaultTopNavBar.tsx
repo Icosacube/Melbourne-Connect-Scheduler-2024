@@ -7,7 +7,7 @@ interface DefaultTopNavBarProps {
 
 const DefaultTopNavBar: React.FC<DefaultTopNavBarProps> = ({ pageName }) => {
   return (
-    <Typography variant="h4" className="text-black ml-6">
+    <Typography variant="h2" className="ml-6">
       {pageName}
     </Typography>
   );

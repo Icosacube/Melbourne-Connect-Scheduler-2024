@@ -1,8 +1,9 @@
-import { Box, Button, Modal, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
+import { FormInputDateTime } from '../../../components/FormComponents/FormInputDateTime'
+import { FormInputTextLong } from '../../../components/FormComponents/FormInputTextLong'
 import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown'
 import { FormInputText } from '../../../components/FormComponents/FormInputText'
 import dayjs, { Dayjs } from 'dayjs'
@@ -11,7 +12,6 @@ import { MainEvent } from '../../../types/backendTypes'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
 import createEvent from '../../../scripts/event/createEvent'
-import {FormInputDateTime} from "../../../components/FormComponents/FormInputDateTime";
 
 interface CreateEventModalProps {
     handleClose: () => void
@@ -44,8 +44,38 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         defaultValues: CreateEventFormDefaultValues,
     })
 
+    const [showSuccess, setShowSuccess] = useState(false)
+    const [speakers, setSpeakers] = useState<Speaker[]>([])
+    const [venues, setVenues] = useState<Venue[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        if (loading && open) {
+            const fetchData = async () => {
+                setSpeakers(await getAllSpeakers())
+                setVenues(await getAllVenues())
+                setLoading(false)
+            }
+
+            fetchData()
+        }
+    }, [loading, open])
+
+    const generateSpeakers = () => {
+        return speakers.map((speaker) => ({
+            label: `${speaker.FirstName} ${speaker.LastName}`,
+            value: speaker.RecordID,
+        }))
+    }
+
+    const generateVenues = () => {
+        return venues.map((venue) => ({
+            label: venue.VenueName,
+            value: venue.RecordID,
+        }))
+    }
+
     const onSubmit = (data: CreateEventFormInput) => {
-        // cast data to event type
         const eventData: MainEvent = {
             EventName: data.eventName,
             EventAbstract: data.eventAbstract,
@@ -63,63 +93,21 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
             Trip: [],
             SubEvent: [],
         }
-        createEvent(eventData, eventData.Speaker[0])
-        setShowSuccess(true)
-        reset()
-        handleClose()
-        setTimeout(() => {
-            window.location.reload()
-        }, 1000)
-        console.log(data)
+        createEvent(eventData, data.speaker[0])
+            .then(() => {
+                setShowSuccess(true)
+                reset()
+                handleClose()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
+            })
+            .catch((error) => console.error(error))
     }
 
     const onClose = () => {
         handleClose()
         reset()
-    }
-
-    // Intent: load data when first opening modal, and that's it
-    const speakers_: Speaker[] = []
-    const venues_: Venue[] = []
-    const [showSuccess, setShowSuccess] = useState(false)
-    const [speakers, setSpeakers] = useState(speakers_)
-    const [venues, setVenues] = useState(venues_)
-    const [loading, setLoading] = useState(true)
-    useEffect(() => {
-        if (loading && open) {
-            const fetchData = async () => {
-                console.log('loading data!', loading, open)
-                setSpeakers(await getAllSpeakers())
-                setVenues(await getAllVenues())
-                setLoading(false)
-            }
-
-            fetchData()
-        }
-    }, [speakers, venues, open])
-
-    const generateSpeakers = () => {
-        var speakerList: { label: string; value: string }[] = []
-        speakers.forEach((speaker) => {
-            speakerList.push({
-                label: `${speaker.FirstName} ${speaker.LastName}`,
-                value: `${speaker.RecordID}`,
-            })
-        })
-
-        return speakerList
-    }
-
-    const generateVenues = () => {
-        var venueList: { label: string; value: string }[] = []
-        venues.forEach((venue) => {
-            venueList.push({
-                label: `${venue.VenueName}`,
-                value: `${venue.RecordID}`,
-            })
-        })
-
-        return venueList
     }
 
     return (
@@ -130,65 +118,89 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
-                    <Typography variant="h5" className="mb-4">
-                        Create Event
-                    </Typography>
-                    {/* Left */}
-                    <Box className="flex space-x-10 mb-4">
-                        <Box className="space-y-4">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 w-9/12">
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <Typography variant="h4" className="mb-4">
+                                Create Event
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
                             <FormInputText
                                 name="eventName"
                                 control={control}
                                 label="Event Name"
                             />
-                            <FormInputMultiSelect
-                                name="venue"
+                        </Grid>
+
+                        <Grid item xs={12} md={3}>
+                            <FormInputDateTime
+                                name="date"
                                 control={control}
-                                label="Venue"
-                                options={generateVenues()}
+                                label="Date"
                             />
+                        </Grid>
+                        <Grid item xs={12} md={5}>
                             <FormInputMultiSelect
                                 name="speaker"
                                 control={control}
                                 label="Speaker"
                                 options={generateSpeakers()}
                             />
-                        </Box>
-                        {/* Right */}
-                        <Box className="space-y-4">
-                            <FormInputText
+                        </Grid>
+
+
+                        <Grid item xs={12} sm={12} md={4}>
+                            <FormInputMultiSelect
+                                name="venue"
+                                control={control}
+                                label="Venue"
+                                options={generateVenues()}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} md={6}>
+                            <FormInputTextLong
+                                name="eventAbstract"
+                                control={control}
+                                label="Talk Abstract"
+                            />
+                        </Grid>
+                        <Grid item xs={12}  md={6}>
+                            <FormInputTextLong
                                 name="eventDescription"
                                 control={control}
                                 label="Event Description"
                             />
-                            <FormInputText
-                                name="eventAbstract"
-                                control={control}
-                                label="Event Abstract"
-                            />
-                            <FormInputDateTime
-                                name="date"
-                                control={control}
-                                label="Date"
-                            />
-                        </Box>
-                    </Box>
-                    <Box className="space-x-4">
-                        <Button
-                            onClick={handleSubmit(onSubmit)}
-                            variant={'contained'}
-                        >
-                            Submit
-                        </Button>
-                        <Button onClick={() => reset()} variant={'outlined'}>
-                            Reset
-                        </Button>
-                    </Box>
-                </Box>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Grid
+                                container
+                                justifyContent="flex-end"
+                                spacing={2}
+                            >
+                                <Grid item>
+                                    <Button
+                                        onClick={handleSubmit(onSubmit)}
+                                        variant="contained"
+                                    >
+                                        Submit
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button
+                                        onClick={() => reset()}
+                                        variant="outlined"
+                                    >
+                                        Reset
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Paper>
             </Modal>
 
-            {/* Snackbar for success message after event creation */}
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}

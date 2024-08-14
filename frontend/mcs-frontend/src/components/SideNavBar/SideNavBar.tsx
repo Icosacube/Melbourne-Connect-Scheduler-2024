@@ -83,7 +83,7 @@ export const SideNavBar: React.FC = () => {
                 </NavLink>
                 <Box className="h-full bg-primary">
                     <List className="w-full bg-primary ">
-                        <Typography variant="h6" className="ml-4">
+                        <Typography variant="h6" fontWeight={400} className="ml-5">
                             Overview
                         </Typography>
                         {overviewTabs.map((page) => (
@@ -91,7 +91,13 @@ export const SideNavBar: React.FC = () => {
                                 <ListItem key={page.name} disablePadding>
                                     <ListItemButton>
                                         {overviewTabsIcons(page.name)}
-                                        <ListItemText primary={page.name} />
+                                        <ListItemText
+                                            primary={
+                                                <Typography variant="h6">
+                                                    {page.name}
+                                                </Typography>
+                                            }
+                                        />
                                     </ListItemButton>
                                 </ListItem>
                             </NavLink>

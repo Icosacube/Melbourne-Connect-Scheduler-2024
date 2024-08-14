@@ -24,6 +24,9 @@ import {
 import { Trip } from './pages/Trips/Trip'
 import { Trips } from './pages/Trips/TripsOverview/Trips'
 import reportWebVitals from './reportWebVitals'
+import { ThemeProvider } from '@emotion/react'
+import theme from './theme/theme';
+import './fonts.css';
 require('cors')
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -102,10 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const rootContainer = ReactDOM.createRoot(root)
     rootContainer.render(
         <React.StrictMode>
+            <ThemeProvider theme={theme}>
             {/* Material UI CSS needs to be injectFirst so that it does not override tailwind */}
             <StyledEngineProvider injectFirst>
                 <RouterProvider router={router} />
             </StyledEngineProvider>
+            </ThemeProvider>
         </React.StrictMode>
     )
 

@@ -54,7 +54,7 @@ const EventTopNavBar: React.FC<EventTopNavBarProps> = ({ getCurTab, openEditModa
               }}
             />
             <Box className="ml-2">
-              <Typography variant="h4">{tabName}</Typography>
+              <Typography variant="h2">{tabName}</Typography>
               <Breadcrumbs separator="›" aria-label="breadcrumb">
                 {breadcrumbs}
               </Breadcrumbs>
