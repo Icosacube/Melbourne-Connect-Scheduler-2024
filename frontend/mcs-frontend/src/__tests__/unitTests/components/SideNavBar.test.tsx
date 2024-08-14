@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { SideNavBar } from '../../components/SideNavBar/SideNavBar';
+import { SideNavBar } from '../../../components/SideNavBar/SideNavBar';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('SideNavBar', () => {

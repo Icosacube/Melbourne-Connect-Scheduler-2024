@@ -1,19 +1,29 @@
 import axios from 'axios';
-import updateEvent from '../../scripts/updateEvent';
-import { Event, EventStatus } from '../../types/types';
+import updateEvent from '../../../scripts/event/updateEvent';
+import { MainEvent } from '../../../types/frontendTypes';
 import dayjs from 'dayjs';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('updateEvent', () => {
-  const mockEvent: Event = {
-    id: '1',
-    name: 'Updated Event',
-    date: dayjs(),
-    status: EventStatus.Preparation,
-    speakers: [],
-    venue: []
+  const mockEvent: MainEvent = {
+    EventName: 'Updated Event',
+    RecordID: '',
+    EventAbstract: '',
+    EventDescription: '',
+    EventbriteLink: '',
+    EventBanner: '',
+    Date: dayjs(),
+    Notes: '',
+    Speaker: [],
+    GuestAcademic: [],
+    Catering: [],
+    Venue: [],
+    Service: [],
+    Completed: false,
+    Trip: [],
+    SubEvent: []
   };
 
   beforeEach(() => {
