@@ -40,7 +40,8 @@ const themeOptions: ThemeOptions = {
         },
         h4: {
             fontFamily: 'Futura, sans-serif',
-            color: 'text.primary',
+            color: '2A2A2A',
+            letterSpacing: '1px',
             maxLines: 2,
             lineHeight: 1.5,
             fontWeight: 500,
@@ -79,6 +80,12 @@ const themeOptions: ThemeOptions = {
             lineHeight: 1.2,
         },
         button: {
+            fontFamily: 'Futura, sans-serif',
+            color: '2A2A2A',
+            fontSize: '18pt', 
+            letterSpacing: '1px',
+            maxLines: 2,
+            fontWeight: 500,
             lineHeight: 1.2,
         },
     },
@@ -172,6 +179,13 @@ const themeOptions: ThemeOptions = {
                 root: {
                     textTransform: 'none',
                 },
+                contained: {
+                    textTransform: 'none',
+                    height: 'auto',
+                    '&:hover': {
+                      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                    },
+                  },
             },
         },
 
@@ -179,8 +193,6 @@ const themeOptions: ThemeOptions = {
         MuiPaper: {
             styleOverrides: {
                 root: {
-                    borderRadius: '6px',
-                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
                     height: 'auto',
                 },
             },

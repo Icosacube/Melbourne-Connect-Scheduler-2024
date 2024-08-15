@@ -5,9 +5,14 @@ import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/Bot
 import updateEvent from '../../../scripts/event/updateEvent'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
 import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
-import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown'
-import { FormInputText } from '../../../components/FormComponents/FormInputText'
-import { FormInputTextLong } from '../../../components/FormComponents/FormInputTextLong'
+import {
+    FormInputDateTime,
+    FormInputMultiSelect,
+    FormInputText,
+    FormInputTextLong,
+    OutlinedButton,
+    SubmitButton,
+} from '../../../components/'
 import { useForm } from 'react-hook-form'
 import { Dayjs } from 'dayjs'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
@@ -49,13 +54,19 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     })
     const [editedEvent, setEditedEvent] = useState(event)
     const [showSuccess, setShowSuccess] = useState(false)
+
+    const [submitting, setSubmitting] = useState(false)
+
     const speakers_: Speaker[] = []
     const venues_: Venue[] = []
 
     const onSubmit = () => {
+        setSubmitting(true)
         setEvent(editedEvent)
         updateEvent(editedEvent)
         setShowSuccess(false)
+
+        setSubmitting(false)
         handleClose()
         setTimeout(() => {
             setShowSuccess(true)
@@ -116,10 +127,14 @@ export const EditEventModal: FC<EditEventModalProps> = ({
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 w-9/12">
-                <Grid container spacing={3}>
+            <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] min-w-[500px] max-h-[90vh] overflow-y-auto">
+                <Grid
+                    container
+                    spacing={3}
+                    className="w-full p-16 flex space-between justify-items"
+                >
                     <Grid item xs={12}>
-                        <Typography variant="h4" className="mb-4">
+                        <Typography variant="h4" gutterBottom>
                             Edit Event
                         </Typography>
                     </Grid>
@@ -130,27 +145,27 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                             label="Event Name"
                         />
                     </Grid>
-                    <Grid item xs={12} md={3}>
-                        <FormInputDate
+                    <Grid item xs={12} md={5} lg={3}>
+                        <FormInputDateTime
                             name="date"
                             control={control}
                             label="Date"
                         />
                     </Grid>
-                    <Grid item xs={12} md={5}>
-                        <FormInputMultiSelect
-                            name="speaker"
-                            control={control}
-                            label="Speaker"
-                            options={generateSpeakers()}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid item xs={12} md={7} lg={4}>
                         <FormInputMultiSelect
                             name="venue"
                             control={control}
                             label="Venue"
                             options={generateVenues()}
+                        />
+                    </Grid>
+                    <Grid item xs={12} lg={5}>
+                        <FormInputMultiSelect
+                            name="speaker"
+                            control={control}
+                            label="Speaker"
+                            options={generateSpeakers()}
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -164,26 +179,28 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                         <FormInputTextLong
                             name="eventAbstract"
                             control={control}
-                            label="Event Abstract"
+                            label="Talk Abstract"
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <Grid container justifyContent="flex-end" spacing={2}>
-                            <Grid item>
-                                <Button
-                                    onClick={handleSubmit(onSubmit)}
-                                    variant="contained"
-                                >
-                                    Submit
-                                </Button>
-                            </Grid>
-                            <Grid item>
-                                <Button
-                                    onClick={() => reset()}
-                                    variant="outlined"
-                                >
-                                    Reset
-                                </Button>
+                            <Grid
+                                container
+                                spacing={2}
+                                justifyContent="flex-end"
+                            >
+                                <Grid item>
+                                    <OutlinedButton
+                                        onClick={() => reset()}
+                                        name={'Reset'}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <SubmitButton
+                                        submitting={submitting}
+                                        onClick={handleSubmit(onSubmit)}
+                                    />
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>

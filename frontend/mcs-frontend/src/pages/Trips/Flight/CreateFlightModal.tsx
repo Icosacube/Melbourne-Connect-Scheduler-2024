@@ -1,10 +1,8 @@
-import { Button, Grid, Modal, Paper, Typography } from '@mui/material'
+import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import { FormInputDateTime } from '../../../components/FormComponents/FormInputDateTime'
-import { FormInputText } from '../../../components/FormComponents/FormInputText'
-import { FormInputDropdownSingle } from '../../../components/FormComponents/FormInputDropdownSingle'
+import { FormInputDateTime, FormInputText, FormInputSingleSelect, SubmitButton } from '../../../components/'
 import { createFlight, defaultFlight } from '../../../scripts/flight/function'
 import { Flight, FundingAccount } from '../../../types/frontendTypes'
 import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
@@ -26,6 +24,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [fundingAccounts, setFundingAccounts] = useState<FundingAccount[]>([])
+    const [submitting, setSubmitting] = useState(false)
 
     useEffect(() => {
         if (open) {
@@ -41,6 +40,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
     }
 
     const onSubmit = async (data: Flight) => {
+        setSubmitting(true)
         try {
             data.Trip = [tripID]
             const res = await createFlight(data)
@@ -55,6 +55,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
         } catch (error) {
             console.error(error)
         } finally {
+            setSubmitting(false)
             reset()
             onClose()
         }
@@ -65,17 +66,18 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
             <Modal
                 open={open}
                 onClose={onClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                aria-labelledby="add-flight"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 w-9/12">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
                         spacing={3}
-                        className="w-full p-7 flex space-between justify-items"
+                        className="w-full p-16 flex space-between justify-items"
                     >
                         <Grid item xs={12}>
-                            <Typography variant="h4">Add New Flight</Typography>
+                            <Typography variant="h4" gutterBottom>
+                                Add New Flight
+                            </Typography>
                         </Grid>
                         <Grid item xs={12} md={4} lg={3}>
                             <FormInputText
@@ -98,9 +100,39 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                                 label="Flight Reference"
                             />
                         </Grid>
-
+                        <Grid item xs={12} md={4} lg={2.5}>
+                            <FormInputText
+                                name="DepartureFrom"
+                                control={control}
+                                label="Departure City"
+                                required={true}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={8} lg={3.5}>
+                            <FormInputDateTime
+                                name="DepartDate"
+                                control={control}
+                                label="Departure Time"
+                                required={true}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4} lg={2.5}>
+                            <FormInputText
+                                name="ArrivedTo"
+                                control={control}
+                                label="Arrival City"
+                                required={true}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={8} lg={3.5}>
+                            <FormInputDateTime
+                                name="ArriveDate"
+                                control={control}
+                                label="Arrival Time"
+                            />
+                        </Grid>
                         <Grid item xs={12} md={9} lg={9}>
-                            <FormInputDropdownSingle
+                            <FormInputSingleSelect
                                 name="FundingAccount"
                                 control={control}
                                 label="Funding Account"
@@ -114,45 +146,14 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                             <FormInputText
                                 name="Cost"
                                 control={control}
-                                label="Price"
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={4} lg={2.5}>
-                            <FormInputText
-                                name="DepartureFrom"
-                                control={control}
-                                label="Departure City"
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={8} lg={3.5}>
-                            <FormInputDateTime
-                                name="DepartDate"
-                                control={control}
-                                label="Departure Time"
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={4} lg={2.5}>
-                            <FormInputText
-                                name="ArrivedTo"
-                                control={control}
-                                label="Arrival City"
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={8} lg={3.5}>
-                            <FormInputDateTime
-                                name="ArriveDate"
-                                control={control}
-                                label="Arrival Time"
+                                label="Price ($)"
                             />
                         </Grid>
                         <Grid item xs={12} container justifyContent="flex-end">
-                            <Button
-                                variant="contained"
+                            <SubmitButton
+                                submitting={submitting}
                                 onClick={handleSubmit(onSubmit)}
-                                className="bg-primary text-white hover:bg-tertiary"
-                            >
-                                Save
-                            </Button>
+                            />
                         </Grid>
                     </Grid>
                 </Paper>

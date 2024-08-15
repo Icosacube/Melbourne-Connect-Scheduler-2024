@@ -9,11 +9,12 @@ import {
 } from '@mui/material'
 import { FormInputProps, DropdownOptions } from './FormInputProps'
 
-export const FormInputDropdownSingle: React.FC<FormInputProps> = ({
+export const FormInputSingleSelect: React.FC<FormInputProps> = ({
     name,
     control,
     label,
     options = [],
+    required=false,
 }) => {
     return (
         <Controller
@@ -27,7 +28,7 @@ export const FormInputDropdownSingle: React.FC<FormInputProps> = ({
                     variant="outlined"
                     size="small"
                     error={!!fieldState.error}
-                    required
+                    required={required}
                 >
                     <InputLabel>{label}</InputLabel>
                     <Select

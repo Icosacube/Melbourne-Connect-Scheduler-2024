@@ -1,10 +1,10 @@
-import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined'
-import { Box, Button, Typography } from '@mui/material'
+import { Box} from '@mui/material'
 import React from 'react'
 import { TripTable } from './TripsTable'
 import { useLoaderData } from 'react-router-dom'
 import { CreateTripModal } from '../CreateTripModal' // Assuming CreateTripModal is in the same directory
 import { MainEvent, Trip, Speaker } from '../../../types/frontendTypes'
+import { AddButton } from '../../../components'
 
 export function Trips() {
     const { events, speakers, trips } = useLoaderData() as {
@@ -20,14 +20,7 @@ export function Trips() {
         <>
             <Box className="mb-4 flex flex-col">
                 <Box className="flex flex-col">
-                    <Button
-                        variant="contained"
-                        className="flex self-end h-12"
-                        onClick={handleOpen}
-                    >
-                        <AddCircleOutlineOutlined className="mr-2" />
-                        <Typography>Add Trip</Typography>
-                    </Button>
+                <AddButton name={'Trip'} onClick={handleOpen} />
 
                     <CreateTripModal
                         open={open}

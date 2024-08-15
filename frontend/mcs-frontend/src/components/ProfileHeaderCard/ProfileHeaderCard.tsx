@@ -73,7 +73,7 @@ export const ProfileHeaderCard: FC<ProfileHeaderCardProps> = ({ speaker }) => {
                         </Grid>
 
                         {/* Chips Section */}
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} md={4}>
                             <Stack
                                 direction="row"
                                 spacing={1}

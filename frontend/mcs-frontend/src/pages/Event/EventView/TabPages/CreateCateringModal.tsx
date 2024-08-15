@@ -1,15 +1,19 @@
-import { Box, Button, Modal, Typography } from '@mui/material'
+import { Box, Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import dayjs, { Dayjs } from 'dayjs'
-import { FormInputText } from '../../../../components/FormComponents/FormInputText'
-import { FormInputDate } from '../../../../components/FormComponents/FormInputDate'
+import {
+    FormInputNumber,
+    FormInputMultiSelect,
+    FormInputText,
+    FormInputDate,
+    SubmitButton,
+    FormInputTextLong,
+} from '../../../../components/'
 import BottomSuccessSnackbar from '../../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import { AxiosResponse } from 'axios'
 import { Catering } from '../../../../types/frontendTypes'
-import { FormInputMultiSelect } from '../../../../components/FormComponents/FormInputDropdown'
 import { createCatering } from '../../../../scripts/catering/functions'
-import { FormInputNumber } from '../../../../components/FormComponents/FormInputNumber'
 
 interface CreateCateringModalProps {
     handleClose: () => void
@@ -42,6 +46,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
     })
 
     const onSubmit = async (data: Catering) => {
+        setSubmitting(true)
         try {
             const res: AxiosResponse = await createCatering(data, eventID)
             setShowSuccess(true)
@@ -61,35 +66,49 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
     }
 
     const [showSuccess, setShowSuccess] = useState(false)
+    const [submitting, setSubmitting] = useState(false)
 
     return (
         <>
             <Modal
                 open={open}
                 onClose={onClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                aria-labelledby="create-new-trip"
             >
-                <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
-                    <Box className="flex space-x-10 mb-4">
-                        <Box className="space-y-4">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
+                    <Grid
+                        container
+                        spacing={3}
+                        className="w-full p-16 flex space-between justify-items"
+                    >
+                        <Grid item xs={12}>
+                            <Typography variant="h4" gutterBottom>
+                                Add Catering Entry
+                            </Typography>
+                        </Grid>
+
+                        <Grid item xs={12} sm={12} md={6}>
                             <FormInputText
                                 name="BookingReference"
                                 control={control}
                                 label="Booking Reference"
                             />
-                            <FormInputText
-                                name="Description"
+                        </Grid>
+                        <Grid item xs={8} md={4}>
+                            <FormInputDate
+                                name="ExpenseDate"
                                 control={control}
-                                label="Description"
+                                label="Expense Date"
                             />
+                        </Grid>
+                        <Grid item xs={4} md={2}>
                             <FormInputNumber
                                 name="Cost"
                                 control={control}
                                 label="Cost"
                             />
-                        </Box>
-                        <Box className="space-y-4">
+                        </Grid>
+                        <Grid item xs={12} >
                             <FormInputMultiSelect
                                 name="FundingAccount"
                                 control={control}
@@ -102,25 +121,22 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
                                     value: id,
                                 }))}
                             />
-                            <FormInputDate
-                                name="ExpenseDate"
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormInputTextLong
+                                name="Description"
                                 control={control}
-                                label="Expense Date"
+                                label="Description"
                             />
-                        </Box>
-                    </Box>
-                    <Box className="space-x-4">
-                        <Button
-                            onClick={handleSubmit(onSubmit)}
-                            variant={'contained'}
-                        >
-                            Submit
-                        </Button>
-                        <Button onClick={() => reset()} variant={'outlined'}>
-                            Reset
-                        </Button>
-                    </Box>
-                </Box>
+                        </Grid>
+                        <Grid item xs={12} container justifyContent="flex-end">
+                            <SubmitButton
+                                submitting={submitting}
+                                onClick={handleSubmit(onSubmit)}
+                            />
+                        </Grid>
+                    </Grid>
+                </Paper>
             </Modal>
 
             {/* Snackbar for success message after event creation */}

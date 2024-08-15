@@ -2,6 +2,7 @@ import * as React from 'react'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import { FormInputProps } from './FormInputProps'
 import { Controller } from 'react-hook-form'
 
@@ -17,6 +18,11 @@ export const FormInputDateTime = ({ name, control, label }: FormInputProps) => {
                         value={value}
                         onChange={onChange}
                         format="DD/MM/YYYY HH:mm"
+                        minutesStep={5}
+                        viewRenderers={{
+                            hours: renderTimeViewClock,
+                            minutes: renderTimeViewClock,
+                          }}
                         slotProps={{
                             textField: { fullWidth: true, size: 'small' },
                         }}

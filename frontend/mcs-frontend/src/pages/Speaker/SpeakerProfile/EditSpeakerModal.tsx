@@ -2,7 +2,12 @@ import { Button, Modal, Typography, Paper, Grid } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import { FormInputText } from '../../../components/FormComponents/FormInputText'
+import {
+    FormInputText,
+    FormInputTextLong,
+    SubmitButton,
+    OutlinedButton,
+} from '../../../components/'
 import { Speaker } from '../../../types/frontendTypes'
 import { updateSpeaker } from '../../../scripts/speaker/functions'
 import { AxiosResponse } from 'axios'
@@ -22,7 +27,11 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
         defaultValues: speaker,
     })
 
+    const [showSuccess, setShowSuccess] = useState(false)
+    const [submitting, setSubmitting] = useState(false)
+
     const onSubmit = async (data: Speaker) => {
+        setSubmitting(true)
         try {
             const res: AxiosResponse = await updateSpeaker(data)
             if (res.status === 200) {
@@ -31,22 +40,21 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                     window.location.reload()
                 }, 1000)
             } else {
-                console.log('Failed to create speaker')
+                console.log('Failed to update speaker')
             }
         } catch (error) {
             console.error(error)
         } finally {
+            setSubmitting(false)
             reset()
             handleClose()
-            console.log(data)
         }
     }
+
     const onClose = () => {
         handleClose()
         reset()
     }
-
-    const [showSuccess, setShowSuccess] = useState(false)
 
     return (
         <>
@@ -56,12 +64,15 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl w-9/12">
-                    {/* Left */}{' '}
-                    <Grid container spacing={3}>
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
+                    <Grid
+                        container
+                        spacing={3}
+                        className="w-full p-16 flex space-between justify-items"
+                    >
                         <Grid item xs={12}>
                             <Typography variant="h4" gutterBottom>
-                                Create Speaker
+                                Edit Speaker
                             </Typography>
                         </Grid>
                         <Grid item xs={12} container spacing={3}>
@@ -103,22 +114,22 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                                     label="Confirmed"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={3}>
+                            <Grid item xs={12} md={6}>
                                 <FormInputText
                                     name="FirstName"
                                     control={control}
                                     label="First Name"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={3}>
+                            <Grid item xs={12} md={6}>
                                 <FormInputText
                                     name="LastName"
                                     control={control}
                                     label="Last Name"
                                 />
                             </Grid>
-                            <Grid item xs={12} md={6}>
-                                <FormInputText
+                            <Grid item xs={12}>
+                                <FormInputTextLong
                                     name="Bio"
                                     control={control}
                                     label="Bio"
@@ -131,56 +142,56 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                                     Address & Contact
                                 </Typography>
                             </Grid>
-                            <Grid item xs={6} md={6}>
+                            <Grid item xs={12} md={6}>
                                 <FormInputText
                                     name="PrimaryEmail"
                                     control={control}
                                     label="Primary Email"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={6}>
+                            <Grid item xs={12} md={6}>
                                 <FormInputText
                                     name="Phone"
                                     control={control}
                                     label="Phone"
                                 />
                             </Grid>
-                            <Grid item xs={12} md={5}>
+                            <Grid item xs={12} md={9}>
                                 <FormInputText
                                     name="Address"
                                     control={control}
                                     label="Address"
                                 />
                             </Grid>
-                            <Grid item xs={4} md={1}>
+                            <Grid item xs={4} md={3}>
                                 <FormInputText
                                     name="CitySuburb"
                                     control={control}
                                     label="City/Suburb"
                                 />
                             </Grid>
-                            <Grid item xs={4} md={1.5}>
+                            <Grid item xs={4} md={3}>
                                 <FormInputText
                                     name="State"
                                     control={control}
                                     label="State"
                                 />
                             </Grid>
-                            <Grid item xs={4} md={1.5}>
+                            <Grid item xs={4} md={3}>
                                 <FormInputText
                                     name="Country"
                                     control={control}
                                     label="Country"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={1.5}>
+                            <Grid item xs={6} md={3}>
                                 <FormInputText
                                     name="Postcode"
                                     control={control}
                                     label="Postcode"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={1.5}>
+                            <Grid item xs={6} md={3}>
                                 <FormInputText
                                     name="PreferredTimezone"
                                     control={control}
@@ -193,7 +204,7 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                                 <Typography variant="h6">Work</Typography>
                             </Grid>
 
-                            <Grid item xs={6} md={4}>
+                            <Grid item xs={12} md={4}>
                                 <FormInputText
                                     name="Area"
                                     control={control}
@@ -214,14 +225,14 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                                     label="Work Title"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={8}>
+                            <Grid item xs={12} md={8}>
                                 <FormInputText
                                     name="Organisation"
                                     control={control}
                                     label="Organisation"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={4}>
+                            <Grid item xs={12} md={4}>
                                 <FormInputText
                                     name="Department"
                                     control={control}
@@ -233,35 +244,35 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                             <Grid item xs={12}>
                                 <Typography variant="h6">Misc</Typography>
                             </Grid>
-                            <Grid item xs={6} md={5}>
+                            <Grid item xs={8} md={5}>
                                 <FormInputText
                                     name="EmergencyContactName"
                                     control={control}
                                     label="Emergency Contact Name"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={2}>
+                            <Grid item xs={4} md={2}>
                                 <FormInputText
                                     name="EmergencyContactRelationship"
                                     control={control}
-                                    label="Emergency Contact Relationship"
+                                    label="Relationship"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={5}>
+                            <Grid item xs={12} md={5}>
                                 <FormInputText
                                     name="EmergencyContactNumber"
                                     control={control}
                                     label="Emergency Contact Number"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={5}>
+                            <Grid item xs={12} md={5}>
                                 <FormInputText
                                     name="FlyerMembershipName"
                                     control={control}
                                     label="Flyer Membership Name"
                                 />
                             </Grid>
-                            <Grid item xs={6} md={7}>
+                            <Grid item xs={12} md={7}>
                                 <FormInputText
                                     name="FlyerMembershipNumber"
                                     control={control}
@@ -276,20 +287,16 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                                 justifyContent="flex-end"
                             >
                                 <Grid item>
-                                    <Button
-                                        onClick={handleSubmit(onSubmit)}
-                                        variant="contained"
-                                    >
-                                        Submit
-                                    </Button>
+                                    <OutlinedButton
+                                        onClick={() => reset()}
+                                        name={'Reset'}
+                                    />
                                 </Grid>
                                 <Grid item>
-                                    <Button
-                                        onClick={() => reset()}
-                                        variant="outlined"
-                                    >
-                                        Reset
-                                    </Button>
+                                    <SubmitButton
+                                        submitting={submitting}
+                                        onClick={handleSubmit(onSubmit)}
+                                    />
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -297,11 +304,10 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                 </Paper>
             </Modal>
 
-            {/* Snackbar for success message after event creation */}
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
-                message="Speaker created successfully"
+                message="Speaker updated successfully"
             />
         </>
     )

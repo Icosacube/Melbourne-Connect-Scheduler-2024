@@ -12,6 +12,7 @@ import { getAllFundingAccounts } from '../../../../scripts/fundingAccount/functi
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined'
 import { CreateCateringModal } from './CreateCateringModal'
 import dayjs from 'dayjs'
+import { AddButton } from '../../../../components'
 
 interface ServicesProps {
     event: MainEvent
@@ -120,14 +121,8 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         <>
             <Box className="  mb-4 flex flex-col">
                 <Box className=" flex flex-col">
-                    <Button
-                        variant="contained"
-                        className=" flex space-x-2 bg-secondary hover:bg-accent hover:text-black mb-3 self-end h-12"
-                        onClick={handleOpen}
-                    >
-                        <AddCircleOutlineOutlined />
-                        <Typography>Create Catering Entry</Typography>
-                    </Button>
+
+                <AddButton name={'Catering Entry'} onClick={handleOpen} />
                     <CreateCateringModal
                         open={open}
                         handleClose={handleClose}

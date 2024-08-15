@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import { FormInputDateTime } from '../../../components/FormComponents/FormInputDateTime'
 import { FormInputTextLong } from '../../../components/FormComponents/FormInputTextLong'
-import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputDropdown'
-import { FormInputText } from '../../../components/FormComponents/FormInputText'
+import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputMultiSelect'
+import { FormInputText, SubmitButton } from '../../../components/'
 import dayjs, { Dayjs } from 'dayjs'
 import { Speaker, Venue } from '../../../types/frontendTypes'
 import { MainEvent } from '../../../types/backendTypes'
@@ -48,6 +48,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     const [speakers, setSpeakers] = useState<Speaker[]>([])
     const [venues, setVenues] = useState<Venue[]>([])
     const [loading, setLoading] = useState(true)
+    const [submitting, setSubmitting] = useState(false)
 
     useEffect(() => {
         if (loading && open) {
@@ -75,7 +76,8 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         }))
     }
 
-    const onSubmit = (data: CreateEventFormInput) => {
+    const onSubmit = async (data: CreateEventFormInput) => {
+        setSubmitting(true)
         const eventData: MainEvent = {
             EventName: data.eventName,
             EventAbstract: data.eventAbstract,
@@ -93,16 +95,19 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
             Trip: [],
             SubEvent: [],
         }
-        createEvent(eventData, data.speaker[0])
-            .then(() => {
-                setShowSuccess(true)
-                reset()
-                handleClose()
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
-            })
-            .catch((error) => console.error(error))
+        try {
+            await createEvent(eventData, data.speaker[0])
+            setShowSuccess(true)
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000)
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setSubmitting(false)
+            reset()
+            handleClose()
+        }
     }
 
     const onClose = () => {
@@ -118,10 +123,14 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 w-9/12">
-                    <Grid container spacing={3}>
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
+                    <Grid
+                        container
+                        spacing={3}
+                        className="w-full p-16 flex space-between justify-items"
+                    >
                         <Grid item xs={12}>
-                            <Typography variant="h4" className="mb-4">
+                            <Typography variant="h4" gutterBottom>
                                 Create Event
                             </Typography>
                         </Grid>
@@ -132,25 +141,14 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                                 label="Event Name"
                             />
                         </Grid>
-
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} md={5} lg={3}>
                             <FormInputDateTime
                                 name="date"
                                 control={control}
                                 label="Date"
                             />
                         </Grid>
-                        <Grid item xs={12} md={5}>
-                            <FormInputMultiSelect
-                                name="speaker"
-                                control={control}
-                                label="Speaker"
-                                options={generateSpeakers()}
-                            />
-                        </Grid>
-
-
-                        <Grid item xs={12} sm={12} md={4}>
+                        <Grid item xs={12} md={7} lg={4}>
                             <FormInputMultiSelect
                                 name="venue"
                                 control={control}
@@ -158,19 +156,26 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                                 options={generateVenues()}
                             />
                         </Grid>
-
+                        <Grid item xs={12} lg={5}>
+                            <FormInputMultiSelect
+                                name="speaker"
+                                control={control}
+                                label="Speaker"
+                                options={generateSpeakers()}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <FormInputTextLong
+                                name="eventDescription"
+                                control={control}
+                                label="Event Description"
+                            />
+                        </Grid>
                         <Grid item xs={12} md={6}>
                             <FormInputTextLong
                                 name="eventAbstract"
                                 control={control}
                                 label="Talk Abstract"
-                            />
-                        </Grid>
-                        <Grid item xs={12}  md={6}>
-                            <FormInputTextLong
-                                name="eventDescription"
-                                control={control}
-                                label="Event Description"
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -180,20 +185,10 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                                 spacing={2}
                             >
                                 <Grid item>
-                                    <Button
+                                    <SubmitButton
+                                        submitting={submitting}
                                         onClick={handleSubmit(onSubmit)}
-                                        variant="contained"
-                                    >
-                                        Submit
-                                    </Button>
-                                </Grid>
-                                <Grid item>
-                                    <Button
-                                        onClick={() => reset()}
-                                        variant="outlined"
-                                    >
-                                        Reset
-                                    </Button>
+                                    />
                                 </Grid>
                             </Grid>
                         </Grid>

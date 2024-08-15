@@ -1,4 +1,4 @@
-import AddLocationIcon from '@mui/icons-material/AddLocation'
+
 import ConnectingAirports from '@mui/icons-material/ConnectingAirports'
 import Event from '@mui/icons-material/Event'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
