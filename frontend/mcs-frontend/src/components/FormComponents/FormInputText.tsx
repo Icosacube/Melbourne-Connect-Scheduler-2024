@@ -8,6 +8,7 @@ export const FormInputText = ({
     control,
     label,
     required = false,
+    hint = ''
 }: FormInputProps) => {
     return (
         <Controller
@@ -21,6 +22,7 @@ export const FormInputText = ({
             }) => (
                 <TextField
                     helperText={error ? error.message : null}
+                    placeholder = {hint}
                     size="small"
                     error={!!error}
                     onChange={onChange}
