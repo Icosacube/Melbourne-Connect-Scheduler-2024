@@ -20,11 +20,13 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     title: event.EventName,
     start: event.Date.toDate(),
   };
-  const subEventsProp = subEvents.map((subevent) => ({
-    title: subevent.EventName,
-    start: subevent.StartDate.toDate(),
-    end: subevent.EndDate.toDate(),
-    extendedProps: subevent,
+
+  //changed 'subevent' to 'subEvent'. Functionality untouched
+  const subEventsProp = subEvents.map((subEvent) => ({
+    title: subEvent.EventName,
+    start: subEvent.StartDate.toDate(),
+    end: subEvent.EndDate.toDate(),
+    extendedProps: subEvent,
   }));
 
   useEffect(() => {
