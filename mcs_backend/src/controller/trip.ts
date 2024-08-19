@@ -13,11 +13,18 @@ import {
   TableFields
 } from '../types/types';
 import { Trip } from '../types/types';
+import {getCache,setCache,deleteCache} from '../utils/caching';
+import {Cachekeys} from '../Enum/Cachekeys';
 const router = express.Router();
 const TripTable = String(process.env.TRIP)
+
 //get all trips
 router.get('/trips', async (req, res) => {
   try {
+    const cachedTrips = getCache(Cachekeys.TRIPS);
+    if (cachedTrips) {
+      return res.json(cachedTrips).status(200);
+    }
     const trips = await getTable(TripTable, "");
     const formattedTrips: { [k: string]: any; }[] = [];
     trips.forEach((fields) => {
@@ -25,6 +32,7 @@ router.get('/trips', async (req, res) => {
       formattedTrips.push(plainFields);
       console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
+    setCache("Trips", formattedTrips);
     res.json(formattedTrips);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -85,6 +93,7 @@ router.post('/trip/:speaker_id', async (req, res) => {
   console.log("tableFields:",tableFields)
   try {
     await createRecord(TripTable, [tableFields]);
+    deleteCache(Cachekeys.TRIPS);
     res.status(200).json({ message: 'Trip created successfully' });
   } catch (error) {
     console.error("Failed to create trip:", error);

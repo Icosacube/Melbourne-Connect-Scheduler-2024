@@ -7,12 +7,17 @@ import {
   deleteRecords
 } from '../models/airtable';
 import { TableFields, Speaker } from '../types/types';
-
+import {getCache,setCache,deleteCache } from '../utils/caching';
+import {Cachekeys} from '../Enum/Cachekeys';
 const router = express.Router();
 const speakerTable = String(process.env.SPEAKERS);
 
 router.get('/speakers', async (req, res) => {
   try {
+    const cachedSpeakers = getCache(Cachekeys.SPEAKERS);
+    if (cachedSpeakers) {
+      return res.json(cachedSpeakers).status(200);
+    }
     const speakerItems = await getTable(speakerTable, "");
     const formattedSpeakers: { [k: string]: any; }[] = [];
     speakerItems.forEach((fields) => {
@@ -20,6 +25,7 @@ router.get('/speakers', async (req, res) => {
       formattedSpeakers.push(plainFields);
       console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
+    setCache("Speakers", formattedSpeakers);
     res.json(formattedSpeakers);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -54,6 +60,7 @@ router.get('/speaker/:speaker_record_id', async (req, res) => {
   
     try {
       await createRecord(speakerTable, [speakerRecord]);
+      deleteCache("Speakers");
       res.status(200).json({ message: 'Speaker created successfully' });
     } catch (error) {
       console.error("Failed to create speaker:", error);
@@ -72,6 +79,7 @@ router.put('/speaker/:speaker_record_id', async (req, res) => {
 
   try {
     await updateRecord(speakerTable, recordToUpdate);
+    deleteCache("Speakers");
     res.status(200).json({ message: 'Speaker updated successfully' });
   } catch (error) {
     console.error("Failed to update speaker:", error);
@@ -84,6 +92,7 @@ router.delete('/speaker/:speaker_record_id', async (req, res) => {
 
   try {
     await deleteRecords(speakerTable, [speaker_record_id]);
+    deleteCache("Speakers");
     res.status(200).json({ message: 'Speaker deleted successfully' });
   } catch (error) {
     console.error("Failed to delete speaker:", error);
