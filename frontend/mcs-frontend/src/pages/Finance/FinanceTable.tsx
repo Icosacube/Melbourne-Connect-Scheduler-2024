@@ -79,7 +79,7 @@ const rows = [
     },
 ]
 
-const FinanceTable = () => {
+export const FinanceTable = () => {
     return (
         <Box sx={{ height: 600, width: '100%' }}>
             <DataGrid
@@ -92,7 +92,6 @@ const FinanceTable = () => {
                     },
                 }}
                 pageSizeOptions={[5, 10]}
-                disableSelectionOnClick
                 getRowClassName={(params) =>
                     params.row.isGroup ? 'group-row' : 'data-row'
                 }
@@ -119,26 +118,7 @@ const FinanceTable = () => {
                         whiteSpace: 'normal', // Allow the group row to wrap if needed
                     },
                 }}
-                renderCell={(params: GridRenderCellParams) =>
-                    params.row.isGroup ? (
-                        <Box
-                            sx={{
-                                width: '100%',
-                                padding: '8px',
-                                gridColumn: '1 / -1', // Span all columns
-                            }}
-                        >
-                            <Typography variant="h6">
-                                {params.row.category}
-                            </Typography>
-                        </Box>
-                    ) : (
-                        params.formattedValue
-                    )
-                }
             />
         </Box>
     )
 }
-
-export default FinanceTable
