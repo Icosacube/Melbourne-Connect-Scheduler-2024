@@ -102,6 +102,7 @@ export type MainEvent = {
     Completed: boolean
     Trip: string[]
     SubEvent: string[]
+    EventTotal: number
 }
 
 export type SubEvent = {

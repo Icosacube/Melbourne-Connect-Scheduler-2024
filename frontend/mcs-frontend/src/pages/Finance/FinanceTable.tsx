@@ -1,30 +1,19 @@
 import React, { FC } from 'react'
-import {
-    DataGrid,
-    GridColDef,
-    GridCsvExportOptions,
-    GridCsvGetRowsToExportParams,
-    gridExpandedSortedRowIdsSelector,
-    gridPaginatedVisibleSortedGridRowIdsSelector,
-    GridRenderCellParams,
-    gridSortedRowIdsSelector,
-    GridToolbar,
-    GridToolbarContainer,
-    useGridApiContext,
-} from '@mui/x-data-grid'
-import { ButtonProps, Typography, Button } from '@mui/material'
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { Typography } from '@mui/material'
 import dayjs from 'dayjs'
-import { Finance } from '../../types/frontendTypes'
-import { createSvgIcon } from '@mui/material/utils'
 import { CustomToolbar } from '../../components'
+import { Finance as FinanceType, MainEvent } from '../../types/frontendTypes'
 
-type FinanceRow = Finance & {
+type FinanceRow = FinanceType & {
     EventName: string
+    EventTotalCost?: number
     isGroup?: boolean
 }
 
 interface FinanceTableProps {
-    rows: (FinanceRow & { isGroup?: boolean })[]
+    rows: FinanceType[]
+    events: MainEvent[]
 }
 
 const columns: GridColDef[] = [
@@ -34,12 +23,8 @@ const columns: GridColDef[] = [
         width: 150,
         renderCell: (params: GridRenderCellParams) => {
             if (params.row.isGroup) {
-                console.log(params)
                 return (
-                    <Typography
-                        variant="h6"
-                        sx={{ width: '100%', padding: '8px' }}
-                    >
+                    <Typography variant="body1">
                         {params.row.EventName}
                     </Typography>
                 )
@@ -49,16 +34,61 @@ const columns: GridColDef[] = [
             return date.isValid() ? date.format('YYYY.MM.DD') : ''
         },
         colSpan: (value, row) => {
-            if (row.isGroup) return 5
+            if (row.isGroup) {
+                return 3
+            }
+            return 1
         },
     },
     { field: 'ExpenseCategory', headerName: 'Category', width: 150 },
-    { field: 'ExpenseDescription', headerName: 'Description', width: 300 },
+    {
+        field: 'ExpenseDescription',
+        headerName: 'Description',
+        width: 300,
+    },
     { field: 'FundingAccount', headerName: 'Funding Account', width: 200 },
-    { field: 'Cost', headerName: 'Cost', width: 150, type: 'number' },
+    {
+        field: 'Cost',
+        headerName: 'Cost',
+        width: 150,
+        type: 'number',
+        renderCell: (params: GridRenderCellParams) => {
+            if (params.row.isGroup) {
+                return (
+                    <Typography
+                        variant="body1"
+                        sx={{ width: '100%', padding: '8px' }}
+                    >
+                        {params.row.EventTotalCost}
+                    </Typography>
+                )
+            }
+            return params.row.Cost
+        },
+    },
 ]
 
-export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
+export const FinanceTable: FC<FinanceTableProps> = ({ rows, events }) => {
+    // Create a map of MainEvent IDs to Event Names and Total Costs
+    const eventMap = new Map<string, { name: string; totalCost: number }>()
+    events.forEach((event) => {
+        eventMap.set(event.RecordID, {
+            name: event.EventName,
+            totalCost: event.EventTotal || 0, // Assuming EventTotal is a field in MainEvent
+        })
+    })
+
+    // Add EventName and EventTotalCost to each finance record
+    const updatedFinanceData: FinanceRow[] = rows.map((record) => {
+        const eventInfo = eventMap.get(record.MainEvent)
+        return {
+            ...record,
+            EventName: eventInfo?.name || '',
+            EventTotalCost: eventInfo?.totalCost || 0,
+        }
+    })
+
+    // Function to add group headers to the finance records
     function addGroupHeaders(records: FinanceRow[]): FinanceRow[] {
         const groupedRecords: FinanceRow[] = []
 
@@ -75,6 +105,12 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
         for (const [mainEvent, eventRecords] of Object.entries(
             recordsByEvent
         )) {
+            // Calculate the total cost for the event
+            const totalCost = eventRecords.reduce(
+                (sum, record) => sum + (record.Cost || 0),
+                0
+            )
+
             // Add a group header for the event
             const groupHeader: FinanceRow = {
                 RecordID: `group-${mainEvent}`,
@@ -86,6 +122,7 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
                 ExpenseDate: dayjs(), // Use the current date or a specific date if needed
                 FundingAccount: '',
                 isGroup: true,
+                EventTotalCost: totalCost,
             }
 
             // Add the group header and its associated records
@@ -95,13 +132,16 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
         return groupedRecords
     }
 
-    const rowsWithGroups = addGroupHeaders(rows)
+    const rowsWithGroups = addGroupHeaders(updatedFinanceData)
+
+    console.log(rowsWithGroups)
 
     return (
         <DataGrid
             rows={rowsWithGroups}
             columns={columns}
             getRowId={(row) => row.RecordID}
+            getRowHeight={() => 'auto'}
             initialState={{
                 pagination: {
                     paginationModel: { page: 0, pageSize: 10 },
@@ -136,59 +176,3 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
         />
     )
 }
-
-// const getRowsFromCurrentPage = ({ apiRef }: GridCsvGetRowsToExportParams) =>
-//     gridPaginatedVisibleSortedGridRowIdsSelector(apiRef)
-
-// const getUnfilteredRows = ({ apiRef }: GridCsvGetRowsToExportParams) =>
-//     gridSortedRowIdsSelector(apiRef)
-
-// const getFilteredRows = ({ apiRef }: GridCsvGetRowsToExportParams) =>
-//     gridExpandedSortedRowIdsSelector(apiRef)
-
-// const ExportIcon = createSvgIcon(
-//     <path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2z" />,
-//     'SaveAlt'
-// )
-
-// function CustomToolbar() {
-//     const apiRef = useGridApiContext()
-
-//     const handleExport = (options: GridCsvExportOptions) =>
-//         apiRef.current.exportDataAsCsv(options)
-
-//     const buttonBaseProps: ButtonProps = {
-//         color: 'primary',
-//         size: 'small',
-//         startIcon: <ExportIcon />,
-//     }
-
-//     return (
-//         <GridToolbarContainer>
-//             <Button
-//                 {...buttonBaseProps}
-//                 onClick={() =>
-//                     handleExport({ getRowsToExport: getRowsFromCurrentPage })
-//                 }
-//             >
-//                 Current page rows
-//             </Button>
-//             <Button
-//                 {...buttonBaseProps}
-//                 onClick={() =>
-//                     handleExport({ getRowsToExport: getFilteredRows })
-//                 }
-//             >
-//                 Filtered rows
-//             </Button>
-//             <Button
-//                 {...buttonBaseProps}
-//                 onClick={() =>
-//                     handleExport({ getRowsToExport: getUnfilteredRows })
-//                 }
-//             >
-//                 Unfiltered rows
-//             </Button>
-//         </GridToolbarContainer>
-//     )
-// }
