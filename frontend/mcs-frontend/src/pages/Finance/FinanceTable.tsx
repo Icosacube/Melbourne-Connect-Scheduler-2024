@@ -66,6 +66,7 @@ const columns: GridColDef[] = [
             return params.row.Cost
         },
     },
+    { field: 'EventName', headerName: 'Event Name', width: 200 },
 ]
 
 export const FinanceTable: FC<FinanceTableProps> = ({ rows, events }) => {
@@ -144,7 +145,12 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows, events }) => {
             getRowHeight={() => 'auto'}
             initialState={{
                 pagination: {
-                    paginationModel: { page: 0, pageSize: 10 },
+                    paginationModel: { page: 0 },
+                },
+                columns: {
+                    columnVisibilityModel: {
+                        EventName: false,
+                    },
                 },
             }}
             slots={{ toolbar: CustomToolbar }}
@@ -152,6 +158,7 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows, events }) => {
             getRowClassName={(params) =>
                 params.row.isGroup ? 'group-row' : 'data-row'
             }
+            disableColumnSorting
             sx={{
                 '& .MuiDataGrid-columnHeaders': {
                     backgroundColor: '#1d6f42',
