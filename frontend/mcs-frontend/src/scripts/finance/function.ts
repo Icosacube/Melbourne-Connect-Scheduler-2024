@@ -1,5 +1,5 @@
 import axios from 'axios'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { Finance } from '../../types/frontendTypes'
 
 // Default Finance object

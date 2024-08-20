@@ -154,6 +154,21 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows, events }) => {
                 },
             }}
             slots={{ toolbar: CustomToolbar }}
+            slotProps={{
+                filterPanel: {
+                    sx: {
+                        '& .MuiDataGrid-filterForm': {
+                            paddingY: '1.5rem',
+                            paddingLeft: '0',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginLeft: '0.125rem',
+                        },
+                        '& .MuiFormControl-root': { marginRight: '0.5rem' },
+                    },
+                },
+            }}
             pageSizeOptions={[5, 10]}
             getRowClassName={(params) =>
                 params.row.isGroup ? 'group-row' : 'data-row'
