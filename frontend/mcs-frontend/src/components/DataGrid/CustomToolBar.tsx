@@ -5,6 +5,7 @@ import {
     GridCsvGetRowsToExportParams,
     gridPaginatedVisibleSortedGridRowIdsSelector,
     GridToolbarContainer,
+    GridToolbarFilterButton,
     useGridApiContext,
 } from '@mui/x-data-grid'
 import { createSvgIcon } from '@mui/material/utils'
@@ -42,6 +43,7 @@ export const CustomToolbar = () => {
             <Button {...buttonBaseProps} onClick={() => handleExport()}>
                 All rows
             </Button>
+            <GridToolbarFilterButton />
         </GridToolbarContainer>
     )
 }
