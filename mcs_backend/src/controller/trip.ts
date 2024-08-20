@@ -32,7 +32,7 @@ router.get('/trips', async (req, res) => {
       formattedTrips.push(plainFields);
       console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
-    setCache("Trips", formattedTrips);
+    setCache(Cachekeys.TRIPS, formattedTrips);
     res.json(formattedTrips);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -112,6 +112,7 @@ router.put('/trip/:trip_record_id', async (req, res) => {
 
   try {
     await updateRecord(TripTable, recordToUpdate);
+    deleteCache(Cachekeys.TRIPS);
     res.status(200).json({ message: 'Trip updated successfully' });
   } catch (error) {
     console.error("Failed to update trip:", error);
@@ -124,6 +125,7 @@ router.delete('/trip/:trip_record_id', async (req, res) => {
 
   try {
     await deleteRecords(TripTable, [trip_record_id]);
+    deleteCache(Cachekeys.TRIPS);
     res.status(200).json({ message: 'Trip deleted successfully' });
   } catch (error) {
     console.error("Failed to delete trip:", error);
