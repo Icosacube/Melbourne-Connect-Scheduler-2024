@@ -217,3 +217,13 @@ export type Canvassing = {
     Trip: string[]
     Academic: string[]
 }
+
+export type Finance = {
+    RecordID: string
+    MainEvent: string
+    ExpenseCategory: string
+    ExpenseDescription: string
+    Cost: number
+    ExpenseDate: Dayjs
+    FundingAccount: string
+}
