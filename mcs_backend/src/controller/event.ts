@@ -12,11 +12,16 @@ import {
   TableFields
 } from '../types/types';
 const router = express.Router();
-
+import {Cachekeys} from '../Enum/Cachekeys';
+import {getCache,setCache,deleteCache} from '../utils/caching';
 const mainEventTable = String(process.env.MAINEVENT)
 //get all main events
 router.get("/events", async (req, res) => {
   try {
+    const cachedEvents = getCache(Cachekeys.MAINEVENTS);
+    if (cachedEvents) {
+      return res.json(cachedEvents).status(200);
+    }
     const events = await getTable(mainEventTable, "");
     const formattedEvents: { [k: string]: any; }[] = [];
     events.forEach((fields) => {
@@ -24,6 +29,7 @@ router.get("/events", async (req, res) => {
       formattedEvents.push(plainFields);
       console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
+    setCache(Cachekeys.MAINEVENTS, formattedEvents);
     res.json(formattedEvents).status(200);
   } catch (err) {
     console.error(err);
@@ -84,6 +90,7 @@ router.post('/event/:speaker_id', async (req, res) => {
   console.log("tableFields:",tableFields)
   try {
     await createRecord(mainEventTable, [tableFields]);
+    deleteCache(Cachekeys.MAINEVENTS);
     res.status(200).json({ message: 'new Main Event created successfully' });
   } catch (error) {
     console.error("Failed to create new MainEvent:", error);
@@ -102,6 +109,7 @@ router.put("/event/:eventID", async (req, res) => {
 
   try {
     await updateRecord(mainEventTable, [updatedRecord]);
+    deleteCache(Cachekeys.MAINEVENTS);
     res.status(200).json({ message: "main Event updated successfully" });
   } catch (err) {
     console.error(err);
@@ -113,6 +121,7 @@ router.delete("/event/:eventID", async (req, res) => {
   const { eventID } = req.params;
   try {
     await deleteRecords(mainEventTable, [eventID]);
+    deleteCache(Cachekeys.MAINEVENTS);
     res.status(200).json({ message: "main Event deleted successfully" });
   } catch (err) {
     console.error("Failed to delete main event:", err);

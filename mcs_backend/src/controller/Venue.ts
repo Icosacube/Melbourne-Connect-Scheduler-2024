@@ -10,9 +10,15 @@ import {
 const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
 const VenueTable = String(process.env.VENUE)
+import {Cachekeys} from '../Enum/Cachekeys';
+import {getCache,setCache,deleteCache} from '../utils/caching';
 //get all venues
 router.get('/venues', async (req, res) => {
     try {
+        const cachedVenues= getCache(Cachekeys.VENUES);
+        if (cachedVenues) {
+            return res.json(cachedVenues).status(200);
+        }
         const venues = await getTable(VenueTable, "");
         const formattedVenues: { [k: string]: any; }[] = [];
         venues.forEach((fields) => {
@@ -20,6 +26,7 @@ router.get('/venues', async (req, res) => {
             formattedVenues.push(plainFields);
             console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
+        setCache(Cachekeys.VENUES, formattedVenues);
         res.json(formattedVenues);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
@@ -79,6 +86,7 @@ router.post('/venue/:mainEventID', async (req, res) => {
 
     try {
         await createRecord(VenueTable, [venueRecord]);
+        deleteCache(Cachekeys.VENUES);
         res.status(200).json({ message: 'Venue created successfully' });
     } catch (error) {
         console.error("Failed to create venue:", error);
@@ -97,6 +105,7 @@ router.put('/venue/:venue_record_id', async (req, res) => {
 
     try {
         await updateRecord(VenueTable, recordToUpdate);
+        deleteCache(Cachekeys.VENUES);
         res.status(200).json({ message: 'Venue updated successfully' });
     } catch (error) {
         console.error("Failed to update venue:", error);
@@ -109,6 +118,7 @@ router.delete('/venue/:venue_record_id', async (req, res) => {
 
     try {
         await deleteRecords(VenueTable, [venue_record_id]);
+        deleteCache(Cachekeys.VENUES);
         res.status(200).json({ message: 'Venue deleted successfully' });
     } catch (error) {
         console.error("Failed to delete venue:", error);

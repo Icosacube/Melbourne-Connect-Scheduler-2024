@@ -8,13 +8,18 @@ import {
     deleteRecords
 } from '../models/airtable';
 import { SubEvent } from "../types/types";
-
+import {getCache,setCache,deleteCache } from '../utils/caching';
+import {Cachekeys} from '../Enum/Cachekeys';
 const router = express.Router();
 const subeventTable = String(process.env.SUBEVENT)
 
 // route to get all subevents
 router.get('/subevents', async (req, res) => {
     try {
+        const cachedsubevents = getCache(Cachekeys.SUBEVENTS);
+        if (cachedsubevents) {
+            return res.json(cachedsubevents).status(200);
+        }
         const subevents= await getTable(subeventTable, "");
         const formattedsubevents: { [k: string]: any; }[] = [];
         subevents.forEach((fields) => {
@@ -22,6 +27,7 @@ router.get('/subevents', async (req, res) => {
             formattedsubevents.push(plainFields);
             console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
+        setCache(Cachekeys.SUBEVENTS, formattedsubevents);
         res.json(formattedsubevents);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
@@ -85,6 +91,7 @@ router.post('/subevent/:event_id', async (req, res) => {
 
     try {
         await createRecord(subeventTable, [tableFields]);
+        deleteCache(Cachekeys.SUBEVENTS);
         res.status(201).json({ message: 'Subevent created successfully' });
     } catch (error) {
         console.error("Failed to create new subevent:", error);
@@ -104,6 +111,7 @@ router.put('/subevent/:subevent_id', async (req, res) => {
 
     try {
         await updateRecord(subeventTable, [updatedRecord]);
+        deleteCache(Cachekeys.SUBEVENTS);
         res.status(200).json({ message: "Subevent updated successfully" });
     } catch (error) {
         console.error("Failed to create new subevent:", error);
@@ -117,6 +125,7 @@ router.delete("/subevent/:subevent_id", async (req, res) => {
 
     try {
         await deleteRecords(subeventTable, [subeventId]);
+        deleteCache(Cachekeys.SUBEVENTS);
         res.status(200).json({ message: "Subevent deleted successfully" });
     } catch (err) {
         console.error("Failed to delete main event:", err);
