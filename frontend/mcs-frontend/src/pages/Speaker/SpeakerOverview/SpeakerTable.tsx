@@ -2,6 +2,7 @@ import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid'
 import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Speaker } from '../../../types/frontendTypes'
+import { CustomToolbar } from '../../../components'
 
 interface SpeakerTableProps {
     data: any
@@ -79,12 +80,26 @@ export const SpeakerTable: FC<SpeakerTableProps> = ({ data }) => {
             rows={data}
             columns={columns}
             getRowId={getRowId}
-            slots={{ toolbar: GridToolbar }}
-            slotProps={{ toolbar: { alwaysShow: true } }}
             pageSizeOptions={[5, 10]}
             initialState={{
                 pagination: {
                     paginationModel: { page: 0, pageSize: 10 },
+                },
+            }}
+            slots={{ toolbar: CustomToolbar }}
+            slotProps={{
+                filterPanel: {
+                    sx: {
+                        '& .MuiDataGrid-filterForm': {
+                            paddingY: '1.5rem',
+                            paddingLeft: '0',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginLeft: '0.125rem',
+                        },
+                        '& .MuiFormControl-root': { marginRight: '0.5rem' },
+                    },
                 },
             }}
             checkboxSelection
