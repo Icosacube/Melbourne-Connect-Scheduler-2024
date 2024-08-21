@@ -26,16 +26,16 @@ router.get('/miscellaneous', async (req, res) => {
   }
 });
 // Get a specific Miscellaneous by ID
-router.get('/miscellaneous/miscellaneous/:Miscellaneous_record_id', async (req, res) => {
-  const { Miscellaneous_record_id } = req.params;
+router.get('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
+  const { miscellaneous_record_id } = req.params;
   
   try {
-    const MiscellaneousRecord = await getRecord(miscellaneousTable, Miscellaneous_record_id);
+    const miscellaneousRecord = await getRecord(miscellaneousTable, miscellaneous_record_id);
     
-    if (!MiscellaneousRecord) {
+    if (!miscellaneousRecord) {
       return res.status(404).json({ message: 'Miscellaneous not found' });
     }
-    let plainFields = Object.fromEntries(MiscellaneousRecord);
+    let plainFields = Object.fromEntries(miscellaneousRecord);
     let formattedMiscellaneous: { [k: string]: any; } = plainFields
     res.json(formattedMiscellaneous)
 
@@ -45,6 +45,7 @@ router.get('/miscellaneous/miscellaneous/:Miscellaneous_record_id', async (req, 
   }
 });
 //get all miscellaneous for one trip
+//TODO: merge this filter function to  GET /miscellaneous
 router.get('/miscellaneous/:tripID', async (req, res) => {
   const { tripID } = req.params;
 
@@ -69,6 +70,8 @@ router.get('/miscellaneous/:tripID', async (req, res) => {
   }
 });
 //create one miscellaneous for one trip
+//TODO
+//miscellaneous to be linked to ONE - SINGULAR main event?
 router.post('/miscellaneous/:tripID', async (req, res) => {
   const tripID = req.params.tripID;
   const newMiscellaneousItem: Miscellaneous = req.body;
