@@ -15,8 +15,8 @@ export const Profile: FC = () => {
   const role = 'Professor in Language Testing';
   const faculty = 'Languages and Linguistics';
   const pronouns = speaker.Pronouns;
-  const firstname = speaker.FirstName;
-  const lastname = speaker.LastName;
+  const firstName = speaker.FirstName;
+  const lastName = speaker.LastName;
   const title = speaker.Title;
   const organisation = speaker.Organisation;
   const bio = speaker.Bio;
@@ -71,8 +71,8 @@ ${contactInformation}`;
         <Box className='p-10'>
           <ProfileHeader
             title={title}
-            firstname={firstname}
-            lastname={lastname}
+            firstName={firstName}
+            lastName={lastName}
             organisation={organisation}
             role={role}
             faculty={faculty}

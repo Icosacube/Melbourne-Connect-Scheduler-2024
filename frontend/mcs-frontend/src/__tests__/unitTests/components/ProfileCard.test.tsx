@@ -4,7 +4,7 @@ import { ProfileCard } from '../../../components/ProfileCard/ProfileCard';
 
 describe('ProfileCard', () => {
   it('renders profile information correctly', () => {
-    render(<ProfileCard firstname="John" lastname="Doe" roletag="Developer" />);
+    render(<ProfileCard firstName="John" lastName="Doe" roleTag="Developer" />);
     
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('Developer')).toBeInTheDocument();
