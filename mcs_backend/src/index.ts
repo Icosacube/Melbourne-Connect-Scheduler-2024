@@ -6,19 +6,19 @@ import cors from 'cors';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const tripRouter = require('./controller/trip'); 
-const accommodationRouter = require('./controller/accomodation');
+const accommodationRouter = require('./controller/accommodation');
 const miscellaneousRouter = require('./controller/miscellaneous');
 const flightRouter = require('./controller/flight'); 
 const academicRouter = require('./controller/academic'); 
-const canvassingRouter = require('./controller/Canvassing'); 
+const canvassingRouter = require('./controller/canvassing'); 
 const speakerRouter = require('./controller/speaker'); 
 const eventRouter = require('./controller/event')
-const CateringRouter = require('./controller/Catering'); 
-const ServiceRouter = require('./controller/Service'); 
-const VenueRouter = require('./controller/Venue');
-const subeventRouter = require('./controller/subevent');
-const fundingAccountRouter = require('./controller/FundingAccount');
-const financeRouter = require('./controller/Finance');
+const CateringRouter = require('./controller/catering'); 
+const ServiceRouter = require('./controller/service'); 
+const VenueRouter = require('./controller/venue');
+const subeventRouter = require('./controller/subEvent');
+const fundingAccountRouter = require('./controller/fundingAccount');
+const financeRouter = require('./controller/finance');
 const app = express();
 
 app.use(cors())

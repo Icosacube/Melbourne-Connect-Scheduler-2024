@@ -27,7 +27,7 @@ router.get('/academics', async (req, res) => {
   }
 });
 // Get a specific academic by ID
-router.get('/academics/academic/:academic_record_id', async (req, res) => {
+router.get('/academics/:academic_record_id', async (req, res) => {
   const { academic_record_id } = req.params;
   
   try {
@@ -45,28 +45,29 @@ router.get('/academics/academic/:academic_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//get all academics for one Canvassing
-router.get('/Academic/:canvassingID', async (req, res) => {
-  const { canvassingID } = req.params;
+//get all academics for one Canvassing, merge this filter function to  GET /academics
+// filter by canvassingID if the user supplies it otherwise return all academics
+// router.get('/academics/:canvassingID', async (req, res) => {
+//   const { canvassingID } = req.params;
 
-  try {
-    const Canvassing = await getTable(AcademicTable, "");
-    const academicCanvassing: { [k: string]: any; }[] = [];
+//   try {
+//     const Canvassing = await getTable(AcademicTable, "");
+//     const academicCanvassing: { [k: string]: any; }[] = [];
 
-    Canvassing.forEach((fields) => {
-      const plainFields = Object.fromEntries(fields);
-      if (plainFields.Canvassing && plainFields.Canvassing.includes(canvassingID)) {
-        academicCanvassing.push(plainFields);
-      }
-    });
+//     Canvassing.forEach((fields) => {
+//       const plainFields = Object.fromEntries(fields);
+//       if (plainFields.Canvassing && plainFields.Canvassing.includes(canvassingID)) {
+//         academicCanvassing.push(plainFields);
+//       }
+//     });
 
-    if (academicCanvassing.length === 0) {
-      return res.status(404).json({ message: 'No Canvassing found for this academic' });
-    }
+//     if (academicCanvassing.length === 0) {
+//       return res.status(404).json({ message: 'No Canvassing found for this academic' });
+//     }
 
-    res.json(academicCanvassing);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+//     res.json(academicCanvassing);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
 module.exports = router;
