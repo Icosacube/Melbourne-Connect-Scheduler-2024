@@ -103,10 +103,10 @@ export async function getMainEventById(id: string): Promise<MainEvent> {
 }
 
 // Function to create a new MainEvent
-export async function createMainEvent(mainEvent: MainEvent) {
+export async function createMainEvent(mainEvent: MainEvent, speakerId: string) {
     try {
         const res = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/events`,
+            `${process.env.REACT_APP_BACKEND_URL}/events` + speakerId,
             mainEvent
         )
         // Server returns message: Main event created successfully if success
