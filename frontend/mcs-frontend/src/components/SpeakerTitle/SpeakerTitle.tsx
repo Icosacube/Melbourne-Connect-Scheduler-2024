@@ -2,13 +2,13 @@ import React, { ReactNode } from 'react';
 import { Avatar, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
 
 interface SpeakerTitleProps {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   organisation: string;
   children: ReactNode[]; // ReactNode[] allows any valid JSX/React children
 }
 
-export const SpeakerTitle: React.FC<SpeakerTitleProps> = ({ firstname, lastname, organisation, children }) => {
+export const SpeakerTitle: React.FC<SpeakerTitleProps> = ({ firstName, lastName, organisation, children }) => {
   return (
     <Card>
       <Card sx={{ p: 1, flexGrow: 1, minWidth: '320px', maxWidth: '480px', height: '128px' }}>
@@ -16,7 +16,7 @@ export const SpeakerTitle: React.FC<SpeakerTitleProps> = ({ firstname, lastname,
           <Avatar className="size-24">A</Avatar>
           <Stack>
             <Typography className="text-2xl">
-              {firstname} {lastname}
+              {firstName} {lastName}
             </Typography>
             <Typography color="text.secondary">{organisation}</Typography>
             <Stack direction="row" flexWrap="wrap" spacing={1}>
