@@ -2,7 +2,12 @@ import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import { FormInputDateTime, FormInputText, FormInputSingleSelect, SubmitButton } from '../../../components/'
+import {
+    FormInputDateTime,
+    FormInputText,
+    FormInputSingleSelect,
+    SubmitButton,
+} from '../../../components/'
 import { createFlight, defaultFlight } from '../../../scripts/flight/function'
 import { Flight, FundingAccount } from '../../../types/frontendTypes'
 import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
@@ -63,11 +68,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
 
     return (
         <>
-            <Modal
-                open={open}
-                onClose={onClose}
-                aria-labelledby="add-flight"
-            >
+            <Modal open={open} onClose={onClose} aria-labelledby="add-flight">
                 <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
@@ -100,16 +101,16 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                                 label="Flight Reference"
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} lg={2.5}>
+                        <Grid item xs={12} md={4}>
                             <FormInputText
                                 name="DepartureFrom"
                                 control={control}
                                 label="Departure City"
                                 required={true}
-                                hint='e.g. MEL'
+                                hint="e.g. MEL"
                             />
                         </Grid>
-                        <Grid item xs={12} md={8} lg={3.5}>
+                        <Grid item xs={12} md={8}>
                             <FormInputDateTime
                                 name="DepartDate"
                                 control={control}
@@ -117,16 +118,16 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                                 required={true}
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} lg={2.5}>
+                        <Grid item xs={12} md={4}>
                             <FormInputText
                                 name="ArrivedTo"
                                 control={control}
                                 label="Arrival City"
                                 required={true}
-                                hint='e.g. NYK'
+                                hint="e.g. NYK"
                             />
                         </Grid>
-                        <Grid item xs={12} md={8} lg={3.5}>
+                        <Grid item xs={12} md={8}>
                             <FormInputDateTime
                                 name="ArriveDate"
                                 control={control}

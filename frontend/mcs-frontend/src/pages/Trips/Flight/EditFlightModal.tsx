@@ -101,7 +101,7 @@ export const EditFlightModal: React.FC<EditFlightModalProps> = ({
                                 label="Flight Reference"
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} lg={2.5}>
+                        <Grid item xs={12} md={4}>
                             <FormInputText
                                 name="DepartureFrom"
                                 control={control}
@@ -109,7 +109,7 @@ export const EditFlightModal: React.FC<EditFlightModalProps> = ({
                                 required={true}
                             />
                         </Grid>
-                        <Grid item xs={12} md={8} lg={3.5}>
+                        <Grid item xs={12} md={8}>
                             <FormInputDateTime
                                 name="DepartDate"
                                 control={control}
@@ -117,7 +117,7 @@ export const EditFlightModal: React.FC<EditFlightModalProps> = ({
                                 required={true}
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} lg={2.5}>
+                        <Grid item xs={12} md={4}>
                             <FormInputText
                                 name="ArrivedTo"
                                 control={control}
@@ -125,7 +125,7 @@ export const EditFlightModal: React.FC<EditFlightModalProps> = ({
                                 required={true}
                             />
                         </Grid>
-                        <Grid item xs={12} md={8} lg={3.5}>
+                        <Grid item xs={12} md={8}>
                             <FormInputDateTime
                                 name="ArriveDate"
                                 control={control}
