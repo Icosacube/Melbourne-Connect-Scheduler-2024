@@ -10,11 +10,11 @@ import {
 
 const router = express.Router();
 import { Flight } from '../types/types';
-const FlightTable = String(process.env.FLIGHT)
+const flightTable = String(process.env.FLIGHT)
 //get all flights
 router.get('/flights', async (req, res) => {
     try {
-      const flights = await getTable(FlightTable, "");
+      const flights = await getTable(flightTable, "");
       const formattedFlights: { [k: string]: any; }[] = [];
       flights.forEach((fields) => {
         const plainFields = Object.fromEntries(fields); 
@@ -27,16 +27,16 @@ router.get('/flights', async (req, res) => {
     }
   });
   // Get a specific Flight by ID
-router.get('/flights/flight/:Flight_record_id', async (req, res) => {
-  const { Flight_record_id } = req.params;
+router.get('/flights/:flight_record_id', async (req, res) => {
+  const { flight_record_id } = req.params;
   
   try {
-    const FlightRecord = await getRecord(FlightTable, Flight_record_id);
+    const flightRecord = await getRecord(flightTable, flight_record_id);
     
-    if (!FlightRecord) {
+    if (!flightRecord) {
       return res.status(404).json({ message: 'Flight not found' });
     }
-    let plainFields = Object.fromEntries(FlightRecord.get(Flight_record_id));
+    let plainFields = Object.fromEntries(flightRecord.get(flight_record_id));
     let formattedFlights: { [k: string]: any; } = plainFields
     res.json(formattedFlights)
 
@@ -46,11 +46,12 @@ router.get('/flights/flight/:Flight_record_id', async (req, res) => {
   }
 });
   //get all flights for one trip
+//TODO: merge this filter function to  GET /flights
 router.get('/flight/:tripID', async (req, res) => {
     const { tripID } = req.params;
   
     try {
-      const flights = await getTable(FlightTable, "");
+      const flights = await getTable(flightTable, "");
       const tripFlights: { [k: string]: any; }[] = [];
   
       flights.forEach((fields, id) => {
@@ -66,6 +67,7 @@ router.get('/flight/:tripID', async (req, res) => {
     }
   });
     //create one flight for one trip
+    //TODO: flight to be linked to 1 trip only?
 router.post('/flight/:tripID', async (req, res) => {
     const tripID = req.params.tripID;
     const newFlight : Flight  = req.body;
@@ -75,7 +77,7 @@ router.post('/flight/:tripID', async (req, res) => {
     };
 
     try {
-        await createRecord(FlightTable, [FlightRecord]);
+        await createRecord(flightTable, [FlightRecord]);
         res.status(200).json({ message: 'flight created successfully' });
     } catch (error) {
         console.error("Failed to create flight:", error);
@@ -93,7 +95,7 @@ router.put('/flight/:flight_record_id', async (req, res) => {
     }];
   
     try {
-      await updateRecord(FlightTable, recordToUpdate);
+      await updateRecord(flightTable, recordToUpdate);
       res.status(200).json({ message: 'Flight updated successfully' });
     } catch (error) {
       console.error("Failed to update flight:", error);
@@ -105,7 +107,7 @@ router.put('/flight/:flight_record_id', async (req, res) => {
     const { flight_record_id } = req.params;
   
     try {
-      await deleteRecords(FlightTable, [flight_record_id]);
+      await deleteRecords(flightTable, [flight_record_id]);
       res.status(200).json({ message: 'Flight deleted successfully' });
     } catch (error) {
       console.error("Failed to delete flight:", error);
