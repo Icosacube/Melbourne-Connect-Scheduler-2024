@@ -73,7 +73,9 @@ router.get('/events/event/:event_record_id', async (req, res) => {
     }
   });
 //create one main event for one speaker
+//TODO
 //fix create event so that event doesn't have to be tied to 1 speaker only
+//fix create event must have speaker
 router.post('/events', async (req, res) => {
   const newMainEvent: MainEvent = req.body as MainEvent; 
   const tableFields: TableFields = {
