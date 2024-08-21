@@ -70,8 +70,7 @@ router.get('/miscellaneous/:tripID', async (req, res) => {
   }
 });
 //create one miscellaneous for one trip
-//TODO
-//miscellaneous to be linked to ONE - SINGULAR main event?
+//TODO miscellaneous to be linked to ONE - SINGULAR main event?
 router.post('/miscellaneous/:tripID', async (req, res) => {
   const tripID = req.params.tripID;
   const newMiscellaneousItem: Miscellaneous = req.body;

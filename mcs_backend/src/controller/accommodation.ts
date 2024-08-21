@@ -46,8 +46,7 @@ router.get('/accommodations/:accommodation_record_id', async (req, res) => {
   }
 });
 //get all accommodations for one trip
-//TODO
-//put this filter function in the GET /accommodations
+//TODO merge this filter function in the GET /accommodations
 
 // router.get('/accommodation/:tripID', async (req, res) => {
 //   const { tripID } = req.params;
