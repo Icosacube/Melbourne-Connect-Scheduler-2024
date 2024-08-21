@@ -68,7 +68,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                 onClose={onClose}
                 aria-labelledby="add-flight"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
                         spacing={3}
@@ -106,6 +106,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                                 control={control}
                                 label="Departure City"
                                 required={true}
+                                hint='e.g. MEL'
                             />
                         </Grid>
                         <Grid item xs={12} md={8} lg={3.5}>
@@ -122,6 +123,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                                 control={control}
                                 label="Arrival City"
                                 required={true}
+                                hint='e.g. NYK'
                             />
                         </Grid>
                         <Grid item xs={12} md={8} lg={3.5}>

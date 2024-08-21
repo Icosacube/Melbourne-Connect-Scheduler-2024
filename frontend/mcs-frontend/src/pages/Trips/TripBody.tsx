@@ -5,7 +5,6 @@ import CreateCard from "./CreateCard";
 import { CreateFlightModal } from "./Flight/CreateFlightModal";
 import { CreateAccomModal } from "./Accomodation/CreateAccomModal";
 import AccomCard from "./Accomodation/AccomCard";
-import Costs from "./TabPages/Costs";
 import FlightCard from "./Flight/FlightCard";
 import { getFlightsByTripID } from "../../scripts/flight/function";
 import { getAccomByTripID } from "../../scripts/accommodation/function";
@@ -61,40 +60,36 @@ export const TripBody: React.FC<TripBodyProps> = ({
     <Box className="w-full">
       <Grid container className="flex justify-between items-stretch" spacing={2}>
         <Grid item xs={12}>
-          <Typography>Flight Tickets</Typography>
+        <Typography variant="h6">Flight Tickets</Typography>
         </Grid>
         
         {flights.length > 0 && flights.map((flight, index) => (
-          <Grid item md={12} lg={6} key={index}>
+          <Grid item xs={12} lg={6} key={index}>
             <FlightCard flight={flight} />
           </Grid>
         ))}
         
         {flights.length <= 1 && (
-          <Grid item md={12} lg={6}>
+          <Grid item xs={12} lg={6}>
             <CreateCard onClick={handleOpenFlight} name={"Flight"} />
           </Grid>
         )}
         
         <Grid item xs={12}>
-          <Typography>Accommodation</Typography>
+          <Typography variant="h6">Accommodation</Typography>
         </Grid>
         
         {accom.length > 0 && accom.map((accom, index) => (
-          <Grid item md={12} key={index}>
+          <Grid item xs={12} key={index}>
             <AccomCard accom={accom}></AccomCard>
           </Grid>
         ))}
         
         {accom.length == 0 && (
-          <Grid item md={12}>
+          <Grid item xs={12}>
             <CreateCard onClick={handleOpenAccom} name={"Accommodation"} />
           </Grid>
         )}
-        
-        <Grid item md={12}>
-          <Costs />
-        </Grid>
       </Grid>
 
       <CreateFlightModal handleClose={handleCloseFlight} open={openFlight} tripID={tripID} />
