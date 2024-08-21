@@ -73,12 +73,14 @@ router.get('/main-events/:main_event_record_id', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+  
 //create one main event for one speaker
-//TODO
-//fix create event so that event doesn't have to be tied to 1 speaker only
-//fix create event must have speaker
 router.post('/main-events', async (req, res) => {
   const newMainEvent: MainEvent = req.body as MainEvent; 
+  // Check if the request body contains speaker
+  if (!newMainEvent.Speaker) {
+    return res.status(400).json({ error: 'At least 1 Speaker ID is required' });
+  }
   const tableFields: TableFields = {
     // id: '', 
     fields: newMainEvent
