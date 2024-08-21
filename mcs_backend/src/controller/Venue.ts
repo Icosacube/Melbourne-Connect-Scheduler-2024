@@ -9,11 +9,11 @@ import {
 
 const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
-const VenueTable = String(process.env.VENUE)
+const venueTable = String(process.env.VENUE)
 //get all venues
 router.get('/venues', async (req, res) => {
     try {
-        const venues = await getTable(VenueTable, "");
+        const venues = await getTable(venueTable, "");
         const formattedVenues: { [k: string]: any; }[] = [];
         venues.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
@@ -26,11 +26,11 @@ router.get('/venues', async (req, res) => {
     }
 });
 // Get a specific venue by ID
-router.get('/venues/venue/:venue_record_id', async (req, res) => {
+router.get('/venues/:venue_record_id', async (req, res) => {
     const { venue_record_id } = req.params;
     
     try {
-      const venueRecord = await getRecord(VenueTable, venue_record_id);
+      const venueRecord = await getRecord(venueTable, venue_record_id);
       
       if (!venueRecord) {
         return res.status(404).json({ message: 'venue not found' });
@@ -45,11 +45,12 @@ router.get('/venues/venue/:venue_record_id', async (req, res) => {
     }
   });
 //get all venues for a main event
+//TODO merge this filter function to  GET /venues
 router.get('/venue/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;
 
     try {
-        const venues = await getTable(VenueTable, "");
+        const venues = await getTable(venueTable, "");
         const eventVenues: { [k: string]: any; }[] = [];
 
         venues.forEach((fields) => {
@@ -69,16 +70,16 @@ router.get('/venue/:mainEventID', async (req, res) => {
     }
 });
 //create one venue for a main event
-router.post('/venue/:mainEventID', async (req, res) => {
-    const { mainEventID } = req.params;
+// venues belong to more than one main event ?
+// venues can exist before a main event?
+router.post('/venues', async (req, res) => {
     const newVenue: Venue = req.body;
-    newVenue.MainEvent = [mainEventID];
     const venueRecord = {
         fields: newVenue 
     };
 
     try {
-        await createRecord(VenueTable, [venueRecord]);
+        await createRecord(venueTable, [venueRecord]);
         res.status(200).json({ message: 'Venue created successfully' });
     } catch (error) {
         console.error("Failed to create venue:", error);
@@ -86,7 +87,7 @@ router.post('/venue/:mainEventID', async (req, res) => {
     }
 });
 //modify one venue 
-router.put('/venue/:venue_record_id', async (req, res) => {
+router.put('/venues/:venue_record_id', async (req, res) => {
     const { venue_record_id } = req.params;
     const updatedVenue: Venue = req.body;
 
@@ -96,7 +97,7 @@ router.put('/venue/:venue_record_id', async (req, res) => {
     }];
 
     try {
-        await updateRecord(VenueTable, recordToUpdate);
+        await updateRecord(venueTable, recordToUpdate);
         res.status(200).json({ message: 'Venue updated successfully' });
     } catch (error) {
         console.error("Failed to update venue:", error);
@@ -104,11 +105,11 @@ router.put('/venue/:venue_record_id', async (req, res) => {
     }
 });
 //delete one venue 
-router.delete('/venue/:venue_record_id', async (req, res) => {
+router.delete('/venues/:venue_record_id', async (req, res) => {
     const { venue_record_id } = req.params;
 
     try {
-        await deleteRecords(VenueTable, [venue_record_id]);
+        await deleteRecords(venueTable, [venue_record_id]);
         res.status(200).json({ message: 'Venue deleted successfully' });
     } catch (error) {
         console.error("Failed to delete venue:", error);

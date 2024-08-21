@@ -15,7 +15,7 @@ const router = express.Router();
 
 const mainEventTable = String(process.env.MAINEVENT)
 //get all main events
-router.get("/events", async (req, res) => {
+router.get("/main-events", async (req, res) => {
   try {
     const events = await getTable(mainEventTable, "");
     const formattedEvents: { [k: string]: any; }[] = [];
@@ -31,7 +31,8 @@ router.get("/events", async (req, res) => {
   }
 });
 //get all main events for one speaker
-router.get('/event/:speaker_id', async (req, res) => {
+//TODO merge this filter function to  GET /main-events
+router.get('/main-events/:speaker_id', async (req, res) => {
   const { speaker_id} = req.params;
 
   try {
@@ -54,11 +55,11 @@ router.get('/event/:speaker_id', async (req, res) => {
   }
 });
 // Get a specific event by ID
-router.get('/events/event/:event_record_id', async (req, res) => {
-    const { event_record_id } = req.params;
+router.get('/main-events/:main_event_record_id', async (req, res) => {
+    const { main_event_record_id } = req.params;
     
     try {
-      const eventRecord = await getRecord(mainEventTable, event_record_id);
+      const eventRecord = await getRecord(mainEventTable, main_event_record_id);
       
       if (!eventRecord) {
         return res.status(404).json({ message: 'event not found' });
@@ -76,7 +77,7 @@ router.get('/events/event/:event_record_id', async (req, res) => {
 //TODO
 //fix create event so that event doesn't have to be tied to 1 speaker only
 //fix create event must have speaker
-router.post('/events', async (req, res) => {
+router.post('/main-events', async (req, res) => {
   const newMainEvent: MainEvent = req.body as MainEvent; 
   const tableFields: TableFields = {
     // id: '', 
@@ -85,36 +86,36 @@ router.post('/events', async (req, res) => {
   console.log("tableFields:",tableFields)
   try {
     await createRecord(mainEventTable, [tableFields]);
-    res.status(200).json({ message: 'new Main Event created successfully' });
+    res.status(200).json({ message: 'New main event created successfully' });
   } catch (error) {
     console.error("Failed to create new MainEvent:", error);
-    res.status(500).json({ error: 'Failed to create new Main Event' });
+    res.status(500).json({ error: 'Failed to create new Main event' });
   }
 });
 //modify one main event 
-router.put("/event/:eventID", async (req, res) => {
-  const { eventID } = req.params;
+router.put("/main-events/:main_event_record_id", async (req, res) => {
+  const { main_event_record_id } = req.params;
   const updatedEvent: MainEvent = req.body;
 
   const updatedRecord = {
-    id: eventID,
+    id: main_event_record_id,
     fields: updatedEvent,
   };
 
   try {
     await updateRecord(mainEventTable, [updatedRecord]);
-    res.status(200).json({ message: "main Event updated successfully" });
+    res.status(200).json({ message: "Main event updated successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "main Event could not be updated" });
+    res.status(500).json({ message: "Main event could not be updated" });
   }
 });
 //delete one main event 
-router.delete("/event/:eventID", async (req, res) => {
-  const { eventID } = req.params;
+router.delete("/main-events/:main_event_record_id", async (req, res) => {
+  const { main_event_record_id } = req.params;
   try {
-    await deleteRecords(mainEventTable, [eventID]);
-    res.status(200).json({ message: "main Event deleted successfully" });
+    await deleteRecords(mainEventTable, [main_event_record_id]);
+    res.status(200).json({ message: "Main event deleted successfully" });
   } catch (err) {
     console.error("Failed to delete main event:", err);
     res.status(500).json({ error: "Failed to delete main event" });

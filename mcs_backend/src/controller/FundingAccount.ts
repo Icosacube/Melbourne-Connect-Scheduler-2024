@@ -9,11 +9,11 @@ import {
 import { Creation, TableFields, FundingAccount } from '../types/types';
 
 const router = express.Router();
-const AccountTable = String(process.env.FUNDINGACCOUNT)
+const accountTable = String(process.env.FUNDINGACCOUNT)
 
 router.get('/funding-accounts', async (req, res) => {
     try {
-        const account = await getTable(AccountTable, "");
+        const account = await getTable(accountTable, "");
         const formattedAccount: { [k: string]: any; }[] = [];
         account.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
@@ -30,12 +30,12 @@ router.get('/funding-accounts/:funding_account_id', async (req, res) => {
     const { funding_account_id } = req.params;
     
     try {
-      const AccountRecord = await getRecord(AccountTable, funding_account_id);
+      const accountRecord = await getRecord(accountTable, funding_account_id);
       
-      if (!AccountRecord) {
+      if (!accountRecord) {
         return res.status(404).json({ message: 'Account not found' });
       }
-      let plainFields = Object.fromEntries(AccountRecord);
+      let plainFields = Object.fromEntries(accountRecord);
       let formattedAccount: { [k: string]: any; } = plainFields
       res.json(formattedAccount)
 
@@ -53,7 +53,7 @@ router.post('/funding-accounts/:funding_account_id', async (req, res) => {
     };
 
     try {
-        await createRecord(AccountTable, [accountRecord]);
+        await createRecord(accountTable, [accountRecord]);
         res.status(200).json({ message: 'Funding Account created successfully' });
     } catch (error) {
         console.error("Failed to create Funding Account:", error);
@@ -72,7 +72,7 @@ router.put('/funding-accounts/:funding_account_id', async (req, res) => {
     }];
 
     try {
-        await updateRecord(AccountTable, recordToUpdate);
+        await updateRecord(accountTable, recordToUpdate);
         res.status(200).json({ message: 'Funding Account updated successfully' });
     } catch (error) {
         console.error("Failed to update Funding Account:", error);
@@ -85,7 +85,7 @@ router.delete('/funding-accounts/:funding_account_id', async (req, res) => {
     const { funding_account_id } = req.params;
 
     try {
-        await deleteRecords(AccountTable, [funding_account_id]);
+        await deleteRecords(accountTable, [funding_account_id]);
         res.status(200).json({ message: 'Funding Account deleted successfully' });
     } catch (error) {
         console.error("Failed to delete Funding Account:", error);

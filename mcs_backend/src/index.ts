@@ -12,11 +12,11 @@ const flightRouter = require('./controller/flight');
 const academicRouter = require('./controller/academic'); 
 const canvassingRouter = require('./controller/canvassing'); 
 const speakerRouter = require('./controller/speaker'); 
-const eventRouter = require('./controller/event')
-const CateringRouter = require('./controller/catering'); 
-const ServiceRouter = require('./controller/service'); 
-const VenueRouter = require('./controller/venue');
-const subeventRouter = require('./controller/subEvent');
+const mainEventRouter = require('./controller/mainEvent')
+const cateringRouter = require('./controller/catering'); 
+const serviceRouter = require('./controller/service'); 
+const venueRouter = require('./controller/venue');
+const subEventRouter = require('./controller/subEvent');
 const fundingAccountRouter = require('./controller/fundingAccount');
 const financeRouter = require('./controller/finance');
 const app = express();
@@ -34,11 +34,11 @@ app.use('/', flightRouter);
 app.use('/', academicRouter);
 app.use('/', canvassingRouter);
 app.use('/', speakerRouter);
-app.use('/', eventRouter)
-app.use('/', CateringRouter);
-app.use('/', ServiceRouter);
-app.use('/', VenueRouter);
-app.use('/', subeventRouter);
+app.use('/', mainEventRouter)
+app.use('/', cateringRouter);
+app.use('/', serviceRouter);
+app.use('/', venueRouter);
+app.use('/', subEventRouter);
 app.use('/', fundingAccountRouter);
 app.use('/', financeRouter);
 app.get('*', (req: Request, res: Response) => {

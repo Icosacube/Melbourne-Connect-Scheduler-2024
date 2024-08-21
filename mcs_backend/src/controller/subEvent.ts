@@ -10,30 +10,31 @@ import {
 import { SubEvent } from "../types/types";
 
 const router = express.Router();
-const subeventTable = String(process.env.SUBEVENT)
+const subEventTable = String(process.env.SUBEVENT)
 
-// route to get all subevents
-router.get('/subevents', async (req, res) => {
+// route to get all subEvents
+router.get('/sub-events', async (req, res) => {
     try {
-        const subevents= await getTable(subeventTable, "");
-        const formattedsubevents: { [k: string]: any; }[] = [];
-        subevents.forEach((fields) => {
+        const subEvents= await getTable(subEventTable, "");
+        const formattedSubEvents: { [k: string]: any; }[] = [];
+        subEvents.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
-            formattedsubevents.push(plainFields);
+            formattedSubEvents.push(plainFields);
             console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
-        res.json(formattedsubevents);
+        res.json(formattedSubEvents);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
-// route to get subevents for a specific event
-router.get('/subevents/:event_id', async (req, res) => {
+// route to get sub events for a specific event
+//TODO merge this filter function to  GET /sub-events
+router.get('/sub-events/:event_id', async (req, res) => {
     const { event_id: eventId } = req.params;
 
     try {
-        const services = await getTable(subeventTable, "");
+        const services = await getTable(subEventTable, "");
         const eventServices: { [k: string]: any; }[] = [];
 
         services.forEach((fields) => {
@@ -44,7 +45,7 @@ router.get('/subevents/:event_id', async (req, res) => {
         });
 
         if (eventServices.length === 0) {
-            return res.status(404).json({ message: 'No subevents found for this main event' });
+            return res.status(404).json({ message: 'No subEvents found for this main event' });
         }
 
         res.json(eventServices);
@@ -53,74 +54,75 @@ router.get('/subevents/:event_id', async (req, res) => {
     }
 });
 
-// route to get a subevent
-router.get('/subevent/:subevent_id', async (req, res) => {
-    const { subevent_id: subeventId } = req.params;
+// route to get a sub event
+router.get('/sub-events/:sub_event_id', async (req, res) => {
+    const {sub_event_id } = req.params;
     try {
-        const subevent = await getRecord(subeventTable, subeventId);
+        const subEvent = await getRecord(subEventTable, sub_event_id);
 
-        if (!subevent) {
-            return res.status(404).json({ error: 'Subevent not found' });
+        if (!subEvent) {
+            return res.status(404).json({ error: 'Sub event not found' });
         }
 
-        let plainFields = Object.fromEntries(subevent);
-        let formattedSubevents: { [k: string]: any; } = plainFields
-        res.json(formattedSubevents)
+        let plainFields = Object.fromEntries(subEvent);
+        let formattedSubEvents: { [k: string]: any; } = plainFields
+        res.json(formattedSubEvents)
     } catch (error) {
-        console.error("Error fetching subevent:", error);
-        res.status(500).json({error: 'Failed to fetch subevent'});
+        console.error("Error fetching sub event:", error);
+        res.status(500).json({error: 'Failed to fetch sub event'});
     }
 });
 
-// route to create a subevent
-router.post('/subevent/:event_id', async (req, res) => {
+// route to create a subEvent
+//TODO subEvent to be linked to 1 main event only?
+router.post('/sub-events/:event_id', async (req, res) => {
     const { event_id: eventId } = req.params;
-    const newSubevent: SubEvent = req.body;
+    const newSubEvent: SubEvent = req.body;
 
-    newSubevent.MainEvent = [eventId];
+    newSubEvent.MainEvent = [eventId];
 
     const tableFields = {
-        fields: newSubevent
+        fields: newSubEvent
     };
 
     try {
-        await createRecord(subeventTable, [tableFields]);
-        res.status(201).json({ message: 'Subevent created successfully' });
+        await createRecord(subEventTable, [tableFields]);
+        res.status(201).json({ message: 'Sub event created successfully' });
     } catch (error) {
-        console.error("Failed to create new subevent:", error);
-        res.status(500).json({ error: 'Failed to create new subevent' });
+        console.error("Failed to create new sub event:", error);
+        res.status(500).json({ error: 'Failed to create new sub event' });
         }
 });
 
-// route to update a subevent
-router.put('/subevent/:subevent_id', async (req, res) => {
-    const { subevent_id: subeventId } = req.params;
-    const updatedSubevent: SubEvent = req.body;
+// route to update a subEvent
+router.put('/sub-events/:sub_event_id', async (req, res) => {
+    const { sub_event_id } = req.params;
+    const updatedSubEvent: SubEvent = req.body;
 
     const updatedRecord = {
-        id: subeventId,
-        fields: updatedSubevent
+        id: sub_event_id,
+        fields: updatedSubEvent
     };
 
     try {
-        await updateRecord(subeventTable, [updatedRecord]);
-        res.status(200).json({ message: "Subevent updated successfully" });
+        await updateRecord(subEventTable, [updatedRecord]);
+        res.status(200).json({ message: "Sub event updated successfully" });
     } catch (error) {
-        console.error("Failed to create new subevent:", error);
-        res.status(500).json({ error: "Subevent could not be updated" });
+        console.error("Failed to create new sub event:", error);
+        res.status(500).json({ error: "Sub event could not be updated" });
     }
 });
 
-//delete one main event
-router.delete("/subevent/:subevent_id", async (req, res) => {
-    const { subevent_id: subeventId } = req.params;
+//delete one sub event
+router.delete("/sub-events/:sub_event_id", async (req, res) => {
+    const { sub_event_id} = req.params;
 
     try {
-        await deleteRecords(subeventTable, [subeventId]);
-        res.status(200).json({ message: "Subevent deleted successfully" });
+        await deleteRecords(subEventTable, [sub_event_id]);
+        res.status(200).json({ message: "Sub event deleted successfully" });
     } catch (err) {
         console.error("Failed to delete main event:", err);
-        res.status(500).json({ error: "Failed to delete subevent" });
+        res.status(500).json({ error: "Failed to delete sub event" });
     }
 });
 

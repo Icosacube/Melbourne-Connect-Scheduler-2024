@@ -6,13 +6,13 @@ import {
     updateRecord,
     deleteRecords
 } from '../models/airtable';
-const CateringTable = String(process.env.CATERING)
+const cateringTable = String(process.env.CATERING)
 const router = express.Router();
 import { Catering} from '../types/types';
 //get all caterings
 router.get('/catering', async (req, res) => {
     try {
-        const caterings = await getTable(CateringTable, "");
+        const caterings = await getTable(cateringTable, "");
         const formattedCaterings: { [k: string]: any; }[] = [];
         caterings.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
@@ -25,16 +25,16 @@ router.get('/catering', async (req, res) => {
     }
 });
 // Get a specific Catering by ID
-router.get('/catering/catering/:Catering_record_id', async (req, res) => {
-    const { Catering_record_id } = req.params;
+router.get('/catering/:catering_record_id', async (req, res) => {
+    const { catering_record_id } = req.params;
     
     try {
-      const CateringRecord = await getRecord(CateringTable, Catering_record_id);
+      const cateringRecord = await getRecord(cateringTable, catering_record_id);
       
-      if (!CateringRecord) {
+      if (!cateringRecord) {
         return res.status(404).json({ message: 'Catering not found' });
       }
-      let plainFields = Object.fromEntries(CateringRecord);
+      let plainFields = Object.fromEntries(cateringRecord);
       let formattedCaterings: { [k: string]: any; } = plainFields
       res.json(formattedCaterings)
 
@@ -44,11 +44,12 @@ router.get('/catering/catering/:Catering_record_id', async (req, res) => {
     }
   });
 //get all caterings for one main event
+//TODO merge this filter function to  GET /catering
 router.get('/catering/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;
 
     try {
-        const caterings = await getTable(CateringTable, "");
+        const caterings = await getTable(cateringTable, "");
         const eventCaterings: { [k: string]: any; }[] = [];
 
         caterings.forEach((fields) => {
@@ -68,6 +69,7 @@ router.get('/catering/:mainEventID', async (req, res) => {
     }
 });
 //create one catering for one main event
+// catering belong to one SINGULAR main event ?
 router.post('/catering/:mainEventID', async (req, res) => {
     const { mainEventID } = req.params;
     const newCatering: Catering = req.body;
@@ -77,7 +79,7 @@ router.post('/catering/:mainEventID', async (req, res) => {
     };
 
     try {
-        await createRecord(CateringTable, [cateringRecord]);
+        await createRecord(cateringTable, [cateringRecord]);
         res.status(200).json({ message: 'Catering created successfully' });
     } catch (error) {
         console.error("Failed to create catering:", error);
@@ -95,7 +97,7 @@ router.put('/catering/:catering_record_id', async (req, res) => {
     }];
 
     try {
-        await updateRecord(CateringTable, recordToUpdate);
+        await updateRecord(cateringTable, recordToUpdate);
         res.status(200).json({ message: 'Catering updated successfully' });
     } catch (error) {
         console.error("Failed to update catering:", error);
@@ -108,7 +110,7 @@ router.delete('/catering/:catering_record_id', async (req, res) => {
     const { catering_record_id } = req.params;
 
     try {
-        await deleteRecords(CateringTable, [catering_record_id]);
+        await deleteRecords(cateringTable, [catering_record_id]);
         res.status(200).json({ message: 'Catering deleted successfully' });
     } catch (error) {
         console.error("Failed to delete catering:", error);
