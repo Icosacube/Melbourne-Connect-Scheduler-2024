@@ -10,11 +10,11 @@ import {
 import { Canvassing, TableFields } from '../types/types';
 
 const router = express.Router();
-const CanvassingTable = String(process.env.CANVASSING)
-//get all canvassings
-router.get('/canvassings', async (req, res) => {
+const canvassingTable = String(process.env.CANVASSING)
+//get all canvassing
+router.get('/canvassing', async (req, res) => {
   try {
-    const accommodations = await getTable(CanvassingTable, "");
+    const accommodations = await getTable(canvassingTable, "");
     const formattedCanvassing: { [k: string]: any; }[] = [];
     accommodations.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
@@ -27,16 +27,16 @@ router.get('/canvassings', async (req, res) => {
   }
 });
 // Get a specific Canvassing by ID
-router.get('/canvassings/canvasssing/:Canvassing_record_id', async (req, res) => {
-  const { Canvassing_record_id } = req.params;
+router.get('/canvassing/:canvassing_record_id', async (req, res) => {
+  const { canvassing_record_id } = req.params;
   
   try {
-    const CanvassingRecord = await getRecord(CanvassingTable, Canvassing_record_id);
+    const canvassingRecord = await getRecord(canvassingTable, canvassing_record_id);
     
-    if (!CanvassingRecord) {
+    if (!canvassingRecord) {
       return res.status(404).json({ message: 'Canvassing not found' });
     }
-    let plainFields = Object.fromEntries(CanvassingRecord);
+    let plainFields = Object.fromEntries(canvassingRecord);
     let formattedCanvassing: { [k: string]: any; } = plainFields
     res.json(formattedCanvassing)
 
@@ -45,12 +45,13 @@ router.get('/canvassings/canvasssing/:Canvassing_record_id', async (req, res) =>
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//get all canvassings for one trip
-router.get('/Canvassing/:tripID', async (req, res) => {
+//get all canvassing for one trip
+//TODO merge this filter function to  GET /canvassing
+router.get('/canvassing/:tripID', async (req, res) => {
   const { tripID } = req.params;
 
   try {
-    const Canvassing = await getTable(CanvassingTable, "");
+    const Canvassing = await getTable(canvassingTable, "");
     const tripCanvassing: { [k: string]: any; }[] = [];
 
     Canvassing.forEach((fields) => {
@@ -69,5 +70,7 @@ router.get('/Canvassing/:tripID', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+//TODO add update and delete canvassing routes maybe?
 
 module.exports = router;
