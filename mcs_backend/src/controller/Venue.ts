@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
-const VenueTable = String(process.env.VENUE);
+const venueTable = String(process.env.VENUE);
 import { Cachekeys } from '../Enum/Cachekeys';
 import { getCache, setCache, deleteCache } from '../utils/caching';
 //get all venues
@@ -19,7 +19,7 @@ router.get('/venues', async (req, res) => {
     if (cachedVenues) {
       return res.json(cachedVenues).status(200);
     }
-    const venues = await getTable(VenueTable, '');
+    const venues = await getTable(venueTable, '');
     const formattedVenues: { [k: string]: any }[] = [];
     venues.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
@@ -90,7 +90,7 @@ router.post('/venues', async (req, res) => {
   };
 
   try {
-    await createRecord(VenueTable, [venueRecord]);
+    await createRecord(venueTable, [venueRecord]);
     deleteCache(Cachekeys.VENUES);
     res.status(200).json({ message: 'Venue created successfully' });
   } catch (error) {
@@ -111,7 +111,7 @@ router.put('/venues/:venue_record_id', async (req, res) => {
   ];
 
   try {
-    await updateRecord(VenueTable, recordToUpdate);
+    await updateRecord(venueTable, recordToUpdate);
     deleteCache(Cachekeys.VENUES);
     res.status(200).json({ message: 'Venue updated successfully' });
   } catch (error) {
@@ -124,7 +124,7 @@ router.delete('/venues/:venue_record_id', async (req, res) => {
   const { venue_record_id } = req.params;
 
   try {
-    await deleteRecords(VenueTable, [venue_record_id]);
+    await deleteRecords(venueTable, [venue_record_id]);
     deleteCache(Cachekeys.VENUES);
     res.status(200).json({ message: 'Venue deleted successfully' });
   } catch (error) {

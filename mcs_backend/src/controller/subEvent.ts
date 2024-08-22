@@ -20,15 +20,15 @@ router.get('/sub-events', async (req, res) => {
     if (cachedsubevents) {
       return res.json(cachedsubevents).status(200);
     }
-    const subevents = await getTable(subeventTable, '');
-    const formattedsubevents: { [k: string]: any }[] = [];
+    const subevents = await getTable(subEventTable, '');
+    const formattedSubEvents: { [k: string]: any }[] = [];
     subevents.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
       formattedSubEvents.push(plainFields);
       console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
-    setCache(Cachekeys.SUBEVENTS, formattedsubevents);
-    res.json(formattedsubevents);
+    setCache(Cachekeys.SUBEVENTS, formattedSubEvents);
+    res.json(formattedSubEvents);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -36,31 +36,31 @@ router.get('/sub-events', async (req, res) => {
 
 // route to get sub events for a specific event
 //TODO merge this filter function to  GET /sub-events
-router.get('/sub-events/:event_id', async (req, res) => {
-  const { event_id: eventId } = req.params;
+// router.get('/sub-events/:event_id', async (req, res) => {
+//   const { event_id: eventId } = req.params;
 
-  try {
-    const services = await getTable(subEventTable, '');
-    const eventServices: { [k: string]: any }[] = [];
+//   try {
+//     const services = await getTable(subEventTable, '');
+//     const eventServices: { [k: string]: any }[] = [];
 
-    services.forEach((fields) => {
-      const plainFields = Object.fromEntries(fields);
-      if (plainFields.MainEvent && plainFields.MainEvent.includes(eventId)) {
-        eventServices.push(plainFields);
-      }
-    });
+//     services.forEach((fields) => {
+//       const plainFields = Object.fromEntries(fields);
+//       if (plainFields.MainEvent && plainFields.MainEvent.includes(eventId)) {
+//         eventServices.push(plainFields);
+//       }
+//     });
 
-    if (eventServices.length === 0) {
-      return res
-        .status(404)
-        .json({ message: 'No subEvents found for this main event' });
-    }
+//     if (eventServices.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ message: 'No subEvents found for this main event' });
+//     }
 
-    res.json(eventServices);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+//     res.json(eventServices);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
 
 // route to get a sub event
 router.get('/sub-events/:sub_event_id', async (req, res) => {
@@ -94,7 +94,7 @@ router.post('/sub-events/:event_id', async (req, res) => {
   };
 
   try {
-    await createRecord(subeventTable, [tableFields]);
+    await createRecord(subEventTable, [tableFields]);
     deleteCache(Cachekeys.SUBEVENTS);
     res.status(201).json({ message: 'Subevent created successfully' });
   } catch (error) {
@@ -114,7 +114,7 @@ router.put('/sub-events/:sub_event_id', async (req, res) => {
   };
 
   try {
-    await updateRecord(subeventTable, [updatedRecord]);
+    await updateRecord(subEventTable, [updatedRecord]);
     deleteCache(Cachekeys.SUBEVENTS);
     res.status(200).json({ message: 'Subevent updated successfully' });
   } catch (error) {
@@ -128,7 +128,7 @@ router.delete('/sub-events/:sub_event_id', async (req, res) => {
   const { sub_event_id } = req.params;
 
   try {
-    await deleteRecords(subeventTable, [subeventId]);
+    await deleteRecords(subEventTable, [sub_event_id]);
     deleteCache(Cachekeys.SUBEVENTS);
     res.status(200).json({ message: 'Subevent deleted successfully' });
   } catch (err) {

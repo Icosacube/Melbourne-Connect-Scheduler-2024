@@ -35,30 +35,30 @@ router.get('/main-events', async (req, res) => {
 });
 //get all main events for one speaker
 //TODO merge this filter function to  GET /main-events
-router.get('/main-events/:speaker_id', async (req, res) => {
-  const { speaker_id } = req.params;
+// router.get('/main-events/:speaker_id', async (req, res) => {
+//   const { speaker_id } = req.params;
 
-  try {
-    const trips = await getTable(mainEventTable, '');
-    const events: { [k: string]: any }[] = [];
+//   try {
+//     const trips = await getTable(mainEventTable, '');
+//     const events: { [k: string]: any }[] = [];
 
-    trips.forEach((fields) => {
-      const plainFields = Object.fromEntries(fields);
-      if (plainFields.Speaker && plainFields.Speaker.includes(speaker_id)) {
-        events.push(plainFields);
-      }
-    });
-    if (events.length === 0) {
-      return res
-        .status(404)
-        .json({ message: 'No main events found for this guest speaker' });
-    }
+//     trips.forEach((fields) => {
+//       const plainFields = Object.fromEntries(fields);
+//       if (plainFields.Speaker && plainFields.Speaker.includes(speaker_id)) {
+//         events.push(plainFields);
+//       }
+//     });
+//     if (events.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ message: 'No main events found for this guest speaker' });
+//     }
 
-    res.json(events);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+//     res.json(events);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
 // Get a specific event by ID
 router.get('/main-events/:main_event_record_id', async (req, res) => {
   const { main_event_record_id } = req.params;
@@ -122,7 +122,7 @@ router.put('/main-events/:main_event_record_id', async (req, res) => {
 router.delete('/main-events/:main_event_record_id', async (req, res) => {
   const { main_event_record_id } = req.params;
   try {
-    await deleteRecords(mainEventTable, [eventID]);
+    await deleteRecords(mainEventTable, [main_event_record_id]);
     deleteCache(Cachekeys.MAINEVENTS);
     res.status(200).json({ message: 'main Event deleted successfully' });
   } catch (err) {

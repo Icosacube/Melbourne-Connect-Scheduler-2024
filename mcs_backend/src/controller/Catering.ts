@@ -18,7 +18,7 @@ router.get('/catering', async (req, res) => {
     if (cachedCaterings) {
       return res.json(cachedCaterings).status(200);
     }
-    const caterings = await getTable(CateringTable, '');
+    const caterings = await getTable(cateringTable, '');
     const formattedCaterings: { [k: string]: any }[] = [];
     caterings.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
@@ -90,7 +90,7 @@ router.post('/catering/:mainEventID', async (req, res) => {
   };
 
   try {
-    await createRecord(CateringTable, [cateringRecord]);
+    await createRecord(cateringTable, [cateringRecord]);
     deleteCache(Cachekeys.CATERINGS);
     res.status(200).json({ message: 'Catering created successfully' });
   } catch (error) {
@@ -111,7 +111,7 @@ router.put('/catering/:catering_record_id', async (req, res) => {
   ];
 
   try {
-    await updateRecord(CateringTable, recordToUpdate);
+    await updateRecord(cateringTable, recordToUpdate);
     deleteCache(Cachekeys.CATERINGS);
     res.status(200).json({ message: 'Catering updated successfully' });
   } catch (error) {
@@ -125,7 +125,7 @@ router.delete('/catering/:catering_record_id', async (req, res) => {
   const { catering_record_id } = req.params;
 
   try {
-    await deleteRecords(CateringTable, [catering_record_id]);
+    await deleteRecords(cateringTable, [catering_record_id]);
     deleteCache(Cachekeys.CATERINGS);
     res.status(200).json({ message: 'Catering deleted successfully' });
   } catch (error) {

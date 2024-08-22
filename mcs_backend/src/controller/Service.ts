@@ -33,8 +33,8 @@ router.get('/services', async (req, res) => {
   }
 });
 // Get a specific Service by ID
-router.get('/services/service/:Service_record_id', async (req, res) => {
-  const { Service_record_id } = req.params;
+router.get('/services/service/:service_record_id', async (req, res) => {
+  const { service_record_id } = req.params;
 
   try {
     const serviceRecord = await getRecord(serviceTable, service_record_id);
