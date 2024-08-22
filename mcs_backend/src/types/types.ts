@@ -1,5 +1,5 @@
 export enum PresetFilter {
-  completed = "( {Completed} = FALSE() )",
+  completed = '( {Completed} = FALSE() )',
 }
 
 export type Creation = {

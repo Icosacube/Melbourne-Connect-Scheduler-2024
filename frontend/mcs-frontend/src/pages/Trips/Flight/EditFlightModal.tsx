@@ -3,32 +3,29 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
+    FormInputDateTime,
     FormInputText,
-    FormInputDate,
     FormInputSingleSelect,
+    OutlinedButton,
     SubmitButton,
-    FormInputTextLong,
 } from '../../../components/'
-import {
-    createAccommodation,
-    defaultAccommodation,
-} from '../../../scripts/accommodation/function'
-import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
+import { updateFlight } from '../../../scripts/flight/function'
+import { Flight, FundingAccount } from '../../../types/frontendTypes'
 import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
 
-interface CreateAccomModalProps {
+interface EditFlightModalProps {
     handleClose: () => void
     open: boolean
-    tripID: string
+    flight: Flight
 }
 
-export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
+export const EditFlightModal: React.FC<EditFlightModalProps> = ({
     handleClose,
     open,
-    tripID,
+    flight,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Accommodation>({
-        defaultValues: defaultAccommodation,
+    const { handleSubmit, reset, control } = useForm<Flight>({
+        defaultValues: flight,
     })
 
     const [showSuccess, setShowSuccess] = useState(false)
@@ -48,19 +45,17 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
         handleClose()
     }
 
-    const onSubmit = async (data: Accommodation) => {
+    const onSubmit = async (data: Flight) => {
         setSubmitting(true)
         try {
-            data.Trip = [tripID]
-            console.log(data)
-            const res = await createAccommodation(data)
+            const res = await updateFlight(data)
             if (res) {
                 setShowSuccess(true)
                 setTimeout(() => {
                     window.location.reload()
                 }, 1000)
             } else {
-                console.log('Failed to create accommodation')
+                console.log('Failed to update flight')
             }
         } catch (error) {
             console.error(error)
@@ -73,11 +68,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
 
     return (
         <>
-            <Modal
-                open={open}
-                onClose={onClose}
-                aria-labelledby="modal-modal-title"
-            >
+            <Modal open={open} onClose={onClose} aria-labelledby="edit-flight">
                 <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
@@ -86,88 +77,98 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
                     >
                         <Grid item xs={12}>
                             <Typography variant="h4" gutterBottom>
-                                Add New Accommodation
+                                Update Flight
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} md={4} lg={3}>
                             <FormInputText
-                                name="HotelName"
+                                name="Airline"
                                 control={control}
-                                label="Hotel Name"
+                                label="Airline"
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4} lg={4.5}>
+                            <FormInputText
+                                name="FlightNumber"
+                                control={control}
+                                label="Flight Number"
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4} lg={4.5}>
+                            <FormInputText
+                                name="FlightReference"
+                                control={control}
+                                label="Flight Reference"
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <FormInputText
+                                name="DepartureFrom"
+                                control={control}
+                                label="Departure City"
                                 required={true}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <FormInputText
-                                name="Address"
+                        <Grid item xs={12} md={8}>
+                            <FormInputDateTime
+                                name="DepartDate"
                                 control={control}
-                                label="Address"
-                            />
-                        </Grid>
-
-                        <Grid item xs={12} md={8} lg={4}>
-                            <FormInputText
-                                name="BookingReference"
-                                control={control}
-                                label="Booking Reference"
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={4} lg={2}>
-                            <FormInputText
-                                name="Room"
-                                control={control}
-                                label="Room"
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>
-                            <FormInputDate
-                                name="CheckIn"
-                                control={control}
-                                label="Check-In Date"
+                                label="Departure Time"
                                 required={true}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>
-                            <FormInputDate
-                                name="CheckOut"
+                        <Grid item xs={12} md={4}>
+                            <FormInputText
+                                name="ArrivedTo"
                                 control={control}
-                                label="Check-Out Date"
+                                label="Arrival City"
+                                required={true}
                             />
                         </Grid>
-                        <Grid item xs={12} md={9}>
+                        <Grid item xs={12} md={8}>
+                            <FormInputDateTime
+                                name="ArriveDate"
+                                control={control}
+                                label="Arrival Time"
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={9} lg={9}>
                             <FormInputSingleSelect
                                 name="FundingAccount"
                                 control={control}
                                 label="Funding Account"
                                 options={fundingAccounts.map((account) => ({
-                                    label: `${
-                                        account.AccountUser === ''
-                                            ? 'unknown user'
-                                            : account.AccountUser
-                                    } - ${account.ThemisString}`,
+                                    label: `${account.AccountUser} - ${account.ThemisString}`,
                                     value: account.RecordID,
                                 }))}
                             />
                         </Grid>
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} md={3} lg={3}>
                             <FormInputText
                                 name="Cost"
                                 control={control}
-                                label="Cost ($)"
+                                label="Price ($)"
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <FormInputTextLong
-                                name="Notes"
-                                control={control}
-                                label="Notes"
-                            />
-                        </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                            />
+                        <Grid
+                            item
+                            xs={12}
+                            container
+                            justifyContent="flex-end"
+                            spacing={2}
+                        >
+                            <Grid item>
+                                <OutlinedButton
+                                    onClick={() => reset()}
+                                    name={'Reset'}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <SubmitButton
+                                    submitting={submitting}
+                                    onClick={handleSubmit(onSubmit)}
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Paper>
@@ -175,7 +176,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
-                message="Accommodation Created Successfully"
+                message="Flight Updated Successfully"
             />
         </>
     )

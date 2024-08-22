@@ -27,10 +27,10 @@ const themeOptions: ThemeOptions = {
         },
         h2: {
             fontFamily: 'Mohave, sans-serif',
-            fontSize: '48px',
+            fontSize: '42px',
             letterSpacing: '2px',
             color: '#000000',
-            lineHeight: 1.2,
+            lineHeight: 1,
         },
         h3: {
             fontFamily: 'Futura, sans-serif',
@@ -82,7 +82,7 @@ const themeOptions: ThemeOptions = {
         button: {
             fontFamily: 'Futura, sans-serif',
             color: '2A2A2A',
-            fontSize: '18pt', 
+            fontSize: '18pt',
             letterSpacing: '1px',
             maxLines: 2,
             fontWeight: 500,
@@ -183,17 +183,28 @@ const themeOptions: ThemeOptions = {
                     textTransform: 'none',
                     height: 'auto',
                     '&:hover': {
-                      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
                     },
-                  },
+                },
             },
         },
 
         /* Paper styling */
+
+        MuiCard: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '8px',
+                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)', 
+                },
+            },
+        },
         MuiPaper: {
             styleOverrides: {
                 root: {
                     height: 'auto',
+                    borderRadius: '8px',
+                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)', 
                 },
             },
         },

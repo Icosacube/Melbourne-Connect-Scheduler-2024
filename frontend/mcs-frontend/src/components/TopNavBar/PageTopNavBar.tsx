@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
     Box,
@@ -9,39 +9,35 @@ import {
     Typography,
 } from '@mui/material'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
-import { EventTabs } from '../../pages/Event/EventView/EventTabs'
 import CreateIcon from '@mui/icons-material/Create'
 import ShareIcon from '@mui/icons-material/Share'
-import EditEventModal from '../../pages/Event/EventView/EditEventModal'
 
-interface EventTopNavBarProps {
-    getCurTab: (data: string) => void
+interface PageTopNavBarProps {
+    type: string
+    link: string
+    pageTitle: string
     openEditModal: () => void
 }
 
-const EventTopNavBar: React.FC<EventTopNavBarProps> = ({
-    getCurTab,
+export const PageTopNavBar: React.FC<PageTopNavBarProps> = ({
+    type,
+    link,
+    pageTitle,
     openEditModal,
 }) => {
-    const [tabName, setTabName] = useState('About')
     const navigate = useNavigate()
-
-    const handleTabChange = (data: string) => {
-        setTabName(data)
-        getCurTab(data)
-    }
 
     const breadcrumbs = [
         <Link
             key="1"
             // underline="hover"
-            to={'/events'}
+            to={link}
             color="inherit"
         >
-            Events Overview
+            {type} Overview
         </Link>,
         <Typography key="2" color="text.primary">
-            Event
+            {pageTitle}
         </Typography>,
     ]
 
@@ -57,15 +53,14 @@ const EventTopNavBar: React.FC<EventTopNavBarProps> = ({
                         {<ArrowBackIosIcon />}
                     </IconButton>
                     <Box className="ml-2">
-                        <Typography variant="h2">{tabName}</Typography>
+                        <Typography variant="h2">{type}</Typography>
                         <Breadcrumbs separator="›" aria-label="breadcrumb">
                             {breadcrumbs}
                         </Breadcrumbs>
                     </Box>
                 </Box>
                 <Box className="flex place-items-center">
-                    <EventTabs getTabName={handleTabChange} />
-                    <Box className="flex h-14 space-x-4 mx-12">
+                    <Box className="flex h-14 space-x-4 mr-12">
                         <Button
                             variant="contained"
                             className="bg-accent2 hover:bg-secondary hover:text-white text-white"
@@ -91,5 +86,3 @@ const EventTopNavBar: React.FC<EventTopNavBarProps> = ({
         </Toolbar>
     )
 }
-
-export default EventTopNavBar

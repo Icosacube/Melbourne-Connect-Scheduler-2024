@@ -1,1 +1,2 @@
-export { TopNavBar } from './TopNavBar';
+export { TopNavBar } from './TopNavBar'
+export { PageTopNavBar } from './PageTopNavBar'

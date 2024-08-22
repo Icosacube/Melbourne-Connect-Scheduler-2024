@@ -5,6 +5,7 @@ export interface FormInputProps {
   setValue?: any;
   options?: DropdownOptions[];
   required?: boolean;
+  hint?: string;
 }
 
 export interface DropdownOptions {

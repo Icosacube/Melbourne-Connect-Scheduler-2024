@@ -61,6 +61,28 @@ export async function createTrip(trip: TripFrontend) {
   return res.status;
 }
 
+// Function to update an existing Trip
+export async function updateTrip(trip: TripFrontend) {
+  const tripID = trip.RecordID;
+  const tripBackend = reformatTripRequest(trip);
+  const res = await axios.put(
+    `${process.env.REACT_APP_BACKEND_URL}/trip/${tripID}`,
+    tripBackend,
+  );
+  return res.status;
+}
+
+
+
+// Function to delete an existing Trip
+export async function deleteTrip(tripID: String) {
+  const res = await axios.delete(
+    `${process.env.REACT_APP_BACKEND_URL}/trip/${tripID}`,
+  );
+  return res.status;
+}
+
+
 // Default Trip object
 export const defaultTrip: TripFrontend = {
   RecordID: '',
