@@ -52,9 +52,11 @@ export const defaultMainEvent: MainEvent = {
 export async function getAllMainEvents(): Promise<MainEvent[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAIN_EVENT_API_PATH}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}`
         )
+
         const rawEvents = res.data
+        console.log(rawEvents)
         const formattedEvents = rawEvents.map((event: any) =>
             reformatMainEventResponseData(event)
         )
@@ -69,7 +71,7 @@ export async function getAllMainEvents(): Promise<MainEvent[]> {
 export async function getMainEventById(id: string): Promise<MainEvent> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAIN_EVENT_API_PATH}/${id}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}/${id}`
         )
         const rawEvent = res.data
         const formattedEvent = reformatMainEventResponseData(rawEvent)
@@ -84,7 +86,7 @@ export async function getMainEventById(id: string): Promise<MainEvent> {
 export async function createMainEvent(mainEvent: MainEvent) {
     try {
         const res = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAIN_EVENT_API_PATH}`,
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}`,
             mainEvent
         )
         // Server returns message: Main event created successfully if success

@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material'
 import React, { FC, useEffect, useState } from 'react'
 import WeeklyCalendar from '../../../../components/Calendar/WeeklyCalendar'
 import { MainEvent, SubEvent, Speaker } from '../../../../types/frontendTypes'
-import { getSubEventsByEventID } from '../../../../scripts/subevent/functions'
+import { getSubEventsByMainEventID } from '../../../../scripts/subevent/functions'
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined'
 import { CreateSubEventModal } from './CreateSubEventModal'
 import { AddButton } from '../../../../components'
@@ -18,7 +18,7 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
 
     // Fetch subevents
     const fetchSubEvents = async () => {
-        const fetchedSubEvents = await getSubEventsByEventID(event.RecordID)
+        const fetchedSubEvents = await getSubEventsByMainEventID(event.RecordID)
         setSubEvents(fetchedSubEvents)
     }
 

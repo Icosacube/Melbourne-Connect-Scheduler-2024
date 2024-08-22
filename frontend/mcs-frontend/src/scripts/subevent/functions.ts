@@ -38,15 +38,18 @@ export const defaultSubEvent: SubEvent = {
 }
 
 // Function to get all subevents for a main event
-export async function getSubEventsByEventID(id: string): Promise<SubEvent[]> {
+export async function getSubEventsByMainEventID(
+    mainEventId: string
+): Promise<SubEvent[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}/${id}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}`
         )
         const rawSubEvents = res.data
-        const formattedSubEvents = rawSubEvents.map((subEvent: any) =>
-            reformatSubEventResponseData(subEvent)
-        )
+        const formattedSubEvents = rawSubEvents
+            .filter((subEvent: any) => subEvent.MainEvent.includes(mainEventId))
+            .map((subEvent: any) => reformatSubEventResponseData(subEvent))
+        console.log(formattedSubEvents)
         return formattedSubEvents
     } catch (error) {
         console.error('Error fetching all sub events:', error)
@@ -61,7 +64,7 @@ export async function createSubEvent(
     const toSend: any = { ...subEvent }
     delete toSend.RecordID
     const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/subevent/${id}`,
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}/${id}`,
         toSend
     )
     return res
