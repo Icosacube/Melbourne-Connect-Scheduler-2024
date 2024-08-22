@@ -5,6 +5,7 @@ import type { GridColDef } from '@mui/x-data-grid'
 import { MainEvent, Speaker, Trip } from '../../../types/frontendTypes'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import PendingIcon from '@mui/icons-material/Pending'
+import { CustomToolbar } from '../../../components'
 
 interface TripTableProps {
     events: MainEvent[]
@@ -105,6 +106,22 @@ export const TripTable: FC<TripTableProps> = ({ events, speakers, trips }) => {
             initialState={{
                 pagination: {
                     paginationModel: { page: 0, pageSize: 15 },
+                },
+            }}
+            slots={{ toolbar: CustomToolbar }}
+            slotProps={{
+                filterPanel: {
+                    sx: {
+                        '& .MuiDataGrid-filterForm': {
+                            paddingY: '1.5rem',
+                            paddingLeft: '0',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginLeft: '0.125rem',
+                        },
+                        '& .MuiFormControl-root': { marginRight: '0.5rem' },
+                    },
                 },
             }}
             checkboxSelection
