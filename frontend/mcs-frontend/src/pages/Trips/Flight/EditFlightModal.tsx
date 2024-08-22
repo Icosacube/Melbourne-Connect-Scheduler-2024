@@ -9,9 +9,9 @@ import {
     OutlinedButton,
     SubmitButton,
 } from '../../../components/'
-import { updateFlight } from '../../../scripts/flight/function'
+import { updateFlight } from '../../../scripts/flight/functions'
 import { Flight, FundingAccount } from '../../../types/frontendTypes'
-import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
+import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
 
 interface EditFlightModalProps {
     handleClose: () => void

@@ -37,7 +37,7 @@ export const defaultCatering: Catering = {
 export async function getCateringByEventID(id: string): Promise<Catering[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}/catering/${id}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${id}`
         )
         const rawCatering = res.data
         const formattedCatering = rawCatering.map((catering: any) =>
@@ -64,7 +64,7 @@ export async function createCatering(
         delete toSend.RecordID
         console.log(toSend)
         const res = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/catering/${id}`,
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${id}`,
             toSend
         )
         return res

@@ -12,8 +12,8 @@ import {
 import {
     defaultMainEvent,
     getMainEventById,
-} from '../../scripts/event/function'
-import { getFlightsByTripID } from '../../scripts/flight/function'
+} from '../../scripts/event/functions'
+import { getFlightsByTripID } from '../../scripts/flight/functions'
 import { getAccomByTripID } from '../../scripts/accommodation/function'
 import CreateCard from './CreateCard'
 import { CreateFlightModal } from './Flight/CreateFlightModal'

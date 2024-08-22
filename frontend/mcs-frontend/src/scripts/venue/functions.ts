@@ -4,7 +4,7 @@ import { Venue } from '../../types/frontendTypes'
 export async function getAllVenues(): Promise<Venue[]> {
     try {
         const res = await axios.get(
-            process.env.REACT_APP_BACKEND_URL + '/venues'
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}`
         )
         const rawVenues = res.data
         const formattedVenues = rawVenues.map((venue: any) =>
@@ -19,7 +19,7 @@ export async function getAllVenues(): Promise<Venue[]> {
 export async function getVenueById(id: string): Promise<Venue> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}/venue/${id}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}/${id}`
         )
         const rawVenue = res.data
 
@@ -35,11 +35,11 @@ export async function getVenueById(id: string): Promise<Venue> {
 export async function getVenueByMainEventId(id: string): Promise<Venue[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}/venue/${id}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}/${id}`
         )
         const rawVenues = res.data
-        const formattedVenues = rawVenues.map(
-            (venue: any) => reformatVenueResponseData(venue)
+        const formattedVenues = rawVenues.map((venue: any) =>
+            reformatVenueResponseData(venue)
         )
         console.log(formattedVenues)
         return formattedVenues
@@ -57,7 +57,7 @@ export const defaultVenue: Venue = {
     Notes: '',
     FundingAccount: [],
     MainEvent: [],
-    RecordID: ''
+    RecordID: '',
 }
 
 function reformatVenueResponseData(data: any): Venue {
@@ -67,7 +67,8 @@ function reformatVenueResponseData(data: any): Venue {
         VenueName: data.VenueName || defaultVenue.VenueName,
         Location: data.Location || defaultVenue.Location,
         Cost: data.Cost || defaultVenue.Cost,
-        InvoiceReference: data.InvoiceReference || defaultVenue.InvoiceReference,
+        InvoiceReference:
+            data.InvoiceReference || defaultVenue.InvoiceReference,
         Notes: data.Notes || defaultVenue.Notes,
         FundingAccount: data.FundingAccount || defaultVenue.FundingAccount,
         MainEvent: data.MainEvent || defaultVenue.MainEvent,

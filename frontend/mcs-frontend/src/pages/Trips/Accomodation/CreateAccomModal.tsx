@@ -14,7 +14,7 @@ import {
     defaultAccommodation,
 } from '../../../scripts/accommodation/function'
 import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
-import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
+import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
 
 interface CreateAccomModalProps {
     handleClose: () => void

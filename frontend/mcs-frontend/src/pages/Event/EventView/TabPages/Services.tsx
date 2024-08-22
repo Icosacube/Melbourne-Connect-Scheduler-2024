@@ -8,7 +8,7 @@ import {
 import { getCateringByEventID } from '../../../../scripts/catering/functions'
 import Headline from './Headline'
 import { Box, Button, Typography } from '@mui/material'
-import { getAllFundingAccounts } from '../../../../scripts/fundingAccount/function'
+import { getAllFundingAccounts } from '../../../../scripts/fundingAccount/functions'
 import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined'
 import { CreateCateringModal } from './CreateCateringModal'
 import dayjs from 'dayjs'
@@ -121,8 +121,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         <>
             <Box className="  mb-4 flex flex-col">
                 <Box className=" flex flex-col">
-
-                <AddButton name={'Catering Entry'} onClick={handleOpen} />
+                    <AddButton name={'Catering Entry'} onClick={handleOpen} />
                     <CreateCateringModal
                         open={open}
                         handleClose={handleClose}

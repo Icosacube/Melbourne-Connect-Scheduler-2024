@@ -13,9 +13,9 @@ import {
     SubmitButton,
 } from '../../components/'
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
-import { updateTrip, deleteTrip } from '../../scripts/trip/function'
+import { updateTrip, deleteTrip } from '../../scripts/trip/functions'
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes'
-import { getAllMainEvents } from '../../scripts/event/function'
+import { getAllMainEvents } from '../../scripts/event/functions'
 import { getAllSpeakers } from '../../scripts/speaker/functions'
 
 interface EditTripModalProps {

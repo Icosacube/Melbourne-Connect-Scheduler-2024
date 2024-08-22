@@ -2,7 +2,6 @@ import { Button, Modal, Typography, Paper, Grid } from '@mui/material'
 import 'dayjs/locale/en-au'
 import React, { FC, useEffect, useState } from 'react'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import updateEvent from '../../../scripts/event/updateEvent'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
 import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
 import {
@@ -17,6 +16,7 @@ import { useForm } from 'react-hook-form'
 import { Dayjs } from 'dayjs'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
+import updateMainEvent from '../../../scripts/event/functions'
 
 interface EditEventModalProps {
     event: MainEvent
@@ -63,7 +63,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     const onSubmit = () => {
         setSubmitting(true)
         setEvent(editedEvent)
-        updateEvent(editedEvent)
+        updateMainEvent(editedEvent)
         setShowSuccess(false)
 
         setSubmitting(false)

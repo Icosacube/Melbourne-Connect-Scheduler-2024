@@ -9,7 +9,7 @@ import {
     SubmitButton,
 } from '../../components/'
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
-import { createTrip, defaultTrip } from '../../scripts/trip/function'
+import { createTrip, defaultTrip } from '../../scripts/trip/functions'
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes'
 
 interface CreateTripModalProps {

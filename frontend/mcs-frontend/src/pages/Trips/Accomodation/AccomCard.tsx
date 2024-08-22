@@ -9,7 +9,7 @@ import {
 import React, { FC, useState, useEffect } from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVertOutlined'
 import { Accommodation } from '../../../types/frontendTypes'
-import { getFundingAccountByID } from '../../../scripts/fundingAccount/function'
+import { getFundingAccountByID } from '../../../scripts/fundingAccount/functions'
 import { EditAccomModal } from './EditAccomModal'
 import { deleteAccom } from '../../../scripts/accommodation/function'
 import { DeleteDialog } from '../../../components'
