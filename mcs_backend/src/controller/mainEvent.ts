@@ -67,7 +67,7 @@ router.get('/main-events/:main_event_record_id', async (req, res) => {
     const eventRecord = await getRecord(mainEventTable, main_event_record_id);
 
     if (!eventRecord) {
-      return res.status(404).json({ message: 'event not found' });
+      return res.status(404).json({ message: 'Main Event not found' });
     }
     let plainFields = Object.fromEntries(eventRecord);
     let formattedEvents: { [k: string]: any } = plainFields;
