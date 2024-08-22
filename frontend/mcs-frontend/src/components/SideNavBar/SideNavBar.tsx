@@ -73,39 +73,38 @@ export const SideNavBar: React.FC = () => {
     }
 
     return (
-        <>
-            <Box className="h-full w-full">
-                <NavLink to="/dashboard">
-                    <Button className="bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
-                        <Logo1 />
-                        <Logo2 />
-                    </Button>
-                </NavLink>
-                <Box className="h-full bg-primary">
-                    <List className="w-full bg-primary ">
-                        <Typography variant="h6" fontWeight={400} className="ml-5">
-                            Overview
-                        </Typography>
-                        {overviewTabs.map((page) => (
-                            <NavLink to={page.url} key={page.name}>
-                                <ListItem key={page.name} disablePadding>
-                                    <ListItemButton>
-                                        {overviewTabsIcons(page.name)}
-                                        <ListItemText
-                                            primary={
-                                                <Typography variant="h6">
-                                                    {page.name}
-                                                </Typography>
-                                            }
-                                        />
-                                    </ListItemButton>
-                                </ListItem>
-                            </NavLink>
-                        ))}
-                    </List>
-                    {/* <Divider className="bg-[#FBE418]" /> */}
-                </Box>
-                {/* <Box className="bg-[#FFC901] grow">
+        <Box className="h-screen w-full">
+            <NavLink to="/dashboard">
+                <Button className="bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
+                    <Logo1 />
+                    <Logo2 />
+                </Button>
+            </NavLink>
+            <Box className="h-full bg-primary">
+                <List className="w-full bg-primary ">
+                    <Typography variant="h6" fontWeight={400} className="ml-5">
+                        Overview
+                    </Typography>
+                    {overviewTabs.map((page) => (
+                        <NavLink to={page.url} key={page.name}>
+                            <ListItem key={page.name} disablePadding>
+                                <ListItemButton>
+                                    {overviewTabsIcons(page.name)}
+                                    <ListItemText
+                                        primary={
+                                            <Typography variant="h6">
+                                                {page.name}
+                                            </Typography>
+                                        }
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        </NavLink>
+                    ))}
+                </List>
+                {/* <Divider className="bg-[#FBE418]" /> */}
+            </Box>
+            {/* <Box className="bg-[#FFC901] grow">
                     <List>
                         <Typography variant="h6" className="ml-3">
                             Event
@@ -155,7 +154,6 @@ export const SideNavBar: React.FC = () => {
                         ))}
                     </List>
                 </Box> */}
-            </Box>
-        </>
+        </Box>
     )
 }

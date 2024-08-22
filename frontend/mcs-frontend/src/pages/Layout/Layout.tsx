@@ -1,24 +1,39 @@
-import { Box, Container } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 import { SideNavBar, TopNavBar } from '../../components'
 import React, { FC } from 'react'
 
 export const Layout: FC = () => {
     return (
-        <>
-            <Box className="flex h-screen w-full">
-                <Box className="w-56">
-                    <SideNavBar />
-                </Box>
-                <Box className=" w-full">
-                    <TopNavBar />
-                    <Box className=" flex items-center justify-center p-6">
-                        <Container maxWidth="xl">
-                            <Outlet />
-                        </Container>
-                    </Box>
-                </Box>
-            </Box>
-        </>
+        <Grid
+            container
+            className="h-screen w-full"
+            sx={{ backgroundColor: '#F5F5F5' }}
+        >
+            <Grid
+                item
+                sx={{
+                    position: 'sticky',
+                    top: 0,
+                    width: 200,
+                    height: '100vh',
+                    overflow: 'hidden', // don't scroll
+                }}
+            >
+                <SideNavBar />
+            </Grid>
+
+            <Grid
+                item
+                xs
+                sx={{
+                    height: '100vh',
+                    overflowY: 'auto',
+                }}
+            >
+                <TopNavBar />
+                <Outlet />
+            </Grid>
+        </Grid>
     )
 }

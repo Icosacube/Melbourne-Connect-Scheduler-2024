@@ -3,8 +3,8 @@ import React, { FC } from 'react';
 
 interface ProfileHeaderProps {
   title: string;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   organisation: string;
   role: string;
   faculty: string;
@@ -14,8 +14,8 @@ interface ProfileHeaderProps {
 
 export const ProfileHeader: FC<ProfileHeaderProps> = ({
   title,
-  firstname,
-  lastname,
+  firstName,
+  lastName,
   organisation,
   role,
   faculty,
@@ -29,7 +29,7 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({
         <Stack className='justify-center space-y-3'>
           <Typography className='text-2xl'>{title}</Typography>
           <Typography className='text-4xl '>
-            {firstname} {lastname}
+            {firstName} {lastName}
           </Typography>
           <Typography className='text-lg '>{organisation}</Typography>
           <Typography className='text-lg'>{pronouns}</Typography>

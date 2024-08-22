@@ -2,33 +2,24 @@ import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import {
-    FormInputText,
-    FormInputDate,
-    FormInputSingleSelect,
-    SubmitButton,
-    FormInputTextLong,
-} from '../../../components/'
-import {
-    createAccommodation,
-    defaultAccommodation,
-} from '../../../scripts/accommodation/function'
+import { FormInputText, FormInputDate, FormInputSingleSelect, SubmitButton, FormInputTextLong } from '../../../components/'
+import { updateAccom } from '../../../scripts/accommodation/function'
 import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
 import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
 
-interface CreateAccomModalProps {
+interface EditAccomModalProps {
     handleClose: () => void
     open: boolean
-    tripID: string
+    accom: Accommodation
 }
 
-export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
+export const EditAccomModal: React.FC<EditAccomModalProps> = ({
     handleClose,
     open,
-    tripID,
+    accom,
 }) => {
     const { handleSubmit, reset, control } = useForm<Accommodation>({
-        defaultValues: defaultAccommodation,
+        defaultValues: accom,
     })
 
     const [showSuccess, setShowSuccess] = useState(false)
@@ -51,16 +42,14 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
     const onSubmit = async (data: Accommodation) => {
         setSubmitting(true)
         try {
-            data.Trip = [tripID]
-            console.log(data)
-            const res = await createAccommodation(data)
+            const res = await updateAccom(data)
             if (res) {
                 setShowSuccess(true)
                 setTimeout(() => {
                     window.location.reload()
                 }, 1000)
             } else {
-                console.log('Failed to create accommodation')
+                console.log('Failed to update Accommodation')
             }
         } catch (error) {
             console.error(error)
@@ -175,7 +164,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
-                message="Accommodation Created Successfully"
+                message="Accommodation Updated Successfully"
             />
         </>
     )
