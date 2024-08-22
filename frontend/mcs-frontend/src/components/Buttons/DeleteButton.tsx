@@ -1,13 +1,11 @@
 import React from 'react'
 import { Button, CircularProgress, Typography } from '@mui/material'
 
-interface SubmitButtonProps {
-    submitting: boolean
+interface DeleteButtonProps {
     onClick: () => void
 }
 
-export const SubmitButton: React.FC<SubmitButtonProps> = ({
-    submitting,
+export const DeleteButton: React.FC<DeleteButtonProps> = ({
     onClick,
 }) => {
     return (
@@ -15,16 +13,11 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
             className="hover:bg-tertiary text-xl py-2 px-4"
             variant="contained"
             size="large"
+            color='error'
             disableElevation
             onClick={onClick}
-            disabled={submitting} // Disable button while submitting
-            startIcon={
-                submitting ? (
-                    <CircularProgress size={20} color="inherit" />
-                ) : undefined
-            }
         >
-            Submit
+            Delete
         </Button>
     )
 }

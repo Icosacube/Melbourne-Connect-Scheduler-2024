@@ -190,7 +190,7 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
-                message="Flight Created Successfully"
+                message="Flight Deleted Successfully"
             />
         </>
     )
