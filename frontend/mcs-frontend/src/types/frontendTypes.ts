@@ -102,6 +102,7 @@ export type MainEvent = {
     Completed: boolean
     Trip: string[]
     SubEvent: string[]
+    EventTotal: number
 }
 
 export type SubEvent = {
@@ -216,4 +217,16 @@ export type Canvassing = {
     EndTime: string
     Trip: string[]
     Academic: string[]
+}
+
+export type Finance = {
+    RecordID: string
+    MainEventID: string
+    MainEventName?: string
+    EventTotalCost?: number
+    ExpenseCategory: string
+    ExpenseDescription: string
+    Cost: number
+    ExpenseDate: Dayjs
+    FundingAccount: string
 }

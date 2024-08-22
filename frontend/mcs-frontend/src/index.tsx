@@ -8,7 +8,9 @@ import { loader as speakersLoader } from './scripts/speaker/speakersLoader'
 import { loader as speakerLoader } from './scripts/speaker/speakerLoader'
 import { loader as tripsLoader } from './scripts/trip/tripsLoader'
 import { loader as tripLoader } from './scripts/trip/tripLoader'
+import { loader as financeLoader } from './scripts/finance/financeOverviewLoaders'
 import { BodyLayout } from './pages/Layout/BodyLayout'
+
 import './index.css'
 import {
     Dashboard,
@@ -26,8 +28,8 @@ import { Trip } from './pages/Trips/Trip'
 import { Trips } from './pages/Trips/TripsOverview/Trips'
 import reportWebVitals from './reportWebVitals'
 import { ThemeProvider } from '@emotion/react'
-import theme from './theme/theme';
-import './fonts.css';
+import theme from './theme/theme'
+import './fonts.css'
 require('cors')
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -99,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     path: '/finance',
                     element:<BodyLayout content={<Finance />}/>,
                     errorElement: <ErrorPage />,
+                    loader: financeLoader,
                 },
             ],
         },
@@ -107,10 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
     rootContainer.render(
         <React.StrictMode>
             <ThemeProvider theme={theme}>
-            {/* Material UI CSS needs to be injectFirst so that it does not override tailwind */}
-            <StyledEngineProvider injectFirst>
-                <RouterProvider router={router} />
-            </StyledEngineProvider>
+                {/* Material UI CSS needs to be injectFirst so that it does not override tailwind */}
+                <StyledEngineProvider injectFirst>
+                    <RouterProvider router={router} />
+                </StyledEngineProvider>
             </ThemeProvider>
         </React.StrictMode>
     )

@@ -56,13 +56,13 @@ export const About: FC<AboutProps> = ({ event, speakers }) => {
                         <Avatar className="size-24 mb-4 " />
                         <Stack>
                             <Typography variant="h5">
-                                {firstSpeaker.FirstName}
+                                {firstSpeaker?.FirstName}
                             </Typography>
                             <Typography variant="h5">
-                                {firstSpeaker.LastName}
+                                {firstSpeaker?.LastName}
                             </Typography>
                             <Typography variant="subtitle1">
-                                {firstSpeaker.Organisation}
+                                {firstSpeaker?.Organisation}
                             </Typography>
                         </Stack>
                     </Box>
@@ -77,7 +77,7 @@ export const About: FC<AboutProps> = ({ event, speakers }) => {
                             WebkitLineClamp: 9,
                         }}
                     >
-                        {firstSpeaker.Bio}
+                        {firstSpeaker?.Bio}
                     </Typography>
                 </Box>
 
@@ -88,10 +88,9 @@ export const About: FC<AboutProps> = ({ event, speakers }) => {
                 </Box>
                 {theRestOfSpeakers.map((speaker) => (
                     <NameCard
-                        key={speaker.RecordID}
-                        firstName={speaker.FirstName}
-                        lastName={speaker.LastName}
-                        position={speaker.Organisation}
+                        firstName={speaker?.FirstName}
+                        lastName={speaker?.LastName}
+                        position={speaker?.Organisation}
                     />
                 ))}
             </Box>
