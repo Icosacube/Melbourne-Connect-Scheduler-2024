@@ -1,11 +1,10 @@
-import { Button, Modal, Typography, Paper, Grid } from '@mui/material'
+import { Box, Grid, Modal, Paper, Typography } from '@mui/material'
 import 'dayjs/locale/en-au'
 import React, { FC, useEffect, useState } from 'react'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import updateEvent from '../../../scripts/event/updateEvent'
-import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
-import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
+import { useForm } from 'react-hook-form'
 import {
+    DeleteButton,
+    DeleteDialog,
     FormInputDateTime,
     FormInputMultiSelect,
     FormInputText,
@@ -13,10 +12,15 @@ import {
     OutlinedButton,
     SubmitButton,
 } from '../../../components/'
-import { useForm } from 'react-hook-form'
-import { Dayjs } from 'dayjs'
+import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
+import {
+    deleteMainEventById,
+    updateMainEventById,
+} from '../../../scripts/event/function'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
+import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
+import { useNavigate } from 'react-router-dom'
 
 interface EditEventModalProps {
     event: MainEvent
@@ -25,58 +29,44 @@ interface EditEventModalProps {
     setEvent: (event: any) => void
 }
 
-interface CreateEventFormInput {
-    speaker: string[]
-    venue: string[]
-    date: Dayjs
-    eventDescription: string
-    eventName: string
-    eventAbstract: string
-}
-
 export const EditEventModal: FC<EditEventModalProps> = ({
     event,
     handleClose,
     open,
     setEvent,
 }) => {
-    const EditEventFormDefaultValues = {
-        speaker: event.Speaker,
-        venue: event.Venue,
-        date: event.Date,
-        eventDescription: event.EventDescription,
-        eventName: event.EventName,
-        eventAbstract: event.EventAbstract,
-    }
-
-    const { handleSubmit, reset, control } = useForm<CreateEventFormInput>({
-        defaultValues: EditEventFormDefaultValues,
+    const { handleSubmit, reset, control } = useForm<MainEvent>({
+        defaultValues: event,
     })
-    const [editedEvent, setEditedEvent] = useState(event)
-    const [showSuccess, setShowSuccess] = useState(false)
-
+    const navigate = useNavigate()
+    const [showUpdateSuccess, setShowUpdateSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const [showDeleteSuccess, setShowDeleteSuccess] = useState(false)
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
 
     const speakers_: Speaker[] = []
     const venues_: Venue[] = []
 
-    const onSubmit = () => {
+    const onSubmit = async (data: MainEvent) => {
         setSubmitting(true)
-        setEvent(editedEvent)
-        updateEvent(editedEvent)
-        setShowSuccess(false)
-
-        setSubmitting(false)
-        handleClose()
-        setTimeout(() => {
-            setShowSuccess(true)
+        try {
+            await updateMainEventById(data)
+            setShowUpdateSuccess(true)
             setTimeout(() => {
-                setShowSuccess(false)
-            }, 2000)
-        }, 0)
-        setTimeout(() => {
-            window.location.reload()
-        }, 1000)
+                window.location.reload()
+            }, 1000)
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setSubmitting(false)
+            reset()
+            handleClose()
+            console.log(data)
+        }
+    }
+    const onClose = () => {
+        handleClose()
+        reset()
     }
     const [speakers, setSpeakers] = useState(speakers_)
     const [venues, setVenues] = useState(venues_)
@@ -119,6 +109,28 @@ export const EditEventModal: FC<EditEventModalProps> = ({
         return venueList
     }
 
+    const handleDeleteConfirm = async () => {
+        try {
+            const res = await deleteMainEventById(event.RecordID)
+            if (res) {
+                setShowDeleteSuccess(true)
+                navigate(`/events`)
+            } else {
+                console.log('Failed to delete event')
+            }
+        } catch (error) {
+            console.error('Error deleting event:', error)
+        } finally {
+            setOpenDeleteDialog(false)
+        }
+    }
+    const handleDeleteClick = () => {
+        setOpenDeleteDialog(true)
+    }
+    const handleDeleteCancel = () => {
+        setOpenDeleteDialog(false)
+    }
+
     const loadingScreen = <>Loading...</>
     const loadedModal = (
         <Modal
@@ -127,85 +139,114 @@ export const EditEventModal: FC<EditEventModalProps> = ({
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] min-w-[500px] max-h-[90vh] overflow-y-auto">
-                <Grid
-                    container
-                    spacing={3}
-                    className="w-full p-16 flex space-between justify-items"
-                >
-                    <Grid item xs={12}>
-                        <Typography variant="h4" gutterBottom>
-                            Edit Event
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <FormInputText
-                            name="eventName"
-                            control={control}
-                            label="Event Name"
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={5} lg={3}>
-                        <FormInputDateTime
-                            name="date"
-                            control={control}
-                            label="Date"
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={7} lg={4}>
-                        <FormInputMultiSelect
-                            name="venue"
-                            control={control}
-                            label="Venue"
-                            options={generateVenues()}
-                        />
-                    </Grid>
-                    <Grid item xs={12} lg={5}>
-                        <FormInputMultiSelect
-                            name="speaker"
-                            control={control}
-                            label="Speaker"
-                            options={generateSpeakers()}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <FormInputTextLong
-                            name="eventDescription"
-                            control={control}
-                            label="Event Description"
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <FormInputTextLong
-                            name="eventAbstract"
-                            control={control}
-                            label="Talk Abstract"
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Grid container justifyContent="flex-end" spacing={2}>
+            <>
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] min-w-[500px] max-h-[90vh] overflow-y-auto">
+                    <Grid
+                        container
+                        spacing={3}
+                        className="w-full p-16 flex space-between justify-items"
+                    >
+                        <Grid item xs={12}>
+                            <Typography variant="h4" gutterBottom>
+                                Edit Event
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormInputText
+                                name="EventName"
+                                control={control}
+                                label="Event Name"
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={5} lg={3}>
+                            <FormInputDateTime
+                                name="Date"
+                                control={control}
+                                label="Date"
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={7} lg={4}>
+                            <FormInputMultiSelect
+                                name="Venue"
+                                control={control}
+                                label="Venue"
+                                options={generateVenues()}
+                            />
+                        </Grid>
+                        <Grid item xs={12} lg={5}>
+                            <FormInputMultiSelect
+                                name="Speaker"
+                                control={control}
+                                label="Speaker"
+                                options={generateSpeakers()}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <FormInputTextLong
+                                name="EventDescription"
+                                control={control}
+                                label="Event Description"
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <FormInputTextLong
+                                name="EventAbstract"
+                                control={control}
+                                label="Talk Abstract"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
                             <Grid
                                 container
                                 spacing={2}
-                                justifyContent="flex-end"
+                                justifyContent="space-between"
                             >
                                 <Grid item>
-                                    <OutlinedButton
-                                        onClick={() => reset()}
-                                        name={'Reset'}
-                                    />
+                                    <DeleteButton onClick={handleDeleteClick} />
                                 </Grid>
                                 <Grid item>
-                                    <SubmitButton
-                                        submitting={submitting}
-                                        onClick={handleSubmit(onSubmit)}
-                                    />
+                                    <Grid
+                                        container
+                                        spacing={2}
+                                        justifyContent="flex-end"
+                                    >
+                                        <Grid item>
+                                            <OutlinedButton
+                                                onClick={() => reset()}
+                                                name={'Reset'}
+                                            />
+                                        </Grid>
+                                        <Grid item>
+                                            <SubmitButton
+                                                submitting={submitting}
+                                                onClick={handleSubmit(onSubmit)}
+                                            />
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </Paper>
+                </Paper>
+                {/* Delete Event */}
+                <DeleteDialog
+                    open={openDeleteDialog}
+                    onClose={handleDeleteCancel}
+                    onConfirm={handleDeleteConfirm}
+                    name="event"
+                />
+                <BottomSuccessSnackbar
+                    showSuccess={showDeleteSuccess}
+                    setShowSuccess={setShowDeleteSuccess}
+                    message="Trip Deleted Successfully"
+                />
+                {/* Update Event */}
+                <BottomSuccessSnackbar
+                    showSuccess={showUpdateSuccess}
+                    setShowSuccess={setShowUpdateSuccess}
+                    message={'Event updated successfully!'}
+                />
+            </>
         </Modal>
     )
 
