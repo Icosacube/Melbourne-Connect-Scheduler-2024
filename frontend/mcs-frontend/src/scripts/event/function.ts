@@ -138,6 +138,7 @@ export async function deleteMainEventById(id: string) {
         const res = await axios.delete(
             `${process.env.REACT_APP_BACKEND_URL}/event/${id}`
         )
+        return res.status
         // Server returns message: Main event deleted successfully if success
         console.log(res.data)
     } catch (error) {

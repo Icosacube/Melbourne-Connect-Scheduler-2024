@@ -3,6 +3,8 @@ import 'dayjs/locale/en-au'
 import React, { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
+    DeleteButton,
+    DeleteDialog,
     FormInputDateTime,
     FormInputMultiSelect,
     FormInputText,
@@ -12,14 +14,13 @@ import {
 } from '../../../components/'
 import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
-    defaultMainEvent,
+    deleteMainEventById,
     updateMainEventById,
 } from '../../../scripts/event/function'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
-import { DeleteEventButton } from './DeleteEventButton'
-import { AxiosResponse } from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 interface EditEventModalProps {
     event: MainEvent
@@ -37,10 +38,11 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     const { handleSubmit, reset, control } = useForm<MainEvent>({
         defaultValues: event,
     })
-    const [editedEvent, setEditedEvent] = useState(event)
-    const [showSuccess, setShowSuccess] = useState(false)
-
+    const navigate = useNavigate()
+    const [showUpdateSuccess, setShowUpdateSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const [showDeleteSuccess, setShowDeleteSuccess] = useState(false)
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
 
     const speakers_: Speaker[] = []
     const venues_: Venue[] = []
@@ -49,7 +51,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
         setSubmitting(true)
         try {
             await updateMainEventById(data)
-            setShowSuccess(true)
+            setShowUpdateSuccess(true)
             setTimeout(() => {
                 window.location.reload()
             }, 1000)
@@ -105,6 +107,28 @@ export const EditEventModal: FC<EditEventModalProps> = ({
         })
 
         return venueList
+    }
+
+    const handleDeleteConfirm = async () => {
+        try {
+            const res = await deleteMainEventById(event.RecordID)
+            if (res) {
+                setShowDeleteSuccess(true)
+                navigate(`/events`)
+            } else {
+                console.log('Failed to delete event')
+            }
+        } catch (error) {
+            console.error('Error deleting event:', error)
+        } finally {
+            setOpenDeleteDialog(false)
+        }
+    }
+    const handleDeleteClick = () => {
+        setOpenDeleteDialog(true)
+    }
+    const handleDeleteCancel = () => {
+        setOpenDeleteDialog(false)
     }
 
     const loadingScreen = <>Loading...</>
@@ -172,27 +196,54 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Box className="flex justify-between">
-                                <DeleteEventButton eventId={event.RecordID} />
-
-                                <Box className="space-x-3">
-                                    <OutlinedButton
-                                        onClick={() => reset()}
-                                        name={'Reset'}
-                                    />
-
-                                    <SubmitButton
-                                        submitting={submitting}
-                                        onClick={handleSubmit(onSubmit)}
-                                    />
-                                </Box>
-                            </Box>
+                            <Grid
+                                container
+                                spacing={2}
+                                justifyContent="space-between"
+                            >
+                                <Grid item>
+                                    <DeleteButton onClick={handleDeleteClick} />
+                                </Grid>
+                                <Grid item>
+                                    <Grid
+                                        container
+                                        spacing={2}
+                                        justifyContent="flex-end"
+                                    >
+                                        <Grid item>
+                                            <OutlinedButton
+                                                onClick={() => reset()}
+                                                name={'Reset'}
+                                            />
+                                        </Grid>
+                                        <Grid item>
+                                            <SubmitButton
+                                                submitting={submitting}
+                                                onClick={handleSubmit(onSubmit)}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Paper>
+                {/* Delete Event */}
+                <DeleteDialog
+                    open={openDeleteDialog}
+                    onClose={handleDeleteCancel}
+                    onConfirm={handleDeleteConfirm}
+                    name="event"
+                />
                 <BottomSuccessSnackbar
-                    showSuccess={showSuccess}
-                    setShowSuccess={setShowSuccess}
+                    showSuccess={showDeleteSuccess}
+                    setShowSuccess={setShowDeleteSuccess}
+                    message="Trip Deleted Successfully"
+                />
+                {/* Update Event */}
+                <BottomSuccessSnackbar
+                    showSuccess={showUpdateSuccess}
+                    setShowSuccess={setShowUpdateSuccess}
                     message={'Event updated successfully!'}
                 />
             </>
