@@ -9,6 +9,8 @@ import { loader as speakerLoader } from './scripts/speaker/speakerLoader'
 import { loader as tripsLoader } from './scripts/trip/tripsLoader'
 import { loader as tripLoader } from './scripts/trip/tripLoader'
 import { loader as financeLoader } from './scripts/finance/financeOverviewLoaders'
+import { BodyLayout } from './pages/Layout/BodyLayout'
+
 import './index.css'
 import {
     Dashboard,
@@ -19,7 +21,7 @@ import {
     Login,
     Events,
     Speakers,
-    Profile,
+    Speaker,
     Homepage,
 } from './pages'
 import { Trip } from './pages/Trips/Trip'
@@ -46,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             children: [
                 {
                     path: '/dashboard',
-                    element: <Dashboard />,
+                    element: <BodyLayout content={<Dashboard />}/>,
                     errorElement: <ErrorPage />,
                 },
                 {
@@ -56,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     path: '/events',
-                    element: <Events />,
+                    element: <BodyLayout content={<Events />}/>,
                     errorElement: <ErrorPage />,
                     loader: eventsLoader,
                 },
@@ -73,19 +75,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     path: '/speakers',
-                    element: <Speakers />,
+                    element: <BodyLayout content={<Speakers />}/>,
                     errorElement: <ErrorPage />,
                     loader: speakersLoader,
                 },
                 {
                     path: '/speaker/:id',
-                    element: <Profile />,
+                    element: <Speaker />,
                     errorElement: <ErrorPage />,
                     loader: speakerLoader,
                 },
                 {
                     path: '/trips',
-                    element: <Trips />,
+                    element: <BodyLayout content={<Trips />}/>,
                     errorElement: <ErrorPage />,
                     loader: tripsLoader,
                 },
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     path: '/finance',
-                    element: <Finance />,
+                    element:<BodyLayout content={<Finance />}/>,
                     errorElement: <ErrorPage />,
                     loader: financeLoader,
                 },

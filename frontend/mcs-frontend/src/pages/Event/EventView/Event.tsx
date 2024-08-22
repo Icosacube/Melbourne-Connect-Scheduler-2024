@@ -8,6 +8,7 @@ import Programme from './TabPages/Programme'
 import { Services } from './TabPages/Services'
 import { useLoaderData } from 'react-router-dom'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
+import { BodyLayout } from '../../Layout/BodyLayout'
 
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')
@@ -36,7 +37,6 @@ export const Event: FC = () => {
                 return <About event={event} speakers={speakers} />
         }
     }
-
     return (
         <Box>
             <EventTopNavBar getCurTab={setTabName} openEditModal={handleOpen} />
@@ -48,7 +48,7 @@ export const Event: FC = () => {
                 open={open}
                 setEvent={setEvent}
             />
-            {renderTabContent(event)}
+            <BodyLayout content={renderTabContent(event)}></BodyLayout>
         </Box>
     )
 }

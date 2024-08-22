@@ -9,10 +9,16 @@ import {
 
 const router = express.Router();
 import {  Service } from '../types/types';
+import {getCache,setCache,deleteCache } from '../utils/caching';
+import {Cachekeys} from '../Enum/Cachekeys';
 //get all services
 const ServiceTable = String(process.env.SERVICE)
 router.get('/services', async (req, res) => {
     try {
+        const cachedServices = getCache(Cachekeys.SERVICES);
+        if (cachedServices) {
+            return res.json(cachedServices).status(200);
+        }
         const services = await getTable(ServiceTable, "");
         const formattedServices: { [k: string]: any; }[] = [];
         services.forEach((fields) => {
@@ -20,6 +26,7 @@ router.get('/services', async (req, res) => {
             formattedServices.push(plainFields);
             console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
+        setCache(Cachekeys.SPEAKERS, formattedServices);
         res.json(formattedServices);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
@@ -79,6 +86,7 @@ router.post('/service/:mainEventID', async (req, res) => {
 
     try {
         await createRecord(ServiceTable, [serviceRecord]);
+        deleteCache(Cachekeys.SERVICES);
         res.status(200).json({ message: 'Service created successfully' });
     } catch (error) {
         console.error("Failed to create service:", error);
@@ -97,6 +105,7 @@ router.put('/service/:service_record_id', async (req, res) => {
 
     try {
         await updateRecord(ServiceTable, recordToUpdate);
+        deleteCache(Cachekeys.SERVICES);
         res.status(200).json({ message: 'Service updated successfully' });
     } catch (error) {
         console.error("Failed to update service:", error);
@@ -109,6 +118,7 @@ router.delete('/service/:service_record_id', async (req, res) => {
 
     try {
         await deleteRecords(ServiceTable, [service_record_id]);
+        deleteCache(Cachekeys.SERVICES);
         res.status(200).json({ message: 'Service deleted successfully' });
     } catch (error) {
         console.error("Failed to delete service:", error);

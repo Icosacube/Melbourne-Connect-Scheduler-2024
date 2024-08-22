@@ -3,7 +3,7 @@ import { Accommodation as AccommodationFrontend } from '../../types/frontendType
 import { Accommodation as AccommodationBackend } from '../../types/backendTypes';
 import axios from 'axios';
 
-// Get accommodation info for a specific trip, given the strip ID
+// Get accommodation info for a specific trip, given the trip ID
 export async function getAccomByTripID(
   tripID: string,
 ): Promise<AccommodationFrontend[]> {
@@ -22,6 +22,7 @@ export async function getAccomByTripID(
     return [];
   }
 }
+
 
 export async function getAllAccom(): Promise<AccommodationFrontend[]> {
   try {
@@ -57,6 +58,24 @@ export async function createAccommodation(
     return {} as AccommodationFrontend;
   }
 }
+
+
+export async function updateAccom(accom: AccommodationFrontend) {
+  const AccommBackend = reformatAccommodationRequest(accom)
+  const res = await axios.put(
+      `${process.env.REACT_APP_BACKEND_URL}/accommodation/${accom.RecordID}`,
+      AccommBackend
+  )
+  return res.status
+}
+
+export async function deleteAccom(accomID: string) {
+  const res = await axios.delete(
+      `${process.env.REACT_APP_BACKEND_URL}/accommodation/${accomID}`
+  )
+  return res.status
+}
+
 
 // Default Accommodation object
 export const defaultAccommodation: AccommodationFrontend = {

@@ -9,9 +9,16 @@ import {
 const CateringTable = String(process.env.CATERING)
 const router = express.Router();
 import { Catering} from '../types/types';
+import {Cachekeys} from '../Enum/Cachekeys';
+import {getCache,setCache,deleteCache} from '../utils/caching';
 //get all caterings
 router.get('/catering', async (req, res) => {
+
     try {
+        const cachedCaterings = getCache(Cachekeys.CATERINGS);
+        if (cachedCaterings) {
+            return res.json(cachedCaterings).status(200);
+        }
         const caterings = await getTable(CateringTable, "");
         const formattedCaterings: { [k: string]: any; }[] = [];
         caterings.forEach((fields) => {
@@ -19,6 +26,7 @@ router.get('/catering', async (req, res) => {
             formattedCaterings.push(plainFields);
             console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
+        setCache(Cachekeys.CATERINGS, formattedCaterings);
         res.json(formattedCaterings);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
@@ -78,6 +86,7 @@ router.post('/catering/:mainEventID', async (req, res) => {
 
     try {
         await createRecord(CateringTable, [cateringRecord]);
+        deleteCache(Cachekeys.CATERINGS);
         res.status(200).json({ message: 'Catering created successfully' });
     } catch (error) {
         console.error("Failed to create catering:", error);
@@ -96,6 +105,7 @@ router.put('/catering/:catering_record_id', async (req, res) => {
 
     try {
         await updateRecord(CateringTable, recordToUpdate);
+        deleteCache(Cachekeys.CATERINGS);
         res.status(200).json({ message: 'Catering updated successfully' });
     } catch (error) {
         console.error("Failed to update catering:", error);
@@ -109,6 +119,7 @@ router.delete('/catering/:catering_record_id', async (req, res) => {
 
     try {
         await deleteRecords(CateringTable, [catering_record_id]);
+        deleteCache(Cachekeys.CATERINGS);
         res.status(200).json({ message: 'Catering deleted successfully' });
     } catch (error) {
         console.error("Failed to delete catering:", error);
