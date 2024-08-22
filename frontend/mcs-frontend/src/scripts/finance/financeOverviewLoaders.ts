@@ -6,31 +6,30 @@ export async function loader(): Promise<
     { events: MainEvent[]; financeData: Finance[] } | {}
 > {
     try {
-        const financeData = await getAllFinance()
-        const events = await getAllMainEvents()
+        const [financeData, events] = await Promise.all([
+            getAllFinance(),
+            getAllMainEvents(),
+        ])
 
-        // add dummy eventid to finance data for now
-        const dummyEventId = [
-            'rec0fcCBVW5Bcqqkl',
-            'rec1mQXdwn6fzq0lv',
-            'rec3eON4hVIxne0z9',
-            'recIcrQ2cgj8Ck4q2',
-            'recSWifGj1oly3dNu',
-            'recYxRFKQpt9ojipL',
-        ]
+        // Create a mapping of MainEventID to EventName and EventTotal
+        const eventMap = new Map(
+            events.map((event) => [
+                event.RecordID,
+                { name: event.EventName, total: event.EventTotal },
+            ])
+        )
 
-        // Function to get a random element from an array
-        const getRandomElement = <T>(arr: T[]): T => {
-            return arr[Math.floor(Math.random() * arr.length)]
-        }
+        // Populate MainEventName and EventTotalCost in financeData
+        const updatedFinanceData = financeData.map((finance) => {
+            const eventInfo = eventMap.get(finance.MainEventID)
+            return {
+                ...finance,
+                MainEventName: eventInfo?.name || 'Unknown Event',
+                EventTotalCost: eventInfo?.total || 0,
+            }
+        })
 
-        // Assign a random dummy event ID to each finance record
-        const updatedFinanceData = financeData.map((finance: Finance) => ({
-            ...finance,
-            MainEvent: getRandomElement(dummyEventId),
-        }))
-        console.log(updatedFinanceData)
-        return { updatedFinanceData, events }
+        return { financeData: updatedFinanceData }
     } catch (error) {
         console.log(error)
         return {}

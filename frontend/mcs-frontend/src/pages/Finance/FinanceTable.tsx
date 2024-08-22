@@ -6,14 +6,11 @@ import { CustomToolbar } from '../../components'
 import { Finance as FinanceType, MainEvent } from '../../types/frontendTypes'
 
 type FinanceRow = FinanceType & {
-    EventName: string
-    EventTotalCost?: number
     isGroup?: boolean
 }
 
 interface FinanceTableProps {
     rows: FinanceType[]
-    events: MainEvent[]
 }
 
 const columns: GridColDef[] = [
@@ -25,7 +22,7 @@ const columns: GridColDef[] = [
             if (params.row.isGroup) {
                 return (
                     <Typography variant="body1">
-                        {params.row.EventName}
+                        {params.row.MainEventName}
                     </Typography>
                 )
             }
@@ -69,36 +66,17 @@ const columns: GridColDef[] = [
     { field: 'EventName', headerName: 'Event Name', width: 200 },
 ]
 
-export const FinanceTable: FC<FinanceTableProps> = ({ rows, events }) => {
-    // Create a map of MainEvent IDs to Event Names and Total Costs
-    const eventMap = new Map<string, { name: string; totalCost: number }>()
-    events.forEach((event) => {
-        eventMap.set(event.RecordID, {
-            name: event.EventName,
-            totalCost: event.EventTotal || 0, // Assuming EventTotal is a field in MainEvent
-        })
-    })
-
-    // Add EventName and EventTotalCost to each finance record
-    const updatedFinanceData: FinanceRow[] = rows.map((record) => {
-        const eventInfo = eventMap.get(record.MainEvent)
-        return {
-            ...record,
-            EventName: eventInfo?.name || '',
-            EventTotalCost: eventInfo?.totalCost || 0,
-        }
-    })
-
+export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
     // Function to add group headers to the finance records
     function addGroupHeaders(records: FinanceRow[]): FinanceRow[] {
         const groupedRecords: FinanceRow[] = []
 
         // Create a map to store records by MainEvent
         const recordsByEvent = records.reduce((acc, record) => {
-            if (!acc[record.MainEvent]) {
-                acc[record.MainEvent] = []
+            if (!acc[record.MainEventID]) {
+                acc[record.MainEventID] = []
             }
-            acc[record.MainEvent].push(record)
+            acc[record.MainEventID].push(record)
             return acc
         }, {} as Record<string, FinanceRow[]>)
 
@@ -115,8 +93,8 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows, events }) => {
             // Add a group header for the event
             const groupHeader: FinanceRow = {
                 RecordID: `group-${mainEvent}`,
-                MainEvent: mainEvent,
-                EventName: eventRecords[0].EventName, // Assuming all records for an event have the same EventName
+                MainEventID: mainEvent,
+                MainEventName: eventRecords[0].MainEventName, // Assuming all records for an event have the same EventName
                 ExpenseCategory: '',
                 ExpenseDescription: '',
                 Cost: 0,
@@ -133,8 +111,8 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows, events }) => {
         return groupedRecords
     }
 
-    const rowsWithGroups = addGroupHeaders(updatedFinanceData)
-
+    const rowsWithGroups = addGroupHeaders(rows)
+    console.log(rowsWithGroups)
     console.log(rowsWithGroups)
 
     return (

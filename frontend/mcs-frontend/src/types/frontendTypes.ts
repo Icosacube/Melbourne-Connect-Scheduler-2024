@@ -221,7 +221,9 @@ export type Canvassing = {
 
 export type Finance = {
     RecordID: string
-    MainEvent: string
+    MainEventID: string
+    MainEventName?: string
+    EventTotalCost?: number
     ExpenseCategory: string
     ExpenseDescription: string
     Cost: number

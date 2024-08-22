@@ -11,9 +11,8 @@ type FinanceRow = FinanceType & {
 }
 
 export const Finance: FC = () => {
-    const { updatedFinanceData, events } = useLoaderData() as {
-        updatedFinanceData: FinanceType[]
-        events: MainEvent[]
+    const { financeData } = useLoaderData() as {
+        financeData: FinanceType[]
     }
 
     return (
@@ -22,7 +21,7 @@ export const Finance: FC = () => {
                 height: '80vh',
             }}
         >
-            <FinanceTable rows={updatedFinanceData} events={events} />
+            <FinanceTable rows={financeData} />
         </Box>
     )
 }
