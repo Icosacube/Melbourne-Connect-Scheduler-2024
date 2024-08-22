@@ -48,6 +48,7 @@ function reformatMainEventRequestData(data: MainEvent): any {
     }
 
     return mainEvent
+
 }
 
 // Default MainEvent object
@@ -68,6 +69,9 @@ export const defaultMainEvent: MainEvent = {
     Completed: false,
     Trip: [],
     SubEvent: [],
+
+    EventTotal: 0,
+
 }
 
 // Function to get all MainEvents
@@ -103,10 +107,11 @@ export async function getMainEventById(id: string): Promise<MainEvent> {
 }
 
 // Function to create a new MainEvent
-export async function createMainEvent(mainEvent: MainEvent, speakerId: string) {
+
+export async function createMainEvent(mainEvent: MainEvent) {
     try {
         const res = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/events` + speakerId,
+            `${process.env.REACT_APP_BACKEND_URL}/events`,
             mainEvent
         )
         // Server returns message: Main event created successfully if success
@@ -115,6 +120,7 @@ export async function createMainEvent(mainEvent: MainEvent, speakerId: string) {
         console.error('Error creating main event:', error)
         return {} as MainEvent
     }
+
 }
 
 // Function to update a MainEvent
@@ -144,4 +150,5 @@ export async function deleteMainEventById(id: string) {
     } catch (error) {
         console.error('Error deleting main event by ID:', error)
     }
+
 }

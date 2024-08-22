@@ -1,16 +1,16 @@
-import { LoaderFunctionArgs } from 'react-router-dom';
-import { Speaker } from '../../types/frontendTypes';
-import { getSpeakerById } from './functions';
+import { LoaderFunctionArgs } from 'react-router-dom'
+import { Speaker } from '../../types/frontendTypes'
+import { getSpeakerById } from './functions'
 
 export async function loader({
-  params,
+    params,
 }: LoaderFunctionArgs): Promise<Map<string, Speaker> | any> {
-  try {
-    const speakerID = String(params.id);
-    const speaker = await getSpeakerById(speakerID);
-    return speaker;
-  } catch (error) {
-    console.log(error);
-    return {};
-  }
+    try {
+        const speakerID = String(params.id)
+        const speaker = await getSpeakerById(speakerID)
+        return speaker
+    } catch (error) {
+        console.log(error)
+        return {}
+    }
 }
