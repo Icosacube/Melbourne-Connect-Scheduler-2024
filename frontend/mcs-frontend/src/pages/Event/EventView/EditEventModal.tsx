@@ -17,7 +17,7 @@ import {
 import {
     deleteMainEventById,
     updateMainEventById,
-} from '../../../scripts/event/function'
+} from '../../../scripts/event/functions'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
 import { useForm } from 'react-hook-form'

@@ -1,6 +1,6 @@
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes'
-import { getAllSpeakers } from '../speaker/functions'
 import { getAllMainEvents } from '../event/functions'
+import { getAllSpeakers } from '../speaker/functions'
 import { getAllTrips } from './functions'
 
 interface LoaderData {

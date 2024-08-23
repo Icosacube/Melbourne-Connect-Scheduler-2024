@@ -112,8 +112,6 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
     }
 
     const rowsWithGroups = addGroupHeaders(rows)
-    console.log(rowsWithGroups)
-    console.log(rowsWithGroups)
 
     return (
         <DataGrid
@@ -147,7 +145,6 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
                     },
                 },
             }}
-            pageSizeOptions={[5, 10]}
             getRowClassName={(params) =>
                 params.row.isGroup ? 'group-row' : 'data-row'
             }

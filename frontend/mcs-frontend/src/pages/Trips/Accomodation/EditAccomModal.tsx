@@ -9,7 +9,7 @@ import {
     SubmitButton,
     FormInputTextLong,
 } from '../../../components/'
-import { updateAccom } from '../../../scripts/accommodation/function'
+import { updateAccom } from '../../../scripts/accommodation/functions'
 import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
 import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
 

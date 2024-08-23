@@ -1,5 +1,5 @@
 import { Finance, MainEvent } from '../../types/frontendTypes'
-import { getAllMainEvents } from '../event/function'
+import { getAllMainEvents } from '../event/functions'
 import { getAllFinance } from './function'
 
 export async function loader(): Promise<

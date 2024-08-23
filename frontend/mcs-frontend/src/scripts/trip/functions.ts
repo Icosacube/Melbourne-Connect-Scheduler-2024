@@ -13,7 +13,6 @@ export async function getAllTrips(): Promise<TripFrontend[]> {
         const formattedTrips = rawTrips.map((trip: any) =>
             reformatTripResponse(trip)
         )
-        console.log(formattedTrips)
         return formattedTrips
     } catch (error) {
         console.error('Error fetching all trips:', error)

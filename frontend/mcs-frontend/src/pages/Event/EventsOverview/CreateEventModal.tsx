@@ -9,7 +9,7 @@ import { FormInputTextLong } from '../../../components/FormComponents/FormInputT
 import {
     createMainEvent,
     defaultMainEvent,
-} from '../../../scripts/event/function'
+} from '../../../scripts/event/functions'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
 import { MainEvent } from '../../../types/frontendTypes'
