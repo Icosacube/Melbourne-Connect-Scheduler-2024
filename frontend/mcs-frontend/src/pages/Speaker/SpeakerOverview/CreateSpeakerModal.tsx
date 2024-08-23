@@ -6,8 +6,8 @@ import {
     FormInputText,
     FormInputTextLong,
     SubmitButton,
+    BottomSuccessSnackbar,
 } from '../../../components/'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
     createSpeaker,
     defaultSpeaker,

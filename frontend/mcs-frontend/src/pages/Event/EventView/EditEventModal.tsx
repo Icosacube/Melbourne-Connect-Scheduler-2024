@@ -12,8 +12,8 @@ import {
     FormInputTextLong,
     OutlinedButton,
     SubmitButton,
+    BottomSuccessSnackbar,
 } from '../../../components/'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
     deleteMainEventById,
     updateMainEventById,

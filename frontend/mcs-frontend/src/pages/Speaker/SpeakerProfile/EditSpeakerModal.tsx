@@ -7,8 +7,8 @@ import {
     FormInputTextLong,
     OutlinedButton,
     SubmitButton,
+    BottomSuccessSnackbar,
 } from '../../../components/'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import { updateSpeaker } from '../../../scripts/speaker/functions'
 import { Speaker } from '../../../types/frontendTypes'
 

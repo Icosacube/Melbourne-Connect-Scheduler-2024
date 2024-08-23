@@ -13,7 +13,7 @@ import { EditFlightModal } from './EditFlightModal'
 import { deleteFlight } from '../../../scripts/flight/functions'
 import { getFundingAccountByID } from '../../../scripts/fundingAccount/functions'
 import { DeleteDialog } from '../../../components'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
+import { BottomSuccessSnackbar } from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 
 interface FlightProps {
     flight: Flight

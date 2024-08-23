@@ -10,8 +10,8 @@ import {
     FormInputText,
     FormInputTextLong,
     SubmitButton,
+    BottomSuccessSnackbar,
 } from '../../../../components/'
-import BottomSuccessSnackbar from '../../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import { createCatering } from '../../../../scripts/catering/functions'
 import { Catering } from '../../../../types/frontendTypes'
 

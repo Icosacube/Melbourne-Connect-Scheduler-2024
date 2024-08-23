@@ -12,8 +12,7 @@ import { Accommodation } from '../../../types/frontendTypes'
 import { getFundingAccountByID } from '../../../scripts/fundingAccount/functions'
 import { EditAccomModal } from './EditAccomModal'
 import { deleteAccom } from '../../../scripts/accommodation/functions'
-import { DeleteDialog } from '../../../components'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
+import { DeleteDialog, BottomSuccessSnackbar } from '../../../components'
 
 interface AccomProps {
     accom: Accommodation

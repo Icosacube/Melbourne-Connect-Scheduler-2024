@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import dayjs from 'dayjs'
-import BottomSuccessSnackbar from '../../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import { AxiosResponse } from 'axios'
 import { MainEvent, SubEvent, Speaker } from '../../../../types/frontendTypes'
 import { createSubEvent } from '../../../../scripts/subevent/functions'
@@ -12,6 +11,7 @@ import {
     FormInputMultiSelect,
     SubmitButton,
     FormInputTextLong,
+    BottomSuccessSnackbar,
 } from '../../../../components/'
 
 interface CreateSubEventModalProps {

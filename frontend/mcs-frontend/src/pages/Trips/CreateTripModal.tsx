@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
     FormInputDate,
     FormInputMultiSelect,
     FormInputSingleSelect,
     SubmitButton,
+    BottomSuccessSnackbar,
 } from '../../components/'
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
 import { createTrip, defaultTrip } from '../../scripts/trip/functions'

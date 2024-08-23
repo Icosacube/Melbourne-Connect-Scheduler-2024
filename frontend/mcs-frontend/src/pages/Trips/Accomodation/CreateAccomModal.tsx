@@ -1,13 +1,14 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
+
 import {
     FormInputText,
     FormInputDate,
     FormInputSingleSelect,
     SubmitButton,
     FormInputTextLong,
+    BottomSuccessSnackbar,
 } from '../../../components/'
 import {
     createAccommodation,
