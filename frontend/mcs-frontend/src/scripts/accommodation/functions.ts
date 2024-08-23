@@ -51,7 +51,6 @@ export async function createAccommodation(
     accommodation: AccommodationFrontend
 ): Promise<AccommodationFrontend> {
     try {
-        const tripID = accommodation.Trip[0]
         const accommodationData = reformatAccommodationRequest(accommodation)
         const res = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_ACCOMMODATION_API_PATH}`,

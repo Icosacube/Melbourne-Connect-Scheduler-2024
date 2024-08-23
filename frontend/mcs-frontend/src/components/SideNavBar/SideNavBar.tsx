@@ -1,12 +1,10 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { Logo1 } from '../../assets/logo1'
-import { Logo2 } from '../../assets/logo2'
+import BarChartIcon from '@mui/icons-material/BarChart'
+import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports'
+import EventIcon from '@mui/icons-material/Event'
+import PeopleIcon from '@mui/icons-material/People'
 import {
     Box,
     Button,
-    Divider,
-    Drawer,
     List,
     ListItem,
     ListItemButton,
@@ -14,10 +12,10 @@ import {
     ListItemText,
     Typography,
 } from '@mui/material'
-import BarChartIcon from '@mui/icons-material/BarChart'
-import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports'
-import EventIcon from '@mui/icons-material/Event'
-import PeopleIcon from '@mui/icons-material/People'
+import React from 'react'
+import { NavLink } from 'react-router-dom'
+import { Logo1 } from '../../assets/logo1'
+import { Logo2 } from '../../assets/logo2'
 
 export const SideNavBar: React.FC = () => {
     // const eventTabs = ['About', 'Participant', 'Programme', 'Services']

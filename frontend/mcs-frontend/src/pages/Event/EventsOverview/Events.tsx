@@ -1,11 +1,11 @@
 import { Box } from '@mui/material'
 import React, { FC } from 'react'
+import { useLoaderData } from 'react-router-dom'
+import { AddButton } from '../../../components'
+import { MainEvent, Speaker } from '../../../types/frontendTypes'
+import { CreateEventModal } from './CreateEventModal'
 import { EventsTable } from './EventsTable'
 import EventsWidgets from './EventsWidgets'
-import { useLoaderData } from 'react-router-dom'
-import { CreateEventModal } from './CreateEventModal'
-import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
-import { AddButton } from '../../../components'
 
 export const Events: FC = () => {
     const { events, speakers } = useLoaderData() as {

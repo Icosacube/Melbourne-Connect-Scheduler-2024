@@ -1,11 +1,10 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import React, { FC, useEffect, useState } from 'react'
-import WeeklyCalendar from '../../../../components/Calendar/WeeklyCalendar'
-import { MainEvent, SubEvent, Speaker } from '../../../../types/frontendTypes'
-import { getSubEventsByMainEventID } from '../../../../scripts/subevent/functions'
-import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined'
-import { CreateSubEventModal } from './CreateSubEventModal'
 import { AddButton } from '../../../../components'
+import WeeklyCalendar from '../../../../components/Calendar/WeeklyCalendar'
+import { getSubEventsByMainEventID } from '../../../../scripts/subevent/functions'
+import { MainEvent, Speaker, SubEvent } from '../../../../types/frontendTypes'
+import { CreateSubEventModal } from './CreateSubEventModal'
 
 interface ProgrammeProps {
     event: MainEvent

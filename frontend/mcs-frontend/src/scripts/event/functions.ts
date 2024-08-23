@@ -144,8 +144,6 @@ export async function deleteMainEventById(id: string) {
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}/${id}`
         )
         return res.status
-        // Server returns message: Main event deleted successfully if success
-        console.log(res.data)
     } catch (error) {
         console.error('Error deleting main event by ID:', error)
     }

@@ -1,19 +1,19 @@
-import { Box, Button, Grid, Modal, Paper, Typography } from '@mui/material'
+import { Grid, Modal, Paper, Typography } from '@mui/material'
+import { AxiosResponse } from 'axios'
+import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import dayjs, { Dayjs } from 'dayjs'
 import {
-    FormInputNumber,
-    FormInputMultiSelect,
-    FormInputText,
     FormInputDate,
-    SubmitButton,
+    FormInputMultiSelect,
+    FormInputNumber,
+    FormInputText,
     FormInputTextLong,
+    SubmitButton,
 } from '../../../../components/'
 import BottomSuccessSnackbar from '../../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import { AxiosResponse } from 'axios'
-import { Catering } from '../../../../types/frontendTypes'
 import { createCatering } from '../../../../scripts/catering/functions'
+import { Catering } from '../../../../types/frontendTypes'
 
 interface CreateCateringModalProps {
     handleClose: () => void
@@ -41,7 +41,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
     fundingAccounts,
     addCatering,
 }) => {
-    const { handleSubmit, reset, control, setValue } = useForm<Catering>({
+    const { handleSubmit, reset, control } = useForm<Catering>({
         defaultValues: CreateCateringFormDefaultValues,
     })
 
@@ -49,6 +49,9 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
         setSubmitting(true)
         try {
             const res: AxiosResponse = await createCatering(data, eventID)
+            if (res.status !== 200) {
+                throw new Error('Failed to create catering')
+            }
             setShowSuccess(true)
             addCatering(data)
         } catch (error) {
@@ -108,7 +111,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
                                 label="Cost"
                             />
                         </Grid>
-                        <Grid item xs={12} >
+                        <Grid item xs={12}>
                             <FormInputMultiSelect
                                 name="FundingAccount"
                                 control={control}

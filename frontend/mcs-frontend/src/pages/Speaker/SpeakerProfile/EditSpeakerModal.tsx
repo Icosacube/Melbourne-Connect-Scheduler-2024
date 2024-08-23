@@ -1,16 +1,16 @@
-import { Button, Modal, Typography, Paper, Grid } from '@mui/material'
+import { Grid, Modal, Paper, Typography } from '@mui/material'
+import { AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
     FormInputText,
     FormInputTextLong,
-    SubmitButton,
     OutlinedButton,
+    SubmitButton,
 } from '../../../components/'
-import { Speaker } from '../../../types/frontendTypes'
+import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import { updateSpeaker } from '../../../scripts/speaker/functions'
-import { AxiosResponse } from 'axios'
+import { Speaker } from '../../../types/frontendTypes'
 
 interface CreateSpeakerModalProps {
     handleClose: () => void

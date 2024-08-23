@@ -1,24 +1,18 @@
-import {
-    Button,
-    Modal,
-    Typography,
-    Paper,
-    Grid,
-    Tabs,
-    Tab,
-} from '@mui/material'
+import { Grid, Modal, Paper, Tab, Tabs, Typography } from '@mui/material'
+import { AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
     FormInputText,
     FormInputTextLong,
     SubmitButton,
 } from '../../../components/'
+import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
+import {
+    createSpeaker,
+    defaultSpeaker,
+} from '../../../scripts/speaker/functions'
 import { Speaker } from '../../../types/frontendTypes'
-import { createSpeaker } from '../../../scripts/speaker/functions'
-import { AxiosResponse } from 'axios'
-import { defaultSpeaker } from '../../../scripts/speaker/functions'
 
 interface CreateSpeakerModalAltProps {
     handleClose: () => void
@@ -78,11 +72,9 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
                 <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1080px] min-w-[500px] max-h-[90vh] overflow-y-auto">
                     <Grid container spacing={3} className="w-full p-16">
                         <Grid item xs={12} lg={6}>
-                            <Typography variant="h4">
-                                Create Speaker
-                            </Typography>
+                            <Typography variant="h4">Create Speaker</Typography>
                         </Grid>
-                        <Grid item xs={12}lg={6}>
+                        <Grid item xs={12} lg={6}>
                             <Tabs
                                 value={tabValue}
                                 onChange={handleTabChange}
@@ -94,7 +86,13 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
                                 <Tab label="Misc" />
                             </Tabs>
                         </Grid>
-                        <Grid item xs={12} container spacing={3} marginTop={'12px'}>
+                        <Grid
+                            item
+                            xs={12}
+                            container
+                            spacing={3}
+                            marginTop={'12px'}
+                        >
                             {tabValue === 0 && (
                                 <Grid container item spacing={3}>
                                     <Grid item xs={6} md={3}>

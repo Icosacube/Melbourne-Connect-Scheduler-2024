@@ -1,7 +1,7 @@
-import { Grid, Box } from '@mui/material'
+import { Grid } from '@mui/material'
+import React, { FC } from 'react'
 import { Outlet } from 'react-router-dom'
 import { SideNavBar, TopNavBar } from '../../components'
-import React, { FC } from 'react'
 
 export const Layout: FC = () => {
     return (

@@ -15,8 +15,8 @@ import {
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
 import { updateTrip, deleteTrip } from '../../scripts/trip/functions'
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes'
-import { getAllMainEvents } from '../../scripts/event/functions'
 import { getAllSpeakers } from '../../scripts/speaker/functions'
+import { getAllMainEvents } from '../../scripts/event/functions'
 
 interface EditTripModalProps {
     handleClose: () => void
@@ -29,7 +29,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
     open,
     trip,
 }) => {
-    const { handleSubmit, reset, control, setValue, watch } = useForm<Trip>({
+    const { handleSubmit, reset, control, watch } = useForm<Trip>({
         defaultValues: trip,
     })
     const navigate = useNavigate()

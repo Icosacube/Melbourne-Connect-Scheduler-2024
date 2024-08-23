@@ -25,7 +25,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
     events,
     speakers,
 }) => {
-    const { handleSubmit, reset, control, setValue, watch } = useForm<Trip>({
+    const { handleSubmit, reset, control, watch } = useForm<Trip>({
         defaultValues: defaultTrip,
     })
 

@@ -1,9 +1,8 @@
-import { Box, Grid, Modal, Paper, Typography } from '@mui/material'
+import { Grid, Modal, Paper, Typography } from '@mui/material'
 import 'dayjs/locale/en-au'
 import React, { FC, useEffect, useState } from 'react'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
-import { FormInputDate } from '../../../components/FormComponents/FormInputDate'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import {
     DeleteButton,
     DeleteDialog,
@@ -14,27 +13,25 @@ import {
     OutlinedButton,
     SubmitButton,
 } from '../../../components/'
+import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
     deleteMainEventById,
     updateMainEventById,
 } from '../../../scripts/event/functions'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
 
 interface EditEventModalProps {
     event: MainEvent
     handleClose: () => void
     open: boolean
-    setEvent: (event: any) => void
 }
 
 export const EditEventModal: FC<EditEventModalProps> = ({
     event,
     handleClose,
     open,
-    setEvent,
 }) => {
     const { handleSubmit, reset, control } = useForm<MainEvent>({
         defaultValues: event,
@@ -64,10 +61,6 @@ export const EditEventModal: FC<EditEventModalProps> = ({
             handleClose()
             console.log(data)
         }
-    }
-    const onClose = () => {
-        handleClose()
-        reset()
     }
     const [speakers, setSpeakers] = useState(speakers_)
     const [venues, setVenues] = useState(venues_)

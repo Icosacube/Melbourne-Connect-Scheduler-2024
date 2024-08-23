@@ -1,25 +1,26 @@
 import { Box, Grid, Typography } from '@mui/material'
-import React, { FC, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ProfileHeaderCard } from '../../components'
 import { EventCard } from '../../components/EventCard/EventCard'
+import { getAccomByTripID } from '../../scripts/accommodation/functions'
+
+import { getFlightsByTripID } from '../../scripts/flight/functions'
 import {
-    Trip as TripType,
-    Speaker,
-    MainEvent,
-    Flight,
     Accommodation,
+    Flight,
+    MainEvent,
+    Speaker,
+    Trip as TripType,
 } from '../../types/frontendTypes'
+import AccomCard from './Accomodation/AccomCard'
+import { CreateAccomModal } from './Accomodation/CreateAccomModal'
+import CreateCard from './CreateCard'
+import { CreateFlightModal } from './Flight/CreateFlightModal'
+import FlightCard from './Flight/FlightCard'
 import {
     defaultMainEvent,
     getMainEventById,
 } from '../../scripts/event/functions'
-import { getFlightsByTripID } from '../../scripts/flight/functions'
-import { getAccomByTripID } from '../../scripts/accommodation/functions'
-import CreateCard from './CreateCard'
-import { CreateFlightModal } from './Flight/CreateFlightModal'
-import { CreateAccomModal } from './Accomodation/CreateAccomModal'
-import AccomCard from './Accomodation/AccomCard'
-import FlightCard from './Flight/FlightCard'
 
 interface TripContentProps {
     trip: TripType
@@ -34,7 +35,7 @@ export const TripContent: React.FC<TripContentProps> = ({ trip, speaker }) => {
     const [openAccom, setOpenAccom] = useState(false)
 
     useEffect(() => {
-        getMainEventById(trip.MainEvent[0]).then((event) => {
+        getMainEventById(trip.MainEvent[0]).then((event: MainEvent) => {
             setEvent(event)
         })
 

@@ -1,12 +1,11 @@
-import { Box, Button, Typography, Menu, MenuItem } from '@mui/material'
+import { Box, Menu, MenuItem } from '@mui/material'
 import React, { FC } from 'react'
-import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined'
-import { CreateSpeakerModal } from './CreateSpeakerModal'
 import { useLoaderData } from 'react-router-dom'
+import { AddButton } from '../../../components'
+import { CreateSpeakerModal } from './CreateSpeakerModal'
+import { CreateSpeakerModalAlt } from './CreateSpeakerModalAlt'
 import { SpeakerTable } from './SpeakerTable'
 import { SpeakerWidgets } from './SpeakerWidgets'
-import { CreateSpeakerModalAlt } from './CreateSpeakerModalAlt'
-import { AddButton } from '../../../components'
 
 export const Speakers: FC = () => {
     const [openModal, setOpenModal] = React.useState(false)
