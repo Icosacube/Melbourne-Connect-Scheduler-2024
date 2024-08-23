@@ -64,7 +64,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         setSubmitting(true)
 
         try {
-            await createMainEvent(data, data.Speaker[0])
+            await createMainEvent(data)
             setShowSuccess(true)
             setTimeout(() => {
                 window.location.reload()
