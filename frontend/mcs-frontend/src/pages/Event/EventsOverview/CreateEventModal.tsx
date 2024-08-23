@@ -62,9 +62,9 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
 
     const onSubmit = async (data: MainEvent) => {
         setSubmitting(true)
-
+        console.log(data)
         try {
-            await createMainEvent(data, data.Speaker[0])
+            await createMainEvent(data)
             setShowSuccess(true)
             setTimeout(() => {
                 window.location.reload()
@@ -104,21 +104,21 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                         </Grid>
                         <Grid item xs={12}>
                             <FormInputText
-                                name="eventName"
+                                name="EventName"
                                 control={control}
                                 label="Event Name"
                             />
                         </Grid>
                         <Grid item xs={12} md={5} lg={3}>
                             <FormInputDateTime
-                                name="date"
+                                name="Date"
                                 control={control}
                                 label="Date"
                             />
                         </Grid>
                         <Grid item xs={12} md={7} lg={4}>
                             <FormInputMultiSelect
-                                name="venue"
+                                name="Venue"
                                 control={control}
                                 label="Venue"
                                 options={generateVenues()}
@@ -126,7 +126,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                         </Grid>
                         <Grid item xs={12} lg={5}>
                             <FormInputMultiSelect
-                                name="speaker"
+                                name="Speaker"
                                 control={control}
                                 label="Speaker"
                                 options={generateSpeakers()}
@@ -134,14 +134,14 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <FormInputTextLong
-                                name="eventDescription"
+                                name="EventDescription"
                                 control={control}
                                 label="Event Description"
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <FormInputTextLong
-                                name="eventAbstract"
+                                name="EventAbstract"
                                 control={control}
                                 label="Talk Abstract"
                             />

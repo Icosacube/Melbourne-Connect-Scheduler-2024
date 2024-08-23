@@ -7,7 +7,7 @@ import { Trip as TripBackend } from '../../types/backendTypes'
 export async function getAllTrips(): Promise<TripFrontend[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL} + ${process.env.REACT_APP_TRIP_API_PATH}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_TRIP_API_PATH}`
         )
         const rawTrips = res.data
         const formattedTrips = rawTrips.map((trip: any) =>

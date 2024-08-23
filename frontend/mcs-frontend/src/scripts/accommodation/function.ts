@@ -9,12 +9,19 @@ export async function getAccomByTripID(
 ): Promise<AccommodationFrontend[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_TRIP_API_PATH}/${tripID}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_ACCOMMODATION_API_PATH}`
         )
+        console.log(tripID)
         const rawAccommodations = res.data
-        const formattedAccommodations = rawAccommodations.map(
-            (accommodation: any) => reformatAccommodationResponse(accommodation)
-        )
+        console.log(rawAccommodations)
+        const formattedAccommodations = rawAccommodations
+            .filter((accommodation: any) =>
+                accommodation.Trip?.includes(tripID)
+            )
+            .map((accommodation: any) =>
+                reformatAccommodationResponse(accommodation)
+            )
+
         console.log(formattedAccommodations)
         return formattedAccommodations
     } catch (error) {

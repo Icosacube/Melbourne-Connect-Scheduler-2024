@@ -35,12 +35,12 @@ export async function getVenueById(id: string): Promise<Venue> {
 export async function getVenueByMainEventId(id: string): Promise<Venue[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}/${id}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}`
         )
         const rawVenues = res.data
-        const formattedVenues = rawVenues.map((venue: any) =>
-            reformatVenueResponseData(venue)
-        )
+        const formattedVenues = rawVenues
+            .filter((venue: any) => venue.MainEvent?.includes(id))
+            .map((venue: any) => reformatVenueResponseData(venue))
         console.log(formattedVenues)
         return formattedVenues
     } catch (error) {

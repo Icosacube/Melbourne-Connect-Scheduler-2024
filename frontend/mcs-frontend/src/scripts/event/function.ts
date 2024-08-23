@@ -28,6 +28,28 @@ function reformatMainEventResponseData(data: any): MainEvent {
     return mainEvent
 }
 
+function reformatMainEventRequestData(data: MainEvent): any {
+    const mainEvent = {
+        EventName: data.EventName,
+        EventAbstract: data.EventAbstract,
+        EventDescription: data.EventDescription,
+        EventbriteLink: data.EventbriteLink,
+        EventBanner: data.EventBanner,
+        Date: data.Date.toISOString(),
+        Notes: data.Notes,
+        Speaker: data.Speaker,
+        GuestAcademic: data.GuestAcademic,
+        Catering: data.Catering,
+        Venue: data.Venue,
+        Service: data.Service,
+        Completed: data.Completed,
+        Trip: data.Trip,
+        SubEvent: data.SubEvent,
+    }
+
+    return mainEvent
+}
+
 // Default MainEvent object
 export const defaultMainEvent: MainEvent = {
     RecordID: '',
@@ -46,6 +68,7 @@ export const defaultMainEvent: MainEvent = {
     Completed: false,
     Trip: [],
     SubEvent: [],
+
     EventTotal: 0,
 }
 
@@ -53,11 +76,9 @@ export const defaultMainEvent: MainEvent = {
 export async function getAllMainEvents(): Promise<MainEvent[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}s`
         )
-
         const rawEvents = res.data
-        console.log(rawEvents)
         const formattedEvents = rawEvents.map((event: any) =>
             reformatMainEventResponseData(event)
         )
@@ -84,11 +105,14 @@ export async function getMainEventById(id: string): Promise<MainEvent> {
 }
 
 // Function to create a new MainEvent
+
 export async function createMainEvent(mainEvent: MainEvent) {
     try {
+        const payload = reformatMainEventRequestData(mainEvent)
+        console.log(payload)
         const res = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}`,
-            mainEvent
+            payload
         )
         // Server returns message: Main event created successfully if success
         console.log(res.data)
@@ -99,12 +123,30 @@ export async function createMainEvent(mainEvent: MainEvent) {
 }
 
 // Function to update a MainEvent
-export default async function updateMainEvent(event: MainEvent) {
-    console.log('POSTing to ' + process.env.REACT_APP_BACKEND_URL)
-    const res = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAIN_EVENT_API_PATH}/${event.RecordID}`,
-        event
-    )
-    // if it doesn't work an error message should pop up for user feedback
-    return res.status
+export async function updateMainEventById(mainEvent: MainEvent) {
+    try {
+        const formattedEvent = reformatMainEventRequestData(mainEvent)
+        const res = await axios.put(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}/${mainEvent.RecordID}`,
+            formattedEvent
+        )
+        // Server returns message: Main event updated successfully if success
+        console.log(res.data)
+    } catch (error) {
+        console.error('Error updating main event by ID:', error)
+    }
+}
+
+// Function to delete a MainEVent by ID
+export async function deleteMainEventById(id: string) {
+    try {
+        const res = await axios.delete(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}/${id}`
+        )
+        return res.status
+        // Server returns message: Main event deleted successfully if success
+        console.log(res.data)
+    } catch (error) {
+        console.error('Error deleting main event by ID:', error)
+    }
 }
