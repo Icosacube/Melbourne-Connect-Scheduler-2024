@@ -214,7 +214,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                                         </Grid>
                                         <Grid item>
                                             <UploadButton
-                                                link={`https://airtable.com/app79kFx8O6KyDmzX/pagIPYUCOTTJ2Hb3e/form?prefill_RECORDID=${event.RecordID}&hide_RECORDID=true`}
+                                                link={process.env.REACT_APP_EVENT_BANNER_FORM+event.RecordID}
                                                 name="Banner"
                                             />
                                         </Grid>
