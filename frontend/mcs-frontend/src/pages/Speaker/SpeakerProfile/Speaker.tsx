@@ -9,7 +9,6 @@ import { EditSpeakerModal } from './EditSpeakerModal'
 
 export const Speaker: FC = () => {
     const speaker = useLoaderData() as SpeakerType
-
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
     const openEditModal = () => {

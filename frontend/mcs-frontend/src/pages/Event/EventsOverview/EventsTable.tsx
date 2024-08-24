@@ -27,7 +27,8 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
             field: 'Date',
             headerName: 'Date',
             headerClassName: 'event-table',
-            width: 160,
+            minWidth: 160,
+            maxWidth: 200,
             renderCell: (params) => params.value.format('DD/MM/YYYY, HH:MM'),
         },
         {
@@ -36,7 +37,7 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
             headerClassName: 'event-table',
             flex: 2,
             minWidth: 200,
-            maxWidth: 800,
+            maxWidth: 1200,
         },
         {
             field: 'Speaker',
@@ -44,7 +45,7 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
             headerClassName: 'event-table',
             flex: 1,
             minWidth: 200,
-            maxWidth: 450,
+            maxWidth: 600,
             renderCell: (params) => {
                 const speakerIds = params.row.Speaker
                 const speakerNames = speakerIds
