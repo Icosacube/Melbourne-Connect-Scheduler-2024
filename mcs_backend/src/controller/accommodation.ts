@@ -26,7 +26,8 @@ router.get('/accommodations', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Get a specific Accomodation by ID
+
+//get a specific accommodation by ID
 router.get('/accommodations/:accommodation_record_id', async (req, res) => {
   const { accommodation_record_id } = req.params;
 
@@ -47,8 +48,8 @@ router.get('/accommodations/:accommodation_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 //get all accommodations for one trip
-//TODO merge this filter function in the GET /accommodations
 
 // router.get('/accommodation/:tripID', async (req, res) => {
 //   const { tripID } = req.params;
@@ -70,10 +71,8 @@ router.get('/accommodations/:accommodation_record_id', async (req, res) => {
 //   }
 // });
 
-//TODO
-//create one accommodation for a trip should accommodation have multiple trips?
-//wait for airtable to change the schema
 
+//create one accommodation for one trip
 router.post('/accommodations', async (req, res) => {
   const newAccommodation: Accommodation = req.body;
   const { tripID } = req.body;
@@ -112,6 +111,7 @@ router.put('/accommodations/:accommodation_record_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update accommodation' });
   }
 });
+
 //delete one accommodation
 router.delete('/accommodations/:accommodation_record_id', async (req, res) => {
   const { accommodation_record_id } = req.params;

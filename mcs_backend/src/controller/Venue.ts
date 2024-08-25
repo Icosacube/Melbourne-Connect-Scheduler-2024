@@ -12,6 +12,7 @@ import { Catering, Service, Venue } from '../types/types';
 const venueTable = String(process.env.VENUE);
 import { Cachekeys } from '../Enum/Cachekeys';
 import { getCache, setCache, deleteCache } from '../utils/caching';
+
 //get all venues
 router.get('/venues', async (req, res) => {
   try {
@@ -32,7 +33,8 @@ router.get('/venues', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Get a specific venue by ID
+
+//get a specific venue by ID
 router.get('/venues/:venue_record_id', async (req, res) => {
   const { venue_record_id } = req.params;
 
@@ -50,6 +52,7 @@ router.get('/venues/:venue_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 //get all venues for a main event
 //TODO merge this filter function to  GET /venues
 router.get('/venue/:mainEventID', async (req, res) => {
@@ -80,7 +83,9 @@ router.get('/venue/:mainEventID', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 //create one venue for a main event
+
 // venues belong to more than one main event ?
 // venues can exist before a main event?
 router.post('/venues', async (req, res) => {
@@ -98,6 +103,7 @@ router.post('/venues', async (req, res) => {
     res.status(500).json({ error: 'Failed to create venue' });
   }
 });
+
 //modify one venue
 router.put('/venues/:venue_record_id', async (req, res) => {
   const { venue_record_id } = req.params;
@@ -119,6 +125,7 @@ router.put('/venues/:venue_record_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update venue' });
   }
 });
+
 //delete one venue
 router.delete('/venues/:venue_record_id', async (req, res) => {
   const { venue_record_id } = req.params;

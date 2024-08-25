@@ -11,6 +11,7 @@ import { Creation, TableFields, FundingAccount } from '../types/types';
 const router = express.Router();
 const accountTable = String(process.env.FUNDINGACCOUNT)
 
+//get all funding accounts
 router.get('/funding-accounts', async (req, res) => {
     try {
         const account = await getTable(accountTable, "");
@@ -26,6 +27,7 @@ router.get('/funding-accounts', async (req, res) => {
     }
 });
 
+//get a specific funding account by ID
 router.get('/funding-accounts/:funding_account_id', async (req, res) => {
     const { funding_account_id } = req.params;
     
@@ -45,6 +47,7 @@ router.get('/funding-accounts/:funding_account_id', async (req, res) => {
     }
   });
 
+//create a new funding account
 router.post('/funding-accounts/:funding_account_id', async (req, res) => {
     const { funding_account_id } = req.params;
     const newFundingAccount : FundingAccount = req.body;
@@ -61,7 +64,7 @@ router.post('/funding-accounts/:funding_account_id', async (req, res) => {
     }
 });
 
-
+//update a funding account
 router.put('/funding-accounts/:funding_account_id', async (req, res) => {
     const { funding_account_id } = req.params;
     const updatedFundingAccount: FundingAccount = req.body;
@@ -80,7 +83,7 @@ router.put('/funding-accounts/:funding_account_id', async (req, res) => {
     }
 });
 
-
+//delete a funding account
 router.delete('/funding-accounts/:funding_account_id', async (req, res) => {
     const { funding_account_id } = req.params;
 

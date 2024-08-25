@@ -11,6 +11,7 @@ const router = express.Router();
 import { Service } from '../types/types';
 import { getCache, setCache, deleteCache } from '../utils/caching';
 import { Cachekeys } from '../Enum/Cachekeys';
+
 //get all services
 const serviceTable = String(process.env.SERVICE);
 router.get('/services', async (req, res) => {
@@ -32,7 +33,8 @@ router.get('/services', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Get a specific Service by ID
+
+//get a specific Service by ID
 router.get('/services/service/:service_record_id', async (req, res) => {
   const { service_record_id } = req.params;
 
@@ -50,6 +52,7 @@ router.get('/services/service/:service_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 //get all services for a main event
 //TODO merge this filter function to  GET /services
 router.get('/service/:mainEventID', async (req, res) => {
@@ -80,6 +83,7 @@ router.get('/service/:mainEventID', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 //create one service for a main event
 router.post('/service/:mainEventID', async (req, res) => {
   const { mainEventID } = req.body;
@@ -98,6 +102,7 @@ router.post('/service/:mainEventID', async (req, res) => {
     res.status(500).json({ error: 'Failed to create service' });
   }
 });
+
 //modify one service
 router.put('/services/:service_record_id', async (req, res) => {
   const { service_record_id } = req.params;
@@ -119,6 +124,7 @@ router.put('/services/:service_record_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update service' });
   }
 });
+
 //delete one service
 router.delete('/services/:service_record_id', async (req, res) => {
   const { service_record_id } = req.params;

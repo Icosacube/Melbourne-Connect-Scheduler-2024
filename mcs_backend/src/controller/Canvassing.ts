@@ -11,6 +11,7 @@ import { Canvassing, TableFields } from '../types/types';
 
 const router = express.Router();
 const canvassingTable = String(process.env.CANVASSING);
+
 //get all canvassing
 router.get('/canvassing', async (req, res) => {
   try {
@@ -26,7 +27,8 @@ router.get('/canvassing', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Get a specific Canvassing by ID
+
+//get a specific canvassing by ID
 router.get('/canvassing/:canvassing_record_id', async (req, res) => {
   const { canvassing_record_id } = req.params;
 
@@ -47,8 +49,8 @@ router.get('/canvassing/:canvassing_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//get all canvassing for one trip
-//TODO merge this filter function to  GET /canvassing
+
+//get all canvassing for one trip; merge this filter function to  GET /canvassing
 router.get('/canvassing/:tripID', async (req, res) => {
   const { tripID } = req.params;
 

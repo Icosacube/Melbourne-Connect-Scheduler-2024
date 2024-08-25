@@ -11,6 +11,7 @@ import { Academic, TableFields } from '../types/types';
 
 const router = express.Router();
 const AcademicTable = String(process.env.ACADEMIC)
+
 //get all academics
 router.get('/academics', async (req, res) => {
   try {
@@ -26,7 +27,8 @@ router.get('/academics', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Get a specific academic by ID
+
+//get a specific academic by ID
 router.get('/academics/:academic_record_id', async (req, res) => {
   const { academic_record_id } = req.params;
   
@@ -45,6 +47,7 @@ router.get('/academics/:academic_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 //get all academics for one Canvassing, merge this filter function to  GET /academics
 // filter by canvassingID if the user supplies it otherwise return all academics
 // router.get('/academics/:canvassingID', async (req, res) => {

@@ -11,6 +11,7 @@ const router = express.Router();
 import { Catering } from '../types/types';
 import { Cachekeys } from '../Enum/Cachekeys';
 import { getCache, setCache, deleteCache } from '../utils/caching';
+
 //get all caterings
 router.get('/catering', async (req, res) => {
   try {
@@ -31,7 +32,8 @@ router.get('/catering', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Get a specific Catering by ID
+
+//get a specific Catering by ID
 router.get('/catering/:catering_record_id', async (req, res) => {
   const { catering_record_id } = req.params;
 
@@ -49,8 +51,8 @@ router.get('/catering/:catering_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//get all caterings for one main event
-//TODO merge this filter function to  GET /catering
+
+//get all caterings for one main event; merge this filter function to  GET /catering
 router.get('/catering/:mainEventID', async (req, res) => {
   const { mainEventID } = req.params;
 
@@ -79,8 +81,8 @@ router.get('/catering/:mainEventID', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 //create one catering for one main event
-// catering belong to one SINGULAR main event ?
 router.post('/catering/:mainEventID', async (req, res) => {
   const { mainEventID } = req.params;
   const newCatering: Catering = req.body;
@@ -98,6 +100,7 @@ router.post('/catering/:mainEventID', async (req, res) => {
     res.status(500).json({ error: 'Failed to create catering' });
   }
 });
+
 //modify one catering for one main event
 router.put('/catering/:catering_record_id', async (req, res) => {
   const { catering_record_id } = req.params;

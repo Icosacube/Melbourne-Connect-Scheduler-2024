@@ -12,6 +12,7 @@ const router = express.Router();
 import { Cachekeys } from '../Enum/Cachekeys';
 import { getCache, setCache, deleteCache } from '../utils/caching';
 const mainEventTable = String(process.env.MAINEVENT);
+
 //get all main events
 router.get('/main-events', async (req, res) => {
   try {
@@ -33,8 +34,9 @@ router.get('/main-events', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//get all main events for one speaker
-//TODO merge this filter function to  GET /main-events
+
+//get all main events for one speaker;  merge this filter function to  GET /main-events
+
 // router.get('/main-events/:speaker_id', async (req, res) => {
 //   const { speaker_id } = req.params;
 
@@ -59,7 +61,8 @@ router.get('/main-events', async (req, res) => {
 //     res.status(500).json({ error: 'Internal Server Error' });
 //   }
 // });
-// Get a specific event by ID
+
+//get a specific event by ID
 router.get('/main-events/:main_event_record_id', async (req, res) => {
   const { main_event_record_id } = req.params;
 
@@ -99,6 +102,7 @@ router.post('/main-events', async (req, res) => {
     res.status(500).json({ error: 'Failed to create new Main event' });
   }
 });
+
 //modify one main event
 router.put('/main-events/:main_event_record_id', async (req, res) => {
   const { main_event_record_id } = req.params;
@@ -118,6 +122,7 @@ router.put('/main-events/:main_event_record_id', async (req, res) => {
     res.status(500).json({ message: 'Main event could not be updated' });
   }
 });
+
 //delete one main event
 router.delete('/main-events/:main_event_record_id', async (req, res) => {
   const { main_event_record_id } = req.params;

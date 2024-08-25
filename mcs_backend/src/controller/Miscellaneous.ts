@@ -12,6 +12,7 @@ import { Miscellaneous } from '../types/types';
 import {getCache,setCache,deleteCache } from '../utils/caching';
 import {Cachekeys} from '../Enum/Cachekeys';
 const miscellaneousTable = String(process.env.MISCELLANEOUS)
+
 //get all miscellaneous
 router.get('/miscellaneous', async (req, res) => {
   try {
@@ -32,7 +33,8 @@ router.get('/miscellaneous', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Get a specific Miscellaneous by ID
+
+//get a specific Miscellaneous by ID
 router.get('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   const { miscellaneous_record_id } = req.params;
   
@@ -51,8 +53,8 @@ router.get('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//get all miscellaneous for one trip
-//TODO: merge this filter function to  GET /miscellaneous
+
+//get all miscellaneous for one trip; merge this filter function to  GET /miscellaneous
 router.get('/miscellaneous/:tripID', async (req, res) => {
   const { tripID } = req.params;
 
@@ -76,8 +78,9 @@ router.get('/miscellaneous/:tripID', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//create one miscellaneous for one trip
-//TODO miscellaneous to be linked to ONE - SINGULAR main event?
+
+//create one miscellaneous for one trip, 
+//TODO but now linked to event, will have to modify
 router.post('/miscellaneous/:tripID', async (req, res) => {
   const tripID = req.params.tripID;
   const newMiscellaneousItem: Miscellaneous = req.body;
@@ -95,6 +98,7 @@ router.post('/miscellaneous/:tripID', async (req, res) => {
     res.status(500).json({ error: 'Failed to create miscellaneous item' });
   }
 });
+
 //modify one miscellaneous 
 router.put('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   const { miscellaneous_record_id } = req.params;
@@ -114,6 +118,7 @@ router.put('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update miscellaneous item' });
   }
 });
+
 //delete one miscellaneous 
 router.delete('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   const { miscellaneous_record_id } = req.params;

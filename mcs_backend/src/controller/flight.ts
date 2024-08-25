@@ -11,6 +11,7 @@ import {
 const router = express.Router();
 import { Flight } from '../types/types';
 const flightTable = String(process.env.FLIGHT)
+
 //get all flights
 router.get('/flights', async (req, res) => {
     try {
@@ -26,7 +27,8 @@ router.get('/flights', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-  // Get a specific Flight by ID
+
+//get a specific Flight by ID
 router.get('/flights/:flight_record_id', async (req, res) => {
   const { flight_record_id } = req.params;
   
@@ -45,8 +47,8 @@ router.get('/flights/:flight_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-  //get all flights for one trip
-//TODO: merge this filter function to  GET /flights
+
+//get all flights for one trip; merge this filter function to  GET /flights
 router.get('/flight/:tripID', async (req, res) => {
     const { tripID } = req.params;
   
@@ -66,9 +68,9 @@ router.get('/flight/:tripID', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-    //create one flight for one trip
-    //TODO: flight to be linked to 1 trip only?
-router.post('/flight/:tripID', async (req, res) => {
+
+//create one flight for one trip
+router.post('/flights/:tripID', async (req, res) => {
     const tripID = req.params.tripID;
     const newFlight : Flight  = req.body;
     newFlight.Trip = [tripID];
@@ -84,7 +86,8 @@ router.post('/flight/:tripID', async (req, res) => {
         res.status(500).json({ error: 'Failed to create flight' });
     }
 });
-  //modify one flight 
+
+//modify one flight 
 router.put('/flight/:flight_record_id', async (req, res) => {
     const { flight_record_id } = req.params;
     const updatedFlight: Flight = req.body;
@@ -102,16 +105,17 @@ router.put('/flight/:flight_record_id', async (req, res) => {
       res.status(500).json({ error: 'Failed to update flight' });
     }
   });
-   //delete one flight 
-  router.delete('/flight/:flight_record_id', async (req, res) => {
-    const { flight_record_id } = req.params;
-  
-    try {
-      await deleteRecords(flightTable, [flight_record_id]);
-      res.status(200).json({ message: 'Flight deleted successfully' });
-    } catch (error) {
-      console.error("Failed to delete flight:", error);
-      res.status(500).json({ error: 'Failed to delete flight' });
-    }
-  });
+
+//delete one flight 
+router.delete('/flight/:flight_record_id', async (req, res) => {
+  const { flight_record_id } = req.params;
+
+  try {
+    await deleteRecords(flightTable, [flight_record_id]);
+    res.status(200).json({ message: 'Flight deleted successfully' });
+  } catch (error) {
+    console.error("Failed to delete flight:", error);
+    res.status(500).json({ error: 'Failed to delete flight' });
+  }
+});
 module.exports = router;

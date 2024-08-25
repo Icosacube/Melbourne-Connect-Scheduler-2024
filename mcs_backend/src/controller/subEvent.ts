@@ -13,7 +13,7 @@ import { Cachekeys } from '../Enum/Cachekeys';
 const router = express.Router();
 const subEventTable = String(process.env.SUBEVENT);
 
-// route to get all subEvents
+//get all subEvents
 router.get('/sub-events', async (req, res) => {
   try {
     const cachedsubevents = getCache(Cachekeys.SUBEVENTS);
@@ -62,7 +62,7 @@ router.get('/sub-events', async (req, res) => {
 //   }
 // });
 
-// route to get a sub event
+//get one subEvent
 router.get('/sub-events/:sub_event_id', async (req, res) => {
   const { sub_event_id } = req.params;
   try {
@@ -81,7 +81,7 @@ router.get('/sub-events/:sub_event_id', async (req, res) => {
   }
 });
 
-// route to create a subEvent
+//create a subEvent
 //TODO subEvent to be linked to 1 main event only?
 router.post('/sub-events/:event_id', async (req, res) => {
   const { event_id: eventId } = req.params;
@@ -103,7 +103,7 @@ router.post('/sub-events/:event_id', async (req, res) => {
   }
 });
 
-// route to update a subEvent
+//update a subEvent
 router.put('/sub-events/:sub_event_id', async (req, res) => {
   const { sub_event_id } = req.params;
   const updatedSubEvent: SubEvent = req.body;

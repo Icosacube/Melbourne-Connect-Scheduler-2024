@@ -38,7 +38,8 @@ router.get('/trips', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Get a specific trip by ID
+
+//get a specific trip by ID
 router.get('/trips/:trip_record_id', async (req, res) => {
   const { trip_record_id } = req.params;
   
@@ -57,7 +58,9 @@ router.get('/trips/:trip_record_id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 // get all trips for a speaker add filter function to GET /trips
+
 // router.get('/trip/:speaker_id', async (req, res) => {
 //   const { speaker_id} = req.params;
 
@@ -104,6 +107,7 @@ router.post('/trips', async (req, res) => {
     res.status(500).json({ error: 'Failed to create trip' });
   }
 });
+
 //modify one trip
 router.put('/trips/:trip_record_id', async (req, res) => {
   const { trip_record_id } = req.params;
@@ -123,6 +127,7 @@ router.put('/trips/:trip_record_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update trip' });
   }
 });
+
 //delete one trip
 router.delete('/trips/:trip_record_id', async (req, res) => {
   const { trip_record_id } = req.params;
