@@ -1,4 +1,4 @@
-import { Grid, Modal, Paper, Typography } from '@mui/material'
+import { Box, Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import 'dayjs/locale/en-au'
 import React, { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -13,6 +13,7 @@ import {
     OutlinedButton,
     SubmitButton,
     BottomSuccessSnackbar,
+    UploadButton,
 } from '../../../components/'
 import {
     deleteMainEventById,
@@ -126,13 +127,8 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     }
 
     const loadingScreen = <>Loading...</>
-    const loadedModal = (
-        <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
+    const loadedContent = (
+        <>
             <>
                 <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] min-w-[500px] max-h-[90vh] overflow-y-auto">
                     <Grid
@@ -211,6 +207,12 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                                             />
                                         </Grid>
                                         <Grid item>
+                                            <UploadButton
+                                                link={process.env.REACT_APP_EVENT_BANNER_FORM+event.RecordID}
+                                                name="Banner"
+                                            />
+                                        </Grid>
+                                        <Grid item>
                                             <SubmitButton
                                                 submitting={submitting}
                                                 onClick={handleSubmit(onSubmit)}
@@ -241,10 +243,20 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                     message={'Event updated successfully!'}
                 />
             </>
+        </>
+    )
+    const loadedModal = (
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            {loading ? loadingScreen : loadedContent}
         </Modal>
     )
 
-    return loading ? loadingScreen : loadedModal
+    return loadedModal
 }
 
 export default EditEventModal

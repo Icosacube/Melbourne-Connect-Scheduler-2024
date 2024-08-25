@@ -1,3 +1,4 @@
+
 import { Box } from "@mui/material";
 import React from "react";
 
@@ -10,7 +11,10 @@ const Banner: React.FC<BannerProps> = ({ image }) => {
     <Box
       className="w-full  h-72 object-cover bg-gray-400 rounded-t-2xl shadow-lg"
       style={{ objectPosition: "50% 75%" }}
-    />
+    > 
+    {image ? <img src={image} className="object-cover h-full w-full"/> : <></>}
+      
+    </Box>
   );
 };
 

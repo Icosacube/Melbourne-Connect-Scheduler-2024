@@ -32,11 +32,12 @@ const NameCard: FC<NameCardProps> = ({ firstName, lastName, position }) => {
 export const About: FC<AboutProps> = ({ event, speakers }) => {
     const firstSpeaker = speakers[0]
     const theRestOfSpeakers = speakers.slice(1)
+    console.log(event.EventBanner)
     return (
         <Box className="flex justify-between space-x-8 mt-5">
             {/* Left side */}
             <Box className="w-9/12 space-y-5 bg-white">
-                <Banner image={'ADD ACTUAL IMAGE INFO'} />
+                <Banner image={event.EventBanner[0]?.url as string} />
                 <Box className="pl-8 pr-8">
                     {/* Date and Status */}
                     <Headline

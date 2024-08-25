@@ -1,6 +1,6 @@
-import { Box, Grid, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { ProfileHeaderCard } from '../../components'
+import { Box, Button, Grid, Typography } from '@mui/material'
+import React, { FC, useEffect, useState } from 'react'
+import { ProfileHeaderCard, UploadButton } from '../../components'
 import { EventCard } from '../../components/EventCard/EventCard'
 import { getAccomByTripID } from '../../scripts/accommodation/functions'
 
@@ -140,6 +140,10 @@ export const TripContent: React.FC<TripContentProps> = ({ trip, speaker }) => {
             <Box className="w-1/4 space-y-6">
                 <Typography variant="h6">Main Event</Typography>
                 <EventCard event={event} />
+                <UploadButton link={
+                        process.env.REACT_APP_TRIP_ATTACHMENT_FORM +
+                        trip.RecordID
+                    } name='Attachments'/>
             </Box>
         </Box>
     )
