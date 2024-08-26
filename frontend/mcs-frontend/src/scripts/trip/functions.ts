@@ -58,8 +58,9 @@ export async function createTrip(trip: TripFrontend) {
     // formatting DayJS to String
     const tripBackend = reformatTripRequest(trip)
     const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_TRIP_API_PATH}/` +
-            speakerID,
+        // `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_TRIP_API_PATH}/` +
+        //     speakerID,
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_TRIP_API_PATH}`,
         tripBackend
     )
     return res.status

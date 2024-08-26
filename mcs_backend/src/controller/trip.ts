@@ -91,7 +91,7 @@ router.post('/trips', async (req, res) => {
   if (!GuestSpeaker) {
     return res.status(400).json({ error: 'Guest Speaker ID is required' });
   }
-  newTrip.GuestSpeaker = [GuestSpeaker];
+  newTrip.GuestSpeaker = GuestSpeaker;
   console.log("newTrip:",newTrip)
   const tableFields: TableFields = {
     // id: '', 
