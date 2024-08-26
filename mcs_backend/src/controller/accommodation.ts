@@ -75,8 +75,8 @@ router.get('/accommodations/:accommodation_record_id', async (req, res) => {
 //create one accommodation for one trip
 router.post('/accommodations', async (req, res) => {
   const newAccommodation: Accommodation = req.body;
-  const { tripID } = req.body;
-  newAccommodation.Trip = [tripID];
+  const { Trip: tripID } = req.body;
+  newAccommodation.Trip = tripID;
 
   const creation: Creation = {
     fields: newAccommodation,
