@@ -72,12 +72,15 @@ export async function getRecord(table: string, id: string): Promise<Map<string, 
     return retrieved;
 }
 
-export async function createRecord(table: string, record: any[]): Promise<void> {
+export async function createRecord(table: string, record: any[]): Promise<string[]> {
     try {
         const records = await base(table).create(record);
+        const recordIds : string[] = [];
         records.forEach(record => {
             console.log(record.getId());
+            recordIds.push(record.getId())
         });
+        return recordIds
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.error("Error creating record:", err);
