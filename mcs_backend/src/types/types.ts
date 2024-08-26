@@ -116,7 +116,7 @@ export type SubEvent = {
 export type Academic = {
   Email: string;
   Name: string;
-  MainEvent: string;
+  MainEvent: string[];
   Canvassing: string[];
 };
 

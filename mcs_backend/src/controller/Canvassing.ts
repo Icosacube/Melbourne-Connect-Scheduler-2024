@@ -8,12 +8,17 @@ import {
 } from '../models/airtable';
 
 import { Canvassing, TableFields } from '../types/types';
-
+import {Cachekeys} from '../Enum/Cachekeys';
+import {getCache,setCache,deleteCache} from '../utils/caching';
 const router = express.Router();
 const CanvassingTable = String(process.env.CANVASSING)
 //get all canvassings
 router.get('/canvassings', async (req, res) => {
   try {
+    const cachedCanvassing = getCache(Cachekeys.CANVASSINGS);
+    if (cachedCanvassing) {
+        return res.json(cachedCanvassing).status(200);
+    }
     const accommodations = await getTable(CanvassingTable, "");
     const formattedCanvassing: { [k: string]: any; }[] = [];
     accommodations.forEach((fields) => {
@@ -21,6 +26,7 @@ router.get('/canvassings', async (req, res) => {
       formattedCanvassing.push(plainFields);
       console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
+    setCache(Cachekeys.CANVASSINGS, formattedCanvassing);
     res.json(formattedCanvassing);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -69,5 +75,22 @@ router.get('/Canvassing/:tripID', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
+router.post('/Canvassing/:TripID/:AcademicID', async (req, res) => {
+  const { TripID,AcademicID } = req.params;
+  const newCanvassing: Canvassing = req.body;
+  newCanvassing.Trip= [TripID];
+  newCanvassing.Academic = [AcademicID];
+  const cateringRecord = {
+      fields: newCanvassing
+  };
+  
+  try {
+      await createRecord(CanvassingTable, [cateringRecord]);
+      deleteCache(Cachekeys.CANVASSINGS);
+      res.status(200).json({ message: 'Canvassing created successfully' });
+  } catch (error) {
+      console.error("Failed to create Canvassing:", error);
+      res.status(500).json({ error: 'Failed to create Canvassing' });
+  }
+});
 module.exports = router;
