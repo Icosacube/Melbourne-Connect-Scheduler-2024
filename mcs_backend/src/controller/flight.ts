@@ -49,7 +49,7 @@ router.get('/flights/:flight_record_id', async (req, res) => {
 });
 
 //get all flights for one trip; merge this filter function to  GET /flights
-router.get('/flight/:tripID', async (req, res) => {
+router.get('/flights/:tripID', async (req, res) => {
     const { tripID } = req.params;
   
     try {
@@ -70,10 +70,10 @@ router.get('/flight/:tripID', async (req, res) => {
   });
 
 //create one flight for one trip
-router.post('/flights/:tripID', async (req, res) => {
-    const tripID = req.params.tripID;
+router.post('/flights', async (req, res) => {
+    const {Trip: tripID} = req.body;
     const newFlight : Flight  = req.body;
-    newFlight.Trip = [tripID];
+    newFlight.Trip = tripID;
     const FlightRecord = {
         fields: newFlight 
     };
@@ -88,7 +88,7 @@ router.post('/flights/:tripID', async (req, res) => {
 });
 
 //modify one flight 
-router.put('/flight/:flight_record_id', async (req, res) => {
+router.put('/flights/:flight_record_id', async (req, res) => {
     const { flight_record_id } = req.params;
     const updatedFlight: Flight = req.body;
   
@@ -107,7 +107,7 @@ router.put('/flight/:flight_record_id', async (req, res) => {
   });
 
 //delete one flight 
-router.delete('/flight/:flight_record_id', async (req, res) => {
+router.delete('/flights/:flight_record_id', async (req, res) => {
   const { flight_record_id } = req.params;
 
   try {
