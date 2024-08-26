@@ -82,12 +82,11 @@ router.get('/sub-events/:sub_event_id', async (req, res) => {
 });
 
 //create a subEvent
-//TODO subEvent to be linked to 1 main event only?
-router.post('/sub-events/:event_id', async (req, res) => {
-  const { event_id: eventId } = req.params;
+router.post('/sub-events', async (req, res) => {
+  const { MainEvent: eventId } = req.body;
   const newSubEvent: SubEvent = req.body;
 
-  newSubEvent.MainEvent = [eventId];
+  newSubEvent.MainEvent = eventId;
 
   const tableFields = {
     fields: newSubEvent,
