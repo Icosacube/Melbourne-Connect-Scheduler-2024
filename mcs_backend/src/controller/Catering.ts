@@ -83,10 +83,10 @@ router.get('/catering/:mainEventID', async (req, res) => {
 });
 
 //create one catering for one main event
-router.post('/catering/:mainEventID', async (req, res) => {
-  const { mainEventID } = req.params;
+router.post('/catering', async (req, res) => {
+  const { MainEvent: mainEventID } = req.body;
   const newCatering: Catering = req.body;
-  newCatering.MainEvent = [mainEventID];
+  newCatering.MainEvent = mainEventID;
   const cateringRecord = {
     fields: newCatering,
   };
