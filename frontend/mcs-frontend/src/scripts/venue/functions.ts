@@ -49,6 +49,48 @@ export async function getVenueByMainEventId(id: string): Promise<Venue[]> {
     }
 }
 
+export async function createVenue(venue: Venue): Promise<Venue> {
+    try {
+        const res = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}`,
+            venue
+        )
+        const rawVenue = res.data
+        const formattedVenue = reformatVenueResponseData(rawVenue)
+        return formattedVenue
+    } catch (error) {
+        console.error('Error creating venue:', error)
+        return {} as Venue
+    }
+}
+
+export async function updateVenue(venue: Venue): Promise<Venue> {
+    try {
+        const res = await axios.put(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}/${venue.RecordID}`,
+            venue
+        )
+        const rawVenue = res.data
+        const formattedVenue = reformatVenueResponseData(rawVenue)
+        return formattedVenue
+    } catch (error) {
+        console.error('Error updating venue:', error)
+        return {} as Venue
+    }
+}
+
+export async function deleteVenue(venue: Venue): Promise<boolean> {
+    try {
+        await axios.delete(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}/${venue.RecordID}`
+        )
+        return true
+    } catch (error) {
+        console.error('Error deleting venue:', error)
+        return false
+    }
+}
+
 export const defaultVenue: Venue = {
     VenueName: '',
     Location: '',
