@@ -21,13 +21,14 @@ const mainEventTable = String(process.env.MAINEVENT);
 router.get('/speaker-form', async (req, res) => {
     try {
 
-      const empty = {fields: {"Confirmed": true}}
+      const empty = {fields: {"Confirmed": false}}
       const speakerId = await createRecord(speakerTable, [empty]);
       const mainEventId = await createRecord(mainEventTable, [empty]);
 
       const speakerFormURL = "https://airtable.com/app79kFx8O6KyDmzX/pagdVhuKBJu0OemCS/form?prefill_speakerID=" + speakerId + "&hide_speakerID=true&prefill_mainID=" + mainEventId + "&hide_mainID=true";
 
-      purge()
+      purge(speakerTable);
+      purge(mainEventTable);
 
       res.send(speakerFormURL);
     } catch (error) {
@@ -36,39 +37,24 @@ router.get('/speaker-form', async (req, res) => {
   });
 
 
-async function purge(){
+async function purge(table: string, limit: number = 180){
     let now = new Date().getTime();
-    let halfYear = 180
-    let dateToPurge = halfYear * (4 * 60 * 60 * 1000)
+    let dateToPurge = limit * (4 * 60 * 60 * 1000)
 
-    let speakers = await getNotConfirmed(speakerTable, PresetFilter.notConfirmed);
-    let mainEvents = await getNotConfirmed(mainEventTable, PresetFilter.notConfirmed);
+    let records = await getNotConfirmed(table, PresetFilter.notConfirmed);
 
-    let speakerPurge = []
-    let mainEventPurge = []
+    let purgeList = []
     
-    for (const record of speakers){
+    for (const record of records){
         let recordTime = new Date(record.createdTime).getTime();
 
         if ((now - recordTime) >= dateToPurge){
-            speakerPurge.push(record.id);
-        }
-    }
-    
-    for (const record of mainEvents){
-        let recordTime = new Date(record.createdTime).getTime();
-
-        if ((now - recordTime) >= dateToPurge){
-            mainEventPurge.push(record.id);
+            purgeList.push(record.id);
         }
     }
 
-    if (speakerPurge.length > 0){
-        deleteRecords(speakerTable, speakerPurge);
-    }
-
-    if (mainEventPurge.length > 0){
-        deleteRecords(mainEventTable, mainEventPurge);
+    if (purgeList.length > 0){
+        deleteRecords(table, purgeList);
     }
 }
 
