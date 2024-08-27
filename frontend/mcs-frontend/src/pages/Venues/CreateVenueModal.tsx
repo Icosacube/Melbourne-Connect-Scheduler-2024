@@ -8,17 +8,16 @@ import {
 } from '../../components/'
 import { createVenue, defaultVenue } from '../../scripts/venue/functions'
 import { Venue } from '../../types/frontendTypes'
+import { useRevalidator } from 'react-router-dom'
 
 interface CreateVenueModalProps {
     handleClose: () => void
     open: boolean
-    handleCreateNewVenue: (newVenue: Venue) => void
 }
 
 export const CreateVenueModal: React.FC<CreateVenueModalProps> = ({
     handleClose,
     open,
-    handleCreateNewVenue,
 }) => {
     const { handleSubmit, reset, control } = useForm<Venue>({
         defaultValues: defaultVenue,
@@ -26,6 +25,7 @@ export const CreateVenueModal: React.FC<CreateVenueModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const revalidator = useRevalidator()
 
     const onClose = () => {
         reset()
@@ -38,7 +38,7 @@ export const CreateVenueModal: React.FC<CreateVenueModalProps> = ({
             const res = await createVenue(venue)
             if (res) {
                 setShowSuccess(true)
-                handleCreateNewVenue(venue)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to create venue')
             }

@@ -1,28 +1,28 @@
-import * as React from 'react'
-import Box from '@mui/material/Box'
 import AddIcon from '@mui/icons-material/Add'
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/DeleteOutlined'
-import SaveIcon from '@mui/icons-material/Save'
 import CancelIcon from '@mui/icons-material/Close'
+import DeleteIcon from '@mui/icons-material/DeleteOutlined'
+import EditIcon from '@mui/icons-material/Edit'
+import SaveIcon from '@mui/icons-material/Save'
+import { Button } from '@mui/material'
+import Box from '@mui/material/Box'
 import {
-    GridRowsProp,
-    GridRowModesModel,
-    GridRowModes,
     DataGrid,
-    GridColDef,
-    GridToolbarContainer,
     GridActionsCellItem,
+    GridColDef,
     GridEventListener,
+    GridRowEditStopReasons,
     GridRowId,
     GridRowModel,
-    GridRowEditStopReasons,
-    GridSlots,
+    GridRowModes,
+    GridRowModesModel,
     GridRowParams,
+    GridSlots,
+    GridToolbarContainer,
 } from '@mui/x-data-grid'
-import { Venue } from '../../types/frontendTypes'
-import { Button, Modal } from '@mui/material'
+import * as React from 'react'
+import { DeleteDialog } from '../../components'
 import { deleteVenue } from '../../scripts/venue/functions'
+import { Venue } from '../../types/frontendTypes'
 import { CreateVenueModal } from './CreateVenueModal'
 
 interface VenueRow extends Venue {
@@ -54,8 +54,9 @@ interface VenuesTableProps {
 }
 
 export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
-    const [rows, setRows] = React.useState(venues)
     const [createModalOpen, setCreateModalOpen] = React.useState(false)
+    const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
+    const [selectedVenue, setSelectedVenue] = React.useState<Venue | null>(null)
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
     )
@@ -65,9 +66,6 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     }
     const handleOpenCreateModal = () => {
         setCreateModalOpen(true)
-    }
-    const handleCreateNewVenue = (newVenue: Venue) => {
-        setRows([...rows, newVenue])
     }
 
     const handleRowEditStop: GridEventListener<'rowEditStop'> = (
@@ -96,8 +94,18 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     }
 
     const handleDeleteClick = (venue: Venue) => async () => {
-        await deleteVenue(venue)
-        setRows(rows.filter((row) => row.RecordID !== venue.RecordID))
+        setSelectedVenue(venue)
+        setDeleteDialogOpen(true)
+    }
+    const handleCloseDeleteDialog = () => {
+        setDeleteDialogOpen(false)
+    }
+    const handleDeleteVenue = async () => {
+        if (!selectedVenue) return
+        await deleteVenue(selectedVenue)
+        setSelectedVenue(null)
+        handleCloseDeleteDialog()
+        //setRows(rows.filter((row) => row.RecordID !== selectedVenue.RecordID))
     }
 
     const handleCancelClick = (id: GridRowId) => () => {
@@ -106,7 +114,7 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         })
 
-        const editedRow = rows.find((row) => row.RecordID === id)
+        //const editedRow = rows.find((row) => row.RecordID === id)
         // if (editedRow!.isNew) {
         //     setRows(rows.filter((row) => row.id !== id))
         // }
@@ -184,7 +192,7 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     return (
         <Box>
             <DataGrid
-                rows={rows}
+                rows={venues}
                 columns={columns}
                 getRowId={getRowId}
                 editMode="row"
@@ -202,7 +210,11 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
             <CreateVenueModal
                 open={createModalOpen}
                 handleClose={handleCloseCreateModal}
-                handleCreateNewVenue={handleCreateNewVenue}
+            />
+            <DeleteDialog
+                open={deleteDialogOpen}
+                onClose={handleCloseDeleteDialog}
+                onConfirm={handleDeleteVenue}
             />
         </Box>
     )
