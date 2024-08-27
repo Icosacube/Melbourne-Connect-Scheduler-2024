@@ -38,7 +38,8 @@ router.get('/speaker-form', async (req, res) => {
 
 async function purge(){
     let now = new Date().getTime();
-    let halfYear = (180 * 24 * 60 * 60 * 1000)
+    let halfYear = 180
+    let dateToPurge = halfYear * (4 * 60 * 60 * 1000)
 
     let speakers = await getNotConfirmed(speakerTable, PresetFilter.notConfirmed);
     let mainEvents = await getNotConfirmed(mainEventTable, PresetFilter.notConfirmed);
@@ -49,7 +50,7 @@ async function purge(){
     for (const record of speakers){
         let recordTime = new Date(record.createdTime).getTime();
 
-        if ((now - recordTime) >= halfYear){
+        if ((now - recordTime) >= dateToPurge){
             speakerPurge.push(record.id);
         }
     }
@@ -57,7 +58,7 @@ async function purge(){
     for (const record of mainEvents){
         let recordTime = new Date(record.createdTime).getTime();
 
-        if ((now - recordTime) >= halfYear){
+        if ((now - recordTime) >= dateToPurge){
             mainEventPurge.push(record.id);
         }
     }
