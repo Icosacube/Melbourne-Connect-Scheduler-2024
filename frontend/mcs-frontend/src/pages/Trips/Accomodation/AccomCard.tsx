@@ -9,11 +9,10 @@ import {
 import React, { FC, useState, useEffect } from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVertOutlined'
 import { Accommodation } from '../../../types/frontendTypes'
-import { getFundingAccountByID } from '../../../scripts/fundingAccount/function'
+import { getFundingAccountByID } from '../../../scripts/fundingAccount/functions'
 import { EditAccomModal } from './EditAccomModal'
-import { deleteAccom } from '../../../scripts/accommodation/function'
-import { DeleteDialog } from '../../../components'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
+import { deleteAccom } from '../../../scripts/accommodation/functions'
+import { DeleteDialog, BottomSuccessSnackbar } from '../../../components'
 
 interface AccomProps {
     accom: Accommodation
@@ -167,6 +166,7 @@ export const AccomCard: FC<AccomProps> = ({ accom }) => {
                         </Grid>
                         <Grid item>
                             <img
+                                alt="accommodation"
                                 style={{ width: '100%' }}
                                 src="https://media.istockphoto.com/id/119926339/photo/resort-swimming-pool.jpg?s=612x612&w=0&k=20&c=9QtwJC2boq3GFHaeDsKytF4-CavYKQuy1jBD2IRfYKc="
                             />

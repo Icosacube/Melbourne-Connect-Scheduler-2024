@@ -1,20 +1,21 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
+
 import {
     FormInputText,
     FormInputDate,
     FormInputSingleSelect,
     SubmitButton,
     FormInputTextLong,
+    BottomSuccessSnackbar,
 } from '../../../components/'
 import {
     createAccommodation,
     defaultAccommodation,
-} from '../../../scripts/accommodation/function'
+} from '../../../scripts/accommodation/functions'
 import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
-import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
+import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
 
 interface CreateAccomModalProps {
     handleClose: () => void

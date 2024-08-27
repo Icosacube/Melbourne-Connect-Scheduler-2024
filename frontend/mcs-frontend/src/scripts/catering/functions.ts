@@ -33,16 +33,23 @@ export const defaultCatering: Catering = {
     Finance: [],
 }
 
-// Function to get all catering
-export async function getCateringByEventID(id: string): Promise<Catering[]> {
+// Function to get catering by event ID
+export async function getCateringByEventID(
+    mainEventId: string
+): Promise<Catering[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}/catering/${id}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}`
         )
         const rawCatering = res.data
-        const formattedCatering = rawCatering.map((catering: any) =>
-            reformatCateringResponseData(catering)
-        )
+        console.log(rawCatering)
+        const formattedCatering = rawCatering
+            .filter((catering: any) =>
+                catering.MainEvent?.includes(mainEventId)
+            )
+            .map((catering: any) => reformatCateringResponseData(catering))
+
+        console.log(formattedCatering)
         return formattedCatering
     } catch (error) {
         console.error('Error fetching catering:', error)
@@ -64,7 +71,7 @@ export async function createCatering(
         delete toSend.RecordID
         console.log(toSend)
         const res = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/catering/${id}`,
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${id}`,
             toSend
         )
         return res

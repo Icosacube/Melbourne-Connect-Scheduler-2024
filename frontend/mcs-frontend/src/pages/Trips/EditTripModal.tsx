@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Modal, Paper, Typography, CircularProgress } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
     DeleteButton,
     DeleteDialog,
@@ -11,12 +10,13 @@ import {
     FormInputSingleSelect,
     OutlinedButton,
     SubmitButton,
+    BottomSuccessSnackbar,
 } from '../../components/'
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
-import { updateTrip, deleteTrip } from '../../scripts/trip/function'
+import { updateTrip, deleteTrip } from '../../scripts/trip/functions'
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes'
-import { getAllMainEvents } from '../../scripts/event/function'
 import { getAllSpeakers } from '../../scripts/speaker/functions'
+import { getAllMainEvents } from '../../scripts/event/functions'
 
 interface EditTripModalProps {
     handleClose: () => void
@@ -29,7 +29,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
     open,
     trip,
 }) => {
-    const { handleSubmit, reset, control, setValue, watch } = useForm<Trip>({
+    const { handleSubmit, reset, control, watch } = useForm<Trip>({
         defaultValues: trip,
     })
     const navigate = useNavigate()

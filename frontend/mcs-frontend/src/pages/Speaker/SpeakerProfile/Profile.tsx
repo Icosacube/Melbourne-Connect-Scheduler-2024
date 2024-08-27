@@ -1,11 +1,8 @@
-import { Box, Button, Paper, Typography } from '@mui/material'
-import React, { FC } from 'react'
-import { useLoaderData } from 'react-router-dom'
-import { ProfileHeaderCard } from '../../../components'
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox'
+import { Box, Button, Paper, Typography } from '@mui/material'
+import React from 'react'
+import { ProfileHeaderCard } from '../../../components'
 import { Speaker } from '../../../types/frontendTypes'
-import { EditSpeakerModal } from './EditSpeakerModal'
-import { ModeEdit } from '@mui/icons-material'
 
 interface ProfileProps {
     speaker: Speaker
@@ -54,10 +51,6 @@ ${contactInformation}`
     const mailtoLink = `mailto:fhughes@stockton.edu.au?subject=${encodeURIComponent(
         emailSubject
     )}&body=${encodeURIComponent(emailBody)}`
-
-    const [open, setOpen] = React.useState(false)
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
 
     return (
         <Box className=" flex space-x-6">

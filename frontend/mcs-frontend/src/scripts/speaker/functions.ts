@@ -4,7 +4,7 @@ import { Speaker } from '../../types/frontendTypes'
 export async function getAllSpeakers(): Promise<Speaker[]> {
     try {
         const res = await axios.get(
-            process.env.REACT_APP_BACKEND_URL + '/speakers'
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_API_PATH}`
         )
         const rawSpeakers = res.data
         const formattedSpeakers = rawSpeakers.map((speaker: any) =>
@@ -19,7 +19,7 @@ export async function getAllSpeakers(): Promise<Speaker[]> {
 export async function getSpeakerById(id: string): Promise<Speaker> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}/speaker/${id}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_API_PATH}/${id}`
         )
         const rawSpeaker = res.data
 
@@ -36,7 +36,7 @@ export async function createSpeaker(speaker: Speaker): Promise<AxiosResponse> {
     const toSend: any = { ...speaker }
     delete toSend.RecordID
     const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/speaker`,
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_API_PATH}`,
         toSend
     )
     // Server return message: Speaker created successfully if success
@@ -47,7 +47,7 @@ export async function updateSpeaker(speaker: Speaker): Promise<AxiosResponse> {
     const toSend: any = { ...speaker }
     delete toSend.RecordID
     const res = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/speaker/${speaker.RecordID}`,
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_API_PATH}/${speaker.RecordID}`,
         toSend
     )
     // Server return message: Speaker created successfully if success
@@ -114,8 +114,7 @@ function reformatSpeakerResponseData(data: any): Speaker {
         Country: data.Country || defaultSpeaker.Country,
         Postcode: data.Postcode || defaultSpeaker.Postcode,
         EmergencyContactName:
-            data.EmergencyContactName ||
-            defaultSpeaker.EmergencyContactName,
+            data.EmergencyContactName || defaultSpeaker.EmergencyContactName,
         EmergencyContactRelationship:
             data.EmergencyContactRelationship ||
             defaultSpeaker.EmergencyContactRelationship,
@@ -123,11 +122,9 @@ function reformatSpeakerResponseData(data: any): Speaker {
             data.EmergencyContactNumber ||
             defaultSpeaker.EmergencyContactNumber,
         FlyerMembershipName:
-            data.FlyerMembershipName ||
-            defaultSpeaker.FlyerMembershipName,
+            data.FlyerMembershipName || defaultSpeaker.FlyerMembershipName,
         FlyerMembershipNumber:
-            data.FlyerMembershipNumber ||
-            defaultSpeaker.FlyerMembershipNumber,
+            data.FlyerMembershipNumber || defaultSpeaker.FlyerMembershipNumber,
         Confirmed: data.Confirmed || defaultSpeaker.Confirmed,
         Trip: data.Trip || defaultSpeaker.Trip,
         MainEvent: data.MainEvent || defaultSpeaker.MainEvent,

@@ -6,19 +6,19 @@ import cors from 'cors';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const tripRouter = require('./controller/trip'); 
-const accommodationRouter = require('./controller/accomodation');
+const accommodationRouter = require('./controller/accommodation');
 const miscellaneousRouter = require('./controller/miscellaneous');
 const flightRouter = require('./controller/flight'); 
 const academicRouter = require('./controller/academic'); 
-const canvassingRouter = require('./controller/Canvassing'); 
+const canvassingRouter = require('./controller/canvassing'); 
 const speakerRouter = require('./controller/speaker'); 
-const eventRouter = require('./controller/event')
-const CateringRouter = require('./controller/Catering'); 
-const ServiceRouter = require('./controller/Service'); 
-const VenueRouter = require('./controller/Venue');
-const subeventRouter = require('./controller/subevent');
-const fundingAccountRouter = require('./controller/FundingAccount');
-const financeRouter = require('./controller/Finance');
+const mainEventRouter = require('./controller/mainEvent')
+const cateringRouter = require('./controller/catering'); 
+const serviceRouter = require('./controller/service'); 
+const venueRouter = require('./controller/venue');
+const subEventRouter = require('./controller/subEvent');
+const fundingAccountRouter = require('./controller/fundingAccount');
+const financeRouter = require('./controller/finance');
 const app = express();
 
 app.use(cors())
@@ -34,11 +34,11 @@ app.use('/', flightRouter);
 app.use('/', academicRouter);
 app.use('/', canvassingRouter);
 app.use('/', speakerRouter);
-app.use('/', eventRouter)
-app.use('/', CateringRouter);
-app.use('/', ServiceRouter);
-app.use('/', VenueRouter);
-app.use('/', subeventRouter);
+app.use('/', mainEventRouter)
+app.use('/', cateringRouter);
+app.use('/', serviceRouter);
+app.use('/', venueRouter);
+app.use('/', subEventRouter);
 app.use('/', fundingAccountRouter);
 app.use('/', financeRouter);
 app.get('*', (req: Request, res: Response) => {

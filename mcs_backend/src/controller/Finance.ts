@@ -12,6 +12,7 @@ import {
 const router = express.Router();
 const financeTable = String(process.env.FINANCE)
 
+// get all finance records
 router.get('/finance', async (req, res) => {
     try {
         const account = await getTable(financeTable, "");
@@ -27,6 +28,7 @@ router.get('/finance', async (req, res) => {
     }
 });
 
+// get finance record by finance record ID
 router.get('/finance/:finance_id', async (req, res) => {
     const { finance_id } = req.params;
     
@@ -46,7 +48,7 @@ router.get('/finance/:finance_id', async (req, res) => {
     }
   });
 
-
+// delete finance record
 router.delete('/finance/:finance_id', async (req, res) => {
     const { finance_id } = req.params;
 
