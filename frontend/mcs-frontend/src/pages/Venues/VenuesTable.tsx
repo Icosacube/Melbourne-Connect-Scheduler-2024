@@ -21,7 +21,11 @@ import {
 } from '@mui/x-data-grid'
 import * as React from 'react'
 import { DeleteDialog } from '../../components'
-import { deleteVenue } from '../../scripts/venue/functions'
+import {
+    defaultVenue,
+    deleteVenue,
+    updateVenue,
+} from '../../scripts/venue/functions'
 import { Venue } from '../../types/frontendTypes'
 import { CreateVenueModal } from './CreateVenueModal'
 import { useRevalidator } from 'react-router-dom'
@@ -61,7 +65,7 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
     )
-    const revalidate = useRevalidator()
+    const revalidator = useRevalidator()
 
     const handleCloseCreateModal = () => {
         setCreateModalOpen(false)
@@ -87,8 +91,6 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     }
 
     const handleSaveClick = (params: GridRowParams) => () => {
-        console.log(params)
-        console.log(rowModesModel)
         setRowModesModel({
             ...rowModesModel,
             [params.id]: { mode: GridRowModes.View },
@@ -101,14 +103,13 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     }
     const handleCloseDeleteDialog = () => {
         setDeleteDialogOpen(false)
-        revalidate.revalidate()
+        setSelectedVenue(null)
+        revalidator.revalidate()
     }
     const handleDeleteVenue = async () => {
         if (!selectedVenue) return
         await deleteVenue(selectedVenue)
-        setSelectedVenue(null)
         handleCloseDeleteDialog()
-        //setRows(rows.filter((row) => row.RecordID !== selectedVenue.RecordID))
     }
 
     const handleCancelClick = (id: GridRowId) => () => {
@@ -116,17 +117,21 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         })
-
-        //const editedRow = rows.find((row) => row.RecordID === id)
-        // if (editedRow!.isNew) {
-        //     setRows(rows.filter((row) => row.id !== id))
-        // }
     }
 
-    const processRowUpdate = (newRow: GridRowModel) => {
-        const updatedRow = { ...newRow, isNew: false }
-        //setRows(rows.map((row) => (row.RecordID === newRow.Record ? updatedRow : row)))
-        return updatedRow
+    const processRowUpdate = async (
+        newRow: Venue,
+        oldRow: Venue
+    ): Promise<Venue> => {
+        try {
+            await updateVenue(newRow)
+            revalidator.revalidate() // Make sure this is 'revalidator', not 'revalidate'
+            return newRow
+        } catch (error) {
+            console.error('Failed to update venue:', error)
+            // If update fails, return the old row
+            return oldRow
+        }
     }
 
     const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
@@ -202,7 +207,7 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
                 rowModesModel={rowModesModel}
                 onRowModesModelChange={handleRowModesModelChange}
                 onRowEditStop={handleRowEditStop}
-                // processRowUpdate={processRowUpdate}
+                processRowUpdate={processRowUpdate}
                 slots={{
                     toolbar: EditToolbar as GridSlots['toolbar'],
                 }}

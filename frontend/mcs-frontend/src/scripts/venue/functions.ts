@@ -65,14 +65,13 @@ export async function createVenue(venue: Venue): Promise<Venue> {
 }
 
 export async function updateVenue(venue: Venue): Promise<Venue> {
+    const formattedVenue = reformatVenueRequestData(venue)
     try {
         const res = await axios.put(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}/${venue.RecordID}`,
-            venue
+            formattedVenue
         )
-        const rawVenue = res.data
-        const formattedVenue = reformatVenueResponseData(rawVenue)
-        return formattedVenue
+        return res.data
     } catch (error) {
         console.error('Error updating venue:', error)
         return {} as Venue
