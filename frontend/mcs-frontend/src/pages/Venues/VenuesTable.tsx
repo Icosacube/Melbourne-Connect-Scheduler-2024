@@ -24,6 +24,7 @@ import { DeleteDialog } from '../../components'
 import { deleteVenue } from '../../scripts/venue/functions'
 import { Venue } from '../../types/frontendTypes'
 import { CreateVenueModal } from './CreateVenueModal'
+import { useRevalidator } from 'react-router-dom'
 
 interface VenueRow extends Venue {
     isNew?: boolean
@@ -60,6 +61,7 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
     )
+    const revalidate = useRevalidator()
 
     const handleCloseCreateModal = () => {
         setCreateModalOpen(false)
@@ -99,6 +101,7 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     }
     const handleCloseDeleteDialog = () => {
         setDeleteDialogOpen(false)
+        revalidate.revalidate()
     }
     const handleDeleteVenue = async () => {
         if (!selectedVenue) return
