@@ -123,3 +123,36 @@ export async function deleteRecords(table: string, records: string[]): Promise<v
         });
     });
 }
+
+
+export async function getNotConfirmed(table: string, filter: string = ""): Promise<Array<any>> {
+    let retrieved = new Array<any>();
+
+    await new Promise<void>((resolve, reject) => {
+        base(table).select({
+            filterByFormula: filter
+        }).eachPage(
+            (records, fetchNextPage) => {
+                records.forEach(record => {
+                    let content = {
+                        "id": record.id, 
+                        "createdTime": record._rawJson.createdTime,
+                    };
+                    retrieved.push(content);
+                });
+                fetchNextPage();
+            },
+            err => {
+                if (err) {
+                    console.error("Error fetching records:", err);
+                    reject(new AirtableError(err.statusCode, err.message));
+                } else {
+                    resolve();
+                }
+            }
+        );
+    });
+
+    console.log("Retrieved data:", retrieved);
+    return retrieved;
+}
