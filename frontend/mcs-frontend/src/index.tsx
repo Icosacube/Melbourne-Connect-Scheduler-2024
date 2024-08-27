@@ -10,6 +10,7 @@ import { loader as tripsLoader } from './scripts/trip/tripsLoader'
 import { loader as tripLoader } from './scripts/trip/tripLoader'
 import { loader as financeLoader } from './scripts/finance/financeOverviewLoaders'
 import { loader as dashboardLoaders } from './scripts/dashboard/dashboardLoaders'
+import { loader as venueLoader } from './scripts/venue/venuesLoader'
 import { BodyLayout } from './pages/Layout/BodyLayout'
 
 import './index.css'
@@ -24,6 +25,7 @@ import {
     Speakers,
     Speaker,
     Homepage,
+    Venues,
 } from './pages'
 import { Trip } from './pages/Trips/Trip'
 import { Trips } from './pages/Trips/TripsOverview/Trips'
@@ -104,6 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     element: <BodyLayout content={<Finance />} />,
                     errorElement: <ErrorPage />,
                     loader: financeLoader,
+                },
+                {
+                    path: '/venues',
+                    element: <BodyLayout content={<Venues />} />,
+                    errorElement: <ErrorPage />,
+                    loader: venueLoader,
                 },
             ],
         },
