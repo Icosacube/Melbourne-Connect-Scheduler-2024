@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import CreateIcon from '@mui/icons-material/Create'
+import ShareIcon from '@mui/icons-material/Share'
 import {
     Box,
     Breadcrumbs,
@@ -8,11 +9,9 @@ import {
     Toolbar,
     Typography,
 } from '@mui/material'
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { EventTabs } from '../../pages/Event/EventView/EventTabs'
-import CreateIcon from '@mui/icons-material/Create'
-import ShareIcon from '@mui/icons-material/Share'
-import EditEventModal from '../../pages/Event/EventView/EditEventModal'
 
 interface EventTopNavBarProps {
     getCurTab: (data: string) => void

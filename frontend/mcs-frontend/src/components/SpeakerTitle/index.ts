@@ -1,1 +1,0 @@
-export { SpeakerTitle } from './SpeakerTitle';

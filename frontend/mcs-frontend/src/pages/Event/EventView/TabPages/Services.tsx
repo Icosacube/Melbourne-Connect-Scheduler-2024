@@ -1,18 +1,12 @@
+import { Box } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import React, { FC, useEffect, useState } from 'react'
-import {
-    Catering,
-    MainEvent,
-    FundingAccount,
-} from '../../../../types/frontendTypes'
-import { getCateringByEventID } from '../../../../scripts/catering/functions'
-import Headline from './Headline'
-import { Box, Button, Typography } from '@mui/material'
-import { getAllFundingAccounts } from '../../../../scripts/fundingAccount/function'
-import AddCircleOutlineOutlined from '@mui/icons-material/AddCircleOutlineOutlined'
-import { CreateCateringModal } from './CreateCateringModal'
 import dayjs from 'dayjs'
+import React, { FC, useEffect, useState } from 'react'
 import { AddButton } from '../../../../components'
+import { getCateringByEventID } from '../../../../scripts/catering/functions'
+import { getAllFundingAccounts } from '../../../../scripts/fundingAccount/functions'
+import { Catering, MainEvent } from '../../../../types/frontendTypes'
+import { CreateCateringModal } from './CreateCateringModal'
 
 interface ServicesProps {
     event: MainEvent
@@ -20,7 +14,6 @@ interface ServicesProps {
 
 export const Services: FC<ServicesProps> = ({ event }) => {
     const [catering, setCatering] = useState<Catering[]>([])
-    const [fundingAccounts, setFundingAccounts] = useState<FundingAccount[]>([])
     const [fundingAccountMap, setFundingAccountMap] = useState<
         Map<string, string>
     >(new Map())
@@ -35,7 +28,6 @@ export const Services: FC<ServicesProps> = ({ event }) => {
                     ])
 
                 setCatering(fetchedCatering)
-                setFundingAccounts(fetchedFundingAccounts)
 
                 // Map funding record ID to themis string
                 const map = new Map<string, string>()
@@ -121,8 +113,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         <>
             <Box className="  mb-4 flex flex-col">
                 <Box className=" flex flex-col">
-
-                <AddButton name={'Catering Entry'} onClick={handleOpen} />
+                    <AddButton name={'Catering Entry'} onClick={handleOpen} />
                     <CreateCateringModal
                         open={open}
                         handleClose={handleClose}

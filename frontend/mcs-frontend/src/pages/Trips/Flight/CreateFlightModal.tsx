@@ -1,16 +1,16 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
     FormInputDateTime,
     FormInputText,
     FormInputSingleSelect,
     SubmitButton,
+    BottomSuccessSnackbar,
 } from '../../../components/'
-import { createFlight, defaultFlight } from '../../../scripts/flight/function'
+import { createFlight, defaultFlight } from '../../../scripts/flight/functions'
 import { Flight, FundingAccount } from '../../../types/frontendTypes'
-import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
+import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
 
 interface CreateFlightModalProps {
     handleClose: () => void

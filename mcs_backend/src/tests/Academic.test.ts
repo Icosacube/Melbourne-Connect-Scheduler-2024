@@ -1,7 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import { Academic } from '../types/types';
-const academicRouter = require('../controller/Academic');
+const academicRouter = require('../controller/academic');
 
 const app = express();
 app.use(express.json());
