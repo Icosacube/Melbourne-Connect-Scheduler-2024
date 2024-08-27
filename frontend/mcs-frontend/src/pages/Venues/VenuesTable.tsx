@@ -48,7 +48,7 @@ function EditToolbar(props: EditToolbarProps) {
                 startIcon={<AddIcon />}
                 onClick={handleOpenCreateModal}
             >
-                Add record
+                Add Venue
             </Button>
         </GridToolbarContainer>
     )
@@ -90,10 +90,32 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
         })
     }
 
+    const processRowUpdate = async (
+        newRow: Venue,
+        oldRow: Venue
+    ): Promise<Venue> => {
+        try {
+            await updateVenue(newRow)
+            revalidator.revalidate() // Make sure this is 'revalidator', not 'revalidate'
+            return newRow
+        } catch (error) {
+            console.error('Failed to update venue:', error)
+            // If update fails, return the old row
+            return oldRow
+        }
+    }
+
     const handleSaveClick = (params: GridRowParams) => () => {
         setRowModesModel({
             ...rowModesModel,
             [params.id]: { mode: GridRowModes.View },
+        })
+    }
+
+    const handleCancelClick = (id: GridRowId) => () => {
+        setRowModesModel({
+            ...rowModesModel,
+            [id]: { mode: GridRowModes.View, ignoreModifications: true },
         })
     }
 
@@ -111,29 +133,6 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
         await deleteVenue(selectedVenue)
         handleCloseDeleteDialog()
     }
-
-    const handleCancelClick = (id: GridRowId) => () => {
-        setRowModesModel({
-            ...rowModesModel,
-            [id]: { mode: GridRowModes.View, ignoreModifications: true },
-        })
-    }
-
-    const processRowUpdate = async (
-        newRow: Venue,
-        oldRow: Venue
-    ): Promise<Venue> => {
-        try {
-            await updateVenue(newRow)
-            revalidator.revalidate() // Make sure this is 'revalidator', not 'revalidate'
-            return newRow
-        } catch (error) {
-            console.error('Failed to update venue:', error)
-            // If update fails, return the old row
-            return oldRow
-        }
-    }
-
     const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
         setRowModesModel(newRowModesModel)
     }

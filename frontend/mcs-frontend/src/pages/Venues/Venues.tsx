@@ -8,7 +8,6 @@ export const Venues: React.FC = () => {
     const venues = useLoaderData() as Venue[]
     return (
         <Box>
-            <h1>Venue Page</h1>
             <VenuesTable venues={venues} />
         </Box>
     )
