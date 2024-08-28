@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Modal, Paper, Typography, CircularProgress } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
     DeleteButton,
     DeleteDialog,
@@ -11,6 +10,7 @@ import {
     FormInputSingleSelect,
     OutlinedButton,
     SubmitButton,
+    BottomSuccessSnackbar,
 } from '../../components/'
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
 import { updateTrip, deleteTrip } from '../../scripts/trip/function'

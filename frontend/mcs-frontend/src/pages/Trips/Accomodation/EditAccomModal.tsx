@@ -1,8 +1,14 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import { FormInputText, FormInputDate, FormInputSingleSelect, SubmitButton, FormInputTextLong } from '../../../components/'
+import {
+    FormInputText,
+    FormInputDate,
+    FormInputSingleSelect,
+    SubmitButton,
+    FormInputTextLong,
+    BottomSuccessSnackbar,
+} from '../../../components/'
 import { updateAccom } from '../../../scripts/accommodation/function'
 import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
 import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'

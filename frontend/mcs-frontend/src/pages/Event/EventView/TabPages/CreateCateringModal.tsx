@@ -9,8 +9,8 @@ import {
     FormInputDate,
     SubmitButton,
     FormInputTextLong,
+    BottomSuccessSnackbar,
 } from '../../../../components/'
-import BottomSuccessSnackbar from '../../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import { AxiosResponse } from 'axios'
 import { Catering } from '../../../../types/frontendTypes'
 import { createCatering } from '../../../../scripts/catering/functions'
@@ -108,7 +108,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
                                 label="Cost"
                             />
                         </Grid>
-                        <Grid item xs={12} >
+                        <Grid item xs={12}>
                             <FormInputMultiSelect
                                 name="FundingAccount"
                                 control={control}

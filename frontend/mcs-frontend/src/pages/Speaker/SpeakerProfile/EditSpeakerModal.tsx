@@ -1,12 +1,12 @@
-import { Button, Modal, Typography, Paper, Grid } from '@mui/material'
+import { Modal, Typography, Paper, Grid } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import BottomSuccessSnackbar from '../../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
 import {
     FormInputText,
     FormInputTextLong,
     SubmitButton,
     OutlinedButton,
+    BottomSuccessSnackbar,
 } from '../../../components/'
 import { Speaker } from '../../../types/frontendTypes'
 import { updateSpeaker } from '../../../scripts/speaker/functions'
