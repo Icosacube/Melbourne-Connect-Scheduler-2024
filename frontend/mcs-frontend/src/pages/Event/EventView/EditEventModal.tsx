@@ -14,7 +14,6 @@ import {
     SubmitButton,
     BottomSuccessSnackbar,
     UploadButton,
-    BottomSuccessSnackbar,
 } from '../../../components/'
 import {
     deleteMainEventById,

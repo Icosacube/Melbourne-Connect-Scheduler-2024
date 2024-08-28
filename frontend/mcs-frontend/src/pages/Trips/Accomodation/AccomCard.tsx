@@ -11,7 +11,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVertOutlined'
 import { Accommodation } from '../../../types/frontendTypes'
 import { getFundingAccountByID } from '../../../scripts/fundingAccount/functions'
 import { EditAccomModal } from './EditAccomModal'
-import { deleteAccom } from '../../../scripts/accommodation/function'
+import { deleteAccom } from '../../../scripts/accommodation/functions'
 import { DeleteDialog, BottomSuccessSnackbar } from '../../../components'
 
 interface AccomProps {

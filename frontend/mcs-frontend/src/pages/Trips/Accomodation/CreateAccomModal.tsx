@@ -8,7 +8,6 @@ import {
     SubmitButton,
     FormInputTextLong,
     BottomSuccessSnackbar,
-    BottomSuccessSnackbar,
 } from '../../../components/'
 import {
     createAccommodation,

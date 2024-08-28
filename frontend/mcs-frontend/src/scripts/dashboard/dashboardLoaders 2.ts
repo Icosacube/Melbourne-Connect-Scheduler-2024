@@ -1,5 +1,5 @@
 import { MainEvent, Speaker } from '../../types/frontendTypes'
-import { getAllMainEvents } from '../event/function'
+import { getAllMainEvents } from '../event/functions'
 import { getAllSpeakers } from '../speaker/functions'
 
 interface LoaderData {

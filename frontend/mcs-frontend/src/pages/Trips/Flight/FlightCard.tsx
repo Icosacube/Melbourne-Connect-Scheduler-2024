@@ -10,9 +10,9 @@ import React, { FC, useEffect, useState } from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVertOutlined'
 import { Flight } from '../../../types/frontendTypes'
 import { EditFlightModal } from './EditFlightModal'
-import { deleteFlight } from '../../../scripts/flight/function'
-import { getFundingAccountByID } from '../../../scripts/fundingAccount/function'
 import { DeleteDialog, BottomSuccessSnackbar } from '../../../components'
+import { getFundingAccountByID } from '../../../scripts/fundingAccount/functions'
+import { deleteFlight } from '../../../scripts/flight/functions'
 
 interface FlightProps {
     flight: Flight
