@@ -19,6 +19,7 @@ const venueRouter = require('./controller/venue');
 const subEventRouter = require('./controller/subEvent');
 const fundingAccountRouter = require('./controller/fundingAccount');
 const financeRouter = require('./controller/finance');
+const FormRouter = require('./controller/guestSpeakerForm');
 const app = express();
 
 app.use(cors())
@@ -41,6 +42,7 @@ app.use('/', venueRouter);
 app.use('/', subEventRouter);
 app.use('/', fundingAccountRouter);
 app.use('/', financeRouter);
+app.use('/', FormRouter);
 app.get('*', (req: Request, res: Response) => {
   res.sendFile(path.resolve(__dirname, )); //! Change to Frontend index (home) page 
 });

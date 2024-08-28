@@ -72,12 +72,15 @@ export async function getRecord(table: string, id: string): Promise<Map<string, 
     return retrieved;
 }
 
-export async function createRecord(table: string, record: any[]): Promise<void> {
+export async function createRecord(table: string, record: any[]): Promise<string[]> {
     try {
         const records = await base(table).create(record);
+        const recordIds : string[] = [];
         records.forEach(record => {
             console.log(record.getId());
+            recordIds.push(record.getId())
         });
+        return recordIds
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.error("Error creating record:", err);
@@ -119,4 +122,37 @@ export async function deleteRecords(table: string, records: string[]): Promise<v
             resolve();
         });
     });
+}
+
+
+export async function getNotConfirmed(table: string, filter: string = ""): Promise<Array<any>> {
+    let retrieved = new Array<any>();
+
+    await new Promise<void>((resolve, reject) => {
+        base(table).select({
+            filterByFormula: filter
+        }).eachPage(
+            (records, fetchNextPage) => {
+                records.forEach(record => {
+                    let content = {
+                        "id": record.id, 
+                        "createdTime": record._rawJson.createdTime,
+                    };
+                    retrieved.push(content);
+                });
+                fetchNextPage();
+            },
+            err => {
+                if (err) {
+                    console.error("Error fetching records:", err);
+                    reject(new AirtableError(err.statusCode, err.message));
+                } else {
+                    resolve();
+                }
+            }
+        );
+    });
+
+    console.log("Retrieved data:", retrieved);
+    return retrieved;
 }

@@ -1,5 +1,6 @@
 export enum PresetFilter {
   completed = '( {Completed} = FALSE() )',
+  notConfirmed = "( {Confirmed} = FALSE() )",
 }
 
 export type Creation = {
