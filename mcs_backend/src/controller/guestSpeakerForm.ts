@@ -20,7 +20,6 @@ const mainEventTable = String(process.env.MAINEVENT);
 
 router.get('/speaker-form', async (req, res) => {
     try {
-
       const empty = {fields: {"Confirmed": false}}
       const speakerId = await createRecord(speakerTable, [empty]);
       const mainEventId = await createRecord(mainEventTable, [empty]);
