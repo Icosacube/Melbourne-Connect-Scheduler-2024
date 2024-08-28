@@ -1,16 +1,21 @@
 import { Box, Menu, MenuItem } from '@mui/material'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
-import { AddButton } from '../../../components'
 import { CreateSpeakerModal } from './CreateSpeakerModal'
 import { CreateSpeakerModalAlt } from './CreateSpeakerModalAlt'
 import { SpeakerTable } from './SpeakerTable'
 import { SpeakerWidgets } from './SpeakerWidgets'
+import {
+    AddButton,
+    EmailContentSpeakerForm,
+    EmailFormModal,
+} from '../../../components'
 
 export const Speakers: FC = () => {
-    const [openModal, setOpenModal] = React.useState(false)
-    const [openModalAlt, setOpenModalAlt] = React.useState(false)
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+    const [openModal, setOpenModal] = useState(false)
+    const [openModalAlt, setOpenModalAlt] = useState(false)
+    const [openEmailModal, setOpenEmailModal] = useState(false)
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const openMenu = Boolean(anchorEl)
 
     const handleOpenModal = () => setOpenModal(true)
@@ -29,10 +34,25 @@ export const Speakers: FC = () => {
     const handleMenuItemClick = (option: 1 | 2 | 3) => {
         handleCloseMenu()
         if (option === 1) {
+            setOpenEmailModal(true)
+        } else if (option === 2) {
             handleOpenModal()
-        } else {
+        } else if (option === 3) {
             handleOpenModalAlt()
         }
+    }
+
+    const handleEmailSubmit = (
+        recipientEmail: string,
+        recipientTitle: string,
+        recipientName: string
+    ) => {
+        const mailtoLinkSpeakerForm = EmailContentSpeakerForm({
+            recipientEmail,
+            recipientTitle: recipientTitle,
+            recipientName: recipientName,
+        })
+        window.location.href = mailtoLinkSpeakerForm
     }
 
     const speakers = useLoaderData()
@@ -47,10 +67,13 @@ export const Speakers: FC = () => {
                     onClose={handleCloseMenu}
                 >
                     <MenuItem onClick={() => handleMenuItemClick(1)}>
-                        Normal
+                        Email Speaker Form
                     </MenuItem>
                     <MenuItem onClick={() => handleMenuItemClick(2)}>
-                        Alt
+                        Enter Full Detail
+                    </MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick(3)}>
+                        Enter Partial Detail
                     </MenuItem>
                 </Menu>
                 <CreateSpeakerModal
@@ -60,6 +83,11 @@ export const Speakers: FC = () => {
                 <CreateSpeakerModalAlt
                     handleClose={handleCloseModalAlt}
                     open={openModalAlt}
+                />
+                <EmailFormModal
+                    open={openEmailModal}
+                    handleClose={() => setOpenEmailModal(false)}
+                    onSubmit={handleEmailSubmit}
                 />
             </Box>
             <SpeakerWidgets />

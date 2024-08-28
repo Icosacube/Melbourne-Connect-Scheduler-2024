@@ -12,8 +12,8 @@ import {
     SubmitButton,
     BottomSuccessSnackbar,
 } from '../../../../components/'
-import { createCatering } from '../../../../scripts/catering/functions'
 import { Catering } from '../../../../types/frontendTypes'
+import { createCatering } from '../../../../scripts/catering/functions'
 
 interface CreateCateringModalProps {
     handleClose: () => void

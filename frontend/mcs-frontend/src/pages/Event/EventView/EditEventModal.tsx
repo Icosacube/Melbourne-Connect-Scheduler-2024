@@ -208,7 +208,11 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                                         </Grid>
                                         <Grid item>
                                             <UploadButton
-                                                link={process.env.REACT_APP_EVENT_BANNER_FORM+event.RecordID}
+                                                link={
+                                                    process.env
+                                                        .REACT_APP_EVENT_BANNER_FORM +
+                                                    event.RecordID
+                                                }
                                                 name="Banner"
                                             />
                                         </Grid>
