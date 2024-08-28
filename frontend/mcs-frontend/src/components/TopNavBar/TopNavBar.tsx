@@ -29,6 +29,7 @@ const pages = [
     },
     { name: 'Event', url: '/events/:id' },
     { name: 'Trip', url: '/trips/:id' },
+    { name: 'Venue', url: '/venues' },
 ]
 
 export const TopNavBar: React.FC = () => {

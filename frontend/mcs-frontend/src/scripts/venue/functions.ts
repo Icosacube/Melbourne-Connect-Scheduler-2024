@@ -49,6 +49,47 @@ export async function getVenueByMainEventId(id: string): Promise<Venue[]> {
     }
 }
 
+export async function createVenue(venue: Venue): Promise<Venue> {
+    const formattedVenue = reformatVenueRequestData(venue)
+    try {
+        const res = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}`,
+            formattedVenue
+        )
+
+        return res.data
+    } catch (error) {
+        console.error('Error creating venue:', error)
+        return {} as Venue
+    }
+}
+
+export async function updateVenue(venue: Venue): Promise<Venue> {
+    const formattedVenue = reformatVenueRequestData(venue)
+    try {
+        const res = await axios.put(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}/${venue.RecordID}`,
+            formattedVenue
+        )
+        return res.data
+    } catch (error) {
+        console.error('Error updating venue:', error)
+        return {} as Venue
+    }
+}
+
+export async function deleteVenue(venue: Venue): Promise<boolean> {
+    try {
+        await axios.delete(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}/${venue.RecordID}`
+        )
+        return true
+    } catch (error) {
+        console.error('Error deleting venue:', error)
+        return false
+    }
+}
+
 export const defaultVenue: Venue = {
     VenueName: '',
     Location: '',
@@ -72,6 +113,15 @@ function reformatVenueResponseData(data: any): Venue {
         Notes: data.Notes || defaultVenue.Notes,
         FundingAccount: data.FundingAccount || defaultVenue.FundingAccount,
         MainEvent: data.MainEvent || defaultVenue.MainEvent,
+    }
+
+    return venue
+}
+
+function reformatVenueRequestData(data: Venue): any {
+    const venue = {
+        VenueName: data.VenueName,
+        Location: data.Location,
     }
 
     return venue

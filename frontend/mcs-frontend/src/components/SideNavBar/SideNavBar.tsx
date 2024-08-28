@@ -2,6 +2,7 @@ import BarChartIcon from '@mui/icons-material/BarChart'
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports'
 import EventIcon from '@mui/icons-material/Event'
 import PeopleIcon from '@mui/icons-material/People'
+import LocationCityIcon from '@mui/icons-material/LocationCity'
 import {
     Box,
     Button,
@@ -18,9 +19,6 @@ import { Logo1 } from '../../assets/logo1'
 import { Logo2 } from '../../assets/logo2'
 
 export const SideNavBar: React.FC = () => {
-    // const eventTabs = ['About', 'Participant', 'Programme', 'Services']
-    // const canvassingTabs = ['Availability', 'Booking']
-    // const tripTabs = ['Schedule', 'Travel', 'Accomodation', 'Costs']
     const overviewTabs = [
         {
             name: 'Events',
@@ -38,6 +36,7 @@ export const SideNavBar: React.FC = () => {
             name: 'Finance',
             url: '/finance',
         },
+        { name: 'Venues', url: '/venues' },
     ]
     function overviewTabsIcons(tabName: string): JSX.Element {
         switch (tabName) {
@@ -63,6 +62,12 @@ export const SideNavBar: React.FC = () => {
                 return (
                     <ListItemIcon>
                         <BarChartIcon />
+                    </ListItemIcon>
+                )
+            case 'Venues':
+                return (
+                    <ListItemIcon>
+                        <LocationCityIcon />
                     </ListItemIcon>
                 )
             default:
@@ -100,58 +105,7 @@ export const SideNavBar: React.FC = () => {
                         </NavLink>
                     ))}
                 </List>
-                {/* <Divider className="bg-[#FBE418]" /> */}
             </Box>
-            {/* <Box className="bg-[#FFC901] grow">
-                    <List>
-                        <Typography variant="h6" className="ml-3">
-                            Event
-                        </Typography>
-                        {eventTabs.map((text) => (
-                            <ListItem
-                                key={text}
-                                disablePadding
-                                className="pl-3"
-                            >
-                                <ListItemButton>
-                                    <ListItemText primary={text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                    <List>
-                        <Typography variant="h6" className="ml-3">
-                            Canvassing
-                        </Typography>
-                        {canvassingTabs.map((text) => (
-                            <ListItem
-                                key={text}
-                                disablePadding
-                                className="pl-3"
-                            >
-                                <ListItemButton>
-                                    <ListItemText primary={text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                    <List>
-                        <Typography variant="h6" className="ml-3">
-                            Trip
-                        </Typography>
-                        {tripTabs.map((text) => (
-                            <ListItem
-                                key={text}
-                                disablePadding
-                                className="pl-3"
-                            >
-                                <ListItemButton>
-                                    <ListItemText primary={text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                </Box> */}
         </Box>
     )
 }
