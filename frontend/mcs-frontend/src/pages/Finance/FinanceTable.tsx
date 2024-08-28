@@ -1,9 +1,9 @@
-import React, { FC } from 'react'
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { Typography } from '@mui/material'
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import dayjs from 'dayjs'
+import React, { FC } from 'react'
 import { CustomToolbar } from '../../components'
-import { Finance as FinanceType, MainEvent } from '../../types/frontendTypes'
+import { Finance as FinanceType } from '../../types/frontendTypes'
 
 type FinanceRow = FinanceType & {
     isGroup?: boolean
@@ -112,8 +112,6 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
     }
 
     const rowsWithGroups = addGroupHeaders(rows)
-    console.log(rowsWithGroups)
-    console.log(rowsWithGroups)
 
     return (
         <DataGrid
@@ -147,7 +145,6 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
                     },
                 },
             }}
-            pageSizeOptions={[5, 10]}
             getRowClassName={(params) =>
                 params.row.isGroup ? 'group-row' : 'data-row'
             }

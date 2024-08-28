@@ -1,7 +1,7 @@
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { MainEvent } from '../../../types/frontendTypes'
-import { createMainEvent } from '../../../scripts/event/function'
+import { createMainEvent } from '../../../scripts/event/functions'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>

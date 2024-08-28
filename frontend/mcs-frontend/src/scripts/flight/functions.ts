@@ -67,7 +67,7 @@ function reformatFlightRequest(data: FlightFrontend): FlightBackend {
 export async function getAllFlights(): Promise<FlightFrontend[]> {
     try {
         const res = await axios.get(
-            process.env.REACT_APP_BACKEND_URL + '/flights'
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_FLIGHT_API_PATH}`
         )
         const rawFlights = res.data
         const formattedFlights = rawFlights.map((flight: any) =>
@@ -86,7 +86,7 @@ export async function getFlightsByTripID(
 ): Promise<FlightFrontend[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}/flight/${tripID}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_FLIGHT_API_PATH}/${tripID}`
         )
         const rawFlights = res.data
         const formattedFlights = rawFlights.map((flight: any) =>
@@ -105,7 +105,7 @@ export async function createFlight(flight: FlightFrontend) {
     const tripID = flight.Trip![0]
     const flightBackend = reformatFlightRequest(flight)
     const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/flight/${tripID}`,
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_FLIGHT_API_PATH}/${tripID}`,
         flightBackend
     )
     return res.status
@@ -115,7 +115,7 @@ export async function createFlight(flight: FlightFrontend) {
 export async function updateFlight(flight: FlightFrontend) {
     const flightBackend = reformatFlightRequest(flight)
     const res = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/flight/${flight.RecordID}`,
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_FLIGHT_API_PATH}/${flight.RecordID}`,
         flightBackend
     )
     return res.status
@@ -124,7 +124,7 @@ export async function updateFlight(flight: FlightFrontend) {
 // Function to delete an existing Flight
 export async function deleteFlight(flightID: string) {
     const res = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_URL}/flight/${flightID}`
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_FLIGHT_API_PATH}/${flightID}`
     )
     return res.status
 }

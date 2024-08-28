@@ -1,6 +1,6 @@
 import request from 'supertest';
 import express from 'express';
-const accommodationRouter = require('../controller/accomodation');
+const accommodationRouter = require('../controller/accommodation');
 import { createServer } from 'http';
 
 const app = express();

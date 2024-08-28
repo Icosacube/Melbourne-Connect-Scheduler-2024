@@ -8,13 +8,14 @@ import {
     SubmitButton,
     FormInputTextLong,
     BottomSuccessSnackbar,
+    BottomSuccessSnackbar,
 } from '../../../components/'
 import {
     createAccommodation,
     defaultAccommodation,
-} from '../../../scripts/accommodation/function'
+} from '../../../scripts/accommodation/functions'
 import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
-import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
+import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
 
 interface CreateAccomModalProps {
     handleClose: () => void

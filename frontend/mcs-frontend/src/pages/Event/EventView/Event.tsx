@@ -1,14 +1,14 @@
 import { Box } from '@mui/material'
 import React, { FC, useState } from 'react'
+import { useLoaderData } from 'react-router-dom'
 import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar'
+import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
+import { BodyLayout } from '../../Layout/BodyLayout'
 import EditEventModal from './EditEventModal'
 import { About } from './TabPages/About'
 import { Participants } from './TabPages/Participants'
 import Programme from './TabPages/Programme'
 import { Services } from './TabPages/Services'
-import { useLoaderData } from 'react-router-dom'
-import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
-import { BodyLayout } from '../../Layout/BodyLayout'
 
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')
@@ -21,7 +21,6 @@ export const Event: FC = () => {
         speakers: Speaker[]
         venues: Venue[]
     }
-    const [statefulEvent, setEvent] = useState<MainEvent>(event)
 
     const renderTabContent = (event: MainEvent) => {
         switch (tabName) {
@@ -46,7 +45,6 @@ export const Event: FC = () => {
                     setOpen(false)
                 }}
                 open={open}
-                setEvent={setEvent}
             />
             <BodyLayout content={renderTabContent(event)}></BodyLayout>
         </Box>

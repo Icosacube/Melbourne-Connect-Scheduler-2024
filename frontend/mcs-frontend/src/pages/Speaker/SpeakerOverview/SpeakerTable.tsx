@@ -1,8 +1,8 @@
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Speaker } from '../../../types/frontendTypes'
 import { CustomToolbar } from '../../../components'
+import { Speaker } from '../../../types/frontendTypes'
 
 interface SpeakerTableProps {
     data: any

@@ -1,14 +1,8 @@
-import React, { FC } from 'react'
-import { FinanceTable } from './FinanceTable'
-import { Finance as FinanceType, MainEvent } from '../../types/frontendTypes'
-import { useLoaderData } from 'react-router-dom'
 import { Box } from '@mui/material'
-
-type FinanceRow = FinanceType & {
-    EventName: string
-    EventTotalCost?: number
-    isGroup?: boolean
-}
+import React, { FC } from 'react'
+import { useLoaderData } from 'react-router-dom'
+import { Finance as FinanceType } from '../../types/frontendTypes'
+import { FinanceTable } from './FinanceTable'
 
 export const Finance: FC = () => {
     const { financeData } = useLoaderData() as {

@@ -11,7 +11,7 @@ import {
 } from '../../../components/'
 import { updateAccom } from '../../../scripts/accommodation/function'
 import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
-import { getAllFundingAccounts } from '../../../scripts/fundingAccount/function'
+import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
 
 interface EditAccomModalProps {
     handleClose: () => void

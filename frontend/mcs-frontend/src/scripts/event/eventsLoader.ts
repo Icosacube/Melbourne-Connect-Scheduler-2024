@@ -1,6 +1,6 @@
 import { MainEvent, Speaker } from '../../types/frontendTypes'
 import { getAllSpeakers } from '../speaker/functions'
-import { getAllMainEvents } from './function'
+import { getAllMainEvents } from './functions'
 
 interface LoaderData {
     events: MainEvent[]

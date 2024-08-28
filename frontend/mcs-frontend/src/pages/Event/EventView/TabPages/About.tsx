@@ -89,6 +89,7 @@ export const About: FC<AboutProps> = ({ event, speakers }) => {
                 </Box>
                 {theRestOfSpeakers.map((speaker) => (
                     <NameCard
+                        key={speaker.RecordID}
                         firstName={speaker?.FirstName}
                         lastName={speaker?.LastName}
                         position={speaker?.Organisation}

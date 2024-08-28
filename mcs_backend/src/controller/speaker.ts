@@ -12,6 +12,7 @@ import {Cachekeys} from '../Enum/Cachekeys';
 const router = express.Router();
 const speakerTable = String(process.env.SPEAKERS);
 
+//get all speakers
 router.get('/speakers', async (req, res) => {
   try {
     const cachedSpeakers = getCache(Cachekeys.SPEAKERS);
@@ -31,8 +32,9 @@ router.get('/speakers', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 //get one speaker
-router.get('/speaker/:speaker_record_id', async (req, res) => {
+router.get('/speakers/:speaker_record_id', async (req, res) => {
     const { speaker_record_id } = req.params;
     console.log(speaker_record_id);
     
@@ -51,24 +53,26 @@ router.get('/speaker/:speaker_record_id', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
 //create one speaker
-  router.post('/speaker', async (req, res) => {
-    const newSpeakerItem: Speaker = req.body;
-    const speakerRecord = {
-      fields: newSpeakerItem 
-    };
-  
-    try {
-      await createRecord(speakerTable, [speakerRecord]);
-      deleteCache(Cachekeys.SPEAKERS);
-      res.status(200).json({ message: 'Speaker created successfully' });
-    } catch (error) {
-      console.error("Failed to create speaker:", error);
-      res.status(500).json({ error: 'Failed to create speaker' });
-    }
-  });
+router.post('/speakers', async (req, res) => {
+  const newSpeakerItem: Speaker = req.body;
+  const speakerRecord = {
+    fields: newSpeakerItem 
+  };
+
+  try {
+    await createRecord(speakerTable, [speakerRecord]);
+    deleteCache(Cachekeys.SPEAKERS);
+    res.status(200).json({ message: 'Speaker created successfully' });
+  } catch (error) {
+    console.error("Failed to create speaker:", error);
+    res.status(500).json({ error: 'Failed to create speaker' });
+  }
+});
+
 //modify one speaker
-router.put('/speaker/:speaker_record_id', async (req, res) => {
+router.put('/speakers/:speaker_record_id', async (req, res) => {
   const { speaker_record_id } = req.params;
   const updatedSpeakerItem: Speaker = req.body;
 
@@ -86,8 +90,9 @@ router.put('/speaker/:speaker_record_id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update speaker' });
   }
 });
+
 //delete one speaker
-router.delete('/speaker/:speaker_record_id', async (req, res) => {
+router.delete('/speakers/:speaker_record_id', async (req, res) => {
   const { speaker_record_id } = req.params;
 
   try {

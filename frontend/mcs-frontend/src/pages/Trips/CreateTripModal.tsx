@@ -9,7 +9,7 @@ import {
     BottomSuccessSnackbar,
 } from '../../components/'
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
-import { createTrip, defaultTrip } from '../../scripts/trip/function'
+import { createTrip, defaultTrip } from '../../scripts/trip/functions'
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes'
 
 interface CreateTripModalProps {
@@ -25,7 +25,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
     events,
     speakers,
 }) => {
-    const { handleSubmit, reset, control, setValue, watch } = useForm<Trip>({
+    const { handleSubmit, reset, control, watch } = useForm<Trip>({
         defaultValues: defaultTrip,
     })
 

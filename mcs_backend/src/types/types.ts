@@ -1,5 +1,5 @@
 export enum PresetFilter {
-  completed = "( {Completed} = FALSE() )",
+  completed = '( {Completed} = FALSE() )',
 }
 
 export type Creation = {
@@ -110,8 +110,6 @@ export type SubEvent = {
   Speakers: string[];
   EndDate: string;
 };
-    
-
 
 export type Academic = {
   Email: string;

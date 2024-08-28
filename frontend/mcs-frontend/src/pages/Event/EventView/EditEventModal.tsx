@@ -2,6 +2,7 @@ import { Box, Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import 'dayjs/locale/en-au'
 import React, { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import {
     DeleteButton,
     DeleteDialog,
@@ -11,30 +12,28 @@ import {
     FormInputTextLong,
     OutlinedButton,
     SubmitButton,
+    BottomSuccessSnackbar,
     UploadButton,
     BottomSuccessSnackbar,
 } from '../../../components/'
 import {
     deleteMainEventById,
     updateMainEventById,
-} from '../../../scripts/event/function'
+} from '../../../scripts/event/functions'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
-import { useNavigate } from 'react-router-dom'
 
 interface EditEventModalProps {
     event: MainEvent
     handleClose: () => void
     open: boolean
-    setEvent: (event: any) => void
 }
 
 export const EditEventModal: FC<EditEventModalProps> = ({
     event,
     handleClose,
     open,
-    setEvent,
 }) => {
     const { handleSubmit, reset, control } = useForm<MainEvent>({
         defaultValues: event,
@@ -64,10 +63,6 @@ export const EditEventModal: FC<EditEventModalProps> = ({
             handleClose()
             console.log(data)
         }
-    }
-    const onClose = () => {
-        handleClose()
-        reset()
     }
     const [speakers, setSpeakers] = useState(speakers_)
     const [venues, setVenues] = useState(venues_)

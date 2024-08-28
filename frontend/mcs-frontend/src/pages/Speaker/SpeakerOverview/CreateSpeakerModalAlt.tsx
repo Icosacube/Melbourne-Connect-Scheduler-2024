@@ -1,4 +1,5 @@
-import { Modal, Typography, Paper, Grid, Tabs, Tab } from '@mui/material'
+import { Grid, Modal, Paper, Tab, Tabs, Typography } from '@mui/material'
+import { AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
@@ -6,11 +7,13 @@ import {
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
+    BottomSuccessSnackbar,
 } from '../../../components/'
+import {
+    createSpeaker,
+    defaultSpeaker,
+} from '../../../scripts/speaker/functions'
 import { Speaker } from '../../../types/frontendTypes'
-import { createSpeaker } from '../../../scripts/speaker/functions'
-import { AxiosResponse } from 'axios'
-import { defaultSpeaker } from '../../../scripts/speaker/functions'
 
 interface CreateSpeakerModalAltProps {
     handleClose: () => void
