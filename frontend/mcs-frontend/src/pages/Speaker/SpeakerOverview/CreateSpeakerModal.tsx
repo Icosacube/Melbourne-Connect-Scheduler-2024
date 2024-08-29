@@ -13,6 +13,7 @@ import {
     defaultSpeaker,
 } from '../../../scripts/speaker/functions'
 import { Speaker } from '../../../types/frontendTypes'
+import { useRevalidator } from 'react-router-dom'
 
 interface CreateSpeakerModalProps {
     handleClose: () => void
@@ -26,6 +27,7 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
     const { handleSubmit, reset, control } = useForm<Speaker>({
         defaultValues: defaultSpeaker,
     })
+    const revalidator = useRevalidator()
 
     const onSubmit = async (data: Speaker) => {
         setSubmitting(true)
@@ -33,9 +35,7 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
             const res: AxiosResponse = await createSpeaker(data)
             if (res.status === 200) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    //window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to create speaker')
             }

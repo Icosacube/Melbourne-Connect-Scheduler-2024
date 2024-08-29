@@ -13,6 +13,7 @@ import { EditFlightModal } from './EditFlightModal'
 import { DeleteDialog, BottomSuccessSnackbar } from '../../../components'
 import { getFundingAccountByID } from '../../../scripts/fundingAccount/functions'
 import { deleteFlight } from '../../../scripts/flight/functions'
+import { useRevalidator } from 'react-router-dom'
 
 interface FlightProps {
     flight: Flight
@@ -26,6 +27,9 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [deleting, setDeleting] = useState(false)
+    const revalidator = useRevalidator()
+
 
     useEffect(() => {
         getFundingAccountStrings(flight.FundingAccount)
@@ -70,12 +74,11 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
 
     const handleDeleteConfirm = async () => {
         try {
+            setDeleting(true)
             const res = await deleteFlight(flight.RecordID)
             if (res) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to delete flight')
             }
@@ -83,6 +86,7 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
             console.error('Error deleting flight:', error)
         } finally {
             setOpenDeleteDialog(false)
+            setDeleting(false)
         }
     }
 
@@ -184,6 +188,7 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
                     onClose={handleDeleteCancel}
                     onConfirm={handleDeleteConfirm}
                     name="flight"
+                    deleting={deleting}
                 />
             </Paper>
             <BottomSuccessSnackbar

@@ -12,6 +12,7 @@ import {
 import { updateAccom } from '../../../scripts/accommodation/functions'
 import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
 import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
+import { useRevalidator } from 'react-router-dom'
 
 interface EditAccomModalProps {
     handleClose: () => void
@@ -31,6 +32,7 @@ export const EditAccomModal: React.FC<EditAccomModalProps> = ({
     const [showSuccess, setShowSuccess] = useState(false)
     const [fundingAccounts, setFundingAccounts] = useState<FundingAccount[]>([])
     const [submitting, setSubmitting] = useState(false)
+    const revalidator = useRevalidator()
 
     useEffect(() => {
         if (open) {
@@ -51,9 +53,7 @@ export const EditAccomModal: React.FC<EditAccomModalProps> = ({
             const res = await updateAccom(data)
             if (res) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to update Accommodation')
             }

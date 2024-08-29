@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Modal, Paper, Typography, CircularProgress } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useRevalidator } from 'react-router-dom'
 import {
     DeleteButton,
     DeleteDialog,
@@ -36,6 +36,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
     const [showUpdateSuccess, setShowUpdateSuccess] = useState(false)
     const [showDeleteSuccess, setShowDeleteSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const [deleting, setDeleting] = useState(false)
     const [loading, setLoading] = useState(true)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [events, setEvents] = useState<MainEvent[]>([])
@@ -44,6 +45,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
     const [filteredSpeakers, setFilteredSpeakers] = useState<DropdownOptions[]>(
         []
     )
+    const revalidator = useRevalidator()
 
     useEffect(() => {
         if (open) {
@@ -99,9 +101,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
             const res = await updateTrip(data)
             if (res) {
                 setShowUpdateSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to update trip')
             }
@@ -119,6 +119,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
     }
     const handleDeleteConfirm = async () => {
         try {
+            setDeleting(true)
             const res = await deleteTrip(trip.RecordID)
             if (res) {
                 setShowDeleteSuccess(true)
@@ -130,6 +131,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
             console.error('Error deleting flight:', error)
         } finally {
             setOpenDeleteDialog(false)
+            setDeleting(false)
         }
     }
 
@@ -210,6 +212,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
                                         <Grid item>
                                             <DeleteButton
                                                 onClick={handleDeleteClick}
+                                                deleting={deleting}
                                             />
                                         </Grid>
                                         <Grid item>
@@ -247,6 +250,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
                 onClose={handleDeleteCancel}
                 onConfirm={handleDeleteConfirm}
                 name="trip"
+                deleting={deleting}
             />
             <BottomSuccessSnackbar
                 showSuccess={showUpdateSuccess}
