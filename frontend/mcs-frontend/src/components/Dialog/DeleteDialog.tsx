@@ -7,6 +7,7 @@ import {
     DialogTitle,
     Button,
     Typography,
+    CircularProgress,
 } from '@mui/material'
 
 interface DeleteDialogProps {
@@ -14,6 +15,7 @@ interface DeleteDialogProps {
     onClose: () => void
     onConfirm: () => void
     name?: string
+    deleting: boolean
 }
 
 export const DeleteDialog: FC<DeleteDialogProps> = ({
@@ -21,6 +23,7 @@ export const DeleteDialog: FC<DeleteDialogProps> = ({
     onClose,
     onConfirm,
     name = 'item',
+    deleting,
 }) => {
     return (
         <Dialog open={open} onClose={onClose} aria-labelledby="delete-dialog">
@@ -36,7 +39,17 @@ export const DeleteDialog: FC<DeleteDialogProps> = ({
                         Cancel
                     </Typography>
                 </Button>
-                <Button variant="contained" onClick={onConfirm} color="error">
+                <Button
+                    variant="contained"
+                    onClick={onConfirm}
+                    color="error"
+                    disabled={deleting} // Disable button while submitting
+                    startIcon={
+                        deleting ? (
+                            <CircularProgress size={20} color="inherit" />
+                        ) : undefined
+                    }
+                >
                     <Typography variant="body1" color="white">
                         Delete
                     </Typography>

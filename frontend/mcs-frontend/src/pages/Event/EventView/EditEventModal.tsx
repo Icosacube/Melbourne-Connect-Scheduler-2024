@@ -1,9 +1,10 @@
-import { Box, Button, Grid, Modal, Paper, Typography } from '@mui/material'
+import { Grid, Modal, Paper, Typography } from '@mui/material'
 import 'dayjs/locale/en-au'
 import React, { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useRevalidator } from 'react-router-dom'
 import {
+    BottomSuccessSnackbar,
     DeleteButton,
     DeleteDialog,
     FormInputDateTime,
@@ -12,7 +13,6 @@ import {
     FormInputTextLong,
     OutlinedButton,
     SubmitButton,
-    BottomSuccessSnackbar,
     UploadButton,
 } from '../../../components/'
 import {
@@ -42,6 +42,8 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     const [submitting, setSubmitting] = useState(false)
     const [showDeleteSuccess, setShowDeleteSuccess] = useState(false)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+
+    const [deleting, setDeleting] = useState(false)
     const revalidator = useRevalidator()
 
     const speakers_: Speaker[] = []
@@ -105,6 +107,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
 
     const handleDeleteConfirm = async () => {
         try {
+            setDeleting(true)
             const res = await deleteMainEventById(event.RecordID)
             if (res) {
                 setShowDeleteSuccess(true)
@@ -115,6 +118,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
         } catch (error) {
             console.error('Error deleting event:', error)
         } finally {
+            setDeleting(false)
             setOpenDeleteDialog(false)
         }
     }
@@ -191,7 +195,10 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                                 justifyContent="space-between"
                             >
                                 <Grid item>
-                                    <DeleteButton onClick={handleDeleteClick} />
+                                    <DeleteButton
+                                        onClick={handleDeleteClick}
+                                        deleting={deleting}
+                                    />
                                 </Grid>
                                 <Grid item>
                                     <Grid
@@ -232,6 +239,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                     open={openDeleteDialog}
                     onClose={handleDeleteCancel}
                     onConfirm={handleDeleteConfirm}
+                    deleting={deleting}
                     name="event"
                 />
                 <BottomSuccessSnackbar

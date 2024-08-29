@@ -54,6 +54,14 @@ export async function updateSpeaker(speaker: Speaker): Promise<AxiosResponse> {
     return res
 }
 
+export async function deleteSpeaker(id: string): Promise<AxiosResponse> {
+    const res = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_API_PATH}/${id}`
+    )
+
+    return res
+}
+
 export const defaultSpeaker: Speaker = {
     RecordID: '',
     PrimaryEmail: '',

@@ -27,7 +27,9 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [deleting, setDeleting] = useState(false)
     const revalidator = useRevalidator()
+
 
     useEffect(() => {
         getFundingAccountStrings(flight.FundingAccount)
@@ -72,6 +74,7 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
 
     const handleDeleteConfirm = async () => {
         try {
+            setDeleting(true)
             const res = await deleteFlight(flight.RecordID)
             if (res) {
                 setShowSuccess(true)
@@ -83,6 +86,7 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
             console.error('Error deleting flight:', error)
         } finally {
             setOpenDeleteDialog(false)
+            setDeleting(false)
         }
     }
 
@@ -184,6 +188,7 @@ export const FlightCard: FC<FlightProps> = ({ flight }) => {
                     onClose={handleDeleteCancel}
                     onConfirm={handleDeleteConfirm}
                     name="flight"
+                    deleting={deleting}
                 />
             </Paper>
             <BottomSuccessSnackbar
