@@ -2,9 +2,8 @@ import { Typography } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import dayjs from 'dayjs'
 import React, { FC } from 'react'
-import { CustomToolbar } from '../../components'
 import { Finance as FinanceType } from '../../types/frontendTypes'
-import { Category } from '@mui/icons-material'
+import { CustomToolbarWithGroups } from './FinanceTableToolBar'
 
 type FinanceRow = FinanceType & {
     isGroup?: boolean
@@ -136,7 +135,7 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
                     },
                 },
             }}
-            slots={{ toolbar: CustomToolbar }}
+            slots={{ toolbar: CustomToolbarWithGroups }}
             slotProps={{
                 filterPanel: {
                     sx: {
