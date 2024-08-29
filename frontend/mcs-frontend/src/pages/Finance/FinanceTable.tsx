@@ -42,6 +42,7 @@ const columns: GridColDef[] = [
         field: 'ExpenseDescription',
         headerName: 'Description',
         width: 300,
+        flex: 1,
     },
     { field: 'FundingAccount', headerName: 'Funding Account', width: 200 },
     {
@@ -94,7 +95,11 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
             const groupHeader: FinanceRow = {
                 RecordID: `group-${mainEvent}`,
                 MainEventID: mainEvent,
-                MainEventName: eventRecords[0].MainEventName, // Assuming all records for an event have the same EventName
+                MainEventName: `${eventRecords[0].MainEventDate?.format(
+                    'DD.MM.YYYY'
+                )} | ${eventRecords[0].MainEventName} | Keynote Speaker: ${
+                    eventRecords[0].KeyNoteSpeakerName
+                }`, // Assuming all records for an event have the same EventName
                 ExpenseCategory: '',
                 ExpenseDescription: '',
                 Cost: 0,
