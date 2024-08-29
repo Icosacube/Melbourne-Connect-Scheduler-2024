@@ -36,6 +36,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
     const [showUpdateSuccess, setShowUpdateSuccess] = useState(false)
     const [showDeleteSuccess, setShowDeleteSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const [deleting, setDeleting] = useState(false)
     const [loading, setLoading] = useState(true)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [events, setEvents] = useState<MainEvent[]>([])
@@ -119,6 +120,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
     }
     const handleDeleteConfirm = async () => {
         try {
+            setDeleting(true)
             const res = await deleteTrip(trip.RecordID)
             if (res) {
                 setShowDeleteSuccess(true)
@@ -130,6 +132,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
             console.error('Error deleting flight:', error)
         } finally {
             setOpenDeleteDialog(false)
+            setDeleting(false)
         }
     }
 
@@ -210,6 +213,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
                                         <Grid item>
                                             <DeleteButton
                                                 onClick={handleDeleteClick}
+                                                deleting={deleting}
                                             />
                                         </Grid>
                                         <Grid item>
@@ -247,6 +251,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
                 onClose={handleDeleteCancel}
                 onConfirm={handleDeleteConfirm}
                 name="trip"
+                deleting={deleting}
             />
             <BottomSuccessSnackbar
                 showSuccess={showUpdateSuccess}

@@ -26,6 +26,7 @@ export const AccomCard: FC<AccomProps> = ({ accom }) => {
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [deleting, setDeleting] = useState(false)
 
     useEffect(() => {
         getFundingAccountStrings(accom.FundingAccount)
@@ -70,6 +71,7 @@ export const AccomCard: FC<AccomProps> = ({ accom }) => {
 
     const handleDeleteConfirm = async () => {
         try {
+            setDeleting(true)
             const res = await deleteAccom(accom.RecordID) // Similar function to deleteFlight
             if (res) {
                 setShowSuccess(true)
@@ -83,6 +85,7 @@ export const AccomCard: FC<AccomProps> = ({ accom }) => {
             console.error('Error deleting accommodation:', error)
         } finally {
             setOpenDeleteDialog(false)
+            setDeleting(false)
         }
     }
 
@@ -184,6 +187,7 @@ export const AccomCard: FC<AccomProps> = ({ accom }) => {
                     onClose={handleDeleteCancel}
                     onConfirm={handleDeleteConfirm}
                     name="accommodation"
+                    deleting={deleting}
                 />
             </Paper>
             <BottomSuccessSnackbar
