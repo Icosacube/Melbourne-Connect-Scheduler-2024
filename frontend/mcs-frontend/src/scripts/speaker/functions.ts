@@ -81,7 +81,7 @@ export const defaultSpeaker: Speaker = {
     EmergencyContactNumber: '',
     FlyerMembershipName: '',
     FlyerMembershipNumber: '',
-    Confirmed: false,
+    Confirmed: true,
     Trip: [],
     MainEvent: [],
     SubEvent: [],

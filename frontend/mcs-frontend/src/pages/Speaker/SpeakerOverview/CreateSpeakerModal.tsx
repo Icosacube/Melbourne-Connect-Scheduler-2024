@@ -34,7 +34,7 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
             if (res.status === 200) {
                 setShowSuccess(true)
                 setTimeout(() => {
-                    window.location.reload()
+                    //window.location.reload()
                 }, 1000)
             } else {
                 console.log('Failed to create speaker')

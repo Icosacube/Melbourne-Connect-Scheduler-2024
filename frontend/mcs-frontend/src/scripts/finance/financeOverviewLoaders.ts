@@ -29,6 +29,8 @@ export async function loader(): Promise<
             }
         })
 
+        console.log('Finance data loaded', updatedFinanceData)
+
         return { financeData: updatedFinanceData }
     } catch (error) {
         console.log(error)
