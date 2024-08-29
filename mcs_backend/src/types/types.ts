@@ -1,5 +1,6 @@
 export enum PresetFilter {
   completed = '( {Completed} = FALSE() )',
+  confirmed = "( {Confirmed} = TRUE() )",
   notConfirmed = "( {Confirmed} = FALSE() )",
 }
 
