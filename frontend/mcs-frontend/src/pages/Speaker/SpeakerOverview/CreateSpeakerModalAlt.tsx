@@ -13,6 +13,7 @@ import {
     defaultSpeaker,
 } from '../../../scripts/speaker/functions'
 import { Speaker } from '../../../types/frontendTypes'
+import { useRevalidator } from 'react-router-dom'
 
 interface CreateSpeakerModalAltProps {
     handleClose: () => void
@@ -30,6 +31,7 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
     const [showSuccess, setShowSuccess] = useState(false)
     const [tabValue, setTabValue] = useState(0)
     const [submitting, setSubmitting] = useState(false)
+    const revalidator = useRevalidator()
 
     const onSubmit = async (data: Speaker) => {
         setSubmitting(true)
@@ -37,9 +39,7 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
             const res: AxiosResponse = await createSpeaker(data)
             if (res.status === 200) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to create speaker')
             }

@@ -2,7 +2,7 @@ import { Box, Button, Grid, Modal, Paper, Typography } from '@mui/material'
 import 'dayjs/locale/en-au'
 import React, { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useRevalidator } from 'react-router-dom'
 import {
     DeleteButton,
     DeleteDialog,
@@ -42,6 +42,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     const [submitting, setSubmitting] = useState(false)
     const [showDeleteSuccess, setShowDeleteSuccess] = useState(false)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+    const revalidator = useRevalidator()
 
     const speakers_: Speaker[] = []
     const venues_: Venue[] = []
@@ -51,9 +52,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
         try {
             await updateMainEventById(data)
             setShowUpdateSuccess(true)
-            setTimeout(() => {
-                window.location.reload()
-            }, 1000)
+            revalidator.revalidate()
         } catch (error) {
             console.error(error)
         } finally {

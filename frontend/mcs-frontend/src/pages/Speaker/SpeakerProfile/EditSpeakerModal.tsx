@@ -11,6 +11,7 @@ import {
 } from '../../../components/'
 import { updateSpeaker } from '../../../scripts/speaker/functions'
 import { Speaker } from '../../../types/frontendTypes'
+import { useRevalidator } from 'react-router-dom'
 
 interface CreateSpeakerModalProps {
     handleClose: () => void
@@ -29,6 +30,7 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const revalidator = useRevalidator()
 
     const onSubmit = async (data: Speaker) => {
         setSubmitting(true)
@@ -36,9 +38,7 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
             const res: AxiosResponse = await updateSpeaker(data)
             if (res.status === 200) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to update speaker')
             }

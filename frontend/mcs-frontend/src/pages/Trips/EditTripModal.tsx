@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Modal, Paper, Typography, CircularProgress } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useRevalidator } from 'react-router-dom'
 import {
     DeleteButton,
     DeleteDialog,
@@ -44,6 +44,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
     const [filteredSpeakers, setFilteredSpeakers] = useState<DropdownOptions[]>(
         []
     )
+    const revalidator = useRevalidator()
 
     useEffect(() => {
         if (open) {
@@ -99,9 +100,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
             const res = await updateTrip(data)
             if (res) {
                 setShowUpdateSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to update trip')
             }
