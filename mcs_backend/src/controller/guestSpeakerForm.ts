@@ -16,6 +16,7 @@ import {
 const router = express.Router();
 const speakerTable = String(process.env.SPEAKERS);
 const mainEventTable = String(process.env.MAINEVENT);
+const speakerFormTable = String(process.env.SPEAKERFORM);
 
 
 router.get('/speaker-form', async (req, res) => {
@@ -28,6 +29,7 @@ router.get('/speaker-form', async (req, res) => {
 
       purge(speakerTable);
       purge(mainEventTable);
+      purge(speakerFormTable);
 
       res.send(speakerFormURL);
     } catch (error) {
