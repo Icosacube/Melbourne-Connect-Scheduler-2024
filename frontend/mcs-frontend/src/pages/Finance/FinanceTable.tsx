@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import React, { FC } from 'react'
 import { CustomToolbar } from '../../components'
 import { Finance as FinanceType } from '../../types/frontendTypes'
+import { Category } from '@mui/icons-material'
 
 type FinanceRow = FinanceType & {
     isGroup?: boolean
@@ -64,7 +65,7 @@ const columns: GridColDef[] = [
             return params.row.Cost
         },
     },
-    { field: 'EventName', headerName: 'Event Name', width: 200 },
+    { field: 'MainEventName', headerName: 'Event Name', width: 200 },
 ]
 
 export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
@@ -117,6 +118,7 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
     }
 
     const rowsWithGroups = addGroupHeaders(rows)
+    console.log(rowsWithGroups)
 
     return (
         <DataGrid
@@ -130,7 +132,7 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
                 },
                 columns: {
                     columnVisibilityModel: {
-                        EventName: false,
+                        MainEventName: false,
                     },
                 },
             }}
