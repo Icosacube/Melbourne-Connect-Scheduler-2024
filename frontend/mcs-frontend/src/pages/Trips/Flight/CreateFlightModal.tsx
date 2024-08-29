@@ -11,6 +11,7 @@ import {
 import { createFlight, defaultFlight } from '../../../scripts/flight/functions'
 import { Flight, FundingAccount } from '../../../types/frontendTypes'
 import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
+import { useRevalidator } from 'react-router-dom'
 
 interface CreateFlightModalProps {
     handleClose: () => void
@@ -30,6 +31,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
     const [showSuccess, setShowSuccess] = useState(false)
     const [fundingAccounts, setFundingAccounts] = useState<FundingAccount[]>([])
     const [submitting, setSubmitting] = useState(false)
+    const revalidator = useRevalidator()
 
     useEffect(() => {
         if (open) {
@@ -51,9 +53,7 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
             const res = await createFlight(data)
             if (res) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to create flight')
             }

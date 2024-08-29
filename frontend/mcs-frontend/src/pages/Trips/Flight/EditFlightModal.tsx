@@ -12,6 +12,7 @@ import {
 import { updateFlight } from '../../../scripts/flight/functions'
 import { Flight, FundingAccount } from '../../../types/frontendTypes'
 import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
+import { useRevalidator } from 'react-router-dom'
 
 interface EditFlightModalProps {
     handleClose: () => void
@@ -31,6 +32,7 @@ export const EditFlightModal: React.FC<EditFlightModalProps> = ({
     const [showSuccess, setShowSuccess] = useState(false)
     const [fundingAccounts, setFundingAccounts] = useState<FundingAccount[]>([])
     const [submitting, setSubmitting] = useState(false)
+    const revalidator = useRevalidator()
 
     useEffect(() => {
         if (open) {
@@ -51,9 +53,7 @@ export const EditFlightModal: React.FC<EditFlightModalProps> = ({
             const res = await updateFlight(data)
             if (res) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to update flight')
             }

@@ -17,6 +17,7 @@ import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { getAllVenues } from '../../../scripts/venue/functions'
 import { MainEvent } from '../../../types/frontendTypes'
 import { Speaker, Venue } from '../../../types/frontendTypes'
+import { useRevalidator } from 'react-router-dom'
 
 interface CreateEventModalProps {
     handleClose: () => void
@@ -36,6 +37,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     const [venues, setVenues] = useState<Venue[]>([])
     const [loading, setLoading] = useState(true)
     const [submitting, setSubmitting] = useState(false)
+    const revalidator = useRevalidator()
 
     useEffect(() => {
         if (loading && open) {
@@ -69,9 +71,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         try {
             await createMainEvent(data)
             setShowSuccess(true)
-            setTimeout(() => {
-                window.location.reload()
-            }, 1000)
+            revalidator.revalidate()
         } catch (error) {
             console.error(error)
         } finally {
