@@ -16,11 +16,11 @@ import {
 const router = express.Router();
 const speakerTable = String(process.env.SPEAKERS);
 const mainEventTable = String(process.env.MAINEVENT);
+const speakerFormTable = String(process.env.SPEAKERFORM);
 
 
 router.get('/speaker-form', async (req, res) => {
     try {
-
       const empty = {fields: {"Confirmed": false}}
       const speakerId = await createRecord(speakerTable, [empty]);
       const mainEventId = await createRecord(mainEventTable, [empty]);
@@ -29,6 +29,7 @@ router.get('/speaker-form', async (req, res) => {
 
       purge(speakerTable);
       purge(mainEventTable);
+      purge(speakerFormTable);
 
       res.send(speakerFormURL);
     } catch (error) {

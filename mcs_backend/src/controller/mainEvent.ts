@@ -20,7 +20,7 @@ router.get('/main-events', async (req, res) => {
     if (cachedEvents) {
       return res.json(cachedEvents).status(200);
     }
-    const events = await getTable(mainEventTable, '');
+    const events = await getTable(mainEventTable, PresetFilter.confirmed);
     const formattedEvents: { [k: string]: any }[] = [];
     events.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);

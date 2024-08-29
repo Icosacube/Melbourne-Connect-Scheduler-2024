@@ -6,7 +6,7 @@ import {
   updateRecord,
   deleteRecords
 } from '../models/airtable';
-import { TableFields, Speaker } from '../types/types';
+import { TableFields, Speaker, PresetFilter} from '../types/types';
 import {getCache,setCache,deleteCache } from '../utils/caching';
 import {Cachekeys} from '../Enum/Cachekeys';
 const router = express.Router();
@@ -19,7 +19,7 @@ router.get('/speakers', async (req, res) => {
     if (cachedSpeakers) {
       return res.json(cachedSpeakers).status(200);
     }
-    const speakerItems = await getTable(speakerTable, "");
+    const speakerItems = await getTable(speakerTable, PresetFilter.confirmed);
     const formattedSpeakers: { [k: string]: any; }[] = [];
     speakerItems.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
