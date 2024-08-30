@@ -10,7 +10,9 @@ import {
 
 const router = express.Router();
 import { Flight } from '../types/types';
-const flightTable = String(process.env.FLIGHT)
+const flightTable = String(process.env.FLIGHT);
+const financeTable = String(process.env.FINANCE);
+
 
 //get all flights
 router.get('/flights', async (req, res) => {
@@ -79,7 +81,8 @@ router.post('/flights', async (req, res) => {
     };
 
     try {
-        await createRecord(flightTable, [FlightRecord]);
+        let recordId = await createRecord(flightTable, [FlightRecord]);
+        await createRecord(financeTable,[{fields: {"Accommodation": recordId}}])
         res.status(200).json({ message: 'flight created successfully' });
     } catch (error) {
         console.error("Failed to create flight:", error);
@@ -109,9 +112,12 @@ router.put('/flights/:flight_record_id', async (req, res) => {
 //delete one flight 
 router.delete('/flights/:flight_record_id', async (req, res) => {
   const { flight_record_id } = req.params;
+  const record = await getRecord(flightTable, flight_record_id);
+  const financeId = record.get('Finance')[0];
 
   try {
     await deleteRecords(flightTable, [flight_record_id]);
+    await deleteRecords('Finance', [financeId]);
     res.status(200).json({ message: 'Flight deleted successfully' });
   } catch (error) {
     console.error("Failed to delete flight:", error);
