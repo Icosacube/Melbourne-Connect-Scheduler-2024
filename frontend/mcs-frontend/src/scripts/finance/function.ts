@@ -17,8 +17,8 @@ export const defaultFinance: Finance = {
 function reformatFinanceResponseData(data: any): Finance {
     let EventID = ''
 
-    if (data['Belong to']) {
-        EventID = data['Belong to'][0]
+    if (data['BelongTo']) {
+        EventID = data['BelongTo'][0]
     }
     const finance: Finance = {
         ...defaultFinance,
@@ -44,6 +44,7 @@ export async function getAllFinance(): Promise<Finance[]> {
             process.env.REACT_APP_BACKEND_URL + '/finance'
         )
         const rawFinanceData = res.data
+        console.log('Raw finance records:', rawFinanceData)
         const formattedFinanceData = rawFinanceData.map((finance: any) =>
             reformatFinanceResponseData(finance)
         )
