@@ -79,10 +79,11 @@ router.post('/flights', async (req, res) => {
     const FlightRecord = {
         fields: newFlight 
     };
-
+    
     try {
+        console.log(FlightRecord);
         let recordId = await createRecord(flightTable, [FlightRecord]);
-        await createRecord(financeTable,[{fields: {"Accommodation": recordId}}])
+        await createRecord(financeTable,[{fields: {"Flight": recordId}}])
         res.status(200).json({ message: 'flight created successfully' });
     } catch (error) {
         console.error("Failed to create flight:", error);

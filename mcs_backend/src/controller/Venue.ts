@@ -99,7 +99,7 @@ router.post('/venues', async (req, res) => {
 
   try {
     let recordId = await createRecord(venueTable, [venueRecord]);
-    await createRecord(financeTable,[{fields: {"Accommodation": recordId}}])
+    await createRecord(financeTable,[{fields: {"Venue": recordId}}])
 
     deleteCache(Cachekeys.VENUES);
     res.status(200).json({ message: 'Venue created successfully' });

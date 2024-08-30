@@ -92,7 +92,7 @@ router.post('/miscellaneous/:tripID', async (req, res) => {
 
   try {
     let recordId = await createRecord(miscellaneousTable, [miscellaneousRecord]);
-    await createRecord(financeTable,[{fields: {"Accommodation": recordId}}])
+    await createRecord(financeTable,[{fields: {"Miscellaneous": recordId}}])
     deleteCache(Cachekeys.MISCELLANEOUS);
     res.status(201).json({ message: 'Miscellaneous item created successfully' });
   } catch (error) {

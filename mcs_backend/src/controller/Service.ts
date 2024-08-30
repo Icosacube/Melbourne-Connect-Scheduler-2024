@@ -97,7 +97,7 @@ router.post('/service/:mainEventID', async (req, res) => {
 
   try {
     let recordId = await createRecord(serviceTable, [serviceRecord]);
-    await createRecord(financeTable,[{fields: {"Accommodation": recordId}}])
+    await createRecord(financeTable,[{fields: {"Service": recordId}}])
 
     deleteCache(Cachekeys.SERVICES);
     res.status(200).json({ message: 'Service created successfully' });
