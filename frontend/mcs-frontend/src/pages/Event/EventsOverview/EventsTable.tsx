@@ -120,6 +120,10 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
                 '.MuiDataGrid-columnHeaderTitleContainer': {
                     backgroundColor: '#FBE418',
                 },
+                // '& .MuiDataGrid-toolbarContainer': {
+                //     backgroundColor: '#FBE418',
+                //     color: 'black',
+                // },
             }}
             onRowClick={handleRowClick}
         />
