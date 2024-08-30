@@ -88,7 +88,7 @@ router.get('/service/:mainEventID', async (req, res) => {
 
 //create one service for a main event
 router.post('/service/:mainEventID', async (req, res) => {
-  const { mainEventID } = req.body;
+  const { mainEventID } = req.params;
   const newService: Service = req.body;
   newService.MainEvent = [mainEventID];
   const serviceRecord = {
