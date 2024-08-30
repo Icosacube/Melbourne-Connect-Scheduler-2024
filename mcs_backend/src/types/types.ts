@@ -1,5 +1,7 @@
 export enum PresetFilter {
-  completed = "( {Completed} = FALSE() )",
+  completed = '( {Completed} = FALSE() )',
+  confirmed = "( {Confirmed} = TRUE() )",
+  notConfirmed = "( {Confirmed} = FALSE() )",
 }
 
 export type Creation = {
@@ -211,4 +213,6 @@ export type Canvassing = {
   EndTime: string;
   Trip: string[];
   Academic: string[];
+  MainEvent:string[];
+  AvailableAcademic:String[]
 };

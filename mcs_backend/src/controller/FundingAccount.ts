@@ -7,12 +7,17 @@ import {
     deleteRecords
 } from '../models/airtable';
 import { Creation, TableFields, FundingAccount } from '../types/types';
-
+import {Cachekeys} from '../Enum/Cachekeys';
+import {getCache,setCache,deleteCache} from '../utils/caching';
 const router = express.Router();
 const AccountTable = String(process.env.FUNDINGACCOUNT)
 
 router.get('/funding-accounts', async (req, res) => {
     try {
+        const cachedAccount = getCache(Cachekeys.FUNDINGACCOUNTS);
+        if (cachedAccount) {
+            return res.json(cachedAccount).status(200);
+        }
         const account = await getTable(AccountTable, "");
         const formattedAccount: { [k: string]: any; }[] = [];
         account.forEach((fields) => {
@@ -20,6 +25,7 @@ router.get('/funding-accounts', async (req, res) => {
             formattedAccount.push(plainFields);
             console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
+        setCache(Cachekeys.FUNDINGACCOUNTS, formattedAccount);
         res.json(formattedAccount);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
@@ -54,6 +60,7 @@ router.post('/funding-accounts/:funding_account_id', async (req, res) => {
 
     try {
         await createRecord(AccountTable, [accountRecord]);
+        deleteCache(Cachekeys.FUNDINGACCOUNTS);
         res.status(200).json({ message: 'Funding Account created successfully' });
     } catch (error) {
         console.error("Failed to create Funding Account:", error);
@@ -73,6 +80,7 @@ router.put('/funding-accounts/:funding_account_id', async (req, res) => {
 
     try {
         await updateRecord(AccountTable, recordToUpdate);
+        deleteCache(Cachekeys.FUNDINGACCOUNTS);
         res.status(200).json({ message: 'Funding Account updated successfully' });
     } catch (error) {
         console.error("Failed to update Funding Account:", error);
@@ -86,6 +94,7 @@ router.delete('/funding-accounts/:funding_account_id', async (req, res) => {
 
     try {
         await deleteRecords(AccountTable, [funding_account_id]);
+        deleteCache(Cachekeys.FUNDINGACCOUNTS);
         res.status(200).json({ message: 'Funding Account deleted successfully' });
     } catch (error) {
         console.error("Failed to delete Funding Account:", error);

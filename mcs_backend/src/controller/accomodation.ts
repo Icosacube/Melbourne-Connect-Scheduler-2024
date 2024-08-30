@@ -8,12 +8,17 @@ import {
 } from '../models/airtable';
 
 import { Accommodation, Creation } from '../types/types';
-
+import {Cachekeys} from '../Enum/Cachekeys';
+import {getCache,setCache,deleteCache} from '../utils/caching';
 const router = express.Router();
 const AccommodationTable = String(process.env.ACCOMMODATION)
 //get all accomodations
 router.get('/accommodations', async (req, res) => {
   try {
+    const cachedaccommodations = getCache(Cachekeys.ACCOMMODATIONS);
+    if (cachedaccommodations) {
+        return res.json(cachedaccommodations).status(200);
+    }
     const accommodations = await getTable(AccommodationTable, "");
     const formattedAccommodations: { [k: string]: any; }[] = [];
     accommodations.forEach((fields) => {
@@ -21,6 +26,7 @@ router.get('/accommodations', async (req, res) => {
       formattedAccommodations.push(plainFields);
       console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
+    setCache(Cachekeys.ACCOMMODATIONS, formattedAccommodations);
     res.json(formattedAccommodations);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -78,6 +84,7 @@ router.post('/accommodation/:tripID', async (req, res) => {
 
   try {
     await createRecord(AccommodationTable, [creation]);
+    deleteCache(Cachekeys.ACCOMMODATIONS);
     res.status(201).json({ message: 'Accommodation created successfully' });
   } catch (error) {
     console.error("Failed to create accommodation:", error);
@@ -97,6 +104,7 @@ router.put('/accommodation/:accommodation_record_id', async (req, res) => {
   
     try {
       await updateRecord(AccommodationTable, recordToUpdate);
+      deleteCache(Cachekeys.ACCOMMODATIONS);
       res.status(200).json({ message: 'Accommodation updated successfully' });
     } catch (error) {
       console.error("Failed to update accommodation:", error);
@@ -109,6 +117,7 @@ router.put('/accommodation/:accommodation_record_id', async (req, res) => {
   
     try {
       await deleteRecords('Accommodation', [accommodation_record_id]);
+      deleteCache(Cachekeys.ACCOMMODATIONS);
       res.status(200).json({ message: 'Accommodation deleted successfully' });
     } catch (error) {
       console.error("Failed to delete accommodation:", error);

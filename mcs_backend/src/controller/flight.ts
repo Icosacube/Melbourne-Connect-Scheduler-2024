@@ -11,9 +11,15 @@ import {
 const router = express.Router();
 import { Flight } from '../types/types';
 const FlightTable = String(process.env.FLIGHT)
+import {Cachekeys} from '../Enum/Cachekeys';
+import {getCache,setCache,deleteCache} from '../utils/caching';
 //get all flights
 router.get('/flights', async (req, res) => {
     try {
+      const cachedFlights = getCache(Cachekeys.FLIGHTS);
+      if (cachedFlights) {
+          return res.json(cachedFlights).status(200);
+      }
       const flights = await getTable(FlightTable, "");
       const formattedFlights: { [k: string]: any; }[] = [];
       flights.forEach((fields) => {
@@ -21,6 +27,7 @@ router.get('/flights', async (req, res) => {
         formattedFlights.push(plainFields);
         console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
       });
+      setCache(Cachekeys.FLIGHTS, formattedFlights);
       res.json(formattedFlights);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
@@ -76,6 +83,7 @@ router.post('/flight/:tripID', async (req, res) => {
 
     try {
         await createRecord(FlightTable, [FlightRecord]);
+        deleteCache(Cachekeys.FLIGHTS);
         res.status(200).json({ message: 'flight created successfully' });
     } catch (error) {
         console.error("Failed to create flight:", error);
@@ -94,6 +102,7 @@ router.put('/flight/:flight_record_id', async (req, res) => {
   
     try {
       await updateRecord(FlightTable, recordToUpdate);
+      deleteCache(Cachekeys.FLIGHTS);
       res.status(200).json({ message: 'Flight updated successfully' });
     } catch (error) {
       console.error("Failed to update flight:", error);
@@ -106,6 +115,7 @@ router.put('/flight/:flight_record_id', async (req, res) => {
   
     try {
       await deleteRecords(FlightTable, [flight_record_id]);
+      deleteCache(Cachekeys.FLIGHTS);
       res.status(200).json({ message: 'Flight deleted successfully' });
     } catch (error) {
       console.error("Failed to delete flight:", error);

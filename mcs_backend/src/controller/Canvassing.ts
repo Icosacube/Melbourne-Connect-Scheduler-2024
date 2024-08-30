@@ -12,23 +12,41 @@ import {Cachekeys} from '../Enum/Cachekeys';
 import {getCache,setCache,deleteCache} from '../utils/caching';
 const router = express.Router();
 const CanvassingTable = String(process.env.CANVASSING)
-//get all canvassings
+// Combined GET endpoint for canvassings
 router.get('/canvassings', async (req, res) => {
+  const { academic, mainEvent, availableAcademic } = req.query;
+
   try {
+    // Cache
     const cachedCanvassing = getCache(Cachekeys.CANVASSINGS);
     if (cachedCanvassing) {
-        return res.json(cachedCanvassing).status(200);
+      return res.json(cachedCanvassing).status(200);
     }
-    const accommodations = await getTable(CanvassingTable, "");
-    const formattedCanvassing: { [k: string]: any; }[] = [];
-    accommodations.forEach((fields) => {
+
+    const allCanvassing = await getTable(CanvassingTable, "");
+    const filteredCanvassing: { [k: string]: any; }[] = [];
+
+    allCanvassing.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
-      formattedCanvassing.push(plainFields);
-      console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
+      
+      const matchAcademic = academic ? plainFields.Academic && plainFields.Academic.includes(academic) : true;
+      const matchMainEvent = mainEvent ? plainFields.MainEvent && plainFields.MainEvent.includes(mainEvent) : true;
+      const matchAvailableAcademic = availableAcademic ? plainFields.AvailableAcademic && plainFields.AvailableAcademic.includes(availableAcademic) : true;
+
+      if (matchAcademic && matchMainEvent && matchAvailableAcademic) {
+        filteredCanvassing.push(plainFields);
+      }
     });
-    setCache(Cachekeys.CANVASSINGS, formattedCanvassing);
-    res.json(formattedCanvassing);
+
+    if (filteredCanvassing.length === 0) {
+      return res.status(404).json({ message: 'No matching canvassings found' });
+    }
+    
+    // Cache
+    setCache(Cachekeys.CANVASSINGS, filteredCanvassing);
+    res.json(filteredCanvassing);
   } catch (error) {
+    console.error("Error fetching canvassings:", error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -51,46 +69,37 @@ router.get('/canvassings/canvasssing/:Canvassing_record_id', async (req, res) =>
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//get all canvassings for one trip
-router.get('/Canvassing/:tripID', async (req, res) => {
-  const { tripID } = req.params;
 
-  try {
-    const Canvassing = await getTable(CanvassingTable, "");
-    const tripCanvassing: { [k: string]: any; }[] = [];
-
-    Canvassing.forEach((fields) => {
-      const plainFields = Object.fromEntries(fields);
-      if (plainFields.Trip && plainFields.Trip.includes(tripID)) {
-        tripCanvassing.push(plainFields);
-      }
-    });
-
-    if (tripCanvassing.length === 0) {
-      return res.status(404).json({ message: 'No Canvassing found for this trip' });
-    }
-
-    res.json(tripCanvassing);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-router.post('/Canvassing/:TripID/:AcademicID', async (req, res) => {
-  const { TripID,AcademicID } = req.params;
+router.post('/canvassings', async (req, res) => {
+  const { mainEventID, academic, availableAcademic } = req.query;
   const newCanvassing: Canvassing = req.body;
-  newCanvassing.Trip= [TripID];
-  newCanvassing.Academic = [AcademicID];
-  const cateringRecord = {
-      fields: newCanvassing
+
+  if (typeof mainEventID === 'string') {
+    newCanvassing.MainEvent = [mainEventID];
+  }
+  if(typeof academic === 'string') {
+    newCanvassing.Academic = [academic];
+  }
+  if(typeof availableAcademic === 'string') {
+    newCanvassing.AvailableAcademic = [availableAcademic];
+  }
+
+  // Validate StartTime and EndTime
+  if (!newCanvassing.StartTime || !newCanvassing.EndTime) {
+    return res.status(400).json({ error: 'StartTime and EndTime are required' });
+  }
+
+  const canvassingRecord = {
+    fields: newCanvassing
   };
-  
+
   try {
-      await createRecord(CanvassingTable, [cateringRecord]);
-      deleteCache(Cachekeys.CANVASSINGS);
-      res.status(200).json({ message: 'Canvassing created successfully' });
+    await createRecord(CanvassingTable, [canvassingRecord]);
+    deleteCache(Cachekeys.CANVASSINGS); // Delete cache
+    res.status(200).json({ message: 'Canvassing created successfully' });
   } catch (error) {
-      console.error("Failed to create Canvassing:", error);
-      res.status(500).json({ error: 'Failed to create Canvassing' });
+    console.error("Failed to create Canvassing:", error);
+    res.status(500).json({ error: 'Failed to create Canvassing' });
   }
 });
 module.exports = router;
