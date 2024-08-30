@@ -1,16 +1,15 @@
-import * as React from 'react'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import { Button, ButtonProps } from '@mui/material'
 import {
+    gridPaginatedVisibleSortedGridRowIdsSelector,
     GridToolbarContainer,
     GridToolbarFilterButton,
-    useGridApiContext,
-    gridPaginatedVisibleSortedGridRowIdsSelector,
-    GridColDef,
     GridValidRowModel,
+    useGridApiContext,
 } from '@mui/x-data-grid'
-import FileDownloadIcon from '@mui/icons-material/FileDownload'
-import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
+import * as React from 'react'
+import * as XLSX from 'xlsx'
 
 // Define types for our row data
 interface GroupRow extends GridValidRowModel {
@@ -47,24 +46,6 @@ function getExcelColWidth(text: string): number {
             return width + (charWidths[char] || defaultCharWidth)
         }, 0) + 1
     ) // Add 1 for some padding
-}
-
-function estimateLineCount(text: string, maxWidth: number): number {
-    const words = text.split(' ')
-    let lines = 1
-    let currentLineWidth = 0
-
-    for (const word of words) {
-        const wordWidth = getExcelColWidth(word + ' ')
-        if (currentLineWidth + wordWidth > maxWidth) {
-            lines++
-            currentLineWidth = wordWidth
-        } else {
-            currentLineWidth += wordWidth
-        }
-    }
-
-    return lines
 }
 
 export const CustomToolbarWithGroups: React.FC = () => {
@@ -194,10 +175,10 @@ export const CustomToolbarWithGroups: React.FC = () => {
     return (
         <GridToolbarContainer>
             <Button {...buttonBaseProps} onClick={() => handleExport(true)}>
-                Export with groups (Current Page)
+                Filtered Rows
             </Button>
             <Button {...buttonBaseProps} onClick={() => handleExport(false)}>
-                Export with groups (All Pages)
+                All Rows
             </Button>
             <GridToolbarFilterButton />
         </GridToolbarContainer>

@@ -84,10 +84,10 @@ export const CustomToolbar = () => {
                     handleExport({ getRowsToExport: getRowsFromCurrentPage })
                 }
             >
-                Current page rows
+                Filtered Rows
             </Button>
             <Button {...buttonBaseProps} onClick={() => handleExport()}>
-                All rows
+                All Rows
             </Button>
             <GridToolbarFilterButton />
         </GridToolbarContainer>

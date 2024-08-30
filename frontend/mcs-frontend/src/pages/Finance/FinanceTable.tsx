@@ -13,61 +13,60 @@ interface FinanceTableProps {
     rows: FinanceType[]
 }
 
-const columns: GridColDef[] = [
-    {
-        field: 'ExpenseDate',
-        headerName: 'Expense Date',
-        width: 150,
-        renderCell: (params: GridRenderCellParams) => {
-            if (params.row.isGroup) {
-                return (
-                    <Typography variant="body1">
-                        {params.row.MainEventName}
-                    </Typography>
-                )
-            }
-
-            const date = dayjs(params.value)
-            return date.isValid() ? date.format('YYYY.MM.DD') : ''
-        },
-        colSpan: (value, row) => {
-            if (row.isGroup) {
-                return 3
-            }
-            return 1
-        },
-    },
-    { field: 'ExpenseCategory', headerName: 'Category', width: 150 },
-    {
-        field: 'ExpenseDescription',
-        headerName: 'Description',
-        width: 300,
-        flex: 1,
-    },
-    { field: 'FundingAccount', headerName: 'Funding Account', width: 200 },
-    {
-        field: 'Cost',
-        headerName: 'Cost',
-        width: 150,
-        type: 'number',
-        renderCell: (params: GridRenderCellParams) => {
-            if (params.row.isGroup) {
-                return (
-                    <Typography
-                        variant="body1"
-                        sx={{ width: '100%', padding: '8px' }}
-                    >
-                        {params.row.EventTotalCost}
-                    </Typography>
-                )
-            }
-            return params.row.Cost
-        },
-    },
-    { field: 'MainEventName', headerName: 'Event Name', width: 200 },
-]
-
 export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
+    const columns: GridColDef[] = [
+        {
+            field: 'ExpenseDate',
+            headerName: 'Expense Date',
+            width: 150,
+            renderCell: (params: GridRenderCellParams) => {
+                if (params.row.isGroup) {
+                    return (
+                        <Typography variant="body1">
+                            {params.row.MainEventName}
+                        </Typography>
+                    )
+                }
+
+                const date = dayjs(params.value)
+                return date.isValid() ? date.format('YYYY.MM.DD') : ''
+            },
+            colSpan: (value, row) => {
+                if (row.isGroup) {
+                    return 3
+                }
+                return 1
+            },
+        },
+        { field: 'ExpenseCategory', headerName: 'Category', width: 150 },
+        {
+            field: 'ExpenseDescription',
+            headerName: 'Description',
+            width: 300,
+            flex: 1,
+        },
+        { field: 'FundingAccount', headerName: 'Funding Account', width: 200 },
+        {
+            field: 'Cost',
+            headerName: 'Cost',
+            width: 150,
+            type: 'number',
+            renderCell: (params: GridRenderCellParams) => {
+                if (params.row.isGroup) {
+                    return (
+                        <Typography
+                            variant="body1"
+                            sx={{ width: '100%', padding: '8px' }}
+                        >
+                            {params.row.EventTotalCost}
+                        </Typography>
+                    )
+                }
+                return params.row.Cost
+            },
+        },
+        { field: 'MainEventName', headerName: 'Event Name', width: 200 },
+    ]
     // Function to add group headers to the finance records
     function addGroupHeaders(records: FinanceRow[]): FinanceRow[] {
         const groupedRecords: FinanceRow[] = []
