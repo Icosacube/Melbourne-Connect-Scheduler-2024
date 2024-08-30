@@ -11,6 +11,7 @@ import {
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
 import { createTrip, defaultTrip } from '../../scripts/trip/functions'
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes'
+import { useRevalidator } from 'react-router-dom'
 
 interface CreateTripModalProps {
     handleClose: () => void
@@ -35,6 +36,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
     )
     const [submitting, setSubmitting] = useState(false)
     const selectedEventIds = watch('MainEvent') || []
+    const revalidator = useRevalidator()
 
     useEffect(() => {
         // Reset speaker options when no event is selected
@@ -76,9 +78,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
             const res = await createTrip(data)
             if (res) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to create trip')
             }

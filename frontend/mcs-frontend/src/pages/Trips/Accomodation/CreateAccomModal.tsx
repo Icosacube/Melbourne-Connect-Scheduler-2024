@@ -15,6 +15,7 @@ import {
 } from '../../../scripts/accommodation/functions'
 import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
 import { getAllFundingAccounts } from '../../../scripts/fundingAccount/functions'
+import { useRevalidator } from 'react-router-dom'
 
 interface CreateAccomModalProps {
     handleClose: () => void
@@ -34,6 +35,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
     const [showSuccess, setShowSuccess] = useState(false)
     const [fundingAccounts, setFundingAccounts] = useState<FundingAccount[]>([])
     const [submitting, setSubmitting] = useState(false)
+    const revalidator = useRevalidator()
 
     useEffect(() => {
         if (open) {
@@ -56,9 +58,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
             const res = await createAccommodation(data)
             if (res) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to create accommodation')
             }

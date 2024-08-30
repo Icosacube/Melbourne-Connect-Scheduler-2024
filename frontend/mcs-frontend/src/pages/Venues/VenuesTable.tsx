@@ -65,6 +65,7 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
     )
+    const [deleting, setDeleting] = React.useState(false)
     const revalidator = useRevalidator()
 
     const handleCloseCreateModal = () => {
@@ -130,8 +131,10 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     }
     const handleDeleteVenue = async () => {
         if (!selectedVenue) return
+        setDeleting(true)
         await deleteVenue(selectedVenue)
         handleCloseDeleteDialog()
+        setDeleting(false)
     }
     const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
         setRowModesModel(newRowModesModel)
@@ -222,6 +225,7 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
                 open={deleteDialogOpen}
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleDeleteVenue}
+                deleting={deleting}
             />
         </Box>
     )
