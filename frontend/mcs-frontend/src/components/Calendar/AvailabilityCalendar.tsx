@@ -26,7 +26,7 @@ export const AvailabilityCalendar: React.FC = () => {
             id: dayjs('2024-09-01T10:00:00').valueOf().toString(),
             StartDate: dayjs('2024-09-01T10:00:00'),
             EndDate: dayjs('2024-09-01T11:00:00'),
-            availableSpeakers: ['Speaker 1', 'Speaker 2'],
+            availableSpeakers: ['Speaker 1', 'Academic 2'],
         },
         {
             id: dayjs('2024-09-02T14:00:00').valueOf().toString(),
