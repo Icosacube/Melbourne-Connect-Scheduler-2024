@@ -47,7 +47,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
                 right: 'timeGridWeek,timeGridDay',
             }}
             allDaySlot={false}
-            slotMinTime="08:00:00"
+            slotMinTime="09:00:00"
             slotMaxTime="20:00:00"
             locale="en-GB"
         />

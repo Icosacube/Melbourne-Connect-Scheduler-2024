@@ -105,7 +105,7 @@ export const CanvassingCalendar: React.FC = () => {
                 right: 'today prev,next',
             }}
             initialDate={eventDate}
-            slotMinTime="08:00:00"
+            slotMinTime="09:00:00"
             slotMaxTime="20:00:00"
             locale="en-GB"
             editable={true} // dragging and resizing

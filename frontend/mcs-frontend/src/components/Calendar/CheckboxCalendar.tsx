@@ -3,6 +3,8 @@ import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import dayjs, { Dayjs } from 'dayjs'
+import { Grid, Checkbox, Stack, Typography } from '@mui/material'
+import { Check, DoNotDisturb } from '@mui/icons-material'
 import './index.css'
 
 // TimeSlot with extra available field
@@ -16,7 +18,6 @@ interface TimeSlot {
 export const CheckboxCalendar: React.FC = () => {
     const [allTimeSlots, setAllTimeSlots] = useState<TimeSlot[]>([])
 
-    // WIP change to dynamic data
     const eventDate = '2024-09-01'
     const temp: TimeSlot[] = [
         {
@@ -26,20 +27,25 @@ export const CheckboxCalendar: React.FC = () => {
             available: false,
         },
         {
-            id: dayjs('2024-09-01T12:00:00').valueOf().toString(),
-            StartDate: dayjs('2024-09-01T12:00:00'),
-            EndDate: dayjs('2024-09-01T13:00:00'),
+            id: dayjs('2024-09-02T14:00:00').valueOf().toString(),
+            StartDate: dayjs('2024-09-02T14:00:00'),
+            EndDate: dayjs('2024-09-02T14:45:00'),
             available: false,
         },
         {
-            id: dayjs('2024-09-02T14:00:00').valueOf().toString(),
-            StartDate: dayjs('2024-09-02T14:00:00'),
-            EndDate: dayjs('2024-09-02T15:00:00'),
+            id: dayjs('2024-09-02T16:00:00').valueOf().toString(),
+            StartDate: dayjs('2024-09-02T16:00:00'),
+            EndDate: dayjs('2024-09-02T16:30:00'),
+            available: false,
+        },
+        {
+            id: dayjs('2024-09-03T10:00:00').valueOf().toString(),
+            StartDate: dayjs('2024-09-03T10:00:00'),
+            EndDate: dayjs('2024-09-03T11:00:00'),
             available: false,
         },
     ]
 
-    // Limit the previous next navigation to valid timerange
     const minDate = temp[0].StartDate.startOf('day').toISOString()
     const maxDate = temp[temp.length - 1].EndDate.endOf('day').toISOString()
 
@@ -47,11 +53,9 @@ export const CheckboxCalendar: React.FC = () => {
         setAllTimeSlots(temp)
     }, [])
 
-    // Toggle availability on slot click
-    const handleEventClick = (info: any) => {
-        const { event } = info
+    const handleCheckboxChange = (slotId: string) => {
         const updatedSlots = allTimeSlots.map((slot) => {
-            if (slot.id === event.id) {
+            if (slot.id === slotId) {
                 return {
                     ...slot,
                     available: !slot.available,
@@ -64,17 +68,57 @@ export const CheckboxCalendar: React.FC = () => {
 
     const renderEventContent = (eventInfo: any) => {
         const slot = allTimeSlots.find((slot) => slot.id === eventInfo.event.id)
+
         return (
-            <div
-                style={{
-                    padding: '2px',
-                    textAlign: 'center',
-                    fontFamily: 'Futura, sans-serif',
-                    color: '#ffffff',
+            <Grid
+                container
+                sx={{
+                    padding: 1,
+                    height: '100%',
+                    justifyContent: 'space-around',
                 }}
             >
-                {eventInfo.timeText && <div>{eventInfo.timeText}</div>}
-            </div>
+                <Grid item xs={5} md={2}>
+                    <Stack
+                        direction="column"
+                        sx={{
+                            height: '100%',
+                            justifyContent: 'space-around',
+                            alignItems: 'flex-start',
+                        }}
+                    >
+                        <Typography variant="body2">
+                            {eventInfo.timeText.split('-')[0]}
+                        </Typography>
+                        <Typography variant="body2">
+                            {eventInfo.timeText.split('-')[1]}
+                        </Typography>
+                    </Stack>
+                </Grid>
+                <Grid
+                    item
+                    xs={6}
+                    md={9}
+                    container
+                    className="flex items-center justify-end"
+                >
+                    <Grid item>
+                        <Typography variant="h6">
+                            {' '}
+                            {slot!.available ? 'Available' : 'Available?'}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Checkbox
+                            checked={slot!.available}
+                            onChange={() => handleCheckboxChange(slot!.id)}
+                            color="success"
+                            sx={{ transform: 'scale(1.2)' }}
+                            checkedIcon={<Check style={{ color: 'white' }} />}
+                        />
+                    </Grid>
+                </Grid>
+            </Grid>
         )
     }
 
@@ -88,21 +132,22 @@ export const CheckboxCalendar: React.FC = () => {
     return (
         <FullCalendar
             plugins={[timeGridPlugin, interactionPlugin]}
+            eventColor="#CCCCCC"
+            eventTextColor="black"
             initialView="timeGridWeek"
-            height="auto"
+            contentHeight="auto"
             events={timeSlotsFC}
             allDaySlot={false}
             headerToolbar={{
-                left: '',
-                center: 'title',
+                left: 'title',
+                center: '',
                 right: 'prev,next',
             }}
             initialDate={eventDate}
-            slotMinTime="08:00:00"
+            slotMinTime="09:00:00"
             slotMaxTime="20:00:00"
             locale="en-GB"
             editable={false}
-            eventClick={handleEventClick} // Toggle availability
             eventContent={renderEventContent}
             validRange={{
                 start: minDate,

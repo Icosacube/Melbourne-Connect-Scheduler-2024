@@ -34,24 +34,10 @@
     --fc-now-indicator-color: red;
 }
 
-
 .fc {
-    font-family: 'Futura', sans-serif; 
-}
-
-.fc-header-toolbar {
     font-family: 'Futura', sans-serif;
 }
 
-.fc-toolbar-title {
-    font-family: 'Futura', sans-serif;
-}
-
-.fc-event-title {
-    font-family: 'Futura', sans-serif;
-}
-
-.fc-timegrid-day-tile,
-.fc-timegrid-event {
-    font-family: 'Futura', sans-serif;
+.fc-timegrid-slots td {
+    height: 48px !important;
 }
