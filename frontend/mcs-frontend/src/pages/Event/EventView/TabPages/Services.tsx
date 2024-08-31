@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
 import SaveIcon from '@mui/icons-material/Save'
 import CancelIcon from '@mui/icons-material/Close'
+import { useRevalidator } from 'react-router-dom'
 
 interface ServicesProps {
     event: MainEvent
@@ -26,6 +27,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
     const [openUpdate, setOpenUpdate] = React.useState(false)
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({})
+    const revalidator = useRevalidator()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,8 +54,13 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         fetchData()
     }, [event.RecordID])
 
+    function getRowId(catering: Catering) {
+        return catering.RecordID
+    }
+
     // Handlers
     const handleOpenCreate = () => setOpenCreate(true)
+
     const handleCloseCreate = () => setOpenCreate(false)
     
     const handleOpenUpdate = (cateringItem: Catering) => {
@@ -70,10 +77,6 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         setCatering((prevCatering) => [...prevCatering, newCatering])
     }
 
-    function getRowId(catering: Catering) {
-        return catering.RecordID
-    }
-
     const handleDeleteClick = (catering: Catering) => async () => {
         setSelectedCatering(catering)
         setDeleteDialogOpen(true)
@@ -82,6 +85,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
     const handleCloseDeleteDialog = () => {
         setDeleteDialogOpen(false)
         setSelectedCatering(null)
+        revalidator.revalidate()
     }
 
     const handleDeleteCatering = async () => {

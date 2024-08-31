@@ -72,7 +72,7 @@ export async function getCateringByEventID(
 export async function createCatering(
     catering: Catering,
     id: string
-): Promise<AxiosResponse> {
+): Promise<Catering> {
     try {
         const toSend: any = {
             ...catering,
@@ -84,7 +84,13 @@ export async function createCatering(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}`,
             toSend
         )
-        return res
+        const newCateringEntry: Catering = {
+            ...catering,
+            RecordID: res.data.toString() // Attach the RecordID returned from the server
+        };
+        reformatCateringResponseData(newCateringEntry)
+
+        return newCateringEntry
     } catch (error) {
         console.error('Error creating catering:', error)
         throw error
@@ -96,11 +102,10 @@ export async function updateCateringByID(
     catering: Catering
 ): Promise<AxiosResponse> {
     try {
-        console.log(catering)
+        const recordID = catering.RecordID
         const formattedCatering = reformatCateringRequestData(catering)
-        console.log(formattedCatering)
         const res = await axios.put(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${catering.RecordID}`,
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${recordID}`,
             formattedCatering
         )
         return res 

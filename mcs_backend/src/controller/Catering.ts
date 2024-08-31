@@ -92,9 +92,10 @@ router.post('/catering', async (req, res) => {
   };
 
   try {
-    await createRecord(cateringTable, [cateringRecord]);
+    const recordIDs = await createRecord(cateringTable, [cateringRecord]);
     deleteCache(Cachekeys.CATERINGS);
-    res.status(200).json({ message: 'Catering created successfully' });
+
+    res.status(200).json(recordIDs);
   } catch (error) {
     console.error('Failed to create catering:', error);
     res.status(500).json({ error: 'Failed to create catering' });
