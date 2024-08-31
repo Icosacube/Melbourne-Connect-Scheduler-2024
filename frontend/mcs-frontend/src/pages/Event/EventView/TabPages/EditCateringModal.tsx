@@ -50,7 +50,6 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
 
     useEffect(() => {
         if (catering) {
-            // **Added**: Reset form with selected catering details
             reset(catering)
         }
     }, [catering, reset])

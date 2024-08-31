@@ -96,7 +96,9 @@ export async function updateCateringByID(
     catering: Catering
 ): Promise<AxiosResponse> {
     try {
+        console.log(catering)
         const formattedCatering = reformatCateringRequestData(catering)
+        console.log(formattedCatering)
         const res = await axios.put(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${catering.RecordID}`,
             formattedCatering
