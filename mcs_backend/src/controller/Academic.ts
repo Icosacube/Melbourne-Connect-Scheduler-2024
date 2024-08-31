@@ -50,7 +50,24 @@ router.get('/academics', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+router.get('/academics/:academic_record_id', async (req, res) => {
+  const { academic_record_id } = req.params;
+  
+  try {
+    const academicRecord = await getRecord(AcademicTable, academic_record_id);
+    
+    if (!academicRecord) {
+      return res.status(404).json({ message: 'academic not found' });
+    }
+    let plainFields = Object.fromEntries(academicRecord);
+    let formattedAcademics: { [k: string]: any; } = plainFields
+    res.json(formattedAcademics)
 
+  } catch (error) {
+    console.error("Error fetching academic:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 router.post('/academics', async (req, res) => {
   const { mainEventID, canvassingID } = req.query;
   const newAcademic: Academic = req.body;
