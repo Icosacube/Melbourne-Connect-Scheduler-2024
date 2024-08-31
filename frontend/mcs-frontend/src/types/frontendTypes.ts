@@ -230,3 +230,11 @@ export type Finance = {
     ExpenseDate: Dayjs
     FundingAccount: string
 }
+
+export type TimeSlot = {
+    MainEvent: string // id, should be the same for all timeslots
+    StartTime: Dayjs
+    EndTime: Dayjs
+    AvailablePeople: string[] // a list of emails
+    People: { name: string; email: string }[]
+}
