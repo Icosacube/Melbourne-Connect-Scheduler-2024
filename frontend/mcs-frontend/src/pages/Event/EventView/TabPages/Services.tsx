@@ -10,7 +10,6 @@ import { EditCateringModal } from './EditCateringModal'
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams, GridRowModes, GridRowId, GridRowModesModel } from '@mui/x-data-grid'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
-import SaveIcon from '@mui/icons-material/Save'
 import CancelIcon from '@mui/icons-material/Close'
 import { useRevalidator } from 'react-router-dom'
 
@@ -102,13 +101,6 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         }
     }
 
-    const handleSaveClick = (params: GridRowParams) => () => {
-        setRowModesModel({
-            ...rowModesModel,
-            [params.id]: { mode: GridRowModes.View },
-        })
-    }
-
     const handleCancelClick = (id: GridRowId) => () => {
         setRowModesModel({
             ...rowModesModel,
@@ -182,14 +174,6 @@ export const Services: FC<ServicesProps> = ({ event }) => {
                 
                 if (isInEditMode) {
                     return [
-                        <GridActionsCellItem
-                            icon={<SaveIcon />}
-                            label="Save"
-                            sx={{
-                                color: 'primary.main',
-                            }}
-                            onClick={handleSaveClick(params)}
-                        />,
                         <GridActionsCellItem
                             icon={<CancelIcon />}
                             label="Cancel"
