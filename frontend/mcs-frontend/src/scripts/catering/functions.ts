@@ -107,3 +107,15 @@ export async function updateCateringByID(
         throw error
     }
 }
+
+// Function to delete a catering entry
+export async function deleteCateringByID(id: string) {
+    try {
+        const res = await axios.delete(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${id}`
+        )
+        return res.status
+    } catch (error) {
+        console.error('Error deleting catering by ID:', error)
+    }
+}
