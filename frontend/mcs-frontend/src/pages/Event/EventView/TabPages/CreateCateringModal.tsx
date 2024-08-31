@@ -48,6 +48,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
     const onSubmit = async (data: Catering) => {
         setSubmitting(true)
         try {
+            data.MainEvent.push(eventID)
             const res: AxiosResponse = await createCatering(data, eventID)
             if (res.status !== 200) {
                 throw new Error('Failed to create catering')
@@ -57,6 +58,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
         } catch (error) {
             console.error(error)
         } finally {
+            setSubmitting(false);
             reset()
             handleClose()
             console.log(data)
