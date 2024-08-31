@@ -2,6 +2,20 @@ import axios, { AxiosResponse } from 'axios'
 import { Catering } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 
+// Function to reformat catering request data 
+function reformatCateringRequestData(data: Catering): any {
+    const catering = {
+        BookingReference: data.BookingReference,
+        Description: data.Description,
+        Cost: data.Cost,
+        ExpenseDate: data.ExpenseDate.toISOString(),
+        FundingAccount: data.FundingAccount,
+        MainEvent: data.MainEvent,
+        Finance: data.Finance,
+    }
+    return catering
+}
+
 // Function to reformat catering response data
 function reformatCateringResponseData(data: any): Catering {
     const catering: Catering = {
@@ -77,6 +91,25 @@ export async function createCatering(
         return res
     } catch (error) {
         console.error('Error creating catering:', error)
+        throw error
+    }
+}
+
+// Function to update a catering entry
+export async function updateCateringByID(
+    catering: Catering
+): Promise<AxiosResponse> {
+    try {
+        console.log("Start of function")
+        const formattedCatering = reformatCateringRequestData(catering)
+        console.log(formattedCatering)
+        const res = await axios.put(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${catering.RecordID}`,
+            formattedCatering
+        )
+        return res 
+    } catch (error) {
+        console.error('Error updating catering:', error)
         throw error
     }
 }

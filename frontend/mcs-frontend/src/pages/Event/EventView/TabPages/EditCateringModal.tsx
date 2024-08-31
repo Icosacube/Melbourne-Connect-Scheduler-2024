@@ -13,7 +13,7 @@ import {
     BottomSuccessSnackbar,
 } from '../../../../components/'
 import { Catering } from '../../../../types/frontendTypes'
-import { createCatering } from '../../../../scripts/catering/functions'
+import { updateCateringByID } from '../../../../scripts/catering/functions'
 
 interface EditCateringModalProps {
     handleClose: () => void
@@ -56,21 +56,21 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
     }, [catering, reset])
 
     const onSubmit = async (data: Catering) => {
-    //     setSubmitting(true)
-    //     try {
-    //         const res: AxiosResponse = await updateCatering(data, eventID)
-    //         if (res.status !== 200) {
-    //             throw new Error('Failed to update catering')
-    //         }
-    //         setShowSuccess(true)
-    //         updateCatering(data)
-    //     } catch (error) {
-    //         console.error(error)
-    //     } finally {
-    //         reset()
-    //         handleClose()
-    //         console.log(data)
-    //     }
+        setSubmitting(true);
+        try {
+            const res: AxiosResponse = await updateCateringByID(data);
+            if (res.status !== 200) {
+                throw new Error('Failed to update catering');
+            }
+            setShowSuccess(true);
+            updateCatering(data); // This should be a separate function to update state
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setSubmitting(false);
+            reset();
+            handleClose();
+        }
     }
 
     const onClose = () => {
@@ -96,7 +96,7 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                     >
                         <Grid item xs={12}>
                             <Typography variant="h4" gutterBottom>
-                                Add Catering Entry
+                                Update Catering Entry
                             </Typography>
                         </Grid>
 
