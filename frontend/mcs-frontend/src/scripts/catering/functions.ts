@@ -7,7 +7,7 @@ function reformatCateringRequestData(data: Catering): any {
     const catering = {
         BookingReference: data.BookingReference,
         Description: data.Description,
-        Cost: data.Cost,
+        Cost: parseFloat(String(data.Cost)),
         ExpenseDate: dayjs(data.ExpenseDate).format('YYYY-MM-DD'),
         FundingAccount: data.FundingAccount,
         MainEvent: data.MainEvent,
