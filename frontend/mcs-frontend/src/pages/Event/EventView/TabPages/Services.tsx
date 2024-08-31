@@ -6,6 +6,7 @@ import { getCateringByEventID } from '../../../../scripts/catering/functions'
 import { getAllFundingAccounts } from '../../../../scripts/fundingAccount/functions'
 import { Catering, MainEvent } from '../../../../types/frontendTypes'
 import { CreateCateringModal } from './CreateCateringModal'
+import { EditCateringModal } from './EditCateringModal'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
 
@@ -21,10 +22,24 @@ interface ServicesProps {
 }
 
 export const Services: FC<ServicesProps> = ({ event }) => {
+    const [selectedCatering, setSelectedCatering] = React.useState<Catering | null>(null);
     const [catering, setCatering] = useState<Catering[]>([])
     const [fundingAccountMap, setFundingAccountMap] = useState<
         Map<string, string>
     >(new Map())
+    const [openCreate, setOpenCreate] = React.useState(false)
+    const handleOpenCreate = () => setOpenCreate(true)
+    const handleCloseCreate = () => setOpenCreate(false)
+
+    const [openUpdate, setOpenUpdate] = React.useState(false)
+    const handleOpenUpdate = (cateringItem: Catering) => {
+        setSelectedCatering(cateringItem);
+        setOpenUpdate(true);
+    };
+    const handleCloseUpdate = () => {
+        setOpenUpdate(false);
+        setSelectedCatering(null);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -118,12 +133,13 @@ export const Services: FC<ServicesProps> = ({ event }) => {
             width: 100,
             cellClassName: 'actions',
             getActions: (params: GridRowParams) => {
-    
+                const cateringItem = params.row as Catering;
                 return [
                     <GridActionsCellItem
                         icon={<EditIcon />}
                         label="Edit"
                         className="textPrimary"
+                        onClick={() => handleOpenUpdate(cateringItem)}
                         color="inherit"
                     />,
                     <GridActionsCellItem
@@ -136,18 +152,14 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         },
     ]
 
-    const [open, setOpen] = React.useState(false)
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
-
     return (
         <>
             <Box className="  mb-4 flex flex-col">
                 <Box className=" flex flex-col mb-4">
-                    <AddButton name={'Catering Entry'} onClick={handleOpen} />
+                    <AddButton name={'Catering'} onClick={handleOpenCreate} />
                     <CreateCateringModal
-                        open={open}
-                        handleClose={handleClose}
+                        open={openCreate}
+                        handleClose={handleCloseCreate}
                         eventID={event.RecordID}
                         fundingAccounts={fundingAccountMap}
                         addCatering={handleAddCatering}
@@ -174,6 +186,25 @@ export const Services: FC<ServicesProps> = ({ event }) => {
                     />
                 </Box>
             </Box>
-        </>
-    )
-}
+            {selectedCatering && (
+                <EditCateringModal
+                    handleClose={handleCloseUpdate}
+                    open={openUpdate}
+                    catering={selectedCatering}
+                    eventID={event.RecordID}
+                    fundingAccounts={fundingAccountMap}
+                    updateCatering={(updatedCatering) => {
+                    setCatering((prevCatering) =>
+                    prevCatering.map((item) =>
+                    item.RecordID === updatedCatering.RecordID
+                        ? updatedCatering
+                        : item
+                    )
+                );
+                handleCloseUpdate();
+            }}
+        />
+    )}
+</>
+);
+};
