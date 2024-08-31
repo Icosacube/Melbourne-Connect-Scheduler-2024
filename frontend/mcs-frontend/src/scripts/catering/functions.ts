@@ -8,7 +8,7 @@ function reformatCateringRequestData(data: Catering): any {
         BookingReference: data.BookingReference,
         Description: data.Description,
         Cost: data.Cost,
-        ExpenseDate: data.ExpenseDate.toISOString(),
+        ExpenseDate: dayjs(data.ExpenseDate).format('YYYY-MM-DD'),
         FundingAccount: data.FundingAccount,
         MainEvent: data.MainEvent,
         Finance: data.Finance,
@@ -56,14 +56,11 @@ export async function getCateringByEventID(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}`
         )
         const rawCatering = res.data
-        console.log(rawCatering)
         const formattedCatering = rawCatering
             .filter((catering: any) =>
                 catering.MainEvent?.includes(mainEventId)
             )
             .map((catering: any) => reformatCateringResponseData(catering))
-
-        console.log(formattedCatering)
         return formattedCatering
     } catch (error) {
         console.error('Error fetching catering:', error)
@@ -83,7 +80,6 @@ export async function createCatering(
             Cost: parseFloat(String(catering.Cost)),
         }
         delete toSend.RecordID
-        console.log(toSend)
         const res = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}`,
             toSend
@@ -100,9 +96,7 @@ export async function updateCateringByID(
     catering: Catering
 ): Promise<AxiosResponse> {
     try {
-        console.log("Start of function")
         const formattedCatering = reformatCateringRequestData(catering)
-        console.log(formattedCatering)
         const res = await axios.put(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${catering.RecordID}`,
             formattedCatering
