@@ -122,8 +122,8 @@ export const Services: FC<ServicesProps> = ({ event }) => {
             headerClassName: 'services-table',
             flex: 1,
             valueFormatter: (params) => {
-                const value = params[0] as string
-                return fundingAccountMap.get(value)
+                const values = params as string[];
+                return values.map(id => fundingAccountMap.get(id)).join(', ') || 'No Funding Account';
             },
         },
         {
