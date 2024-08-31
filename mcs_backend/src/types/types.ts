@@ -210,4 +210,5 @@ export type Canvassing = {
   EndTime: string;
   Trip: string[];
   Academic: string[];
+  MainEvent: string[];
 };
