@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import dayjs from 'dayjs'
 import React, { FC, useEffect, useState } from 'react'
 import { AddButton } from '../../../../components'
@@ -7,6 +6,15 @@ import { getCateringByEventID } from '../../../../scripts/catering/functions'
 import { getAllFundingAccounts } from '../../../../scripts/fundingAccount/functions'
 import { Catering, MainEvent } from '../../../../types/frontendTypes'
 import { CreateCateringModal } from './CreateCateringModal'
+import DeleteIcon from '@mui/icons-material/DeleteOutlined'
+import EditIcon from '@mui/icons-material/Edit'
+
+import {
+    DataGrid,
+    GridActionsCellItem,
+    GridColDef,
+    GridRowParams,
+} from '@mui/x-data-grid'
 
 interface ServicesProps {
     event: MainEvent
@@ -103,6 +111,29 @@ export const Services: FC<ServicesProps> = ({ event }) => {
                 return fundingAccountMap.get(value)
             },
         },
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: 'Actions',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: (params: GridRowParams) => {
+    
+                return [
+                    <GridActionsCellItem
+                        icon={<EditIcon />}
+                        label="Edit"
+                        className="textPrimary"
+                        color="inherit"
+                    />,
+                    <GridActionsCellItem
+                        icon={<DeleteIcon />}
+                        label="Delete"
+                        color="inherit"
+                    />,
+                ]
+            }
+        },
     ]
 
     const [open, setOpen] = React.useState(false)
@@ -112,7 +143,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
     return (
         <>
             <Box className="  mb-4 flex flex-col">
-                <Box className=" flex flex-col">
+                <Box className=" flex flex-col mb-4">
                     <AddButton name={'Catering Entry'} onClick={handleOpen} />
                     <CreateCateringModal
                         open={open}
@@ -137,11 +168,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
                         checkboxSelection
                         sx={{
                             '& .services-table': {
-                                backgroundColor: '#FBE418',
                                 color: 'black',
-                            },
-                            '.MuiDataGrid-columnHeaderTitleContainer': {
-                                backgroundColor: '#FBE418',
                             },
                         }}
                     />
