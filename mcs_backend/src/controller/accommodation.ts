@@ -11,6 +11,7 @@ import { Accommodation, Creation } from '../types/types';
 
 const router = express.Router();
 const accommodationTable = String(process.env.ACCOMMODATION);
+const financeTable = String(process.env.FINANCE);
 //get all accommodations
 router.get('/accommodations', async (req, res) => {
   try {
@@ -83,7 +84,9 @@ router.post('/accommodations', async (req, res) => {
   };
 
   try {
-    await createRecord(accommodationTable, [creation]);
+    let recordId = await createRecord(accommodationTable, [creation]);
+    await createRecord(financeTable,[{fields: {"Accommodation": recordId}}])
+
     res.status(201).json({ message: 'Accommodation created successfully' });
   } catch (error) {
     console.error('Failed to create accommodation:', error);
@@ -112,12 +115,15 @@ router.put('/accommodations/:accommodation_record_id', async (req, res) => {
   }
 });
 
-//delete one accommodation
+//delete one accommodation //! FIX THIS, FAIL TO DELETE, Not Valid Record ID
 router.delete('/accommodations/:accommodation_record_id', async (req, res) => {
   const { accommodation_record_id } = req.params;
+  const record = await getRecord(accommodationTable, accommodation_record_id);
+  const financeId = record.get('Finance')[0];
 
   try {
     await deleteRecords('Accommodation', [accommodation_record_id]);
+    await deleteRecords('Finance', [financeId]);
     res.status(200).json({ message: 'Accommodation deleted successfully' });
   } catch (error) {
     console.error('Failed to delete accommodation:', error);

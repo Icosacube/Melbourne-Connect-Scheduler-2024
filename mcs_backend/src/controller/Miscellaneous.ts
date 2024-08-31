@@ -12,6 +12,7 @@ import { Miscellaneous } from '../types/types';
 import {getCache,setCache,deleteCache } from '../utils/caching';
 import {Cachekeys} from '../Enum/Cachekeys';
 const miscellaneousTable = String(process.env.MISCELLANEOUS)
+const financeTable = String(process.env.FINANCE);
 
 //get all miscellaneous
 router.get('/miscellaneous', async (req, res) => {
@@ -90,7 +91,8 @@ router.post('/miscellaneous/:tripID', async (req, res) => {
   };
 
   try {
-    await createRecord(miscellaneousTable, [miscellaneousRecord]);
+    let recordId = await createRecord(miscellaneousTable, [miscellaneousRecord]);
+    await createRecord(financeTable,[{fields: {"Miscellaneous": recordId}}])
     deleteCache(Cachekeys.MISCELLANEOUS);
     res.status(201).json({ message: 'Miscellaneous item created successfully' });
   } catch (error) {
@@ -122,9 +124,12 @@ router.put('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
 //delete one miscellaneous 
 router.delete('/miscellaneous/:miscellaneous_record_id', async (req, res) => {
   const { miscellaneous_record_id } = req.params;
+  const record = await getRecord(miscellaneousTable, miscellaneous_record_id);
+  const financeId = record.get('Finance')[0];
 
   try {
     await deleteRecords(miscellaneousTable, [miscellaneous_record_id]);
+    await deleteRecords('Finance', [financeId]);
     deleteCache(Cachekeys.MISCELLANEOUS);
     res.status(200).json({ message: 'Miscellaneous item deleted successfully' });
   } catch (error) {
