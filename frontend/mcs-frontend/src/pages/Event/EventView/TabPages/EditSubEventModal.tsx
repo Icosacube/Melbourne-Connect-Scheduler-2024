@@ -12,15 +12,17 @@ import {
     OutlinedButton,
     SubmitButton,
 } from '../../../../components/';
-import { updateSubEventByID } from '../../../../scripts/subevent/functions'
+import { updateSubEventByID, deleteSubEventByID } from '../../../../scripts/subevent/functions'
 import { SubEvent, Speaker } from '../../../../types/frontendTypes'
+import { DeleteDialog } from '../../../../components/'
 
 interface EditSubEventModalProps {
-    subEvent: SubEvent;
-    handleClose: () => void;
-    open: boolean;
-    speakers: Speaker[];
+    subEvent: SubEvent
+    handleClose: () => void
+    open: boolean
+    speakers: Speaker[]
     updateSubEvent: (subEvent: SubEvent) => void
+    removeSubEvent: (id: string) => void
 }
 
 export const EditSubEventModal: FC<EditSubEventModalProps> = ({
@@ -28,23 +30,28 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
     handleClose,
     open,
     speakers,
-    updateSubEvent: updateSubEvent
-}) => {
+    updateSubEvent: updateSubEvent,
+    removeSubEvent,
+    }) => {
     const { handleSubmit, reset, control } = useForm<SubEvent>({
         defaultValues: subEvent,
     })
+
     const [submitting, setSubmitting] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [deleting, setDeleting] = useState(false)
+    const [showDeleteSuccess, setShowDeleteSuccess] = useState(false)
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
 
     const onSubmit = async (data: SubEvent) => {
-        setSubmitting(true);
+        setSubmitting(true)
         try {
-            const res: AxiosResponse = await updateSubEventByID(data);
+            const res: AxiosResponse = await updateSubEventByID(data)
              if (res.status !== 200) {
-                 throw new Error('Failed to update sub-event');
+                 throw new Error('Failed to update sub-event')
              }
-            setShowSuccess(true);
-            updateSubEvent(data);
+            setShowSuccess(true)
+            updateSubEvent(data)
         } catch (error) {
             console.error(error)
         } finally {
@@ -59,12 +66,37 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
         handleClose()
     }
 
+    const handleDeleteConfirm = async () => {
+        try {
+            setDeleting(true)
+            const res = await deleteSubEventByID(subEvent.RecordID)
+            if (res) {
+                setShowDeleteSuccess(true)
+                removeSubEvent(subEvent.RecordID)
+            } else {
+                console.log('Failed to delete event')
+            }
+        } catch (error) {
+            console.error('Error deleting event:', error)
+        } finally {
+            setDeleting(false)
+            setOpenDeleteDialog(false)
+        }
+    }
+    
+    const handleDeleteClick = () => {
+        setOpenDeleteDialog(true)
+    }
+    const handleDeleteCancel = () => {
+        setOpenDeleteDialog(false)
+    }
+
     return (
         <>
             <Modal
                 open={open}
                 onClose={onClose}
-                aria-labelledby="update-sub-event"
+                // aria-labelledby="update-sub-event"
             >
                 <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
                     <Grid
@@ -141,10 +173,10 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                                 justifyContent="space-between"
                             >
                                 <Grid item>
-                                    {/* <DeleteButton
+                                    <DeleteButton
                                         onClick={handleDeleteClick}
                                         deleting={deleting}
-                                    /> */}
+                                    />
                                 </Grid>
                                 <Grid item>
                                     <Grid
@@ -171,6 +203,17 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                     </Grid>
                 </Paper>
             </Modal>
+            <DeleteDialog
+                    open={openDeleteDialog}
+                    onClose={handleDeleteCancel}
+                    onConfirm={handleDeleteConfirm}
+                    deleting={deleting}
+            />
+            <BottomSuccessSnackbar
+                    showSuccess={showDeleteSuccess}
+                    setShowSuccess={setShowDeleteSuccess}
+                    message="Sub-event deleted successfully"
+            />
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}

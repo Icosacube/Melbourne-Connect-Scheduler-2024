@@ -15,7 +15,7 @@ interface ProgrammeProps {
 export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
     const [subEvents, setSubEvents] = useState<SubEvent[]>([])
     const [openCreate, setOpenCreate] = useState(false)
-    const [openUpdate, setOpenUpdate] = useState(false);
+    const [openUpdate, setOpenUpdate] = useState(false)
     const [selectedSubEvent, setSelectedSubEvent] = useState<SubEvent | null>(null);
 
     // Fetch subevents
@@ -37,14 +37,14 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
     }
 
     const handleOpenUpdate = (subEvent: SubEvent) => {
-        setSelectedSubEvent(subEvent);
-        setOpenUpdate(true);
-    };
+        setSelectedSubEvent(subEvent)
+        setOpenUpdate(true)
+    }
 
     const handleCloseUpdate = () => {
-        setSelectedSubEvent(null);
-        setOpenUpdate(false);
-    };
+        setSelectedSubEvent(null)
+        setOpenUpdate(false)
+    }
 
     return (
         <>
@@ -64,16 +64,20 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
                         handleClose={handleCloseUpdate}
                         speakers={speakers}
                         subEvent={selectedSubEvent}
+                        removeSubEvent={(removeSubEventID) => {
+                            setSubEvents((prevSubEvent) =>
+                                prevSubEvent.filter(event => event.RecordID !== removeSubEventID))
+                        
+                        handleCloseUpdate()
+                        }}
                         updateSubEvent={(updatedSubEvent) => {
                             setSubEvents((prevSubEvent) =>
                                 prevSubEvent.map((item) =>
                                 item.RecordID === updatedSubEvent.RecordID
                                 ? updatedSubEvent
-                                : item
-                            )
-                        )
+                                : item))
                         handleCloseUpdate()
-                    }}
+                        }}
                 />
             )}
             <Box className="space-y-5">
