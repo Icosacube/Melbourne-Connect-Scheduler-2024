@@ -96,7 +96,7 @@ export async function createSubEvent(
         return newSubEvent
 
     } catch (error) {
-        console.error('Error creating catering:', error)
+        console.error('Error creating sub-event:', error)
         throw error
     }
 }
@@ -114,7 +114,7 @@ export async function updateSubEventByID(
             console.log(formattedSubEvent)
             return res 
         } catch (error) {
-            console.error('Error updating catering:', error)
+            console.error('Error updating sub-event:', error)
             throw error
     }
 }
