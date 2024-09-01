@@ -7,7 +7,6 @@ import {
   deleteRecords,
 } from '../models/airtable';
 const cateringTable = String(process.env.CATERING);
-const financeTable = String(process.env.FINANCE);
 const router = express.Router();
 import { Catering } from '../types/types';
 import { Cachekeys } from '../Enum/Cachekeys';
@@ -93,11 +92,10 @@ router.post('/catering', async (req, res) => {
   };
 
   try {
-    let recordId = await createRecord(cateringTable, [cateringRecord]);
-    await createRecord(financeTable,[{fields: {"Catering": recordId}}])
+    const recordIDs = await createRecord(cateringTable, [cateringRecord]);
     deleteCache(Cachekeys.CATERINGS);
 
-    res.status(200).json(recordId);
+    res.status(200).json(recordIDs);
   } catch (error) {
     console.error('Failed to create catering:', error);
     res.status(500).json({ error: 'Failed to create catering' });
