@@ -6,20 +6,25 @@ import { MainEvent } from "../../types/frontendTypes";
 import { SubEvent } from "../../types/frontendTypes";
 
 interface WeeklyCalendarProps {
-  event: MainEvent;
-  subEvents: SubEvent[];
+  event: MainEvent,
+  subEvents: SubEvent[],
+  onEventClick: (subEvent: SubEvent) => void
 }
 
 const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
   event,
   subEvents,
-                                                       }) => {
+  onEventClick,
+  }) => {
   const [allEvents, setAllEvents] = useState<any[]>([]);
 
   const mainEventProp = {
     id: `main-${event.RecordID}`, // identifier of main events  
     title: event.EventName,
     start: event.Date.toDate(),
+    // editable: false,
+    backgroundColor: '#90A4AE', // Light grey color (common calendar color)
+    borderColor: '#90A4AE', // Slightly darker grey for border
   };
 
   //changed 'subevent' to 'subEvent'. Functionality untouched
@@ -35,17 +40,14 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     setAllEvents([mainEventProp, ...subEventsProp]);
   }, [event, subEvents]);
 
-  const handleEventClick = (clickInfo: any) => {
-    const eventId = clickInfo.event.id;
-    if (eventId.startsWith('sub-')) {
-      const subEventId = eventId.replace('sub-', '');
-      // Handle subevent click (update, delete, etc.)
-      console.log('Subevent clicked:', subEventId);
-      // Add your logic here to open modal or edit subevent
+  const handleEventClick = (info: any) => {
+    if (info.event.id.startsWith("sub-")) { // Check if the event is a sub-event
+      const subEvent = info.event.extendedProps as SubEvent;
+      onEventClick(subEvent); 
     } else {
-      console.log('Main event clicked, no action allowed');
+
     }
-  };
+  }
 
   return (
     <FullCalendar
