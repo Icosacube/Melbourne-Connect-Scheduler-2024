@@ -10,6 +10,7 @@ function reformatSubEventRequestData(data: SubEvent): any {
         StartDate: data.StartDate.toISOString(),
         Notes: data.Notes,
         MainEvent: data.MainEvent,
+        EventType: data.EventType,
         Completed: data.Completed,
         Speakers: data.Speakers,
         EndDate: data.EndDate.toISOString(),
@@ -31,6 +32,7 @@ function reformatSubEventResponseData(data: any): SubEvent {
             : defaultSubEvent.StartDate,
         Notes: data.Notes || defaultSubEvent.Notes,
         MainEvent: data.MainEvent || defaultSubEvent.MainEvent,
+        EventType: data.EventType || defaultSubEvent.EventType,
         Completed: data.Completed || defaultSubEvent.Completed,
         Speakers: data.Speakers || defaultSubEvent.Speakers,
         EndDate: data.EndDate ? dayjs(data.EndDate) : defaultSubEvent.EndDate,
@@ -102,12 +104,14 @@ export async function createSubEvent(
 export async function updateSubEventByID(
     subEvent : SubEvent): Promise<AxiosResponse> {
         try {
+            console.log()
             const recordID = subEvent.RecordID
-            const formattedCatering = reformatSubEventRequestData(subEvent)
+            const formattedSubEvent = reformatSubEventRequestData(subEvent)
             const res = await axios.put(
                 `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}/${recordID}`,
-                formattedCatering
-        )
+                formattedSubEvent
+            )
+            console.log(formattedSubEvent)
             return res 
         } catch (error) {
             console.error('Error updating catering:', error)
