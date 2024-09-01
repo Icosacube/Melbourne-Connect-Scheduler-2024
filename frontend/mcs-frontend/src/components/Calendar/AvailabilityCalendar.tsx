@@ -148,7 +148,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
         start: slot.StartTime.toDate(),
         end: slot.EndTime.toDate(),
         backgroundColor:
-            slot.AvailablePeople.length > 0 ? '#84B36A' : '#CCCCCC',
+            slot.AvailablePeople.length > 0 ? '#FBCB18' : '#CCCCCC',
     }))
 
     return (
@@ -162,7 +162,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
                 <Grid item xs={12} md={9} lg={10}>
                     <FullCalendar
                         plugins={[timeGridPlugin, interactionPlugin]}
-                        eventColor="#CCCCCC"
+                        eventColor="white"
                         eventTextColor="black"
                         initialView="timeGridWeek"
                         contentHeight="auto"

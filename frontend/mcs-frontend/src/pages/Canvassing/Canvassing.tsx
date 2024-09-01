@@ -4,7 +4,7 @@ import { TimeSlot } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 import { CheckboxRow } from '../Canvassing/CheckboxRow'
 import { CanvassingResults } from './CanvassingResults'
-import { CanvassingCreationCalendar, CheckboxCalendar } from '../../components'
+import { CanvassingCreationCalendar, CheckboxCalendar, AvailabilityCalendar } from '../../components'
 
 interface TabPanelProps {
     children?: React.ReactNode
@@ -54,6 +54,9 @@ export const Canvassing: React.FC = () => {
                     <Tab label="Canvassing Form Creation" {...a11yProps(0)} />
                     <Tab label="Canvassing Form" {...a11yProps(1)} />
                     <Tab label="Canvassing Results" {...a11yProps(2)} />
+                    <Tab label="Canvassing Results (dummy data)" {...a11yProps(3)} />
+                    <Tab label="Canvassing Form (alt)" {...a11yProps(4)} />
+                    <Tab label="Canvassing Results (alt)" {...a11yProps(5)} />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
@@ -70,6 +73,15 @@ export const Canvassing: React.FC = () => {
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
                 <CanvassingResults timeSlots={demoTimeSlot} />
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={3}>
+                <CanvassingResults timeSlots={temp} />
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={4}>
+                <CheckboxCalendar timeSlots={temp}/>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={5}>
+                <AvailabilityCalendar timeSlots={temp}/>
             </CustomTabPanel>
         </Box>
     )
