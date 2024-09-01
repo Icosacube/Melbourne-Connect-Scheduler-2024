@@ -115,4 +115,13 @@ export async function updateSubEventByID(
     }
 }
 
-export async function deleteSubEvent(){}
+export async function deleteSubEventByID(id : string) {
+    try {
+        const res = await axios.delete(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}/${id}`
+        )
+        return res.status
+    } catch (error) {
+        console.error('Error deleting sub-event by ID:', error)
+    }
+}
