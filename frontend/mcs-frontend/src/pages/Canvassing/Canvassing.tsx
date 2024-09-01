@@ -1,9 +1,33 @@
 import { Box } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { TimeSlot } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 import { CheckboxRow } from '../Canvassing/CheckboxRow'
-import { CheckboxCalendar } from '../../components'
+import { CanvassingResults } from './CanvassingResults'
+import { CanvassingCreationCalendar, CheckboxCalendar } from '../../components'
+
+export const Canvassing: React.FC = () => {
+    const [demoTimeSlot, setDemoTimeSlot] = useState<TimeSlot[]>([])
+    return (
+        <>
+            <Box>
+                <CanvassingCreationCalendar
+                    MainEvent="someEventIdFromEventPage"
+                    setTimeSlots={setDemoTimeSlot}
+                />
+            </Box>
+            <Box>
+                <CheckboxRow
+                    timeSlots={demoTimeSlot}
+                    setTimeSlots={setDemoTimeSlot}
+                />
+            </Box>
+            <Box>
+                <CanvassingResults timeSlots={demoTimeSlot} />
+            </Box>
+        </>
+    )
+}
 
 const temp = [
     {
@@ -129,11 +153,3 @@ const temp = [
         ],
     },
 ]
-
-export const Canvassing: React.FC = () => {
-    return (
-        <Box>
-            <CheckboxRow timeSlots={temp} />
-        </Box>
-    )
-}

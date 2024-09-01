@@ -3,9 +3,11 @@ import { Dayjs } from 'dayjs'
 import { TimeSlot } from '../../types/frontendTypes'
 import {
     Box,
+    Button,
     Grid,
     Checkbox,
     Typography,
+    TextField,
     IconButton,
     useMediaQuery,
 } from '@mui/material'
@@ -17,15 +19,25 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 interface TimeSlotTemp {
     StartTime: Dayjs
     EndTime: Dayjs
-    Available: boolean
+    isAvailable: boolean
+    AvailablePeople: string[]
 }
 
 interface CheckboxRowProps {
     timeSlots: TimeSlot[]
+    setTimeSlots: (value: TimeSlot[]) => void
 }
 
-export const CheckboxRow: React.FC<CheckboxRowProps> = ({ timeSlots }) => {
+export const CheckboxRow: React.FC<CheckboxRowProps> = ({
+    timeSlots,
+    setTimeSlots,
+}) => {
     const [timeSlotsTemp, setTimeSlotsTemp] = useState<TimeSlotTemp[]>([])
+    const [email, setEmail] = useState<string>('')
+    const [mainEvent, setMainEvent] = useState<string>('')
+    const [people, setPeople] = useState<{ name: string; email: string }[]>([])
+
+    // WIP change to dynamic
     const title = 'Meeting For Event XXX'
     const venue = 'Zoom'
 
@@ -34,9 +46,12 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({ timeSlots }) => {
         const initialTimeSlotsTemp = timeSlots.map((slot) => ({
             StartTime: slot.StartTime,
             EndTime: slot.EndTime,
-            Available: false,
+            isAvailable: false,
+            AvailablePeople: slot.AvailablePeople,
         }))
         setTimeSlotsTemp(initialTimeSlotsTemp)
+        setMainEvent(timeSlots.length > 0 ? timeSlots[0].MainEvent : '')
+        setPeople(timeSlots.length > 0 ? timeSlots[0].People : [])
     }, [timeSlots])
 
     const [currentPage, setCurrentPage] = useState(0)
@@ -58,7 +73,7 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({ timeSlots }) => {
     const handleCheckboxChange = (index: number) => {
         setTimeSlotsTemp((prevSlots) => {
             const updatedSlots = [...prevSlots]
-            updatedSlots[index].Available = !updatedSlots[index].Available
+            updatedSlots[index].isAvailable = !updatedSlots[index].isAvailable
             return updatedSlots
         })
     }
@@ -78,13 +93,72 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({ timeSlots }) => {
         (currentPage + 1) * itemsPerPage
     )
 
+    const handleSubmit = () => {
+        const newTimeSlots: TimeSlot[] = timeSlotsTemp.map((slot) => ({
+            MainEvent: mainEvent,
+            StartTime: slot.StartTime,
+            EndTime: slot.EndTime,
+            AvailablePeople: slot.isAvailable
+                ? [...slot.AvailablePeople, email]
+                : slot.AvailablePeople,
+            People: people,
+        }))
+        setTimeSlots(newTimeSlots)
+        console.log(newTimeSlots)
+    }
+
     return (
         <Box className="m-24">
-            <Grid container spacing={2}>
-                <Grid item xs={10} marginY={4}>
-                    <Typography variant='h3'>{title}</Typography>
-                    <Typography variant='subtitle1'>Venue: {venue}</Typography>
+            <Grid
+                container
+                spacing={2}
+                sx={{
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                }}
+            >
+                <Grid item xs={12} container>
+                    <Grid item xs={12} md={6} lg={9} marginY={4}>
+                        <Typography variant="h3">{title}</Typography>
+                        <Typography variant="subtitle1">
+                            Venue: {venue}
+                        </Typography>
+                    </Grid>
+
+                    <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        lg={3}
+                        container
+                        spacing={2}
+                        justifyContent="flex-end"
+                        alignItems={'center'}
+                    >
+                        <Grid item xs={8}>
+                            <TextField
+                                label="email"
+                                variant="outlined"
+                                required
+                                value={email}
+                                onChange={(
+                                    event: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    setEmail(event.target.value)
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Button
+                                variant={'contained'}
+                                onClick={handleSubmit}
+                            >
+                                Submit
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Grid>
+
                 <Grid
                     item
                     xs={12}
@@ -123,7 +197,7 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({ timeSlots }) => {
                         wrap="nowrap"
                         sx={{
                             overflowX: 'auto',
-                            padding: '64px 48px 84px 48px'
+                            padding: '64px 48px 84px 48px',
                         }}
                     >
                         {displayedSlots.map((slot, index) => {
@@ -240,7 +314,7 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({ timeSlots }) => {
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
-                                            marginBottom:'16px'
+                                            marginBottom: '16px',
                                         }}
                                     >
                                         <Grid item>
@@ -261,7 +335,7 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({ timeSlots }) => {
                                     <Grid item>
                                         <Checkbox
                                             size={'large'}
-                                            checked={slot.Available}
+                                            checked={slot.isAvailable}
                                             onChange={() =>
                                                 handleCheckboxChange(
                                                     globalIndex

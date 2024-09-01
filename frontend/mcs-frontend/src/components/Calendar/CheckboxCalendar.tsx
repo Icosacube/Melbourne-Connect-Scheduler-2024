@@ -5,69 +5,86 @@ import interactionPlugin from '@fullcalendar/interaction'
 import dayjs, { Dayjs } from 'dayjs'
 import { Grid, Checkbox, Stack, Typography } from '@mui/material'
 import { Check, DoNotDisturb } from '@mui/icons-material'
+import { TimeSlot } from '../../types/frontendTypes'
 import './index.css'
 
-// TimeSlot with extra available field
-interface TimeSlot {
+// TimeSlotTemp with extra isAvailable field
+interface TimeSlotTemp {
     id: string
-    StartDate: Dayjs
-    EndDate: Dayjs
-    available: boolean
+    StartTime: Dayjs
+    EndTime: Dayjs
+    isAvailable: boolean
 }
 
-export const CheckboxCalendar: React.FC = () => {
-    const [allTimeSlots, setAllTimeSlots] = useState<TimeSlot[]>([])
+interface CheckboxCalendarProps {
+    timeSlots: TimeSlot[]
+}
+
+export const CheckboxCalendar: React.FC<CheckboxCalendarProps> = ({
+    timeSlots,
+}) => {
+    const [allTimeSlots, setAllTimeSlots] = useState<TimeSlot[]>(timeSlots)
+    const [allTimeSlotTemps, setAllTimeSlotTemps] = useState<TimeSlotTemp[]>([])
 
     const eventDate = '2024-09-01'
-    const temp: TimeSlot[] = [
+    const temp: TimeSlotTemp[] = [
         {
             id: dayjs('2024-09-01T10:00:00').valueOf().toString(),
-            StartDate: dayjs('2024-09-01T10:00:00'),
-            EndDate: dayjs('2024-09-01T11:00:00'),
-            available: false,
+            StartTime: dayjs('2024-09-01T10:00:00'),
+            EndTime: dayjs('2024-09-01T11:00:00'),
+            isAvailable: false,
         },
         {
             id: dayjs('2024-09-02T14:00:00').valueOf().toString(),
-            StartDate: dayjs('2024-09-02T14:00:00'),
-            EndDate: dayjs('2024-09-02T14:45:00'),
-            available: false,
+            StartTime: dayjs('2024-09-02T14:00:00'),
+            EndTime: dayjs('2024-09-02T14:45:00'),
+            isAvailable: false,
         },
         {
             id: dayjs('2024-09-02T16:00:00').valueOf().toString(),
-            StartDate: dayjs('2024-09-02T16:00:00'),
-            EndDate: dayjs('2024-09-02T16:30:00'),
-            available: false,
+            StartTime: dayjs('2024-09-02T16:00:00'),
+            EndTime: dayjs('2024-09-02T16:30:00'),
+            isAvailable: false,
         },
         {
             id: dayjs('2024-09-03T10:00:00').valueOf().toString(),
-            StartDate: dayjs('2024-09-03T10:00:00'),
-            EndDate: dayjs('2024-09-03T11:00:00'),
-            available: false,
+            StartTime: dayjs('2024-09-03T10:00:00'),
+            EndTime: dayjs('2024-09-03T11:00:00'),
+            isAvailable: false,
         },
     ]
 
-    const minDate = temp[0].StartDate.startOf('day').toISOString()
-    const maxDate = temp[temp.length - 1].EndDate.endOf('day').toISOString()
+    const minDate = temp[0].StartTime.startOf('day').toISOString()
+    const maxDate = temp[temp.length - 1].EndTime.endOf('day').toISOString()
 
     useEffect(() => {
-        setAllTimeSlots(temp)
-    }, [])
+        // Convert TimeSlot[] to TimeSlotTemp[]
+        const initialTimeSlotsTemp: TimeSlotTemp[] = timeSlots.map((slot) => ({
+            id: dayjs(slot.StartTime).valueOf().toString(),
+            StartTime: slot.StartTime,
+            EndTime: slot.EndTime,
+            isAvailable: false,
+        }))
+        setAllTimeSlotTemps(initialTimeSlotsTemp)
+    }, [timeSlots])
 
     const handleCheckboxChange = (slotId: string) => {
-        const updatedSlots = allTimeSlots.map((slot) => {
+        const updatedSlots = allTimeSlotTemps.map((slot) => {
             if (slot.id === slotId) {
                 return {
                     ...slot,
-                    available: !slot.available,
+                    isAvailable: !slot.isAvailable,
                 }
             }
             return slot
         })
-        setAllTimeSlots(updatedSlots)
+        setAllTimeSlotTemps(updatedSlots)
     }
 
     const renderEventContent = (eventInfo: any) => {
-        const slot = allTimeSlots.find((slot) => slot.id === eventInfo.event.id)
+        const slot = allTimeSlotTemps.find(
+            (slot) => slot.id === eventInfo.event.id
+        )
 
         return (
             <Grid
@@ -105,12 +122,12 @@ export const CheckboxCalendar: React.FC = () => {
                     <Grid item>
                         <Typography variant="h6">
                             {' '}
-                            {slot!.available ? 'Available' : 'Available?'}
+                            {slot!.isAvailable ? 'Available' : 'Available?'}
                         </Typography>
                     </Grid>
                     <Grid item>
                         <Checkbox
-                            checked={slot!.available}
+                            checked={slot!.isAvailable}
                             onChange={() => handleCheckboxChange(slot!.id)}
                             color="success"
                             sx={{ transform: 'scale(1.2)' }}
@@ -122,11 +139,11 @@ export const CheckboxCalendar: React.FC = () => {
         )
     }
 
-    const timeSlotsFC = allTimeSlots.map((slot) => ({
+    const timeSlotsFC = allTimeSlotTemps.map((slot) => ({
         id: slot.id,
-        start: slot.StartDate.toDate(),
-        end: slot.EndDate.toDate(),
-        backgroundColor: slot.available ? '#84B36A' : '#CCCCCC',
+        start: slot.StartTime.toDate(),
+        end: slot.EndTime.toDate(),
+        backgroundColor: slot.isAvailable ? '#84B36A' : '#CCCCCC',
     }))
 
     return (

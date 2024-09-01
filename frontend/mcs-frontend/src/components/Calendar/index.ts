@@ -1,4 +1,4 @@
 export { Calendar } from './Calendar'
-export { CanvassingCalendar } from './CanvassingCalendar'
+export { CanvassingCreationCalendar } from './CanvassingCreationCalendar'
 export { CheckboxCalendar } from './CheckboxCalendar'
 export { AvailabilityCalendar } from './AvailabilityCalendar'

@@ -5,21 +5,17 @@ import { useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { CheckCircle, DoNotDisturb } from '@mui/icons-material'
+import { TimeSlot } from '../../types/frontendTypes'
 
-type TimeSlot = {
-    MainEvent: string // id, should be the same for all timeslots
-    StartTime: Dayjs
-    EndTime: Dayjs
-    AvailablePeople: string[] // a list of emails
-    People: { name: string; email: string }[]
+interface CanvassingResultsProps {
+    timeSlots: TimeSlot[]
 }
 
-export const CanvassingResults: React.FC<{ timeSlots: TimeSlot[] }> = ({
+export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
     timeSlots,
 }) => {
-    const [currentPage, setCurrentPage] = useState(0)
-
     const theme = useTheme()
+    const [currentPage, setCurrentPage] = useState(0)
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
     const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'))
     const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
@@ -68,24 +64,28 @@ export const CanvassingResults: React.FC<{ timeSlots: TimeSlot[] }> = ({
                             }}
                         ></Box>
                     </Grid>
-                    {timeSlots[0].People.map((person, index) => (
-                        <Grid
-                            item
-                            key={index}
-                            sx={{
-                                textAlign: 'right',
-                                height: '68px',
-                                marginRight: '12px',
-                            }}
-                        >
-                            <Typography variant="h6">
-                                {person.name.split(' ')[0]}
-                            </Typography>
-                            <Typography variant="h6">
-                                {person.name.split(' ')[1]}
-                            </Typography>
-                        </Grid>
-                    ))}
+                    {timeSlots.length > 0 ? (
+                        timeSlots[0].People.map((person, index) => (
+                            <Grid
+                                item
+                                key={index}
+                                sx={{
+                                    textAlign: 'right',
+                                    height: '68px',
+                                    marginRight: '12px',
+                                }}
+                            >
+                                <Typography variant="h6">
+                                    {person.name.split(' ')[0]}
+                                </Typography>
+                                <Typography variant="h6">
+                                    {person.name.split(' ')[1]}
+                                </Typography>
+                            </Grid>
+                        ))
+                    ) : (
+                        <></>
+                    )}
                 </Grid>
                 <IconButton
                     onClick={handlePrevPage}

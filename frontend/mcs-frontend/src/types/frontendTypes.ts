@@ -231,8 +231,9 @@ export type Finance = {
     FundingAccount: string
 }
 
+// temporary data type for frontend canvassing
 export type TimeSlot = {
-    MainEvent: string // id, should be the same for all timeslots
+    MainEvent: string // id, should be the same for all timeslot
     StartTime: Dayjs
     EndTime: Dayjs
     AvailablePeople: string[] // a list of emails
