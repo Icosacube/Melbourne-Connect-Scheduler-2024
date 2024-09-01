@@ -22,12 +22,12 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
 
     // Adjust items per page based on screen size
     const itemsPerPage = isSmallScreen
-        ? 1
-        : isMediumScreen
         ? 2
+        : isMediumScreen
+        ? 3
         : isLargeScreen
-        ? 4
-        : 8
+        ? 5
+        : 10
 
     const totalPages = Math.ceil(timeSlots.length / itemsPerPage)
 
@@ -129,7 +129,18 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                 >
                     {displayedSlots.map((slot, index) => {
                         const globalIndex = currentPage * itemsPerPage + index
-
+                        const prevSlot = timeSlots[globalIndex - 1]
+                        const nextSlot = timeSlots[globalIndex + 1]
+                        const sameDateAsPrev =
+                            prevSlot &&
+                            slot.StartTime.isSame(prevSlot.StartTime, 'day')
+                        const lastOfSameDay =
+                            sameDateAsPrev &&
+                            (!nextSlot ||
+                                !slot.StartTime.isSame(
+                                    nextSlot.StartTime,
+                                    'day'
+                                ))
                         return (
                             <Grid
                                 item
@@ -153,15 +164,61 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                                         justifyContent: 'flex-start', // vertical
                                     }}
                                 >
-                                    <Typography variant="h5" color={'primary'}>
-                                        {slot.StartTime.format('ddd')}
-                                    </Typography>
-                                    <Typography variant="h3">
-                                        {slot.StartTime.format('DD')}
-                                    </Typography>
-                                    <Typography variant="h6" color={'grey'}>
-                                        {slot.StartTime.format('MMM')}
-                                    </Typography>
+                                    {(lastOfSameDay && index !== 0) ||
+                                    (sameDateAsPrev &&
+                                        index === itemsPerPage - 1) ? (
+                                        <Grid item container direction={'row'}>
+                                            <Grid item xs={6.5}>
+                                                <Box
+                                                    sx={{
+                                                        marginTop: '48px',
+                                                        width: '100%',
+                                                        height: '4px',
+                                                        backgroundColor:
+                                                            '#DDDDDD',
+                                                    }}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={5.5}>
+                                                <Box
+                                                    sx={{
+                                                        marginTop: '48px',
+                                                        height: '64px',
+                                                        width: '4px',
+                                                        backgroundColor:
+                                                            '#DDDDDD',
+                                                    }}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                    ) : sameDateAsPrev && index !== 0 ? (
+                                        <Box
+                                            sx={{
+                                                marginTop: '48px',
+                                                width: '100%',
+                                                height: '4px',
+                                                backgroundColor: '#DDDDDD',
+                                            }}
+                                        />
+                                    ) : (
+                                        <>
+                                            <Typography
+                                                variant="h5"
+                                                color={'primary'}
+                                            >
+                                                {slot.StartTime.format('ddd')}
+                                            </Typography>
+                                            <Typography variant="h3">
+                                                {slot.StartTime.format('DD')}
+                                            </Typography>
+                                            <Typography
+                                                variant="h6"
+                                                color={'grey'}
+                                            >
+                                                {slot.StartTime.format('MMM')}
+                                            </Typography>
+                                        </>
+                                    )}
                                 </Grid>
 
                                 <Grid
