@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Tab, Tabs } from '@mui/material'
 import React, { useState } from 'react'
 import { TimeSlot } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
@@ -6,26 +6,72 @@ import { CheckboxRow } from '../Canvassing/CheckboxRow'
 import { CanvassingResults } from './CanvassingResults'
 import { CanvassingCreationCalendar, CheckboxCalendar } from '../../components'
 
+interface TabPanelProps {
+    children?: React.ReactNode
+    index: number
+    value: number
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+        </div>
+    )
+}
+
+function a11yProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    }
+}
+
 export const Canvassing: React.FC = () => {
     const [demoTimeSlot, setDemoTimeSlot] = useState<TimeSlot[]>([])
+    const [value, setValue] = React.useState(0)
+
+    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue)
+    }
+
     return (
-        <>
-            <Box>
+        <Box>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="basic tabs example"
+                >
+                    <Tab label="Canvassing Form Creation" {...a11yProps(0)} />
+                    <Tab label="Canvassing Form" {...a11yProps(1)} />
+                    <Tab label="Canvassing Results" {...a11yProps(2)} />
+                </Tabs>
+            </Box>
+            <CustomTabPanel value={value} index={0}>
                 <CanvassingCreationCalendar
                     MainEvent="someEventIdFromEventPage"
                     setTimeSlots={setDemoTimeSlot}
                 />
-            </Box>
-            <Box>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={1}>
                 <CheckboxRow
                     timeSlots={demoTimeSlot}
                     setTimeSlots={setDemoTimeSlot}
                 />
-            </Box>
-            <Box>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={2}>
                 <CanvassingResults timeSlots={demoTimeSlot} />
-            </Box>
-        </>
+            </CustomTabPanel>
+        </Box>
     )
 }
 
