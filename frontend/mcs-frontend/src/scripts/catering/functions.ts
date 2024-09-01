@@ -2,6 +2,20 @@ import axios, { AxiosResponse } from 'axios'
 import { Catering } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 
+// Function to reformat catering request data 
+function reformatCateringRequestData(data: Catering): any {
+    const catering = {
+        BookingReference: data.BookingReference,
+        Description: data.Description,
+        Cost: parseFloat(String(data.Cost)),
+        ExpenseDate: dayjs(data.ExpenseDate).format('YYYY-MM-DD'),
+        FundingAccount: data.FundingAccount,
+        MainEvent: data.MainEvent,
+        Finance: data.Finance,
+    }
+    return catering
+}
+
 // Function to reformat catering response data
 function reformatCateringResponseData(data: any): Catering {
     const catering: Catering = {
@@ -42,14 +56,11 @@ export async function getCateringByEventID(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}`
         )
         const rawCatering = res.data
-        console.log(rawCatering)
         const formattedCatering = rawCatering
             .filter((catering: any) =>
                 catering.MainEvent?.includes(mainEventId)
             )
             .map((catering: any) => reformatCateringResponseData(catering))
-
-        console.log(formattedCatering)
         return formattedCatering
     } catch (error) {
         console.error('Error fetching catering:', error)
@@ -61,7 +72,7 @@ export async function getCateringByEventID(
 export async function createCatering(
     catering: Catering,
     id: string
-): Promise<AxiosResponse> {
+): Promise<Catering> {
     try {
         const toSend: any = {
             ...catering,
@@ -69,14 +80,49 @@ export async function createCatering(
             Cost: parseFloat(String(catering.Cost)),
         }
         delete toSend.RecordID
-        console.log(toSend)
         const res = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${id}`,
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}`,
             toSend
         )
-        return res
+        const newCateringEntry: Catering = {
+            ...catering,
+            RecordID: res.data.toString() // Attach the RecordID returned from the server
+        };
+        reformatCateringResponseData(newCateringEntry)
+
+        return newCateringEntry
     } catch (error) {
         console.error('Error creating catering:', error)
         throw error
+    }
+}
+
+// Function to update a catering entry
+export async function updateCateringByID(
+    catering: Catering
+): Promise<AxiosResponse> {
+    try {
+        const recordID = catering.RecordID
+        const formattedCatering = reformatCateringRequestData(catering)
+        const res = await axios.put(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${recordID}`,
+            formattedCatering
+        )
+        return res 
+    } catch (error) {
+        console.error('Error updating catering:', error)
+        throw error
+    }
+}
+
+// Function to delete a catering entry
+export async function deleteCateringByID(id: string) {
+    try {
+        const res = await axios.delete(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${id}`
+        )
+        return res.status
+    } catch (error) {
+        console.error('Error deleting catering by ID:', error)
     }
 }
