@@ -2,7 +2,23 @@ import axios, { AxiosResponse } from 'axios'
 import { SubEvent } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 
-// Function to reformat MainEvent response data
+// Function to reformat sub-event request data
+function reformatSubEventRequestData(data: SubEvent): any {
+    const subEvent = {
+        EventName: data.EventName,
+        EventDescription: data.EventDescription,
+        StartDate: data.StartDate.toISOString(),
+        Notes: data.Notes,
+        MainEvent: data.MainEvent,
+        Completed: data.Completed,
+        Speakers: data.Speakers,
+        EndDate: data.EndDate.toISOString(),
+    }
+    return subEvent
+
+}
+
+// Function to reformat sub-event response data
 function reformatSubEventResponseData(data: any): SubEvent {
     const subEvent: SubEvent = {
         ...defaultSubEvent,
@@ -19,7 +35,6 @@ function reformatSubEventResponseData(data: any): SubEvent {
         Speakers: data.Speakers || defaultSubEvent.Speakers,
         EndDate: data.EndDate ? dayjs(data.EndDate) : defaultSubEvent.EndDate,
     }
-
     return subEvent
 }
 
@@ -83,3 +98,21 @@ export async function createSubEvent(
         throw error
     }
 }
+
+export async function updateSubEventByID(
+    subEvent : SubEvent): Promise<AxiosResponse> {
+        try {
+            const recordID = subEvent.RecordID
+            const formattedCatering = reformatSubEventRequestData(subEvent)
+            const res = await axios.put(
+                `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}/${recordID}`,
+                formattedCatering
+        )
+            return res 
+        } catch (error) {
+            console.error('Error updating catering:', error)
+            throw error
+    }
+}
+
+export async function deleteSubEvent(){}
