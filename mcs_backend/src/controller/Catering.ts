@@ -53,7 +53,7 @@ router.get('/catering/:catering_record_id', async (req, res) => {
 });
 
 //get all caterings for one main event; merge this filter function to  GET /catering
-router.get('/catering/:mainEventID', async (req, res) => {
+router.get('/catering/event/:mainEventID', async (req, res) => {
   const { mainEventID } = req.params;
 
   try {

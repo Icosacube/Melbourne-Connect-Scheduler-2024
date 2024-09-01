@@ -1,197 +1,333 @@
-import request from 'supertest';
-import express from 'express';
-const accommodationRouter = require('../controller/accommodation');
-import { createServer } from 'http';
+import request from "supertest";
+import express from "express";
+import {
+  getTable,
+  getRecord,
+  createRecord,
+  updateRecord,
+  deleteRecords,
+} from "../models/airtable";
+
+const accommodationRouter = require("../controller/accommodation");
 
 const app = express();
 app.use(express.json());
-app.use(accommodationRouter);
+app.use("/", accommodationRouter);
 
-const server = createServer(app);
+jest.mock("../models/airtable", () => ({
+  getTable: jest.fn(),
+  getRecord: jest.fn(),
+  createRecord: jest.fn(),
+  updateRecord: jest.fn(),
+  deleteRecords: jest.fn(),
+}));
 
-describe('Accommodation Controller Tests', () => {
-
-  // it('should get all accommodations successfully', async () => {
-  //   const response = await request(server).get('/accommodations');
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toBeInstanceOf(Array);
-  //   if (response.body.length > 0) {
-  //     const accommodation = response.body[0];
-  //     expect(accommodation).toHaveProperty('BookingReference');
-  //     expect(accommodation).toHaveProperty('HotelName');
-  //     expect(accommodation).toHaveProperty('Address');
-  //     expect(accommodation).toHaveProperty('Room');
-  //     expect(accommodation).toHaveProperty('CheckIn');
-  //     expect(accommodation).toHaveProperty('CheckOut');
-  //     expect(accommodation).toHaveProperty('Cost');
-  //     expect(accommodation).toHaveProperty('Notes');
-  //     expect(accommodation).toHaveProperty('FundingAccount');
-  //     expect(accommodation).toHaveProperty('Trip');
-  //   }
-  // });
-
-  // it('should return 404 for getting a non-existent accommodation by ID', async () => {
-  //   const response = await request(server).get('/accommodations/accommodation/nonexistentID');
-  //   expect(response.status).toBe(404);
-  //   expect(response.body).toHaveProperty('message', 'Accomodation not found');
-  // });
-
-  // it('should get accommodation by ID successfully', async () => {
-  //   const mockId = 'validID';
-  //   const response = await request(server).get(`/accommodations/accommodation/${mockId}`);
-  //   expect(response.status).toBe(200);
-  //   const accommodation = response.body;
-  //   expect(accommodation).toHaveProperty('BookingReference');
-  //   expect(accommodation).toHaveProperty('HotelName');
-  //   expect(accommodation).toHaveProperty('Address');
-  //   expect(accommodation).toHaveProperty('Room');
-  //   expect(accommodation).toHaveProperty('CheckIn');
-  //   expect(accommodation).toHaveProperty('CheckOut');
-  //   expect(accommodation).toHaveProperty('Cost');
-  //   expect(accommodation).toHaveProperty('Notes');
-  //   expect(accommodation).toHaveProperty('FundingAccount');
-  //   expect(accommodation).toHaveProperty('Trip');
-  // });
-
-  // it('should get accommodations by tripID successfully', async () => {
-  //   const mockTripID = 'trip123';
-  //   const response = await request(server).get(`/accommodation/${mockTripID}`);
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toBeInstanceOf(Array);
-  //   if (response.body.length > 0) {
-  //     const accommodation = response.body[0];
-  //     expect(accommodation).toHaveProperty('BookingReference');
-  //     expect(accommodation).toHaveProperty('HotelName');
-  //     expect(accommodation).toHaveProperty('Address');
-  //     expect(accommodation).toHaveProperty('Room');
-  //     expect(accommodation).toHaveProperty('CheckIn');
-  //     expect(accommodation).toHaveProperty('CheckOut');
-  //     expect(accommodation).toHaveProperty('Cost');
-  //     expect(accommodation).toHaveProperty('Notes');
-  //     expect(accommodation).toHaveProperty('FundingAccount');
-  //     expect(accommodation).toHaveProperty('Trip');
-  //     expect(accommodation.Trip).toContain(mockTripID);
-  //   }
-  // });
-
-  // it('should return 404 for getting accommodations by non-existent tripID', async () => {
-  //   const response = await request(server).get('/accommodation/nonexistentTripID');
-  //   expect(response.status).toBe(404);
-  //   expect(response.body).toHaveProperty('message', 'No accommodations found for this trip');
-  // });
-
-  // it('should create a new accommodation successfully', async () => {
-  //   const newAccommodation = {
-  //     BookingReference: 'BR123',
-  //     HotelName: 'Test Hotel',
-  //     Address: 'Test Address',
-  //     Room: '101',
-  //     CheckIn: '2024-08-01',
-  //     CheckOut: '2024-08-05',
-  //     NumberOfNight: 4,
-  //     Cost: 200,
-  //     Notes: 'Test Notes',
-  //     FundingAccount: ['FA123'],
-  //     Trip: ['trip123']
-  //   };
-
-  //   const response = await request(server).post(`/accommodation/trip123`).send(newAccommodation);
-  //   expect(response.status).toBe(201);
-  //   expect(response.body).toHaveProperty('message', 'Accommodation created successfully');
-  // });
-
-  it('should return 500 for failed accommodation creation', async () => {
-    jest.spyOn(require('../models/airtable'), 'createRecord').mockImplementation(() => {
-      throw new Error('Mocked error');
-    });
-
-    const newAccommodation = {
-      BookingReference: 'BR123',
-      HotelName: 'Test Hotel',
-      Address: 'Test Address',
-      Room: '101',
-      CheckIn: '2024-08-01',
-      CheckOut: '2024-08-05',
-      NumberOfNight: 4,
-      Cost: 200,
-      Notes: 'Test Notes',
-      FundingAccount: ['FA123'],
-      Trip: ['trip123']
-    };
-
-    const response = await request(server).post(`/accommodation/trip123`).send(newAccommodation);
-    expect(response.status).toBe(500);
-    expect(response.body).toHaveProperty('error', 'Failed to create accommodation');
+describe("Accommodation Controller Tests", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  // it('should update an accommodation successfully', async () => {
-  //   const mockId = 'validID'; 
-  //   const updatedAccommodation = {
-  //     BookingReference: 'BR456',
-  //     HotelName: 'Updated Hotel',
-  //     Address: 'Updated Address',
-  //     Room: '202',
-  //     CheckIn: '2024-08-06',
-  //     CheckOut: '2024-08-10',
-  //     NumberOfNight: 4,
-  //     Cost: 300,
-  //     Notes: 'Updated Notes',
-  //     FundingAccount: ['FA456'],
-  //     Trip: ['trip123']
-  //   };
+  describe("GET /accommodations", () => {
+    it("should return all accommodations", async () => {
+      const mockData = [
+        {
+          id: "rec1",
+          fields: {
+            RECORDID: "rec1",
+            TripRecordID: ["trip1", "trip2"],
+            EventID: "event1",
+            BookingReference: 123,
+            HotelName: "California",
+            Address: "Los Angeles",
+            Room: 666,
+            CheckIn: "2024-08-07",
+            CheckOut: "2024-09-06",
+            NumberOfNight: 30,
+            Cost: 66666,
+            ExpenseDate: "2024-09-06",
+            Notes: "Amazing",
+          },
+        },
+        {
+          id: "rec2",
+          fields: {
+            RECORDID: "rec2",
+            TripRecordID: ["trip3", "trip4"],
+            EventID: "event2",
+            BookingReference: 333,
+            HotelName: "California",
+            Address: "Santa Monica",
+            Room: 888,
+            CheckIn: "2024-08-07",
+            CheckOut: "2024-09-06",
+            NumberOfNight: 30,
+            Cost: 66666,
+            ExpenseDate: "2024-09-06",
+            Notes: "AWESOME",
+          },
+        },
+      ];
 
-  //   const response = await request(server).put(`/accommodation/${mockId}`).send(updatedAccommodation);
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toHaveProperty('message', 'Accommodation updated successfully');
-  // });
+      (getTable as jest.Mock).mockResolvedValue(
+        mockData.map(
+          (item) =>
+            new Map(Object.entries(item.fields).concat([["id", item.id]]))
+        )
+      );
 
-  it('should return 500 for failed accommodation update', async () => {
-
-    jest.spyOn(require('../models/airtable'), 'updateRecord').mockImplementation(() => {
-      throw new Error('Mocked error');
+      const response = await request(app).get("/accommodations");
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual([
+        {
+          RECORDID: "rec1",
+          TripRecordID: ["trip1", "trip2"],
+          EventID: "event1",
+          BookingReference: 123,
+          HotelName: "California",
+          Address: "Los Angeles",
+          Room: 666,
+          CheckIn: "2024-08-07",
+          CheckOut: "2024-09-06",
+          NumberOfNight: 30,
+          Cost: 66666,
+          ExpenseDate: "2024-09-06",
+          Notes: "Amazing",
+          id: "rec1",
+        },
+        {
+          RECORDID: "rec2",
+          TripRecordID: ["trip3", "trip4"],
+          EventID: "event2",
+          BookingReference: 333,
+          HotelName: "California",
+          Address: "Santa Monica",
+          Room: 888,
+          CheckIn: "2024-08-07",
+          CheckOut: "2024-09-06",
+          NumberOfNight: 30,
+          Cost: 66666,
+          ExpenseDate: "2024-09-06",
+          Notes: "AWESOME",
+          id: "rec2",
+        },
+      ]);
     });
 
-    const mockId = 'validID'; 
-    const updatedAccommodation = {
-      BookingReference: 'BR456',
-      HotelName: 'Updated Hotel',
-      Address: 'Updated Address',
-      Room: '202',
-      CheckIn: '2024-08-06',
-      CheckOut: '2024-08-10',
-      NumberOfNight: 4,
-      Cost: 300,
-      Notes: 'Updated Notes',
-      FundingAccount: ['FA456'],
-      Trip: ['trip123']
-    };
+    it("should return 500 if there is a server error", async () => {
+      (getTable as jest.Mock).mockRejectedValue(
+        new Error("Internal Server Error")
+      );
 
-    const response = await request(server).put(`/accommodation/${mockId}`).send(updatedAccommodation);
-    expect(response.status).toBe(500);
-    expect(response.body).toHaveProperty('error', 'Failed to update accommodation');
+      const response = await request(app).get("/accommodations");
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("Internal Server Error");
+    });
   });
 
-  // it('should delete an accommodation successfully', async () => {
-  //   const mockId = 'validID'; 
-
-  //   const response = await request(server).delete(`/accommodation/${mockId}`);
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toHaveProperty('message', 'Accommodation deleted successfully');
-  // });
-
-  it('should return 500 for failed accommodation deletion', async () => {
-
-    jest.spyOn(require('../models/airtable'), 'deleteRecords').mockImplementation(() => {
-      throw new Error('Mocked error');
+  describe("GET /accommodations/:accommodation_record_id", () => {
+    it("should return a specific accommodation by ID", async () => {
+      const mockRecord = {
+        id: "rec1",
+        fields: {
+          RECORDID: "rec1",
+          TripRecordID: ["trip1", "trip2"],
+          EventID: "event1",
+          BookingReference: 123,
+          HotelName: "California",
+          Address: "Los Angeles",
+          Room: 666,
+          CheckIn: "2024-08-07",
+          CheckOut: "2024-09-06",
+          NumberOfNight: 30,
+          Cost: 66666,
+          ExpenseDate: "2024-09-06",
+          Notes: "Amazing",
+        },
+      };
+      (getRecord as jest.Mock).mockResolvedValue(
+        new Map(
+          Object.entries(mockRecord.fields).concat([["id", mockRecord.id]])
+        )
+      );
+      const response = await request(app).get("/accommodations/rec1");
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        RECORDID: "rec1",
+        TripRecordID: ["trip1", "trip2"],
+        EventID: "event1",
+        BookingReference: 123,
+        HotelName: "California",
+        Address: "Los Angeles",
+        Room: 666,
+        CheckIn: "2024-08-07",
+        CheckOut: "2024-09-06",
+        NumberOfNight: 30,
+        Cost: 66666,
+        ExpenseDate: "2024-09-06",
+        Notes: "Amazing",
+        id: "rec1",
+      });
     });
 
-    const mockId = 'validID'; 
-    const response = await request(server).delete(`/accommodation/${mockId}`);
-    expect(response.status).toBe(500);
-    expect(response.body).toHaveProperty('error', 'Failed to delete accommodation');
+    it("should return 404 if the accommodation is not found", async () => {
+      (getRecord as jest.Mock).mockResolvedValue(null);
+
+      const response = await request(app).get("/accommodations/nonexistent");
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe("Accommodation not found");
+    });
+
+    it("should return 500 if there is a server error", async () => {
+      (getRecord as jest.Mock).mockRejectedValue(
+        new Error("Internal Server Error")
+      );
+
+      const response = await request(app).get(
+        "/accommodations/rec45qGQC3Ips3iBN"
+      );
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("Internal Server Error");
+    });
   });
 
-  afterAll(() => {
-    server.close(); 
+  describe("POST /accommodations", () => {
+    it("should create a new accommodation", async () => {
+      const newAccommodation = {
+        TripRecordID: ["trip1", "trip2"],
+        EventID: "event1",
+        BookingReference: 123,
+        HotelName: "California",
+        Address: "Los Angeles",
+        Room: 666,
+        CheckIn: "2024-08-07",
+        CheckOut: "2024-09-06",
+        NumberOfNight: 30,
+        Cost: 66666,
+        ExpenseDate: "2024-09-06",
+        Notes: "Amazing",
+      };
+
+      (createRecord as jest.Mock).mockResolvedValue(["rec666"]);
+
+      const response = await request(app)
+        .post("/accommodations")
+        .send(newAccommodation);
+
+      expect(response.status).toBe(201);
+      expect(response.body.message).toBe("Accommodation created successfully");
+    });
+
+    it("should return 500 if there is a server error", async () => {
+      (createRecord as jest.Mock).mockRejectedValue(
+        new Error("Failed to create accommodation")
+      );
+
+      const newAccommodation = {
+        TripRecordID: ["trip1", "trip2"],
+        EventID: "event1",
+        BookingReference: 123,
+        HotelName: "California",
+        Address: "Los Angeles",
+        Room: 666,
+        CheckIn: "2024-08-07",
+        CheckOut: "2024-09-06",
+        NumberOfNight: 30,
+        Cost: 66666,
+        ExpenseDate: "2024-09-06",
+        Notes: "Amazing",
+      };
+
+      const response = await request(app)
+        .post("/accommodations")
+        .send(newAccommodation);
+
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("Failed to create accommodation");
+    });
+  });
+
+  describe("PUT /accommodations/:accommodation_record_id", () => {
+    it("should update an existing accommodation", async () => {
+      const updatedAccommodation = {
+        TripRecordID: ["trip5", "trip2"],
+        EventID: "event1",
+        BookingReference: 123,
+        HotelName: "California",
+        Address: "Los Santos",
+        Room: 666,
+        CheckIn: "2024-08-07",
+        CheckOut: "2024-09-06",
+        NumberOfNight: 30,
+        Cost: 0,
+        ExpenseDate: "2024-09-06",
+        Notes: "Amazing",
+      };
+
+      const recordToUpdate = [
+        {
+          id: "rec1",
+          fields: updatedAccommodation,
+        },
+      ];
+
+      (updateRecord as jest.Mock).mockResolvedValue(undefined);
+
+      const response = await request(app)
+        .put("/accommodations/rec45qGQC3Ips3iBN")
+        .send(updatedAccommodation);
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe("Accommodation updated successfully");
+    });
+
+    it("should return 500 if there is a server error", async () => {
+      (updateRecord as jest.Mock).mockRejectedValue(
+        new Error("Failed to update accommodation")
+      );
+
+      const updatedAccommodation = {
+        TripRecordID: ["trip5", "trip2"],
+        EventID: "event1",
+        BookingReference: 123,
+        HotelName: "California",
+        Address: "Los Santos",
+        Room: 666,
+        CheckIn: "2024-08-07",
+        CheckOut: "2024-09-06",
+        NumberOfNight: 30,
+        Cost: 0,
+        ExpenseDate: "2024-09-06",
+        Notes: "Amazing",
+      };
+
+      const response = await request(app)
+        .put("/accommodations/rec45qGQC3Ips3iBN")
+        .send(updatedAccommodation);
+
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("Failed to update accommodation");
+    });
+  });
+
+  describe("DELETE /accommodations/:accommodation_record_id", () => {
+    it("should delete an existing accommodation", async () => {
+      (deleteRecords as jest.Mock).mockResolvedValue(undefined);
+
+      const response = await request(app).delete("/accommodations/rec1");
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe("Accommodation deleted successfully");
+    });
+
+    it("should return 500 if there is a server error", async () => {
+      (deleteRecords as jest.Mock).mockRejectedValue(
+        new Error("Failed to delete accommodation")
+      );
+
+      const response = await request(app).delete("/accommodations/rec1");
+
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("Failed to delete accommodation");
+    });
   });
 });

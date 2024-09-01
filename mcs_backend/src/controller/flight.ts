@@ -31,14 +31,15 @@ router.get('/flights', async (req, res) => {
 //get a specific Flight by ID
 router.get('/flights/:flight_record_id', async (req, res) => {
   const { flight_record_id } = req.params;
+
   
   try {
     const flightRecord = await getRecord(flightTable, flight_record_id);
-    
+     console.log(flightRecord)
     if (!flightRecord) {
       return res.status(404).json({ message: 'Flight not found' });
     }
-    let plainFields = Object.fromEntries(flightRecord.get(flight_record_id));
+    let plainFields = Object.fromEntries(flightRecord);
     let formattedFlights: { [k: string]: any; } = plainFields
     res.json(formattedFlights)
 
@@ -48,8 +49,8 @@ router.get('/flights/:flight_record_id', async (req, res) => {
   }
 });
 
-//get all flights for one trip; merge this filter function to  GET /flights
-router.get('/flights/:tripID', async (req, res) => {
+// get all flights for one trip; merge this filter function to  GET /flights
+router.get('/flights/trips/:tripID', async (req, res) => {
     const { tripID } = req.params;
   
     try {

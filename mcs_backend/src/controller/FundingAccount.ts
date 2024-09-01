@@ -48,8 +48,8 @@ router.get('/funding-accounts/:funding_account_id', async (req, res) => {
   });
 
 //create a new funding account
-router.post('/funding-accounts/:funding_account_id', async (req, res) => {
-    const { funding_account_id } = req.params;
+router.post('/funding-accounts', async (req, res) => {
+   
     const newFundingAccount : FundingAccount = req.body;
     const accountRecord : Creation = {
         fields: newFundingAccount 
