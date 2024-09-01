@@ -45,7 +45,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
     )
 
     return (
-        <Box className="relative border-2 border-gray-200 bg-white rounded-lg p-2">
+        <Box className="relative border-2 border-gray-200 bg-white rounded-lg p-2 m-24">
             <Grid
                 container
                 direction={'row'}
@@ -60,7 +60,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                     <Grid item>
                         <Box
                             sx={{
-                                height: '216px',
+                                height: '280px',
                             }}
                         ></Box>
                     </Grid>
@@ -94,7 +94,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                     color={'primary'}
                     sx={{
                         position: 'absolute',
-                        top: '20%',
+                        top: '30%',
                         left: 100,
                     }}
                 >
@@ -107,7 +107,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                     disabled={currentPage === totalPages - 1}
                     sx={{
                         position: 'absolute',
-                        top: '20%',
+                        top: '30%',
                         right: 16,
                     }}
                 >
@@ -124,6 +124,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                     wrap="nowrap"
                     sx={{
                         overflowX: 'auto',
+                        padding: '64px 48px 84px 48px',
                     }}
                 >
                     {displayedSlots.map((slot, index) => {
