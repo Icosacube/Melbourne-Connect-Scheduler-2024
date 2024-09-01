@@ -11,7 +11,7 @@ import { Canvassing, TableFields } from '../types/types';
 import {Cachekeys} from '../Enum/Cachekeys';
 import {getCache,setCache,deleteCache} from '../utils/caching';
 const router = express.Router();
-const CanvassingTable = String(process.env.CANVASSING)
+const canvassingTable = String(process.env.CANVASSING)
 // Combined GET endpoint for canvassings
 router.get('/canvassings', async (req, res) => {
   const { academic, mainEvent, availableAcademic } = req.query;
@@ -23,7 +23,7 @@ router.get('/canvassings', async (req, res) => {
       return res.json(cachedCanvassing).status(200);
     }
 
-    const allCanvassing = await getTable(CanvassingTable, "");
+    const allCanvassing = await getTable(canvassingTable, "");
     const filteredCanvassing: { [k: string]: any; }[] = [];
 
     allCanvassing.forEach((fields) => {
@@ -55,7 +55,7 @@ router.get('/canvassings/canvasssing/:Canvassing_record_id', async (req, res) =>
   const { Canvassing_record_id } = req.params;
   
   try {
-    const CanvassingRecord = await getRecord(CanvassingTable, Canvassing_record_id);
+    const CanvassingRecord = await getRecord(canvassingTable, Canvassing_record_id);
     
     if (!CanvassingRecord) {
       return res.status(404).json({ message: 'Canvassing not found' });
@@ -94,7 +94,7 @@ router.post('/canvassings', async (req, res) => {
   };
 
   try {
-    await createRecord(CanvassingTable, [canvassingRecord]);
+    await createRecord(canvassingTable, [canvassingRecord]);
     deleteCache(Cachekeys.CANVASSINGS); // Delete cache
     res.status(200).json({ message: 'Canvassing created successfully' });
   } catch (error) {
