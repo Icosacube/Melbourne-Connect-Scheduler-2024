@@ -8,22 +8,45 @@ import {
 } from '../models/airtable';
 
 import { Canvassing, TableFields } from '../types/types';
-
+import {Cachekeys} from '../Enum/Cachekeys';
+import {getCache,setCache,deleteCache} from '../utils/caching';
 const router = express.Router();
-const canvassingTable = String(process.env.CANVASSING);
+const canvassingTable = String(process.env.CANVASSING)
+// Combined GET endpoint for canvassings
+router.get('/canvassings', async (req, res) => {
+  const { academic, mainEvent, availableAcademic } = req.query;
 
-//get all canvassing
-router.get('/canvassing', async (req, res) => {
   try {
-    const accommodations = await getTable(canvassingTable, '');
-    const formattedCanvassing: { [k: string]: any }[] = [];
-    accommodations.forEach((fields) => {
+    // Cache
+    const cachedCanvassing = getCache(Cachekeys.CANVASSINGS);
+    if (cachedCanvassing) {
+      return res.json(cachedCanvassing).status(200);
+    }
+
+    const allCanvassing = await getTable(canvassingTable, "");
+    const filteredCanvassing: { [k: string]: any; }[] = [];
+
+    allCanvassing.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
-      formattedCanvassing.push(plainFields);
-      console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
+      
+      const matchAcademic = academic ? plainFields.Academic && plainFields.Academic.includes(academic) : true;
+      const matchMainEvent = mainEvent ? plainFields.MainEvent && plainFields.MainEvent.includes(mainEvent) : true;
+      const matchAvailableAcademic = availableAcademic ? plainFields.AvailableAcademic && plainFields.AvailableAcademic.includes(availableAcademic) : true;
+
+      if (matchAcademic && matchMainEvent && matchAvailableAcademic) {
+        filteredCanvassing.push(plainFields);
+      }
     });
-    res.json(formattedCanvassing);
+
+    if (filteredCanvassing.length === 0) {
+      return res.status(404).json({ message: 'No matching canvassings found' });
+    }
+    
+    // Cache
+    setCache(Cachekeys.CANVASSINGS, filteredCanvassing);
+    res.json(filteredCanvassing);
   } catch (error) {
+    console.error("Error fetching canvassings:", error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -33,12 +56,9 @@ router.get('/canvassing/:canvassing_record_id', async (req, res) => {
   const { canvassing_record_id } = req.params;
 
   try {
-    const canvassingRecord = await getRecord(
-      canvassingTable,
-      canvassing_record_id,
-    );
-
-    if (!canvassingRecord) {
+    const CanvassingRecord = await getRecord(canvassingTable, Canvassing_record_id);
+    
+    if (!CanvassingRecord) {
       return res.status(404).json({ message: 'Canvassing not found' });
     }
     let plainFields = Object.fromEntries(canvassingRecord);
@@ -50,33 +70,36 @@ router.get('/canvassing/:canvassing_record_id', async (req, res) => {
   }
 });
 
-//get all canvassing for one trip; merge this filter function to  GET /canvassing
-router.get('/canvassing/:tripID', async (req, res) => {
-  const { tripID } = req.params;
+router.post('/canvassings', async (req, res) => {
+  const { mainEventID, academic, availableAcademic } = req.query;
+  const newCanvassing: Canvassing = req.body;
+
+  if (typeof mainEventID === 'string') {
+    newCanvassing.MainEvent = [mainEventID];
+  }
+  if(typeof academic === 'string') {
+    newCanvassing.Academic = [academic];
+  }
+  if(typeof availableAcademic === 'string') {
+    newCanvassing.AvailableAcademic = [availableAcademic];
+  }
+
+  // Validate StartTime and EndTime
+  if (!newCanvassing.StartTime || !newCanvassing.EndTime) {
+    return res.status(400).json({ error: 'StartTime and EndTime are required' });
+  }
+
+  const canvassingRecord = {
+    fields: newCanvassing
+  };
 
   try {
-    const Canvassing = await getTable(canvassingTable, '');
-    const tripCanvassing: { [k: string]: any }[] = [];
-
-    Canvassing.forEach((fields) => {
-      const plainFields = Object.fromEntries(fields);
-      if (plainFields.Trip && plainFields.Trip.includes(tripID)) {
-        tripCanvassing.push(plainFields);
-      }
-    });
-
-    if (tripCanvassing.length === 0) {
-      return res
-        .status(404)
-        .json({ message: 'No Canvassing found for this trip' });
-    }
-
-    res.json(tripCanvassing);
+    await createRecord(canvassingTable, [canvassingRecord]);
+    deleteCache(Cachekeys.CANVASSINGS); // Delete cache
+    res.status(200).json({ message: 'Canvassing created successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Failed to create Canvassing:", error);
+    res.status(500).json({ error: 'Failed to create Canvassing' });
   }
 });
-
-//TODO add update and delete canvassing routes maybe?
-
 module.exports = router;
