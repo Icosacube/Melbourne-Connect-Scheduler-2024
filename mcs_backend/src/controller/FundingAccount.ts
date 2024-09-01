@@ -19,7 +19,7 @@ router.get('/funding-accounts', async (req, res) => {
         if (cachedAccount) {
             return res.json(cachedAccount).status(200);
         }
-        const account = await getTable(AccountTable, "");
+        const account = await getTable(accountTable, "");
         const formattedAccount: { [k: string]: any; }[] = [];
         account.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
@@ -62,7 +62,7 @@ router.post('/funding-accounts/:funding_account_id', async (req, res) => {
     };
 
     try {
-        await createRecord(AccountTable, [accountRecord]);
+        await createRecord(accountTable, [accountRecord]);
         deleteCache(Cachekeys.FUNDINGACCOUNTS);
         res.status(200).json({ message: 'Funding Account created successfully' });
     } catch (error) {
@@ -82,7 +82,7 @@ router.put('/funding-accounts/:funding_account_id', async (req, res) => {
     }];
 
     try {
-        await updateRecord(AccountTable, recordToUpdate);
+        await updateRecord(accountTable, recordToUpdate);
         deleteCache(Cachekeys.FUNDINGACCOUNTS);
         res.status(200).json({ message: 'Funding Account updated successfully' });
     } catch (error) {
@@ -96,7 +96,7 @@ router.delete('/funding-accounts/:funding_account_id', async (req, res) => {
     const { funding_account_id } = req.params;
 
     try {
-        await deleteRecords(AccountTable, [funding_account_id]);
+        await deleteRecords(accountTable, [funding_account_id]);
         deleteCache(Cachekeys.FUNDINGACCOUNTS);
         res.status(200).json({ message: 'Funding Account deleted successfully' });
     } catch (error) {

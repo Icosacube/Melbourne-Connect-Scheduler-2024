@@ -56,12 +56,12 @@ router.get('/canvassing/:canvassing_record_id', async (req, res) => {
   const { canvassing_record_id } = req.params;
 
   try {
-    const CanvassingRecord = await getRecord(canvassingTable, Canvassing_record_id);
+    const CanvassingRecord = await getRecord(canvassingTable, canvassing_record_id);
     
     if (!CanvassingRecord) {
       return res.status(404).json({ message: 'Canvassing not found' });
     }
-    let plainFields = Object.fromEntries(canvassingRecord);
+    let plainFields = Object.fromEntries(CanvassingRecord);
     let formattedCanvassing: { [k: string]: any } = plainFields;
     res.json(formattedCanvassing);
   } catch (error) {

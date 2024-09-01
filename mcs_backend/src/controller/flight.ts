@@ -39,7 +39,7 @@ router.get('/flights/:flight_record_id', async (req, res) => {
   const { flight_record_id } = req.params;
   
   try {
-    const flightRecord = await getRecord(flightTable, flight_record_id);
+    const flightRecord = await getRecord(FlightTable, flight_record_id);
     
     if (!flightRecord) {
       return res.status(404).json({ message: 'Flight not found' });
@@ -59,7 +59,7 @@ router.get('/flights/:tripID', async (req, res) => {
     const { tripID } = req.params;
   
     try {
-      const flights = await getTable(flightTable, "");
+      const flights = await getTable(FlightTable, "");
       const tripFlights: { [k: string]: any; }[] = [];
   
       flights.forEach((fields, id) => {
