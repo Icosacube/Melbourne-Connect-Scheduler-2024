@@ -35,7 +35,7 @@ router.get('/sub-events', async (req, res) => {
 });
 
 // route to get sub events for a specific event
-//TODO merge this filter function to  GET /sub-events
+// TODO merge this filter function to  GET /sub-events
 // router.get('/sub-events/:event_id', async (req, res) => {
 //   const { event_id: eventId } = req.params;
 
@@ -93,9 +93,10 @@ router.post('/sub-events', async (req, res) => {
   };
 
   try {
-    await createRecord(subEventTable, [tableFields]);
+    let recordId = await createRecord(subEventTable, [tableFields]);
     deleteCache(Cachekeys.SUBEVENTS);
-    res.status(201).json({ message: 'Subevent created successfully' });
+
+    res.status(200).json(recordId);
   } catch (error) {
     console.error('Failed to create new sub event:', error);
     res.status(500).json({ error: 'Failed to create new sub event' });
