@@ -58,14 +58,28 @@ export async function getSubEventsByMainEventID(
 }
 
 export async function createSubEvent(
-    subEvent: SubEvent,
-    id: String
-): Promise<AxiosResponse> {
-    const toSend: any = { ...subEvent }
-    delete toSend.RecordID
-    const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}/${id}`,
-        toSend
-    )
-    return res
+    subEvent: SubEvent
+): Promise<SubEvent> {
+    try {
+        const toSend: any = { ...subEvent }
+
+        delete toSend.RecordID
+
+        const res = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}`,
+            toSend
+        )
+    
+        const newSubEvent: SubEvent = {
+            ...subEvent,
+            RecordID: res.data.toString() // Attach the RecordID returned from the server
+        };
+        reformatSubEventResponseData(newSubEvent)
+    
+        return newSubEvent
+
+    } catch (error) {
+        console.error('Error creating catering:', error)
+        throw error
+    }
 }

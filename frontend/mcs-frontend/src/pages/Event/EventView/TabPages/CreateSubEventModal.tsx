@@ -52,14 +52,10 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
     const onSubmit = async (data: SubEvent) => {
         setSubmitting(true)
         try {
-            const res: AxiosResponse = await createSubEvent(
-                data,
-                event.RecordID
-            )
-            if (res) {
-                setShowSuccess(true)
-                onSubEventCreation()
-            }
+            data.MainEvent.push(event.RecordID)
+            const newSubEvent: SubEvent = await createSubEvent(data)
+            setShowSuccess(true)
+            onSubEventCreation()
         } catch (error) {
             console.error(error)
         } finally {
