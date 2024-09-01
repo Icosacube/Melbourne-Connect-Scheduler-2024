@@ -22,9 +22,8 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     id: `main-${event.RecordID}`, // identifier of main events  
     title: event.EventName,
     start: event.Date.toDate(),
-    // editable: false,
-    backgroundColor: '#90A4AE', // Light grey color (common calendar color)
-    borderColor: '#90A4AE', // Slightly darker grey for border
+    backgroundColor: '#90A4AE', 
+    borderColor: '#90A4AE', 
   };
 
   //changed 'subevent' to 'subEvent'. Functionality untouched
