@@ -1,19 +1,57 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
-import React, { FC } from "react";
+import { Button, Stack, Typography } from '@mui/material'
+import React, { FC, useState } from 'react'
+import { FormInputPassword, FormInputText } from '../../components'
+import { useForm } from 'react-hook-form'
+import { redirect } from 'react-router'
+import AuthProvider, {
+    useAuth,
+} from '../../scripts/authentication/authProvider'
+import { useNavigate } from 'react-router-dom'
+import { login } from '../../scripts/authentication/login'
 
-export const Login:FC=()=> {
-  return (
-    <Stack component="form" className="space-y-8">
-      <Typography variant="h4">Login</Typography>
-      <TextField required id="outlined-required" label="Username" />
-      <TextField
-        id="outlined-password-input"
-        label="Password"
-        type="password"
-        autoComplete="current-password"
-      />
-      <Button variant="contained">Login</Button>
-    </Stack>
-  );
+interface UserCredentials {
+    username: string
+    password: string
 }
 
+export const Login: FC = () => {
+    const { handleSubmit, reset, control, watch } = useForm<UserCredentials>()
+
+    const [submitting, setSubmitting] = useState(false)
+    const navigate = useNavigate()
+
+    const onSubmit = async (data: UserCredentials) => {
+        setSubmitting(true)
+        try {
+            login(data.username, data.password)
+            
+            navigate('/dashboard')
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setSubmitting(false)
+            reset()
+        }
+    }
+
+    return (
+        <Stack component="form" className="space-y-8">
+            <Typography variant="h4">Login</Typography>
+            <FormInputText
+                name={'username'}
+                control={control}
+                label={'Username'}
+                required={true}
+            />
+            <FormInputPassword
+                name={'password'}
+                control={control}
+                label={'Password'}
+                required={true}
+            />
+            <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+                Login
+            </Button>
+        </Stack>
+    )
+}
