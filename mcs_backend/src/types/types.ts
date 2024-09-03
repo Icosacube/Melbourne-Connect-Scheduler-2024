@@ -212,3 +212,10 @@ export type Canvassing = {
   Trip: string[];
   Academic: string[];
 };
+
+export type ExecutiveAssistant ={
+  username: string;         
+  password: string;          
+  lastLoginTime: string;      
+  token: string;                
+}
