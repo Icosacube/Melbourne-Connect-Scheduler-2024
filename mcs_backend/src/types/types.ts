@@ -217,5 +217,5 @@ export type ExecutiveAssistant ={
   username: string;         
   password: string;          
   lastLoginTime: string;      
-  token: string;                
+  refreshToken: string;                
 }
