@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const pathResolve = require('node:path');
+require('dotenv').config({ path: pathResolve.resolve(__dirname, '../../.env') });
+const JWT_SECRET = String(process.env.JWT_SECRET);
 
 const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');

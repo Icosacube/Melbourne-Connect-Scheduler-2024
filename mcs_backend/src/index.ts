@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import authenticateJWT from './middleware/authenticationJWT';
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
-
+import cookieParser from 'cookie-parser';
 const tripRouter = require('./controller/trip'); 
 const accommodationRouter = require('./controller/accommodation');
 const miscellaneousRouter = require('./controller/miscellaneous');
@@ -34,6 +34,7 @@ app.use((req: Request, res: Response, next: () => void) => {
 app.use(bodyParser.json({limit: '200mb'})); 
 app.use(bodyParser.urlencoded({limit: "200mb", extended: true, parameterLimit:100000}));
 app.use(bodyParser.text({ limit: '2000mb' }));
+app.use(cookieParser());
 
 //require('./controller/events')(app);
 app.use('/', tripRouter);

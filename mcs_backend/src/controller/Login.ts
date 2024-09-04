@@ -14,7 +14,8 @@ import {
 const router = express.Router();
 const UserTable = String(process.env.EXECUTIVEASSISTANT);
 // Secret key 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const JWT_SECRET = String(process.env.JWT_SECRET);
+const JWT_REFRESH_SECRET =  String(process.env.JWT_REFRESH_SECRET) ;
 
 // Login route
 router.post('/login', async (req, res) => {
@@ -42,29 +43,54 @@ router.post('/login', async (req, res) => {
     // }
     
     // Password is valid, create JWT token
-    const token = jwt.sign({ username: formattedUser[0].username }, JWT_SECRET, {
-      expiresIn: 24 * 60 * 60, 
-    });
+    // Generate access token
+    const accessToken = jwt.sign({ username: formattedUser[0].username }, JWT_SECRET, { expiresIn: '15m' });
+    
+    // Generate refresh token
+    const refreshToken = jwt.sign({ username: formattedUser[0].username }, JWT_REFRESH_SECRET, { expiresIn: '7d' });
+
 
     const LastLoginTime = new Date().toISOString();
 
     // // Update last login time 
     await updateRecord(UserTable, [{
       id: formattedUser[0].id, 
-      fields: { LastLoginTime,token }
+      fields: { LastLoginTime,refreshToken }
     }]);
+    res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'strict' });
 
-    setCache(Cachekeys.USER, { username: formattedUser[0].username, LastLoginTime, token });
+    setCache(Cachekeys.USER, { username: formattedUser[0].username, LastLoginTime, accessToken });
 
     res.json({
       username: formattedUser[0].username,
-      token,
+      accessToken ,
       LastLoginTime,
 
     });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+//refresh token
+router.post('/login/refresh-token', (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(403).json({ message: 'Refresh token not provided' });
+  }
+
+  try {
+    // Verify refresh token
+    const user = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+    //new access token
+    const accessToken = jwt.sign({ username: (user as any).username }, JWT_SECRET, { expiresIn: '15m' });
+    res.json({ accessToken });
+  } catch (error) {
+    console.error('Refresh token error:', error);
+    res.status(403).json({ message: 'Invalid refresh token' });
   }
 });
 
