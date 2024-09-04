@@ -25,6 +25,7 @@ import {
     Layout,
     Login,
     Logout,
+    Register,
     Events,
     Speakers,
     Speaker,
@@ -57,6 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             path: '/logout',
             element: <Logout />,
+            errorElement: <ErrorPage />,
+        },
+        {
+            path: '/register',
+            element: <Register />,
             errorElement: <ErrorPage />,
         },
         {

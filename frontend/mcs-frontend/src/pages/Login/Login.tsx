@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from '@mui/material'
+import { Button, Grid, Link, Stack, Typography } from '@mui/material'
 import React, { FC, useState } from 'react'
 import { FormInputPassword, FormInputText } from '../../components'
 import { useForm } from 'react-hook-form'
@@ -31,23 +31,30 @@ export const Login: FC = () => {
     }
 
     return (
-        <Stack component="form" className="space-y-8">
-            <Typography variant="h4">Login</Typography>
-            <FormInputText
-                name={'username'}
-                control={control}
-                label={'Username'}
-                required={true}
-            />
-            <FormInputPassword
-                name={'password'}
-                control={control}
-                label={'Password'}
-                required={true}
-            />
-            <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-                Login
-            </Button>
-        </Stack>
+        <Grid container spacing={0} direction="column" alignItems="center">
+            <Stack component="form" className="space-y-8">
+                <Typography variant="h4">Login</Typography>
+                <FormInputText
+                    name={'username'}
+                    control={control}
+                    label={'Username'}
+                    required={true}
+                />
+                <FormInputPassword
+                    name={'password'}
+                    control={control}
+                    label={'Password'}
+                    required={true}
+                />
+                <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+                    Login
+                </Button>
+            </Stack>
+            <Stack>
+                <Typography className="pt-10">
+                    No account? Register <Link href="/register">here</Link>
+                </Typography>
+            </Stack>
+        </Grid>
     )
 }
