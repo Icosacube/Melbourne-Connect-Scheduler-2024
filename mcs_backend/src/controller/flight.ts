@@ -10,7 +10,8 @@ import {
 
 const router = express.Router();
 import { Flight } from '../types/types';
-const FlightTable = String(process.env.FLIGHT)
+const flightTable = String(process.env.FLIGHT)
+const financeTable = String(process.env.FINANCE);
 import {Cachekeys} from '../Enum/Cachekeys';
 import {getCache,setCache,deleteCache} from '../utils/caching';
 //get all flights
@@ -20,7 +21,7 @@ router.get('/flights', async (req, res) => {
       if (cachedFlights) {
           return res.json(cachedFlights).status(200);
       }
-      const flights = await getTable(FlightTable, "");
+      const flights = await getTable(flightTable, "");
       const formattedFlights: { [k: string]: any; }[] = [];
       flights.forEach((fields) => {
         const plainFields = Object.fromEntries(fields); 
@@ -39,7 +40,7 @@ router.get('/flights/:flight_record_id', async (req, res) => {
   const { flight_record_id } = req.params;
   
   try {
-    const flightRecord = await getRecord(FlightTable, flight_record_id);
+    const flightRecord = await getRecord(flightTable, flight_record_id);
     
     if (!flightRecord) {
       return res.status(404).json({ message: 'Flight not found' });
@@ -59,7 +60,7 @@ router.get('/flights/:tripID', async (req, res) => {
     const { tripID } = req.params;
   
     try {
-      const flights = await getTable(FlightTable, "");
+      const flights = await getTable(flightTable, "");
       const tripFlights: { [k: string]: any; }[] = [];
   
       flights.forEach((fields, id) => {
@@ -85,7 +86,9 @@ router.post('/flights', async (req, res) => {
     };
 
     try {
-        await createRecord(FlightTable, [FlightRecord]);
+        console.log(FlightRecord);
+        let recordId =await createRecord(flightTable, [FlightRecord]);
+        await createRecord(financeTable,[{fields: {"Flight": recordId}}])
         deleteCache(Cachekeys.FLIGHTS);
         res.status(200).json({ message: 'flight created successfully' });
     } catch (error) {
@@ -105,7 +108,7 @@ router.put('/flights/:flight_record_id', async (req, res) => {
     }];
   
     try {
-      await updateRecord(FlightTable, recordToUpdate);
+      await updateRecord(flightTable, recordToUpdate);
       deleteCache(Cachekeys.FLIGHTS);
       res.status(200).json({ message: 'Flight updated successfully' });
     } catch (error) {
@@ -116,9 +119,11 @@ router.put('/flights/:flight_record_id', async (req, res) => {
    //delete one flight 
   router.delete('/flight/:flight_record_id', async (req, res) => {
     const { flight_record_id } = req.params;
-  
+    const record = await getRecord(flightTable, flight_record_id);
+    const financeId = record.get('Finance')[0];
     try {
-      await deleteRecords(FlightTable, [flight_record_id]);
+      await deleteRecords(flightTable, [flight_record_id]);
+      await deleteRecords('Finance', [financeId]);
       deleteCache(Cachekeys.FLIGHTS);
       res.status(200).json({ message: 'Flight deleted successfully' });
     } catch (error) {

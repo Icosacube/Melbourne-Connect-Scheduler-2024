@@ -11,7 +11,8 @@ import { Accommodation, Creation } from '../types/types';
 import {Cachekeys} from '../Enum/Cachekeys';
 import {getCache,setCache,deleteCache} from '../utils/caching';
 const router = express.Router();
-const AccommodationTable = String(process.env.ACCOMMODATION)
+const accommodationTable = String(process.env.ACCOMMODATION)
+const financeTable = String(process.env.FINANCE);
 //get all accomodations
 router.get('/accommodations', async (req, res) => {
   try {
@@ -19,7 +20,7 @@ router.get('/accommodations', async (req, res) => {
     if (cachedaccommodations) {
         return res.json(cachedaccommodations).status(200);
     }
-    const accommodations = await getTable(AccommodationTable, "");
+    const accommodations = await getTable(accommodationTable, "");
     const formattedAccommodations: { [k: string]: any; }[] = [];
     accommodations.forEach((fields) => {
       const plainFields = Object.fromEntries(fields);
@@ -37,7 +38,7 @@ router.get('/accommodations/accommodation/:Accomodation_record_id', async (req, 
   const { Accomodation_record_id } = req.params;
   
   try {
-    const AccomodationRecord = await getRecord(AccommodationTable, Accomodation_record_id);
+    const AccomodationRecord = await getRecord(accommodationTable, Accomodation_record_id);
     
     if (!AccomodationRecord) {
       return res.status(404).json({ message: 'Accomodation not found' });
@@ -56,7 +57,7 @@ router.get('/accommodation/:tripID', async (req, res) => {
   const { tripID } = req.params;
 
   try {
-    const accommodations = await getTable(AccommodationTable, "");
+    const accommodations = await getTable(accommodationTable, "");
     const tripAccommodations: { [k: string]: any; }[] = [];
 
     accommodations.forEach((fields) => {
@@ -83,7 +84,8 @@ router.post('/accommodation/:tripID', async (req, res) => {
   };
 
   try {
-    await createRecord(AccommodationTable, [creation]);
+    let recordId = await createRecord(accommodationTable, [creation]);
+    await createRecord(financeTable,[{fields: {"Accommodation": recordId}}])
     deleteCache(Cachekeys.ACCOMMODATIONS);
     res.status(201).json({ message: 'Accommodation created successfully' });
   } catch (error) {
@@ -103,7 +105,7 @@ router.put('/accommodation/:accommodation_record_id', async (req, res) => {
     }];
   
     try {
-      await updateRecord(AccommodationTable, recordToUpdate);
+      await updateRecord(accommodationTable, recordToUpdate);
       deleteCache(Cachekeys.ACCOMMODATIONS);
       res.status(200).json({ message: 'Accommodation updated successfully' });
     } catch (error) {
@@ -114,9 +116,11 @@ router.put('/accommodation/:accommodation_record_id', async (req, res) => {
   //delete one accomodation 
   router.delete('/accommodation/:accommodation_record_id', async (req, res) => {
     const { accommodation_record_id } = req.params;
-  
+    const record = await getRecord(accommodationTable, accommodation_record_id);
+    const financeId = record.get('Finance')[0];
     try {
       await deleteRecords('Accommodation', [accommodation_record_id]);
+      await deleteRecords('Finance', [financeId]);
       deleteCache(Cachekeys.ACCOMMODATIONS);
       res.status(200).json({ message: 'Accommodation deleted successfully' });
     } catch (error) {
