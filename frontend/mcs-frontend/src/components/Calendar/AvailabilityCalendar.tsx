@@ -25,53 +25,25 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
     const [filteredTimeSlotTemps, setFilteredTimeSlotTemps] = useState<TimeSlotTemp[]>([])
     const [selectedSlot, setSelectedSlot] = useState<TimeSlotTemp | null>(null)
     const [speakerFilter, setSpeakerFilter] = useState('')
+    const [minDate, setMinDate] = useState('')
+    const [maxDate, setMaxDate] = useState('')
 
     // Dummy data for the calendar
     const eventDate = '2024-09-01'
-    const temp: TimeSlotTemp[] = [
-        {
-            id: dayjs('2024-09-01T10:00:00').valueOf().toString(),
-            StartTime: dayjs('2024-09-01T10:00:00'),
-            EndTime: dayjs('2024-09-01T11:00:00'),
-            AvailablePeople: ['Speaker 1', 'Academic 2'],
-        },
-        {
-            id: dayjs('2024-09-02T14:00:00').valueOf().toString(),
-            StartTime: dayjs('2024-09-02T14:00:00'),
-            EndTime: dayjs('2024-09-02T14:45:00'),
-            AvailablePeople: ['Speaker 3'],
-        },
-        {
-            id: dayjs('2024-09-02T16:00:00').valueOf().toString(),
-            StartTime: dayjs('2024-09-02T16:00:00'),
-            EndTime: dayjs('2024-09-02T16:30:00'),
-            AvailablePeople: [],
-        },
-        {
-            id: dayjs('2024-09-03T10:00:00').valueOf().toString(),
-            StartTime: dayjs('2024-09-03T10:00:00'),
-            EndTime: dayjs('2024-09-03T11:00:00'),
-            AvailablePeople: ['Speaker 4', 'Speaker 5', 'Speaker 6'],
-        },
-    ]
 
-    const minDate = temp[0].StartTime.startOf('day').toISOString()
-    const maxDate = temp[temp.length - 1].EndTime.endOf('day').toISOString()
-
-    useEffect(() => {
-        setAllTimeSlotTemps(temp)
-        setFilteredTimeSlotTemps(temp)
-    }, [])
 
     useEffect(() => {
         // Convert TimeSlot[] to TimeSlotTemp[] for calendar
-        const initialTimeSlotsTemp = timeSlots.map((slot) => ({
+        const temp = timeSlots.map((slot) => ({
             id: dayjs(slot.StartTime).valueOf().toString(),
             StartTime: slot.StartTime,
             EndTime: slot.EndTime,
             AvailablePeople: slot.AvailablePeople,
         }))
-        setAllTimeSlotTemps(initialTimeSlotsTemp)
+        setAllTimeSlotTemps(temp)
+        setFilteredTimeSlotTemps(temp)
+        setMinDate(temp[0].StartTime.startOf('day').toISOString())
+        setMaxDate(temp[temp.length - 1].EndTime.endOf('day').toISOString())
     }, [timeSlots])
 
     useEffect(() => {
