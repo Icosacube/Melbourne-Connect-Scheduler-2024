@@ -111,7 +111,7 @@ export const CanvassingCreationCalendar: React.FC<
     }
 
     return (
-        <Grid container>
+        <Grid container spacing={2}>
             <Grid item container justifyContent={'flex-end'}>
                 <Grid item>
                     <Button variant={'contained'} onClick={handleSubmit}>
@@ -130,8 +130,8 @@ export const CanvassingCreationCalendar: React.FC<
                     events={timeSlotsFC}
                     headerToolbar={{
                         left: 'title',
-                        right: '',
-                        center: 'today prev,next',
+                        center: '',
+                        right: 'today prev,next',
                     }}
                     initialDate={eventDate}
                     slotMinTime="09:00:00"
