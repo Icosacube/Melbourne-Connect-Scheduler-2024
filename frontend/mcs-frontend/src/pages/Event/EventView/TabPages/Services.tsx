@@ -11,7 +11,6 @@ import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams, GridRowModes,
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
 import CancelIcon from '@mui/icons-material/Close'
-import { useRevalidator } from 'react-router-dom'
 
 interface ServicesProps {
     event: MainEvent
@@ -26,7 +25,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
     const [openUpdate, setOpenUpdate] = React.useState(false)
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({})
-    const revalidator = useRevalidator()
+    const [deleting, setDeleting] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,10 +57,17 @@ export const Services: FC<ServicesProps> = ({ event }) => {
     }
 
     // Handlers
+
+    // Handle create modal 
     const handleOpenCreate = () => setOpenCreate(true)
 
     const handleCloseCreate = () => setOpenCreate(false)
     
+    const handleAddCatering = (newCatering: Catering) => {
+        setCatering((prevCatering) => [...prevCatering, newCatering])
+    }
+
+    // Handle update modal 
     const handleOpenUpdate = (cateringItem: Catering) => {
         setSelectedCatering(cateringItem);
         setOpenUpdate(true);
@@ -72,10 +78,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         setSelectedCatering(null);
     }
 
-    const handleAddCatering = (newCatering: Catering) => {
-        setCatering((prevCatering) => [...prevCatering, newCatering])
-    }
-
+    // Handle delete modal 
     const handleDeleteClick = (catering: Catering) => async () => {
         setSelectedCatering(catering)
         setDeleteDialogOpen(true)
@@ -84,10 +87,10 @@ export const Services: FC<ServicesProps> = ({ event }) => {
     const handleCloseDeleteDialog = () => {
         setDeleteDialogOpen(false)
         setSelectedCatering(null)
-        revalidator.revalidate()
     }
 
     const handleDeleteCatering = async () => {
+        setDeleting(true)
         if (!selectedCatering) return
         try {
             await deleteCateringByID(selectedCatering.RecordID)
@@ -97,6 +100,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         } catch (error) {
             console.error('Error deleting catering:', error)
         } finally {
+            setDeleting(false)
             handleCloseDeleteDialog()
         }
     }
@@ -260,6 +264,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         open={deleteDialogOpen}
         onClose={handleCloseDeleteDialog}
         onConfirm={handleDeleteCatering}
+        deleting={deleting}
     />
 </>
 )
