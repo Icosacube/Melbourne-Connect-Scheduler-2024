@@ -24,6 +24,7 @@ import {
     Finance,
     Layout,
     Login,
+    Logout,
     Events,
     Speakers,
     Speaker,
@@ -51,6 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             path: '/login',
             element: <Login />,
+            errorElement: <ErrorPage />,
+        },
+        {
+            path: '/logout',
+            element: <Logout />,
             errorElement: <ErrorPage />,
         },
         {

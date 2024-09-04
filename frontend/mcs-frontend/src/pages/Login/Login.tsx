@@ -3,11 +3,8 @@ import React, { FC, useState } from 'react'
 import { FormInputPassword, FormInputText } from '../../components'
 import { useForm } from 'react-hook-form'
 import { redirect } from 'react-router'
-import AuthProvider, {
-    useAuth,
-} from '../../scripts/authentication/authProvider'
 import { useNavigate } from 'react-router-dom'
-import { login } from '../../scripts/authentication/login'
+import { login } from '../../scripts/authentication/auth'
 
 interface UserCredentials {
     username: string
@@ -23,8 +20,7 @@ export const Login: FC = () => {
     const onSubmit = async (data: UserCredentials) => {
         setSubmitting(true)
         try {
-            login(data.username, data.password)
-            
+            await login(data.username, data.password)
             navigate('/dashboard')
         } catch (error) {
             console.error(error)

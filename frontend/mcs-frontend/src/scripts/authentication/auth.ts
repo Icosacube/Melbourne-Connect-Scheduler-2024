@@ -1,9 +1,10 @@
 import axios from 'axios'
 import cookie from 'cookie'
+import { deleteCookie, setCookie } from '../cookie/function'
 
 interface loginResponse {
     username: string
-    token: string
+    accessToken: string
     LastLoginTime: string
 }
 
@@ -20,16 +21,17 @@ export const login = async (username: string, password: string) => {
     }
     const data = res.data as loginResponse
     console.log('successfully logged in!')
-    console.log(data.token)
+    const token = data.accessToken
 
     //Login token expires after 15 minutes
     var date = new Date()
     date.setTime(date.getTime() + 15 * 60 * 1000)
 
-    const loginCookie = cookie.serialize('login', data.token, {
-        expires: date,
-    })
-    document.cookie = loginCookie
+    setCookie('login', token, { expires: date })
+
+    // set default axios auth header
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    console.log(axios.defaults.headers.common['Authorization'])
 }
 
 // refreshes the token provided we have it
@@ -44,15 +46,18 @@ export const refresh = async () => {
         return
     }
     const data = res.data as loginResponse
-    console.log('successfully logged in!')
-    console.log(data.token)
+    console.log('successfully refreshed token!')
+    const token = data.accessToken
 
     //Login token expires after 15 minutes
     var date = new Date()
     date.setTime(date.getTime() + 15 * 60 * 1000)
 
-    const refreshCookie = cookie.serialize('login', data.token, {
-        expires: date,
-    })
-    document.cookie = refreshCookie
+    setCookie('login', token, { expires: date })
+
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+}
+
+export const logout = () => {
+    deleteCookie('login')
 }
