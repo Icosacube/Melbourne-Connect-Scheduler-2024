@@ -9,9 +9,12 @@ import {
 
 const router = express.Router();
 import { Catering, Service, Venue } from '../types/types';
-const venueTable = String(process.env.VENUE);
 import { Cachekeys } from '../Enum/Cachekeys';
 import { getCache, setCache, deleteCache } from '../utils/caching';
+
+const venueTable = String(process.env.VENUE);
+const financeTable = String(process.env.FINANCE);
+
 
 //get all venues
 router.get('/venues', async (req, res) => {
@@ -95,7 +98,9 @@ router.post('/venues', async (req, res) => {
   };
 
   try {
-    await createRecord(venueTable, [venueRecord]);
+    let recordId = await createRecord(venueTable, [venueRecord]);
+    await createRecord(financeTable,[{fields: {"Venue": recordId}}])
+
     deleteCache(Cachekeys.VENUES);
     res.status(200).json({ message: 'Venue created successfully' });
   } catch (error) {
@@ -129,9 +134,13 @@ router.put('/venues/:venue_record_id', async (req, res) => {
 //delete one venue
 router.delete('/venues/:venue_record_id', async (req, res) => {
   const { venue_record_id } = req.params;
+  const record = await getRecord(venueTable, venue_record_id);
+  const financeId = record.get('Finance')[0];
+
 
   try {
     await deleteRecords(venueTable, [venue_record_id]);
+    await deleteRecords('Finance', [financeId]);
     deleteCache(Cachekeys.VENUES);
     res.status(200).json({ message: 'Venue deleted successfully' });
   } catch (error) {

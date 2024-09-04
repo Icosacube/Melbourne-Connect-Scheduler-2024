@@ -1,7 +1,7 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import { AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
@@ -13,17 +13,18 @@ import {
     BottomSuccessSnackbar,
 } from '../../../../components/'
 import { Catering } from '../../../../types/frontendTypes'
-import { createCatering } from '../../../../scripts/catering/functions'
+import { updateCateringByID } from '../../../../scripts/catering/functions'
 
-interface CreateCateringModalProps {
+interface EditCateringModalProps {
     handleClose: () => void
     open: boolean
+    catering: Catering
     eventID: string
     fundingAccounts: Map<string, string>
-    addCatering: (catering: Catering) => void
+    updateCatering: (catering: Catering) => void
 }
 
-const CreateCateringFormDefaultValues: Catering = {
+const EditCateringFormDefaultValues: Catering = {
     RecordID: '',
     BookingReference: '',
     Description: '',
@@ -34,30 +35,40 @@ const CreateCateringFormDefaultValues: Catering = {
     Finance: [],
 }
 
-export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
+export const EditCateringModal: React.FC<EditCateringModalProps> = ({
     handleClose,
     open,
+    catering,
     eventID,
     fundingAccounts,
-    addCatering,
+    updateCatering: updateCatering,
 }) => {
+
     const { handleSubmit, reset, control } = useForm<Catering>({
-        defaultValues: CreateCateringFormDefaultValues,
+        defaultValues: catering || EditCateringFormDefaultValues, 
     })
 
+    useEffect(() => {
+        if (catering) {
+            reset(catering)
+        }
+    }, [catering, reset])
+
     const onSubmit = async (data: Catering) => {
-        setSubmitting(true)
+        setSubmitting(true);
         try {
-            data.MainEvent.push(eventID);
-            const newCateringEntry: Catering = await createCatering(data, eventID);
-            addCatering(newCateringEntry); 
+            const res: AxiosResponse = await updateCateringByID(data);
+            if (res.status !== 200) {
+                throw new Error('Failed to update catering');
+            }
             setShowSuccess(true);
+            updateCatering(data); // This should be a separate function to update state
         } catch (error) {
-            console.error(error)
+            console.error(error);
         } finally {
             setSubmitting(false);
-            reset()
-            handleClose()
+            reset();
+            handleClose();
         }
     }
 
@@ -74,7 +85,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
             <Modal
                 open={open}
                 onClose={onClose}
-                aria-labelledby="create-new-trip"
+                aria-labelledby="update-catering"
             >
                 <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
                     <Grid
@@ -84,7 +95,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
                     >
                         <Grid item xs={12}>
                             <Typography variant="h4" gutterBottom>
-                                Add Catering Entry
+                                Update Catering 
                             </Typography>
                         </Grid>
 
@@ -144,7 +155,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
-                message="Catering created successfully"
+                message="Catering updated successfully"
             />
         </>
     )

@@ -223,6 +223,8 @@ export type Finance = {
     RecordID: string
     MainEventID: string
     MainEventName?: string
+    MainEventDate?: Dayjs
+    KeyNoteSpeakerName?: string
     EventTotalCost?: number
     ExpenseCategory: string
     ExpenseDescription: string

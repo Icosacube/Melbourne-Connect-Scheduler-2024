@@ -2,7 +2,24 @@ import axios, { AxiosResponse } from 'axios'
 import { SubEvent } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 
-// Function to reformat MainEvent response data
+// Function to reformat sub-event request data
+function reformatSubEventRequestData(data: SubEvent): any {
+    const subEvent = {
+        EventName: data.EventName,
+        EventDescription: data.EventDescription,
+        StartDate: data.StartDate.toISOString(),
+        Notes: data.Notes,
+        MainEvent: data.MainEvent,
+        EventType: data.EventType,
+        Completed: data.Completed,
+        Speakers: data.Speakers,
+        EndDate: data.EndDate.toISOString(),
+    }
+    return subEvent
+
+}
+
+// Function to reformat sub-event response data
 function reformatSubEventResponseData(data: any): SubEvent {
     const subEvent: SubEvent = {
         ...defaultSubEvent,
@@ -15,11 +32,11 @@ function reformatSubEventResponseData(data: any): SubEvent {
             : defaultSubEvent.StartDate,
         Notes: data.Notes || defaultSubEvent.Notes,
         MainEvent: data.MainEvent || defaultSubEvent.MainEvent,
+        EventType: data.EventType || defaultSubEvent.EventType,
         Completed: data.Completed || defaultSubEvent.Completed,
         Speakers: data.Speakers || defaultSubEvent.Speakers,
         EndDate: data.EndDate ? dayjs(data.EndDate) : defaultSubEvent.EndDate,
     }
-
     return subEvent
 }
 
@@ -58,14 +75,57 @@ export async function getSubEventsByMainEventID(
 }
 
 export async function createSubEvent(
-    subEvent: SubEvent,
-    id: String
-): Promise<AxiosResponse> {
-    const toSend: any = { ...subEvent }
-    delete toSend.RecordID
-    const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}/${id}`,
-        toSend
-    )
-    return res
+    subEvent: SubEvent
+): Promise<SubEvent> {
+    try {
+        const toSend: any = { ...subEvent }
+
+        delete toSend.RecordID
+
+        const res = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}`,
+            toSend
+        )
+    
+        const newSubEvent: SubEvent = {
+            ...subEvent,
+            RecordID: res.data.toString() // Attach the RecordID returned from the server
+        };
+        reformatSubEventResponseData(newSubEvent)
+    
+        return newSubEvent
+
+    } catch (error) {
+        console.error('Error creating sub-event:', error)
+        throw error
+    }
+}
+
+export async function updateSubEventByID(
+    subEvent : SubEvent): Promise<AxiosResponse> {
+        try {
+            console.log()
+            const recordID = subEvent.RecordID
+            const formattedSubEvent = reformatSubEventRequestData(subEvent)
+            const res = await axios.put(
+                `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}/${recordID}`,
+                formattedSubEvent
+            )
+            console.log(formattedSubEvent)
+            return res 
+        } catch (error) {
+            console.error('Error updating sub-event:', error)
+            throw error
+    }
+}
+
+export async function deleteSubEventByID(id : string) {
+    try {
+        const res = await axios.delete(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SUBEVENT_API_PATH}/${id}`
+        )
+        return res.status
+    } catch (error) {
+        console.error('Error deleting sub-event by ID:', error)
+    }
 }

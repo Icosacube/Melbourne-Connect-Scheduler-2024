@@ -14,6 +14,7 @@ const flightTable = String(process.env.FLIGHT)
 const financeTable = String(process.env.FINANCE);
 import {Cachekeys} from '../Enum/Cachekeys';
 import {getCache,setCache,deleteCache} from '../utils/caching';
+
 //get all flights
 router.get('/flights', async (req, res) => {
     try {
@@ -84,12 +85,13 @@ router.post('/flights', async (req, res) => {
     const FlightRecord = {
         fields: newFlight 
     };
-
+    
     try {
         console.log(FlightRecord);
         let recordId =await createRecord(flightTable, [FlightRecord]);
         await createRecord(financeTable,[{fields: {"Flight": recordId}}])
         deleteCache(Cachekeys.FLIGHTS);
+
         res.status(200).json({ message: 'flight created successfully' });
     } catch (error) {
         console.error("Failed to create flight:", error);
@@ -116,6 +118,7 @@ router.put('/flights/:flight_record_id', async (req, res) => {
       res.status(500).json({ error: 'Failed to update flight' });
     }
   });
+
    //delete one flight 
   router.delete('/flight/:flight_record_id', async (req, res) => {
     const { flight_record_id } = req.params;
@@ -131,4 +134,5 @@ router.put('/flights/:flight_record_id', async (req, res) => {
       res.status(500).json({ error: 'Failed to delete flight' });
     }
   });
+
 module.exports = router;

@@ -8,9 +8,17 @@ import {
     OutlinedButton,
     SubmitButton,
     BottomSuccessSnackbar,
+    DeleteDialog,
+    DeleteButton,
 } from '../../../components/'
-import { updateSpeaker } from '../../../scripts/speaker/functions'
+import {
+    deleteSpeaker,
+    updateSpeaker,
+} from '../../../scripts/speaker/functions'
 import { Speaker } from '../../../types/frontendTypes'
+import { useNavigate } from 'react-router-dom'
+import { useRevalidator } from 'react-router-dom'
+
 
 interface CreateSpeakerModalProps {
     handleClose: () => void
@@ -29,6 +37,37 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const revalidator = useRevalidator()
+
+    // Handle Delete
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+    const [showDeleteSuccess, setShowDeleteSuccess] = useState(false)
+    const [deleting, setDeleting] = useState(false)
+    const navigate = useNavigate()
+
+    const handleDeleteClick = () => {
+        setOpenDeleteDialog(true)
+    }
+    const handleDeleteCancel = () => {
+        setOpenDeleteDialog(false)
+    }
+    const handleDeleteConfirm = async () => {
+        try {
+            setDeleting(true)
+            const res = await deleteSpeaker(speaker.RecordID)
+            if (res) {
+                setShowDeleteSuccess(true)
+                navigate(`/speakers`)
+            } else {
+                console.log('Failed to delete speaker')
+            }
+        } catch (error) {
+            console.error('Error deleting speaker:', error)
+        } finally {
+            setOpenDeleteDialog(false)
+            setDeleting(false)
+        }
+    }
 
     const onSubmit = async (data: Speaker) => {
         setSubmitting(true)
@@ -36,9 +75,7 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
             const res: AxiosResponse = await updateSpeaker(data)
             if (res.status === 200) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to update speaker')
             }
@@ -284,19 +321,33 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                             <Grid
                                 container
                                 spacing={2}
-                                justifyContent="flex-end"
+                                justifyContent="space-between"
                             >
                                 <Grid item>
-                                    <OutlinedButton
-                                        onClick={() => reset()}
-                                        name={'Reset'}
+                                    <DeleteButton
+                                        onClick={handleDeleteClick}
+                                        deleting={deleting}
                                     />
                                 </Grid>
                                 <Grid item>
-                                    <SubmitButton
-                                        submitting={submitting}
-                                        onClick={handleSubmit(onSubmit)}
-                                    />
+                                    <Grid
+                                        container
+                                        spacing={2}
+                                        justifyContent="flex-end"
+                                    >
+                                        <Grid item>
+                                            <OutlinedButton
+                                                onClick={() => reset()}
+                                                name={'Reset'}
+                                            />
+                                        </Grid>
+                                        <Grid item>
+                                            <SubmitButton
+                                                submitting={submitting}
+                                                onClick={handleSubmit(onSubmit)}
+                                            />
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -308,6 +359,18 @@ export const EditSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
                 message="Speaker updated successfully"
+            />
+            <DeleteDialog
+                open={openDeleteDialog}
+                onClose={handleDeleteCancel}
+                onConfirm={handleDeleteConfirm}
+                name="speaker"
+                deleting={deleting}
+            />
+            <BottomSuccessSnackbar
+                showSuccess={showDeleteSuccess}
+                setShowSuccess={setShowDeleteSuccess}
+                message="Speaker Deleted Successfully"
             />
         </>
     )

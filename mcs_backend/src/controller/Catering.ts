@@ -7,6 +7,7 @@ import {
   deleteRecords,
 } from '../models/airtable';
 const cateringTable = String(process.env.CATERING);
+const financeTable = String(process.env.FINANCE);
 const router = express.Router();
 import { Catering } from '../types/types';
 import { Cachekeys } from '../Enum/Cachekeys';
@@ -92,9 +93,11 @@ router.post('/catering', async (req, res) => {
   };
 
   try {
-    await createRecord(cateringTable, [cateringRecord]);
+    let recordId = await createRecord(cateringTable, [cateringRecord]);
+    await createRecord(financeTable,[{fields: {"Catering": recordId}}])
     deleteCache(Cachekeys.CATERINGS);
-    res.status(200).json({ message: 'Catering created successfully' });
+    
+    res.status(200).json(recordId);
   } catch (error) {
     console.error('Failed to create catering:', error);
     res.status(500).json({ error: 'Failed to create catering' });
@@ -126,9 +129,13 @@ router.put('/catering/:catering_record_id', async (req, res) => {
 //delete one catering for one main event
 router.delete('/catering/:catering_record_id', async (req, res) => {
   const { catering_record_id } = req.params;
+  const record = await getRecord(cateringTable, catering_record_id);
+  const financeId = record.get('Finance')[0];
+
 
   try {
     await deleteRecords(cateringTable, [catering_record_id]);
+    await deleteRecords('Finance', [financeId]);
     deleteCache(Cachekeys.CATERINGS);
     res.status(200).json({ message: 'Catering deleted successfully' });
   } catch (error) {

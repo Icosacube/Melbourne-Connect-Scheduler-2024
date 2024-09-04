@@ -1,11 +1,15 @@
-import { Button } from '@mui/material'
+import { Button, CircularProgress } from '@mui/material'
 import React from 'react'
 
 interface DeleteButtonProps {
     onClick: () => void
+    deleting: boolean
 }
 
-export const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick }) => {
+export const DeleteButton: React.FC<DeleteButtonProps> = ({
+    onClick,
+    deleting,
+}) => {
     return (
         <Button
             className="hover:bg-tertiary text-xl py-2 px-4"
@@ -14,6 +18,12 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick }) => {
             color="error"
             disableElevation
             onClick={onClick}
+            disabled={deleting} // Disable button while submitting
+            startIcon={
+                deleting ? (
+                    <CircularProgress size={20} color="inherit" />
+                ) : undefined
+            }
         >
             Delete
         </Button>

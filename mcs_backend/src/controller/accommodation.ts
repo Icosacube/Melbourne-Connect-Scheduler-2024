@@ -86,7 +86,9 @@ router.post('/accommodation/:tripID', async (req, res) => {
   try {
     let recordId = await createRecord(accommodationTable, [creation]);
     await createRecord(financeTable,[{fields: {"Accommodation": recordId}}])
+
     deleteCache(Cachekeys.ACCOMMODATIONS);
+
     res.status(201).json({ message: 'Accommodation created successfully' });
   } catch (error) {
     console.error("Failed to create accommodation:", error);
@@ -129,5 +131,6 @@ router.put('/accommodation/:accommodation_record_id', async (req, res) => {
     }
   });
   
+
 
 module.exports = router;

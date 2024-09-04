@@ -1,9 +1,11 @@
 import { Grid } from '@mui/material'
 import React, { FC } from 'react'
-import { Outlet } from 'react-router-dom'
-import { SideNavBar, TopNavBar } from '../../components'
+import { Outlet, useNavigation } from 'react-router-dom'
+import { ProgressSpinner, SideNavBar, TopNavBar } from '../../components'
 
 export const Layout: FC = () => {
+    const navigation = useNavigation()
+
     return (
         <Grid
             container
@@ -32,7 +34,11 @@ export const Layout: FC = () => {
                 }}
             >
                 <TopNavBar />
-                <Outlet />
+                {navigation.state === 'loading' ? (
+                    <ProgressSpinner />
+                ) : (
+                    <Outlet />
+                )}
             </Grid>
         </Grid>
     )

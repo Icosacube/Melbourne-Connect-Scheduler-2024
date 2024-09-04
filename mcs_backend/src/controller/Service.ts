@@ -14,6 +14,8 @@ import { Cachekeys } from '../Enum/Cachekeys';
 
 //get all services
 const serviceTable = String(process.env.SERVICE);
+const financeTable = String(process.env.FINANCE);
+
 router.get('/services', async (req, res) => {
   try {
     const cachedServices = getCache(Cachekeys.SERVICES);
@@ -86,7 +88,7 @@ router.get('/service/:mainEventID', async (req, res) => {
 
 //create one service for a main event
 router.post('/service/:mainEventID', async (req, res) => {
-  const { mainEventID } = req.body;
+  const { mainEventID } = req.params;
   const newService: Service = req.body;
   newService.MainEvent = [mainEventID];
   const serviceRecord = {
@@ -94,7 +96,9 @@ router.post('/service/:mainEventID', async (req, res) => {
   };
 
   try {
-    await createRecord(serviceTable, [serviceRecord]);
+    let recordId = await createRecord(serviceTable, [serviceRecord]);
+    await createRecord(financeTable,[{fields: {"Service": recordId}}])
+
     deleteCache(Cachekeys.SERVICES);
     res.status(200).json({ message: 'Service created successfully' });
   } catch (error) {
@@ -128,9 +132,12 @@ router.put('/services/:service_record_id', async (req, res) => {
 //delete one service
 router.delete('/services/:service_record_id', async (req, res) => {
   const { service_record_id } = req.params;
+  const record = await getRecord(serviceTable, service_record_id);
+  const financeId = record.get('Finance')[0];
 
   try {
     await deleteRecords(serviceTable, [service_record_id]);
+    await deleteRecords('Finance', [financeId]);
     deleteCache(Cachekeys.SERVICES);
     res.status(200).json({ message: 'Service deleted successfully' });
   } catch (error) {
