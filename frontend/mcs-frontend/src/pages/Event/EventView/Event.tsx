@@ -38,7 +38,11 @@ export const Event: FC = () => {
     }
     return (
         <Box>
-            <EventTopNavBar getCurTab={setTabName} openEditModal={handleOpen} />
+            <EventTopNavBar
+                getCurTab={setTabName}
+                openEditModal={handleOpen}
+                event={event}
+            />
             <EditEventModal
                 event={event}
                 handleClose={() => {

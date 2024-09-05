@@ -1,6 +1,6 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import CreateIcon from '@mui/icons-material/Create'
-import ShareIcon from '@mui/icons-material/Share'
+
 import {
     Box,
     Breadcrumbs,
@@ -12,15 +12,19 @@ import {
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { EventTabs } from '../../pages/Event/EventView/EventTabs'
+import { ShareButton } from '../../pages/Event/EventView/ShareButton'
+import { MainEvent } from '../../types/frontendTypes'
 
 interface EventTopNavBarProps {
     getCurTab: (data: string) => void
     openEditModal: () => void
+    event: MainEvent
 }
 
 const EventTopNavBar: React.FC<EventTopNavBarProps> = ({
     getCurTab,
     openEditModal,
+    event,
 }) => {
     const [tabName, setTabName] = useState('About')
     const navigate = useNavigate()
@@ -65,15 +69,7 @@ const EventTopNavBar: React.FC<EventTopNavBarProps> = ({
                 <Box className="flex place-items-center">
                     <EventTabs getTabName={handleTabChange} />
                     <Box className="flex h-14 space-x-4 mx-12">
-                        <Button
-                            variant="contained"
-                            className="bg-accent2 hover:bg-secondary hover:text-white text-white"
-                        >
-                            <ShareIcon />
-                            <Typography variant="h6" className="ml-3">
-                                Share
-                            </Typography>
-                        </Button>
+                        <ShareButton event={event} />
                         <Button
                             variant="contained"
                             onClick={openEditModal}
