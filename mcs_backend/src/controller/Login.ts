@@ -94,4 +94,36 @@ router.post('/login/refresh-token', (req, res) => {
   }
 });
 
+// Logout route
+router.post('/login/logout', async (req, res) => {
+  const { username }: ExecutiveAssistant = req.body;
+  
+  try {
+    const user = await getTable(UserTable, `{username} = "${username}"`);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const formattedUser: { [k: string]: any; }[] = [];
+    user.forEach((fields) => {
+      const plainFields = Object.fromEntries(fields); 
+      formattedUser.push(plainFields);
+    });
+
+    await updateRecord(UserTable, [{
+      id: formattedUser[0].id, 
+      fields: { refreshToken: null }
+    }]);
+
+    // Clear cookie
+    res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'strict' });
+    
+    res.json({ message: 'Logged out successfully' });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;
