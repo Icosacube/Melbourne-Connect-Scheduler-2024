@@ -7,6 +7,7 @@ import { MainEvent, Speaker } from '../../../types/frontendTypes'
 import { s } from '@fullcalendar/core/internal-common'
 import dayjs from 'dayjs'
 import { EmailFormField } from './EmailFormField'
+import { sendEmail } from '../../../scripts/email/functions'
 
 interface EmailComposerModalProps {
     isOpen: boolean
@@ -58,7 +59,7 @@ function generateHtmlEmailTemplate(event: MainEvent, speaker: Speaker) {
             <h1><b>About the Speaker</b></h1>
             <img src="${speaker.Headshot[0]?.url}" alt="${speaker.FirstName} ${
         speaker.LastName
-    }" style="max-width: 200px;">
+    }" style="max-width: 20px;"><br>
             <h2><b>${speaker.Title} ${speaker.FirstName} ${
         speaker.LastName
     }</b></h2>
@@ -131,7 +132,7 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
         setTo(value)
     }
 
-    const handleSend = () => {
+    const handleSend = async () => {
         const fromError = validateEmail(from)
         const toError = validateEmail(to)
         const subjectError = subject.trim() ? '' : 'Subject cannot be empty'
@@ -140,6 +141,7 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
         if (!fromError && !toError && !subjectError) {
             // Proceed with sending the email
             console.log('Sending email:', { from, to, subject, content })
+            await sendEmail(from, to, subject, content)
             onClose()
         }
     }
