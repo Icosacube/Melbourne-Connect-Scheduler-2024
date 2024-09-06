@@ -212,3 +212,38 @@ export type Canvassing = {
   Trip: string[];
   Academic: string[];
 };
+
+
+export enum SpeakerForm {
+  id = "speakerID",
+  PrimaryEmail = "Email",
+  FirstName = "First Name",
+  LastName = "Last Name",
+  Pronouns = "Pronouns",
+  Title = "Title",
+  AlternativeTitle = "Alternative Title",
+  Phone = "Phone",
+  Bio = "Bio",
+  PreferredTimezone = "Preferred Timezone",
+  Category = "Category",
+  Area = "Area",
+  WorkTitle = "Work Title",
+  Organisation = "Organisation",
+  Department = "Department",
+  Address = "Address",
+  CitySuburb = "City / Suburb",
+  State = "State",
+  Country = "Country",
+  Postcode = "Postcode",
+  EmergencyContactName = "Emergency Contact Name",
+  EmergencyContactRelationship = "Emergency Contact Relationship",
+  EmergencyContactNumber = "Emergency Contact Number",
+  FlyerMembershipName = "Flyer Membership Name",
+  FlyerMembershipNumber = "Flyer Membership Number",
+};
+
+export enum MainEventForm {
+  id = "mainID",
+  EventName = "Event Name",
+  EventAbstract = "Event Abstract",
+};

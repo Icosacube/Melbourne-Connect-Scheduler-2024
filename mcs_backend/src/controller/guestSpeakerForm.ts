@@ -10,7 +10,9 @@ import {
 
 import {
     Creation,
-    PresetFilter
+    PresetFilter,
+    SpeakerForm,
+    MainEventForm
 } from '../types/types';
 
 const router = express.Router();
@@ -30,6 +32,43 @@ router.get('/speaker-form', async (req, res) => {
       purge(speakerTable);
       purge(mainEventTable);
       purge(speakerFormTable);
+
+      res.send(speakerFormURL);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+router.get('/speaker-form/:speaker_record_id/:main_event_record_id', async (req, res) => {
+    try {
+      const { speaker_record_id, main_event_record_id } = req.params;
+      const speaker = await getRecord(speakerTable, speaker_record_id);
+      const mainEvent = await getRecord(mainEventTable, main_event_record_id);
+
+      const baseUrl = "https://airtable.com/app79kFx8O6KyDmzX/pagdVhuKBJu0OemCS/form?";
+      const prefill = "prefill_";
+
+      const fillList = [];
+
+      for (var [field, value] of speaker){
+        if (SpeakerForm[field as keyof typeof SpeakerForm] != null && SpeakerForm[field as keyof typeof SpeakerForm] != undefined){
+          let item = prefill + SpeakerForm[field as keyof typeof SpeakerForm] + "=" + value;
+          fillList.push(item);
+        }
+      }
+
+      for (var [field, value] of mainEvent){
+        if (MainEventForm[field as keyof typeof MainEventForm] != null && MainEventForm[field as keyof typeof MainEventForm] != undefined){
+          let item = prefill + MainEventForm[field as keyof typeof MainEventForm] + "=" + value;
+          fillList.push(item);
+        }
+      }
+
+      fillList.push("hide_speakerID=true&hide_mainID=true")
+
+      let speakerFormURL = baseUrl + fillList.join("&");
+
+      speakerFormURL = speakerFormURL.split(' ').join('+')
 
       res.send(speakerFormURL);
     } catch (error) {
