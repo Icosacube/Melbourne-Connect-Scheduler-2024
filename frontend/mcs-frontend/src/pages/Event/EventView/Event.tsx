@@ -42,6 +42,7 @@ export const Event: FC = () => {
                 getCurTab={setTabName}
                 openEditModal={handleOpen}
                 event={event}
+                speaker={speakers[0]}
             />
             <EditEventModal
                 event={event}

@@ -13,18 +13,20 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { EventTabs } from '../../pages/Event/EventView/EventTabs'
 import { ShareButton } from '../../pages/Event/EventView/ShareButton'
-import { MainEvent } from '../../types/frontendTypes'
+import { MainEvent, Speaker } from '../../types/frontendTypes'
 
 interface EventTopNavBarProps {
     getCurTab: (data: string) => void
     openEditModal: () => void
     event: MainEvent
+    speaker: Speaker
 }
 
 const EventTopNavBar: React.FC<EventTopNavBarProps> = ({
     getCurTab,
     openEditModal,
     event,
+    speaker,
 }) => {
     const [tabName, setTabName] = useState('About')
     const navigate = useNavigate()
@@ -69,7 +71,7 @@ const EventTopNavBar: React.FC<EventTopNavBarProps> = ({
                 <Box className="flex place-items-center">
                     <EventTabs getTabName={handleTabChange} />
                     <Box className="flex h-14 space-x-4 mx-12">
-                        <ShareButton event={event} />
+                        <ShareButton event={event} speaker={speaker} />
                         <Button
                             variant="contained"
                             onClick={openEditModal}
