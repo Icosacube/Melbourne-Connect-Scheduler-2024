@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
     FormInputMultiAutocomplete,
-    FormInputMultiSelect,
     FormInputSingleSelect,
     SubmitButton,
     BottomSuccessSnackbar,
@@ -119,6 +118,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                                     label: event.EventName,
                                     value: event.RecordID,
                                 }))}
+                                required={true}
                             />
                         </Grid>
                         <Grid item xs={12} sm={12} md={6}>

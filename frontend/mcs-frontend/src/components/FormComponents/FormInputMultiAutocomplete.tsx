@@ -14,13 +14,23 @@ export const FormInputMultiAutocomplete: React.FC<FormInputProps> = ({
     control,
     label,
     options = [],
+    required = false,
 }) => {
     return (
-        <FormControl size="small" variant="outlined" fullWidth>
+        <FormControl
+            size="small"
+            variant="outlined"
+            fullWidth
+            required={required}
+        >
             <Controller
                 name={name}
                 control={control}
-                render={({ field: { onChange, value } }) => (
+                rules={{ required: required ? `${label} is required` : false }}
+                render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                }) => (
                     <Autocomplete
                         multiple
                         options={options}
@@ -68,6 +78,8 @@ export const FormInputMultiAutocomplete: React.FC<FormInputProps> = ({
                                 variant="outlined"
                                 label={label}
                                 placeholder={label}
+                                error={!!error}
+                                helperText={error ? error.message : null} 
                             />
                         )}
                     />

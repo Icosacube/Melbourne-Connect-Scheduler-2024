@@ -1,4 +1,4 @@
-import { createTheme, ThemeOptions } from '@mui/material/styles';
+import { createTheme, ThemeOptions } from '@mui/material/styles'
 
 const themeOptions: ThemeOptions = {
     palette: {
@@ -110,6 +110,15 @@ const themeOptions: ThemeOptions = {
                 },
             },
         },
+        MuiAutocomplete: {
+            styleOverrides: {
+                inputRoot: {
+                    '& .MuiInputBase-input': {
+                        padding: '0px', // Removes padding inside the input
+                    },
+                },
+            },
+        },
         MuiInputLabel: {
             styleOverrides: {
                 root: {
@@ -192,7 +201,7 @@ const themeOptions: ThemeOptions = {
             styleOverrides: {
                 root: {
                     borderRadius: '8px',
-                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)', 
+                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
                 },
             },
         },
@@ -201,13 +210,13 @@ const themeOptions: ThemeOptions = {
                 root: {
                     height: 'auto',
                     borderRadius: '8px',
-                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)', 
+                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
                 },
             },
         },
     },
-};
+}
 
-const theme = createTheme(themeOptions);
+const theme = createTheme(themeOptions)
 
-export default theme;
+export default theme
