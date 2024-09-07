@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
     FormInputMultiAutocomplete,
-    FormInputSingleSelect,
+    FormInputSingleAutocomplete,
     SubmitButton,
     BottomSuccessSnackbar,
 } from '../../components/'
@@ -122,7 +122,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12} sm={12} md={6}>
-                            <FormInputSingleSelect
+                            <FormInputSingleAutocomplete
                                 name="GuestSpeaker"
                                 control={control}
                                 label="Speaker"

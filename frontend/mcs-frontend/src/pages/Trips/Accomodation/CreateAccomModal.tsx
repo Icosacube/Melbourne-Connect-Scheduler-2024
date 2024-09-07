@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import {
     FormInputText,
     FormInputDate,
-    FormInputSingleSelect,
+    FormInputSingleAutocomplete,
     SubmitButton,
     FormInputTextLong,
     BottomSuccessSnackbar,
@@ -135,7 +135,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12} md={9}>
-                            <FormInputSingleSelect
+                            <FormInputSingleAutocomplete
                                 name="FundingAccount"
                                 control={control}
                                 label="Funding Account"

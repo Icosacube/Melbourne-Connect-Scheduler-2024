@@ -7,7 +7,7 @@ import {
     DeleteDialog,
     FormInputDate,
     FormInputMultiSelect,
-    FormInputSingleSelect,
+    FormInputSingleAutocomplete,
     OutlinedButton,
     SubmitButton,
     BottomSuccessSnackbar,
@@ -180,7 +180,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={6}>
-                                    <FormInputSingleSelect
+                                    <FormInputSingleAutocomplete
                                         name="GuestSpeaker"
                                         control={control}
                                         label="Speaker"

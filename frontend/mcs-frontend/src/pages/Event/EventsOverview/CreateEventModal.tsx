@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     FormInputText,
+    FormInputDateTime,
+    FormInputTextLong,
+    FormInputMultiSelect,
     SubmitButton,
     BottomSuccessSnackbar,
 } from '../../../components/'
-import { FormInputDateTime } from '../../../components/FormComponents/FormInputDateTime'
-import { FormInputMultiSelect } from '../../../components/FormComponents/FormInputMultiSelect'
-import { FormInputTextLong } from '../../../components/FormComponents/FormInputTextLong'
 import {
     createMainEvent,
     defaultMainEvent,

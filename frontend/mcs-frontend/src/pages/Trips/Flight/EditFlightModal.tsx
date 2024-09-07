@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import {
     FormInputDateTime,
     FormInputText,
-    FormInputSingleSelect,
+    FormInputSingleAutocomplete,
     OutlinedButton,
     SubmitButton,
     BottomSuccessSnackbar,
@@ -133,7 +133,7 @@ export const EditFlightModal: React.FC<EditFlightModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12} md={9} lg={9}>
-                            <FormInputSingleSelect
+                            <FormInputSingleAutocomplete
                                 name="FundingAccount"
                                 control={control}
                                 label="Funding Account"
