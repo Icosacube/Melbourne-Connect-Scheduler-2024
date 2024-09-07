@@ -112,11 +112,13 @@ export type SubEvent = {
   Speakers: string[];
   EndDate: string;
 };
+    
+
 
 export type Academic = {
   Email: string;
   Name: string;
-  MainEvent: string;
+  MainEvent: string[];
   Canvassing: string[];
 };
 
@@ -211,4 +213,6 @@ export type Canvassing = {
   EndTime: string;
   Trip: string[];
   Academic: string[];
+  MainEvent:string[];
+  AvailableAcademic:String[]
 };
