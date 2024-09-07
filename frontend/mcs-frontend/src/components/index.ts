@@ -1,4 +1,3 @@
-export * from './EventTitle'
 export * from './SideNavBar'
 export * from './TopNavBar'
 export * from './Calendar'
