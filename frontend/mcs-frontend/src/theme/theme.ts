@@ -1,4 +1,4 @@
-import { createTheme, ThemeOptions } from '@mui/material/styles'
+import { createTheme, ThemeOptions } from '@mui/material/styles';
 
 const themeOptions: ThemeOptions = {
     palette: {
@@ -172,7 +172,6 @@ const themeOptions: ThemeOptions = {
                 },
             },
         },
-
         /* Button styling */
         MuiButton: {
             styleOverrides: {
@@ -188,9 +187,7 @@ const themeOptions: ThemeOptions = {
                 },
             },
         },
-
         /* Paper styling */
-
         MuiCard: {
             styleOverrides: {
                 root: {
@@ -209,8 +206,8 @@ const themeOptions: ThemeOptions = {
             },
         },
     },
-}
+};
 
-const theme = createTheme(themeOptions)
+const theme = createTheme(themeOptions);
 
-export default theme
+export default theme;

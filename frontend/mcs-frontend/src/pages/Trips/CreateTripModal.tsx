@@ -3,6 +3,7 @@ import { Grid, Modal, Paper, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
+    FormInputMultiAutocomplete,
     FormInputMultiSelect,
     FormInputSingleSelect,
     SubmitButton,
@@ -110,7 +111,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInputMultiSelect
+                            <FormInputMultiAutocomplete
                                 name="MainEvent"
                                 control={control}
                                 label="Event"
