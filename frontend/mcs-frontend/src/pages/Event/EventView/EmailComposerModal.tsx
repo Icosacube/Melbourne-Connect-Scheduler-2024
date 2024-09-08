@@ -1,13 +1,21 @@
 // EmailComposerModal.tsx
-import React, { useState, useEffect } from 'react'
-import { Modal, Box, Button, Typography, TextField } from '@mui/material'
+import {
+    Box,
+    Button,
+    CircularProgress,
+    Modal,
+    TextField,
+    Typography,
+} from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { MainEvent, Speaker } from '../../../types/frontendTypes'
-import { s } from '@fullcalendar/core/internal-common'
-import dayjs from 'dayjs'
-import { EmailFormField } from './EmailFormField'
 import { sendEmail } from '../../../scripts/email/functions'
+import { MainEvent, Speaker } from '../../../types/frontendTypes'
+import { EmailFormField } from './EmailFormField'
+import SendIcon from '@mui/icons-material/Send'
+import CloseIcon from '@mui/icons-material/Close'
+import { BottomSuccessSnackbar } from '../../../components'
 
 interface EmailComposerModalProps {
     isOpen: boolean
@@ -95,6 +103,45 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     const [content, setContent] = useState('')
     const [subjectError, setSubjectError] = useState('')
     const [disableSend, setDisabledSend] = useState(true)
+    const [sending, setSending] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
+
+    const reset = () => {
+        setFrom('')
+        setTo('')
+        setSubject('')
+        setContent('')
+        setSubjectError('')
+        setDisabledSend(true)
+    }
+    const handleCancel = () => {
+        reset()
+        onClose()
+    }
+    const handleSend = async () => {
+        setDisabledSend(true)
+        setSending(true)
+
+        const fromError = validateEmail(from)
+        const toError = validateEmail(to)
+        const subjectError = subject.trim() ? '' : 'Subject cannot be empty'
+
+        setSubjectError(subjectError)
+        if (!fromError && !toError && !subjectError) {
+            console.log('Sending email:', { from, to, subject, content })
+            const res = await sendEmail(from, to, subject, content)
+            console.log('Email sent:', res.status)
+            if (res.status === 200) {
+                setShowSuccess(true)
+            } else {
+                alert('Failed to send email')
+            }
+            reset()
+            onClose()
+        }
+        setSending(false)
+        setDisabledSend(false)
+    }
 
     useEffect(() => {
         const fromError = validateEmail(from)
@@ -103,7 +150,6 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
             setDisabledSend(false)
         }
     }, [from, to, subject, content])
-
     useEffect(() => {
         const { emailSubject, emailContent } = generateHtmlEmailTemplate(
             event,
@@ -120,111 +166,123 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
         setSubject(e.target.value)
         setSubjectError(e.target.value.trim() ? '' : 'Subject cannot be empty')
     }
-
     const handleContentChange = (value: string) => {
         setContent(value)
     }
     const handleFromChange = (value: string) => {
         setFrom(value)
     }
-
     const handleToChange = (value: string) => {
         setTo(value)
     }
 
-    const handleSend = async () => {
-        const fromError = validateEmail(from)
-        const toError = validateEmail(to)
-        const subjectError = subject.trim() ? '' : 'Subject cannot be empty'
-
-        setSubjectError(subjectError)
-        if (!fromError && !toError && !subjectError) {
-            // Proceed with sending the email
-            console.log('Sending email:', { from, to, subject, content })
-            await sendEmail(from, to, subject, content)
-            onClose()
-        }
-    }
-
     return (
-        <Modal
-            open={isOpen}
-            onClose={onClose}
-            aria-labelledby="email-composer-modal"
-        >
-            <Box
-                sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '75%', // 3/4 of the screen width
-                    height: '85vh',
-                    bgcolor: 'background.paper',
-                    boxShadow: 24,
-                    p: 4,
-                    display: 'flex',
-                    flexDirection: 'column',
-                }}
+        <>
+            <Modal
+                open={isOpen}
+                onClose={handleCancel}
+                aria-labelledby="email-composer-modal"
             >
-                <Typography variant="h6" component="h2" gutterBottom>
-                    Share Event: {event.EventName}
-                </Typography>
-                <Box
-                    sx={{
-                        flexGrow: 1,
-                        overflowY: 'auto',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        paddingTop: '18px',
-                    }}
-                >
-                    <EmailFormField
-                        label="From*"
-                        value={from}
-                        onChange={handleFromChange}
-                    />
-                    <EmailFormField
-                        label="To*"
-                        value={to}
-                        onChange={handleToChange}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Subject*"
-                        value={subject}
-                        onChange={handleSubjectChange}
-                        margin="normal"
-                        error={!!subjectError}
-                        helperText={subjectError}
-                        sx={{ mt: 2 }}
-                    />
-                    <ReactQuill
-                        theme="snow"
-                        value={content}
-                        onChange={handleContentChange}
-                        style={{
-                            flexGrow: 1,
-                            marginTop: '16px',
-                            marginBottom: '20px',
+                <>
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: '75%',
+                            height: '85vh',
+                            bgcolor: 'background.paper',
+                            boxShadow: 24,
+                            p: 4,
+                            display: 'flex',
+                            flexDirection: 'column',
                         }}
-                    />
-                </Box>
-                <Box
-                    sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}
-                >
-                    <Button onClick={onClose} sx={{ mr: 2 }}>
-                        Cancel
-                    </Button>
-                    <Button
-                        variant="contained"
-                        onClick={handleSend}
-                        disabled={disableSend}
                     >
-                        Send
-                    </Button>
-                </Box>
-            </Box>
-        </Modal>
+                        <Typography variant="h6" component="h2" gutterBottom>
+                            Share Event: {event.EventName}
+                        </Typography>
+                        <Box
+                            sx={{
+                                flexGrow: 1,
+                                overflowY: 'auto',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                paddingTop: '18px',
+                            }}
+                        >
+                            <EmailFormField
+                                label="From*"
+                                value={from}
+                                onChange={handleFromChange}
+                            />
+                            <EmailFormField
+                                label="To*"
+                                value={to}
+                                onChange={handleToChange}
+                            />
+                            <TextField
+                                fullWidth
+                                label="Subject*"
+                                value={subject}
+                                onChange={handleSubjectChange}
+                                margin="normal"
+                                error={!!subjectError}
+                                helperText={subjectError}
+                                sx={{ mt: 2 }}
+                            />
+                            <ReactQuill
+                                theme="snow"
+                                value={content}
+                                onChange={handleContentChange}
+                                style={{
+                                    flexGrow: 1,
+                                    marginTop: '16px',
+                                    marginBottom: '20px',
+                                }}
+                            />
+                        </Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                mt: 2,
+                            }}
+                        >
+                            <Button
+                                onClick={handleCancel}
+                                sx={{ mr: 2 }}
+                                startIcon={<CloseIcon />}
+                                variant="outlined"
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={handleSend}
+                                disabled={disableSend}
+                                startIcon={
+                                    sending ? (
+                                        <CircularProgress
+                                            size={20}
+                                            color="inherit"
+                                        />
+                                    ) : (
+                                        <SendIcon />
+                                    )
+                                }
+                            >
+                                Send
+                            </Button>
+                        </Box>
+                    </Box>
+                </>
+            </Modal>
+            <BottomSuccessSnackbar
+                showSuccess={showSuccess}
+                setShowSuccess={setShowSuccess}
+                message="Email Sent!"
+            />
+        </>
     )
 }
