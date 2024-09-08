@@ -16,6 +16,7 @@ import { EmailFormField } from './EmailFormField'
 import SendIcon from '@mui/icons-material/Send'
 import CloseIcon from '@mui/icons-material/Close'
 import { BottomSuccessSnackbar } from '../../../components'
+import { set } from 'react-hook-form'
 
 interface EmailComposerModalProps {
     isOpen: boolean
@@ -105,6 +106,7 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     const [disableSend, setDisabledSend] = useState(true)
     const [sending, setSending] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [showError, setShowError] = useState(false)
 
     const reset = () => {
         setFrom('')
@@ -133,11 +135,11 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
             console.log('Email sent:', res.status)
             if (res.status === 200) {
                 setShowSuccess(true)
+                reset()
+                onClose()
             } else {
-                alert('Failed to send email')
+                setShowError(true)
             }
-            reset()
-            onClose()
         }
         setSending(false)
         setDisabledSend(false)
@@ -282,6 +284,12 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
                 message="Email Sent!"
+            />
+            <BottomSuccessSnackbar
+                showSuccess={showError}
+                setShowSuccess={setShowError}
+                message="Failed to Send Email"
+                variant="error"
             />
         </>
     )

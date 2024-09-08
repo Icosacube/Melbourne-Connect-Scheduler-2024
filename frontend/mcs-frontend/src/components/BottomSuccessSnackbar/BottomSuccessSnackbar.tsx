@@ -5,12 +5,14 @@ interface Props {
     showSuccess: boolean
     setShowSuccess: (show: boolean) => void
     message: string
+    variant?: 'success' | 'error'
 }
 
 export const BottomSuccessSnackbar: React.FC<Props> = ({
     showSuccess,
     setShowSuccess,
     message,
+    variant = 'success',
 }) => {
     return (
         <Snackbar
@@ -20,7 +22,7 @@ export const BottomSuccessSnackbar: React.FC<Props> = ({
             onClose={() => setShowSuccess(false)}
             TransitionComponent={(props) => <Slide {...props} direction="up" />}
         >
-            <Alert severity="success" onClose={() => setShowSuccess(false)}>
+            <Alert severity={variant} onClose={() => setShowSuccess(false)}>
                 {message}
             </Alert>
         </Snackbar>
