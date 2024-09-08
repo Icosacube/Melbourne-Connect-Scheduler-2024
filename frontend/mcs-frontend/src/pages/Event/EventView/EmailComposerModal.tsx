@@ -100,9 +100,11 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
 }) => {
     const [from, setFrom] = useState('')
     const [to, setTo] = useState('')
+    const [cc, setCc] = useState('')
     const [subject, setSubject] = useState('')
     const [content, setContent] = useState('')
     const [subjectError, setSubjectError] = useState('')
+    const [ccError, setCcError] = useState('')
     const [disableSend, setDisabledSend] = useState(true)
     const [sending, setSending] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
@@ -111,9 +113,11 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     const reset = () => {
         setFrom('')
         setTo('')
+        setCc('')
         setSubject('')
         setContent('')
         setSubjectError('')
+        setCcError('')
         setDisabledSend(true)
     }
     const handleCancel = () => {
@@ -126,10 +130,12 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
 
         const fromError = validateEmail(from)
         const toError = validateEmail(to)
+        const ccError = validateEmail(cc)
         const subjectError = subject.trim() ? '' : 'Subject cannot be empty'
 
         setSubjectError(subjectError)
-        if (!fromError && !toError && !subjectError) {
+        setCcError(ccError)
+        if (!fromError && !toError && !subjectError && !ccError) {
             console.log('Sending email:', { from, to, subject, content })
             const res = await sendEmail(from, to, subject, content)
             console.log('Email sent:', res.status)
@@ -145,13 +151,26 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
         setDisabledSend(false)
     }
 
+    // Enable the send button when all fields are valid
     useEffect(() => {
         const fromError = validateEmail(from)
         const toError = validateEmail(to)
-        if (!fromError && !toError && !subjectError) {
-            setDisabledSend(false)
-        }
-    }, [from, to, subject, content])
+        const subjectError = subject.trim() ? '' : 'Subject cannot be empty'
+        const ccError = cc.trim() === '' ? '' : validateEmail(cc) // Empty or valid email for CC
+
+        setSubjectError(subjectError)
+        setCcError(ccError)
+
+        const formIsValid =
+            !fromError &&
+            !toError &&
+            !subjectError &&
+            !ccError &&
+            content.trim() !== ''
+
+        setDisabledSend(!formIsValid)
+    }, [from, to, cc, subject, content])
+
     useEffect(() => {
         const { emailSubject, emailContent } = generateHtmlEmailTemplate(
             event,
@@ -164,6 +183,18 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
         }
     }, [isOpen, event])
 
+    const handleCcChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCc(e.target.value)
+        if (!e.target.value) {
+            setCcError('')
+            return
+        }
+
+        const error = isValidEmail(e.target.value)
+            ? ''
+            : 'Invalid email address'
+        setCcError(error)
+    }
     const handleSubjectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSubject(e.target.value)
         setSubjectError(e.target.value.trim() ? '' : 'Subject cannot be empty')
@@ -222,6 +253,16 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
                                 label="To*"
                                 value={to}
                                 onChange={handleToChange}
+                            />
+                            <TextField
+                                fullWidth
+                                label="Cc"
+                                value={cc}
+                                onChange={handleCcChange}
+                                margin="normal"
+                                error={!!ccError}
+                                helperText={ccError}
+                                sx={{ mt: 2 }}
                             />
                             <TextField
                                 fullWidth
