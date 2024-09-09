@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { Grid, Button } from '@mui/material'
+import { Grid, Button, Paper, Typography } from '@mui/material'
 import dayjs, { Dayjs } from 'dayjs'
 import { TimeSlot } from '../../types/frontendTypes'
-import { CanvassingCreationModal } from '../../pages/Canvassing/CanvassingCreationModal'
+import { useForm, Controller } from 'react-hook-form'
+import { FormInputMultiFreeSolo } from '../FormComponents'
 import './index.css'
 
-// Temporary Type
 interface TimeSlotTemp {
     id: string
     StartTime: Dayjs
@@ -16,21 +16,31 @@ interface TimeSlotTemp {
 }
 
 interface CanvassingCreationCalendarProps {
-    MainEvent: string
+    MainEvent: string // change to MainEventObject
     setTimeSlots: (value: TimeSlot[]) => void
 }
 
-// creation, accept event id
+// academic temp
+interface Person {
+    id: string
+    name: string
+    image?: string
+}
+
+// Sample academics
+const peopleOptions: Person[] = [
+    { id: '1', name: 'John Doe', image: '/path/to/john_image.jpg' },
+    { id: '2', name: 'Jane Smith', image: '/path/to/jane_image.jpg' },
+    { id: '3', name: 'Michael Johnson', image: '/path/to/michael_image.jpg' },
+]
+
 export const CanvassingCreationCalendar: React.FC<
     CanvassingCreationCalendarProps
 > = ({ MainEvent, setTimeSlots }) => {
     const [allTimeSlotTemps, setAllTimeSlotTemps] = useState<TimeSlotTemp[]>([])
-    const [open, setOpen] = useState<boolean>(false)
-    const [noPeopleTimeSlots, setNoPeopleTimeSlots] = useState<TimeSlot[]>([])
-
+    const { control, handleSubmit, setValue } = useForm()
     const eventDate = '2024-09-01'
 
-    // initial empty Timeslot array
     useEffect(() => {
         setAllTimeSlotTemps([])
     }, [])
@@ -67,7 +77,6 @@ export const CanvassingCreationCalendar: React.FC<
         setAllTimeSlotTemps(updatedSlots)
     }
 
-    // create a timeslot by clicking on the calendar
     const handleDateClick = (info: any) => {
         const newTimeSlotTemp: TimeSlotTemp = {
             id: dayjs(info.date).valueOf().toString(),
@@ -91,67 +100,83 @@ export const CanvassingCreationCalendar: React.FC<
         )
     }
 
-    // Convert time slots to the FullCalendar format
     const timeSlotsFC = allTimeSlotTemps.map((slot) => ({
         id: slot.id,
         start: slot.StartTime.toDate(),
         end: slot.EndTime.toDate(),
     }))
 
-    const handleSubmit = () => {
+    const onSubmit = (data: any) => {
         const timeSlots: TimeSlot[] = allTimeSlotTemps.map((slot) => ({
             MainEvent: MainEvent,
             StartTime: slot.StartTime,
             EndTime: slot.EndTime,
-            AvailablePeople: [],
+            AvailablePeople: [], // change this
             People: [],
         }))
-        setNoPeopleTimeSlots(timeSlots)
-        setOpen(true)
+        setTimeSlots(timeSlots) 
     }
 
     return (
-        <Grid container spacing={2}>
-            <Grid item container justifyContent={'flex-end'}>
-                <Grid item>
-                    <Button variant={'contained'} onClick={handleSubmit}>
-                        Save
-                    </Button>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2} alignItems={'flex-start'}>
+                <Grid item lg={10} md={9} sm={12}>
+                    <FullCalendar
+                        eventColor="#000000"
+                        eventTextColor="#ffffff"
+                        allDaySlot={false}
+                        plugins={[timeGridPlugin, interactionPlugin]}
+                        initialView="timeGridWeek"
+                        height="auto"
+                        events={timeSlotsFC}
+                        headerToolbar={{
+                            left: 'title',
+                            center: '',
+                            right: 'today prev,next',
+                        }}
+                        initialDate={eventDate}
+                        slotMinTime="09:00:00"
+                        slotMaxTime="20:00:00"
+                        locale="en-GB"
+                        editable={true}
+                        eventResize={handleSlotResize}
+                        eventDrop={handleSlotDrag}
+                        dateClick={handleDateClick}
+                        eventContent={renderEventContent}
+                    />
+                </Grid>
+                <Grid item sm={12} md={3} lg={2} container spacing={4}>
+                    <Grid item xs={12}>
+                        <Typography variant="h4">Options</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Controller
+                            name="availablePeople"
+                            control={control}
+                            defaultValue={[]}
+                            render={({ field }) => (
+                                <FormInputMultiFreeSolo
+                                    name="availablePeople"
+                                    control={control}
+                                    label="Select Academics"
+                                    options={peopleOptions.map((person) => ({
+                                        value: person.id,
+                                        label: person.name,
+                                        image: person.image,
+                                    }))}
+                                />
+                            )}
+                        />
+                    </Grid>
+                    <Grid item container justifyContent={'flex-end'}>
+                        <Grid item>
+                            <Button type="submit" variant={'contained'}>
+                                Save
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
-            <Grid item>
-                <FullCalendar
-                    eventColor="#000000"
-                    eventTextColor="#ffffff"
-                    allDaySlot={false}
-                    plugins={[timeGridPlugin, interactionPlugin]}
-                    initialView="timeGridWeek"
-                    height="auto"
-                    events={timeSlotsFC}
-                    headerToolbar={{
-                        left: 'title',
-                        center: '',
-                        right: 'today prev,next',
-                    }}
-                    initialDate={eventDate}
-                    slotMinTime="09:00:00"
-                    slotMaxTime="20:00:00"
-                    locale="en-GB"
-                    editable={true} // dragging and resizing
-                    eventResize={handleSlotResize}
-                    eventDrop={handleSlotDrag}
-                    dateClick={handleDateClick}
-                    eventContent={renderEventContent}
-                />
-            </Grid>
-            <CanvassingCreationModal
-                open={open}
-                handleClose={() => {
-                    setOpen(false)
-                }}
-                timeSlots={noPeopleTimeSlots}
-                setTimeSlots={setTimeSlots}
-            />
-        </Grid>
+        </form>
     )
 }
