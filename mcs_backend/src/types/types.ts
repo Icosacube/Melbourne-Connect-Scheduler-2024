@@ -79,7 +79,6 @@ export type Trip = {
   Accommodation: string[];
   Flight: string[];
   Miscellaneous: string[];
-  AcademicCanvassing: string[];
   Completed: boolean;
 };
 
@@ -211,7 +210,6 @@ export type FundingAccount = {
 export type Canvassing = {
   StartTime: string;
   EndTime: string;
-  Trip: string[];
   Academic: string[];
   MainEvent:string[];
   AvailableAcademic:String[]
