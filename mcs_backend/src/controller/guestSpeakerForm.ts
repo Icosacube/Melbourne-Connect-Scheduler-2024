@@ -24,6 +24,8 @@ const speakerFormUrl = String(process.env.SPEAKERFORMURL);
 const eventFormUrl = String(process.env.EVENTFORMURL);
 
 
+// Generate Empty records for Speaker and Event and return a form url to send to 
+// the speaker. 
 router.get('/speaker-event-form', async (req, res) => {
     try {
       const empty = {fields: {"Confirmed": false}}
@@ -43,6 +45,8 @@ router.get('/speaker-event-form', async (req, res) => {
 });
 
 
+// Return a form url prefilled with speaker and event information given the 
+// record id provided and return prefilled url 
 router.get('/speaker-event-form/:speaker_record_id/:main_event_record_id', async (req, res) => {
     try {
       const { speaker_record_id, main_event_record_id } = req.params;
@@ -67,6 +71,7 @@ router.get('/speaker-event-form/:speaker_record_id/:main_event_record_id', async
 });
 
 
+// Generate Empty record for Speaker and return a form url
 router.get('/speaker-form', async (req, res) => {
   try {
     const empty = {fields: {"Confirmed": false}}
@@ -84,6 +89,8 @@ router.get('/speaker-form', async (req, res) => {
 });
 
 
+// Return a form url prefilled with speaker information given the record id  
+// provided and return prefilled url 
 router.get('/speaker-form/:speaker_record_id', async (req, res) => {
     try {
       const { speaker_record_id} = req.params;
@@ -106,6 +113,8 @@ router.get('/speaker-form/:speaker_record_id', async (req, res) => {
 });
 
 
+// Generate Empty records for Event and return a form url with Speaker record id 
+// attached  
 router.get('/event-form/:speaker_record_id', async (req, res) => {
   try {
     const { speaker_record_id } = req.params;
@@ -124,6 +133,8 @@ router.get('/event-form/:speaker_record_id', async (req, res) => {
 });
 
 
+// Return a form url prefilled with event information given the record id  
+// provided and return prefilled url 
 router.get('/event-form/:speaker_record_id/:main_event_record_id', async (req, res) => {
     try {
       const { speaker_record_id, main_event_record_id } = req.params;
@@ -146,7 +157,7 @@ router.get('/event-form/:speaker_record_id/:main_event_record_id', async (req, r
     }
 });
 
-
+// Purge record in table after the set number of day after, defaulted to 180 days
 async function purge(table: string, limit: number = 180){
     let now = new Date().getTime();
     let dateToPurge = limit * (4 * 60 * 60 * 1000)
@@ -168,6 +179,7 @@ async function purge(table: string, limit: number = 180){
     }
 }
 
+// generate prefill parameter for url 
 function prefillFields(fields : Map<string, any>, e : any) : Array<string>{
   const prefill = "prefill_";
   const fillList = [];
@@ -178,18 +190,6 @@ function prefillFields(fields : Map<string, any>, e : any) : Array<string>{
       fillList.push(item);
     }
   }
-  return fillList;
-}
-
-function hideFields(e : any ) : Array<string> {
-  const hide = "hide_";
-  const fillList = [];
-
-  for (var field of Object.keys(e)){
-    let item = hide + e[field] + "=true"
-    fillList.push(item);
-  }
-
   return fillList;
 }
 
