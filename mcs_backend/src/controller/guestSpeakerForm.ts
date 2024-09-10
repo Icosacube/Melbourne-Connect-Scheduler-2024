@@ -19,35 +19,41 @@ const router = express.Router();
 const speakerTable = String(process.env.SPEAKERS);
 const mainEventTable = String(process.env.MAINEVENT);
 const speakerFormTable = String(process.env.SPEAKERFORM);
-const formUrl = String(process.env.SPEAKERFORMURL);
+const speakerEventFormUrl = String(process.env.SPEAKEREVENTFORMURL);
+const speakerFormUrl = String(process.env.SPEAKERFORMURL);
+const eventFormUrl = String(process.env.EVENTFORMURL);
 
 
+// Generate Empty records for Speaker and Event and return a form url to send to 
+// the speaker. 
 router.get('/speaker-event-form', async (req, res) => {
     try {
       const empty = {fields: {"Confirmed": false}}
       const speakerId = await createRecord(speakerTable, [empty]);
       const mainEventId = await createRecord(mainEventTable, [empty]);
 
-      const speakerEventFormUrl = formUrl + "?prefill_speakerID=" + speakerId + "&hide_speakerID=true&prefill_mainID=" + mainEventId + "&hide_mainID=true";
+      const url = speakerEventFormUrl + "?prefill_speakerID=" + speakerId + "&hide_speakerID=true&prefill_mainID=" + mainEventId + "&hide_mainID=true";
 
       purge(speakerTable);
       purge(mainEventTable);
       purge(speakerFormTable);
 
-      res.send(speakerEventFormUrl);
+      res.send(url);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 
+// Return a form url prefilled with speaker and event information given the 
+// record id provided and return prefilled url 
 router.get('/speaker-event-form/:speaker_record_id/:main_event_record_id', async (req, res) => {
     try {
       const { speaker_record_id, main_event_record_id } = req.params;
       const speaker = await getRecord(speakerTable, speaker_record_id);
       const mainEvent = await getRecord(mainEventTable, main_event_record_id);
 
-      const baseUrl = formUrl + "?";
+      const baseUrl = speakerEventFormUrl + "?";
 
       let fillList = [];
 
@@ -56,102 +62,102 @@ router.get('/speaker-event-form/:speaker_record_id/:main_event_record_id', async
       fillList = fillList.concat(prefillFields(speaker, SpeakerForm));
       fillList = fillList.concat(prefillFields(mainEvent, MainEventForm));
 
-      let speakerEventFormUrl = (baseUrl + fillList.join("&")).split(' ').join('+');
+      let url = (baseUrl + fillList.join("&")).split(' ').join('+');
 
-      res.send(speakerEventFormUrl);
+      res.send(url);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 
+// Generate Empty record for Speaker and return a form url
 router.get('/speaker-form', async (req, res) => {
   try {
     const empty = {fields: {"Confirmed": false}}
     const speakerId = await createRecord(speakerTable, [empty]);
 
-    const baseUrl = formUrl + "?prefill_speakerID=" + speakerId + "&hide_speakerID=true";
-    let fillList = hideFields(MainEventForm);
-    
-    let speakerFormUrl = (baseUrl + "&" + fillList.join("&")).split(' ').join('+');
-
+    const url = speakerFormUrl + "?prefill_speakerID=" + speakerId + "&hide_speakerID=true";
 
     purge(speakerTable);
     purge(speakerFormTable);
 
-    res.send(speakerFormUrl);
+    res.send(url);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
 
+// Return a form url prefilled with speaker information given the record id  
+// provided and return prefilled url 
 router.get('/speaker-form/:speaker_record_id', async (req, res) => {
     try {
       const { speaker_record_id} = req.params;
       const speaker = await getRecord(speakerTable, speaker_record_id);
 
-      const baseUrl = formUrl + "?";
+      const baseUrl = speakerFormUrl + "?";
 
       let fillList = [];
 
       fillList.push("hide_speakerID=true")
 
       fillList = fillList.concat(prefillFields(speaker, SpeakerForm));
-      fillList = fillList.concat(hideFields(MainEventForm));
 
-      let speakerFormUrl = (baseUrl + fillList.join("&")).split(' ').join('+');
+      let url = (baseUrl + fillList.join("&")).split(' ').join('+');
 
-      res.send(speakerFormUrl);
+      res.send(url);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 
-router.get('/event-form', async (req, res) => {
+// Generate Empty records for Event and return a form url with Speaker record id 
+// attached  
+router.get('/event-form/:speaker_record_id', async (req, res) => {
   try {
+    const { speaker_record_id } = req.params;
     const empty = {fields: {"Confirmed": false}}
     const mainEventId = await createRecord(mainEventTable, [empty]);
 
-    const baseUrl = formUrl + "?prefill_mainID=" + mainEventId + "&hide_mainID=true";
-    let fillList = hideFields(SpeakerForm);
-    
-    let eventFormUrl = (baseUrl + "&" + fillList.join("&")).split(' ').join('+');
+    const url = eventFormUrl + "?prefill_speakerID=" + speaker_record_id + "&hide_speakerID=true&prefill_mainID=" + mainEventId + "&hide_mainID=true";
 
     purge(mainEventTable);
     purge(speakerFormTable);
 
-    res.send(eventFormUrl);
+    res.send(url);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
 
-router.get('/event-form/:main_event_record_id', async (req, res) => {
+// Return a form url prefilled with event information given the record id  
+// provided and return prefilled url 
+router.get('/event-form/:speaker_record_id/:main_event_record_id', async (req, res) => {
     try {
-      const { main_event_record_id } = req.params;
+      const { speaker_record_id, main_event_record_id } = req.params;
       const mainEvent = await getRecord(mainEventTable, main_event_record_id);
 
-      const baseUrl = formUrl + "?";
+      const baseUrl = eventFormUrl + "?";
 
       let fillList = [];
 
       fillList.push("hide_mainID=true");
-      fillList.push("hide_Headshot=true");
-      fillList = fillList.concat(hideFields(SpeakerForm));
+      fillList.push("prefill_speakerID=" + speaker_record_id);
+      fillList.push("hide_speakerID=true");
       fillList = fillList.concat(prefillFields(mainEvent, MainEventForm));
 
-      let eventFormUrl = (baseUrl + fillList.join("&")).split(' ').join('+');
+      let url = (baseUrl + fillList.join("&")).split(' ').join('+');
 
-      res.send(eventFormUrl);
+      res.send(url);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
-
+// Purge record in table after the set number of day after, defaulted to 180 days
 async function purge(table: string, limit: number = 180){
     let now = new Date().getTime();
     let dateToPurge = limit * (4 * 60 * 60 * 1000)
@@ -173,6 +179,7 @@ async function purge(table: string, limit: number = 180){
     }
 }
 
+// generate prefill parameter for url 
 function prefillFields(fields : Map<string, any>, e : any) : Array<string>{
   const prefill = "prefill_";
   const fillList = [];
@@ -183,18 +190,6 @@ function prefillFields(fields : Map<string, any>, e : any) : Array<string>{
       fillList.push(item);
     }
   }
-  return fillList;
-}
-
-function hideFields(e : any ) : Array<string> {
-  const hide = "hide_";
-  const fillList = [];
-
-  for (var field of Object.keys(e)){
-    let item = hide + e[field] + "=true"
-    fillList.push(item);
-  }
-
   return fillList;
 }
 
