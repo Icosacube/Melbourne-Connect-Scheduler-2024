@@ -18,6 +18,7 @@ const cateringRouter = require('./controller/catering');
 const serviceRouter = require('./controller/service'); 
 const venueRouter = require('./controller/venue');
 const subEventRouter = require('./controller/subEvent');
+const RegisterRouter = require('./controller/Register'); 
 const LoginRouter = require('./controller/Login'); 
 const fundingAccountRouter = require('./controller/fundingAccount');
 const financeRouter = require('./controller/finance');
@@ -26,7 +27,7 @@ const app = express();
 
 app.use(cors())
 app.use((req: Request, res: Response, next: () => void) => {
-  if (req.path.startsWith('/login')) {
+  if (req.path.startsWith('/login')) {//|| req.path.startsWith('/register') 
     return next();
   }
   authenticateJWT(req, res, next);
@@ -47,6 +48,7 @@ app.use('/', speakerRouter);
 app.use('/', mainEventRouter)
 app.use('/', cateringRouter);
 app.use('/', serviceRouter);
+app.use('/', RegisterRouter);
 app.use('/', LoginRouter);
 app.use('/', venueRouter);
 app.use('/', subEventRouter);

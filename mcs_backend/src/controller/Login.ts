@@ -1,6 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { ExecutiveAssistant } from '../types/types'; 
 import { setCache } from '../utils/caching'; 
 import { Cachekeys } from '../Enum/Cachekeys';
@@ -36,13 +36,12 @@ router.post('/login', async (req, res) => {
       formattedUser.push(plainFields);
     });
     //check password
-    // const isPasswordValid = await bcrypt.compare(password, formattedUser[0].password);
+    const isPasswordValid = await bcrypt.compare(password, formattedUser[0].password);
 
-    // if (!isPasswordValid) {
-    //   return res.status(401).json({ message: 'Invalid credentials' });
-    // }
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
     
-    // Password is valid, create JWT token
     // Generate access token
     const accessToken = jwt.sign({ username: formattedUser[0].username }, JWT_SECRET, { expiresIn: '15m' });
     
