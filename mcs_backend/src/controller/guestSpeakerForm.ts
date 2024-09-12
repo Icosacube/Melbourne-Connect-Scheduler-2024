@@ -36,7 +36,7 @@ router.get('/speaker-event-form', async (req, res) => {
 
       purge(speakerTable);
       purge(mainEventTable);
-      purge(speakerFormTable);
+      purge(speakerFormTable, true);
 
       res.send(url);
     } catch (error) {
@@ -80,7 +80,7 @@ router.get('/speaker-form', async (req, res) => {
     const url = speakerFormUrl + "?prefill_speakerID=" + speakerId + "&hide_speakerID=true";
 
     purge(speakerTable);
-    purge(speakerFormTable);
+    purge(speakerFormTable, true);
 
     res.send(url);
   } catch (error) {
@@ -124,7 +124,7 @@ router.get('/event-form/:speaker_record_id', async (req, res) => {
     const url = eventFormUrl + "?prefill_speakerID=" + speaker_record_id + "&hide_speakerID=true&prefill_mainID=" + mainEventId + "&hide_mainID=true";
 
     purge(mainEventTable);
-    purge(speakerFormTable);
+    purge(speakerFormTable, true);
 
     res.send(url);
   } catch (error) {
@@ -158,11 +158,16 @@ router.get('/event-form/:speaker_record_id/:main_event_record_id', async (req, r
 });
 
 // Purge record in table after the set number of day after, defaulted to 180 days
-async function purge(table: string, limit: number = 180){
+async function purge(table: string, formTable: boolean = false, limit: number = 180) {
     let now = new Date().getTime();
     let dateToPurge = limit * (4 * 60 * 60 * 1000)
+    let records
 
-    let records = await getNotConfirmed(table, PresetFilter.notConfirmed);
+    if (formTable){
+      records = await getNotConfirmed(table);
+    } else {
+      records = await getNotConfirmed(table, PresetFilter.notConfirmed);
+    }
 
     let purgeList = []
     
