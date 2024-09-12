@@ -1,4 +1,4 @@
-import { Box, Menu, MenuItem } from '@mui/material'
+import { Box, Button, Menu, MenuItem } from '@mui/material'
 import React, { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { CreateSpeakerModal } from './CreateSpeakerModal'
@@ -10,6 +10,7 @@ import {
     EmailContentSpeakerForm,
     EmailFormModal,
 } from '../../../components'
+import SpeakersButton from './SpeakersButtons'
 
 export const Speakers: FC = () => {
     const [openModal, setOpenModal] = useState(false)
@@ -60,7 +61,8 @@ export const Speakers: FC = () => {
     return (
         <Box className="space-y-8 flex flex-col">
             <Box className="flex flex-col">
-                <AddButton name={'Speaker'} onClick={handleClickButton} />
+                <SpeakersButton />
+                {/* <AddButton name={'Speaker'} onClick={handleClickButton} />
                 <Menu
                     anchorEl={anchorEl}
                     open={openMenu}
@@ -75,7 +77,7 @@ export const Speakers: FC = () => {
                     <MenuItem onClick={() => handleMenuItemClick(3)}>
                         Enter Partial Detail
                     </MenuItem>
-                </Menu>
+                </Menu> */}
                 <CreateSpeakerModal
                     handleClose={handleCloseModal}
                     open={openModal}
