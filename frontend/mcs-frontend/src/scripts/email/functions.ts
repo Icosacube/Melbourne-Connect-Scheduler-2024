@@ -3,6 +3,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios'
 export async function sendEmail(
     from: string,
     to: string,
+    cc: string,
     subject: string,
     content: string
 ): Promise<AxiosResponse<any, any>> {
@@ -12,6 +13,7 @@ export async function sendEmail(
             {
                 from,
                 to,
+                cc,
                 subject,
                 content,
             }
@@ -26,4 +28,20 @@ export async function sendEmail(
             throw error // or handle it differently depending on the use case
         }
     }
+}
+
+export async function getBlankSpeakerFormLink() {
+    return 'google.com'
+}
+
+export async function getExistingSpeakerFormLink(speakerId: string) {
+    return 'google.com'
+}
+
+export async function getBlankSpeakerEventFormLink() {
+    return 'google.com'
+}
+
+export async function getExistingSpeakerEventFormLink() {
+    return 'google.com'
 }
