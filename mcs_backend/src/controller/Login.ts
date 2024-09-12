@@ -1,6 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { ExecutiveAssistant } from '../types/types'; 
 import { setCache } from '../utils/caching'; 
 import { Cachekeys } from '../Enum/Cachekeys';
@@ -36,13 +36,12 @@ router.post('/login', async (req, res) => {
       formattedUser.push(plainFields);
     });
     //check password
-    // const isPasswordValid = await bcrypt.compare(password, formattedUser[0].password);
+    const isPasswordValid = await bcrypt.compare(password, formattedUser[0].password);
 
-    // if (!isPasswordValid) {
-    //   return res.status(401).json({ message: 'Invalid credentials' });
-    // }
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
     
-    // Password is valid, create JWT token
     // Generate access token
     const accessToken = jwt.sign({ username: formattedUser[0].username }, JWT_SECRET, { expiresIn: '15m' });
     
@@ -91,6 +90,38 @@ router.post('/login/refresh-token', (req, res) => {
   } catch (error) {
     console.error('Refresh token error:', error);
     res.status(403).json({ message: 'Invalid refresh token' });
+  }
+});
+
+// Logout route
+router.post('/login/logout', async (req, res) => {
+  const { username }: ExecutiveAssistant = req.body;
+  
+  try {
+    const user = await getTable(UserTable, `{username} = "${username}"`);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const formattedUser: { [k: string]: any; }[] = [];
+    user.forEach((fields) => {
+      const plainFields = Object.fromEntries(fields); 
+      formattedUser.push(plainFields);
+    });
+
+    await updateRecord(UserTable, [{
+      id: formattedUser[0].id, 
+      fields: { refreshToken: null }
+    }]);
+
+    // Clear cookie
+    res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'strict' });
+    
+    res.json({ message: 'Logged out successfully' });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
