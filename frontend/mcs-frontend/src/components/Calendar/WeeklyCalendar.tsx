@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
-import FullCalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import { MainEvent } from "../../types/frontendTypes";
-import { SubEvent } from "../../types/frontendTypes";
+import React, { useEffect, useState } from 'react'
+import FullCalendar from '@fullcalendar/react'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import { MainEvent } from '../../types/frontendTypes'
+import { SubEvent } from '../../types/frontendTypes'
 
 interface WeeklyCalendarProps {
   event: MainEvent,
@@ -34,10 +34,11 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     end: subEvent.EndDate.toDate(),
     extendedProps: subEvent,
   }));
+  
+    useEffect(() => {
+        setAllEvents([mainEventProp, ...subEventsProp])
+    }, [event, subEvents])
 
-  useEffect(() => {
-    setAllEvents([mainEventProp, ...subEventsProp]);
-  }, [event, subEvents]);
 
   const handleEventClick = (info: any) => {
     if (info.event.id.startsWith("sub-")) { // Check if the event is a sub-event
@@ -67,4 +68,4 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
   );
 };
 
-export default WeeklyCalendar;
+export default WeeklyCalendar

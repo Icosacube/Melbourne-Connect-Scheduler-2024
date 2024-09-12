@@ -10,13 +10,18 @@ import {
 
 const router = express.Router();
 import { Flight } from '../types/types';
-const flightTable = String(process.env.FLIGHT);
+const flightTable = String(process.env.FLIGHT)
 const financeTable = String(process.env.FINANCE);
-
+import {Cachekeys} from '../Enum/Cachekeys';
+import {getCache,setCache,deleteCache} from '../utils/caching';
 
 //get all flights
 router.get('/flights', async (req, res) => {
     try {
+      const cachedFlights = getCache(Cachekeys.FLIGHTS);
+      if (cachedFlights) {
+          return res.json(cachedFlights).status(200);
+      }
       const flights = await getTable(flightTable, "");
       const formattedFlights: { [k: string]: any; }[] = [];
       flights.forEach((fields) => {
@@ -24,6 +29,7 @@ router.get('/flights', async (req, res) => {
         formattedFlights.push(plainFields);
         console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
       });
+      setCache(Cachekeys.FLIGHTS, formattedFlights);
       res.json(formattedFlights);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
@@ -82,8 +88,10 @@ router.post('/flights', async (req, res) => {
     
     try {
         console.log(FlightRecord);
-        let recordId = await createRecord(flightTable, [FlightRecord]);
+        let recordId =await createRecord(flightTable, [FlightRecord]);
         await createRecord(financeTable,[{fields: {"Flight": recordId}}])
+        deleteCache(Cachekeys.FLIGHTS);
+
         res.status(200).json({ message: 'flight created successfully' });
     } catch (error) {
         console.error("Failed to create flight:", error);
@@ -103,6 +111,7 @@ router.put('/flights/:flight_record_id', async (req, res) => {
   
     try {
       await updateRecord(flightTable, recordToUpdate);
+      deleteCache(Cachekeys.FLIGHTS);
       res.status(200).json({ message: 'Flight updated successfully' });
     } catch (error) {
       console.error("Failed to update flight:", error);
@@ -110,19 +119,20 @@ router.put('/flights/:flight_record_id', async (req, res) => {
     }
   });
 
-//delete one flight 
-router.delete('/flights/:flight_record_id', async (req, res) => {
-  const { flight_record_id } = req.params;
-  const record = await getRecord(flightTable, flight_record_id);
-  const financeId = record.get('Finance')[0];
+   //delete one flight 
+  router.delete('/flight/:flight_record_id', async (req, res) => {
+    const { flight_record_id } = req.params;
+    const record = await getRecord(flightTable, flight_record_id);
+    const financeId = record.get('Finance')[0];
+    try {
+      await deleteRecords(flightTable, [flight_record_id]);
+      await deleteRecords('Finance', [financeId]);
+      deleteCache(Cachekeys.FLIGHTS);
+      res.status(200).json({ message: 'Flight deleted successfully' });
+    } catch (error) {
+      console.error("Failed to delete flight:", error);
+      res.status(500).json({ error: 'Failed to delete flight' });
+    }
+  });
 
-  try {
-    await deleteRecords(flightTable, [flight_record_id]);
-    await deleteRecords('Finance', [financeId]);
-    res.status(200).json({ message: 'Flight deleted successfully' });
-  } catch (error) {
-    console.error("Failed to delete flight:", error);
-    res.status(500).json({ error: 'Failed to delete flight' });
-  }
-});
 module.exports = router;

@@ -14,7 +14,6 @@ import { loader as tripLoader } from './scripts/trip/tripLoader'
 import { loader as financeLoader } from './scripts/finance/financeOverviewLoaders'
 import { loader as dashboardLoaders } from './scripts/dashboard/dashboardLoaders'
 import { loader as venueLoader } from './scripts/venue/venuesLoader'
-import { BodyLayout } from './pages/Layout/BodyLayout'
 
 import './index.css'
 import {
@@ -22,6 +21,8 @@ import {
     ErrorPage,
     Event,
     Finance,
+    BodyLayout,
+    FullWidthLayout,
     Layout,
     Login,
     Logout,
@@ -31,6 +32,7 @@ import {
     Speaker,
     Homepage,
     Venues,
+    Canvassing
 } from './pages'
 import { Trip } from './pages/Trips/Trip'
 import { Trips } from './pages/Trips/TripsOverview/Trips'
@@ -130,6 +132,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     loader: venueLoader,
                 },
             ],
+        },
+        {
+            path: '/canvassing',
+            element: <FullWidthLayout content={<Canvassing />} />,
+            errorElement: <ErrorPage />,
         },
     ])
     const rootContainer = ReactDOM.createRoot(root)
