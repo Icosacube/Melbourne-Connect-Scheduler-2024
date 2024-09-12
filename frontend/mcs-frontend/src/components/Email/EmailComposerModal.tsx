@@ -5,7 +5,7 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { BottomSuccessSnackbar, FormInputText } from '..'
+import { BottomSuccessSnackbar, FormInputText, SubmitButton } from '..'
 import { FormInputEmail } from '../FormComponents/FormInputEmail'
 import { sendEmail } from '../../scripts/email/functions'
 
@@ -193,23 +193,12 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
                             >
                                 Cancel
                             </Button>
-                            <Button
-                                variant="contained"
+                            <SubmitButton
                                 onClick={handleSubmit(onSubmit)}
+                                submitting={sending}
                                 disabled={!isValid}
-                                startIcon={
-                                    sending ? (
-                                        <CircularProgress
-                                            size={20}
-                                            color="inherit"
-                                        />
-                                    ) : (
-                                        <SendIcon />
-                                    )
-                                }
-                            >
-                                Send
-                            </Button>
+                                startIcon={<SendIcon />}
+                            />
                         </Box>
                     </Box>
                 </>
