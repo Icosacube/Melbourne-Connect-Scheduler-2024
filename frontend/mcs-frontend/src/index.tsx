@@ -63,15 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
             errorElement: <ErrorPage />,
         },
         {
-            path: '/register',
-            element: <Register />,
-            errorElement: <ErrorPage />,
-        },
-        {
             path: '/',
             element: <><ProtectedRoute><Layout /></ProtectedRoute></>,
             errorElement: <ErrorPage />,
             children: [
+                {
+                    path: '/register',
+                    element: <Register />,
+                    errorElement: <ErrorPage />,
+                },
                 {
                     path: '/dashboard',
                     element: <BodyLayout content={<Dashboard />} />,
@@ -139,6 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
             errorElement: <ErrorPage />,
         },
     ])
+
+
+
     const rootContainer = ReactDOM.createRoot(root)
     rootContainer.render(
         <React.StrictMode>

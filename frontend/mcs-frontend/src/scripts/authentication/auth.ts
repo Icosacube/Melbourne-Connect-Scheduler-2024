@@ -1,6 +1,6 @@
 import axios from 'axios'
 import cookie from 'cookie'
-import { deleteCookie, setCookie } from '../cookie/function'
+import { deleteCookie, getCookie, setCookie } from '../cookie/function'
 
 interface loginResponse {
     username: string
@@ -14,7 +14,7 @@ export const login = async (username: string, password: string) => {
         { username: username, password: password }
     )
 
-    if (res.status != 200) {
+    if (res.status !== 200) {
         // login failed
         console.log('login failed')
         return
@@ -34,13 +34,32 @@ export const login = async (username: string, password: string) => {
     console.log(axios.defaults.headers.common['Authorization'])
 }
 
+export const register = async (username: string, password: string) => {
+    const token = getCookie('login')
+
+    const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_REGISTER_API_PATH}`,
+        { username: username, password: password },
+        { headers: { "Authorization": `Bearer ${token}` } }
+    )
+
+    if (res.status !== 201) {
+        // login failed
+        console.log('register failed')
+        console.error(res.statusText)
+    }
+    // returns nothing else
+    console.log('register success')
+    return res
+}
+
 // refreshes the token provided we have it
 export const refresh = async () => {
     const res = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_REFRESH_API_PATH}`
     )
 
-    if (res.status != 200) {
+    if (res.status !== 200) {
         // login failed
         console.log('login failed')
         return
@@ -58,6 +77,10 @@ export const refresh = async () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 }
 
-export const logout = () => {
+export const logout = async () => {
+    const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGOUT_API_PATH}`
+    )
+
     deleteCookie('login')
 }
