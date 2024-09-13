@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
         },
         {
-            path: '/canvassing',
+            path: '/canvassing/:eventid/:academicid',
             element: <FullWidthLayout content={<Canvassing />} />,
             errorElement: <ErrorPage />,
         },

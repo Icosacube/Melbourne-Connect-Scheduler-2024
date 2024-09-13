@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import {
     FormInputText,
     FormInputDate,
-    FormInputSingleSelect,
+    FormInputSingleAutocomplete,
     SubmitButton,
     FormInputTextLong,
     BottomSuccessSnackbar,
@@ -78,7 +78,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
                 onClose={onClose}
                 aria-labelledby="modal-modal-title"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[450px] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
                         spacing={3}
@@ -135,7 +135,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12} md={9}>
-                            <FormInputSingleSelect
+                            <FormInputSingleAutocomplete
                                 name="FundingAccount"
                                 control={control}
                                 label="Funding Account"

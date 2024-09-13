@@ -24,17 +24,20 @@ interface TimeSlotTemp {
 }
 
 interface CheckboxRowProps {
+    mainEvent: string
+    academic: string
     timeSlots: TimeSlot[]
     setTimeSlots: (value: TimeSlot[]) => void
 }
 
 export const CheckboxRow: React.FC<CheckboxRowProps> = ({
+    mainEvent,
+    academic,
     timeSlots,
     setTimeSlots,
 }) => {
     const [timeSlotsTemp, setTimeSlotsTemp] = useState<TimeSlotTemp[]>([])
     const [email, setEmail] = useState<string>('')
-    const [mainEvent, setMainEvent] = useState<string>('')
     const [people, setPeople] = useState<{ name: string; email: string }[]>([])
 
     // WIP change to dynamic
@@ -50,7 +53,6 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
             AvailablePeople: slot.AvailablePeople,
         }))
         setTimeSlotsTemp(initialTimeSlotsTemp)
-        setMainEvent(timeSlots.length > 0 ? timeSlots[0].MainEvent : '')
         setPeople(timeSlots.length > 0 ? timeSlots[0].People : [])
     }, [timeSlots])
 

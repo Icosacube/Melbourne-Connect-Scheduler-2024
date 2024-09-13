@@ -3,8 +3,8 @@ import { Grid, Modal, Paper, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
-    FormInputMultiSelect,
-    FormInputSingleSelect,
+    FormInputMultiAutocomplete,
+    FormInputSingleAutocomplete,
     SubmitButton,
     BottomSuccessSnackbar,
 } from '../../components/'
@@ -98,7 +98,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                 onClose={onClose}
                 aria-labelledby="create-new-trip"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[450px] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
                         spacing={3}
@@ -110,7 +110,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInputMultiSelect
+                            <FormInputMultiAutocomplete
                                 name="MainEvent"
                                 control={control}
                                 label="Event"
@@ -118,10 +118,11 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                                     label: event.EventName,
                                     value: event.RecordID,
                                 }))}
+                                required={true}
                             />
                         </Grid>
                         <Grid item xs={12} sm={12} md={6}>
-                            <FormInputSingleSelect
+                            <FormInputSingleAutocomplete
                                 name="GuestSpeaker"
                                 control={control}
                                 label="Speaker"

@@ -11,4 +11,5 @@ export interface FormInputProps {
 export interface DropdownOptions {
   value: string;
   label: string;
+  image?: string;
 }
