@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import React, { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar'
-import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
+import { MainEvent, Speaker, Venue, Catering, FundingAccount } from '../../../types/frontendTypes'
 import { BodyLayout } from '../../Layout/BodyLayout'
 import EditEventModal from './EditEventModal'
 import { About } from './TabPages/About'
@@ -10,16 +10,19 @@ import { Participants } from './TabPages/Participants'
 import Programme from './TabPages/Programme'
 import { Services } from './TabPages/Services'
 
+
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')
     const [open, setOpen] = useState(false)
     const handleOpen = async () => {
         setOpen(true)
     }
-    const { event, speakers, venues } = useLoaderData() as {
+    const { event, speakers, venues, catering, fundingAccounts } = useLoaderData() as {
         event: MainEvent
         speakers: Speaker[]
         venues: Venue[]
+        catering: Catering[]
+        fundingAccounts: FundingAccount[]
     }
 
     const renderTabContent = (event: MainEvent) => {
@@ -31,7 +34,7 @@ export const Event: FC = () => {
             case 'Programme':
                 return <Programme event={event} speakers={speakers} />
             case 'Services':
-                return <Services event={event} />
+                return <Services event={event} catering={catering} fundingAccounts={fundingAccounts} />
             default:
                 return <About event={event} speakers={speakers} />
         }

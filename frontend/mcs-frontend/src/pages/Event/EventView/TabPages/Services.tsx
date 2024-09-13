@@ -1,56 +1,35 @@
 import { Box } from '@mui/material'
 import dayjs from 'dayjs'
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { AddButton, DeleteDialog } from '../../../../components'
-import { getCateringByEventID, deleteCateringByID } from '../../../../scripts/catering/functions'
-import { getAllFundingAccounts } from '../../../../scripts/fundingAccount/functions'
-import { Catering, MainEvent } from '../../../../types/frontendTypes'
+import { deleteCateringByID } from '../../../../scripts/catering/functions'
+import { Catering, MainEvent, FundingAccount } from '../../../../types/frontendTypes'
 import { CreateCateringModal } from './CreateCateringModal'
 import { EditCateringModal } from './EditCateringModal'
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams, GridRowModes, GridRowId, GridRowModesModel } from '@mui/x-data-grid'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
 import CancelIcon from '@mui/icons-material/Close'
+import { useRevalidator } from 'react-router-dom'
 
 interface ServicesProps {
     event: MainEvent
+    catering: Catering[]
+    fundingAccounts: FundingAccount[]
 }
 
-export const Services: FC<ServicesProps> = ({ event }) => {
+export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }) => {
     // State variables 
-    const [selectedCatering, setSelectedCatering] = React.useState<Catering | null>(null);
-    const [catering, setCatering] = useState<Catering[]>([])
-    const [fundingAccountMap, setFundingAccountMap] = useState<Map<string, string>>(new Map())
+    const [selectedCatering, setSelectedCatering] = React.useState<Catering | null>(null)
+    const [fundingAccountMap, setFundingAccountMap] = useState<Map<string, string>>(
+        new Map(fundingAccounts.map(account => [account.RecordID, account.ThemisString]))
+    )
     const [openCreate, setOpenCreate] = React.useState(false)
     const [openUpdate, setOpenUpdate] = React.useState(false)
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({})
     const [deleting, setDeleting] = useState(false)
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [fetchedCatering, fetchedFundingAccounts] =
-                    await Promise.all([
-                        getCateringByEventID(event.RecordID),
-                        getAllFundingAccounts(),
-                    ])
-
-                setCatering(fetchedCatering)
-
-                // Map funding record ID to themis string
-                const map = new Map<string, string>()
-                fetchedFundingAccounts.forEach((account) => {
-                    map.set(account.RecordID, account.ThemisString)
-                })
-                setFundingAccountMap(map)
-            } catch (error) {
-                console.error('Error fetching data:', error)
-            }
-        }
-
-        fetchData()
-    }, [event.RecordID])
+    const revalidator = useRevalidator()
 
     function getRowId(catering: Catering) {
         return catering.RecordID
@@ -62,14 +41,10 @@ export const Services: FC<ServicesProps> = ({ event }) => {
     const handleOpenCreate = () => setOpenCreate(true)
 
     const handleCloseCreate = () => setOpenCreate(false)
-    
-    const handleAddCatering = (newCatering: Catering) => {
-        setCatering((prevCatering) => [...prevCatering, newCatering])
-    }
 
     // Handle update modal 
-    const handleOpenUpdate = (cateringItem: Catering) => {
-        setSelectedCatering(cateringItem);
+    const handleOpenUpdate = (cateringEntry: Catering) => {
+        setSelectedCatering(cateringEntry);
         setOpenUpdate(true);
     }
 
@@ -79,14 +54,15 @@ export const Services: FC<ServicesProps> = ({ event }) => {
     }
 
     // Handle delete modal 
-    const handleDeleteClick = (catering: Catering) => async () => {
-        setSelectedCatering(catering)
+    const handleDeleteClick = (cateringEntry: Catering) => async () => {
+        setSelectedCatering(cateringEntry)
         setDeleteDialogOpen(true)
     }
 
     const handleCloseDeleteDialog = () => {
         setDeleteDialogOpen(false)
         setSelectedCatering(null)
+        revalidator.revalidate()
     }
 
     const handleDeleteCatering = async () => {
@@ -94,9 +70,6 @@ export const Services: FC<ServicesProps> = ({ event }) => {
         if (!selectedCatering) return
         try {
             await deleteCateringByID(selectedCatering.RecordID)
-            setCatering((prevCatering) =>
-                prevCatering.filter((item) => item.RecordID !== selectedCatering.RecordID)
-            )
         } catch (error) {
             console.error('Error deleting catering:', error)
         } finally {
@@ -174,8 +147,8 @@ export const Services: FC<ServicesProps> = ({ event }) => {
             getActions: (params: GridRowParams) => {
                 const catering = params.row as Catering;
                 const isInEditMode =
-                    rowModesModel[params.id]?.mode === GridRowModes.Edit   
-                
+                    rowModesModel[params.id]?.mode === GridRowModes.Edit
+
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
@@ -217,7 +190,7 @@ export const Services: FC<ServicesProps> = ({ event }) => {
                         handleClose={handleCloseCreate}
                         eventID={event.RecordID}
                         fundingAccounts={fundingAccountMap}
-                        addCatering={handleAddCatering}
+                        // addCatering={handleAddCatering}
                     />
                 </Box>
                 <Box>
@@ -248,24 +221,24 @@ export const Services: FC<ServicesProps> = ({ event }) => {
                     catering={selectedCatering}
                     eventID={event.RecordID}
                     fundingAccounts={fundingAccountMap}
-                    updateCatering={(updatedCatering) => {
-                    setCatering((prevCatering) =>
-                    prevCatering.map((item) =>
-                    item.RecordID === updatedCatering.RecordID
-                        ? updatedCatering
-                        : item
-                    )
-                )
-                handleCloseUpdate()
-            }}
-        />
-    )}
-    <DeleteDialog
-        open={deleteDialogOpen}
-        onClose={handleCloseDeleteDialog}
-        onConfirm={handleDeleteCatering}
-        deleting={deleting}
-    />
-</>
-)
+                    // updateCatering={(updatedCatering) => {
+                    //     setCatering((prevCatering) =>
+                    //         prevCatering.map((item) =>
+                    //             item.RecordID === updatedCatering.RecordID
+                    //                 ? updatedCatering
+                    //                 : item
+                    //         )
+                    //     )
+                    //     handleCloseUpdate()
+                    // }}
+                />
+            )}
+            <DeleteDialog
+                open={deleteDialogOpen}
+                onClose={handleCloseDeleteDialog}
+                onConfirm={handleDeleteCatering}
+                deleting={deleting}
+            />
+        </>
+    )
 }

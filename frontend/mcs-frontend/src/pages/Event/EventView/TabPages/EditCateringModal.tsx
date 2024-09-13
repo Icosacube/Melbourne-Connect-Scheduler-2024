@@ -14,6 +14,7 @@ import {
 } from '../../../../components/'
 import { Catering } from '../../../../types/frontendTypes'
 import { updateCateringByID } from '../../../../scripts/catering/functions'
+import { useRevalidator } from 'react-router-dom'
 
 interface EditCateringModalProps {
     handleClose: () => void
@@ -21,7 +22,6 @@ interface EditCateringModalProps {
     catering: Catering
     eventID: string
     fundingAccounts: Map<string, string>
-    updateCatering: (catering: Catering) => void
 }
 
 const EditCateringFormDefaultValues: Catering = {
@@ -39,20 +39,14 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
     handleClose,
     open,
     catering,
-    eventID,
     fundingAccounts,
-    updateCatering: updateCatering,
 }) => {
 
     const { handleSubmit, reset, control } = useForm<Catering>({
         defaultValues: catering || EditCateringFormDefaultValues, 
     })
+    const revalidator = useRevalidator()
 
-    useEffect(() => {
-        if (catering) {
-            reset(catering)
-        }
-    }, [catering, reset])
 
     const onSubmit = async (data: Catering) => {
         setSubmitting(true);
@@ -61,14 +55,14 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
             if (res.status !== 200) {
                 throw new Error('Failed to update catering');
             }
-            setShowSuccess(true);
-            updateCatering(data); // This should be a separate function to update state
+            setShowSuccess(true)
+            revalidator.revalidate()
         } catch (error) {
-            console.error(error);
+            console.error(error)
         } finally {
-            setSubmitting(false);
-            reset();
-            handleClose();
+            setSubmitting(false)
+            reset()
+            handleClose()
         }
     }
 

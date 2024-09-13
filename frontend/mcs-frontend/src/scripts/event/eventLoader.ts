@@ -2,6 +2,8 @@ import { LoaderFunctionArgs } from 'react-router-dom'
 import { MainEvent, Speaker } from '../../types/frontendTypes'
 import { getAllMainEvents } from './functions'
 import { getSpeakerById } from '../speaker/functions'
+import { getCateringByEventID } from '../catering/functions'
+import { getAllFundingAccounts } from '../fundingAccount/functions'
 
 export async function loader({
     params,
@@ -21,7 +23,16 @@ export async function loader({
             getSpeakerById(speakerID)
         )
         const speakers = await Promise.all(speakersPromises)
-        return { event, speakers }
+
+        // Fetch catering for event
+        const catering = await getCateringByEventID(eventID)
+        console.log(catering)
+
+        // Fetch funding accounts
+        const fundingAccounts = await getAllFundingAccounts()
+        console.log(fundingAccounts)
+
+        return { event, speakers, catering, fundingAccounts }
     } catch (error) {
         console.log(error)
         return {}

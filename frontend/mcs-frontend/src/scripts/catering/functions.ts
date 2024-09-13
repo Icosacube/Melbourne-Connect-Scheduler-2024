@@ -72,8 +72,9 @@ export async function getCateringByEventID(
 export async function createCatering(
     catering: Catering,
     id: string
-): Promise<Catering> {
+) {
     try {
+        catering.MainEvent.push(id)
         const toSend: any = {
             ...catering,
             ExpenseDate: dayjs(catering.ExpenseDate).format('YYYY-MM-DD'),
@@ -84,13 +85,7 @@ export async function createCatering(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}`,
             toSend
         )
-        const newCateringEntry: Catering = {
-            ...catering,
-            RecordID: res.data.toString() // Attach the RecordID returned from the server
-        };
-        reformatCateringResponseData(newCateringEntry)
-
-        return newCateringEntry
+        return res.data
     } catch (error) {
         console.error('Error creating catering:', error)
         throw error

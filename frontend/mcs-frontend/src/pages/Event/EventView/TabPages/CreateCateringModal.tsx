@@ -14,13 +14,13 @@ import {
 } from '../../../../components/'
 import { Catering } from '../../../../types/frontendTypes'
 import { createCatering } from '../../../../scripts/catering/functions'
+import { useRevalidator } from 'react-router-dom'
 
 interface CreateCateringModalProps {
     handleClose: () => void
     open: boolean
     eventID: string
     fundingAccounts: Map<string, string>
-    addCatering: (catering: Catering) => void
 }
 
 const CreateCateringFormDefaultValues: Catering = {
@@ -39,19 +39,22 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
     open,
     eventID,
     fundingAccounts,
-    addCatering,
 }) => {
     const { handleSubmit, reset, control } = useForm<Catering>({
         defaultValues: CreateCateringFormDefaultValues,
     })
 
+    const revalidator = useRevalidator()
+
     const onSubmit = async (data: Catering) => {
         setSubmitting(true)
         try {
-            data.MainEvent.push(eventID);
-            const newCateringEntry: Catering = await createCatering(data, eventID);
-            addCatering(newCateringEntry); 
-            setShowSuccess(true);
+            const res = await createCatering(data, eventID)
+            if (res) {
+                setShowSuccess(true)
+                revalidator.revalidate()
+            }
+            
         } catch (error) {
             console.error(error)
         } finally {
