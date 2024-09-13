@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     loader: financeLoader,
                 },
                 {
-                    path: '/venues/',
+                    path: '/venues',
                     element: <BodyLayout content={<Venues />} />,
                     errorElement: <ErrorPage />,
                     loader: venueLoader,
