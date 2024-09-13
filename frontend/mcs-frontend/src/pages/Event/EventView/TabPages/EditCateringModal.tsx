@@ -1,7 +1,7 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import { AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
@@ -55,8 +55,9 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
             if (res.status !== 200) {
                 throw new Error('Failed to update catering');
             }
-            setShowSuccess(true)
             revalidator.revalidate()
+            setShowSuccess(true)
+            
         } catch (error) {
             console.error(error)
         } finally {

@@ -1,5 +1,4 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
-import { AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -51,8 +50,8 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
         try {
             const res = await createCatering(data, eventID)
             if (res) {
-                setShowSuccess(true)
                 revalidator.revalidate()
+                setShowSuccess(true)
             }
             
         } catch (error) {

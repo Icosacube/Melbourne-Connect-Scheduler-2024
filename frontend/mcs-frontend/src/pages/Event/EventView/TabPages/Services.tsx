@@ -21,7 +21,7 @@ interface ServicesProps {
 export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }) => {
     // State variables 
     const [selectedCatering, setSelectedCatering] = React.useState<Catering | null>(null)
-    const [fundingAccountMap, setFundingAccountMap] = useState<Map<string, string>>(
+    const fundingAccountMap = (
         new Map(fundingAccounts.map(account => [account.RecordID, account.ThemisString]))
     )
     const [openCreate, setOpenCreate] = React.useState(false)
@@ -62,7 +62,6 @@ export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }
     const handleCloseDeleteDialog = () => {
         setDeleteDialogOpen(false)
         setSelectedCatering(null)
-        revalidator.revalidate()
     }
 
     const handleDeleteCatering = async () => {
@@ -73,6 +72,7 @@ export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }
         } catch (error) {
             console.error('Error deleting catering:', error)
         } finally {
+            revalidator.revalidate()
             setDeleting(false)
             handleCloseDeleteDialog()
         }
@@ -190,7 +190,6 @@ export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }
                         handleClose={handleCloseCreate}
                         eventID={event.RecordID}
                         fundingAccounts={fundingAccountMap}
-                        // addCatering={handleAddCatering}
                     />
                 </Box>
                 <Box>
@@ -221,16 +220,6 @@ export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }
                     catering={selectedCatering}
                     eventID={event.RecordID}
                     fundingAccounts={fundingAccountMap}
-                    // updateCatering={(updatedCatering) => {
-                    //     setCatering((prevCatering) =>
-                    //         prevCatering.map((item) =>
-                    //             item.RecordID === updatedCatering.RecordID
-                    //                 ? updatedCatering
-                    //                 : item
-                    //         )
-                    //     )
-                    //     handleCloseUpdate()
-                    // }}
                 />
             )}
             <DeleteDialog
