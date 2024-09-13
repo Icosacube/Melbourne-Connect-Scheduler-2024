@@ -4,7 +4,12 @@ import { TimeSlot } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 import { CheckboxRow } from '../Canvassing/CheckboxRow'
 import { CanvassingResults } from './CanvassingResults'
-import { CanvassingCreationCalendar, CheckboxCalendar, AvailabilityCalendar } from '../../components'
+import {
+    CanvassingCreationCalendar,
+    CheckboxCalendar,
+    AvailabilityCalendar,
+} from '../../components'
+import { useParams } from 'react-router-dom'
 
 interface TabPanelProps {
     children?: React.ReactNode
@@ -36,6 +41,7 @@ function a11yProps(index: number) {
 }
 
 export const Canvassing: React.FC = () => {
+    let { eventId, academicId } = useParams()
     const [demoTimeSlot, setDemoTimeSlot] = useState<TimeSlot[]>([])
     const [value, setValue] = React.useState(0)
 
@@ -54,7 +60,10 @@ export const Canvassing: React.FC = () => {
                     <Tab label="Canvassing Form Creation" {...a11yProps(0)} />
                     <Tab label="Canvassing Form" {...a11yProps(1)} />
                     <Tab label="Canvassing Results" {...a11yProps(2)} />
-                    <Tab label="Canvassing Results (dummy data)" {...a11yProps(3)} />
+                    <Tab
+                        label="Canvassing Results (dummy data)"
+                        {...a11yProps(3)}
+                    />
                     <Tab label="Canvassing Form (alt)" {...a11yProps(4)} />
                     <Tab label="Canvassing Results (alt)" {...a11yProps(5)} />
                 </Tabs>
@@ -67,6 +76,8 @@ export const Canvassing: React.FC = () => {
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 <CheckboxRow
+                    mainEvent={eventId!}
+                    academic={academicId!}
                     timeSlots={demoTimeSlot}
                     setTimeSlots={setDemoTimeSlot}
                 />
@@ -78,10 +89,10 @@ export const Canvassing: React.FC = () => {
                 <CanvassingResults timeSlots={temp} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={4}>
-                <CheckboxCalendar timeSlots={temp}/>
+                <CheckboxCalendar timeSlots={temp} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={5}>
-                <AvailabilityCalendar timeSlots={temp}/>
+                <AvailabilityCalendar timeSlots={temp} />
             </CustomTabPanel>
         </Box>
     )

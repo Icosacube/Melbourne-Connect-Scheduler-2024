@@ -38,7 +38,7 @@ export const EmailFormModal: React.FC<EmailFormModalProps> = ({
             onClose={handleClose}
             aria-labelledby="email-form-modal"
         >
-            <Paper className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 min-w-[400px] max-w-[700px]">
+            <Paper className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 min-w-[450px] max-w-[700px]">
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Typography variant="h4" gutterBottom>

@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     loader: financeLoader,
                 },
                 {
-                    path: '/venues',
+                    path: '/venues/',
                     element: <BodyLayout content={<Venues />} />,
                     errorElement: <ErrorPage />,
                     loader: venueLoader,
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
         },
         {
-            path: '/canvassing',
+            path: '/canvassing/:eventid/:academicid',
             element: <FullWidthLayout content={<Canvassing />} />,
             errorElement: <ErrorPage />,
         },

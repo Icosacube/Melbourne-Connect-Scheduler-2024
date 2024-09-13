@@ -110,6 +110,15 @@ const themeOptions: ThemeOptions = {
                 },
             },
         },
+        MuiAutocomplete: {
+            styleOverrides: {
+                inputRoot: {
+                    '& .MuiInputBase-input': {
+                        padding: '0px', // Removes padding inside the input
+                    },
+                },
+            },
+        },
         MuiInputLabel: {
             styleOverrides: {
                 root: {
@@ -172,7 +181,6 @@ const themeOptions: ThemeOptions = {
                 },
             },
         },
-
         /* Button styling */
         MuiButton: {
             styleOverrides: {
@@ -188,14 +196,12 @@ const themeOptions: ThemeOptions = {
                 },
             },
         },
-
         /* Paper styling */
-
         MuiCard: {
             styleOverrides: {
                 root: {
                     borderRadius: '8px',
-                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)', 
+                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
                 },
             },
         },
@@ -204,7 +210,7 @@ const themeOptions: ThemeOptions = {
                 root: {
                     height: 'auto',
                     borderRadius: '8px',
-                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)', 
+                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
                 },
             },
         },

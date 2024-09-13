@@ -69,7 +69,7 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1080px] min-w-[500px] max-h-[90vh] overflow-y-auto">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1080px] min-w-[450px] max-h-[90vh] overflow-y-auto">
                     <Grid container spacing={3} className="w-full p-16">
                         <Grid item xs={12} lg={6}>
                             <Typography variant="h4">Create Speaker</Typography>
