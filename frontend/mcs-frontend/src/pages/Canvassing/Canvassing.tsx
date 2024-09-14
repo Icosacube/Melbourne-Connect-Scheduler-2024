@@ -4,11 +4,7 @@ import { TimeSlot } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 import { CheckboxRow } from '../Canvassing/CheckboxRow'
 import { CanvassingResults } from './CanvassingResults'
-import {
-    CanvassingCreationCalendar,
-    CheckboxCalendar,
-    AvailabilityCalendar,
-} from '../../components'
+import { CheckboxCalendar, AvailabilityCalendar } from '../../components'
 import { useParams } from 'react-router-dom'
 
 interface TabPanelProps {
