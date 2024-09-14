@@ -55,7 +55,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                     paddingLeft: '8px',
                 }}
             >
-                {/* Column for displaying people's name */}
+                {/* Column for displaying MixedAcademic's name */}
                 <Grid item xs={3} md={2} lg={1} container direction={'column'}>
                     <Grid item>
                         <Box
@@ -65,7 +65,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                         ></Box>
                     </Grid>
                     {timeSlots.length > 0 ? (
-                        timeSlots[0].People.map((person, index) => (
+                        timeSlots[0].MixedAcademic.map((person, index) => (
                             <Grid
                                 item
                                 key={index}
@@ -245,13 +245,13 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                                         </Typography>
                                     </Grid>
                                 </Grid>
-                                {slot.People.map((person, personIndex) => (
+                                {slot.MixedAcademic.map((person, personIndex) => (
                                     <Grid
                                         item
                                         key={personIndex}
                                         marginY={'8px'}
                                     >
-                                        {slot.AvailablePeople.includes(
+                                        {slot.AvailableAcademic.includes(
                                             person.email
                                         ) ? (
                                             <CheckCircle

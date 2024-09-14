@@ -12,7 +12,7 @@ interface TimeSlotTemp {
     id: string
     StartTime: Dayjs
     EndTime: Dayjs
-    AvailablePeople: string[]
+    AvailableAcademic: string[]
 }
 
 // TimeSlotTemp Display
@@ -38,7 +38,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
             id: dayjs(slot.StartTime).valueOf().toString(),
             StartTime: slot.StartTime,
             EndTime: slot.EndTime,
-            AvailablePeople: slot.AvailablePeople,
+            AvailableAcademic: slot.AvailableAcademic,
         }))
         setAllTimeSlotTemps(temp)
         setFilteredTimeSlotTemps(temp)
@@ -52,7 +52,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
         } else {
             setFilteredTimeSlotTemps(
                 allTimeSlotTemps.filter((slot) =>
-                    slot.AvailablePeople.some((speaker) =>
+                    slot.AvailableAcademic.some((speaker) =>
                         speaker
                             .toLowerCase()
                             .includes(speakerFilter.toLowerCase())
@@ -107,7 +107,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
                 >
                     <Grid item>
                         <Typography variant="h6">
-                            {slot ? `${slot.AvailablePeople.length}` : '0'}
+                            {slot ? `${slot.AvailableAcademic.length}` : '0'}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -120,7 +120,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
         start: slot.StartTime.toDate(),
         end: slot.EndTime.toDate(),
         backgroundColor:
-            slot.AvailablePeople.length > 0 ? '#FBCB18' : '#CCCCCC',
+            slot.AvailableAcademic.length > 0 ? '#FBCB18' : '#CCCCCC',
     }))
 
     return (
@@ -202,12 +202,12 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
                                 </Grid>
                                 <Grid item xs={2}>
                                     <Typography variant="h6">
-                                        {selectedSlot.AvailablePeople.length}
+                                        {selectedSlot.AvailableAcademic.length}
                                     </Typography>
                                 </Grid>
                             </Grid>
                             <Grid item xs={12}>
-                                {selectedSlot.AvailablePeople.map(
+                                {selectedSlot.AvailableAcademic.map(
                                     (speaker, index) => (
                                         <Typography>{speaker}</Typography>
                                     )

@@ -20,7 +20,7 @@ interface TimeSlotTemp {
     StartTime: Dayjs
     EndTime: Dayjs
     isAvailable: boolean
-    AvailablePeople: string[]
+    AvailableAcademic: string[]
 }
 
 interface CheckboxRowProps {
@@ -38,7 +38,7 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
 }) => {
     const [timeSlotsTemp, setTimeSlotsTemp] = useState<TimeSlotTemp[]>([])
     const [email, setEmail] = useState<string>('')
-    const [people, setPeople] = useState<{ name: string; email: string }[]>([])
+    const [MixedAcademic, setMixedAcademic] = useState<{ name: string; email: string }[]>([])
 
     // WIP change to dynamic
     const title = 'Meeting For Event XXX'
@@ -50,10 +50,10 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
             StartTime: slot.StartTime,
             EndTime: slot.EndTime,
             isAvailable: false,
-            AvailablePeople: slot.AvailablePeople,
+            AvailableAcademic: slot.AvailableAcademic,
         }))
         setTimeSlotsTemp(initialTimeSlotsTemp)
-        setPeople(timeSlots.length > 0 ? timeSlots[0].People : [])
+        setMixedAcademic(timeSlots.length > 0 ? timeSlots[0].MixedAcademic : [])
     }, [timeSlots])
 
     const [currentPage, setCurrentPage] = useState(0)
@@ -100,10 +100,10 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
             MainEvent: mainEvent,
             StartTime: slot.StartTime,
             EndTime: slot.EndTime,
-            AvailablePeople: slot.isAvailable
-                ? [...slot.AvailablePeople, email]
-                : slot.AvailablePeople,
-            People: people,
+            AvailableAcademic: slot.isAvailable
+                ? [...slot.AvailableAcademic, email]
+                : slot.AvailableAcademic,
+            MixedAcademic: MixedAcademic,
         }))
         setTimeSlots(newTimeSlots)
         console.log(newTimeSlots)

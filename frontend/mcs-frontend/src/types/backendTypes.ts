@@ -203,6 +203,7 @@ export type FundingAccount = {
 export type Canvassing = {
     StartTime: string
     EndTime: string
-    Trip: string[]
     Academic: string[]
+    MainEvent: string[]
+    AvailableAcademic: string[]
 }
