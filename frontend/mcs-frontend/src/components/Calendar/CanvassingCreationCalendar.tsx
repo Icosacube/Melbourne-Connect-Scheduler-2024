@@ -33,20 +33,19 @@ export const CanvassingCreationCalendar: React.FC<
 
     const handleSlotDrag = (info: any) => {
         const { event } = info
-        console.log('Slot drag info:', info)
-        const oldId = event.id
 
         const updatedSlot = {
             id: dayjs(event.start).valueOf().toString(),
             StartTime: dayjs(event.start),
             EndTime: dayjs(event.end),
             MainEvent: [MainEvent.RecordID],
+            Venue: [],
             MixedAcademic: [],
             AvailableAcademic: [],
         }
 
         const updatedSlots = canvassingSlots.map((slot) =>
-            slot.id === oldId ? updatedSlot : slot
+            slot.id === event.id ? updatedSlot : slot
         )
         setCanvassingSlots(updatedSlots)
     }
@@ -57,6 +56,7 @@ export const CanvassingCreationCalendar: React.FC<
             StartTime: dayjs(info.date),
             EndTime: dayjs(info.date).add(1, 'hour'),
             MainEvent: [MainEvent.RecordID],
+            Venue: [],
             MixedAcademic: [],
             AvailableAcademic: [],
         }
@@ -95,6 +95,8 @@ export const CanvassingCreationCalendar: React.FC<
                 center: '',
                 right: 'today prev,next',
             }}
+            titleFormat={{ year: 'numeric', month: 'short'}}
+            dayHeaderFormat={{ weekday: 'short', day: 'numeric' }}
             initialDate={dayjs(MainEvent.Date).format('YYYY-MM-DD')}
             slotMinTime="09:00:00"
             slotMaxTime="20:00:00"

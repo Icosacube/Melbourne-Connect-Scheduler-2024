@@ -114,7 +114,7 @@ export type SubEvent = {
 export type Academic = {
     Email: string
     Name: string
-    MainEvent: string
+    MainEvent: string[]
     Canvassing: string[]
 }
 
@@ -205,5 +205,15 @@ export type Canvassing = {
     EndTime: string
     Academic: string[]
     MainEvent: string[]
+    Venue: string[]
     AvailableAcademic: string[]
+}
+
+export type CanvassingTemp = {
+    StartTime: string
+    EndTime: string
+    MainEvent: string[]
+    Venue: string[]
+    AvailableAcademic: string[]
+    MixedAcademic: { id: string; email: string }[]
 }

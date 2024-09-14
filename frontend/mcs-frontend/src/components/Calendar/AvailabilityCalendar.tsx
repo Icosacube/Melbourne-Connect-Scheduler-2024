@@ -2,8 +2,15 @@ import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import dayjs, {Dayjs} from 'dayjs'
-import { Button, Grid, Stack, Typography, Paper, TextField } from '@mui/material'
+import dayjs, { Dayjs } from 'dayjs'
+import {
+    Button,
+    Grid,
+    Stack,
+    Typography,
+    Paper,
+    TextField,
+} from '@mui/material'
 import { TimeSlot } from '../../types/frontendTypes'
 
 import './index.css'
@@ -20,9 +27,13 @@ interface AvailabilityCalendarProps {
     timeSlots: TimeSlot[]
 }
 
-export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ timeSlots }) =>  {
+export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
+    timeSlots,
+}) => {
     const [allTimeSlotTemps, setAllTimeSlotTemps] = useState<TimeSlotTemp[]>([])
-    const [filteredTimeSlotTemps, setFilteredTimeSlotTemps] = useState<TimeSlotTemp[]>([])
+    const [filteredTimeSlotTemps, setFilteredTimeSlotTemps] = useState<
+        TimeSlotTemp[]
+    >([])
     const [selectedSlot, setSelectedSlot] = useState<TimeSlotTemp | null>(null)
     const [speakerFilter, setSpeakerFilter] = useState('')
     const [minDate, setMinDate] = useState('')
@@ -30,7 +41,6 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
 
     // Dummy data for the calendar
     const eventDate = '2024-09-01'
-
 
     useEffect(() => {
         // Convert TimeSlot[] to TimeSlotTemp[] for calendar
@@ -70,7 +80,9 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
 
     // Render content inside the calendar events
     const renderEventContent = (eventInfo: any) => {
-        const slot = allTimeSlotTemps.find((slot) => slot.id === eventInfo.event.id)
+        const slot = allTimeSlotTemps.find(
+            (slot) => slot.id === eventInfo.event.id
+        )
 
         return (
             <Grid
@@ -126,10 +138,8 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
     return (
         <Paper sx={{ padding: 2 }}>
             <Grid container spacing={2}>
-                <Grid item xs={12}> 
-                    <Button>
-
-                    </Button>
+                <Grid item xs={12}>
+                    <Button></Button>
                 </Grid>
                 <Grid item xs={12} md={9} lg={10}>
                     <FullCalendar
@@ -145,6 +155,8 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
                             center: '',
                             right: 'prev,next',
                         }}
+                        titleFormat={{ year: 'numeric', month: 'short' }}
+                        dayHeaderFormat={{ weekday: 'short', day: 'numeric' }}
                         initialDate={eventDate}
                         slotMinTime="09:00:00"
                         slotMaxTime="20:00:00"
@@ -221,7 +233,6 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({ time
                     )}
                 </Grid>
             </Grid>
-            
         </Paper>
     )
 }

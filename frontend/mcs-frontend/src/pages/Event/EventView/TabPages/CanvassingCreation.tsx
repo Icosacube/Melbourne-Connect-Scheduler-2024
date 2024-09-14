@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { CanvassingTemp, MainEvent } from '../../../../types/frontendTypes'
 import {
     CanvassingCreationCalendar,
+    FormInputMultiAutocomplete,
     FormInputMultiFreeSolo,
 } from '../../../../components'
 import { DropdownOptions } from '../../../../components/FormComponents/FormInputProps'
@@ -36,6 +37,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
         )
         const updatedSlots = canvassingSlots.map((slot) => ({
             ...slot,
+            Venue: data.Venue,
             MixedAcademic: formattedMixedAcademic,
         }))
         console.log('Updated Canvassing Slots:', updatedSlots)
@@ -48,36 +50,60 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             <Grid
                 container
                 spacing={3}
-                className="w-full p-16 flex space-between justify-items"
+                direction="row-reverse"
+                sx={{
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                }}
             >
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12}>
                     <Typography variant="h4" gutterBottom>
                         Create Canvassing Form
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={4} container justifyContent="flex-end">
-                    <Button
-                        variant="contained"
-                        onClick={handleSubmit(onSubmit)}
-                    >
-                        Save
-                    </Button>
+                <Grid item xs={12} lg={4} xl={3} container spacing={3}>
+                    <Grid item xs={12}>
+                        <Typography variant="h5" gutterBottom>
+                            Options
+                        </Typography>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <FormInputMultiAutocomplete
+                            name="Venue"
+                            control={control}
+                            label="Select Venue"
+                            options={event.Venue.map((venue) => ({
+                                value: venue,
+                                label: venue,
+                            }))}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormInputMultiFreeSolo
+                            name="DropdownOptions"
+                            hint="Search By Name or Type In Email"
+                            control={control}
+                            label="Select Academics"
+                            options={MixedAcademicOptions.map((person) => ({
+                                id: person.id,
+                                value: person.email,
+                                label: person.name,
+                            }))}
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} container justifyContent="flex-end">
+                        <Button
+                            variant="contained"
+                            onClick={handleSubmit(onSubmit)}
+                        >
+                            Save
+                        </Button>
+                    </Grid>
                 </Grid>
 
-                <Grid item xs={12}>
-                    <FormInputMultiFreeSolo
-                        name="DropdownOptions"
-                        control={control}
-                        label="Select Academics"
-                        options={MixedAcademicOptions.map((person) => ({
-                            id: person.id,
-                            value: person.email,
-                            label: person.name,
-                        }))}
-                    />
-                </Grid>
-
-                <Grid item xs={12}>
+                <Grid item xs={12} lg={8} xl={9}>
                     <CanvassingCreationCalendar
                         MainEvent={event}
                         canvassingSlots={canvassingSlots}

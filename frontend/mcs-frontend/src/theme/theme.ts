@@ -4,7 +4,7 @@ const themeOptions: ThemeOptions = {
     palette: {
         background: {
             default: '#F5F5F5', // light-grey Background color
-            paper: '#FFFFFF', // Background color for Paper, Card, etc.
+            paper: '#FDFDFD', // Background color for Paper, Card, etc.
         },
         text: {
             primary: '#2A2A2A', // blue-ish black
@@ -96,12 +96,9 @@ const themeOptions: ThemeOptions = {
                 root: {
                     margin: '8px 0',
                     '& .MuiInputBase-root': {
-                        backgroundColor: '#EDEEEF', // Light grey background
+                        backgroundColor: '#EFF0F1', // Light grey background
                         borderRadius: '5px',
-                        border: 'none',
                         padding: '12px',
-                    },
-                    '& .MuiOutlinedInput-notchedOutline': {
                         border: 'none',
                     },
                     '& .MuiInputBase-input': {
@@ -122,7 +119,7 @@ const themeOptions: ThemeOptions = {
         MuiInputLabel: {
             styleOverrides: {
                 root: {
-                    fontSize: '14px',
+                    fontSize: '15px',
                     position: 'absolute',
                     transform: 'translate(0, -1.5rem) scale(1)', // fixed textfield title position
                     transformOrigin: 'top left',
@@ -130,16 +127,13 @@ const themeOptions: ThemeOptions = {
                     zIndex: 1,
                     pointerEvents: 'none',
                 },
-                shrink: {
-                    transform: 'translate(0, -1.5rem) scale(1)', // fixed textfield title position
-                },
             },
         },
         /* Dropdown select field styling */
         MuiSelect: {
             styleOverrides: {
                 select: {
-                    backgroundColor: '#EDEEEF', // Light grey background
+                    backgroundColor: '#EFF0F1', // Light grey background
                     borderRadius: '5px',
                     padding: '12px',
                 },
@@ -149,9 +143,22 @@ const themeOptions: ThemeOptions = {
             },
         },
         MuiOutlinedInput: {
+            defaultProps: { notched: false },
             styleOverrides: {
-                notchedOutline: {
-                    border: 'none',
+                root: {
+                    '& fieldset': {
+                        border: 'none',
+                        borderRadius: '5px',
+                    },
+                    '&.Mui-focused': {
+                        backgroundColor: '#FFFFFF', // Lighter background color when focused
+                    },
+                    '&.Mui-focused fieldset': {
+                        border: '3px solid #FBAB18', // Border color when focused
+                    },
+                    '&.Mui-disabled': {
+                        backgroundColor: '#F2F2F2', // Lighter background color for disabled state
+                    },
                 },
             },
         },

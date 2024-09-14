@@ -119,9 +119,10 @@ export type SubEvent = {
 }
 
 export type Academic = {
+    RecordID: string
     Email: string
     Name: string
-    MainEvent: string
+    MainEvent: string[]
     Canvassing: string[]
 }
 
@@ -213,9 +214,11 @@ export type FundingAccount = {
 }
 
 export type Canvassing = {
-    StartTime: string
-    EndTime: string
+    RecordID: string
+    StartTime: Dayjs
+    EndTime: Dayjs
     Academic: string[]
+    Venue: string[]
     MainEvent: string[]
     AvailableAcademic: string[]
 }
@@ -236,18 +239,19 @@ export type Finance = {
 
 // temporary data type for frontend canvassing
 export type TimeSlot = {
-    MainEvent: string
     StartTime: Dayjs
     EndTime: Dayjs
+    MainEvent: string
     AvailableAcademic: string[]
     MixedAcademic: { name: string; email: string }[]
 }
 
 export type CanvassingTemp = {
     id: string
-    MainEvent: string[]
     StartTime: Dayjs
     EndTime: Dayjs
+    MainEvent: string[]
+    Venue: string[]
     AvailableAcademic: string[]
     MixedAcademic: { id: string; email: string }[]
 }
