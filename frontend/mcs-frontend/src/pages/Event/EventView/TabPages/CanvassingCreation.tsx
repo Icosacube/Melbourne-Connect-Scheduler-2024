@@ -1,105 +1,111 @@
 import React, { useState } from 'react'
 import { Button, Grid, Paper, Typography } from '@mui/material'
-import { useForm, Controller } from 'react-hook-form'
-import { MainEvent, CanvassingTemp } from '../../../../types/frontendTypes'
+import { useForm } from 'react-hook-form'
 import {
-    FormInputMultiFreeSolo,
+    CanvassingTemp,
+    MainEvent,
+    MixedAcademic,
+} from '../../../../types/frontendTypes'
+import {
     CanvassingCreationCalendar,
+    FormInputMultiFreeSolo,
 } from '../../../../components'
+import { DropdownOptions } from '../../../../components/FormComponents/FormInputProps'
 
 interface CanvassingCreationProps {
     event: MainEvent
 }
 
-interface Person {
-    name: string
-    email: string
-    image?: string
-}
-
-const MixedAcademicOptions: Person[] = [
-    {
-        email: 'john.doe@example.com',
-        name: 'John Doe',
-        image: '/path/to/john_image.jpg',
-    },
-    {
-        email: 'jane.smith@example.com',
-        name: 'Jane Smith',
-        image: '/path/to/jane_image.jpg',
-    },
-    {
-        email: 'michael.johnson@example.com',
-        name: 'Michael Johnson',
-        image: '/path/to/michael_image.jpg',
-    },
-]
-
 export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     event,
 }) => {
+    const { handleSubmit, reset, control, watch } = useForm<DropdownOptions[]>({
+        defaultValues: [],
+    })
     const [canvassingSlots, setCanvassingSlots] = useState<CanvassingTemp[]>([])
-    const { control, handleSubmit, setValue } = useForm()
 
+    // Submit form and add MixedAcademic to each slot
     const onSubmit = (data: any) => {
-        const updatedCanvassingSlots = canvassingSlots.map((slot) => ({
+        const formattedMixedAcademic = data.DropdownOptions.map(
+            (academic: { id: string; value: string }) => ({
+                id: academic.id,
+                email: academic.value,
+            })
+        )
+        const updatedSlots = canvassingSlots.map((slot) => ({
             ...slot,
-            MixedAcademic: data.MixedAcademic.map((person: any) => ({
-                name: person.label,
-                email: person.value,
-            })),
+            MixedAcademic: formattedMixedAcademic,
         }))
-        console.log(updatedCanvassingSlots)
+        console.log('Updated Canvassing Slots:', updatedSlots)
+
+        reset()
     }
 
     return (
         <Paper sx={{ p: 6 }}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Grid container spacing={2} alignItems={'flex-start'}>
-                    <Grid item lg={10} md={9} sm={12}>
-                        <CanvassingCreationCalendar
-                            MainEvent={event}
-                            canvassingSlots={canvassingSlots}
-                            setCanvassingSlots={setCanvassingSlots}
-                        />
-                    </Grid>
-                    <Grid item sm={12} md={3} lg={2} container spacing={4}>
-                        <Grid item xs={12}>
-                            <Typography variant="h4">Options</Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Controller
-                                name="MixedAcademic"
-                                control={control}
-                                defaultValue={[]}
-                                render={({ field }) => (
-                                    <FormInputMultiFreeSolo
-                                        name="MixedAcademic"
-                                        control={control}
-                                        label="Select Academics"
-                                        options={MixedAcademicOptions.map(
-                                            (person) => ({
-                                                value: person.email,
-                                                label: person.name,
-                                                image: person.image,
-                                            })
-                                        )}
-                                    />
-                                )}
-                            />
-                        </Grid>
-                        <Grid item container justifyContent={'flex-end'}>
-                            <Grid item>
-                                <Button type="submit" variant={'contained'}>
-                                    Save
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+            <Grid
+                container
+                spacing={3}
+                className="w-full p-16 flex space-between justify-items"
+            >
+                <Grid item xs={12} sm={8}>
+                    <Typography variant="h4" gutterBottom>
+                        Create Canvassing Form
+                    </Typography>
                 </Grid>
-            </form>
+                <Grid item xs={12} sm={4} container justifyContent="flex-end">
+                    <Button
+                        variant="contained"
+                        onClick={handleSubmit(onSubmit)}
+                    >
+                        Save
+                    </Button>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <FormInputMultiFreeSolo
+                        name="DropdownOptions"
+                        control={control}
+                        label="Select Academics"
+                        options={MixedAcademicOptions.map((person) => ({
+                            id: person.id,
+                            value: person.email,
+                            label: person.name,
+                        }))}
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <CanvassingCreationCalendar
+                        MainEvent={event}
+                        canvassingSlots={canvassingSlots}
+                        setCanvassingSlots={setCanvassingSlots}
+                    />
+                </Grid>
+            </Grid>
         </Paper>
     )
 }
 
 export default CanvassingCreation
+
+// academic temp
+
+// Sample academics
+const MixedAcademicOptions: MixedAcademic[] = [
+    {
+        id: '1',
+        name: 'John Doe',
+        email: 'john@example.com',
+    },
+    {
+        id: '2',
+        name: 'Jane Smith',
+        email: 'jane@example.com',
+    },
+    {
+        id: '3',
+        name: 'Michael Johnson',
+        email: 'michael@example.com',
+    },
+]

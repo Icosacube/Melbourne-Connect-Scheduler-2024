@@ -45,7 +45,9 @@ export const FormInputMultiFreeSolo: React.FC<FormInputProps> = ({
                         onChange={(event, newValue) => {
                             onChange(
                                 newValue.map((item: string | DropdownOptions) =>
-                                    typeof item === 'string' ? item : item.label
+                                    typeof item === 'string'
+                                        ? { id: null, value: item, label: item }
+                                        : item
                                 )
                             )
                         }}
@@ -71,7 +73,6 @@ export const FormInputMultiFreeSolo: React.FC<FormInputProps> = ({
                                     {typeof option !== 'string' ? (
                                         <Avatar
                                             alt={option.label}
-                                            src={option.image || undefined}
                                             sx={{ marginRight: 1 }}
                                         />
                                     ) : (
@@ -94,13 +95,7 @@ export const FormInputMultiFreeSolo: React.FC<FormInputProps> = ({
                                         {...getTagProps({ index })}
                                         avatar={
                                             typeof option !== 'string' ? (
-                                                <Avatar
-                                                    alt={option.label}
-                                                    src={
-                                                        option.image ||
-                                                        undefined
-                                                    }
-                                                />
+                                                <Avatar alt={option.label} />
                                             ) : (
                                                 <Avatar>
                                                     {option[0].toUpperCase()}
@@ -112,7 +107,6 @@ export const FormInputMultiFreeSolo: React.FC<FormInputProps> = ({
                                                 ? option
                                                 : option.label
                                         }
-                                        key={index}
                                     />
                                 ))}
                             </>

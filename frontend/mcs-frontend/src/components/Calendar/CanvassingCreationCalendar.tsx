@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import dayjs, { Dayjs } from 'dayjs'
-import { MainEvent, CanvassingTemp } from '../../types/frontendTypes'
+import dayjs from 'dayjs'
+import { CanvassingTemp, MainEvent } from '../../types/frontendTypes'
 
 interface CanvassingCreationCalendarProps {
     MainEvent: MainEvent
@@ -34,7 +34,7 @@ export const CanvassingCreationCalendar: React.FC<
         const updatedSlot = {
             StartTime: dayjs(event.start),
             EndTime: dayjs(event.end),
-            MainEvent: [MainEvent.RecordID], // Storing RecordID of MainEvent
+            MainEvent: [MainEvent.RecordID],
             MixedAcademic: [],
             AvailableAcademic: [],
         }
@@ -49,13 +49,12 @@ export const CanvassingCreationCalendar: React.FC<
         const newCanvassingSlot: CanvassingTemp = {
             StartTime: dayjs(info.date),
             EndTime: dayjs(info.date).add(1, 'hour'),
-            MainEvent: [MainEvent.RecordID], // Storing RecordID of MainEvent
+            MainEvent: [MainEvent.RecordID],
             MixedAcademic: [],
             AvailableAcademic: [],
         }
         setCanvassingSlots([...canvassingSlots, newCanvassingSlot])
     }
-
     const renderEventContent = (eventInfo: any) => {
         return (
             <div
@@ -87,7 +86,7 @@ export const CanvassingCreationCalendar: React.FC<
                 center: '',
                 right: 'today prev,next',
             }}
-            initialDate="2024-09-01"
+            initialDate={dayjs(MainEvent.Date).format('YYYY-MM-DD')}
             slotMinTime="09:00:00"
             slotMaxTime="20:00:00"
             locale="en-GB"
