@@ -244,15 +244,10 @@ export type TimeSlot = {
 }
 
 export type CanvassingTemp = {
+    id: string
     MainEvent: string[]
     StartTime: Dayjs
     EndTime: Dayjs
     AvailableAcademic: string[]
     MixedAcademic: { id: string; email: string }[]
-}
-
-export type MixedAcademic = {
-    id: string
-    name: string
-    email: string
 }

@@ -16,10 +16,12 @@ export const CanvassingCreationCalendar: React.FC<
 > = ({ MainEvent, canvassingSlots, setCanvassingSlots }) => {
     const handleSlotResize = (info: any) => {
         const { event } = info
+
         const updatedSlots = canvassingSlots.map((slot) => {
-            if (slot.StartTime.isSame(event.start)) {
+            if (slot.id === event.id) {
                 return {
                     ...slot,
+                    id: dayjs(event.start).valueOf().toString(),
                     StartTime: dayjs(event.start),
                     EndTime: dayjs(event.end),
                 }
@@ -31,7 +33,11 @@ export const CanvassingCreationCalendar: React.FC<
 
     const handleSlotDrag = (info: any) => {
         const { event } = info
+        console.log('Slot drag info:', info)
+        const oldId = event.id
+
         const updatedSlot = {
+            id: dayjs(event.start).valueOf().toString(),
             StartTime: dayjs(event.start),
             EndTime: dayjs(event.end),
             MainEvent: [MainEvent.RecordID],
@@ -40,13 +46,14 @@ export const CanvassingCreationCalendar: React.FC<
         }
 
         const updatedSlots = canvassingSlots.map((slot) =>
-            slot.StartTime.isSame(updatedSlot.StartTime) ? updatedSlot : slot
+            slot.id === oldId ? updatedSlot : slot
         )
         setCanvassingSlots(updatedSlots)
     }
 
     const handleDateClick = (info: any) => {
         const newCanvassingSlot: CanvassingTemp = {
+            id: dayjs(info.date).valueOf().toString(),
             StartTime: dayjs(info.date),
             EndTime: dayjs(info.date).add(1, 'hour'),
             MainEvent: [MainEvent.RecordID],
@@ -55,6 +62,7 @@ export const CanvassingCreationCalendar: React.FC<
         }
         setCanvassingSlots([...canvassingSlots, newCanvassingSlot])
     }
+
     const renderEventContent = (eventInfo: any) => {
         return (
             <div
@@ -78,6 +86,7 @@ export const CanvassingCreationCalendar: React.FC<
             initialView="timeGridWeek"
             height="auto"
             events={canvassingSlots.map((slot) => ({
+                id: dayjs(slot.StartTime).valueOf().toString(),
                 start: slot.StartTime.toDate(),
                 end: slot.EndTime.toDate(),
             }))}

@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Grid, Paper, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import {
-    CanvassingTemp,
-    MainEvent,
-    MixedAcademic,
-} from '../../../../types/frontendTypes'
+import { CanvassingTemp, MainEvent } from '../../../../types/frontendTypes'
 import {
     CanvassingCreationCalendar,
     FormInputMultiFreeSolo,
@@ -14,6 +10,12 @@ import { DropdownOptions } from '../../../../components/FormComponents/FormInput
 
 interface CanvassingCreationProps {
     event: MainEvent
+}
+
+type MixedAcademic = {
+    id: string
+    name: string
+    email: string
 }
 
 export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
@@ -88,8 +90,6 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
 }
 
 export default CanvassingCreation
-
-// academic temp
 
 // Sample academics
 const MixedAcademicOptions: MixedAcademic[] = [
