@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { Box, Grid, Typography, IconButton, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'

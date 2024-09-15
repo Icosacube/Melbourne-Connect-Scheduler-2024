@@ -138,7 +138,7 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
             >
                 <Grid item xs={12} container>
                     <Grid item xs={12} md={6} lg={9} marginY={4}>
-                        <Typography variant="h3">{title}</Typography>
+                        <Typography variant="h3" gutterBottom>{title}</Typography>
                         <Typography variant="h6">
                             Venue:
                             {venues.map((venue) => venue.VenueName).join(', ')}
