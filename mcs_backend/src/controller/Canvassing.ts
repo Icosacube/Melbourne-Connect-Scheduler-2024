@@ -100,26 +100,26 @@ router.post('/canvassings', async (req, res) => {
   }
   try {
     // await createRecord(canvassingTable, [canvassingRecord]);
+    const academicIDs: string[] = [];
+    const MixedAcademic = canvassings ? canvassings[0].MixedAcademic : [];
+
+    for (const academic of MixedAcademic) {
+      if (academic.id) {
+        academicIDs.push(academic.id);
+      } else {
+        const newAcademic = {
+          fields: {
+            Name: academic.name,
+            Email: academic.email,
+          },
+        };
+        const [createdAcademicID] = await createRecord(AcademicTable, [newAcademic]);
+        academicIDs.push(createdAcademicID);
+      }
+    }
+
     for (const canvassing of canvassings) {
       const { MainEvent, MixedAcademic, StartTime, EndTime, Venue, AvailableAcademic } = canvassing;
-      const academicIDs: string[] = [];
-
-      for (const academic of MixedAcademic) {
-        if (academic.id) {
-          academicIDs.push(academic.id);
-        } else {
-          const newAcademic = {
-            fields: {
-              Name: academic.name,
-              Email: academic.email,
-              MainEvent,
-            },
-          };
-          const [createdAcademicID] = await createRecord(AcademicTable, [newAcademic]);
-          academicIDs.push(createdAcademicID);
-        }
-      }
-
       const newCanvassing: Canvassing = {
         StartTime,
         EndTime,
