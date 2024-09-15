@@ -69,17 +69,18 @@ export async function createCanvassing(
 }
 
 export async function updateCanvassing(canvassingList: CanvassingFrontend[]) {
-    const canvassingBackend = canvassingList.map((canvassing) =>
-        reformatCanvassingRequest(canvassing)
-    )
-    console.log(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}?mainEventID=${canvassingList[0].MainEvent[0]}`
-    )
-    const res = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}?mainEventID=${canvassingList[0].MainEvent[0]}`,
-        canvassingBackend
-    )
-    return res.status
+    for (const canvassing of canvassingList) {
+        const canvassingBackend = reformatCanvassingRequest(canvassing)
+        const res = await axios.put(
+            // change later
+            `${process.env.REACT_APP_BACKEND_URL}/canvassing/${canvassing.RecordID}`,
+            canvassingBackend
+        )
+        if (res.status !== 200) {
+            return res.status // Return immediately if error
+        }
+    }
+    return 200 // all updates were successful
 }
 
 // Default Canvassing object

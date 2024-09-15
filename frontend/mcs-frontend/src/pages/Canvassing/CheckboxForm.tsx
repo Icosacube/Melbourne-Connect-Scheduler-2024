@@ -113,19 +113,23 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
     )
 
     const handleSubmit = async () => {
-        const newCanvassings = checkSlots.map((slot) => {
+        const modifiedCanvassings = checkSlots.reduce((acc, slot) => {
             const wasAvailable =
-                slot.AvailableAcademic.length == 0
+                slot.AvailableAcademic.length === 0
                     ? false
                     : slot.AvailableAcademic.includes(academic)
 
-            var availableList = slot.AvailableAcademic
+            let availableList = [...slot.AvailableAcademic]
             if (slot.isAvailable && !wasAvailable) {
-                availableList = [...availableList, academic]
+                availableList.push(academic)
             } else if (!slot.isAvailable && wasAvailable) {
-                availableList.filter((avail) => avail !== academic)
+                availableList = availableList.filter(
+                    (avail) => avail !== academic
+                )
+            } else {
+                return acc
             }
-            return {
+            acc.push({
                 RecordID: slot.RecordID,
                 MainEvent: MainEvent,
                 StartTime: slot.StartTime,
@@ -134,15 +138,16 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
                 AvailableAcademic: availableList,
                 Academic: academics,
                 EventName: canvassingSlots[0].EventName,
-            }
-        })
+            })
+            return acc
+        }, [] as any[])
 
-        console.log(newCanvassings)
+        console.log(modifiedCanvassings)
 
         try {
             // TODO: add submitting state
-            const res = await updateCanvassing(newCanvassings)
-            if (res) {
+            const res = await updateCanvassing(modifiedCanvassings)
+            if (res == 200) {
                 setShowSuccess(true)
                 revalidator.revalidate()
             } else {
