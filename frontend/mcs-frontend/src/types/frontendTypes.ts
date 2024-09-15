@@ -124,6 +124,7 @@ export type Academic = {
     Name: string
     MainEvent: string[]
     Canvassing: string[]
+    CanvassingAvailable: string[]
 }
 
 export type Accommodation = {

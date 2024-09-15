@@ -15,8 +15,9 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({ event }) => {
             <Typography variant="h4" gutterBottom>
                 A Page Title
             </Typography>
-            <CanvassingResultsFC/>
-            <CanvassingResults/>
+            <CanvassingCreation event={event} />
+            <CanvassingResultsFC />
+            <CanvassingResults />
         </>
     )
 }

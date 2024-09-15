@@ -50,6 +50,7 @@ export const defaultAcademic: AcademicFrontend = {
     Name: '',
     MainEvent: [],
     Canvassing: [],
+    CanvassingAvailable: [],
 }
 
 // Function to reformat Academic response to frontend format
@@ -61,6 +62,8 @@ function reformatAcademicResponse(data: any): AcademicFrontend {
         Name: data.Name || defaultAcademic.Name,
         MainEvent: data.MainEvent || defaultAcademic.MainEvent,
         Canvassing: data.Canvassing || defaultAcademic.Canvassing,
+        CanvassingAvailable:
+            data.CanvassingAvailable || defaultAcademic.CanvassingAvailable,
     }
 
     return academic
@@ -73,6 +76,7 @@ function reformatAcademicRequest(data: AcademicFrontend): AcademicBackend {
         Name: data.Name,
         MainEvent: data.MainEvent,
         Canvassing: data.Canvassing,
+        CanvassingAvailable: data.CanvassingAvailable,
     }
 
     return academic
