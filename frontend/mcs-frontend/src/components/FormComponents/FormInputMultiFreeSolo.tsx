@@ -32,23 +32,26 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
     valueName,
     labelName,
 }) => {
-    const [open, setOpen] = useState(false) 
-    const [newValue, setNewValue] = useState('') 
-    const [customLabel, setCustomLabel] = useState('') 
-    const [valueToLabel, setValueToLabel] = useState<any | null>(null)
+    const [open, setOpen] = useState(false)
+    const [newValue, setNewValue] = useState('')
+    const [customLabel, setCustomLabel] = useState('')
 
     const handleOpenModal = (value: string) => {
         setNewValue(value)
-        setCustomLabel(value) // label = value
+        setCustomLabel('')
         setOpen(true)
     }
 
-    const handleCloseModal = (save: boolean, onChange: any) => {
+    const handleCloseModal = (
+        save: boolean,
+        onChange: any,
+        currentValue: any
+    ) => {
         if (save && newValue) {
             const newEntry = { id: null, value: newValue, label: customLabel }
-            onChange((prev: any) =>
-                prev != null ? [...prev, newEntry] : [newEntry]
-            )
+            const updatedValue =
+                currentValue != null ? [...currentValue, newEntry] : [newEntry]
+            onChange(updatedValue)
         }
         setOpen(false)
     }
@@ -71,13 +74,14 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                         field: { onChange, value },
                         fieldState: { error },
                     }) => {
-                        // Filter out options that are already selected
+                        // Get current selected values
                         const selectedValues =
                             value != null
                                 ? value.map(
                                       (item: DropdownOptions) => item.value
                                   )
                                 : null
+                        // Filter out already selected options
                         const filteredOptions = options.filter((option) =>
                             selectedValues != null
                                 ? !selectedValues.includes(option.value)
@@ -102,8 +106,10 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                                         const lastValue =
                                             newValue[newValue.length - 1]
                                         if (typeof lastValue === 'string') {
+                                            // Open modal for custom entry
                                             handleOpenModal(lastValue)
                                         } else {
+                                            // Update the selected values
                                             onChange(newValue)
                                         }
                                     }}
@@ -198,7 +204,7 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                                 <Dialog
                                     open={open}
                                     onClose={() =>
-                                        handleCloseModal(false, onChange)
+                                        handleCloseModal(false, onChange, value)
                                     }
                                 >
                                     <DialogTitle>Add New {label}</DialogTitle>
@@ -211,13 +217,22 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                                             }
                                             fullWidth
                                         />
+                                        <ModalTextField
+                                            label={valueName}
+                                            value={newValue}
+                                            onChange={(e) =>
+                                                setNewValue(e.target.value)
+                                            }
+                                            fullWidth
+                                        />
                                     </DialogContent>
                                     <DialogActions>
                                         <Button
                                             onClick={() =>
                                                 handleCloseModal(
                                                     false,
-                                                    onChange
+                                                    onChange,
+                                                    value
                                                 )
                                             }
                                         >
@@ -225,7 +240,11 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                                         </Button>
                                         <Button
                                             onClick={() =>
-                                                handleCloseModal(true, onChange)
+                                                handleCloseModal(
+                                                    true,
+                                                    onChange,
+                                                    value
+                                                )
                                             }
                                             color="primary"
                                         >
