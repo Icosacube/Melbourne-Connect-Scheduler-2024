@@ -71,7 +71,7 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({ event }) => {
                 return 'Canvassing Results (Table)'
             default:
                 return hasCanvassing
-                    ? 'Results Calendar'
+                    ? 'Canvassing Results (Calendar)'
                     : 'Canvassing Form Creation'
         }
     }

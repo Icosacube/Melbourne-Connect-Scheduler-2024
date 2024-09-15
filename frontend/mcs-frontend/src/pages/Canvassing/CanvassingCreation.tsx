@@ -45,6 +45,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     const [canvassingSlots, setCanvassingSlots] = useState<CanvassingTemp[]>([])
     const [timeSlotSize, setTimeSlotSize] = useState<string>('30')
     const [venues, setVenues] = useState<Venue[]>([])
+    const [submitting, setSubmitting] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
     const revalidator = useRevalidator()
 

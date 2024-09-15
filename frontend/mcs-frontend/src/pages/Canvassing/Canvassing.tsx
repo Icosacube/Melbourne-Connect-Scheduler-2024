@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
-import { CheckboxRow } from './CheckboxRow'
+import { CheckboxForm } from './CheckboxForm'
 import { useLoaderData, useParams } from 'react-router-dom'
 import { Canvassing as CanvassingType } from '../../types/frontendTypes'
 
@@ -11,7 +11,7 @@ export const Canvassing: React.FC = () => {
     }
 
     return canvassings != undefined && canvassings.length > 0 ? (
-        <CheckboxRow academic={academicid!} canvassingSlots={canvassings} />
+        <CheckboxForm academic={academicid!} canvassingSlots={canvassings} />
     ) : (
         <></>
     )
