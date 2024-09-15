@@ -37,7 +37,6 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
     canvassingSlots,
 }) => {
     const [checkSlots, setCheckSlots] = useState<CheckSlots[]>([])
-    const [email, setEmail] = useState<string>('')
     const [academics, setAcademics] = useState<string[]>([])
     const [venues, setVenues] = useState<Venue[]>([])
 
@@ -59,7 +58,7 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
         setAcademics(
             canvassingSlots.length > 0 ? canvassingSlots[0].Academic : []
         )
-        
+
         const fetchVenues = async () => {
             try {
                 const venuePromises = canvassingSlots[0].Venue.map((venueId) =>
@@ -168,9 +167,8 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
                         Meeting For {canvassingSlots[0].EventName.join(', ')}
                     </Typography>
                 </Grid>
-                <Grid item xs={12} md={6} lg={9} marginBottom={4}>
+                <Grid item xs={12} md={6} lg={9} marginBottom={8}>
                     <Typography variant="subtitle1" fontSize={20}>
-                        Venue:{' '}
                         {venues.map((venue) => venue.VenueName).join(', ')}
                     </Typography>
                 </Grid>
@@ -416,7 +414,7 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
                 >
                     <Grid item>
                         <Button variant={'contained'} onClick={handleSubmit}>
-                            Submit
+                            Save
                         </Button>
                     </Grid>
                 </Grid>

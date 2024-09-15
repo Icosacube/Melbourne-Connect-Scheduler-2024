@@ -10,7 +10,7 @@ export const Canvassing: React.FC = () => {
         canvassings: CanvassingType[]
     }
 
-    return canvassings.length > 0 ? (
+    return canvassings != undefined && canvassings.length > 0 ? (
         <CheckboxRow academic={academicid!} canvassingSlots={canvassings} />
     ) : (
         <></>
