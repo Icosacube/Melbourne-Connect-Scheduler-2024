@@ -253,5 +253,5 @@ export type CanvassingTemp = {
     MainEvent: string[]
     Venue: string[]
     AvailableAcademic: string[]
-    MixedAcademic: { id: string; email: string }[]
+    MixedAcademic: { id: string; name: string; email: string }[]
 }

@@ -26,17 +26,19 @@ export async function getAllCanvassings(): Promise<CanvassingFrontend[]> {
     }
 }
 
-// Function to get a Canvassing by Event ID
+// Function to get a Canvassing List by Event ID
 export async function getCanvassingByEventId(
     eventId: string
 ): Promise<CanvassingFrontend> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}/${eventId}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}?mainevent=${eventId}`
         )
-        const rawCanvassing = res.data
-        const formattedCanvassing = reformatCanvassingResponse(rawCanvassing)
-        return formattedCanvassing
+        const rawCanvassings = res.data
+        const formattedCanvassings = rawCanvassings.map((raw: any) =>
+            reformatCanvassingResponse(raw)
+        )
+        return formattedCanvassings
     } catch (error) {
         console.error('Error fetching canvassing by event ID:', error)
         return {} as CanvassingFrontend

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Autocomplete,
     Avatar,
@@ -7,150 +7,238 @@ import {
     TextField,
     Typography,
     Box,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    TextField as ModalTextField,
 } from '@mui/material'
 import { Controller } from 'react-hook-form'
 import { DropdownOptions, FormInputProps } from './FormInputProps'
 
-export const FormInputMultiFreeSolo: React.FC<FormInputProps> = ({
+interface FormInputMultiFreeSoloProps extends FormInputProps {
+    valueName: string
+    labelName: string
+}
+
+export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
     name,
     control,
     label,
     options = [],
     required = true,
     hint = '',
+    valueName,
+    labelName,
 }) => {
-    return (
-        <FormControl
-            size="small"
-            variant="outlined"
-            fullWidth
-            required={required}
-        >
-            <Controller
-                name={name}
-                control={control}
-                rules={{ required: required ? `${label} is required` : false }}
-                render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                }) => {
-                    // Filter out options that are already selected
-                    const selectedValues =
-                        value != null
-                            ? value.map((item: DropdownOptions) => item.value)
-                            : null
-                    const filteredOptions = options.filter((option) =>
-                        selectedValues != null
-                            ? !selectedValues.includes(option.value)
-                            : option
-                    )
+    const [open, setOpen] = useState(false) 
+    const [newValue, setNewValue] = useState('') 
+    const [customLabel, setCustomLabel] = useState('') 
+    const [valueToLabel, setValueToLabel] = useState<any | null>(null)
 
-                    return (
-                        <Autocomplete
-                            multiple
-                            freeSolo
-                            options={filteredOptions}
-                            getOptionLabel={(
-                                option: string | DropdownOptions
-                            ) =>
-                                typeof option === 'string'
-                                    ? option
-                                    : option.label
-                            }
-                            value={value || []}
-                            onChange={(event, newValue) => {
-                                // Ensure the output format
-                                const updatedValue = newValue.map((item) =>
-                                    typeof item === 'string'
-                                        ? { id: null, value: item, label: item }
-                                        : {
-                                              id: item.id,
-                                              value: item.value,
-                                              label: item.label,
-                                          }
-                                )
-                                onChange(updatedValue)
-                            }}
-                            disableCloseOnSelect
-                            renderOption={(
-                                props,
-                                option: string | DropdownOptions,
-                                { selected }
-                            ) => (
-                                <li {...props}>
-                                    <Box
-                                        style={{
-                                            backgroundColor: selected
-                                                ? undefined
-                                                : 'transparent',
-                                            fontWeight: selected
-                                                ? 'bold'
-                                                : 'normal',
-                                        }}
-                                        display="flex"
-                                        alignItems="center"
-                                    >
-                                        {typeof option !== 'string' ? (
-                                            <Avatar
-                                                alt={option.label}
-                                                sx={{ marginRight: 1 }}
-                                            />
-                                        ) : (
-                                            <Avatar sx={{ marginRight: 1 }}>
-                                                {option[0].toUpperCase()}
-                                            </Avatar>
-                                        )}
-                                        <Typography>
-                                            {typeof option === 'string'
-                                                ? option
-                                                : option.label}
-                                        </Typography>
-                                    </Box>
-                                </li>
-                            )}
-                            renderTags={(
-                                selected: (string | DropdownOptions)[],
-                                getTagProps
-                            ) => (
-                                <>
-                                    {selected.map((option, index) => (
-                                        <Chip
-                                            {...getTagProps({ index })}
-                                            avatar={
-                                                typeof option !== 'string' ? (
+    const handleOpenModal = (value: string) => {
+        setNewValue(value)
+        setCustomLabel(value) // label = value
+        setOpen(true)
+    }
+
+    const handleCloseModal = (save: boolean, onChange: any) => {
+        if (save && newValue) {
+            const newEntry = { id: null, value: newValue, label: customLabel }
+            onChange((prev: any) =>
+                prev != null ? [...prev, newEntry] : [newEntry]
+            )
+        }
+        setOpen(false)
+    }
+
+    return (
+        <>
+            <FormControl
+                size="small"
+                variant="outlined"
+                fullWidth
+                required={required}
+            >
+                <Controller
+                    name={name}
+                    control={control}
+                    rules={{
+                        required: required ? `${label} is required` : false,
+                    }}
+                    render={({
+                        field: { onChange, value },
+                        fieldState: { error },
+                    }) => {
+                        // Filter out options that are already selected
+                        const selectedValues =
+                            value != null
+                                ? value.map(
+                                      (item: DropdownOptions) => item.value
+                                  )
+                                : null
+                        const filteredOptions = options.filter((option) =>
+                            selectedValues != null
+                                ? !selectedValues.includes(option.value)
+                                : option
+                        )
+
+                        return (
+                            <>
+                                <Autocomplete
+                                    multiple
+                                    freeSolo
+                                    options={filteredOptions}
+                                    getOptionLabel={(
+                                        option: string | DropdownOptions
+                                    ) =>
+                                        typeof option === 'string'
+                                            ? option
+                                            : option.label
+                                    }
+                                    value={value || []}
+                                    onChange={(event, newValue) => {
+                                        const lastValue =
+                                            newValue[newValue.length - 1]
+                                        if (typeof lastValue === 'string') {
+                                            handleOpenModal(lastValue)
+                                        } else {
+                                            onChange(newValue)
+                                        }
+                                    }}
+                                    disableCloseOnSelect
+                                    renderOption={(
+                                        props,
+                                        option: string | DropdownOptions,
+                                        { selected }
+                                    ) => (
+                                        <li {...props}>
+                                            <Box
+                                                style={{
+                                                    backgroundColor: selected
+                                                        ? undefined
+                                                        : 'transparent',
+                                                    fontWeight: selected
+                                                        ? 'bold'
+                                                        : 'normal',
+                                                }}
+                                                display="flex"
+                                                alignItems="center"
+                                            >
+                                                {typeof option !== 'string' ? (
                                                     <Avatar
                                                         alt={option.label}
+                                                        sx={{ marginRight: 1 }}
                                                     />
                                                 ) : (
-                                                    <Avatar>
+                                                    <Avatar
+                                                        sx={{ marginRight: 1 }}
+                                                    >
                                                         {option[0].toUpperCase()}
                                                     </Avatar>
-                                                )
+                                                )}
+                                                <Typography>
+                                                    {typeof option === 'string'
+                                                        ? option
+                                                        : option.label}
+                                                </Typography>
+                                            </Box>
+                                        </li>
+                                    )}
+                                    renderTags={(
+                                        selected: (string | DropdownOptions)[],
+                                        getTagProps
+                                    ) => (
+                                        <>
+                                            {selected.map((option, index) => (
+                                                <Chip
+                                                    {...getTagProps({ index })}
+                                                    avatar={
+                                                        typeof option !==
+                                                        'string' ? (
+                                                            <Avatar
+                                                                alt={
+                                                                    option.label
+                                                                }
+                                                            />
+                                                        ) : (
+                                                            <Avatar>
+                                                                {option[0].toUpperCase()}
+                                                            </Avatar>
+                                                        )
+                                                    }
+                                                    label={
+                                                        typeof option ===
+                                                        'string'
+                                                            ? option
+                                                            : option.label
+                                                    }
+                                                />
+                                            ))}
+                                        </>
+                                    )}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            variant="outlined"
+                                            label={label}
+                                            placeholder={
+                                                hint != null ? hint : label
                                             }
-                                            label={
-                                                typeof option === 'string'
-                                                    ? option
-                                                    : option.label
+                                            error={!!error}
+                                            helperText={
+                                                error ? error.message : null
                                             }
                                         />
-                                    ))}
-                                </>
-                            )}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    variant="outlined"
-                                    label={label}
-                                    placeholder={hint != null ? hint : label}
-                                    error={!!error}
-                                    helperText={error ? error.message : null}
+                                    )}
                                 />
-                            )}
-                        />
-                    )
-                }}
-            />
-        </FormControl>
+
+                                {/* Modal for setting custom label */}
+                                <Dialog
+                                    open={open}
+                                    onClose={() =>
+                                        handleCloseModal(false, onChange)
+                                    }
+                                >
+                                    <DialogTitle>Add New {label}</DialogTitle>
+                                    <DialogContent>
+                                        <ModalTextField
+                                            label={labelName}
+                                            value={customLabel}
+                                            onChange={(e) =>
+                                                setCustomLabel(e.target.value)
+                                            }
+                                            fullWidth
+                                        />
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            onClick={() =>
+                                                handleCloseModal(
+                                                    false,
+                                                    onChange
+                                                )
+                                            }
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            onClick={() =>
+                                                handleCloseModal(true, onChange)
+                                            }
+                                            color="primary"
+                                        >
+                                            Save
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
+                            </>
+                        )
+                    }}
+                />
+            </FormControl>
+        </>
     )
 }
 

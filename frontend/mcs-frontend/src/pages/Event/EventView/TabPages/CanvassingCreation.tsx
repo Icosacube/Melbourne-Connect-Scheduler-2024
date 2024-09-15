@@ -29,9 +29,11 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
 
     // Submit form and add MixedAcademic to each slot
     const onSubmit = (data: any) => {
+        console.log(data)
         const formattedMixedAcademic = data.DropdownOptions.map(
-            (academic: { id: string; value: string }) => ({
+            (academic: { id: string; label: string; value: string }) => ({
                 id: academic.id,
+                name: academic.label,
                 email: academic.value,
             })
         )
@@ -84,12 +86,14 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                             name="DropdownOptions"
                             hint="Search By Name or Type In Email"
                             control={control}
-                            label="Select Academics"
+                            label="Academics"
                             options={MixedAcademicOptions.map((person) => ({
                                 id: person.id,
                                 value: person.email,
                                 label: person.name,
                             }))}
+                            labelName='Name'
+                            valueName='Email'
                         />
                     </Grid>
 
