@@ -1,5 +1,7 @@
 import axios from 'axios'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 import {
     Canvassing as CanvassingFrontend,
     CanvassingTemp as CanvassingTempFrontend,
@@ -8,6 +10,9 @@ import {
     Canvassing as CanvassingBackend,
     CanvassingTemp as CanvassingTempBackend,
 } from '../../types/backendTypes'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Function to get all Canvassings
 export async function getAllCanvassings(): Promise<CanvassingFrontend[]> {
@@ -38,7 +43,11 @@ export async function getCanvassingByEventId(
         const formattedCanvassings = rawCanvassings.map((raw: any) =>
             reformatCanvassingResponse(raw)
         )
-        return formattedCanvassings
+        return formattedCanvassings.sort(
+            (a: CanvassingFrontend, b: CanvassingFrontend) => {
+                return a.StartTime.isAfter(b.StartTime) ? 1 : -1
+            }
+        )
     } catch (error) {
         console.error('Error fetching canvassing by event ID:', error)
         return []
@@ -59,11 +68,9 @@ export async function createCanvassing(
     return res.status
 }
 
-export async function updateCanvassing(
-    canvassingList: CanvassingTempFrontend[]
-) {
+export async function updateCanvassing(canvassingList: CanvassingFrontend[]) {
     const canvassingBackend = canvassingList.map((canvassing) =>
-        reformatCanvassingTempRequest(canvassing)
+        reformatCanvassingRequest(canvassing)
     )
 
     const res = await axios.put(
@@ -100,9 +107,11 @@ function reformatCanvassingResponse(data: any): CanvassingFrontend {
         ...defaultCanvassing,
         RecordID: data.id || defaultCanvassing.RecordID,
         StartTime: data.StartTime
-            ? dayjs(data.StartTime)
+            ? dayjs(data.StartTime).utc().tz('Australia/Melbourne')
             : defaultCanvassing.StartTime,
-        EndTime: data.EndTime ? dayjs(data.EndTime) : defaultCanvassing.EndTime,
+        EndTime: data.EndTime
+            ? dayjs(data.EndTime).utc().tz('Australia/Melbourne')
+            : defaultCanvassing.EndTime,
         MainEvent: data.MainEvent || defaultCanvassing.MainEvent,
         Venue: data.Venue || defaultCanvassing.Venue,
         Academic: data.Academic || defaultCanvassing.Academic,
@@ -116,8 +125,12 @@ function reformatCanvassingRequest(
     data: CanvassingFrontend
 ): CanvassingBackend {
     const canvassing: CanvassingBackend = {
-        StartTime: data.StartTime.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-        EndTime: data.EndTime.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+        StartTime: data.StartTime.tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+        EndTime: data.EndTime.tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
         MainEvent: data.MainEvent,
         Academic: data.Academic,
         Venue: data.Venue,
@@ -132,8 +145,12 @@ function reformatCanvassingTempRequest(
     data: CanvassingTempFrontend
 ): CanvassingTempBackend {
     const canvassing: CanvassingTempBackend = {
-        StartTime: data.StartTime.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-        EndTime: data.EndTime.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+        StartTime: data.StartTime.tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+        EndTime: data.EndTime.tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
         MainEvent: data.MainEvent,
         Venue: data.Venue,
         MixedAcademic: data.MixedAcademic,

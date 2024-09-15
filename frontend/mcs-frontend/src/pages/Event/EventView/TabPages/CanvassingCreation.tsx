@@ -83,10 +83,9 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             Venue: data.Venue,
             MixedAcademic: formattedMixedAcademic,
         }))
-        updatedSlots.sort((a, b) => (a.StartTime.isAfter(b.StartTime) ? 1 : -1))
-        console.log('Canvassing Slots:', updatedSlots)
 
         try {
+            // TODO: add submitting state
             const res = await createCanvassing(updatedSlots)
             if (res) {
                 setShowSuccess(true)

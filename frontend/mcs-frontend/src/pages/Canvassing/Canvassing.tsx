@@ -5,17 +5,13 @@ import { useLoaderData, useParams } from 'react-router-dom'
 import { Canvassing as CanvassingType } from '../../types/frontendTypes'
 
 export const Canvassing: React.FC = () => {
-    let { eventId, academicId } = useParams()
+    let { eventid, academicid } = useParams()
     const { canvassings } = useLoaderData() as {
         canvassings: CanvassingType[]
     }
 
-    return canvassings ? (
-        <CheckboxRow
-            mainEvent={eventId!}
-            academic={academicId!}
-            canvassingSlots={canvassings}
-        />
+    return canvassings.length > 0 ? (
+        <CheckboxRow academic={academicid!} canvassingSlots={canvassings} />
     ) : (
         <></>
     )

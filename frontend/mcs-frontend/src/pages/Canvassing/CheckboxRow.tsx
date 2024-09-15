@@ -26,13 +26,11 @@ interface CanvassingTemp {
 }
 
 interface CheckboxRowProps {
-    mainEvent: string
     academic: string
     canvassingSlots: Canvassing[]
 }
 
 export const CheckboxRow: React.FC<CheckboxRowProps> = ({
-    mainEvent,
     academic,
     canvassingSlots,
 }) => {
@@ -43,13 +41,14 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
 
     // WIP change to dynamic
     const title = 'Meeting For Event XXX'
+    const MainEvent = canvassingSlots[0].MainEvent
 
     useEffect(() => {
         const initialCheckSlots = canvassingSlots.map((slot) => ({
             RecordID: slot.RecordID,
             StartTime: slot.StartTime,
             EndTime: slot.EndTime,
-            isAvailable: false,
+            isAvailable: slot.AvailableAcademic.includes(academic),
             AvailableAcademic: slot.AvailableAcademic,
         }))
         setCheckSlots(initialCheckSlots)
@@ -110,22 +109,33 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
     )
 
     const handleSubmit = () => {
-        const newCanvassings: Canvassing[] = checkSlots.map((slot) => ({
-            RecordID: slot.RecordID,
-            MainEvent: [mainEvent],
-            StartTime: slot.StartTime,
-            EndTime: slot.EndTime,
-            Venue: canvassingSlots[0].Venue,
-            AvailableAcademic: slot.isAvailable
-                ? [...slot.AvailableAcademic, academic]
-                : slot.AvailableAcademic,
-            Academic: academics,
-        }))
+        const newCanvassings = checkSlots.map((slot) => {
+            const wasAvailable =
+                slot.AvailableAcademic.length == 0
+                    ? false
+                    : slot.AvailableAcademic.includes(academic)
+
+            var availableList = slot.AvailableAcademic
+            if (slot.isAvailable && !wasAvailable) {
+                availableList = [...availableList, academic]
+            } else if (!slot.isAvailable && wasAvailable) {
+                availableList.filter((avail) => avail !== academic)
+            }
+            return {
+                RecordID: slot.RecordID,
+                MainEvent: MainEvent,
+                StartTime: slot.StartTime,
+                EndTime: slot.EndTime,
+                Venue: canvassingSlots[0].Venue,
+                AvailableAcademic: availableList,
+                Academic: academics,
+            }
+        })
+
         console.log(newCanvassings)
 
         // TODO: Submit
     }
-
     return (
         <Box className="m-24">
             <Grid
@@ -138,7 +148,9 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
             >
                 <Grid item xs={12} container>
                     <Grid item xs={12} md={6} lg={9} marginY={4}>
-                        <Typography variant="h3" gutterBottom>{title}</Typography>
+                        <Typography variant="h3" gutterBottom>
+                            {title}
+                        </Typography>
                         <Typography variant="h6">
                             Venue:
                             {venues.map((venue) => venue.VenueName).join(', ')}
