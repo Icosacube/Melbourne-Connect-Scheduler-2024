@@ -19,7 +19,7 @@ import { useRevalidator } from 'react-router-dom'
 import { BottomSuccessSnackbar } from '../../components'
 
 // Canvassing with Available boolean for checkbox processing
-interface CanvassingTemp {
+interface CheckSlots {
     RecordID: string
     StartTime: Dayjs
     EndTime: Dayjs
@@ -36,7 +36,7 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
     academic,
     canvassingSlots,
 }) => {
-    const [checkSlots, setCheckSlots] = useState<CanvassingTemp[]>([])
+    const [checkSlots, setCheckSlots] = useState<CheckSlots[]>([])
     const [email, setEmail] = useState<string>('')
     const [academics, setAcademics] = useState<string[]>([])
     const [venues, setVenues] = useState<Venue[]>([])
@@ -55,9 +55,11 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
             AvailableAcademic: slot.AvailableAcademic,
         }))
         setCheckSlots(initialCheckSlots)
+
         setAcademics(
             canvassingSlots.length > 0 ? canvassingSlots[0].Academic : []
         )
+        
         const fetchVenues = async () => {
             try {
                 const venuePromises = canvassingSlots[0].Venue.map((venueId) =>

@@ -118,6 +118,8 @@ function reformatCanvassingResponse(data: any): CanvassingFrontend {
         MainEvent: data.MainEvent || defaultCanvassing.MainEvent,
         Venue: data.Venue || defaultCanvassing.Venue,
         Academic: data.Academic || defaultCanvassing.Academic,
+        AvailableAcademic:
+            data.AvailableAcademic || defaultCanvassing.AvailableAcademic,
         EventName: data.EventName || defaultCanvassing.EventName,
     }
 
