@@ -1,7 +1,7 @@
 // CanvassingResultsFCSidebar.tsx
 import React from 'react'
 import { Grid, TextField, Typography } from '@mui/material'
-import { Canvassing } from '../../../../types/frontendTypes'
+import { Canvassing } from '../../types/frontendTypes'
 
 interface CanvassingResultsFCSidebarProps {
     academicFilter: string
