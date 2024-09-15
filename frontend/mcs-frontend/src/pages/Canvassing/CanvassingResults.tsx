@@ -1,24 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dayjs } from 'dayjs'
 import { Box, Grid, Typography, IconButton, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { CheckCircle, DoNotDisturb } from '@mui/icons-material'
-import { TimeSlot } from '../../types/frontendTypes'
+import { Canvassing, Academic } from '../../types/frontendTypes'
+import { getAcademicById } from '../../scripts/academic/functions'
 
 interface CanvassingResultsProps {
-    timeSlots: TimeSlot[]
+    canvassingSlots: Canvassing[]
 }
 
 export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
-    timeSlots,
+    canvassingSlots,
 }) => {
     const theme = useTheme()
+    const [academics, setAcademics] = useState<Academic[]>([])
     const [currentPage, setCurrentPage] = useState(0)
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
     const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'))
     const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
+
+    useEffect(() => {
+        const fetchAcademics = async () => {
+            try {
+                const academicPromises = canvassingSlots.flatMap((slot) =>
+                    slot.Academic.map((academicId) =>
+                        getAcademicById(academicId)
+                    )
+                )
+                // Fetch all academics
+                const fetchedAcademics = await Promise.all(academicPromises)
+                setAcademics(fetchedAcademics)
+            } catch (error) {
+                console.error('Error fetching academics:', error)
+            }
+        }
+
+        fetchAcademics() // Call the async function
+    }, [canvassingSlots])
 
     // Adjust items per page based on screen size
     const itemsPerPage = isSmallScreen
@@ -29,7 +50,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
         ? 5
         : 10
 
-    const totalPages = Math.ceil(timeSlots.length / itemsPerPage)
+    const totalPages = Math.ceil(canvassingSlots.length / itemsPerPage)
 
     const handleNextPage = () => {
         setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages - 1))
@@ -39,7 +60,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
         setCurrentPage((prevPage) => Math.max(prevPage - 1, 0))
     }
 
-    const displayedSlots = timeSlots.slice(
+    const displayedSlots = canvassingSlots.slice(
         currentPage * itemsPerPage,
         (currentPage + 1) * itemsPerPage
     )
@@ -55,7 +76,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                     paddingLeft: '8px',
                 }}
             >
-                {/* Column for displaying MixedAcademic's name */}
+                {/* Column for displaying Academic's name */}
                 <Grid item xs={3} md={2} lg={1} container direction={'column'}>
                     <Grid item>
                         <Box
@@ -64,8 +85,8 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                             }}
                         ></Box>
                     </Grid>
-                    {timeSlots.length > 0 ? (
-                        timeSlots[0].MixedAcademic.map((person, index) => (
+                    {canvassingSlots.length > 0 ? (
+                        academics.map((person, index) => (
                             <Grid
                                 item
                                 key={index}
@@ -75,12 +96,20 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                                     marginRight: '12px',
                                 }}
                             >
-                                <Typography variant="h6">
-                                    {person.name.split(' ')[0]}
-                                </Typography>
-                                <Typography variant="h6">
-                                    {person.name.split(' ')[1]}
-                                </Typography>
+                                {person.Name.split(' ').length > 1 ? (
+                                    <>
+                                        <Typography variant="h6">
+                                            {person.Name.split(' ')[0]}
+                                        </Typography>
+                                        <Typography variant="h6">
+                                            {person.Name.split(' ')[1]}
+                                        </Typography>
+                                    </>
+                                ) : (
+                                    <Typography variant="h6">
+                                        {person.Name}{' '}
+                                    </Typography>
+                                )}
                             </Grid>
                         ))
                     ) : (
@@ -129,8 +158,8 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                 >
                     {displayedSlots.map((slot, index) => {
                         const globalIndex = currentPage * itemsPerPage + index
-                        const prevSlot = timeSlots[globalIndex - 1]
-                        const nextSlot = timeSlots[globalIndex + 1]
+                        const prevSlot = canvassingSlots[globalIndex - 1]
+                        const nextSlot = canvassingSlots[globalIndex + 1]
                         const sameDateAsPrev =
                             prevSlot &&
                             slot.StartTime.isSame(prevSlot.StartTime, 'day')
@@ -245,14 +274,14 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                                         </Typography>
                                     </Grid>
                                 </Grid>
-                                {slot.MixedAcademic.map((person, personIndex) => (
+                                {academics.map((person, personIndex) => (
                                     <Grid
                                         item
                                         key={personIndex}
                                         marginY={'8px'}
                                     >
                                         {slot.AvailableAcademic.includes(
-                                            person.email
+                                            person.RecordID
                                         ) ? (
                                             <CheckCircle
                                                 fontSize="large"

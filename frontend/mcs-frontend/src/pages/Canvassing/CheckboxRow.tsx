@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Dayjs } from 'dayjs'
-import { TimeSlot } from '../../types/frontendTypes'
+import { Canvassing, Venue } from '../../types/frontendTypes'
 import {
     Box,
     Button,
@@ -14,9 +14,11 @@ import {
 import { useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import { getVenueById } from '../../scripts/venue/functions'
 
-// TimeSlot with Available boolean for checkbox processing
-interface TimeSlotTemp {
+// Canvassing with Available boolean for checkbox processing
+interface CanvassingTemp {
+    RecordID: string
     StartTime: Dayjs
     EndTime: Dayjs
     isAvailable: boolean
@@ -26,35 +28,47 @@ interface TimeSlotTemp {
 interface CheckboxRowProps {
     mainEvent: string
     academic: string
-    timeSlots: TimeSlot[]
-    setTimeSlots: (value: TimeSlot[]) => void
+    canvassingSlots: Canvassing[]
 }
 
 export const CheckboxRow: React.FC<CheckboxRowProps> = ({
     mainEvent,
     academic,
-    timeSlots,
-    setTimeSlots,
+    canvassingSlots,
 }) => {
-    const [timeSlotsTemp, setTimeSlotsTemp] = useState<TimeSlotTemp[]>([])
+    const [checkSlots, setCheckSlots] = useState<CanvassingTemp[]>([])
     const [email, setEmail] = useState<string>('')
-    const [MixedAcademic, setMixedAcademic] = useState<{ name: string; email: string }[]>([])
+    const [academics, setAcademics] = useState<string[]>([])
+    const [venues, setVenues] = useState<Venue[]>([])
 
     // WIP change to dynamic
     const title = 'Meeting For Event XXX'
-    const venue = 'Zoom'
 
     useEffect(() => {
-        // Convert TimeSlot[] to TimeSlotTemp[]
-        const initialTimeSlotsTemp = timeSlots.map((slot) => ({
+        const initialCheckSlots = canvassingSlots.map((slot) => ({
+            RecordID: slot.RecordID,
             StartTime: slot.StartTime,
             EndTime: slot.EndTime,
             isAvailable: false,
             AvailableAcademic: slot.AvailableAcademic,
         }))
-        setTimeSlotsTemp(initialTimeSlotsTemp)
-        setMixedAcademic(timeSlots.length > 0 ? timeSlots[0].MixedAcademic : [])
-    }, [timeSlots])
+        setCheckSlots(initialCheckSlots)
+        setAcademics(
+            canvassingSlots.length > 0 ? canvassingSlots[0].Academic : []
+        )
+        const fetchVenues = async () => {
+            try {
+                const venuePromises = canvassingSlots[0].Venue.map((venueId) =>
+                    getVenueById(venueId)
+                )
+                const venueObjs = await Promise.all(venuePromises)
+                setVenues(venueObjs)
+            } catch (error) {
+                console.error('Error fetching venues:', error)
+            }
+        }
+        fetchVenues()
+    }, [canvassingSlots])
 
     const [currentPage, setCurrentPage] = useState(0)
 
@@ -73,14 +87,14 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
         : 10
 
     const handleCheckboxChange = (index: number) => {
-        setTimeSlotsTemp((prevSlots) => {
+        setCheckSlots((prevSlots) => {
             const updatedSlots = [...prevSlots]
             updatedSlots[index].isAvailable = !updatedSlots[index].isAvailable
             return updatedSlots
         })
     }
 
-    const totalPages = Math.ceil(timeSlotsTemp.length / itemsPerPage)
+    const totalPages = Math.ceil(checkSlots.length / itemsPerPage)
 
     const handleNextPage = () => {
         setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages - 1))
@@ -90,23 +104,26 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
         setCurrentPage((prevPage) => Math.max(prevPage - 1, 0))
     }
 
-    const displayedSlots = timeSlotsTemp.slice(
+    const displayedSlots = checkSlots.slice(
         currentPage * itemsPerPage,
         (currentPage + 1) * itemsPerPage
     )
 
     const handleSubmit = () => {
-        const newTimeSlots: TimeSlot[] = timeSlotsTemp.map((slot) => ({
-            MainEvent: mainEvent,
+        const newCanvassings: Canvassing[] = checkSlots.map((slot) => ({
+            RecordID: slot.RecordID,
+            MainEvent: [mainEvent],
             StartTime: slot.StartTime,
             EndTime: slot.EndTime,
+            Venue: canvassingSlots[0].Venue,
             AvailableAcademic: slot.isAvailable
-                ? [...slot.AvailableAcademic, email]
+                ? [...slot.AvailableAcademic, academic]
                 : slot.AvailableAcademic,
-            MixedAcademic: MixedAcademic,
+            Academic: academics,
         }))
-        setTimeSlots(newTimeSlots)
-        console.log(newTimeSlots)
+        console.log(newCanvassings)
+
+        // TODO: Submit
     }
 
     return (
@@ -122,8 +139,9 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
                 <Grid item xs={12} container>
                     <Grid item xs={12} md={6} lg={9} marginY={4}>
                         <Typography variant="h3">{title}</Typography>
-                        <Typography variant="subtitle1">
-                            Venue: {venue}
+                        <Typography variant="h6">
+                            Venue:
+                            {venues.map((venue) => venue.VenueName).join(', ')}
                         </Typography>
                     </Grid>
 
@@ -205,8 +223,8 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
                         {displayedSlots.map((slot, index) => {
                             const globalIndex =
                                 currentPage * itemsPerPage + index
-                            const prevSlot = timeSlotsTemp[globalIndex - 1]
-                            const nextSlot = timeSlotsTemp[globalIndex + 1]
+                            const prevSlot = checkSlots[globalIndex - 1]
+                            const nextSlot = checkSlots[globalIndex + 1]
                             const sameDateAsPrev =
                                 prevSlot &&
                                 slot.StartTime.isSame(prevSlot.StartTime, 'day')

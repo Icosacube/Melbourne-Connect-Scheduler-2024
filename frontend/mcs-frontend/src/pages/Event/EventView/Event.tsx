@@ -7,9 +7,9 @@ import { BodyLayout } from '../../Layout/BodyLayout'
 import EditEventModal from './EditEventModal'
 import { About } from './TabPages/About'
 import { Participants } from './TabPages/Participants'
-import CanvassingCreation from './TabPages/CanvassingCreation'
 import Programme from './TabPages/Programme'
 import { Services } from './TabPages/Services'
+import CanvassingAll from './TabPages/CanvassingAll'
 
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')
@@ -30,7 +30,7 @@ export const Event: FC = () => {
             case 'Participants':
                 return <Participants speakers={speakers} />
             case 'Canvassing':
-                return <CanvassingCreation event={event} />
+                return <CanvassingAll event={event} />
             case 'Programme':
                 return <Programme event={event} speakers={speakers} />
             case 'Services':
