@@ -8,14 +8,39 @@ import { CheckCircle, DoNotDisturb } from '@mui/icons-material'
 import { Canvassing, Academic } from '../../types/frontendTypes'
 import { getAcademicById } from '../../scripts/academic/functions'
 
-interface CanvassingResultsProps {
-    canvassingSlots: Canvassing[]
-}
+const temp: Canvassing[] = [
+    {
+        RecordID: '1',
+        StartTime: dayjs('2024-09-15T09:00:00'),
+        EndTime: dayjs('2024-09-15T10:00:00'),
+        Academic: ['academic1', 'academic2', 'academic3'],
+        Venue: ['venue1'],
+        MainEvent: ['event1'],
+        AvailableAcademic: ['academic1', 'academic2'],
+    },
+    {
+        RecordID: '2',
+        StartTime: dayjs('2024-09-15T11:00:00'),
+        EndTime: dayjs('2024-09-15T12:00:00'),
+        Academic: ['academic1', 'academic2', 'academic3'],
+        Venue: ['venue1'],
+        MainEvent: ['event1'],
+        AvailableAcademic: ['academic1', 'academic3'],
+    },
+    {
+        RecordID: '3',
+        StartTime: dayjs('2024-09-15T13:00:00'),
+        EndTime: dayjs('2024-09-15T14:00:00'),
+        Academic: ['academic1', 'academic2', 'academic3'],
+        Venue: ['venue1'],
+        MainEvent: ['event1'],
+        AvailableAcademic: ['academic2'],
+    },
+]
 
-export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
-    canvassingSlots,
-}) => {
+export const CanvassingResults: React.FC = ({}) => {
     const theme = useTheme()
+    const [canvassingSlots, setCanvassingSlots] = useState<Canvassing[]>(temp)
     const [academics, setAcademics] = useState<Academic[]>([])
     const [currentPage, setCurrentPage] = useState(0)
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
@@ -23,12 +48,13 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
     const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
 
     useEffect(() => {
+        const canvassingSlots = temp
+
+        setCanvassingSlots(canvassingSlots)
         const fetchAcademics = async () => {
             try {
-                const academicPromises = canvassingSlots.flatMap((slot) =>
-                    slot.Academic.map((academicId) =>
-                        getAcademicById(academicId)
-                    )
+                const academicPromises = canvassingSlots[0].Academic.map(
+                    (academicId) => getAcademicById(academicId)
                 )
                 // Fetch all academics
                 const fetchedAcademics = await Promise.all(academicPromises)
@@ -39,7 +65,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
         }
 
         fetchAcademics() // Call the async function
-    }, [canvassingSlots])
+    }, [])
 
     // Adjust items per page based on screen size
     const itemsPerPage = isSmallScreen
@@ -96,7 +122,8 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                                     marginRight: '12px',
                                 }}
                             >
-                                {person.Name.split(' ').length > 1 ? (
+                                {person.Name != null &&
+                                person.Name.split(' ').length > 1 ? (
                                     <>
                                         <Typography variant="h6">
                                             {person.Name.split(' ')[0]}
@@ -123,7 +150,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                     color={'primary'}
                     sx={{
                         position: 'absolute',
-                        top: '30%',
+                        top: 140,
                         left: 100,
                     }}
                 >
@@ -136,7 +163,7 @@ export const CanvassingResults: React.FC<CanvassingResultsProps> = ({
                     disabled={currentPage === totalPages - 1}
                     sx={{
                         position: 'absolute',
-                        top: '30%',
+                        top: 140,
                         right: 16,
                     }}
                 >

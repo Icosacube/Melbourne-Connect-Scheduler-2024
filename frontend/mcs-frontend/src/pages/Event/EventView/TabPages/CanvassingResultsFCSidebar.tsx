@@ -5,26 +5,26 @@ import { Canvassing } from '../../../../types/frontendTypes'
 
 interface CanvassingResultsFCSidebarProps {
     academicFilter: string
-    setSpeakerFilter: (value: string) => void
+    setAcademicFilter: (value: string) => void
     selectedSlot: Canvassing | null
 }
 
 export const CanvassingResultsFCSidebar: React.FC<
     CanvassingResultsFCSidebarProps
-> = ({ academicFilter, setSpeakerFilter, selectedSlot }) => {
+> = ({ academicFilter, setAcademicFilter, selectedSlot }) => {
     return (
         <>
             <TextField
-                label="Filter by Speaker"
+                label="Filter by Academic"
                 variant="outlined"
                 size="small"
                 fullWidth
                 value={academicFilter}
-                onChange={(e) => setSpeakerFilter(e.target.value)}
+                onChange={(e) => setAcademicFilter(e.target.value)}
                 sx={{ mb: 2 }}
             />
             {selectedSlot ? (
-                <Grid container spacing={1}>
+                <Grid container spacing={1} paddingTop={2}>
                     <Grid
                         item
                         xs={12}

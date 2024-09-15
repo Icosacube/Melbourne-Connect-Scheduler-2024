@@ -6,8 +6,7 @@ import { Canvassing } from '../../types/frontendTypes'
 
 interface CanvassingResultsCalendarProps {
     canvassings: Canvassing[]
-    minDate: string
-    maxDate: string
+    dateRange:{start:string, end:string}
     eventDate: string
     handleEventClick: (info: any) => void
     renderEventContent: (eventInfo: any) => React.ReactNode
@@ -18,8 +17,7 @@ export const CanvassingResultsCalendar: React.FC<
     CanvassingResultsCalendarProps
 > = ({
     canvassings,
-    minDate,
-    maxDate,
+    dateRange,
     eventDate,
     handleEventClick,
     renderEventContent,
@@ -47,6 +45,7 @@ export const CanvassingResultsCalendar: React.FC<
                 center: '',
                 right: 'prev,next',
             }}
+            
             titleFormat={{ year: 'numeric', month: 'short' }}
             dayHeaderFormat={{ weekday: 'short', day: 'numeric' }}
             initialDate={eventDate}
@@ -55,10 +54,7 @@ export const CanvassingResultsCalendar: React.FC<
             locale="en-GB"
             editable={false}
             eventContent={renderEventContent}
-            validRange={{
-                start: minDate,
-                end: maxDate,
-            }}
+            validRange={dateRange}
             eventClick={handleEventClick}
             dateClick={() => setSelectedSlot(null)}
         />

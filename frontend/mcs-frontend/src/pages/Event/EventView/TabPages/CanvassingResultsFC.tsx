@@ -5,10 +5,6 @@ import { CanvassingResultsFCSidebar } from './CanvassingResultsFCSidebar'
 import { Canvassing, MainEvent } from '../../../../types/frontendTypes'
 import dayjs from 'dayjs'
 
-interface CanvassingResultsFCProps {
-    event: MainEvent
-}
-
 const temp: Canvassing[] = [
     {
         RecordID: '1',
@@ -39,20 +35,15 @@ const temp: Canvassing[] = [
     },
 ]
 
-export const CanvassingResultsFC: React.FC<CanvassingResultsFCProps> = ({
-    event,
-}) => {
+export const CanvassingResultsFC: React.FC = ({}) => {
     const [canvassingSlots, setCanvassingSlots] = useState<Canvassing[]>(temp)
     const [filteredCanvassings, setFilteredCanvassings] = useState<
         Canvassing[]
     >([])
     const [selectedSlot, setSelectedSlot] = useState<Canvassing | null>(null)
-    const [academicFilter, setSpeakerFilter] = useState('')
+    const [academicFilter, setAcademicFilter] = useState('')
     const [minDate, setMinDate] = useState('')
     const [maxDate, setMaxDate] = useState('')
-
-    const eventDate = dayjs(event.Date).format('YYYY-MM-DD')
-
     useEffect(() => {
         const canvassingSlots = temp
 
@@ -141,9 +132,10 @@ export const CanvassingResultsFC: React.FC<CanvassingResultsFCProps> = ({
                 <Paper sx={{ padding: 4 }}>
                     <CanvassingResultsCalendar
                         canvassings={filteredCanvassings}
-                        minDate={minDate}
-                        maxDate={maxDate}
-                        eventDate={eventDate}
+                        eventDate={dayjs(canvassingSlots[0].StartTime).format(
+                            'YYYY-MM-DD'
+                        )}
+                        dateRange={{ start: minDate, end: maxDate }}
                         handleEventClick={handleEventClick}
                         renderEventContent={renderEventContent}
                         setSelectedSlot={setSelectedSlot}
@@ -154,7 +146,7 @@ export const CanvassingResultsFC: React.FC<CanvassingResultsFCProps> = ({
                 <Paper sx={{ padding: 4 }}>
                     <CanvassingResultsFCSidebar
                         academicFilter={academicFilter}
-                        setSpeakerFilter={setSpeakerFilter}
+                        setAcademicFilter={setAcademicFilter}
                         selectedSlot={selectedSlot}
                     />
                 </Paper>
