@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import {
+    Academic,
     CanvassingTemp,
     MainEvent,
     Venue,
@@ -21,7 +22,6 @@ import {
     FormInputMultiAutocomplete,
     FormInputMultiFreeSolo,
 } from '../../../../components'
-import { DropdownOptions } from '../../../../components/FormComponents/FormInputProps'
 import { useRevalidator } from 'react-router-dom'
 import { getAllVenues, getVenueById } from '../../../../scripts/venue/functions'
 import {
@@ -29,15 +29,10 @@ import {
     defaultCanvassing,
 } from '../../../../scripts/canvassing/functions'
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput'
+import { getAllAcademics } from '../../../../scripts/academic/functions'
 
 interface CanvassingCreationProps {
     event: MainEvent
-}
-
-type MixedAcademic = {
-    id: string
-    name: string
-    email: string
 }
 
 export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
@@ -46,19 +41,12 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     const { handleSubmit, reset, control, watch } = useForm<CanvassingTemp[]>({
         defaultValues: [defaultCanvassing],
     })
+    const [academics, setAcademics] = useState<Academic[]>([])
     const [canvassingSlots, setCanvassingSlots] = useState<CanvassingTemp[]>([])
     const [timeSlotSize, setTimeSlotSize] = useState<string>('30')
     const [venues, setVenues] = useState<Venue[]>([])
     const [showSuccess, setShowSuccess] = useState(false)
     const revalidator = useRevalidator()
-
-    const timeSlotSizes: DropdownOptions[] = [
-        { value: '30', label: '30 min' },
-        { value: '45', label: '45 min' },
-        { value: '60', label: '1 hour' },
-        { value: '90', label: '1.5 hour' },
-        { value: '120', label: '2 hours' },
-    ]
 
     useEffect(() => {
         const fetchVenues = async () => {
@@ -76,6 +64,11 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
         // alternative: fetch all venues
         // getAllVenues().then((venues) => setVenues(venues))
     }, [event.Venue])
+
+    useEffect(() => {
+        getAllAcademics().then((academics) => setAcademics(academics))
+        console.log(academics)
+    }, [event])
 
     const onSubmit = async (data: any) => {
         const formattedMixedAcademic = data.DropdownOptions.map(
@@ -178,11 +171,11 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                     hint="Search By Name or Type In Email"
                                     control={control}
                                     label="Academics"
-                                    options={MixedAcademicOptions.map(
+                                    options={academics.map(
                                         (person) => ({
-                                            id: person.id,
-                                            value: person.email,
-                                            label: person.name,
+                                            id: person.RecordID,
+                                            value: person.Email,
+                                            label: person.Name,
                                         })
                                     )}
                                     labelName="Name"
@@ -231,21 +224,3 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
 
 export default CanvassingCreation
 
-// Sample academics
-const MixedAcademicOptions: MixedAcademic[] = [
-    {
-        id: '1',
-        name: 'John Doe',
-        email: 'john@example.com',
-    },
-    {
-        id: '2',
-        name: 'Jane Smith',
-        email: 'jane@example.com',
-    },
-    {
-        id: '3',
-        name: 'Michael Johnson',
-        email: 'michael@example.com',
-    },
-]

@@ -51,6 +51,7 @@ export const CanvassingResults: React.FC = ({}) => {
         const canvassingSlots = temp
 
         setCanvassingSlots(canvassingSlots)
+        /*
         const fetchAcademics = async () => {
             try {
                 const academicPromises = canvassingSlots[0].Academic.map(
@@ -63,8 +64,8 @@ export const CanvassingResults: React.FC = ({}) => {
                 console.error('Error fetching academics:', error)
             }
         }
-
         fetchAcademics() // Call the async function
+            */
     }, [])
 
     // Adjust items per page based on screen size
