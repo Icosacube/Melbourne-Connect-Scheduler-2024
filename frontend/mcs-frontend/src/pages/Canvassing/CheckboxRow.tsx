@@ -7,7 +7,6 @@ import {
     Grid,
     Checkbox,
     Typography,
-    TextField,
     IconButton,
     useMediaQuery,
 } from '@mui/material'
@@ -15,6 +14,9 @@ import { useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { getVenueById } from '../../scripts/venue/functions'
+import { updateCanvassing } from '../../scripts/canvassing/functions'
+import { useRevalidator } from 'react-router-dom'
+import { BottomSuccessSnackbar } from '../../components'
 
 // Canvassing with Available boolean for checkbox processing
 interface CanvassingTemp {
@@ -39,8 +41,9 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
     const [academics, setAcademics] = useState<string[]>([])
     const [venues, setVenues] = useState<Venue[]>([])
 
-    // WIP change to dynamic
-    const title = 'Meeting For Event XXX'
+    const [showSuccess, setShowSuccess] = useState(false)
+    const revalidator = useRevalidator()
+
     const MainEvent = canvassingSlots[0].MainEvent
 
     useEffect(() => {
@@ -108,7 +111,7 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
         (currentPage + 1) * itemsPerPage
     )
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const newCanvassings = checkSlots.map((slot) => {
             const wasAvailable =
                 slot.AvailableAcademic.length == 0
@@ -129,12 +132,24 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
                 Venue: canvassingSlots[0].Venue,
                 AvailableAcademic: availableList,
                 Academic: academics,
+                EventName: canvassingSlots[0].EventName,
             }
         })
 
         console.log(newCanvassings)
 
-        // TODO: Submit
+        try {
+            // TODO: add submitting state
+            const res = await updateCanvassing(newCanvassings)
+            if (res) {
+                setShowSuccess(true)
+                revalidator.revalidate()
+            } else {
+                console.log('Failed to update Canvassing Form')
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
     return (
         <Box className="m-24">
@@ -146,47 +161,56 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
                     alignItems: 'flex-end',
                 }}
             >
-                <Grid item xs={12} container>
-                    <Grid item xs={12} md={6} lg={9} marginY={4}>
-                        <Typography variant="h3" gutterBottom>
-                            {title}
-                        </Typography>
-                        <Typography variant="h6">
-                            Venue:
-                            {venues.map((venue) => venue.VenueName).join(', ')}
-                        </Typography>
-                    </Grid>
-
+                <Grid item xs={12}>
+                    <Typography variant="h3">
+                        Meeting For {canvassingSlots[0].EventName.join(', ')}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} md={6} lg={9} marginBottom={4}>
+                    <Typography variant="subtitle1" fontSize={20}>
+                        Venue:{' '}
+                        {venues.map((venue) => venue.VenueName).join(', ')}
+                    </Typography>
+                </Grid>
+                <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    lg={3}
+                    container
+                    justifyContent="flex-end"
+                >
                     <Grid
                         item
-                        xs={12}
-                        md={6}
-                        lg={3}
                         container
-                        spacing={2}
                         justifyContent="flex-end"
-                        alignItems={'center'}
+                        alignItems="center"
                     >
-                        <Grid item xs={8}>
-                            <TextField
-                                label="email"
-                                variant="outlined"
-                                required
-                                value={email}
-                                onChange={(
-                                    event: React.ChangeEvent<HTMLInputElement>
-                                ) => {
-                                    setEmail(event.target.value)
-                                }}
+                        <Grid item>
+                            <Typography variant="subtitle1">
+                                Available ={' '}
+                            </Typography>
+                        </Grid>
+                        <Grid item marginRight={2}>
+                            <Checkbox
+                                size={'medium'}
+                                checked={true}
+                                onChange={() => {}}
+                                color={'secondary'}
                             />
                         </Grid>
-                        <Grid item xs={4}>
-                            <Button
-                                variant={'contained'}
-                                onClick={handleSubmit}
-                            >
-                                Submit
-                            </Button>
+                        <Grid item>
+                            <Typography variant="subtitle1">
+                                Unavailable ={' '}
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Checkbox
+                                size={'medium'}
+                                checked={false}
+                                onChange={() => {}}
+                                color={'secondary'}
+                            />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -381,7 +405,26 @@ export const CheckboxRow: React.FC<CheckboxRowProps> = ({
                         })}
                     </Grid>
                 </Grid>
+                <Grid
+                    item
+                    xs={12}
+                    container
+                    justifyContent="flex-end"
+                    alignItems="flex-end"
+                >
+                    <Grid item>
+                        <Button variant={'contained'} onClick={handleSubmit}>
+                            Submit
+                        </Button>
+                    </Grid>
+                </Grid>
             </Grid>
+
+            <BottomSuccessSnackbar
+                showSuccess={showSuccess}
+                setShowSuccess={setShowSuccess}
+                message="Canvassing Form Saved Successfully"
+            />
         </Box>
     )
 }

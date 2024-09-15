@@ -72,9 +72,11 @@ export async function updateCanvassing(canvassingList: CanvassingFrontend[]) {
     const canvassingBackend = canvassingList.map((canvassing) =>
         reformatCanvassingRequest(canvassing)
     )
-
+    console.log(
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}?mainEventID=${canvassingList[0].MainEvent[0]}`
+    )
     const res = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}`,
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}?mainEventID=${canvassingList[0].MainEvent[0]}`,
         canvassingBackend
     )
     return res.status
@@ -89,6 +91,7 @@ export const defaultCanvassing: CanvassingFrontend = {
     Venue: [],
     Academic: [],
     AvailableAcademic: [],
+    EventName: [],
 }
 
 export const defaultCanvassingTemp: CanvassingTempFrontend = {
@@ -115,6 +118,7 @@ function reformatCanvassingResponse(data: any): CanvassingFrontend {
         MainEvent: data.MainEvent || defaultCanvassing.MainEvent,
         Venue: data.Venue || defaultCanvassing.Venue,
         Academic: data.Academic || defaultCanvassing.Academic,
+        EventName: data.EventName || defaultCanvassing.EventName,
     }
 
     return canvassing

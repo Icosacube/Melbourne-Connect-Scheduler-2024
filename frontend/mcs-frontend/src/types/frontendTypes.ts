@@ -222,6 +222,7 @@ export type Canvassing = {
     Venue: string[]
     MainEvent: string[]
     AvailableAcademic: string[]
+    EventName: string[]
 }
 
 export type Finance = {

@@ -17,6 +17,7 @@ const temp: Canvassing[] = [
         Venue: ['venue1'],
         MainEvent: ['event1'],
         AvailableAcademic: ['academic1', 'academic2'],
+        EventName: ['event1'],
     },
     {
         RecordID: '2',
@@ -26,6 +27,7 @@ const temp: Canvassing[] = [
         Venue: ['venue1'],
         MainEvent: ['event1'],
         AvailableAcademic: ['academic1', 'academic3'],
+        EventName: ['event1'],
     },
     {
         RecordID: '3',
@@ -35,6 +37,7 @@ const temp: Canvassing[] = [
         Venue: ['venue1'],
         MainEvent: ['event1'],
         AvailableAcademic: ['academic2'],
+        EventName: ['event1'],
     },
 ]
 
