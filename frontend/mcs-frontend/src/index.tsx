@@ -11,6 +11,7 @@ import { loader as tripLoader } from './scripts/trip/tripLoader'
 import { loader as financeLoader } from './scripts/finance/financeOverviewLoaders'
 import { loader as dashboardLoaders } from './scripts/dashboard/dashboardLoaders'
 import { loader as venueLoader } from './scripts/venue/venuesLoader'
+import { loader as canvassingLoader } from './scripts/canvassing/canvassingFormLoader'
 
 import './index.css'
 import {
@@ -121,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             path: '/canvassing/:eventid/:academicid',
             element: <FullWidthLayout content={<Canvassing />} />,
             errorElement: <ErrorPage />,
+            loader: canvassingLoader,
         },
     ])
     const rootContainer = ReactDOM.createRoot(root)

@@ -83,6 +83,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             Venue: data.Venue,
             MixedAcademic: formattedMixedAcademic,
         }))
+        updatedSlots.sort((a, b) => (a.StartTime.isAfter(b.StartTime) ? 1 : -1))
         console.log('Canvassing Slots:', updatedSlots)
 
         try {
@@ -171,13 +172,11 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                     hint="Search By Name or Type In Email"
                                     control={control}
                                     label="Academics"
-                                    options={academics.map(
-                                        (person) => ({
-                                            id: person.RecordID,
-                                            value: person.Email,
-                                            label: person.Name,
-                                        })
-                                    )}
+                                    options={academics.map((person) => ({
+                                        id: person.RecordID,
+                                        value: person.Email,
+                                        label: person.Name,
+                                    }))}
                                     labelName="Name"
                                     valueName="Email"
                                 />
@@ -223,4 +222,3 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
 }
 
 export default CanvassingCreation
-

@@ -29,10 +29,10 @@ export async function getAllCanvassings(): Promise<CanvassingFrontend[]> {
 // Function to get a Canvassing List by Event ID
 export async function getCanvassingByEventId(
     eventId: string
-): Promise<CanvassingFrontend> {
+): Promise<CanvassingFrontend[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}?mainevent=${eventId}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}?mainEvent=${eventId}`
         )
         const rawCanvassings = res.data
         const formattedCanvassings = rawCanvassings.map((raw: any) =>
@@ -41,7 +41,7 @@ export async function getCanvassingByEventId(
         return formattedCanvassings
     } catch (error) {
         console.error('Error fetching canvassing by event ID:', error)
-        return {} as CanvassingFrontend
+        return []
     }
 }
 
@@ -53,6 +53,20 @@ export async function createCanvassing(
         reformatCanvassingTempRequest(canvassing)
     )
     const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}`,
+        canvassingBackend
+    )
+    return res.status
+}
+
+export async function updateCanvassing(
+    canvassingList: CanvassingTempFrontend[]
+) {
+    const canvassingBackend = canvassingList.map((canvassing) =>
+        reformatCanvassingTempRequest(canvassing)
+    )
+
+    const res = await axios.put(
         `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}`,
         canvassingBackend
     )
@@ -103,7 +117,7 @@ function reformatCanvassingRequest(
 ): CanvassingBackend {
     const canvassing: CanvassingBackend = {
         StartTime: data.StartTime.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-        EndTime: data.StartTime.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+        EndTime: data.EndTime.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
         MainEvent: data.MainEvent,
         Academic: data.Academic,
         Venue: data.Venue,
@@ -119,7 +133,7 @@ function reformatCanvassingTempRequest(
 ): CanvassingTempBackend {
     const canvassing: CanvassingTempBackend = {
         StartTime: data.StartTime.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-        EndTime: data.StartTime.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+        EndTime: data.EndTime.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
         MainEvent: data.MainEvent,
         Venue: data.Venue,
         MixedAcademic: data.MixedAcademic,
