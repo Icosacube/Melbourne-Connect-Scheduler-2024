@@ -119,6 +119,7 @@ export type Academic = {
   Name: string;
   MainEvent: string[];
   Canvassing: string[];
+  CanvassingAvailable:string[];
 };
 
 export type Accommodation = {
@@ -171,6 +172,7 @@ export type Venue = {
   Notes: string;
   FundingAccount: string[];
   MainEvent: string[];
+  Canvassing:string[];
 };
 
 export type Catering = {
@@ -212,7 +214,8 @@ export type Canvassing = {
   EndTime: string;
   Academic: string[];
   MainEvent:string[];
-  AvailableAcademic:String[]
+  AvailableAcademic:String[];
+  Venue:String[];
 };
 
 
