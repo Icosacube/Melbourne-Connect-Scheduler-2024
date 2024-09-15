@@ -70,6 +70,16 @@ export const defaultCanvassing: CanvassingFrontend = {
     AvailableAcademic: [],
 }
 
+export const defaultCanvassingTemp: CanvassingTempFrontend = {
+    id: '',
+    StartTime: dayjs(),
+    EndTime: dayjs(),
+    MainEvent: [],
+    Venue: [],
+    MixedAcademic: [],
+    AvailableAcademic: [],
+}
+
 // Function to reformat Canvassing response to frontend format
 function reformatCanvassingResponse(data: any): CanvassingFrontend {
     const canvassing: CanvassingFrontend = {

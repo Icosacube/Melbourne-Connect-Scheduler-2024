@@ -14,6 +14,7 @@ export const FormInputSingleAutocomplete: React.FC<FormInputProps> = ({
     label,
     options = [],
     required = false,
+    defaultValue = null,
 }) => {
     return (
         <Controller
@@ -30,6 +31,7 @@ export const FormInputSingleAutocomplete: React.FC<FormInputProps> = ({
                     required={required}
                 >
                     <Autocomplete
+                        defaultValue={defaultValue}
                         options={options}
                         getOptionLabel={(option: DropdownOptions) =>
                             option.label

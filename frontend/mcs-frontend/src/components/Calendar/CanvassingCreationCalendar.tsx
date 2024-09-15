@@ -9,11 +9,12 @@ interface CanvassingCreationCalendarProps {
     MainEvent: MainEvent
     canvassingSlots: CanvassingTemp[]
     setCanvassingSlots: (slots: CanvassingTemp[]) => void
+    timeSlotSize: String
 }
 
 export const CanvassingCreationCalendar: React.FC<
     CanvassingCreationCalendarProps
-> = ({ MainEvent, canvassingSlots, setCanvassingSlots }) => {
+> = ({ MainEvent, canvassingSlots, setCanvassingSlots, timeSlotSize }) => {
     const handleSlotResize = (info: any) => {
         const { event } = info
 
@@ -54,7 +55,7 @@ export const CanvassingCreationCalendar: React.FC<
         const newCanvassingSlot: CanvassingTemp = {
             id: dayjs(info.date).valueOf().toString(),
             StartTime: dayjs(info.date),
-            EndTime: dayjs(info.date).add(1, 'hour'),
+            EndTime: dayjs(info.date).add(Number(timeSlotSize), 'minute'),
             MainEvent: [MainEvent.RecordID],
             Venue: [],
             MixedAcademic: [],
@@ -95,7 +96,7 @@ export const CanvassingCreationCalendar: React.FC<
                 center: '',
                 right: 'today prev,next',
             }}
-            titleFormat={{ year: 'numeric', month: 'short'}}
+            titleFormat={{ year: 'numeric', month: 'short' }}
             dayHeaderFormat={{ weekday: 'short', day: 'numeric' }}
             initialDate={dayjs(MainEvent.Date).format('YYYY-MM-DD')}
             slotMinTime="09:00:00"
