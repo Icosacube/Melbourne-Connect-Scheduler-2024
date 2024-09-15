@@ -140,40 +140,37 @@ router.post('/canvassings', async (req, res) => {
     res.status(500).json({ error: 'Failed to create Canvassing' });
   }
 });
-router.put('/canvassings', async (req, res) => {
-  const { mainEventID } = req.query;
-  const newCanvassings: Canvassing[] = req.body; 
+// Update one canvassing
+router.put('/canvassing/:canvassing_record_id', async (req, res) => {
+  const { canvassing_record_id } = req.params;
+  const updatedCanvassingItem: Canvassing = req.body;
 
-  if (typeof mainEventID !== 'string') {
-    return res.status(400).json({ error: 'mainEventID is required and must be a string' });
-  }
-
-  // Validate
-  for (const canvassing of newCanvassings) {
-    if (!canvassing.StartTime || !canvassing.EndTime) {
-      return res.status(400).json({ error: 'StartTime and EndTime are required for each canvassing' });
-    }
-  }
+  const recordToUpdate = [{
+    id: canvassing_record_id,
+    fields: updatedCanvassingItem
+  }];
 
   try {
-    const filter = `{MainEvent}="${mainEventID}"`;
-    const existingRecords = await getTable(canvassingTable, filter);
-
-    if (existingRecords.length > 0) {
-      const recordIdsToDelete = existingRecords.map(record => record.get("id") as string);
-      await deleteRecords(canvassingTable, recordIdsToDelete);
-    }
-
-    const recordsToCreate = newCanvassings.map(canvassing => ({
-      fields: canvassing
-    }));
-    await createRecord(canvassingTable, recordsToCreate);
-
-    deleteCache(Cachekeys.CANVASSINGS); // Delete cache
-    res.status(200).json({ message: 'Canvassings replaced successfully' });
+    await updateRecord(canvassingTable, recordToUpdate);
+    deleteCache(Cachekeys.CANVASSINGS);
+    res.status(200).json({ message: 'Canvassing updated successfully' });
   } catch (error) {
-    console.error("Failed to replace Canvassings:", error);
-    res.status(500).json({ error: 'Failed to replace Canvassings' });
+    console.error("Failed to update canvassing:", error);
+    res.status(500).json({ error: 'Failed to update canvassing' });
+  }
+});
+
+// Delete one canvassing
+router.delete('/canvassing/:canvassing_record_id', async (req, res) => {
+  const { canvassing_record_id } = req.params;
+
+  try {
+    await deleteRecords(canvassingTable, [canvassing_record_id]);
+    deleteCache(Cachekeys.CANVASSINGS);
+    res.status(200).json({ message: 'Canvassing deleted successfully' });
+  } catch (error) {
+    console.error("Failed to delete canvassing:", error);
+    res.status(500).json({ error: 'Failed to delete canvassing' });
   }
 });
 
