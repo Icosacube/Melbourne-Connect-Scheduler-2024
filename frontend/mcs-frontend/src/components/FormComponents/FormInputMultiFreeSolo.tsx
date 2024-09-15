@@ -13,6 +13,7 @@ import {
     DialogActions,
     Button,
     TextField as ModalTextField,
+    Grid,
 } from '@mui/material'
 import { Controller } from 'react-hook-form'
 import { DropdownOptions, FormInputProps } from './FormInputProps'
@@ -207,27 +208,52 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                                         handleCloseModal(false, onChange, value)
                                     }
                                 >
-                                    <DialogTitle>Add New {label}</DialogTitle>
+                                    <DialogTitle>
+                                        <Typography variant="h5" paddingY={2}>
+                                            Add New {label}
+                                        </Typography>
+                                    </DialogTitle>
                                     <DialogContent>
-                                        <ModalTextField
-                                            label={labelName}
-                                            value={customLabel}
-                                            onChange={(e) =>
-                                                setCustomLabel(e.target.value)
-                                            }
-                                            fullWidth
-                                        />
-                                        <ModalTextField
-                                            label={valueName}
-                                            value={newValue}
-                                            onChange={(e) =>
-                                                setNewValue(e.target.value)
-                                            }
-                                            fullWidth
-                                        />
+                                        <Grid
+                                            container
+                                            spacing={2}
+                                            paddingY={1.5}
+                                        >
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    label={labelName}
+                                                    value={customLabel}
+                                                    onChange={(e) =>
+                                                        setCustomLabel(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    fullWidth
+                                                    variant="outlined"
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    label={valueName}
+                                                    value={newValue}
+                                                    onChange={(e) =>
+                                                        setNewValue(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    fullWidth
+                                                    variant="outlined"
+                                                />
+                                            </Grid>
+                                        </Grid>
                                     </DialogContent>
                                     <DialogActions>
                                         <Button
+                                            sx={{
+                                                marginRight: 1,
+                                                marginBottom: 2,
+                                            }}
+                                            size="small"
                                             onClick={() =>
                                                 handleCloseModal(
                                                     false,
@@ -239,6 +265,12 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                                             Cancel
                                         </Button>
                                         <Button
+                                            sx={{
+                                                marginRight: 2,
+                                                marginBottom: 2,
+                                            }}
+                                            size="small"
+                                            variant="contained"
                                             onClick={() =>
                                                 handleCloseModal(
                                                     true,
