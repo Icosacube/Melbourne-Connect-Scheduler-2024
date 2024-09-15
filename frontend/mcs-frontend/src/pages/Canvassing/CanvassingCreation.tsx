@@ -15,21 +15,21 @@ import {
     CanvassingTemp,
     MainEvent,
     Venue,
-} from '../../../../types/frontendTypes'
+} from '../../types/frontendTypes'
 import {
     BottomSuccessSnackbar,
     CanvassingCreationCalendar,
     FormInputMultiAutocomplete,
     FormInputMultiFreeSolo,
-} from '../../../../components'
+} from '../../components'
 import { useRevalidator } from 'react-router-dom'
-import { getAllVenues, getVenueById } from '../../../../scripts/venue/functions'
+import { getAllVenues, getVenueById } from '../../scripts/venue/functions'
 import {
     createCanvassing,
     defaultCanvassing,
-} from '../../../../scripts/canvassing/functions'
+} from '../../scripts/canvassing/functions'
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput'
-import { getAllAcademics } from '../../../../scripts/academic/functions'
+import { getAllAcademics } from '../../scripts/academic/functions'
 
 interface CanvassingCreationProps {
     event: MainEvent
@@ -45,6 +45,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     const [canvassingSlots, setCanvassingSlots] = useState<CanvassingTemp[]>([])
     const [timeSlotSize, setTimeSlotSize] = useState<string>('30')
     const [venues, setVenues] = useState<Venue[]>([])
+    const [submitting, setSubmitting] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
     const revalidator = useRevalidator()
 

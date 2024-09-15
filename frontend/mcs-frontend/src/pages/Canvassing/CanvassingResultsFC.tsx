@@ -1,45 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Paper, Stack, Typography } from '@mui/material'
-import { CanvassingResultsCalendar } from '../../../../components'
+import { CanvassingResultsCalendar } from '../../components'
 import { CanvassingResultsFCSidebar } from './CanvassingResultsFCSidebar'
-import { Canvassing, MainEvent } from '../../../../types/frontendTypes'
+import { Canvassing, MainEvent } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
+import { getCanvassingByEventId } from '../../scripts/canvassing/functions'
 
-const temp: Canvassing[] = [
-    {
-        RecordID: '1',
-        StartTime: dayjs('2024-09-15T09:00:00'),
-        EndTime: dayjs('2024-09-15T10:00:00'),
-        Academic: ['academic1', 'academic2', 'academic3'],
-        Venue: ['venue1'],
-        MainEvent: ['event1'],
-        AvailableAcademic: ['academic1', 'academic2'],
-        EventName: ['event1'],
-    },
-    {
-        RecordID: '2',
-        StartTime: dayjs('2024-09-15T11:00:00'),
-        EndTime: dayjs('2024-09-15T12:00:00'),
-        Academic: ['academic1', 'academic2', 'academic3'],
-        Venue: ['venue1'],
-        MainEvent: ['event1'],
-        AvailableAcademic: ['academic1', 'academic3'],
-        EventName: ['event1'],
-    },
-    {
-        RecordID: '3',
-        StartTime: dayjs('2024-09-15T13:00:00'),
-        EndTime: dayjs('2024-09-15T14:00:00'),
-        Academic: ['academic1', 'academic2', 'academic3'],
-        Venue: ['venue1'],
-        MainEvent: ['event1'],
-        AvailableAcademic: ['academic2'],
-        EventName: ['event1'],
-    },
-]
+interface CanvassingResultsProps {
+    event: MainEvent
+    canvassingSlots: Canvassing[]
+}
 
-export const CanvassingResultsFC: React.FC = ({}) => {
-    const [canvassingSlots, setCanvassingSlots] = useState<Canvassing[]>(temp)
+export const CanvassingResultsFC: React.FC<CanvassingResultsProps> = ({
+    event,
+    canvassingSlots,
+}) => {
     const [filteredCanvassings, setFilteredCanvassings] = useState<
         Canvassing[]
     >([])
@@ -48,9 +23,6 @@ export const CanvassingResultsFC: React.FC = ({}) => {
     const [minDate, setMinDate] = useState('')
     const [maxDate, setMaxDate] = useState('')
     useEffect(() => {
-        const canvassingSlots = temp
-
-        setCanvassingSlots(canvassingSlots)
         setFilteredCanvassings(canvassingSlots)
         setMinDate(canvassingSlots[0].StartTime.startOf('day').toISOString())
         setMaxDate(
@@ -58,7 +30,7 @@ export const CanvassingResultsFC: React.FC = ({}) => {
                 'day'
             ).toISOString()
         )
-    }, [])
+    }, [event])
 
     useEffect(() => {
         if (academicFilter === '') {

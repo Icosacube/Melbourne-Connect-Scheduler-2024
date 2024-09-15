@@ -27,12 +27,12 @@ interface CheckSlots {
     AvailableAcademic: string[]
 }
 
-interface CheckboxRowProps {
+interface CheckboxFormProps {
     academic: string
     canvassingSlots: Canvassing[]
 }
 
-export const CheckboxRow: React.FC<CheckboxRowProps> = ({
+export const CheckboxForm: React.FC<CheckboxFormProps> = ({
     academic,
     canvassingSlots,
 }) => {
