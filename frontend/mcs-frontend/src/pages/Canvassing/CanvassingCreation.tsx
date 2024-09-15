@@ -21,6 +21,7 @@ import {
     CanvassingCreationCalendar,
     FormInputMultiAutocomplete,
     FormInputMultiFreeSolo,
+    SubmitButton,
 } from '../../components'
 import { useRevalidator } from 'react-router-dom'
 import { getAllVenues, getVenueById } from '../../scripts/venue/functions'
@@ -86,7 +87,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
         }))
 
         try {
-            // TODO: add submitting state
+            setSubmitting(true)
             const res = await createCanvassing(updatedSlots)
             if (res) {
                 setShowSuccess(true)
@@ -97,6 +98,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
         } catch (error) {
             console.error(error)
         } finally {
+            setSubmitting(false)
             reset()
         }
     }
@@ -190,12 +192,10 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                 container
                                 justifyContent="flex-end"
                             >
-                                <Button
-                                    variant="contained"
+                                <SubmitButton
+                                    submitting={submitting}
                                     onClick={handleSubmit(onSubmit)}
-                                >
-                                    Save
-                                </Button>
+                                />
                             </Grid>
                         </Grid>
                     </Grid>

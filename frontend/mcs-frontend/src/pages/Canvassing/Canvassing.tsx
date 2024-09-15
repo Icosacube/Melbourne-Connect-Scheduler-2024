@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
+import React from 'react'
 import { CheckboxForm } from './CheckboxForm'
 import { useLoaderData, useParams } from 'react-router-dom'
 import { Canvassing as CanvassingType } from '../../types/frontendTypes'
