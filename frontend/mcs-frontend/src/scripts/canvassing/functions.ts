@@ -93,16 +93,7 @@ export const defaultCanvassing: CanvassingFrontend = {
     Academic: [],
     AvailableAcademic: [],
     EventName: [],
-}
-
-export const defaultCanvassingTemp: CanvassingTempFrontend = {
-    id: '',
-    StartTime: dayjs(),
-    EndTime: dayjs(),
-    MainEvent: [],
-    Venue: [],
-    MixedAcademic: [],
-    AvailableAcademic: [],
+    AcademicName: [],
 }
 
 // Function to reformat Canvassing response to frontend format
@@ -122,6 +113,7 @@ function reformatCanvassingResponse(data: any): CanvassingFrontend {
         AvailableAcademic:
             data.AvailableAcademic || defaultCanvassing.AvailableAcademic,
         EventName: data.EventName || defaultCanvassing.EventName,
+        AcademicName: data.AcademicName || defaultCanvassing.AcademicName,
     }
 
     return canvassing
@@ -145,6 +137,16 @@ function reformatCanvassingRequest(
     }
 
     return canvassing
+}
+
+export const defaultCanvassingTemp: CanvassingTempFrontend = {
+    id: '',
+    StartTime: dayjs(),
+    EndTime: dayjs(),
+    MainEvent: [],
+    Venue: [],
+    MixedAcademic: [],
+    AvailableAcademic: [],
 }
 
 // Function to reformat CanvassingTemp to backend format

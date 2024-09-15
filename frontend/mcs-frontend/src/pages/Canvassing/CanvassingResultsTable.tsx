@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
 import { Box, Grid, Typography, IconButton, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { CheckCircle, DoNotDisturb } from '@mui/icons-material'
 import { Canvassing, Academic, MainEvent } from '../../types/frontendTypes'
-import { getAcademicById } from '../../scripts/academic/functions'
 
 interface CanvassingResultsTableProps {
     event: MainEvent
@@ -18,29 +16,19 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
     canvassingSlots,
 }) => {
     const theme = useTheme()
-    const [academics, setAcademics] = useState<Academic[]>([])
     const [currentPage, setCurrentPage] = useState(0)
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
     const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'))
     const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
+    const [academicIds, setAcademicIds] = useState<string[]>([])
+    const [academicNames, setAcademicNames] = useState<string[]>([])
 
     useEffect(() => {
-        /*
-        const fetchAcademics = async () => {
-            try {
-                const academicPromises = canvassingSlots[0].Academic.map(
-                    (academicId) => getAcademicById(academicId)
-                )
-                // Fetch all academics
-                const fetchedAcademics = await Promise.all(academicPromises)
-                setAcademics(fetchedAcademics)
-            } catch (error) {
-                console.error('Error fetching academics:', error)
-            }
+        if (canvassingSlots.length > 0) {
+            setAcademicIds(canvassingSlots[0].Academic)
+            setAcademicNames(canvassingSlots[0].AcademicName)
         }
-        fetchAcademics() // Call the async function
-            */
-    }, [])
+    }, [canvassingSlots])
 
     // Adjust items per page based on screen size
     const itemsPerPage = isSmallScreen
@@ -87,7 +75,7 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                         ></Box>
                     </Grid>
                     {canvassingSlots.length > 0 ? (
-                        academics.map((person, index) => (
+                        academicNames.map((name, index) => (
                             <Grid
                                 item
                                 key={index}
@@ -97,19 +85,18 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                     marginRight: '12px',
                                 }}
                             >
-                                {person.Name != null &&
-                                person.Name.split(' ').length > 1 ? (
+                                {name != null && name.split(' ').length > 1 ? (
                                     <>
                                         <Typography variant="h6">
-                                            {person.Name.split(' ')[0]}
+                                            {name.split(' ')[0]}
                                         </Typography>
                                         <Typography variant="h6">
-                                            {person.Name.split(' ')[1]}
+                                            {name.split(' ')[1]}
                                         </Typography>
                                     </>
                                 ) : (
                                     <Typography variant="h6">
-                                        {person.Name}{' '}
+                                        {name}{' '}
                                     </Typography>
                                 )}
                             </Grid>
@@ -276,15 +263,9 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                         </Typography>
                                     </Grid>
                                 </Grid>
-                                {academics.map((person, personIndex) => (
-                                    <Grid
-                                        item
-                                        key={personIndex}
-                                        marginY={'8px'}
-                                    >
-                                        {slot.AvailableAcademic.includes(
-                                            person.RecordID
-                                        ) ? (
+                                {academicIds.map((id, index) => (
+                                    <Grid item key={index} marginY={'8px'}>
+                                        {slot.AvailableAcademic.includes(id) ? (
                                             <CheckCircle
                                                 fontSize="large"
                                                 color="secondary"
