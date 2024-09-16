@@ -9,11 +9,11 @@ import {
 import EditCalendarIcon from '@mui/icons-material/EditCalendar'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl'
-import { Canvassing, MainEvent } from '../../../../types/frontendTypes'
-import CanvassingCreation from '../../../Canvassing/CanvassingCreation'
-import { CanvassingResultsFC } from '../../../Canvassing/CanvassingResultsFC'
-import { CanvassingResultsTable } from '../../../Canvassing/CanvassingResultsTable'
-import { getCanvassingByEventId } from '../../../../scripts/canvassing/functions'
+import { Canvassing, MainEvent } from '../../../../../types/frontendTypes'
+import CanvassingCreation from './CanvassingCreation'
+import { CanvassingResultsFC } from './CanvassingResultsFC'
+import { CanvassingResultsTable } from './CanvassingResultsTable'
+import { getCanvassingByEventId } from '../../../../../scripts/canvassing/functions'
 
 interface CanvassingAllProps {
     event: MainEvent

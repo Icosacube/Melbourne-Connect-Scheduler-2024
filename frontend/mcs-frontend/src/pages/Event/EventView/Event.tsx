@@ -9,7 +9,7 @@ import { About } from './TabPages/About'
 import { Participants } from './TabPages/Participants'
 import Programme from './TabPages/Programme'
 import { Services } from './TabPages/Services'
-import CanvassingAll from './TabPages/CanvassingAll'
+import CanvassingAll from './TabPages/Canvassing/CanvassingAll'
 
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')

@@ -15,22 +15,25 @@ import {
     CanvassingTemp,
     MainEvent,
     Venue,
-} from '../../types/frontendTypes'
+} from '../../../../../types/frontendTypes'
 import {
     BottomSuccessSnackbar,
     CanvassingCreationCalendar,
     FormInputMultiAutocomplete,
     FormInputMultiFreeSolo,
     SubmitButton,
-} from '../../components'
+} from '../../../../../components'
 import { useRevalidator } from 'react-router-dom'
-import { getAllVenues, getVenueById } from '../../scripts/venue/functions'
+import {
+    getAllVenues,
+    getVenueById,
+} from '../../../../../scripts/venue/functions'
 import {
     createCanvassing,
     defaultCanvassing,
-} from '../../scripts/canvassing/functions'
+} from '../../../../../scripts/canvassing/functions'
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput'
-import { getAllAcademics } from '../../scripts/academic/functions'
+import { getAllAcademics } from '../../../../../scripts/academic/functions'
 
 interface CanvassingCreationProps {
     event: MainEvent
@@ -118,7 +121,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             }}
         >
             <Grid item xs={12} lg={4} xl={3}>
-                <Paper sx={{ p: 6 }}>
+                <Paper sx={{ p: 5 }}>
                     <Grid container spacing={8}>
                         <Grid item xs={12} container spacing={3}>
                             <Grid item xs={12}>
@@ -202,7 +205,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                 </Paper>
             </Grid>
             <Grid item xs={12} lg={8} xl={9}>
-                <Paper sx={{ p: 6 }}>
+                <Paper sx={{ p: 5 }}>
                     <CanvassingCreationCalendar
                         MainEvent={event}
                         canvassingSlots={canvassingSlots}

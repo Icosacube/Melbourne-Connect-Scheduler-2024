@@ -4,7 +4,11 @@ import { useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { CheckCircle, DoNotDisturb } from '@mui/icons-material'
-import { Canvassing, Academic, MainEvent } from '../../types/frontendTypes'
+import {
+    Canvassing,
+    Academic,
+    MainEvent,
+} from '../../../../../types/frontendTypes'
 
 interface CanvassingResultsTableProps {
     event: MainEvent
@@ -32,9 +36,9 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
 
     // Adjust items per page based on screen size
     const itemsPerPage = isSmallScreen
-        ? 2
+        ? 1
         : isMediumScreen
-        ? 3
+        ? 2
         : isLargeScreen
         ? 5
         : 10

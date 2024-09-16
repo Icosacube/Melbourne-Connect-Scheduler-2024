@@ -4,6 +4,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import dayjs from 'dayjs'
 import { CanvassingTemp, MainEvent } from '../../types/frontendTypes'
+import { Typography } from '@mui/material'
 
 interface CanvassingCreationCalendarProps {
     MainEvent: MainEvent
@@ -66,15 +67,19 @@ export const CanvassingCreationCalendar: React.FC<
 
     const renderEventContent = (eventInfo: any) => {
         return (
-            <div
-                style={{
-                    padding: '2px',
+            <Typography
+                color={'white'}
+                sx={{
+                    width: '100%',
+                    height: 48,
                     textAlign: 'center',
                     fontFamily: 'Futura, sans-serif',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
                 }}
             >
                 {eventInfo.timeText && <div>{eventInfo.timeText}</div>}
-            </div>
+            </Typography>
         )
     }
 
@@ -85,7 +90,7 @@ export const CanvassingCreationCalendar: React.FC<
             allDaySlot={false}
             plugins={[timeGridPlugin, interactionPlugin]}
             initialView="timeGridWeek"
-            height="auto"
+            contentHeight="auto"
             events={canvassingSlots.map((slot) => ({
                 id: dayjs(slot.StartTime).valueOf().toString(),
                 start: slot.StartTime.toDate(),

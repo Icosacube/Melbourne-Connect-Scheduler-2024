@@ -6,7 +6,7 @@ import { Canvassing } from '../../types/frontendTypes'
 
 interface CanvassingResultsCalendarProps {
     canvassings: Canvassing[]
-    dateRange:{start:string, end:string}
+    dateRange: { start: string; end: string }
     eventDate: string
     handleEventClick: (info: any) => void
     renderEventContent: (eventInfo: any) => React.ReactNode
@@ -45,7 +45,6 @@ export const CanvassingResultsCalendar: React.FC<
                 center: '',
                 right: 'prev,next',
             }}
-            
             titleFormat={{ year: 'numeric', month: 'short' }}
             dayHeaderFormat={{ weekday: 'short', day: 'numeric' }}
             initialDate={eventDate}
