@@ -1,6 +1,7 @@
 export enum Cachekeys {
     SPEAKERS = "Speakers",
     TRIPS = "Trips",
+    USER="Users",
     MAINEVENTS = "MainEvents",
     SUBEVENTS = "SubEvents",
     ACADEMICS = "Academics",
