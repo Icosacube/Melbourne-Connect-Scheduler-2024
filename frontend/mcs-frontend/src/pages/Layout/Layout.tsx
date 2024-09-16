@@ -2,6 +2,7 @@ import { Grid } from '@mui/material'
 import React, { FC } from 'react'
 import { Outlet, useNavigation } from 'react-router-dom'
 import { ProgressSpinner, SideNavBar, TopNavBar } from '../../components'
+import { ProtectedRoute } from '../../components/Authentication'
 
 export const Layout: FC = () => {
     const navigation = useNavigation()
@@ -37,7 +38,9 @@ export const Layout: FC = () => {
                 {navigation.state === 'loading' ? (
                     <ProgressSpinner />
                 ) : (
-                    <Outlet />
+                    <ProtectedRoute>
+                        <Outlet />
+                    </ProtectedRoute>
                 )}
             </Grid>
         </Grid>
