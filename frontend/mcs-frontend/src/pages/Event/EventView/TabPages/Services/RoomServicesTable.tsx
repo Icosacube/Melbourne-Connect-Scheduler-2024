@@ -5,7 +5,7 @@ import { AddButton, DeleteDialog } from '../../../../../components'
 import { deleteRoomServiceByID } from '../../../../../scripts/roomServices/functions'
 import { Service, MainEvent, FundingAccount } from '../../../../../types/frontendTypes'
 // import { EditRoomServiceModal } from './EditRoomServiceModal'
-// import { CreateRoomServiceModal } from './CreateRoomServiceModal'
+import { CreateRoomServiceModal } from './CreateRoomServiceModal'
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams, GridRowModes, GridRowId, GridRowModesModel } from '@mui/x-data-grid'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
@@ -184,13 +184,13 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({ event, roomServi
         <>
             <Box className="  mb-4 flex flex-col">
                 <Box className=" flex flex-col mb-4">
-                    <AddButton name={'Room Services'} onClick={handleOpenCreate} />
-                    {/* <CreateRoomServiceModal
+                    <AddButton name={'Room Service'} onClick={handleOpenCreate} />
+                    <CreateRoomServiceModal
                         open={openCreate}
                         handleClose={handleCloseCreate}
                         eventID={event.RecordID}
                         fundingAccounts={fundingAccountMap}
-                    /> */}
+                    />
                 </Box>
                 <Box>
                     <DataGrid
