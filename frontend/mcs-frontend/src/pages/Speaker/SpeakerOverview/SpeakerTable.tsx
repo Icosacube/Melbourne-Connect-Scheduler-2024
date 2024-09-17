@@ -5,7 +5,7 @@ import { CustomToolbar } from '../../../components'
 import { Speaker } from '../../../types/frontendTypes'
 
 interface SpeakerTableProps {
-    data: any
+    data: Speaker[]
 }
 
 const columns: GridColDef[] = [

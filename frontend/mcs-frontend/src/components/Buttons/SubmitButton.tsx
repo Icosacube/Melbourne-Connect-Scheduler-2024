@@ -4,11 +4,15 @@ import React from 'react'
 interface SubmitButtonProps {
     submitting: boolean
     onClick: () => void
+    disabled?: boolean
+    startIcon?: React.ReactNode
 }
 
 export const SubmitButton: React.FC<SubmitButtonProps> = ({
     submitting,
     onClick,
+    disabled = false,
+    startIcon = <></>,
 }) => {
     return (
         <Button
@@ -17,11 +21,13 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
             size="large"
             disableElevation
             onClick={onClick}
-            disabled={submitting} // Disable button while submitting
+            disabled={disabled || submitting} // Disable button while submitting
             startIcon={
                 submitting ? (
                     <CircularProgress size={20} color="inherit" />
-                ) : undefined
+                ) : (
+                    startIcon
+                )
             }
         >
             Submit
