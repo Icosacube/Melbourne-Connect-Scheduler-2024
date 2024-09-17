@@ -1,24 +1,24 @@
 import { Box } from '@mui/material'
 import dayjs from 'dayjs'
 import React, { FC, useState } from 'react'
-import { AddButton, DeleteDialog } from '../../../../components'
-import { deleteCateringByID } from '../../../../scripts/catering/functions'
-import { Catering, MainEvent, FundingAccount } from '../../../../types/frontendTypes'
-import { CreateCateringModal } from './CreateCateringModal'
+import { AddButton, DeleteDialog } from '../../../../../components'
+import { deleteCateringByID } from '../../../../../scripts/catering/functions'
+import { Catering, MainEvent, FundingAccount } from '../../../../../types/frontendTypes'
 import { EditCateringModal } from './EditCateringModal'
+import { CreateCateringModal } from './CreateCateringModal'
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams, GridRowModes, GridRowId, GridRowModesModel } from '@mui/x-data-grid'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
 import CancelIcon from '@mui/icons-material/Close'
 import { useRevalidator } from 'react-router-dom'
 
-interface ServicesProps {
+interface CateringTableProps {
     event: MainEvent
     catering: Catering[]
     fundingAccounts: FundingAccount[]
 }
 
-export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }) => {
+export const CateringTable: FC<CateringTableProps> = ({ event, catering, fundingAccounts }) => {
     // State variables 
     const [selectedCatering, setSelectedCatering] = React.useState<Catering | null>(null)
     const fundingAccountMap = (
@@ -90,19 +90,19 @@ export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }
         {
             field: 'BookingReference',
             headerName: 'Booking Reference',
-            headerClassName: 'services-table',
+            headerClassName: 'catering-table',
             flex: 1,
         },
         {
             field: 'Description',
             headerName: 'Description',
-            headerClassName: 'services-table',
+            headerClassName: 'catering-table',
             flex: 1,
         },
         {
             field: 'Cost',
             headerName: 'Cost',
-            headerClassName: 'services-table',
+            headerClassName: 'catering-table',
             flex: 1,
             valueFormatter: (params) => {
                 const value = params as number
@@ -121,7 +121,7 @@ export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }
         {
             field: 'ExpenseDate',
             headerName: 'Expense Date',
-            headerClassName: 'services-table',
+            headerClassName: 'catering-table',
             flex: 1,
             valueFormatter: (params) => {
                 const date = new Date(params)
@@ -131,7 +131,7 @@ export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }
         {
             field: 'FundingAccount',
             headerName: 'Funding Account',
-            headerClassName: 'services-table',
+            headerClassName: 'catering-table',
             flex: 1,
             valueFormatter: (params) => {
                 const values = params as string[];
@@ -206,7 +206,7 @@ export const Services: FC<ServicesProps> = ({ event, catering, fundingAccounts }
                         }}
                         checkboxSelection
                         sx={{
-                            '& .services-table': {
+                            '& .catering-table': {
                                 color: 'black',
                             },
                         }}

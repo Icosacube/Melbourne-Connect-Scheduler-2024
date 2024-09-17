@@ -8,7 +8,7 @@ import EditEventModal from './EditEventModal'
 import { About } from './TabPages/About'
 import { Participants } from './TabPages/Participants'
 import Programme from './TabPages/Programme'
-import { Services } from './TabPages/Services'
+import { CateringTable } from './TabPages/Services/CateringTable'
 
 
 export const Event: FC = () => {
@@ -33,8 +33,8 @@ export const Event: FC = () => {
                 return <Participants speakers={speakers} />
             case 'Programme':
                 return <Programme event={event} speakers={speakers} />
-            case 'Services':
-                return <Services event={event} catering={catering} fundingAccounts={fundingAccounts} />
+            case 'Catering':
+                return <CateringTable event={event} catering={catering} fundingAccounts={fundingAccounts} />
             default:
                 return <About event={event} speakers={speakers} />
         }

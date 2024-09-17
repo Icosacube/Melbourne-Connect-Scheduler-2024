@@ -1,4 +1,5 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
+import { AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -10,19 +11,20 @@ import {
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
-} from '../../../../components/'
-import { Catering } from '../../../../types/frontendTypes'
-import { createCatering } from '../../../../scripts/catering/functions'
+} from '../../../../../components/'
+import { Catering } from '../../../../../types/frontendTypes'
+import { updateCateringByID } from '../../../../../scripts/catering/functions'
 import { useRevalidator } from 'react-router-dom'
 
-interface CreateCateringModalProps {
+interface EditCateringModalProps {
     handleClose: () => void
     open: boolean
+    catering: Catering
     eventID: string
     fundingAccounts: Map<string, string>
 }
 
-const CreateCateringFormDefaultValues: Catering = {
+const EditCateringFormDefaultValues: Catering = {
     RecordID: '',
     BookingReference: '',
     Description: '',
@@ -33,31 +35,33 @@ const CreateCateringFormDefaultValues: Catering = {
     Finance: [],
 }
 
-export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
+export const EditCateringModal: React.FC<EditCateringModalProps> = ({
     handleClose,
     open,
-    eventID,
+    catering,
     fundingAccounts,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Catering>({
-        defaultValues: CreateCateringFormDefaultValues,
-    })
 
+    const { handleSubmit, reset, control } = useForm<Catering>({
+        defaultValues: catering || EditCateringFormDefaultValues, 
+    })
     const revalidator = useRevalidator()
 
+
     const onSubmit = async (data: Catering) => {
-        setSubmitting(true)
+        setSubmitting(true);
         try {
-            const res = await createCatering(data, eventID)
-            if (res) {
-                revalidator.revalidate()
-                setShowSuccess(true)
+            const res: AxiosResponse = await updateCateringByID(data);
+            if (res.status !== 200) {
+                throw new Error('Failed to update catering');
             }
+            revalidator.revalidate()
+            setShowSuccess(true)
             
         } catch (error) {
             console.error(error)
         } finally {
-            setSubmitting(false);
+            setSubmitting(false)
             reset()
             handleClose()
         }
@@ -76,7 +80,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
             <Modal
                 open={open}
                 onClose={onClose}
-                aria-labelledby="create-new-trip"
+                aria-labelledby="update-catering"
             >
                 <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
                     <Grid
@@ -86,7 +90,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
                     >
                         <Grid item xs={12}>
                             <Typography variant="h4" gutterBottom>
-                                Add Catering Entry
+                                Update Catering 
                             </Typography>
                         </Grid>
 
@@ -146,7 +150,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
-                message="Catering created successfully"
+                message="Catering updated successfully"
             />
         </>
     )
