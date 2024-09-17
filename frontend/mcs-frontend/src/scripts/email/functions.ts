@@ -123,6 +123,7 @@ export function generateEmailTemplateForBlankSpeakerForm() {
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear Speaker,</h2>
+            <br>
             <p>
                 We are excited to invite you to fill in your personal details. 
                 Please click the link below to complete your speaker form:
@@ -130,9 +131,11 @@ export function generateEmailTemplateForBlankSpeakerForm() {
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">New Speaker Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
@@ -153,6 +156,7 @@ export function generateEmailTemplateForExistingSpeakerForm(speaker: Speaker) {
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear ${firstName},</h2>
+            <br>
             <p>
                 We are excited to invite you to update your personal details. 
                 Please click the link below to complete your speaker form:
@@ -160,9 +164,11 @@ export function generateEmailTemplateForExistingSpeakerForm(speaker: Speaker) {
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">Update Speaker Information Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
@@ -183,6 +189,7 @@ export function generateEmailTemplateForBlankEventForm(speaker?: Speaker) {
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear ${firstName},</h2>
+            <br>
             <p>
                 We are excited to invite you to create a new event. 
                 Please click the link below to complete your event form:
@@ -190,9 +197,11 @@ export function generateEmailTemplateForBlankEventForm(speaker?: Speaker) {
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">New Event Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
@@ -216,6 +225,7 @@ export function generateEmailTemplateForExistingEventForm(
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear ${firstName},</h2>
+            <br>
             <p>
                 We are excited to invite you to update your event. 
                 Please click the link below to complete your event form:
@@ -223,9 +233,11 @@ export function generateEmailTemplateForExistingEventForm(
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">Update Event Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
@@ -243,6 +255,7 @@ export function generateEmailTemplateForBlankSpeakerEventForm() {
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear Speaker,</h2>
+            <br>
             <p>
                 We are excited to invite you to add your information and create a new event. 
                 Please click the link below to complete your event form:
@@ -250,9 +263,11 @@ export function generateEmailTemplateForBlankSpeakerEventForm() {
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">New Speaker & Event Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
@@ -279,7 +294,7 @@ export function generateEmailTemplateForExistingSpeakerEventForm(
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear ${firstName},</h2>
-            <br/>
+            <br>
             <p>
                 We are excited to invite you to update your personal information and event details. 
                 Please click the link below to complete your speaker and event form:
@@ -287,9 +302,11 @@ export function generateEmailTemplateForExistingSpeakerEventForm(
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">Update Speaker & Event Information Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team

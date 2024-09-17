@@ -1,35 +1,34 @@
 // TODO templating for speaker event form
 // TODO only showing speakers of an event in the dropdown when an event is selected
 
-import React, { FC, useState } from 'react'
 import {
     Box,
-    Typography,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControl,
+    FormControlLabel,
+    FormGroup,
+    InputLabel,
+    MenuItem,
     Radio,
     RadioGroup,
-    FormControlLabel,
     Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
-    FormGroup,
+    Typography,
 } from '@mui/material'
-import { MainEvent, Speaker } from '../../../types/frontendTypes'
+import { FC, useState } from 'react'
 import { EmailComposerModal } from '../../../components'
 import {
-    generateEmailTemplateForExistingSpeakerForm,
+    generateEmailTemplateForBlankEventForm,
+    generateEmailTemplateForBlankSpeakerEventForm,
     generateEmailTemplateForBlankSpeakerForm,
     generateEmailTemplateForExistingEventForm,
-    generateEmailTemplateForBlankEventForm,
+    generateEmailTemplateForExistingSpeakerEventForm,
+    generateEmailTemplateForExistingSpeakerForm,
 } from '../../../scripts/email/functions'
-import { TrendingUpRounded } from '@mui/icons-material'
-import { s } from '@fullcalendar/core/internal-common'
-import { set } from 'react-hook-form'
+import { MainEvent, Speaker } from '../../../types/frontendTypes'
 
 interface EmailTemplatingChoiceModalProps {
     open: boolean
@@ -135,9 +134,33 @@ export const EmailTemplatingChoiceModal: FC<
 
             case 'Speaker & Event Form':
                 if (
-                    speakerType === 'Existing Speaker' &&
-                    eventType === 'Existing Event'
+                    eventType === 'Existing Speaker & Event' &&
+                    speakerType === 'Existing Speaker & Event'
                 ) {
+                    // Handle Existing Speaker & Event case
+                    const fullEvent = events.find(
+                        (event) => event.RecordID === selectedEvent
+                    )
+                    const fullSpeaker = speakers.find(
+                        (speaker) => speaker.RecordID === selectedSpeaker
+                    )
+                    if (!fullEvent || !fullSpeaker) {
+                        console.log('Invalid selection')
+                        return
+                    }
+                    const emailData =
+                        generateEmailTemplateForExistingSpeakerEventForm(
+                            fullSpeaker,
+                            fullEvent
+                        )
+                    to = emailData.to
+                    subject = emailData.subject
+                    body = emailData.body
+                } else {
+                    const emailData =
+                        generateEmailTemplateForBlankSpeakerEventForm()
+                    subject = emailData.subject
+                    body = emailData.body
                 }
                 break
 
@@ -152,9 +175,7 @@ export const EmailTemplatingChoiceModal: FC<
             subject: subject,
             body: body,
         })
-        // Log the emailComposerData after setting it
-        setEmailComposerOpen(true) // Open the email composer modal
-        console.log('EmailComposerData:', emailComposerData) // This may still show the previous state due to async nature
+        setEmailComposerOpen(true)
         handleClose()
     }
 
@@ -163,6 +184,9 @@ export const EmailTemplatingChoiceModal: FC<
             return true
         }
         if (eventType === 'Existing Event' && !selectedEvent) {
+            return true
+        }
+        if (eventType === 'Existing Speaker & Event' && !selectedSpeaker) {
             return true
         }
         return false
@@ -201,6 +225,14 @@ export const EmailTemplatingChoiceModal: FC<
                                 setFormType(e.target.value)
                                 setSelectedEvent('')
                                 setSelectedSpeaker('')
+                                if (e.target.value === 'Speaker Form') {
+                                    setSpeakerType('New Speaker')
+                                } else if (e.target.value === 'Event Form') {
+                                    setEventType('New Event')
+                                } else {
+                                    setSpeakerType('New Speaker & Event')
+                                    setEventType('New Speaker & Event')
+                                }
                             }}
                         >
                             <FormGroup row>
@@ -387,20 +419,24 @@ export const EmailTemplatingChoiceModal: FC<
                                         onChange={(e) => {
                                             const value = e.target.value
                                             setEventType(value)
-                                            if (value === 'New Event') {
-                                                setSelectedEvent('') // Clear selection when switching to New Event
+                                            setSpeakerType(value)
+                                            if (
+                                                value === 'New Speaker & Event'
+                                            ) {
+                                                setSelectedEvent('')
+                                                setSelectedSpeaker('')
                                             }
                                         }}
                                         sx={{ marginBottom: 4 }}
                                     >
                                         <FormGroup row>
                                             <FormControlLabel
-                                                value="New Event"
+                                                value="New Speaker & Event"
                                                 control={<Radio />}
                                                 label="New Speaker & Event"
                                             />
                                             <FormControlLabel
-                                                value="Existing Event"
+                                                value="Existing Speaker & Event"
                                                 control={<Radio />}
                                                 label="Existing Speaker & Event"
                                             />
@@ -409,7 +445,9 @@ export const EmailTemplatingChoiceModal: FC<
                                     <FormControl
                                         fullWidth
                                         variant="outlined"
-                                        disabled={eventType === 'New Event'}
+                                        disabled={
+                                            eventType === 'New Speaker & Event'
+                                        }
                                     >
                                         <InputLabel>Select an Event</InputLabel>
                                         <Select
@@ -447,6 +485,78 @@ export const EmailTemplatingChoiceModal: FC<
                                                     </div>
                                                 </MenuItem>
                                             ))}
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl
+                                        fullWidth
+                                        variant="outlined"
+                                        disabled={
+                                            eventType ===
+                                                'New Speaker & Event' ||
+                                            selectedEvent === ''
+                                        }
+                                        sx={{ marginTop: 4 }}
+                                    >
+                                        <InputLabel>
+                                            Select a Speaker
+                                        </InputLabel>
+                                        <Select
+                                            value={selectedSpeaker}
+                                            onChange={(e) =>
+                                                setSelectedSpeaker(
+                                                    e.target.value
+                                                )
+                                            }
+                                            defaultValue=""
+                                            MenuProps={{
+                                                PaperProps: {
+                                                    style: {
+                                                        maxHeight: '25vh',
+                                                        overflowY: 'auto',
+                                                        width: '40%',
+                                                    },
+                                                },
+                                            }}
+                                        >
+                                            <MenuItem value="" disabled>
+                                                Select a Spekaer
+                                            </MenuItem>
+                                            {(() => {
+                                                const fullEvent = events.find(
+                                                    (event) =>
+                                                        event.RecordID ===
+                                                        selectedEvent
+                                                )
+                                                const filteredSpeakers =
+                                                    speakers.filter((speaker) =>
+                                                        fullEvent?.Speaker?.includes(
+                                                            speaker.RecordID
+                                                        )
+                                                    )
+                                                return filteredSpeakers?.map(
+                                                    (speaker, index) => (
+                                                        <MenuItem
+                                                            key={index}
+                                                            value={
+                                                                speaker.RecordID
+                                                            }
+                                                        >
+                                                            <div
+                                                                style={{
+                                                                    overflow:
+                                                                        'hidden',
+                                                                    textOverflow:
+                                                                        'ellipsis',
+                                                                }}
+                                                            >
+                                                                {speaker.FirstName +
+                                                                    ' ' +
+                                                                    speaker.LastName}
+                                                            </div>
+                                                        </MenuItem>
+                                                    )
+                                                )
+                                            })()}
                                         </Select>
                                     </FormControl>
                                 </>
