@@ -1,10 +1,29 @@
-import React, { useEffect } from 'react'
-import { Grid, Paper, Typography } from '@mui/material'
-import { Canvassing } from '../../../../../types/frontendTypes'
-import { FormInputMultiAutocomplete } from '../../../../../components'
+import React, { useEffect, useState } from 'react'
+import {
+    Avatar,
+    Button,
+    Chip,
+    Grid,
+    IconButton,
+    Paper,
+    Typography,
+} from '@mui/material'
+import {
+    Canvassing,
+    MainEvent,
+    Speaker,
+} from '../../../../../types/frontendTypes'
+import {
+    AddButton,
+    FormInputMultiAutocomplete,
+} from '../../../../../components'
 import { useForm, Controller } from 'react-hook-form'
+import { Add, AddCircle, People } from '@mui/icons-material'
+import { CreateSubEventModal } from '../CreateSubEventModal'
 
 interface CanvassingResultsFCSidebarProps {
+    event: MainEvent
+    speakers: Speaker[]
     academicFilter: string[]
     setAcademicFilter: (value: string[]) => void
     selectedSlot: Canvassing | null
@@ -13,7 +32,19 @@ interface CanvassingResultsFCSidebarProps {
 
 export const CanvassingResultsFCSidebar: React.FC<
     CanvassingResultsFCSidebarProps
-> = ({ academicFilter, setAcademicFilter, selectedSlot, academicMap }) => {
+> = ({
+    event,
+    speakers,
+    academicFilter,
+    setAcademicFilter,
+    selectedSlot,
+    academicMap,
+}) => {
+    const [openCreate, setOpenCreate] = useState(false)
+    const handleOpenCreate = () => setOpenCreate(true)
+    const handleCloseCreate = () => setOpenCreate(false)
+    const handleSubEventCreated = () => {}
+
     const { control, watch, setValue } = useForm({
         defaultValues: {
             academicFilter: academicFilter,
@@ -54,63 +85,99 @@ export const CanvassingResultsFCSidebar: React.FC<
                 </Grid>
             </Paper>
             <Paper sx={{ p: 5, mt: 3 }}>
-                <Grid container spacing={3}>
-                    {selectedSlot ? (
-                        <Grid item xs={12} container spacing={1}>
+                {selectedSlot ? (
+                    <Grid container spacing={3}>
+                        <Grid
+                            item
+                            xs={12}
+                            container
+                            sx={{
+                                justifyContent: 'space-between',
+                                alignItems: 'flex-end',
+                            }}
+                        >
+                            <Grid item xs={12} md={9}>
+                                <Typography variant="subtitle1" color="primary">
+                                    {selectedSlot.StartTime.format(
+                                        'ddd, MMM DD'
+                                    )}
+                                </Typography>
+                                <Typography variant="h5">
+                                    {selectedSlot.StartTime.format('HH:mm')} -{' '}
+                                    {selectedSlot.EndTime.format('HH:mm')}
+                                </Typography>
+                            </Grid>
                             <Grid
                                 item
                                 xs={12}
+                                md={3}
                                 container
-                                sx={{
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                }}
+                                alignItems="flex-end"
                             >
-                                <Grid item xs={10} container>
-                                    <Grid item xs={12}>
-                                        <Typography variant="subtitle1">
-                                            {selectedSlot.StartTime.format(
-                                                'HH:mm'
-                                            )}{' '}
-                                            -{' '}
-                                            {selectedSlot.EndTime.format(
-                                                'HH:mm'
-                                            )}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography variant="h5" gutterBottom>
-                                            {selectedSlot.StartTime.format(
-                                                'ddd, MMM DD'
-                                            )}
-                                        </Typography>
-                                    </Grid>
+                                <Grid item>
+                                    <People fontSize="medium" />
                                 </Grid>
-                                <Grid item xs={2}>
+                                <Grid item sx={{ marginLeft: 1 }}>
                                     <Typography variant="h6">
                                         {selectedSlot.AvailableAcademic.length}
                                     </Typography>
                                 </Grid>
-                            </Grid>
-                            <Grid item xs={12}>
-                                {selectedSlot.AvailableAcademic.map(
-                                    (academicId, index) => (
-                                        <Typography key={index}>
-                                            {academicMap[academicId] ||
-                                                'Unknown'}
-                                        </Typography>
-                                    )
-                                )}
+                                <Grid item>
+                                    <Typography variant="h6" color="grey">
+                                        /{selectedSlot.Academic.length}
+                                    </Typography>
+                                </Grid>
                             </Grid>
                         </Grid>
-                    ) : (
-                        <Grid item>
-                            <Typography variant="body1">
-                                Click on a time slot to view details.
-                            </Typography>
+                        <Grid item xs={12}>
+                            {selectedSlot.AvailableAcademic.map(
+                                (academicId, index) => (
+                                    <Chip
+                                        key={index}
+                                        avatar={
+                                            <Avatar
+                                                alt={academicMap[academicId]}
+                                            />
+                                        }
+                                        label={
+                                            academicMap[academicId] || 'Unknown'
+                                        }
+                                        sx={{ mr: 1, mb: 0.5 }}
+                                    />
+                                )
+                            )}
                         </Grid>
-                    )}
-                </Grid>
+                        <Grid item xs={12}>
+                            <Grid
+                                item
+                                xs={12}
+                                container
+                                justifyContent="flex-start"
+                                marginTop={2}
+                            >
+                                <AddButton
+                                    name={'Sub-Event'}
+                                    onClick={handleOpenCreate}
+                                />
+                            </Grid>
+                        </Grid>
+                        <CreateSubEventModal
+                            open={openCreate}
+                            handleClose={handleCloseCreate}
+                            event={event}
+                            speakers={speakers}
+                            onSubEventCreation={handleSubEventCreated}
+                            startDate={selectedSlot.StartTime}
+                            endDate={selectedSlot.EndTime}
+                        />
+                    </Grid>
+                ) : (
+                    <Grid item>
+                        <Typography variant="body1">
+                            Click on a time slot to view details.
+                        </Typography>
+                    </Grid>
+                )}
             </Paper>
         </>
     )

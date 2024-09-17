@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { AxiosResponse } from 'axios'
 import { MainEvent, SubEvent, Speaker } from '../../../../types/frontendTypes'
 import { createSubEvent } from '../../../../scripts/subevent/functions'
@@ -20,6 +20,8 @@ interface CreateSubEventModalProps {
     event: MainEvent
     speakers: Speaker[]
     onSubEventCreation: () => void
+    startDate?: Dayjs 
+    endDate?: Dayjs 
 }
 
 const CreateSubEventFormDefaultValues: SubEvent = {
@@ -41,13 +43,24 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
     event,
     speakers,
     onSubEventCreation,
+    startDate,
+    endDate, 
 }) => {
-    const { handleSubmit, reset, control } = useForm<SubEvent>({
+    const { handleSubmit, reset, control, setValue } = useForm<SubEvent>({
         defaultValues: CreateSubEventFormDefaultValues,
     })
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+
+    useEffect(() => {
+        if (startDate) {
+            setValue('StartDate', startDate)
+        }
+        if (endDate) {
+            setValue('EndDate', endDate)
+        }
+    }, [startDate, endDate, setValue])
 
     const onSubmit = async (data: SubEvent) => {
         setSubmitting(true)

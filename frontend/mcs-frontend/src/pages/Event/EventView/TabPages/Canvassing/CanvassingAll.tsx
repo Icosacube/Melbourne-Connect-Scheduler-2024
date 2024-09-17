@@ -9,7 +9,11 @@ import {
 import EditCalendarIcon from '@mui/icons-material/EditCalendar'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl'
-import { Canvassing, MainEvent } from '../../../../../types/frontendTypes'
+import {
+    Canvassing,
+    MainEvent,
+    Speaker,
+} from '../../../../../types/frontendTypes'
 import CanvassingCreation from './CanvassingCreation'
 import { CanvassingResultsFC } from './CanvassingResultsFC'
 import { CanvassingResultsTable } from './CanvassingResultsTable'
@@ -17,9 +21,13 @@ import { getCanvassingByEventId } from '../../../../../scripts/canvassing/functi
 
 interface CanvassingAllProps {
     event: MainEvent
+    speakers: Speaker[]
 }
 
-export const CanvassingAll: React.FC<CanvassingAllProps> = ({ event }) => {
+export const CanvassingAll: React.FC<CanvassingAllProps> = ({
+    event,
+    speakers,
+}) => {
     const [activeComponent, setActiveComponent] = useState<string>('')
     const [canvassingSlots, setCanvassingSlots] = useState<Canvassing[]>([])
 
@@ -29,7 +37,7 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({ event }) => {
         )
     }, [event])
 
-    const hasCanvassing = canvassingSlots && canvassingSlots.length > 0
+    const hasCanvassing = canvassingSlots && canvassingSlots.length > 0 && event
 
     const renderComponent = () => {
         switch (activeComponent) {
@@ -44,6 +52,7 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({ event }) => {
                 return hasCanvassing ? (
                     <CanvassingResultsFC
                         event={event}
+                        speakers={speakers}
                         canvassingSlots={canvassingSlots}
                     />
                 ) : null
@@ -58,6 +67,7 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({ event }) => {
                 return hasCanvassing ? (
                     <CanvassingResultsFC
                         event={event}
+                        speakers={speakers}
                         canvassingSlots={canvassingSlots}
                     />
                 ) : (

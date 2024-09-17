@@ -2,16 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { Badge, Box, Grid, Paper, Typography } from '@mui/material'
 import { CanvassingResultsCalendar } from '../../../../../components'
 import { CanvassingResultsFCSidebar } from './CanvassingResultsFCSidebar'
-import { Canvassing, MainEvent } from '../../../../../types/frontendTypes'
+import {
+    Canvassing,
+    MainEvent,
+    Speaker,
+} from '../../../../../types/frontendTypes'
 import dayjs from 'dayjs'
 
 interface CanvassingResultsProps {
     event: MainEvent
+    speakers: Speaker[]
     canvassingSlots: Canvassing[]
 }
 
 export const CanvassingResultsFC: React.FC<CanvassingResultsProps> = ({
     event,
+    speakers,
     canvassingSlots,
 }) => {
     const [filteredCanvassings, setFilteredCanvassings] = useState<
@@ -105,6 +111,8 @@ export const CanvassingResultsFC: React.FC<CanvassingResultsProps> = ({
         >
             <Grid item xs={12} md={4} lg={3}>
                 <CanvassingResultsFCSidebar
+                    event={event}
+                    speakers={speakers}
                     academicFilter={academicFilter}
                     setAcademicFilter={setAcademicFilter}
                     selectedSlot={selectedSlot}
