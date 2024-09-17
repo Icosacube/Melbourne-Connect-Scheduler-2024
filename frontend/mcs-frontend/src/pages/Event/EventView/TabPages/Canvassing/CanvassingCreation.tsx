@@ -12,6 +12,7 @@ import {
 import { useForm } from 'react-hook-form'
 import {
     Academic,
+    Canvassing,
     CanvassingTemp,
     MainEvent,
     Venue,
@@ -31,22 +32,27 @@ import {
 import {
     createCanvassing,
     defaultCanvassing,
+    formatCanvassingToTemp,
 } from '../../../../../scripts/canvassing/functions'
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput'
 import { getAllAcademics } from '../../../../../scripts/academic/functions'
 
 interface CanvassingCreationProps {
     event: MainEvent
+    canvassingSlots: Canvassing[]
 }
 
 export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     event,
+    canvassingSlots,
 }) => {
-    const { handleSubmit, reset, control, watch } = useForm<CanvassingTemp[]>({
+    const { handleSubmit, reset, control, setValue, watch } = useForm<
+        CanvassingTemp[]
+    >({
         defaultValues: [defaultCanvassing],
     })
     const [academics, setAcademics] = useState<Academic[]>([])
-    const [canvassingSlots, setCanvassingSlots] = useState<CanvassingTemp[]>([])
+    const [canvassings, setCanvassings] = useState<CanvassingTemp[]>([])
     const [timeSlotSize, setTimeSlotSize] = useState<string>('30')
     const [venues, setVenues] = useState<Venue[]>([])
     const [submitting, setSubmitting] = useState(false)
@@ -71,6 +77,15 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     }, [event.Venue])
 
     useEffect(() => {
+        if (canvassingSlots != null && canvassingSlots.length > 0) {
+            const temp = canvassingSlots.map((canvassing) =>
+                formatCanvassingToTemp(canvassing)
+            )
+            setCanvassings(temp)
+        }
+    }, [canvassingSlots, setValue])
+
+    useEffect(() => {
         getAllAcademics().then((academics) => setAcademics(academics))
         console.log(academics)
     }, [event])
@@ -83,7 +98,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                 email: academic.value,
             })
         )
-        const updatedSlots = canvassingSlots.map((slot) => ({
+        const updatedSlots = canvassings.map((slot) => ({
             ...slot,
             Venue: data.Venue,
             MixedAcademic: formattedMixedAcademic,
@@ -208,8 +223,8 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                 <Paper sx={{ p: 5 }}>
                     <CanvassingCreationCalendar
                         MainEvent={event}
-                        canvassingSlots={canvassingSlots}
-                        setCanvassingSlots={setCanvassingSlots}
+                        canvassingSlots={canvassings}
+                        setCanvassingSlots={setCanvassings}
                         timeSlotSize={timeSlotSize}
                     />
                 </Paper>

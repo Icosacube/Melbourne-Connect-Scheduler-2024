@@ -34,7 +34,12 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({ event }) => {
     const renderComponent = () => {
         switch (activeComponent) {
             case 'A':
-                return <CanvassingCreation event={event} />
+                return (
+                    <CanvassingCreation
+                        event={event}
+                        canvassingSlots={canvassingSlots}
+                    />
+                )
             case 'B':
                 return hasCanvassing ? (
                     <CanvassingResultsFC
@@ -56,7 +61,10 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({ event }) => {
                         canvassingSlots={canvassingSlots}
                     />
                 ) : (
-                    <CanvassingCreation event={event} />
+                    <CanvassingCreation
+                        event={event}
+                        canvassingSlots={canvassingSlots}
+                    />
                 )
         }
     }
@@ -112,7 +120,7 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({ event }) => {
                             title="Results Calendar"
                             aria-label="Results Calendar"
                         >
-                            <ToggleButton value="B" disabled={!hasCanvassing}>
+                            <ToggleButton value="B">
                                 <CalendarMonthIcon />
                             </ToggleButton>
                         </Tooltip>
@@ -120,7 +128,7 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({ event }) => {
                             title="Results Table"
                             aria-label="Results Table"
                         >
-                            <ToggleButton value="C" disabled={!hasCanvassing}>
+                            <ToggleButton value="C">
                                 <ChecklistRtlIcon />
                             </ToggleButton>
                         </Tooltip>

@@ -168,3 +168,21 @@ function reformatCanvassingTempRequest(
 
     return canvassing
 }
+
+export function formatCanvassingToTemp(
+    canvassing: CanvassingFrontend
+): CanvassingTempFrontend {
+    return {
+        id: canvassing.RecordID,
+        StartTime: canvassing.StartTime,
+        EndTime: canvassing.EndTime,
+        MainEvent: canvassing.MainEvent,
+        Venue: canvassing.Venue,
+        AvailableAcademic: canvassing.AvailableAcademic,
+        MixedAcademic: canvassing.Academic.map((academicId, index) => ({
+            id: academicId,
+            name: canvassing.AcademicName[index] || '',
+            email: `${academicId}@university.edu`, // Example email logic
+        })),
+    }
+}
