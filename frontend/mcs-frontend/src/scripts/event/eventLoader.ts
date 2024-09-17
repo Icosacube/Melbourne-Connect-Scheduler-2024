@@ -4,6 +4,7 @@ import { getAllMainEvents } from './functions'
 import { getSpeakerById } from '../speaker/functions'
 import { getCateringByEventID } from '../catering/functions'
 import { getAllFundingAccounts } from '../fundingAccount/functions'
+import { getRoomServicesByEventID } from '../roomServices/functions'
 
 export async function loader({
     params,
@@ -26,13 +27,15 @@ export async function loader({
 
         // Fetch catering for event
         const catering = await getCateringByEventID(eventID)
-        console.log(catering)
 
         // Fetch funding accounts
         const fundingAccounts = await getAllFundingAccounts()
-        console.log(fundingAccounts)
 
-        return { event, speakers, catering, fundingAccounts }
+        // Fetch room services
+        const roomServices = await getRoomServicesByEventID(eventID)
+        console.log(roomServices)
+
+        return { event, speakers, catering, fundingAccounts, roomServices }
     } catch (error) {
         console.log(error)
         return {}
