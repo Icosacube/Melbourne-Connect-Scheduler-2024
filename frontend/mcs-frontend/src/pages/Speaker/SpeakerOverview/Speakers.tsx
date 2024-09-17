@@ -10,6 +10,14 @@ import {
     EmailContentSpeakerForm,
     EmailFormModal,
 } from '../../../components'
+import EmailSpeakersButton from './EmailSpeakersButtons'
+import { MainEvent, Speaker } from '../../../types/frontendTypes'
+
+// Define the type for the loader data
+interface LoaderData {
+    speakers?: Speaker[]
+    events?: MainEvent[]
+}
 
 export const Speakers: FC = () => {
     const [openModal, setOpenModal] = useState(false)
@@ -55,12 +63,18 @@ export const Speakers: FC = () => {
         window.location.href = mailtoLinkSpeakerForm
     }
 
-    const speakers = useLoaderData()
+    const { speakers, events } = useLoaderData() as LoaderData
+    if (!speakers || !events) {
+        return <div>Error</div>
+    }
 
     return (
         <Box className="space-y-8 flex flex-col">
             <Box className="flex flex-col">
-                <AddButton name={'Speaker'} onClick={handleClickButton} />
+                <Box className="flex justify-end space-x-4">
+                    <EmailSpeakersButton speakers={speakers} events={events} />
+                    <AddButton name={'Speaker'} onClick={handleClickButton} />
+                </Box>
                 <Menu
                     anchorEl={anchorEl}
                     open={openMenu}

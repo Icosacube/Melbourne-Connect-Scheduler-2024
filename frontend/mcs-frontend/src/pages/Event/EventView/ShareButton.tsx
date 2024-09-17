@@ -2,7 +2,7 @@ import { Button, Typography } from '@mui/material'
 import ShareIcon from '@mui/icons-material/Share'
 import React, { FC, useState } from 'react'
 import { MainEvent, Speaker } from '../../../types/frontendTypes'
-import { EmailComposerModal } from './EmailComposerModal'
+import { ShareEventModal } from './ShareEventModal'
 import { BottomSuccessSnackbar } from '../../../components'
 
 interface ShareButtonProps {
@@ -35,7 +35,7 @@ export const ShareButton: FC<ShareButtonProps> = ({ event, speaker }) => {
                     Share
                 </Typography>
             </Button>
-            <EmailComposerModal
+            <ShareEventModal
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 event={event}

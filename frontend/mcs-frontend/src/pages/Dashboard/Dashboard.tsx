@@ -3,7 +3,7 @@ import Event from '@mui/icons-material/Event'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { Box, Button, Divider, Stack, Typography } from '@mui/material/'
 import React, { FC, useState } from 'react'
-import { Calendar, EventTitle } from '../../components'
+import { Calendar, EventCard } from '../../components'
 import { CreateEventModal } from '../Event/EventsOverview/CreateEventModal'
 import { CreateSpeakerModal } from '../Speaker/SpeakerOverview/CreateSpeakerModal'
 import { CreateTripModal } from '../Trips/CreateTripModal'
@@ -54,7 +54,7 @@ export const Dashboard: FC = () => {
                 <Stack direction="column" spacing={3}>
                     <Typography variant="h5">Recently Edited Pages</Typography>
                     {events.slice(0, 4).map((event) => (
-                        <EventTitle key={event.RecordID} event={event} />
+                        <EventCard key={event.RecordID} event={event} />
                     ))}
                 </Stack>
             </Box>

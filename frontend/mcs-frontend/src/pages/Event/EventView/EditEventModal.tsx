@@ -132,8 +132,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
     const loadingScreen = <>Loading...</>
     const loadedContent = (
         <>
-            <>
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] min-w-[500px] max-h-[90vh] overflow-y-auto">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] min-w-[450px] max-h-[90vh] overflow-y-auto">
                     <Grid
                         container
                         spacing={3}
@@ -253,7 +252,6 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                     setShowSuccess={setShowUpdateSuccess}
                     message={'Event updated successfully!'}
                 />
-            </>
         </>
     )
     const loadedModal = (

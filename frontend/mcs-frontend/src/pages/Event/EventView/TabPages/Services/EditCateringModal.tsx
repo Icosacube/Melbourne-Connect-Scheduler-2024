@@ -79,7 +79,7 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                 onClose={onClose}
                 aria-labelledby="update-catering"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[450px] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
                         spacing={3}
