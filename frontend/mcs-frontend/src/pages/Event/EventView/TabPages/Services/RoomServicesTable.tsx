@@ -4,7 +4,7 @@ import React, { FC, useState } from 'react'
 import { AddButton, DeleteDialog } from '../../../../../components'
 import { deleteRoomServiceByID } from '../../../../../scripts/roomServices/functions'
 import { Service, MainEvent, FundingAccount } from '../../../../../types/frontendTypes'
-// import { EditRoomServiceModal } from './EditRoomServiceModal'
+import { EditRoomServiceModal } from './EditRoomServiceModal'
 import { CreateRoomServiceModal } from './CreateRoomServiceModal'
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams, GridRowModes, GridRowId, GridRowModesModel } from '@mui/x-data-grid'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
@@ -206,22 +206,22 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({ event, roomServi
                         }}
                         checkboxSelection
                         sx={{
-                            '& .catering-table': {
+                            '& .room-service-table': {
                                 color: 'black',
                             },
                         }}
                     />
                 </Box>
             </Box>
-            {/* {selectedRoomService && (
-                <EditCateringModal
+            {selectedRoomService && (
+                <EditRoomServiceModal
                     handleClose={handleCloseUpdate}
                     open={openUpdate}
-                    catering={selectedRoomService}
+                    roomService={selectedRoomService}
                     eventID={event.RecordID}
                     fundingAccounts={fundingAccountMap}
                 />
-            )} */}
+            )}
             <DeleteDialog
                 open={deleteDialogOpen}
                 onClose={handleCloseDeleteDialog}

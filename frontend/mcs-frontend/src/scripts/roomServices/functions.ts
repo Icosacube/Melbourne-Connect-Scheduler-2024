@@ -89,7 +89,7 @@ export async function createRoomService(
 }
 
 // Function to update a room service
-export async function updateRomServiceByID(
+export async function updateRoomServiceByID(
     roomService: Service
 ): Promise<AxiosResponse> {
     try {
