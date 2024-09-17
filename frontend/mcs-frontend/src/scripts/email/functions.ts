@@ -45,7 +45,15 @@ export async function getBlankSpeakerFormLink() {
 }
 
 export async function getExistingSpeakerFormLink(speakerId: string) {
-    return 'google.com'
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_FORM}/${speakerId}`
+        )
+        return res.data
+    } catch (error) {
+        console.error('Error getting existing speaker form link:', error)
+        return ''
+    }
 }
 
 export async function getBlankEventFormLink(speakerId: string) {
@@ -63,8 +71,19 @@ export async function getBlankEventFormLink(speakerId: string) {
     }
 }
 
-export async function getExistingEventFormLink(eventId: string) {
-    return 'google.com'
+export async function getExistingEventFormLink(
+    eventId: string,
+    speakerId: string
+) {
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_EVENT_FORM}/${speakerId}/${eventId}`
+        )
+        return res.data
+    } catch (error) {
+        console.error('Error getting existing event form link:', error)
+        return ''
+    }
 }
 
 export async function getBlankSpeakerEventFormLink() {
@@ -84,7 +103,15 @@ export async function getExistingSpeakerEventFormLink(
     speakerId: string,
     eventId: string
 ) {
-    return 'google.com'
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_EVENT_FORM}/${speakerId}/${eventId}`
+        )
+        return res.data
+    } catch (error) {
+        console.error('Error getting existing speaker event form link:', error)
+        return ''
+    }
 }
 
 // Templating functions
@@ -246,7 +273,10 @@ export async function generateEmailTemplateForExistingEventForm(
     speaker: Speaker,
     event: MainEvent
 ) {
-    const formLink = await getExistingEventFormLink(event.RecordID)
+    const formLink = await getExistingEventFormLink(
+        event.RecordID,
+        speaker.RecordID
+    )
 
     const subject = 'Invitation to update your event information'
     const to = speaker.PrimaryEmail || ''
