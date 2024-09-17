@@ -24,7 +24,7 @@ function reformatRoomServiceResponseData(data: any): Service {
         Cost: data.Cost || defaultRoomService.Cost,
         ServiceDescription:
             data.ServiceDescription || defaultRoomService.ServiceDescription,
-        Notes: data.Description || defaultRoomService.Notes,
+        Notes: data.Notes || defaultRoomService.Notes,
         ExpenseDate: data.ExpenseDate
             ? dayjs(data.ExpenseDate)
             : defaultRoomService.ExpenseDate,
@@ -61,6 +61,7 @@ export async function getRoomServicesByEventID(
                 roomService.MainEvent?.includes(mainEventId)
             )
             .map((roomService: any) => reformatRoomServiceResponseData(roomService))
+        console.log("in functions" + formattedRoomServices)
         return formattedRoomServices
     } catch (error) {
         console.error('Error fetching room services:', error)
@@ -76,12 +77,6 @@ export async function createRoomService(
     try {
         roomService.MainEvent.push(id)
         const formatedRoomService = reformatRoomServiceRequestData(roomService)
-        // const toSend: any = {
-        //     ...roomService,
-        //     ExpenseDate: dayjs(roomService.ExpenseDate).format('YYYY-MM-DD'),
-        //     Cost: parseFloat(String(roomService.Cost)),
-        // }
-        // delete toSend.RecordID
         const res = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SERVICE_API_PATH}`,
             formatedRoomService
