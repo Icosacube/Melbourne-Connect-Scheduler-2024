@@ -1,7 +1,10 @@
 import { StyledEngineProvider } from '@mui/material'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import {
+    createBrowserRouter,
+    RouterProvider,
+} from 'react-router-dom'
 import { loader as eventsLoader } from './scripts/event/eventsLoader'
 import { loader as eventLoader } from './scripts/event/eventLoader'
 import { loader as speakersLoader } from './scripts/speaker/speakersLoader'
@@ -23,6 +26,8 @@ import {
     FullWidthLayout,
     Layout,
     Login,
+    Logout,
+    Register,
     Events,
     Speakers,
     Speaker,
@@ -36,6 +41,7 @@ import reportWebVitals from './reportWebVitals'
 import { ThemeProvider } from '@emotion/react'
 import theme from './theme/theme'
 import './fonts.css'
+import { ProtectedRoute } from './components/Authentication'
 require('cors')
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -48,10 +54,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const router = createBrowserRouter([
         {
+            path: '/login',
+            element: <Login />,
+            errorElement: <ErrorPage />,
+        },
+        {
+            path: '/logout',
+            element: <Logout />,
+            errorElement: <ErrorPage />,
+        },
+        {
             path: '/',
-            element: <Layout />,
+            element: <><ProtectedRoute><Layout /></ProtectedRoute></>,
             errorElement: <ErrorPage />,
             children: [
+                {
+                    path: '/register',
+                    element: <Register />,
+                    errorElement: <ErrorPage />,
+                },
                 {
                     path: '/dashboard',
                     element: <BodyLayout content={<Dashboard />} />,
@@ -74,11 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     element: <Event />,
                     errorElement: <ErrorPage />,
                     loader: eventLoader,
-                },
-                {
-                    path: '/login',
-                    element: <Login />,
-                    errorElement: <ErrorPage />,
                 },
                 {
                     path: '/speakers',
@@ -125,6 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
             loader: canvassingLoader,
         },
     ])
+
+
+
     const rootContainer = ReactDOM.createRoot(root)
     rootContainer.render(
         <React.StrictMode>

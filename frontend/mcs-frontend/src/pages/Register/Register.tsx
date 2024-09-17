@@ -1,27 +1,35 @@
-import { Button, Grid, Link, Stack, Typography } from '@mui/material'
+import { Button, Grid, Stack, Typography, Link } from '@mui/material'
 import React, { FC, useState } from 'react'
-import { FormInputPassword, FormInputText } from '../../components'
+import {
+    BottomSuccessSnackbar,
+    FormInputPassword,
+    FormInputText,
+} from '../../components'
 import { useForm } from 'react-hook-form'
-import { redirect } from 'react-router'
+import { register } from '../../scripts/authentication/auth'
 import { useNavigate } from 'react-router-dom'
-import { login } from '../../scripts/authentication/auth'
 
 interface UserCredentials {
     username: string
     password: string
 }
 
-export const Login: FC = () => {
-    const { handleSubmit, reset, control, watch } = useForm<UserCredentials>()
+export const Register: FC = () => {
+    const { handleSubmit, reset, control, watch } = useForm<UserCredentials>({})
 
     const [submitting, setSubmitting] = useState(false)
+    const [success, setSuccess] = useState(false)
     const navigate = useNavigate()
 
     const onSubmit = async (data: UserCredentials) => {
         setSubmitting(true)
+        console.log(data)
         try {
-            await login(data.username, data.password)
-            navigate('/dashboard')
+            // const res = await loginfunction
+            const res = await register(data.username, data.password)
+            if (res.status === 201) {
+                setSuccess(true)
+            }
         } catch (error) {
             console.error(error)
         } finally {
@@ -33,7 +41,7 @@ export const Login: FC = () => {
     return (
         <Grid container spacing={0} direction="column" alignItems="center">
             <Stack component="form" className="space-y-8">
-                <Typography variant="h4">Login</Typography>
+                <Typography variant="h4">Register New User</Typography>
                 <FormInputText
                     name={'username'}
                     control={control}
@@ -47,14 +55,19 @@ export const Login: FC = () => {
                     required={true}
                 />
                 <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-                    Login
+                    Register
                 </Button>
             </Stack>
             <Stack>
                 <Typography className="pt-10">
-                    No account? Register <Link href="/register">here</Link>
+                    Have an account? Log in <Link href="/login">here</Link>
                 </Typography>
             </Stack>
+            <BottomSuccessSnackbar
+                showSuccess={success}
+                setShowSuccess={setSuccess}
+                message={'User Registered Successfully!'}
+            />
         </Grid>
     )
 }

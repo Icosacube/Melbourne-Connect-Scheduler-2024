@@ -218,6 +218,12 @@ export type Canvassing = {
   Venue:String[];
 };
 
+export type ExecutiveAssistant ={
+  username: string;         
+  password: string;          
+  lastLoginTime: string;      
+  refreshToken: string;                
+}
 
 export enum SpeakerForm {
   id = "speakerID",

@@ -1,5 +1,6 @@
 export { FormInputDate } from './FormInputDate'
 export { FormInputDateTime } from './FormInputDateTime'
+export { FormInputPassword } from './FormInputPassword'
 export { FormInputMultiSelect } from './FormInputMultiSelect'
 export { FormInputNumber } from './FormInputNumber'
 export { FormInputRadio } from './FormInputRadio'
