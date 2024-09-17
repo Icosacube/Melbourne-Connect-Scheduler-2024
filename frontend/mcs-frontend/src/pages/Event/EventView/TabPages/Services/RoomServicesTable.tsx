@@ -3,10 +3,22 @@ import dayjs from 'dayjs'
 import React, { FC, useState } from 'react'
 import { AddButton, DeleteDialog } from '../../../../../components'
 import { deleteRoomServiceByID } from '../../../../../scripts/roomServices/functions'
-import { Service, MainEvent, FundingAccount } from '../../../../../types/frontendTypes'
+import {
+    Service,
+    MainEvent,
+    FundingAccount,
+} from '../../../../../types/frontendTypes'
 import { EditRoomServiceModal } from './EditRoomServiceModal'
 import { CreateRoomServiceModal } from './CreateRoomServiceModal'
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams, GridRowModes, GridRowId, GridRowModesModel } from '@mui/x-data-grid'
+import {
+    DataGrid,
+    GridActionsCellItem,
+    GridColDef,
+    GridRowParams,
+    GridRowModes,
+    GridRowId,
+    GridRowModesModel,
+} from '@mui/x-data-grid'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
 import CancelIcon from '@mui/icons-material/Close'
@@ -18,16 +30,26 @@ interface RoomServicesTableProps {
     fundingAccounts: FundingAccount[]
 }
 
-export const RoomServicesTable: FC<RoomServicesTableProps> = ({ event, roomServices, fundingAccounts }) => {
-    // State variables 
-    const [selectedRoomService, setSelectedRoomService] = React.useState<Service | null>(null)
-    const fundingAccountMap = (
-        new Map(fundingAccounts.map(account => [account.RecordID, account.ThemisString]))
+export const RoomServicesTable: FC<RoomServicesTableProps> = ({
+    event,
+    roomServices,
+    fundingAccounts,
+}) => {
+    // State variables
+    const [selectedRoomService, setSelectedRoomService] =
+        React.useState<Service | null>(null)
+    const fundingAccountMap = new Map(
+        fundingAccounts.map((account) => [
+            account.RecordID,
+            account.ThemisString,
+        ])
     )
     const [openCreate, setOpenCreate] = React.useState(false)
     const [openUpdate, setOpenUpdate] = React.useState(false)
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
-    const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({})
+    const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
+        {}
+    )
     const [deleting, setDeleting] = useState(false)
     const revalidator = useRevalidator()
 
@@ -37,23 +59,23 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({ event, roomServi
 
     // Handlers
 
-    // Handle create modal 
+    // Handle create modal
     const handleOpenCreate = () => setOpenCreate(true)
 
     const handleCloseCreate = () => setOpenCreate(false)
 
-    // Handle update modal 
+    // Handle update modal
     const handleOpenUpdate = (roomService: Service) => {
-        setSelectedRoomService(roomService);
-        setOpenUpdate(true);
+        setSelectedRoomService(roomService)
+        setOpenUpdate(true)
     }
 
     const handleCloseUpdate = () => {
-        setOpenUpdate(false);
-        setSelectedRoomService(null);
+        setOpenUpdate(false)
+        setSelectedRoomService(null)
     }
 
-    // Handle delete modal 
+    // Handle delete modal
     const handleDeleteClick = (roomService: Service) => async () => {
         setSelectedRoomService(roomService)
         setDeleteDialogOpen(true)
@@ -134,8 +156,11 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({ event, roomServi
             headerClassName: 'room-service-table',
             flex: 1,
             valueFormatter: (params) => {
-                const values = params as string[];
-                return values.map(id => fundingAccountMap.get(id)).join(', ') || 'No Funding Account';
+                const values = params as string[]
+                return (
+                    values.map((id) => fundingAccountMap.get(id)).join(', ') ||
+                    'No Funding Account'
+                )
             },
         },
         {
@@ -145,7 +170,7 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({ event, roomServi
             width: 100,
             cellClassName: 'actions',
             getActions: (params: GridRowParams) => {
-                const roomService = params.row as Service;
+                const roomService = params.row as Service
                 const isInEditMode =
                     rowModesModel[params.id]?.mode === GridRowModes.Edit
 
@@ -176,7 +201,7 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({ event, roomServi
                         color="inherit"
                     />,
                 ]
-            }
+            },
         },
     ]
 
@@ -184,7 +209,10 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({ event, roomServi
         <>
             <Box className="  mb-4 flex flex-col">
                 <Box className=" flex flex-col mb-4">
-                    <AddButton name={'Room Service'} onClick={handleOpenCreate} />
+                    <AddButton
+                        name={'Room Service'}
+                        onClick={handleOpenCreate}
+                    />
                     <CreateRoomServiceModal
                         open={openCreate}
                         handleClose={handleCloseCreate}

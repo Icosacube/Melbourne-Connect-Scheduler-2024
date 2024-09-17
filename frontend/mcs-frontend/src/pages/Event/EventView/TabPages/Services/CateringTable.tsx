@@ -3,10 +3,22 @@ import dayjs from 'dayjs'
 import React, { FC, useState } from 'react'
 import { AddButton, DeleteDialog } from '../../../../../components'
 import { deleteCateringByID } from '../../../../../scripts/catering/functions'
-import { Catering, MainEvent, FundingAccount } from '../../../../../types/frontendTypes'
+import {
+    Catering,
+    MainEvent,
+    FundingAccount,
+} from '../../../../../types/frontendTypes'
 import { EditCateringModal } from './EditCateringModal'
 import { CreateCateringModal } from './CreateCateringModal'
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams, GridRowModes, GridRowId, GridRowModesModel } from '@mui/x-data-grid'
+import {
+    DataGrid,
+    GridActionsCellItem,
+    GridColDef,
+    GridRowParams,
+    GridRowModes,
+    GridRowId,
+    GridRowModesModel,
+} from '@mui/x-data-grid'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
 import CancelIcon from '@mui/icons-material/Close'
@@ -18,16 +30,26 @@ interface CateringTableProps {
     fundingAccounts: FundingAccount[]
 }
 
-export const CateringTable: FC<CateringTableProps> = ({ event, catering, fundingAccounts }) => {
-    // State variables 
-    const [selectedCatering, setSelectedCatering] = React.useState<Catering | null>(null)
-    const fundingAccountMap = (
-        new Map(fundingAccounts.map(account => [account.RecordID, account.ThemisString]))
+export const CateringTable: FC<CateringTableProps> = ({
+    event,
+    catering,
+    fundingAccounts,
+}) => {
+    // State variables
+    const [selectedCatering, setSelectedCatering] =
+        React.useState<Catering | null>(null)
+    const fundingAccountMap = new Map(
+        fundingAccounts.map((account) => [
+            account.RecordID,
+            account.ThemisString,
+        ])
     )
     const [openCreate, setOpenCreate] = React.useState(false)
     const [openUpdate, setOpenUpdate] = React.useState(false)
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
-    const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({})
+    const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
+        {}
+    )
     const [deleting, setDeleting] = useState(false)
     const revalidator = useRevalidator()
 
@@ -37,23 +59,23 @@ export const CateringTable: FC<CateringTableProps> = ({ event, catering, funding
 
     // Handlers
 
-    // Handle create modal 
+    // Handle create modal
     const handleOpenCreate = () => setOpenCreate(true)
 
     const handleCloseCreate = () => setOpenCreate(false)
 
-    // Handle update modal 
+    // Handle update modal
     const handleOpenUpdate = (cateringEntry: Catering) => {
-        setSelectedCatering(cateringEntry);
-        setOpenUpdate(true);
+        setSelectedCatering(cateringEntry)
+        setOpenUpdate(true)
     }
 
     const handleCloseUpdate = () => {
-        setOpenUpdate(false);
-        setSelectedCatering(null);
+        setOpenUpdate(false)
+        setSelectedCatering(null)
     }
 
-    // Handle delete modal 
+    // Handle delete modal
     const handleDeleteClick = (cateringEntry: Catering) => async () => {
         setSelectedCatering(cateringEntry)
         setDeleteDialogOpen(true)
@@ -134,8 +156,11 @@ export const CateringTable: FC<CateringTableProps> = ({ event, catering, funding
             headerClassName: 'catering-table',
             flex: 1,
             valueFormatter: (params) => {
-                const values = params as string[];
-                return values.map(id => fundingAccountMap.get(id)).join(', ') || 'No Funding Account';
+                const values = params as string[]
+                return (
+                    values.map((id) => fundingAccountMap.get(id)).join(', ') ||
+                    'No Funding Account'
+                )
             },
         },
         {
@@ -145,7 +170,7 @@ export const CateringTable: FC<CateringTableProps> = ({ event, catering, funding
             width: 100,
             cellClassName: 'actions',
             getActions: (params: GridRowParams) => {
-                const catering = params.row as Catering;
+                const catering = params.row as Catering
                 const isInEditMode =
                     rowModesModel[params.id]?.mode === GridRowModes.Edit
 
@@ -176,7 +201,7 @@ export const CateringTable: FC<CateringTableProps> = ({ event, catering, funding
                         color="inherit"
                     />,
                 ]
-            }
+            },
         },
     ]
 

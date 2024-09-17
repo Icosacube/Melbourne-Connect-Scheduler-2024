@@ -41,23 +41,20 @@ export const EditRoomServiceModal: React.FC<EditRoomServiceModalProps> = ({
     roomService,
     fundingAccounts,
 }) => {
-
     const { handleSubmit, reset, control } = useForm<Service>({
-        defaultValues: roomService || EditRoomServiceFormDefaultValues, 
+        defaultValues: roomService || EditRoomServiceFormDefaultValues,
     })
     const revalidator = useRevalidator()
 
-
     const onSubmit = async (data: Service) => {
-        setSubmitting(true);
+        setSubmitting(true)
         try {
-            const res: AxiosResponse = await updateRoomServiceByID(data);
+            const res: AxiosResponse = await updateRoomServiceByID(data)
             if (res.status !== 200) {
-                throw new Error('Failed to update room service');
+                throw new Error('Failed to update room service')
             }
             revalidator.revalidate()
             setShowSuccess(true)
-            
         } catch (error) {
             console.error(error)
         } finally {

@@ -48,17 +48,16 @@ export const CreateRoomServiceModal: React.FC<CreateRoomServiceModalProps> = ({
     const onSubmit = async (data: Service) => {
         setSubmitting(true)
         try {
-            console.log("point two")
+            console.log('point two')
             const res = await createRoomService(data, eventID)
             if (res) {
                 revalidator.revalidate()
                 setShowSuccess(true)
             }
-            
         } catch (error) {
             console.error(error)
         } finally {
-            setSubmitting(false);
+            setSubmitting(false)
             reset()
             handleClose()
         }

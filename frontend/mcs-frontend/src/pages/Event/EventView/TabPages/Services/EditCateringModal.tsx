@@ -41,23 +41,20 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
     catering,
     fundingAccounts,
 }) => {
-
     const { handleSubmit, reset, control } = useForm<Catering>({
-        defaultValues: catering || EditCateringFormDefaultValues, 
+        defaultValues: catering || EditCateringFormDefaultValues,
     })
     const revalidator = useRevalidator()
 
-
     const onSubmit = async (data: Catering) => {
-        setSubmitting(true);
+        setSubmitting(true)
         try {
-            const res: AxiosResponse = await updateCateringByID(data);
+            const res: AxiosResponse = await updateCateringByID(data)
             if (res.status !== 200) {
-                throw new Error('Failed to update catering');
+                throw new Error('Failed to update catering')
             }
             revalidator.revalidate()
             setShowSuccess(true)
-            
         } catch (error) {
             console.error(error)
         } finally {
@@ -90,7 +87,7 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                     >
                         <Grid item xs={12}>
                             <Typography variant="h4" gutterBottom>
-                                Update Catering 
+                                Update Catering
                             </Typography>
                         </Grid>
 

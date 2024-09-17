@@ -53,11 +53,10 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
                 revalidator.revalidate()
                 setShowSuccess(true)
             }
-            
         } catch (error) {
             console.error(error)
         } finally {
-            setSubmitting(false);
+            setSubmitting(false)
             reset()
             handleClose()
         }

@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import { Service } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 
-// Function to reformat room service request data 
+// Function to reformat room service request data
 function reformatRoomServiceRequestData(data: Service): any {
     const roomService = {
         Cost: parseFloat(String(data.Cost)),
@@ -28,7 +28,8 @@ function reformatRoomServiceResponseData(data: any): Service {
         ExpenseDate: data.ExpenseDate
             ? dayjs(data.ExpenseDate)
             : defaultRoomService.ExpenseDate,
-        FundingAccount: data.FundingAccount || defaultRoomService.FundingAccount,
+        FundingAccount:
+            data.FundingAccount || defaultRoomService.FundingAccount,
         MainEvent: data.MainEvent || defaultRoomService.MainEvent,
         Finance: data.Finance || defaultRoomService.Finance,
     }
@@ -60,8 +61,9 @@ export async function getRoomServicesByEventID(
             .filter((roomService: any) =>
                 roomService.MainEvent?.includes(mainEventId)
             )
-            .map((roomService: any) => reformatRoomServiceResponseData(roomService))
-        console.log("in functions" + formattedRoomServices)
+            .map((roomService: any) =>
+                reformatRoomServiceResponseData(roomService)
+            )
         return formattedRoomServices
     } catch (error) {
         console.error('Error fetching room services:', error)
@@ -70,10 +72,7 @@ export async function getRoomServicesByEventID(
 }
 
 // Function to create room service
-export async function createRoomService(
-    roomService: Service,
-    id: string
-) {
+export async function createRoomService(roomService: Service, id: string) {
     try {
         roomService.MainEvent.push(id)
         const formatedRoomService = reformatRoomServiceRequestData(roomService)
@@ -99,7 +98,7 @@ export async function updateRoomServiceByID(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SERVICE_API_PATH}/${recordID}`,
             formatedRoomService
         )
-        return res 
+        return res
     } catch (error) {
         console.error('Error updating room service:', error)
         throw error

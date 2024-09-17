@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import { Catering } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 
-// Function to reformat catering request data 
+// Function to reformat catering request data
 function reformatCateringRequestData(data: Catering): any {
     const catering = {
         BookingReference: data.BookingReference,
@@ -69,10 +69,7 @@ export async function getCateringByEventID(
 }
 
 // Function to create catering entry
-export async function createCatering(
-    catering: Catering,
-    id: string
-) {
+export async function createCatering(catering: Catering, id: string) {
     try {
         catering.MainEvent.push(id)
         const toSend: any = {
@@ -103,7 +100,7 @@ export async function updateCateringByID(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CATERING_API_PATH}/${recordID}`,
             formattedCatering
         )
-        return res 
+        return res
     } catch (error) {
         console.error('Error updating catering:', error)
         throw error
