@@ -45,7 +45,7 @@ router.get('/canvassings', async (req, res) => {
     
     // Cache
     setCache(Cachekeys.CANVASSINGS, filteredCanvassing);
-    res.json(filteredCanvassing);
+    res.json(filteredCanvassing).status(200);
   } catch (error) {
     console.error("Error fetching canvassings:", error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -64,7 +64,7 @@ router.get('/canvassing/:canvassing_record_id', async (req, res) => {
     }
     let plainFields = Object.fromEntries(CanvassingRecord);
     let formattedCanvassing: { [k: string]: any } = plainFields;
-    res.json(formattedCanvassing);
+    res.json(formattedCanvassing).status(200);
   } catch (error) {
     console.error('Error fetching Canvassing:', error);
     res.status(500).json({ error: 'Internal Server Error' });

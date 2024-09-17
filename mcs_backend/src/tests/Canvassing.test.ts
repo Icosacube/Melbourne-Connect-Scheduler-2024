@@ -1,6 +1,6 @@
 import request from 'supertest';
 import express from 'express';
-const canvassingRouter = require('./controller/canvassing');
+const canvassingRouter = require('../controller/Canvassing');
 import { getTable, getRecord, createRecord, updateRecord, deleteRecords } from '../models/airtable';
 import { getCache, setCache, deleteCache } from '../utils/caching';
 
@@ -37,19 +37,19 @@ describe('Canvassing API', () => {
 
       expect(res.status).toBe(200);
       expect(res.body).toEqual(cachedData);
-      expect(getCache).toHaveBeenCalledWith('CANVASSINGS');
+      expect(getCache).toHaveBeenCalledWith('Canvassings');
     });
 
     it('should return filtered canvassings if no cache', async () => {
-      const canvassings = [{ id: '1', Academic: ['John Doe'], MainEvent: ['Event1'] }];
+      const canvassings = [{ id: '1', Academic: ['John_Doe'], MainEvent: ['Event1'] }];
       (getCache as jest.Mock).mockReturnValue(null);
       (getTable as jest.Mock).mockResolvedValue(canvassings);
 
-      const res = await request(app).get('/canvassings?academic=John Doe');
+      const res = await request(app).get('/canvassings?academic=John_Doe');
 
       expect(res.status).toBe(200);
       expect(res.body).toEqual(canvassings);
-      expect(setCache).toHaveBeenCalledWith('CANVASSINGS', canvassings);
+      expect(setCache).toHaveBeenCalledWith('Canvassings', canvassings);
     });
 
     it('should return 404 if no matching canvassings are found', async () => {
@@ -97,7 +97,7 @@ describe('Canvassing API', () => {
 
       expect(res.status).toBe(200);
       expect(res.body.message).toBe('Canvassing created successfully');
-      expect(deleteCache).toHaveBeenCalledWith('CANVASSINGS');
+      expect(deleteCache).toHaveBeenCalledWith('Canvassings');
     });
 
     it('should return 400 if canvassings array is invalid', async () => {
@@ -121,7 +121,7 @@ describe('Canvassing API', () => {
       expect(updateRecord).toHaveBeenCalledWith(expect.any(String), [
         { id: '1', fields: updatedCanvassing },
       ]);
-      expect(deleteCache).toHaveBeenCalledWith('CANVASSINGS');
+      expect(deleteCache).toHaveBeenCalledWith('Canvassings');
     });
 
     it('should return 500 on update failure', async () => {
@@ -141,7 +141,7 @@ describe('Canvassing API', () => {
       expect(res.status).toBe(200);
       expect(res.body.message).toBe('Canvassing deleted successfully');
       expect(deleteRecords).toHaveBeenCalledWith(expect.any(String), ['1']);
-      expect(deleteCache).toHaveBeenCalledWith('CANVASSINGS');
+      expect(deleteCache).toHaveBeenCalledWith('Canvassings');
     });
 
     it('should return 500 on delete failure', async () => {
