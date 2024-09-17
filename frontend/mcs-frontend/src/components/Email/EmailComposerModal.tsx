@@ -38,6 +38,13 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     subject = '',
     body = '',
 }) => {
+    const [emailData, _] = React.useState({
+        from,
+        to,
+        cc,
+        subject,
+        body,
+    })
     const {
         control,
         handleSubmit,
@@ -46,11 +53,11 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     } = useForm<EmailFormData>({
         mode: 'onChange',
         defaultValues: {
-            from,
-            to,
-            cc,
-            subject,
-            body,
+            from: emailData.from,
+            to: emailData.to,
+            cc: emailData.cc,
+            subject: emailData.subject,
+            body: emailData.body,
         },
     })
     const [sending, setSending] = React.useState(false)

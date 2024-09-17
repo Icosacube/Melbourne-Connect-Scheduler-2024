@@ -3,7 +3,7 @@ import React from 'react'
 import 'react-quill/dist/quill.snow.css'
 import { EmailComposerModal } from '../../../components'
 import { MainEvent, Speaker } from '../../../types/frontendTypes'
-import { generateHtmlEmailTemplateFromEvents } from '../../../scripts/email/functions'
+import { generateEmailTemplateFromEvents } from '../../../scripts/email/functions'
 
 interface ShareEventModalProps {
     isOpen: boolean
@@ -18,7 +18,7 @@ export const ShareEventModal: React.FC<ShareEventModalProps> = ({
     event,
     speaker,
 }) => {
-    const { emailSubject, emailContent } = generateHtmlEmailTemplateFromEvents(
+    const { emailSubject, emailContent } = generateEmailTemplateFromEvents(
         event,
         speaker
     )

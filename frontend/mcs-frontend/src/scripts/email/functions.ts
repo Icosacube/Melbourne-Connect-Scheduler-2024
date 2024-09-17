@@ -31,6 +31,7 @@ export async function sendEmail(
     }
 }
 
+// Get form links functions
 export async function getBlankSpeakerFormLink() {
     return 'google.com'
 }
@@ -39,15 +40,27 @@ export async function getExistingSpeakerFormLink(speakerId: string) {
     return 'google.com'
 }
 
+export async function getBlankEventFormLink() {
+    return 'google.com'
+}
+
+export async function getExistingEventFormLink(eventId: string) {
+    return 'google.com'
+}
+
 export async function getBlankSpeakerEventFormLink() {
     return 'google.com'
 }
 
-export async function getExistingSpeakerEventFormLink() {
+export async function getExistingSpeakerEventFormLink(
+    speakerId: string,
+    eventId: string
+) {
     return 'google.com'
 }
 
-export function generateHtmlEmailTemplateFromEvents(
+// Templating functions
+export function generateEmailTemplateFromEvents(
     event: MainEvent,
     speaker: Speaker
 ) {
@@ -100,4 +113,189 @@ export function generateHtmlEmailTemplateFromEvents(
     `
 
     return { emailSubject, emailContent }
+}
+
+export function generateEmailTemplateForBlankSpeakerForm() {
+    const formLink = getBlankSpeakerFormLink()
+
+    const subject = 'Invitation to fill out your information'
+
+    const body = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+            <h2>Dear Speaker,</h2>
+            <p>
+                We are excited to invite you to fill in your personal details. 
+                Please click the link below to complete your speaker form:
+            </p>
+            <p>
+                <a href="${formLink}" style="color: #007BFF; text-decoration: none;">New Speaker Form Link</a>
+            </p>
+            <p>
+                Thank you for your participation!
+            </p>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </div>
+    `
+
+    return { subject, body }
+}
+
+export function generateEmailTemplateForExistingSpeakerForm(speaker: Speaker) {
+    const formLink = getExistingSpeakerFormLink(speaker.RecordID)
+
+    const to = speaker.PrimaryEmail || ''
+
+    const subject = 'Invitation to update your information'
+    const firstName = speaker.FirstName || 'Speaker'
+    const body = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+            <h2>Dear ${firstName},</h2>
+            <p>
+                We are excited to invite you to update your personal details. 
+                Please click the link below to complete your speaker form:
+            </p>
+            <p>
+                <a href="${formLink}" style="color: #007BFF; text-decoration: none;">Update Speaker Information Form Link</a>
+            </p>
+            <p>
+                Thank you for your participation!
+            </p>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </div>
+    `
+
+    return { to, subject, body }
+}
+
+export function generateEmailTemplateForBlankEventForm(speaker?: Speaker) {
+    const formLink = getBlankEventFormLink()
+
+    const subject = 'Invitation to create a new event'
+    const to = speaker?.PrimaryEmail || ''
+    const firstName = speaker?.FirstName || 'Speaker'
+
+    const body = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+            <h2>Dear ${firstName},</h2>
+            <p>
+                We are excited to invite you to create a new event. 
+                Please click the link below to complete your event form:
+            </p>
+            <p>
+                <a href="${formLink}" style="color: #007BFF; text-decoration: none;">New Event Form Link</a>
+            </p>
+            <p>
+                Thank you for your participation!
+            </p>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </div>
+    `
+
+    return { to, subject, body }
+}
+
+export function generateEmailTemplateForExistingEventForm(
+    speaker: Speaker,
+    event: MainEvent
+) {
+    const formLink = getExistingEventFormLink(event.RecordID)
+
+    const subject = 'Invitation to update your event information'
+    const to = speaker.PrimaryEmail || ''
+    const firstName = speaker.FirstName || 'Speaker'
+
+    const body = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+            <h2>Dear ${firstName},</h2>
+            <p>
+                We are excited to invite you to update your event. 
+                Please click the link below to complete your event form:
+            </p>
+            <p>
+                <a href="${formLink}" style="color: #007BFF; text-decoration: none;">Update Event Form Link</a>
+            </p>
+            <p>
+                Thank you for your participation!
+            </p>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </div>
+    `
+
+    return { to, subject, body }
+}
+
+export function generateEmailTemplateForBlankSpeakerEventForm() {
+    const formLink = getBlankSpeakerEventFormLink()
+
+    const subject = 'Invitation to add your information create a new event'
+    const body = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+            <h2>Dear Speaker,</h2>
+            <p>
+                We are excited to invite you to add your information and create a new event. 
+                Please click the link below to complete your event form:
+            </p>
+            <p>
+                <a href="${formLink}" style="color: #007BFF; text-decoration: none;">New Speaker & Event Form Link</a>
+            </p>
+            <p>
+                Thank you for your participation!
+            </p>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </div>
+    `
+
+    return { subject, body }
+}
+
+export function generateEmailTemplateForExistingSpeakerEventForm(
+    speaker: Speaker,
+    event: MainEvent
+) {
+    const formLink = getExistingSpeakerEventFormLink(
+        speaker.RecordID,
+        event.RecordID
+    )
+
+    const to = speaker.PrimaryEmail || ''
+
+    const subject = "Invitation to update your information and event's details"
+    const firstName = speaker.FirstName || 'Speaker'
+    const body = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+            <h2>Dear ${firstName},</h2>
+            <br/>
+            <p>
+                We are excited to invite you to update your personal information and event details. 
+                Please click the link below to complete your speaker and event form:
+            </p>
+            <p>
+                <a href="${formLink}" style="color: #007BFF; text-decoration: none;">Update Speaker & Event Information Form Link</a>
+            </p>
+            <p>
+                Thank you for your participation!
+            </p>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </div>
+    `
+
+    return { to, subject, body }
 }

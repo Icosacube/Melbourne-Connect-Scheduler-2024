@@ -1,11 +1,8 @@
-import React, { useState, useRef } from 'react'
-import { Box, Button, Typography, Menu, MenuItem } from '@mui/material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
-import { AddCircleOutlineOutlined } from '@mui/icons-material'
-import { EmailComposerModal } from '../../../components/Email/EmailComposerModal'
-import { set } from 'react-hook-form'
-import { EmailTemplatingChoiceModal } from './EmailTemplatingChoiceModal'
+import { Box, Button, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import { MainEvent, Speaker } from '../../../types/frontendTypes'
+import { EmailTemplatingChoiceModal } from './EmailTemplatingChoiceModal'
 
 interface EmailSpeakersButtonProps {
     events: MainEvent[]
@@ -41,10 +38,6 @@ const EmailSpeakersButton: React.FC<EmailSpeakersButtonProps> = ({
                     </Typography>
                 </Button>
             </Box>
-            {/* <EmailComposerModal
-                open={speakerEmailModal}
-                onClose={handleCloseSpeakerEmailModal}
-            /> */}
             <EmailTemplatingChoiceModal
                 open={emailTemplatingModal}
                 onClose={handleCloseEmailTemplatingModal}
