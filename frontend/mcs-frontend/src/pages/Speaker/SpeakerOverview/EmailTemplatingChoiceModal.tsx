@@ -1,6 +1,3 @@
-// TODO templating for speaker event form
-// TODO only showing speakers of an event in the dropdown when an event is selected
-
 import {
     Box,
     Button,
@@ -45,7 +42,6 @@ export const EmailTemplatingChoiceModal: FC<
     const [eventType, setEventType] = useState<string>('New Event')
     const [selectedSpeaker, setSelectedSpeaker] = useState<string>('')
     const [selectedEvent, setSelectedEvent] = useState<string>('')
-    const [speakersList, setSpeakersList] = useState<Speaker[]>(speakers)
 
     // Email Composer Modal
     const [emailComposerOpen, setEmailComposerOpen] = useState<boolean>(false)
@@ -114,7 +110,7 @@ export const EmailTemplatingChoiceModal: FC<
                         (event) => event.RecordID === selectedEvent
                     )
                     const fullSpeaker = speakers.find(
-                        (speaker) => speaker.RecordID === fullEvent?.Speaker[0]
+                        (speaker) => speaker.RecordID === selectedSpeaker
                     )
                     if (!fullEvent || !fullSpeaker) {
                         console.log('Invalid selection')
@@ -204,6 +200,9 @@ export const EmailTemplatingChoiceModal: FC<
             return true
         }
         if (eventType === 'New Event' && !selectedSpeaker) {
+            return true
+        }
+        if (eventType === 'Existing Event' && !selectedSpeaker) {
             return true
         }
         return false
@@ -331,18 +330,16 @@ export const EmailTemplatingChoiceModal: FC<
                                             <MenuItem value="" disabled>
                                                 Select a Speaker
                                             </MenuItem>
-                                            {speakersList?.map(
-                                                (speaker, index) => (
-                                                    <MenuItem
-                                                        key={index}
-                                                        value={speaker.RecordID}
-                                                    >
-                                                        {speaker.FirstName +
-                                                            ' ' +
-                                                            speaker.LastName}
-                                                    </MenuItem>
-                                                )
-                                            )}
+                                            {speakers?.map((speaker, index) => (
+                                                <MenuItem
+                                                    key={index}
+                                                    value={speaker.RecordID}
+                                                >
+                                                    {speaker.FirstName +
+                                                        ' ' +
+                                                        speaker.LastName}
+                                                </MenuItem>
+                                            ))}
                                         </Select>
                                     </FormControl>
                                 </>
@@ -378,53 +375,138 @@ export const EmailTemplatingChoiceModal: FC<
                                         </FormGroup>
                                     </RadioGroup>
                                     {eventType === 'Existing Event' ? (
-                                        <FormControl
-                                            fullWidth
-                                            variant="outlined"
-                                        >
-                                            <InputLabel>
-                                                Select an Event
-                                            </InputLabel>
-                                            <Select
-                                                value={selectedEvent}
-                                                onChange={(e) => {
-                                                    setSelectedEvent(
-                                                        e.target.value
-                                                    )
-                                                }}
-                                                defaultValue=""
-                                                MenuProps={{
-                                                    PaperProps: {
-                                                        style: {
-                                                            maxHeight: '25vh',
-                                                            overflowY: 'auto',
-                                                            width: '40%',
-                                                        },
-                                                    },
-                                                }}
+                                        <>
+                                            <FormControl
+                                                fullWidth
+                                                variant="outlined"
                                             >
-                                                <MenuItem value="" disabled>
+                                                <InputLabel>
                                                     Select an Event
-                                                </MenuItem>
-                                                {events?.map((event, index) => (
-                                                    <MenuItem
-                                                        key={index}
-                                                        value={event.RecordID}
-                                                    >
-                                                        <div
-                                                            style={{
-                                                                overflow:
-                                                                    'hidden',
-                                                                textOverflow:
-                                                                    'ellipsis',
-                                                            }}
-                                                        >
-                                                            {event.EventName}
-                                                        </div>
+                                                </InputLabel>
+                                                <Select
+                                                    value={selectedEvent}
+                                                    onChange={(e) => {
+                                                        setSelectedEvent(
+                                                            e.target.value
+                                                        )
+                                                    }}
+                                                    defaultValue=""
+                                                    MenuProps={{
+                                                        PaperProps: {
+                                                            style: {
+                                                                maxHeight:
+                                                                    '25vh',
+                                                                overflowY:
+                                                                    'auto',
+                                                                width: '40%',
+                                                            },
+                                                        },
+                                                    }}
+                                                >
+                                                    <MenuItem value="" disabled>
+                                                        Select an Event
                                                     </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
+                                                    {events?.map(
+                                                        (event, index) => (
+                                                            <MenuItem
+                                                                key={index}
+                                                                value={
+                                                                    event.RecordID
+                                                                }
+                                                            >
+                                                                <div
+                                                                    style={{
+                                                                        overflow:
+                                                                            'hidden',
+                                                                        textOverflow:
+                                                                            'ellipsis',
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        event.EventName
+                                                                    }
+                                                                </div>
+                                                            </MenuItem>
+                                                        )
+                                                    )}
+                                                </Select>
+                                            </FormControl>
+                                            <FormControl
+                                                fullWidth
+                                                variant="outlined"
+                                                disabled={selectedEvent === ''}
+                                                sx={{ marginTop: 4 }}
+                                            >
+                                                <InputLabel>
+                                                    Select a Speaker
+                                                </InputLabel>
+                                                <Select
+                                                    value={selectedSpeaker}
+                                                    onChange={(e) =>
+                                                        setSelectedSpeaker(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    defaultValue=""
+                                                    MenuProps={{
+                                                        PaperProps: {
+                                                            style: {
+                                                                maxHeight:
+                                                                    '25vh',
+                                                                overflowY:
+                                                                    'auto',
+                                                                width: '40%',
+                                                            },
+                                                        },
+                                                    }}
+                                                >
+                                                    <MenuItem value="" disabled>
+                                                        Select a Speaker
+                                                    </MenuItem>
+                                                    {(() => {
+                                                        const fullEvent =
+                                                            events.find(
+                                                                (event) =>
+                                                                    event.RecordID ===
+                                                                    selectedEvent
+                                                            )
+                                                        const filteredSpeakers =
+                                                            speakers.filter(
+                                                                (speaker) =>
+                                                                    fullEvent?.Speaker?.includes(
+                                                                        speaker.RecordID
+                                                                    )
+                                                            )
+                                                        return filteredSpeakers?.map(
+                                                            (
+                                                                speaker,
+                                                                index
+                                                            ) => (
+                                                                <MenuItem
+                                                                    key={index}
+                                                                    value={
+                                                                        speaker.RecordID
+                                                                    }
+                                                                >
+                                                                    <div
+                                                                        style={{
+                                                                            overflow:
+                                                                                'hidden',
+                                                                            textOverflow:
+                                                                                'ellipsis',
+                                                                        }}
+                                                                    >
+                                                                        {speaker.FirstName +
+                                                                            ' ' +
+                                                                            speaker.LastName}
+                                                                    </div>
+                                                                </MenuItem>
+                                                            )
+                                                        )
+                                                    })()}
+                                                </Select>
+                                            </FormControl>
+                                        </>
                                     ) : (
                                         <FormControl
                                             fullWidth
