@@ -75,7 +75,7 @@ export const EmailTemplatingChoiceModal: FC<
         setEmailComposerOpen(false)
     }
 
-    const handleGenerate = () => {
+    const handleGenerate = async () => {
         let to = ''
         let subject = ''
         let body = ''
@@ -92,13 +92,16 @@ export const EmailTemplatingChoiceModal: FC<
                         return
                     }
                     const emailData =
-                        generateEmailTemplateForExistingSpeakerForm(fullSpeaker)
+                        await generateEmailTemplateForExistingSpeakerForm(
+                            fullSpeaker
+                        )
                     to = emailData.to
                     subject = emailData.subject
                     body = emailData.body
                 } else {
                     // Handle New Speaker case
-                    const emailData = generateEmailTemplateForBlankSpeakerForm()
+                    const emailData =
+                        await generateEmailTemplateForBlankSpeakerForm()
                     subject = emailData.subject
                     body = emailData.body
                 }
@@ -117,16 +120,18 @@ export const EmailTemplatingChoiceModal: FC<
                         console.log('Invalid selection')
                         return
                     }
-                    const emailData = generateEmailTemplateForExistingEventForm(
-                        fullSpeaker,
-                        fullEvent
-                    )
+                    const emailData =
+                        await generateEmailTemplateForExistingEventForm(
+                            fullSpeaker,
+                            fullEvent
+                        )
                     to = emailData.to
                     subject = emailData.subject
                     body = emailData.body
                 } else {
                     // Handle New Event case
-                    const emailData = generateEmailTemplateForBlankEventForm()
+                    const emailData =
+                        await generateEmailTemplateForBlankEventForm()
                     subject = emailData.subject
                     body = emailData.body
                 }
@@ -149,7 +154,7 @@ export const EmailTemplatingChoiceModal: FC<
                         return
                     }
                     const emailData =
-                        generateEmailTemplateForExistingSpeakerEventForm(
+                        await generateEmailTemplateForExistingSpeakerEventForm(
                             fullSpeaker,
                             fullEvent
                         )
@@ -158,7 +163,7 @@ export const EmailTemplatingChoiceModal: FC<
                     body = emailData.body
                 } else {
                     const emailData =
-                        generateEmailTemplateForBlankSpeakerEventForm()
+                        await generateEmailTemplateForBlankSpeakerEventForm()
                     subject = emailData.subject
                     body = emailData.body
                 }

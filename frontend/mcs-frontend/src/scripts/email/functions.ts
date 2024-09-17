@@ -33,7 +33,16 @@ export async function sendEmail(
 
 // Get form links functions
 export async function getBlankSpeakerFormLink() {
-    return 'google.com'
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKERFORM_API_PATH}`
+        )
+        console.log(res.data)
+        return 'google.com'
+    } catch (error) {
+        console.error('Error getting blank speaker form link:', error)
+        return ''
+    }
 }
 
 export async function getExistingSpeakerFormLink(speakerId: string) {
@@ -115,8 +124,8 @@ export function generateEmailTemplateFromEvents(
     return { emailSubject, emailContent }
 }
 
-export function generateEmailTemplateForBlankSpeakerForm() {
-    const formLink = getBlankSpeakerFormLink()
+export async function generateEmailTemplateForBlankSpeakerForm() {
+    const formLink = await getBlankSpeakerFormLink()
 
     const subject = 'Invitation to fill out your information'
 
@@ -146,8 +155,10 @@ export function generateEmailTemplateForBlankSpeakerForm() {
     return { subject, body }
 }
 
-export function generateEmailTemplateForExistingSpeakerForm(speaker: Speaker) {
-    const formLink = getExistingSpeakerFormLink(speaker.RecordID)
+export async function generateEmailTemplateForExistingSpeakerForm(
+    speaker: Speaker
+) {
+    const formLink = await getExistingSpeakerFormLink(speaker.RecordID)
 
     const to = speaker.PrimaryEmail || ''
 
@@ -179,8 +190,10 @@ export function generateEmailTemplateForExistingSpeakerForm(speaker: Speaker) {
     return { to, subject, body }
 }
 
-export function generateEmailTemplateForBlankEventForm(speaker?: Speaker) {
-    const formLink = getBlankEventFormLink()
+export async function generateEmailTemplateForBlankEventForm(
+    speaker?: Speaker
+) {
+    const formLink = await getBlankEventFormLink()
 
     const subject = 'Invitation to create a new event'
     const to = speaker?.PrimaryEmail || ''
@@ -212,11 +225,11 @@ export function generateEmailTemplateForBlankEventForm(speaker?: Speaker) {
     return { to, subject, body }
 }
 
-export function generateEmailTemplateForExistingEventForm(
+export async function generateEmailTemplateForExistingEventForm(
     speaker: Speaker,
     event: MainEvent
 ) {
-    const formLink = getExistingEventFormLink(event.RecordID)
+    const formLink = await getExistingEventFormLink(event.RecordID)
 
     const subject = 'Invitation to update your event information'
     const to = speaker.PrimaryEmail || ''
@@ -248,8 +261,8 @@ export function generateEmailTemplateForExistingEventForm(
     return { to, subject, body }
 }
 
-export function generateEmailTemplateForBlankSpeakerEventForm() {
-    const formLink = getBlankSpeakerEventFormLink()
+export async function generateEmailTemplateForBlankSpeakerEventForm() {
+    const formLink = await getBlankSpeakerEventFormLink()
 
     const subject = 'Invitation to add your information create a new event'
     const body = `
@@ -278,11 +291,11 @@ export function generateEmailTemplateForBlankSpeakerEventForm() {
     return { subject, body }
 }
 
-export function generateEmailTemplateForExistingSpeakerEventForm(
+export async function generateEmailTemplateForExistingSpeakerEventForm(
     speaker: Speaker,
     event: MainEvent
 ) {
-    const formLink = getExistingSpeakerEventFormLink(
+    const formLink = await getExistingSpeakerEventFormLink(
         speaker.RecordID,
         event.RecordID
     )
