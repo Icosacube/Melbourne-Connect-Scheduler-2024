@@ -42,6 +42,7 @@ import { ThemeProvider } from '@emotion/react'
 import theme from './theme/theme'
 import './fonts.css'
 import { ProtectedRoute } from './components/Authentication'
+import { authGuard } from './scripts/authentication/auth'
 require('cors')
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -65,74 +66,82 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             path: '/',
-            element: <><ProtectedRoute><Layout /></ProtectedRoute></>,
+            element: <ProtectedRoute />,
             errorElement: <ErrorPage />,
+            loader: authGuard,
             children: [
                 {
-                    path: '/register',
-                    element: <Register />,
-                    errorElement: <ErrorPage />,
-                },
-                {
-                    path: '/dashboard',
-                    element: <BodyLayout content={<Dashboard />} />,
-                    errorElement: <ErrorPage />,
-                    loader: dashboardLoaders,
-                },
-                {
                     path: '/',
-                    element: <Homepage />,
+                    element: <Layout />,
                     errorElement: <ErrorPage />,
+                    children: [
+                        {
+                            path: '/register',
+                            element: <Register />,
+                            errorElement: <ErrorPage />,
+                        },
+                        {
+                            path: '/dashboard',
+                            element: <BodyLayout content={<Dashboard />} />,
+                            errorElement: <ErrorPage />,
+                            loader: dashboardLoaders,
+                        },
+                        {
+                            path: '/',
+                            element: <Homepage />,
+                            errorElement: <ErrorPage />,
+                        },
+                        {
+                            path: '/events',
+                            element: <BodyLayout content={<Events />} />,
+                            errorElement: <ErrorPage />,
+                            loader: eventsLoader,
+                        },
+                        {
+                            path: '/event/:id',
+                            element: <Event />,
+                            errorElement: <ErrorPage />,
+                            loader: eventLoader,
+                        },
+                        {
+                            path: '/speakers',
+                            element: <BodyLayout content={<Speakers />} />,
+                            errorElement: <ErrorPage />,
+                            loader: speakersLoader,
+                        },
+                        {
+                            path: '/speaker/:id',
+                            element: <Speaker />,
+                            errorElement: <ErrorPage />,
+                            loader: speakerLoader,
+                        },
+                        {
+                            path: '/trips',
+                            element: <BodyLayout content={<Trips />} />,
+                            errorElement: <ErrorPage />,
+                            loader: tripsLoader,
+                        },
+                        {
+                            path: '/trips/:id',
+                            element: <Trip />,
+                            errorElement: <ErrorPage />,
+                            loader: tripLoader,
+                        },
+                        {
+                            path: '/finance',
+                            element: <BodyLayout content={<Finance />} />,
+                            errorElement: <ErrorPage />,
+                            loader: financeLoader,
+                        },
+                        {
+                            path: '/venues',
+                            element: <BodyLayout content={<Venues />} />,
+                            errorElement: <ErrorPage />,
+                            loader: venueLoader,
+                        },
+                    ]
                 },
-                {
-                    path: '/events',
-                    element: <BodyLayout content={<Events />} />,
-                    errorElement: <ErrorPage />,
-                    loader: eventsLoader,
-                },
-                {
-                    path: '/event/:id',
-                    element: <Event />,
-                    errorElement: <ErrorPage />,
-                    loader: eventLoader,
-                },
-                {
-                    path: '/speakers',
-                    element: <BodyLayout content={<Speakers />} />,
-                    errorElement: <ErrorPage />,
-                    loader: speakersLoader,
-                },
-                {
-                    path: '/speaker/:id',
-                    element: <Speaker />,
-                    errorElement: <ErrorPage />,
-                    loader: speakerLoader,
-                },
-                {
-                    path: '/trips',
-                    element: <BodyLayout content={<Trips />} />,
-                    errorElement: <ErrorPage />,
-                    loader: tripsLoader,
-                },
-                {
-                    path: '/trips/:id',
-                    element: <Trip />,
-                    errorElement: <ErrorPage />,
-                    loader: tripLoader,
-                },
-                {
-                    path: '/finance',
-                    element: <BodyLayout content={<Finance />} />,
-                    errorElement: <ErrorPage />,
-                    loader: financeLoader,
-                },
-                {
-                    path: '/venues',
-                    element: <BodyLayout content={<Venues />} />,
-                    errorElement: <ErrorPage />,
-                    loader: venueLoader,
-                },
-            ],
+            ]
         },
         {
             path: '/canvassing/:eventid/:academicid',
