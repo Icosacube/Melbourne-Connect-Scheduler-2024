@@ -38,9 +38,7 @@ export const Layout: FC = () => {
                 {navigation.state === 'loading' ? (
                     <ProgressSpinner />
                 ) : (
-                    <ProtectedRoute>
                         <Outlet />
-                    </ProtectedRoute>
                 )}
             </Grid>
         </Grid>

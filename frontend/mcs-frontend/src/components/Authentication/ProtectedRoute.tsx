@@ -1,16 +1,15 @@
-import { Navigate } from 'react-router-dom'
-import React, { ReactNode } from 'react'
-import { getCookie } from '../../scripts/cookie/function'
+import { Navigate, Outlet, useLoaderData } from 'react-router-dom'
+import React, { FC, ReactNode } from 'react'
+import { authGuard } from '../../scripts/authentication/auth'
+import axios from 'axios'
 
 type Props = {
     children: ReactNode
 }
 
-export const ProtectedRoute = ({ children }: Props) => {
-    const user = getCookie('login')
-    if (!user) {
-        return <Navigate to="/login" replace />
-    }
 
-    return <>{children}</>
+export const ProtectedRoute: FC = () => {
+    const data = useLoaderData()
+
+    return data ? <Outlet /> : <Navigate to="/login" />
 }
