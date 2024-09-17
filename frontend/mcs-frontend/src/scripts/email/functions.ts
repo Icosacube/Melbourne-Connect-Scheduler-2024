@@ -35,10 +35,9 @@ export async function sendEmail(
 export async function getBlankSpeakerFormLink() {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKERFORM_API_PATH}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_FORM}`
         )
-        console.log(res.data)
-        return 'google.com'
+        return res.data
     } catch (error) {
         console.error('Error getting blank speaker form link:', error)
         return ''
@@ -49,8 +48,19 @@ export async function getExistingSpeakerFormLink(speakerId: string) {
     return 'google.com'
 }
 
-export async function getBlankEventFormLink() {
-    return 'google.com'
+export async function getBlankEventFormLink(speakerId: string) {
+    console.log(
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_EVENT_FORM}/${speakerId}`
+    )
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_EVENT_FORM}`
+        )
+        return res.data
+    } catch (error) {
+        console.error('Error getting blank event form link:', error)
+        return ''
+    }
 }
 
 export async function getExistingEventFormLink(eventId: string) {
@@ -58,7 +68,16 @@ export async function getExistingEventFormLink(eventId: string) {
 }
 
 export async function getBlankSpeakerEventFormLink() {
-    return 'google.com'
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_EVENT_FORM}`
+        )
+        console.log(res.data)
+        return res.data
+    } catch (error) {
+        console.error('Error getting blank speaker event form link:', error)
+        return ''
+    }
 }
 
 export async function getExistingSpeakerEventFormLink(
@@ -190,10 +209,8 @@ export async function generateEmailTemplateForExistingSpeakerForm(
     return { to, subject, body }
 }
 
-export async function generateEmailTemplateForBlankEventForm(
-    speaker?: Speaker
-) {
-    const formLink = await getBlankEventFormLink()
+export async function generateEmailTemplateForBlankEventForm(speaker: Speaker) {
+    const formLink = await getBlankEventFormLink(speaker?.RecordID)
 
     const subject = 'Invitation to create a new event'
     const to = speaker?.PrimaryEmail || ''
