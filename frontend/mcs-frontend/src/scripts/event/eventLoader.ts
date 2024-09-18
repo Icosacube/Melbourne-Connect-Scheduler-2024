@@ -2,6 +2,7 @@ import { LoaderFunctionArgs } from 'react-router-dom'
 import { MainEvent, Speaker } from '../../types/frontendTypes'
 import { getAllMainEvents } from './functions'
 import { getSpeakerById } from '../speaker/functions'
+import { getAllVenues } from '../venue/functions'
 
 export async function loader({
     params,
@@ -21,7 +22,8 @@ export async function loader({
             getSpeakerById(speakerID)
         )
         const speakers = await Promise.all(speakersPromises)
-        return { event, speakers }
+        const venues = await getAllVenues()
+        return { event, speakers, venues }
     } catch (error) {
         console.log(error)
         return {}

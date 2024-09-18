@@ -102,7 +102,7 @@ export const FormInputVenue: React.FC<FormInputVenueProps> = ({
                             // Map over the selected RecordIDs to get the corresponding venue names
                             const selectedVenueNames = selected.map(
                                 (id: string) => {
-                                    const venue = venues.find(
+                                    const venue = venues?.find(
                                         (venue) => venue.RecordID === id
                                     )
                                     return venue ? venue.VenueName : ''
@@ -125,7 +125,7 @@ export const FormInputVenue: React.FC<FormInputVenueProps> = ({
                             )
                         }}
                     >
-                        {venues.map((venue) => (
+                        {venues?.map((venue) => (
                             <MenuItem
                                 key={venue.RecordID}
                                 value={venue.RecordID}

@@ -50,6 +50,7 @@ export const Event: FC = () => {
                     setOpen(false)
                 }}
                 open={open}
+                venues={venues}
             />
             <BodyLayout content={renderTabContent(event)}></BodyLayout>
         </Box>
