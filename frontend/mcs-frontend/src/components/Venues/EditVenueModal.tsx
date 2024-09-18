@@ -1,11 +1,7 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-    BottomSuccessSnackbar,
-    FormInputText,
-    SubmitButton,
-} from '../../components'
+import { BottomSuccessSnackbar, FormInputText, SubmitButton } from '..'
 import {
     createVenue,
     defaultVenue,

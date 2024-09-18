@@ -1,26 +1,17 @@
-//TODO revalidator is not working, need to fix it
-//TODO detele venue table and venue page
-
-import React, { useState } from 'react'
 import {
-    Select,
-    MenuItem,
-    IconButton,
-    Box,
-    InputLabel,
-    Chip,
-} from '@mui/material'
-import {
-    Edit as EditIcon,
-    Delete as DeleteIcon,
     Add as AddIcon,
+    Delete as DeleteIcon,
+    Edit as EditIcon,
 } from '@mui/icons-material'
+import { Box, IconButton, InputLabel, MenuItem, Select } from '@mui/material'
+import React, { useState } from 'react'
 import { Controller } from 'react-hook-form'
-import { Venue } from '../../types/frontendTypes'
 import { useRevalidator } from 'react-router-dom'
-import { CreateVenueModal } from '../../pages/Venues/CreateVenueModal'
 import { deleteVenue } from '../../scripts/venue/functions'
-import { EditVenueModal } from '../../pages/Venues/EditVenueModal'
+import { Venue } from '../../types/frontendTypes'
+import { CreateVenueModal } from '../Venues/CreateVenueModal'
+import { EditVenueModal } from '../Venues/EditVenueModal'
+import { DeleteDialog } from '../Dialog'
 
 interface FormInputVenueProps {
     control: any
@@ -39,6 +30,8 @@ export const FormInputVenue: React.FC<FormInputVenueProps> = ({
     const [openCreateVenueModal, setOpenCreateVenueModal] = useState(false)
     const [openEditVenueModal, setOpenEditVenueModal] = useState(false)
     const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null)
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+    const [deleting, setDeleting] = useState(false)
     const revalidator = useRevalidator()
 
     const handleCloseCreateVenueModal = () => {
@@ -58,9 +51,24 @@ export const FormInputVenue: React.FC<FormInputVenueProps> = ({
         setSelectedVenue(venue)
     }
 
-    const handleDeleteVenue = async (recordId: string) => {
-        await deleteVenue(recordId)
+    const handleDeleteIconClick = async (venue: Venue) => {
+        setOpenDeleteDialog(true)
+        setSelectedVenue(venue)
+    }
+
+    const handleDeleteVenue = async () => {
+        if (!selectedVenue) {
+            return
+        }
+        setDeleting(true)
+        await deleteVenue(selectedVenue.RecordID)
         revalidator.revalidate()
+        setOpenDeleteDialog(false)
+        setDeleting(false)
+    }
+
+    const handleCloseDeleteDialog = () => {
+        setOpenDeleteDialog(false)
     }
 
     const editVenueModal = () => {
@@ -131,19 +139,19 @@ export const FormInputVenue: React.FC<FormInputVenueProps> = ({
                                     <Box>
                                         <IconButton
                                             size="small"
-                                            onClick={() =>
+                                            onClick={(event) => {
+                                                event.stopPropagation()
                                                 handleOpenEditVenueModal(venue)
-                                            }
+                                            }}
                                         >
                                             <EditIcon fontSize="small" />
                                         </IconButton>
                                         <IconButton
                                             size="small"
-                                            onClick={() =>
-                                                handleDeleteVenue(
-                                                    venue.RecordID
-                                                )
-                                            }
+                                            onClick={(event) => {
+                                                event.stopPropagation()
+                                                handleDeleteIconClick(venue)
+                                            }}
                                         >
                                             <DeleteIcon fontSize="small" />
                                         </IconButton>
@@ -165,6 +173,13 @@ export const FormInputVenue: React.FC<FormInputVenueProps> = ({
                 handleClose={handleCloseCreateVenueModal}
             />
             {editVenueModal()}
+            <DeleteDialog
+                open={openDeleteDialog}
+                deleting={deleting}
+                onClose={handleCloseDeleteDialog}
+                onConfirm={handleDeleteVenue}
+                name="venue"
+            />
         </>
     )
 }

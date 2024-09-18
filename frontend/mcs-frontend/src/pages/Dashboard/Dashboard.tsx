@@ -7,7 +7,7 @@ import { Calendar, EventCard } from '../../components'
 import { CreateEventModal } from '../Event/EventsOverview/CreateEventModal'
 import { CreateSpeakerModal } from '../Speaker/SpeakerOverview/CreateSpeakerModal'
 import { CreateTripModal } from '../Trips/CreateTripModal'
-import { MainEvent, Speaker } from '../../types/frontendTypes'
+import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
 import { useLoaderData } from 'react-router-dom'
 
 // eslint-disable-next-line no-lone-blocks
@@ -16,9 +16,10 @@ import { useLoaderData } from 'react-router-dom'
 }
 
 export const Dashboard: FC = () => {
-    const { events, speakers } = useLoaderData() as {
+    const { events, speakers, venues } = useLoaderData() as {
         events: MainEvent[]
         speakers: Speaker[]
+        venues: Venue[]
     }
 
     // Speaker modal logic
@@ -148,6 +149,7 @@ export const Dashboard: FC = () => {
             <CreateEventModal
                 handleClose={handleCloseCreateEventModal}
                 open={createEventModalOpen}
+                venues={venues}
             />
             <CreateTripModal
                 handleClose={handleCloseCreateTripModal}

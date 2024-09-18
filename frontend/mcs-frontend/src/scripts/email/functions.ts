@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosError } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { MainEvent, Speaker } from '../../types/frontendTypes'
 
 export async function sendEmail(

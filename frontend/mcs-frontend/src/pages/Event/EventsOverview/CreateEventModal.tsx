@@ -23,11 +23,13 @@ import { useRevalidator } from 'react-router-dom'
 interface CreateEventModalProps {
     handleClose: () => void
     open: boolean
+    venues: Venue[]
 }
 
 export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     handleClose,
     open,
+    venues,
 }) => {
     const { handleSubmit, reset, control } = useForm<MainEvent>({
         defaultValues: defaultMainEvent,
@@ -35,7 +37,6 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [speakers, setSpeakers] = useState<Speaker[]>([])
-    const [venues, setVenues] = useState<Venue[]>([])
     const [loading, setLoading] = useState(true)
     const [submitting, setSubmitting] = useState(false)
     const revalidator = useRevalidator()
@@ -44,7 +45,6 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         if (loading && open) {
             const fetchData = async () => {
                 setSpeakers(await getAllSpeakers())
-                setVenues(await getAllVenues())
                 setLoading(false)
             }
 
@@ -56,13 +56,6 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         return speakers.map((speaker) => ({
             label: `${speaker.FirstName} ${speaker.LastName}`,
             value: speaker.RecordID,
-        }))
-    }
-
-    const generateVenues = () => {
-        return venues.map((venue) => ({
-            label: venue.VenueName,
-            value: venue.RecordID,
         }))
     }
 
@@ -120,14 +113,6 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                                 label="Date"
                             />
                         </Grid>
-                        {/* <Grid item xs={12} md={7} lg={4}>
-                            <FormInputMultiSelect
-                                name="Venue"
-                                control={control}
-                                label="Venue"
-                                options={generateVenues()}
-                            />
-                        </Grid> */}
                         <Grid item xs={12} md={7} lg={4} sx={{ mt: 1 }}>
                             <FormInputVenue
                                 control={control}
