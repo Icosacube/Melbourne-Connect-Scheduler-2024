@@ -136,17 +136,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             errorElement: <ErrorPage />,
                             loader: venueLoader,
                         },
-                        // Remove this from protected route later,
-                        // at the moment canvassing won't load if not wrapped here
-                        {
-                            path: '/canvassing/:eventid/:academicid',
-                            element: (
-                                <FullWidthLayout content={<Canvassing />} />
-                            ),
-                            errorElement: <ErrorPage />,
-                            loader: canvassingLoader,
-                        },
                     ],
+                },
+
+                // Remove this from protected route later,
+                // at the moment canvassing won't load if not wrapped here
+                {
+                    path: '/canvassing/:eventid/:academicid',
+                    element: <FullWidthLayout content={<Canvassing />} />,
+                    errorElement: <ErrorPage />,
+                    loader: canvassingLoader,
                 },
             ],
         },
