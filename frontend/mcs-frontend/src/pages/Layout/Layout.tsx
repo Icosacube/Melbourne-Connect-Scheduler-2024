@@ -1,11 +1,16 @@
-import { Grid } from '@mui/material'
-import React, { FC } from 'react'
+import React, { useState } from 'react'
+import { Grid, IconButton } from '@mui/material'
 import { Outlet, useNavigation } from 'react-router-dom'
 import { ProgressSpinner, SideNavBar, TopNavBar } from '../../components'
-import { ProtectedRoute } from '../../components/Authentication'
+import MenuIcon from '@mui/icons-material/Menu'
 
-export const Layout: FC = () => {
+export const Layout: React.FC = () => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true)
     const navigation = useNavigation()
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen)
+    }
 
     return (
         <Grid
@@ -13,19 +18,25 @@ export const Layout: FC = () => {
             className="h-screen w-full"
             sx={{ backgroundColor: '#F5F5F5' }}
         >
+            {/* Sidebar */}
             <Grid
                 item
                 sx={{
                     position: 'sticky',
                     top: 0,
-                    width: 200,
+                    width: isSidebarOpen ? '192px' : '0',
                     height: '100vh',
-                    overflow: 'hidden', // don't scroll
+                    overflow: 'hidden',
+                    transition: 'width 0.3s ease',
                 }}
             >
-                <SideNavBar />
+                <SideNavBar
+                    isSidebarOpen={isSidebarOpen}
+                    toggleSidebar={toggleSidebar}
+                />
             </Grid>
 
+            {/* Main Content */}
             <Grid
                 item
                 xs
@@ -34,11 +45,26 @@ export const Layout: FC = () => {
                     overflowY: 'auto',
                 }}
             >
+                {/* Toggle Sidebar Button, fixed for now */}
+                <IconButton
+                    onClick={toggleSidebar}
+                    sx={{
+                        position: 'absolute',
+                        bottom: 10,
+                        left: 10,
+                        zIndex: 10,
+                    }}
+                >
+                    <MenuIcon />
+                </IconButton>
+
                 <TopNavBar />
+
+                {/* Render loading spinner or content */}
                 {navigation.state === 'loading' ? (
                     <ProgressSpinner />
                 ) : (
-                        <Outlet />
+                    <Outlet />
                 )}
             </Grid>
         </Grid>

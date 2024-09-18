@@ -2,7 +2,7 @@ import React, { SVGProps } from 'react'
 
 export const Logo2 = (props: SVGProps<SVGSVGElement>) => (
     <svg
-        width="52"
+        width="60"
         height="60"
         viewBox="0 0 52 60"
         fill="none"
