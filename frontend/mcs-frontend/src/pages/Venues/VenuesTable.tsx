@@ -132,7 +132,7 @@ export const VenuesTable: React.FC<VenuesTableProps> = ({ venues }) => {
     const handleDeleteVenue = async () => {
         if (!selectedVenue) return
         setDeleting(true)
-        await deleteVenue(selectedVenue)
+        //await deleteVenue(selectedVenue)
         handleCloseDeleteDialog()
         setDeleting(false)
     }

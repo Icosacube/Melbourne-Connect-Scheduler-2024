@@ -6,6 +6,7 @@ import {
     FormInputDateTime,
     FormInputTextLong,
     FormInputMultiSelect,
+    FormInputVenue,
     SubmitButton,
     BottomSuccessSnackbar,
 } from '../../../components/'
@@ -94,7 +95,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] min-w-[450px] max-h-[95vh] overflow-y-auto">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] min-w-[80%] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
                         spacing={3}
@@ -119,12 +120,20 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
                                 label="Date"
                             />
                         </Grid>
-                        <Grid item xs={12} md={7} lg={4}>
+                        {/* <Grid item xs={12} md={7} lg={4}>
                             <FormInputMultiSelect
                                 name="Venue"
                                 control={control}
                                 label="Venue"
                                 options={generateVenues()}
+                            />
+                        </Grid> */}
+                        <Grid item xs={12} md={7} lg={4} sx={{ mt: 1 }}>
+                            <FormInputVenue
+                                control={control}
+                                name="Venue"
+                                venues={venues}
+                                label="Venue"
                             />
                         </Grid>
                         <Grid item xs={12} lg={5}>
