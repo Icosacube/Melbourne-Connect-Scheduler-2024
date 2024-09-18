@@ -125,36 +125,36 @@ export function generateEmailTemplateFromEvents(
     const formattedDate = event.Date.format('dddd, MMMM D, YYYY')
     const formattedTime = event.Date.format('h:mm A')
     const speakerDetails = [
-        speaker.WorkTitle,
-        speaker.Department,
-        speaker.Organisation,
+        speaker?.WorkTitle,
+        speaker?.Department,
+        speaker?.Organisation,
     ]
         .filter(Boolean)
         .join(' | ')
 
-    const emailSubject = `INVITATION: ${event.EventName} | ${formattedDate}`
+    const emailSubject = `INVITATION: ${event?.EventName} | ${formattedDate}`
 
     const emailContent = `
         <html>
         <body style="font-family: Arial, sans-serif; line-height: 1.6;">
             <img src="${
-                event.EventBanner[0]?.url
+                event?.EventBanner[0]?.url
             }" alt="Event Banner" style="max-width: 100%;">
-            <h1><b>${event.EventName}</b></h1>
-            <p>${event.EventAbstract}</p>
+            <h1><b>${event?.EventName}</b></h1>
+            <p>${event?.EventAbstract}</p>
             <br/>
             <h1><b>About the Speaker</b></h1>
-            <img src="${speaker.Headshot[0]?.url}" alt="${speaker.FirstName} ${
-        speaker.LastName
-    }" style="max-width: 20px;"><br>
-            <h2><b>${speaker.Title} ${speaker.FirstName} ${
-        speaker.LastName
+            <img src="${speaker?.Headshot[0]?.url}" alt="${
+        speaker?.FirstName
+    } ${speaker?.LastName}" style="max-width: 20px;"><br>
+            <h2><b>${speaker?.Title} ${speaker?.FirstName} ${
+        speaker?.LastName
     }</b></h2>
             ${speakerDetails ? `<h3>${speakerDetails}</h3>` : ''}
-            <p>${speaker.Bio}</p>
+            <p>${speaker?.Bio}</p>
             <br/>
             <h2><b>Event Details:</b></h2>
-            <p>${event.EventDescription}</p>
+            <p>${event?.EventDescription}</p>
             <ul>
                 <li><strong>Date:</strong> ${formattedDate}</li>
                 <li><strong>Time:</strong> ${formattedTime}</li>

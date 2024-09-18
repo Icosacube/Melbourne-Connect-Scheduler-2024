@@ -25,7 +25,9 @@ export const Event: FC = () => {
     const renderTabContent = (event: MainEvent) => {
         switch (tabName) {
             case 'About':
-                return <About event={event} speakers={speakers} />
+                return (
+                    <About event={event} speakers={speakers} venues={venues} />
+                )
             case 'Participants':
                 return <Participants speakers={speakers} />
             case 'Programme':
@@ -33,7 +35,9 @@ export const Event: FC = () => {
             case 'Services':
                 return <Services event={event} />
             default:
-                return <About event={event} speakers={speakers} />
+                return (
+                    <About event={event} speakers={speakers} venues={venues} />
+                )
         }
     }
     return (
