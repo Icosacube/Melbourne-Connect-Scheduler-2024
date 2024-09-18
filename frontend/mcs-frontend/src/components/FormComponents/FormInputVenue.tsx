@@ -1,3 +1,6 @@
+//TODO revalidator is not working, need to fix it
+//TODO detele venue table and venue page
+
 import React, { useState } from 'react'
 import {
     Select,
