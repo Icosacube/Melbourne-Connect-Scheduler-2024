@@ -208,14 +208,15 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                                     }
                                 >
                                     <DialogTitle>
-                                        <Typography variant="h5" paddingY={2}>
+                                        <Typography variant="h6" paddingY={2}>
                                             Add New {label}
                                         </Typography>
                                     </DialogTitle>
                                     <DialogContent>
                                         <Grid
                                             container
-                                            spacing={2}
+                                            spacing={3}
+                                            paddingX={1}
                                             paddingY={1.5}
                                         >
                                             <Grid item xs={12}>

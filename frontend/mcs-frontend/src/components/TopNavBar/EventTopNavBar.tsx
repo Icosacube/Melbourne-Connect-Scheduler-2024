@@ -70,7 +70,7 @@ const EventTopNavBar: React.FC<EventTopNavBarProps> = ({
                 </Box>
                 <Box className="flex place-items-center">
                     <EventTabs getTabName={handleTabChange} />
-                    <Box className="flex h-14 space-x-4 mx-12">
+                    <Box className="flex h-14 space-x-4 mx-2">
                         <ShareButton event={event} speaker={speaker} />
                         <Button
                             variant="contained"
