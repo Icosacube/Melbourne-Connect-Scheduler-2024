@@ -1,10 +1,7 @@
 import { StyledEngineProvider } from '@mui/material'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {
-    createBrowserRouter,
-    RouterProvider,
-} from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { loader as eventsLoader } from './scripts/event/eventsLoader'
 import { loader as eventLoader } from './scripts/event/eventLoader'
 import { loader as speakersLoader } from './scripts/speaker/speakersLoader'
@@ -32,7 +29,7 @@ import {
     Speaker,
     Homepage,
     Venues,
-    Canvassing
+    Canvassing,
 } from './pages'
 import { Trip } from './pages/Trips/Trip'
 import { Trips } from './pages/Trips/TripsOverview/Trips'
@@ -41,6 +38,7 @@ import { ThemeProvider } from '@emotion/react'
 import theme from './theme/theme'
 import './fonts.css'
 import { ProtectedRoute } from './components/Authentication'
+import { AuthProvider } from './scripts/authentication/authContext'
 require('cors')
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -64,72 +62,78 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             path: '/',
-            element: <><ProtectedRoute><Layout /></ProtectedRoute></>,
+            element: <ProtectedRoute />,
             errorElement: <ErrorPage />,
             children: [
                 {
-                    path: '/register',
-                    element: <Register />,
+                    element: <Layout />,
                     errorElement: <ErrorPage />,
-                },
-                {
-                    path: '/dashboard',
-                    element: <BodyLayout content={<Dashboard />} />,
-                    errorElement: <ErrorPage />,
-                    loader: dashboardLoaders,
-                },
-                {
-                    path: '/',
-                    element: <Homepage />,
-                    errorElement: <ErrorPage />,
-                },
-                {
-                    path: '/events',
-                    element: <BodyLayout content={<Events />} />,
-                    errorElement: <ErrorPage />,
-                    loader: eventsLoader,
-                },
-                {
-                    path: '/event/:id',
-                    element: <Event />,
-                    errorElement: <ErrorPage />,
-                    loader: eventLoader,
-                },
-                {
-                    path: '/speakers',
-                    element: <BodyLayout content={<Speakers />} />,
-                    errorElement: <ErrorPage />,
-                    loader: speakersLoader,
-                },
-                {
-                    path: '/speaker/:id',
-                    element: <Speaker />,
-                    errorElement: <ErrorPage />,
-                    loader: speakerLoader,
-                },
-                {
-                    path: '/trips',
-                    element: <BodyLayout content={<Trips />} />,
-                    errorElement: <ErrorPage />,
-                    loader: tripsLoader,
-                },
-                {
-                    path: '/trips/:id',
-                    element: <Trip />,
-                    errorElement: <ErrorPage />,
-                    loader: tripLoader,
-                },
-                {
-                    path: '/finance',
-                    element: <BodyLayout content={<Finance />} />,
-                    errorElement: <ErrorPage />,
-                    loader: financeLoader,
-                },
-                {
-                    path: '/venues',
-                    element: <BodyLayout content={<Venues />} />,
-                    errorElement: <ErrorPage />,
-                    loader: venueLoader,
+                    children: [
+                        {
+                            path: '/register',
+                            element: <Register />,
+                            errorElement: <ErrorPage />,
+                        },
+                        {
+                            path: '/dashboard',
+                            element: <BodyLayout content={<Dashboard />} />,
+                            errorElement: <ErrorPage />,
+                            loader: dashboardLoaders,
+                        },
+                        {
+                            path: '/',
+                            element: <Homepage />,
+                            errorElement: <ErrorPage />,
+                        },
+                        {
+                            path: '/events',
+                            element: <BodyLayout content={<Events />} />,
+                            errorElement: <ErrorPage />,
+                            loader: eventsLoader,
+                        },
+                        {
+                            path: '/event/:id',
+                            element: <Event />,
+                            errorElement: <ErrorPage />,
+                            loader: eventLoader,
+                        },
+                        {
+                            path: '/speakers',
+                            element: <BodyLayout content={<Speakers />} />,
+                            errorElement: <ErrorPage />,
+                            loader: speakersLoader,
+                        },
+                        {
+                            path: '/speaker/:id',
+                            element: <Speaker />,
+                            errorElement: <ErrorPage />,
+                            loader: speakerLoader,
+                        },
+                        {
+                            path: '/trips',
+                            element: <BodyLayout content={<Trips />} />,
+                            errorElement: <ErrorPage />,
+                            loader: tripsLoader,
+                        },
+                        {
+                            path: '/trips/:id',
+                            element: <Trip />,
+                            errorElement: <ErrorPage />,
+                            loader: tripLoader,
+                        },
+                        {
+                            path: '/finance',
+                            element: <BodyLayout content={<Finance />} />,
+                            errorElement: <ErrorPage />,
+                            loader: financeLoader,
+                        },
+                        {
+                            path: '/venues',
+                            element: <BodyLayout content={<Venues />} />,
+                            errorElement: <ErrorPage />,
+                            loader: venueLoader,
+                        },
+                    ],
                 },
             ],
         },
@@ -140,15 +144,15 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     ])
 
-
-
     const rootContainer = ReactDOM.createRoot(root)
     rootContainer.render(
         <React.StrictMode>
             <ThemeProvider theme={theme}>
                 {/* Material UI CSS needs to be injectFirst so that it does not override tailwind */}
                 <StyledEngineProvider injectFirst>
-                    <RouterProvider router={router} />
+                    <AuthProvider>
+                        <RouterProvider router={router} />
+                    </AuthProvider>
                 </StyledEngineProvider>
             </ThemeProvider>
         </React.StrictMode>

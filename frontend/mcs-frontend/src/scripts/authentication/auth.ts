@@ -1,5 +1,4 @@
 import axios from 'axios'
-import cookie from 'cookie'
 import { deleteCookie, getCookie, setCookie } from '../cookie/function'
 
 interface loginResponse {
@@ -72,9 +71,20 @@ export const refresh = async () => {
     var date = new Date()
     date.setTime(date.getTime() + 15 * 60 * 1000)
 
-    setCookie('login', token, { expires: date })
-
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    // set default axios auth header
+    if (token !== null) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        return true
+    } else {
+        // if login expire, try to refresh
+        try {
+            refresh() // why isn't the cookie sending??
+            return true
+        } catch (error) {
+            console.error(error)
+            return false
+        }
+    }
 }
 
 export const logout = async () => {
@@ -84,3 +94,4 @@ export const logout = async () => {
 
     deleteCookie('login')
 }
+

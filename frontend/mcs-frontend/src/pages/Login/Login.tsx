@@ -4,7 +4,8 @@ import { FormInputPassword, FormInputText } from '../../components'
 import { useForm } from 'react-hook-form'
 import { redirect } from 'react-router'
 import { useNavigate } from 'react-router-dom'
-import { login } from '../../scripts/authentication/auth'
+// import { login } from '../../scripts/authentication/auth'
+import { useAuth } from '../../scripts/authentication/authContext'
 
 interface UserCredentials {
     username: string
@@ -13,7 +14,7 @@ interface UserCredentials {
 
 export const Login: FC = () => {
     const { handleSubmit, reset, control, watch } = useForm<UserCredentials>()
-
+    const { login } = useAuth()
     const [submitting, setSubmitting] = useState(false)
     const navigate = useNavigate()
 
