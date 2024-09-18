@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  ts-react-docker:
+    build:
+      context: ./frontend/mcs-frontend
+      dockerfile: Dockerfile
+      target: base
+    ports:
+      - "80:3000"
+    command: npm start
+
+  ts-node-docker:
+    build:
+      context: ./mcs_backend
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./mcs_backend/src:/home/node/app/src
+      - ./mcs_backend/nodemon.json:/home/node/app/nodemon.json
+    container_name: ts-node-docker
+    expose:
+      - '4000'
+    ports:
+      - '4000:4000'
+    command: npm run dev
+
