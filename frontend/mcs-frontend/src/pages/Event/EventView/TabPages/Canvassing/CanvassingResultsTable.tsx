@@ -36,33 +36,21 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
     const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'))
     const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
-    const [academicIds, setAcademicIds] = useState<string[]>([])
-    const [academicNames, setAcademicNames] = useState<string[]>([])
     const [openCreate, setOpenCreate] = useState(false)
-    const [selectedSlot, setSelectedSlot] = useState<Canvassing | null>(null)
     const [startTime, setStartTime] = useState<Dayjs>(dayjs())
     const [endTime, setEndTime] = useState<Dayjs>(dayjs())
 
     const handleOpenCreate = (slot: Canvassing) => {
         setStartTime(dayjs(slot.StartTime))
         setEndTime(dayjs(slot.EndTime))
-        setSelectedSlot(slot)
         setOpenCreate(true)
     }
 
     const handleCloseCreate = () => {
         setOpenCreate(false)
-        setSelectedSlot(null)
     }
 
     const handleSubEventCreated = () => {}
-
-    useEffect(() => {
-        if (canvassingSlots.length > 0) {
-            setAcademicIds(canvassingSlots[0].Academic)
-            setAcademicNames(canvassingSlots[0].AcademicName)
-        }
-    }, [canvassingSlots])
 
     // Adjust items per page based on screen size
     const itemsPerPage = isSmallScreen
@@ -120,7 +108,7 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                         </Grid>
                     </Grid>
                     {canvassingSlots.length > 0 ? (
-                        academicNames.map((name, index) => (
+                        canvassingSlots[0].AcademicName.map((name, index) => (
                             <Grid
                                 item
                                 key={index}
@@ -239,38 +227,40 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                         </IconButton>
                                     </Tooltip>
                                 </Grid>
-                                {academicIds.map((id, index) => (
-                                    <Grid item key={index} marginY={'8px'}>
-                                        {slot.AvailableAcademic.includes(id) ? (
-                                            <CheckCircle
-                                                fontSize="large"
-                                                color="secondary"
-                                            />
-                                        ) : (
-                                            <DoNotDisturb
-                                                fontSize="large"
-                                                color="disabled"
-                                            />
-                                        )}
-                                    </Grid>
-                                ))}
+                                {canvassingSlots[0]?.Academic?.map(
+                                    (id, index) => (
+                                        <Grid item key={index} marginY={'8px'}>
+                                            {slot.AvailableAcademic.includes(
+                                                id
+                                            ) ? (
+                                                <CheckCircle
+                                                    fontSize="large"
+                                                    color="secondary"
+                                                />
+                                            ) : (
+                                                <DoNotDisturb
+                                                    fontSize="large"
+                                                    color="disabled"
+                                                />
+                                            )}
+                                        </Grid>
+                                    )
+                                )}
                             </Grid>
                         )
                     })}
                 </Grid>
             </Grid>
 
-            {selectedSlot && (
-                <CreateSubEventModal
-                    open={openCreate}
-                    handleClose={handleCloseCreate}
-                    event={event}
-                    speakers={speakers}
-                    startDate={startTime}
-                    endDate={endTime}
-                    onSubEventCreation={handleSubEventCreated}
-                />
-            )}
+            <CreateSubEventModal
+                open={openCreate}
+                handleClose={handleCloseCreate}
+                event={event}
+                speakers={speakers}
+                startDate={startTime}
+                endDate={endTime}
+                onSubEventCreation={handleSubEventCreated}
+            />
         </Box>
     )
 }

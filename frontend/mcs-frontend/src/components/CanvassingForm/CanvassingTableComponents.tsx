@@ -1,8 +1,7 @@
 import React from 'react'
 
-import dayjs, { Dayjs } from 'dayjs'
+import { Dayjs } from 'dayjs'
 import { Grid, Box, Typography } from '@mui/material'
-
 
 const DateCornerLine = () => {
     return (
