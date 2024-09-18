@@ -1,16 +1,20 @@
 version: "3.8"
 
 services:
-  ts-react-docker:
+  client:
+    depends_on:
+      - ts-node-docker
     build:
       context: ./frontend/mcs-frontend
       dockerfile: Dockerfile
       target: base
     ports:
       - "80:3000"
+    link:
+      - server
     command: npm start
 
-  ts-node-docker:
+  server:
     build:
       context: ./mcs_backend
       dockerfile: Dockerfile
