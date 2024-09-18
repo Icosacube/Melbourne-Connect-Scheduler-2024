@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios'
-import { MainEvent, Speaker } from '../../types/frontendTypes'
+import { MainEvent, Speaker, Academic } from '../../types/frontendTypes'
 
 export async function sendEmail(
     from: string,
@@ -57,6 +57,49 @@ export async function getExistingSpeakerEventFormLink(
     eventId: string
 ) {
     return 'google.com'
+}
+
+export async function getBlankCanvassingFormLink() {
+    return 'google.com'
+}
+
+export function generateEmailTemplateForCanvassing(
+    event: MainEvent,
+    academic: Academic
+) {
+    const formLink = getBlankCanvassingFormLink()
+    const emailSubject = `INVITATION: Canvassing for ${event.EventName}`
+    const emailContent = `
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+            <h1><b>Canvassing for ${event.EventName}</b></h1>
+            <p>
+                Dear ${academic.Name},
+            </p>
+            <p>
+                We are excited to invite you to participate in the canvassing for the event ${event.EventName}.
+            </p>
+            <p>
+                The event will be held on ${event.Date.format('dddd, MMMM D, YYYY')} at ${event.Date.format('h:mm A')}.
+            </p>
+            <p>
+                Please click the link below to view the event details and sign up for a canvassing slot:
+            </p>
+            <p>
+                <a href=${formLink} style="color: #007BFF; text-decoration: none;">Event Details & Canvassing Sign Up</a>
+            </p>
+            <p>
+                We look forward to seeing you at the event!
+            </p>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </body>
+        </html>
+    `
+
+    return { emailSubject, emailContent }
 }
 
 // Templating functions
