@@ -1,1 +1,1 @@
-export {DateCornerLine} from "./CanvassingTableComponents"
+export {SlotDateTime} from "./CanvassingTableComponents"

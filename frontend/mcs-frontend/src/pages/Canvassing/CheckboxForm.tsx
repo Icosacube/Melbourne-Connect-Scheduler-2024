@@ -15,12 +15,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { updateCanvassing } from '../../scripts/canvassing/functions'
 import { useRevalidator } from 'react-router-dom'
-import { BottomSuccessSnackbar, DateCornerLine } from '../../components'
-import {
-    DateStraightLine,
-    SlotDateDisplay,
-    SlotTimeDisplay,
-} from '../../components/CanvassingForm/CanvassingTableComponents'
+import { BottomSuccessSnackbar, SlotDateTime } from '../../components'
 
 // Canvassing with Available boolean for checkbox processing
 interface CheckSlots {
@@ -280,33 +275,18 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
                                         textAlign: 'center',
                                     }}
                                 >
-                                    <Grid
-                                        item
-                                        container
-                                        direction={'column'}
-                                        sx={{
-                                            height: '128px',
-                                            display: 'flex',
-                                            justifyContent: 'flex-start', // vertical
-                                        }}
-                                    >
-                                        {(lastOfSameDay && index !== 0) ||
-                                        (sameDateAsPrev &&
-                                            index === itemsPerPage - 1) ? (
-                                            <DateCornerLine />
-                                        ) : sameDateAsPrev && index !== 0 ? (
-                                            <DateStraightLine />
-                                        ) : (
-                                            <SlotDateDisplay
-                                                date={slot.StartTime}
-                                            />
-                                        )}
-                                    </Grid>
-                                    <SlotTimeDisplay
+                                    {/* Slot date-time related content */}
+                                    <SlotDateTime
                                         startTime={slot.StartTime}
                                         endTime={slot.EndTime}
+                                        sameDateAsPrev={sameDateAsPrev}
+                                        lastOfSameDay={lastOfSameDay}
+                                        index={index}
+                                        itemsPerPage={itemsPerPage}
                                     />
-                                    <Grid item>
+
+                                    {/* Checkbox content */}
+                                    <Grid item marginTop={2}>
                                         <Checkbox
                                             size={'large'}
                                             checked={slot.isAvailable}

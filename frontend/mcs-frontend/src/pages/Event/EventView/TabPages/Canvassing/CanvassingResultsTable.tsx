@@ -18,12 +18,7 @@ import {
 } from '../../../../../types/frontendTypes'
 import { CreateSubEventModal } from '../CreateSubEventModal'
 import dayjs, { Dayjs } from 'dayjs'
-import { DateCornerLine } from '../../../../../components'
-import {
-    DateStraightLine,
-    SlotDateDisplay,
-    SlotTimeDisplay,
-} from '../../../../../components/CanvassingForm/CanvassingTableComponents'
+import { SlotDateTime } from '../../../../../components/'
 
 interface CanvassingResultsTableProps {
     event: MainEvent
@@ -106,14 +101,7 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
             >
                 {/* Column for displaying Academic's name */}
                 <Grid item xs={3} md={2} lg={1} container direction={'column'}>
-                    <Grid item>
-                        <Box
-                            sx={{
-                                height: '270px',
-                            }}
-                        ></Box>
-                    </Grid>
-
+                    <Box sx={{ height: '278px' }}></Box>
                     <Grid
                         item
                         container
@@ -229,34 +217,14 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                     textAlign: 'center',
                                 }}
                             >
-                                <Grid
-                                    item
-                                    container
-                                    direction={'column'}
-                                    sx={{
-                                        height: '128px',
-                                        display: 'flex',
-                                        justifyContent: 'flex-start', // vertical
-                                    }}
-                                >
-                                    {(lastOfSameDay && index !== 0) ||
-                                    (sameDateAsPrev &&
-                                        index === itemsPerPage - 1) ? (
-                                        <DateCornerLine />
-                                    ) : sameDateAsPrev && index !== 0 ? (
-                                        <DateStraightLine />
-                                    ) : (
-                                        <SlotDateDisplay
-                                            date={slot.StartTime}
-                                        />
-                                    )}
-                                </Grid>
-                                <Grid item container justifyContent="center">
-                                    <SlotTimeDisplay
-                                        startTime={slot.StartTime}
-                                        endTime={slot.EndTime}
-                                    />
-                                </Grid>
+                                <SlotDateTime
+                                    startTime={slot.StartTime}
+                                    endTime={slot.EndTime}
+                                    sameDateAsPrev={sameDateAsPrev}
+                                    lastOfSameDay={lastOfSameDay}
+                                    index={index}
+                                    itemsPerPage={itemsPerPage}
+                                />
                                 <Grid item container justifyContent="center">
                                     <Tooltip title="Add Sub-Event">
                                         <IconButton
@@ -265,7 +233,7 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                             }}
                                             onClick={() =>
                                                 handleOpenCreate(slot)
-                                            } // Fixed here
+                                            }
                                         >
                                             <Add />
                                         </IconButton>

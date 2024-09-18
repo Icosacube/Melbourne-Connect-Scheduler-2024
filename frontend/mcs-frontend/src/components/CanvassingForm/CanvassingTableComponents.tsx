@@ -3,13 +3,14 @@ import React from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import { Grid, Box, Typography } from '@mui/material'
 
-export const DateCornerLine = () => {
+
+const DateCornerLine = () => {
     return (
         <Box sx={{ display: 'flex', marginTop: '48px', width: '100%' }}>
             {/* Horizontal Line */}
             <Box
                 sx={{
-                    flexBasis: '55%',
+                    flexBasis: '52%',
                     height: '4px',
                     backgroundColor: '#E5E7EB',
                 }}
@@ -17,7 +18,7 @@ export const DateCornerLine = () => {
             {/* Vertical Line */}
             <Box
                 sx={{
-                    flexBasis: '45%',
+                    flexBasis: '48%',
                     display: 'flex',
                     justifyContent: 'left',
                 }}
@@ -34,7 +35,7 @@ export const DateCornerLine = () => {
     )
 }
 
-export const DateStraightLine = () => {
+const DateStraightLine = () => {
     return (
         <Box
             sx={{
@@ -51,7 +52,7 @@ interface SlotDateDisplayProps {
     date: Dayjs
 }
 
-export const SlotDateDisplay: React.FC<SlotDateDisplayProps> = ({ date }) => {
+const SlotDateDisplay: React.FC<SlotDateDisplayProps> = ({ date }) => {
     return (
         <>
             <Typography variant="h5" color="primary">
@@ -70,34 +71,70 @@ interface SlotTimeDisplayProps {
     endTime: Dayjs
 }
 
-export const SlotTimeDisplay: React.FC<SlotTimeDisplayProps> = ({
+const SlotTimeDisplay: React.FC<SlotTimeDisplayProps> = ({
     startTime,
     endTime,
 }) => {
     return (
-        <Grid
-            item
-            container
-            direction={'row'}
-            spacing={0.5}
+        <Box
             sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginBottom: '16px',
+                gap: '4px',
+                marginY: '4px',
             }}
         >
-            <Grid item>
-                <Box className="relative w-3 h-12 border-t-4 border-l-4 border-b-4 border-gray-300"></Box>
-            </Grid>
-            <Grid item>
+            <Box className="w-3 h-12 border-t-4 border-l-4 border-b-4 border-gray-300 ml-2" />
+            <Box>
                 <Typography variant="h6" gutterBottom>
                     {startTime.format('HH:mm')}
                 </Typography>
-                <Typography variant="h6">
-                    {endTime.format('HH:mm')}
-                </Typography>
+                <Typography variant="h6">{endTime.format('HH:mm')}</Typography>
+            </Box>
+        </Box>
+    )
+}
+interface SlotDateTimeProps {
+    startTime: Dayjs
+    endTime: Dayjs
+    sameDateAsPrev: boolean
+    lastOfSameDay: boolean
+    index: number
+    itemsPerPage: number
+}
+
+export const SlotDateTime: React.FC<SlotDateTimeProps> = ({
+    startTime,
+    endTime,
+    sameDateAsPrev,
+    lastOfSameDay,
+    index,
+    itemsPerPage,
+}) => {
+    return (
+        <>
+            <Grid
+                item
+                container
+                direction={'column'}
+                sx={{
+                    height: '128px',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    marginBottom: '16px',
+                }}
+            >
+                {(lastOfSameDay && index !== 0) ||
+                (sameDateAsPrev && index === itemsPerPage - 1) ? (
+                    <DateCornerLine />
+                ) : sameDateAsPrev && index !== 0 ? (
+                    <DateStraightLine />
+                ) : (
+                    <SlotDateDisplay date={startTime} />
+                )}
             </Grid>
-        </Grid>
+            <SlotTimeDisplay startTime={startTime} endTime={endTime} />
+        </>
     )
 }
