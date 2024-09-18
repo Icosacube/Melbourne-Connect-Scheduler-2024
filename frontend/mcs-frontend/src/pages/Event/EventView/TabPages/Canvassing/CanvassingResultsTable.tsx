@@ -19,7 +19,11 @@ import {
 import { CreateSubEventModal } from '../CreateSubEventModal'
 import dayjs, { Dayjs } from 'dayjs'
 import { DateCornerLine } from '../../../../../components'
-import { DateStraightLine } from '../../../../../components/CanvassingForm/CanvassingTableComponents'
+import {
+    DateStraightLine,
+    SlotDateDisplay,
+    SlotTimeDisplay,
+} from '../../../../../components/CanvassingForm/CanvassingTableComponents'
 
 interface CanvassingResultsTableProps {
     event: MainEvent
@@ -54,8 +58,6 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
     const handleCloseCreate = () => {
         setOpenCreate(false)
         setSelectedSlot(null)
-        setStartTime(dayjs())
-        setEndTime(dayjs())
     }
 
     const handleSubEventCreated = () => {}
@@ -244,52 +246,16 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                     ) : sameDateAsPrev && index !== 0 ? (
                                         <DateStraightLine />
                                     ) : (
-                                        <>
-                                            <Typography
-                                                variant="h5"
-                                                color={'primary'}
-                                            >
-                                                {slot.StartTime.format('ddd')}
-                                            </Typography>
-                                            <Typography variant="h3">
-                                                {slot.StartTime.format('DD')}
-                                            </Typography>
-                                            <Typography
-                                                variant="h6"
-                                                color={'grey'}
-                                            >
-                                                {slot.StartTime.format('MMM')}
-                                            </Typography>
-                                        </>
+                                        <SlotDateDisplay
+                                            date={slot.StartTime}
+                                        />
                                     )}
                                 </Grid>
                                 <Grid item container justifyContent="center">
-                                    <Grid
-                                        item
-                                        container
-                                        direction={'row'}
-                                        spacing={0.5}
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        <Grid item>
-                                            <Box className="relative w-3 h-12 border-t-4 border-l-4 border-b-4 border-gray-300"></Box>
-                                        </Grid>
-                                        <Grid item>
-                                            <Typography
-                                                variant="h6"
-                                                gutterBottom
-                                            >
-                                                {slot.StartTime.format('HH:mm')}
-                                            </Typography>
-                                            <Typography variant="h6">
-                                                {slot.EndTime.format('HH:mm')}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
+                                    <SlotTimeDisplay
+                                        startTime={slot.StartTime}
+                                        endTime={slot.EndTime}
+                                    />
                                 </Grid>
                                 <Grid item container justifyContent="center">
                                     <Tooltip title="Add Sub-Event">

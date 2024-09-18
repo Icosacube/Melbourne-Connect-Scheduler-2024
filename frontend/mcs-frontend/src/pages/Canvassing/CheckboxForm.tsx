@@ -16,7 +16,11 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { updateCanvassing } from '../../scripts/canvassing/functions'
 import { useRevalidator } from 'react-router-dom'
 import { BottomSuccessSnackbar, DateCornerLine } from '../../components'
-import { DateStraightLine } from '../../components/CanvassingForm/CanvassingTableComponents'
+import {
+    DateStraightLine,
+    SlotDateDisplay,
+    SlotTimeDisplay,
+} from '../../components/CanvassingForm/CanvassingTableComponents'
 
 // Canvassing with Available boolean for checkbox processing
 interface CheckSlots {
@@ -293,58 +297,15 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
                                         ) : sameDateAsPrev && index !== 0 ? (
                                             <DateStraightLine />
                                         ) : (
-                                            <>
-                                                <Typography
-                                                    variant="h5"
-                                                    color={'primary'}
-                                                >
-                                                    {slot.StartTime.format(
-                                                        'ddd'
-                                                    )}
-                                                </Typography>
-                                                <Typography variant="h3">
-                                                    {slot.StartTime.format(
-                                                        'DD'
-                                                    )}
-                                                </Typography>
-                                                <Typography
-                                                    variant="h6"
-                                                    color={'grey'}
-                                                >
-                                                    {slot.StartTime.format(
-                                                        'MMM'
-                                                    )}
-                                                </Typography>
-                                            </>
+                                            <SlotDateDisplay
+                                                date={slot.StartTime}
+                                            />
                                         )}
                                     </Grid>
-                                    <Grid
-                                        item
-                                        container
-                                        direction={'row'}
-                                        spacing={0.5}
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            marginBottom: '16px',
-                                        }}
-                                    >
-                                        <Grid item>
-                                            <Box className="relative w-3 h-12 border-t-4 border-l-4 border-b-4 border-gray-300"></Box>
-                                        </Grid>
-                                        <Grid item>
-                                            <Typography
-                                                variant="h6"
-                                                gutterBottom
-                                            >
-                                                {slot.StartTime.format('HH:mm')}
-                                            </Typography>
-                                            <Typography variant="h6">
-                                                {slot.EndTime.format('HH:mm')}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
+                                    <SlotTimeDisplay
+                                        startTime={slot.StartTime}
+                                        endTime={slot.EndTime}
+                                    />
                                     <Grid item>
                                         <Checkbox
                                             size={'large'}
