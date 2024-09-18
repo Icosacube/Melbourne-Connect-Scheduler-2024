@@ -5,6 +5,8 @@ import {
     ToggleButtonGroup,
     Tooltip,
     Typography,
+    CircularProgress,
+    Box,
 } from '@mui/material'
 import EditCalendarIcon from '@mui/icons-material/EditCalendar'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
@@ -28,21 +30,24 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({
     event,
     speakers,
 }) => {
+    const [hasCanvassing, setHasCanvassing] = useState<boolean>(false)
     const [activeComponent, setActiveComponent] = useState<string>('')
     const [canvassingSlots, setCanvassingSlots] = useState<Canvassing[]>([])
 
     useEffect(() => {
-        getCanvassingByEventId(event.RecordID).then((canvassingSlots) =>
+        getCanvassingByEventId(event.RecordID).then((canvassingSlots) => {
             setCanvassingSlots(canvassingSlots)
-        )
+            const hasCanvassing =
+                canvassingSlots && canvassingSlots.length > 0 && event != null
+            hasCanvassing ? setActiveComponent('B') : setActiveComponent('A')
+            setHasCanvassing(hasCanvassing)
+        })
     }, [event])
-
-    const hasCanvassing = canvassingSlots && canvassingSlots.length > 0 && event
 
     const renderComponent = () => {
         switch (activeComponent) {
             case 'A':
-                return (
+                return hasCanvassing ? null : (
                     <CanvassingCreation
                         event={event}
                         canvassingSlots={canvassingSlots}
@@ -60,21 +65,22 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({
                 return hasCanvassing ? (
                     <CanvassingResultsTable
                         event={event}
+                        speakers={speakers}
                         canvassingSlots={canvassingSlots}
                     />
                 ) : null
             default:
-                return hasCanvassing ? (
-                    <CanvassingResultsFC
-                        event={event}
-                        speakers={speakers}
-                        canvassingSlots={canvassingSlots}
-                    />
-                ) : (
-                    <CanvassingCreation
-                        event={event}
-                        canvassingSlots={canvassingSlots}
-                    />
+                return (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '100vh',
+                        }}
+                    >
+                        <CircularProgress />
+                    </Box>
                 )
         }
     }

@@ -72,16 +72,26 @@ export const CanvassingResultsFC: React.FC<CanvassingResultsProps> = ({
             (slot) => slot.RecordID === eventInfo.event.id
         )
         const academicCount = slot ? slot.AvailableAcademic.length : 0
-
+        const total = slot ? slot.Academic.length : 0
         return (
             <Badge
-                badgeContent={academicCount > 0 ? academicCount : ''}
-                color={academicCount > 0 ? 'primary' : 'default'}
+                badgeContent={academicCount}
                 anchorOrigin={{
                     vertical: 'top',
                     horizontal: 'right',
                 }}
-                sx={{ width: '100%' }}
+                sx={{
+                    width: '100%',
+                    '& .MuiBadge-badge': {
+                        backgroundColor:
+                            academicCount > 0
+                                ? `rgba(251, 171, 24, ${Math.max(
+                                      0.4,
+                                      academicCount / total
+                                  )})`
+                                : '#CCCCCC',
+                    },
+                }}
             >
                 <Typography
                     sx={{

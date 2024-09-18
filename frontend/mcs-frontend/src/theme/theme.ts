@@ -119,7 +119,7 @@ const themeOptions: ThemeOptions = {
         MuiInputLabel: {
             styleOverrides: {
                 root: {
-                    fontSize: '15px',
+                    fontSize: '14px',
                     position: 'absolute',
                     transform: 'translate(0, -1.5rem) scale(1)', // fixed textfield title position
                     transformOrigin: 'top left',
@@ -136,6 +136,9 @@ const themeOptions: ThemeOptions = {
                     backgroundColor: '#EFF0F1', // Light grey background
                     borderRadius: '5px',
                     padding: '12px',
+                    ':focus': {
+                        backgroundColor: '#FFFFFF',
+                    },
                 },
                 icon: {
                     color: '#2A2A2A', // Color of the dropdown arrow

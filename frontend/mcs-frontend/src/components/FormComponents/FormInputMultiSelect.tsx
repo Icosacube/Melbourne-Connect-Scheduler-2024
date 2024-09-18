@@ -39,7 +39,7 @@ export const FormInputMultiSelect: React.FC<FormInputProps> = ({
                                 sx={{
                                     display: 'flex',
                                     flexWrap: 'wrap',
-                                    gap: 1,
+                                    gap: 3,
                                 }}
                             >
                                 {(selected as string[]).map((value) => (

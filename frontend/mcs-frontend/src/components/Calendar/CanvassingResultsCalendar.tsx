@@ -28,7 +28,12 @@ export const CanvassingResultsCalendar: React.FC<
         start: slot.StartTime.toDate(),
         end: slot.EndTime.toDate(),
         backgroundColor:
-            slot.AvailableAcademic.length > 0 ? '#FBCB18' : '#CCCCCC',
+            slot.AvailableAcademic.length > 0
+                ? `rgba(251, 203, 24, ${Math.max(
+                      0.4,
+                      slot.AvailableAcademic.length / slot.Academic.length
+                  )})`
+                : '#CCCCCC',
     }))
 
     return (

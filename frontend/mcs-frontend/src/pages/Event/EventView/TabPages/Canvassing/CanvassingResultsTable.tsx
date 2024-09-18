@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Grid, Typography, IconButton, useMediaQuery } from '@mui/material'
+import {
+    Box,
+    Grid,
+    Typography,
+    IconButton,
+    useMediaQuery,
+    Tooltip,
+} from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import { CheckCircle, DoNotDisturb } from '@mui/icons-material'
+import { Add, CheckCircle, DoNotDisturb, People } from '@mui/icons-material'
 import {
     Canvassing,
-    Academic,
     MainEvent,
+    Speaker,
 } from '../../../../../types/frontendTypes'
+import { CreateSubEventModal } from '../CreateSubEventModal'
+import dayjs, { Dayjs } from 'dayjs'
 
 interface CanvassingResultsTableProps {
     event: MainEvent
+    speakers: Speaker[]
     canvassingSlots: Canvassing[]
 }
 
 export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
     event,
+    speakers,
     canvassingSlots,
 }) => {
     const theme = useTheme()
@@ -26,6 +37,26 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
     const isLargeScreen = useMediaQuery(theme.breakpoints.between('md', 'lg'))
     const [academicIds, setAcademicIds] = useState<string[]>([])
     const [academicNames, setAcademicNames] = useState<string[]>([])
+    const [openCreate, setOpenCreate] = useState(false)
+    const [selectedSlot, setSelectedSlot] = useState<Canvassing | null>(null)
+    const [startTime, setStartTime] = useState<Dayjs>(dayjs())
+    const [endTime, setEndTime] = useState<Dayjs>(dayjs())
+
+    const handleOpenCreate = (slot: Canvassing) => {
+        setStartTime(dayjs(slot.StartTime))
+        setEndTime(dayjs(slot.EndTime))
+        setSelectedSlot(slot)
+        setOpenCreate(true)
+    }
+
+    const handleCloseCreate = () => {
+        setOpenCreate(false)
+        setSelectedSlot(null)
+        setStartTime(dayjs())
+        setEndTime(dayjs())
+    }
+
+    const handleSubEventCreated = () => {}
 
     useEffect(() => {
         if (canvassingSlots.length > 0) {
@@ -74,9 +105,27 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                     <Grid item>
                         <Box
                             sx={{
-                                height: '280px',
+                                height: '270px',
                             }}
                         ></Box>
+                    </Grid>
+
+                    <Grid
+                        item
+                        container
+                        alignItems="center"
+                        justifyContent="flex-end"
+                        marginRight="12px"
+                        marginBottom="24px"
+                    >
+                        <Grid item marginRight={1}>
+                            <People fontSize="medium" />
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6" color="grey">
+                                {canvassingSlots[0].Academic.length}
+                            </Typography>
+                        </Grid>
                     </Grid>
                     {canvassingSlots.length > 0 ? (
                         academicNames.map((name, index) => (
@@ -197,7 +246,7 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                                         width: '100%',
                                                         height: '4px',
                                                         backgroundColor:
-                                                            '#DDDDDD',
+                                                            '#D1D5DB',
                                                     }}
                                                 />
                                             </Grid>
@@ -208,7 +257,7 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                                         height: '64px',
                                                         width: '4px',
                                                         backgroundColor:
-                                                            '#DDDDDD',
+                                                            '#D1D5DB',
                                                     }}
                                                 />
                                             </Grid>
@@ -219,7 +268,7 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                                 marginTop: '48px',
                                                 width: '100%',
                                                 height: '4px',
-                                                backgroundColor: '#DDDDDD',
+                                                backgroundColor: '#D1D5DB',
                                             }}
                                         />
                                     ) : (
@@ -242,30 +291,47 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                         </>
                                     )}
                                 </Grid>
-
-                                <Grid
-                                    item
-                                    container
-                                    direction={'row'}
-                                    spacing={0.5}
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        marginBottom: '16px',
-                                    }}
-                                >
-                                    <Grid item>
-                                        <Box className="relative w-3 h-12 border-t-4 border-l-4 border-b-4 border-gray-300"></Box>
+                                <Grid item container justifyContent="center">
+                                    <Grid
+                                        item
+                                        container
+                                        direction={'row'}
+                                        spacing={0.5}
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <Grid item>
+                                            <Box className="relative w-3 h-12 border-t-4 border-l-4 border-b-4 border-gray-300"></Box>
+                                        </Grid>
+                                        <Grid item>
+                                            <Typography
+                                                variant="h6"
+                                                gutterBottom
+                                            >
+                                                {slot.StartTime.format('HH:mm')}
+                                            </Typography>
+                                            <Typography variant="h6">
+                                                {slot.EndTime.format('HH:mm')}
+                                            </Typography>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item>
-                                        <Typography variant="h6" gutterBottom>
-                                            {slot.StartTime.format('HH:mm')}
-                                        </Typography>
-                                        <Typography variant="h6">
-                                            {slot.EndTime.format('HH:mm')}
-                                        </Typography>
-                                    </Grid>
+                                </Grid>
+                                <Grid item container justifyContent="center">
+                                    <Tooltip title="Add Sub-Event">
+                                        <IconButton
+                                            sx={{
+                                                color: 'black',
+                                            }}
+                                            onClick={() =>
+                                                handleOpenCreate(slot)
+                                            } // Fixed here
+                                        >
+                                            <Add />
+                                        </IconButton>
+                                    </Tooltip>
                                 </Grid>
                                 {academicIds.map((id, index) => (
                                     <Grid item key={index} marginY={'8px'}>
@@ -282,6 +348,20 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                         )}
                                     </Grid>
                                 ))}
+
+                                {selectedSlot && (
+                                    <CreateSubEventModal
+                                        open={openCreate}
+                                        handleClose={handleCloseCreate}
+                                        event={event}
+                                        speakers={speakers}
+                                        startDate={startTime}
+                                        endDate={endTime}
+                                        onSubEventCreation={
+                                            handleSubEventCreated
+                                        }
+                                    />
+                                )}
                             </Grid>
                         )
                     })}
