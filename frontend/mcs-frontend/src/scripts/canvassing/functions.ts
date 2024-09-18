@@ -96,6 +96,16 @@ export const defaultCanvassing: CanvassingFrontend = {
     AcademicName: [],
 }
 
+
+function generateCanvassingLinks(data: CanvassingBackend[]): string[] {
+    const academicIds = data[0].Academic
+    const eventId = data[0].MainEvent
+    return academicIds.map(
+        (academicId) =>
+            `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}/${academicId}`
+    )
+}
+
 // Function to reformat Canvassing response to frontend format
 function reformatCanvassingResponse(data: any): CanvassingFrontend {
     const canvassing: CanvassingFrontend = {
