@@ -8,10 +8,10 @@ import { createSubEvent } from '../../../../scripts/subevent/functions'
 import {
     FormInputText,
     FormInputDateTime,
-    FormInputMultiSelect,
     SubmitButton,
     FormInputTextLong,
     BottomSuccessSnackbar,
+    FormInputMultiAutocomplete,
 } from '../../../../components/'
 
 interface CreateSubEventModalProps {
@@ -20,8 +20,8 @@ interface CreateSubEventModalProps {
     event: MainEvent
     speakers: Speaker[]
     onSubEventCreation: () => void
-    startDate?: Dayjs 
-    endDate?: Dayjs 
+    startDate?: Dayjs
+    endDate?: Dayjs
 }
 
 const CreateSubEventFormDefaultValues: SubEvent = {
@@ -43,8 +43,8 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
     event,
     speakers,
     onSubEventCreation,
-    startDate,
-    endDate, 
+    startDate = dayjs(),
+    endDate = dayjs(),
 }) => {
     const { handleSubmit, reset, control, setValue } = useForm<SubEvent>({
         defaultValues: CreateSubEventFormDefaultValues,
@@ -54,12 +54,8 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
     const [submitting, setSubmitting] = useState(false)
 
     useEffect(() => {
-        if (startDate) {
-            setValue('StartDate', startDate)
-        }
-        if (endDate) {
-            setValue('EndDate', endDate)
-        }
+        setValue('StartDate', startDate)
+        setValue('EndDate', endDate)
     }, [startDate, endDate, setValue])
 
     const onSubmit = async (data: SubEvent) => {
@@ -80,6 +76,10 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
 
     const onClose = () => {
         reset()
+        if (startDate) {
+            setValue('StartDate', startDate)
+            setValue('EndDate', endDate)
+        }
         handleClose()
     }
 
@@ -101,7 +101,7 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
                                 Create Sub-Event
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} md={9}>
+                        <Grid item xs={12} md={8}>
                             <FormInputText
                                 name="EventName"
                                 control={control}
@@ -109,7 +109,7 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
                             />
                         </Grid>
 
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} md={4}>
                             <FormInputText
                                 name="EventType"
                                 control={control}
@@ -117,8 +117,8 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
                             />
                         </Grid>
 
-                        <Grid item xs={12} lg={6}>
-                            <FormInputMultiSelect
+                        <Grid item xs={12}>
+                            <FormInputMultiAutocomplete
                                 name="Speakers"
                                 control={control}
                                 label="Speakers"
@@ -128,14 +128,14 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
                                 }))}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>
+                        <Grid item xs={12} sm={6}>
                             <FormInputDateTime
                                 name="StartDate"
                                 control={control}
                                 label="Start"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>
+                        <Grid item xs={12} sm={6}>
                             <FormInputDateTime
                                 name="EndDate"
                                 control={control}
