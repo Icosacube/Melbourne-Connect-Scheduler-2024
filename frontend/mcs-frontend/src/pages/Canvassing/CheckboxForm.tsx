@@ -13,10 +13,10 @@ import {
 import { useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import { getVenueById } from '../../scripts/venue/functions'
 import { updateCanvassing } from '../../scripts/canvassing/functions'
 import { useRevalidator } from 'react-router-dom'
-import { BottomSuccessSnackbar } from '../../components'
+import { BottomSuccessSnackbar, DateCornerLine } from '../../components'
+import { DateStraightLine } from '../../components/CanvassingForm/CanvassingTableComponents'
 
 // Canvassing with Available boolean for checkbox processing
 interface CheckSlots {
@@ -289,43 +289,9 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
                                         {(lastOfSameDay && index !== 0) ||
                                         (sameDateAsPrev &&
                                             index === itemsPerPage - 1) ? (
-                                            <Grid
-                                                item
-                                                container
-                                                direction={'row'}
-                                            >
-                                                <Grid item xs={6.5}>
-                                                    <Box
-                                                        sx={{
-                                                            marginTop: '48px',
-                                                            width: '100%',
-                                                            height: '4px',
-                                                            backgroundColor:
-                                                                '#DDDDDD',
-                                                        }}
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={5.5}>
-                                                    <Box
-                                                        sx={{
-                                                            marginTop: '48px',
-                                                            height: '64px',
-                                                            width: '4px',
-                                                            backgroundColor:
-                                                                '#DDDDDD',
-                                                        }}
-                                                    />
-                                                </Grid>
-                                            </Grid>
+                                            <DateCornerLine />
                                         ) : sameDateAsPrev && index !== 0 ? (
-                                            <Box
-                                                sx={{
-                                                    marginTop: '48px',
-                                                    width: '100%',
-                                                    height: '4px',
-                                                    backgroundColor: '#DDDDDD',
-                                                }}
-                                            />
+                                            <DateStraightLine />
                                         ) : (
                                             <>
                                                 <Typography

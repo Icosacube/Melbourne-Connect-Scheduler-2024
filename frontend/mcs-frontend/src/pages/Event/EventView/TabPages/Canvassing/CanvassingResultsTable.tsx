@@ -18,6 +18,8 @@ import {
 } from '../../../../../types/frontendTypes'
 import { CreateSubEventModal } from '../CreateSubEventModal'
 import dayjs, { Dayjs } from 'dayjs'
+import { DateCornerLine } from '../../../../../components'
+import { DateStraightLine } from '../../../../../components/CanvassingForm/CanvassingTableComponents'
 
 interface CanvassingResultsTableProps {
     event: MainEvent
@@ -238,39 +240,9 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                     {(lastOfSameDay && index !== 0) ||
                                     (sameDateAsPrev &&
                                         index === itemsPerPage - 1) ? (
-                                        <Grid item container direction={'row'}>
-                                            <Grid item xs={6.5}>
-                                                <Box
-                                                    sx={{
-                                                        marginTop: '48px',
-                                                        width: '100%',
-                                                        height: '4px',
-                                                        backgroundColor:
-                                                            '#D1D5DB',
-                                                    }}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={5.5}>
-                                                <Box
-                                                    sx={{
-                                                        marginTop: '48px',
-                                                        height: '64px',
-                                                        width: '4px',
-                                                        backgroundColor:
-                                                            '#D1D5DB',
-                                                    }}
-                                                />
-                                            </Grid>
-                                        </Grid>
+                                        <DateCornerLine />
                                     ) : sameDateAsPrev && index !== 0 ? (
-                                        <Box
-                                            sx={{
-                                                marginTop: '48px',
-                                                width: '100%',
-                                                height: '4px',
-                                                backgroundColor: '#D1D5DB',
-                                            }}
-                                        />
+                                        <DateStraightLine />
                                     ) : (
                                         <>
                                             <Typography

@@ -7,7 +7,6 @@ import {
     DeleteButton,
     FormInputDateTime,
     FormInputMultiAutocomplete,
-    FormInputMultiSelect,
     FormInputText,
     FormInputTextLong,
     OutlinedButton,
