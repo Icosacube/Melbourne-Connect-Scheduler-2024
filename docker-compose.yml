@@ -2,8 +2,9 @@ version: "3.8"
 
 services:
   client:
+    container_name: client
     depends_on:
-      - ts-node-docker
+      - server
     build:
       context: ./frontend/mcs-frontend
       dockerfile: Dockerfile
@@ -15,6 +16,7 @@ services:
     command: npm start
 
   server:
+    container_name: server
     build:
       context: ./mcs_backend
       dockerfile: Dockerfile
@@ -22,7 +24,6 @@ services:
     volumes:
       - ./mcs_backend/src:/home/node/app/src
       - ./mcs_backend/nodemon.json:/home/node/app/nodemon.json
-    container_name: ts-node-docker
     expose:
       - '4000'
     ports:
