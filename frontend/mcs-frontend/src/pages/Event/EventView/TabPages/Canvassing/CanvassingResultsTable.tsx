@@ -348,25 +348,23 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                                         )}
                                     </Grid>
                                 ))}
-
-                                {selectedSlot && (
-                                    <CreateSubEventModal
-                                        open={openCreate}
-                                        handleClose={handleCloseCreate}
-                                        event={event}
-                                        speakers={speakers}
-                                        startDate={startTime}
-                                        endDate={endTime}
-                                        onSubEventCreation={
-                                            handleSubEventCreated
-                                        }
-                                    />
-                                )}
                             </Grid>
                         )
                     })}
                 </Grid>
             </Grid>
+
+            {selectedSlot && (
+                <CreateSubEventModal
+                    open={openCreate}
+                    handleClose={handleCloseCreate}
+                    event={event}
+                    speakers={speakers}
+                    startDate={startTime}
+                    endDate={endTime}
+                    onSubEventCreation={handleSubEventCreated}
+                />
+            )}
         </Box>
     )
 }
