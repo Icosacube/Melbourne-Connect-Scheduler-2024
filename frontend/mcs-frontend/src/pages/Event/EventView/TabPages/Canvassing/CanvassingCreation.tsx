@@ -36,7 +36,7 @@ import {
 } from '../../../../../scripts/canvassing/functions'
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput'
 import { getAllAcademics } from '../../../../../scripts/academic/functions'
-import ShareButtonCanvassing  from '../../../../../components/Buttons/ShareButtonCanvassing'
+import { ShareEmailButton } from '../../../../../components/Buttons/'
 import { getCanvassingByEventId } from '../../../../../scripts/canvassing/functions'
 
 interface CanvassingCreationProps {
@@ -60,11 +60,10 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     const [submitting, setSubmitting] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
     const revalidator = useRevalidator()
-    const [extractedEmails, setExtractedEmails] = useState<string[]>([]);
-    const [extractedCanvassing, setExtractedCanvassing] = useState<Canvassing[]>([]);
-
-    
-    
+    const [extractedEmails, setExtractedEmails] = useState<string[]>([])
+    const [extractedCanvassing, setExtractedCanvassing] = useState<
+        Canvassing[]
+    >([])
 
     useEffect(() => {
         const fetchVenues = async () => {
@@ -216,17 +215,23 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                 xs={12}
                                 container
                                 justifyContent="flex-end"
+                                spacing={1.5}
                             >
+                                <Grid item xs="auto">
+                                    {event &&
+                                        academics &&
+                                        academics.length > 0 && (
+                                            <ShareEmailButton
+                                                event={event}
+                                                academic={academics[0]}
+                                            />
+                                        )}
+                                </Grid>
                                 <Grid item xs="auto">
                                     <SubmitButton
                                         submitting={submitting}
                                         onClick={handleSubmit(onSubmit)}
                                     />
-                                </Grid>
-                                <Grid item xs="auto">
-                                    {event && academics && academics.length > 0 && (
-                                        <ShareButtonCanvassing event={event} academic={academics[0]} />
-                                    )}
                                 </Grid>
                             </Grid>
                         </Grid>
