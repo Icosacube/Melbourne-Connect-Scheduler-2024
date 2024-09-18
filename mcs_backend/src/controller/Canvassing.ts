@@ -19,7 +19,8 @@ router.get('/canvassings', async (req, res) => {
 
   try {
     // Cache
-    const cachedCanvassing = getCache(Cachekeys.CANVASSINGS);
+    const cacheKey = `${Cachekeys.CANVASSINGS}_${JSON.stringify(req.query)}`;
+    const cachedCanvassing = getCache(cacheKey);
     if (cachedCanvassing) {
       return res.json(cachedCanvassing).status(200);
     }

@@ -19,7 +19,8 @@ router.get('/academics', async (req, res) => {
 
   try {
     //cache
-    const cachedAcademics = getCache(Cachekeys.ACADEMICS);
+    const cacheKey = `${Cachekeys.ACADEMICS}_${JSON.stringify(req.query)}`;
+    const cachedAcademics = getCache(cacheKey);
     if (cachedAcademics) {
       return res.json(cachedAcademics).status(200);
     }
