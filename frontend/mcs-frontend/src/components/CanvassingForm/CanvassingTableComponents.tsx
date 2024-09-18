@@ -41,7 +41,7 @@ const DateStraightLine = () => {
                 marginTop: '48px',
                 width: '100%',
                 height: '4px',
-                backgroundColor: '#DDDDDD',
+                backgroundColor: '#E5E7EB',
             }}
         />
     )
