@@ -38,7 +38,6 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
 }) => {
     const [checkSlots, setCheckSlots] = useState<CheckSlots[]>([])
     const [academics, setAcademics] = useState<string[]>([])
-    const [venues, setVenues] = useState<Venue[]>([])
 
     const [showSuccess, setShowSuccess] = useState(false)
     const revalidator = useRevalidator()
@@ -58,19 +57,6 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
         setAcademics(
             canvassingSlots.length > 0 ? canvassingSlots[0].Academic : []
         )
-
-        const fetchVenues = async () => {
-            try {
-                const venuePromises = canvassingSlots[0].Venue.map((venueId) =>
-                    getVenueById(venueId)
-                )
-                const venueObjs = await Promise.all(venuePromises)
-                setVenues(venueObjs)
-            } catch (error) {
-                console.error('Error fetching venues:', error)
-            }
-        }
-        fetchVenues()
     }, [canvassingSlots])
 
     const [currentPage, setCurrentPage] = useState(0)
@@ -174,7 +160,7 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
                 </Grid>
                 <Grid item xs={12} md={6} lg={9} marginBottom={8}>
                     <Typography variant="subtitle1" fontSize={20}>
-                        {venues.map((venue) => venue.VenueName).join(', ')}
+                        {canvassingSlots[0].VenueName.join(', ')}
                     </Typography>
                 </Grid>
                 <Grid

@@ -61,6 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
             element: <Logout />,
             errorElement: <ErrorPage />,
         },
+
+        // Remove this from protected route later,
+        // at the moment canvassing won't load if not wrapped here
+        {
+            path: '/canvassing/:eventid/:academicid',
+            element: <FullWidthLayout content={<Canvassing />} />,
+            errorElement: <ErrorPage />,
+            loader: canvassingLoader,
+        },
         {
             path: '/',
             element: <ProtectedRoute />,
@@ -137,15 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             loader: venueLoader,
                         },
                     ],
-                },
-
-                // Remove this from protected route later,
-                // at the moment canvassing won't load if not wrapped here
-                {
-                    path: '/canvassing/:eventid/:academicid',
-                    element: <FullWidthLayout content={<Canvassing />} />,
-                    errorElement: <ErrorPage />,
-                    loader: canvassingLoader,
                 },
             ],
         },

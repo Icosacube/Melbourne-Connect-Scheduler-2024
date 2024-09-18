@@ -12,7 +12,7 @@ export async function loader({
         const academicID = String(params.academicid)
         const canvassings = await getCanvassingByEventId(eventID);
         // check if the academic id is valid (i.e. it is added in the form)
-        if(!canvassings[0].Academic.includes(academicID)){
+        if(canvassings == null || !canvassings[0].Academic.includes(academicID)){
             return {}
         }
         return { canvassings }

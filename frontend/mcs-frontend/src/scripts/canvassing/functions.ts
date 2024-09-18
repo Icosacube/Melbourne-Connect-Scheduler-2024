@@ -94,6 +94,7 @@ export const defaultCanvassing: CanvassingFrontend = {
     AvailableAcademic: [],
     EventName: [],
     AcademicName: [],
+    VenueName: [],
 }
 
 
@@ -124,6 +125,7 @@ function reformatCanvassingResponse(data: any): CanvassingFrontend {
             data.AvailableAcademic || defaultCanvassing.AvailableAcademic,
         EventName: data.EventName || defaultCanvassing.EventName,
         AcademicName: data.AcademicName || defaultCanvassing.AcademicName,
+        VenueName: data.VenueName || defaultCanvassing.VenueName,
     }
 
     return canvassing
