@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
@@ -21,6 +21,7 @@ export const Event: FC = () => {
         speakers: Speaker[]
         venues: Venue[]
     }
+    console.log(event)
 
     const renderTabContent = (event: MainEvent) => {
         switch (tabName) {
@@ -48,14 +49,18 @@ export const Event: FC = () => {
                 event={event}
                 speaker={speakers[0]}
             />
-            <EditEventModal
-                event={event}
-                handleClose={() => {
-                    setOpen(false)
-                }}
-                open={open}
-                venues={venues}
-            />
+            {open ? (
+                <EditEventModal
+                    event={event}
+                    handleClose={() => {
+                        setOpen(false)
+                    }}
+                    open={open}
+                    venues={venues}
+                />
+            ) : (
+                <></>
+            )}
             <BodyLayout content={renderTabContent(event)}></BodyLayout>
         </Box>
     )

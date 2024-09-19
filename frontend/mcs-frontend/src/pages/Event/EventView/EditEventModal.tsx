@@ -220,6 +220,18 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                     </Grid>
                 </Grid>
             </Paper>
+        </>
+    )
+    const loadedModal = (
+        <>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                {loading ? loadingScreen : loadedContent}
+            </Modal>
             {/* Delete Event */}
             <DeleteDialog
                 open={openDeleteDialog}
@@ -240,16 +252,6 @@ export const EditEventModal: FC<EditEventModalProps> = ({
                 message={'Event updated successfully!'}
             />
         </>
-    )
-    const loadedModal = (
-        <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            {loading ? loadingScreen : loadedContent}
-        </Modal>
     )
 
     return loadedModal

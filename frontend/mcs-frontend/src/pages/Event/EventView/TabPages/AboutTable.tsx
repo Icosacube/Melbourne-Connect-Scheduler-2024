@@ -1,5 +1,5 @@
 import { Box, Stack, TextField, Typography } from '@mui/material'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { MainEvent, Venue } from '../../../../types/frontendTypes'
 
 interface AboutTableProps {
@@ -35,12 +35,16 @@ const CustomTextArea: FC<CustomTextAreaProps> = ({ title, text, minRows }) => {
 }
 
 export const AboutTable: FC<AboutTableProps> = ({ event, venues }) => {
-    const venuesFiltered = venues.filter((venue) =>
-        event.Venue.includes(venue.RecordID)
-    )
-    const venueFormatted = venuesFiltered
-        .map((venue) => venue.VenueName)
-        .join(', ')
+    const [venueFormatted, setVenueFormatted] = useState('')
+
+    useEffect(() => {
+        const venuesFiltered = venues.filter((venue) =>
+            event.Venue.includes(venue.RecordID)
+        )
+        setVenueFormatted(
+            venuesFiltered.map((venue) => venue.VenueName).join(', ')
+        )
+    }, [event.Venue, venues])
 
     return (
         <Box className="w-full flex space-x-6">
