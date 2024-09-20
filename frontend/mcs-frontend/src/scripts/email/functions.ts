@@ -31,6 +31,31 @@ export async function sendEmail(
     }
 }
 
+export async function sendEmailSequentially(
+    emailList: string[],
+    from: string,
+    cc: string,
+    subject: string,
+    content: string
+): Promise<void> {
+    if (!emailList || emailList.length === 0) {
+        console.error('Email list is empty. No emails to send.');
+        return; // Resolves the promise with undefined
+    }
+
+    for (let email of emailList) {
+        try {
+            console.log(`Sending email to: ${email}`);
+            await sendEmail(from, email, cc, subject, content);
+            console.log(`Email sent successfully to: ${email}`);
+        } catch (error) {
+            console.error('Error sending email to:', email, error);
+        }
+    }
+}
+
+
+
 // Get form links functions
 export async function getBlankSpeakerFormLink() {
     return 'google.com'
