@@ -2,13 +2,21 @@ import { Box } from '@mui/material'
 import React, { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar'
-import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
+import {
+    MainEvent,
+    Speaker,
+    Venue,
+    Catering,
+    FundingAccount,
+    Service,
+} from '../../../types/frontendTypes'
 import { BodyLayout } from '../../Layout/BodyLayout'
 import EditEventModal from './EditEventModal'
 import { About } from './TabPages/About'
 import { Participants } from './TabPages/Participants'
 import Programme from './TabPages/Programme'
-import { Services } from './TabPages/Services'
+import { CateringTable } from './TabPages/Services/CateringTable'
+import { RoomServicesTable } from './TabPages/Services/RoomServicesTable'
 
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')
@@ -16,11 +24,15 @@ export const Event: FC = () => {
     const handleOpen = async () => {
         setOpen(true)
     }
-    const { event, speakers, venues } = useLoaderData() as {
-        event: MainEvent
-        speakers: Speaker[]
-        venues: Venue[]
-    }
+    const { event, speakers, venues, catering, fundingAccounts, roomServices } =
+        useLoaderData() as {
+            event: MainEvent
+            speakers: Speaker[]
+            venues: Venue[]
+            catering: Catering[]
+            fundingAccounts: FundingAccount[]
+            roomServices: Service[]
+        }
 
     const renderTabContent = (event: MainEvent) => {
         switch (tabName) {
@@ -30,8 +42,22 @@ export const Event: FC = () => {
                 return <Participants speakers={speakers} />
             case 'Programme':
                 return <Programme event={event} speakers={speakers} />
-            case 'Services':
-                return <Services event={event} />
+            case 'Catering':
+                return (
+                    <CateringTable
+                        event={event}
+                        catering={catering}
+                        fundingAccounts={fundingAccounts}
+                    />
+                )
+            case 'Room Services':
+                return (
+                    <RoomServicesTable
+                        event={event}
+                        roomServices={roomServices}
+                        fundingAccounts={fundingAccounts}
+                    />
+                )
             default:
                 return <About event={event} speakers={speakers} />
         }
