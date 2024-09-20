@@ -1,47 +1,42 @@
 import { StyledEngineProvider } from '@mui/material'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {
-    createBrowserRouter,
-    RouterProvider,
-} from 'react-router-dom'
-import { loader as eventsLoader } from './scripts/event/eventsLoader'
-import { loader as eventLoader } from './scripts/event/eventLoader'
-import { loader as speakersLoader } from './scripts/speaker/speakersLoader'
-import { loader as speakerLoader } from './scripts/speaker/speakerLoader'
-import { loader as tripsLoader } from './scripts/trip/tripsLoader'
-import { loader as tripLoader } from './scripts/trip/tripLoader'
-import { loader as financeLoader } from './scripts/finance/financeOverviewLoaders'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { loader as dashboardLoaders } from './scripts/dashboard/dashboardLoaders'
-import { loader as venueLoader } from './scripts/venue/venuesLoader'
+import { loader as eventLoader } from './scripts/event/eventLoader'
+import { loader as eventsLoader } from './scripts/event/eventsLoader'
+import { loader as financeLoader } from './scripts/finance/financeOverviewLoaders'
+import { loader as speakerLoader } from './scripts/speaker/speakerLoader'
+import { loader as speakersLoader } from './scripts/speaker/speakersLoader'
+import { loader as tripLoader } from './scripts/trip/tripLoader'
+import { loader as tripsLoader } from './scripts/trip/tripsLoader'
 
+import { ThemeProvider } from '@emotion/react'
+import { ProtectedRoute } from './components/Authentication'
+import './fonts.css'
 import './index.css'
 import {
+    BodyLayout,
+    Canvassing,
     Dashboard,
     ErrorPage,
     Event,
+    Events,
     Finance,
-    BodyLayout,
     FullWidthLayout,
+    Homepage,
     Layout,
     Login,
     Logout,
     Register,
-    Events,
-    Speakers,
     Speaker,
-    Homepage,
-    Venues,
-    Canvassing
+    Speakers,
 } from './pages'
 import { Trip } from './pages/Trips/Trip'
 import { Trips } from './pages/Trips/TripsOverview/Trips'
 import reportWebVitals from './reportWebVitals'
-import { ThemeProvider } from '@emotion/react'
-import theme from './theme/theme'
-import './fonts.css'
-import { ProtectedRoute } from './components/Authentication'
 import { authGuard } from './scripts/authentication/auth'
+import theme from './theme/theme'
 require('cors')
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -132,15 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             errorElement: <ErrorPage />,
                             loader: financeLoader,
                         },
-                        {
-                            path: '/venues',
-                            element: <BodyLayout content={<Venues />} />,
-                            errorElement: <ErrorPage />,
-                            loader: venueLoader,
-                        },
-                    ]
+                    ],
                 },
-            ]
+            ],
         },
         {
             path: '/canvassing/:eventid/:academicid',
@@ -148,8 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
             errorElement: <ErrorPage />,
         },
     ])
-
-
 
     const rootContainer = ReactDOM.createRoot(root)
     rootContainer.render(

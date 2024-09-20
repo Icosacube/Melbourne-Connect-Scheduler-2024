@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar'
 import {
@@ -37,7 +37,9 @@ export const Event: FC = () => {
     const renderTabContent = (event: MainEvent) => {
         switch (tabName) {
             case 'About':
-                return <About event={event} speakers={speakers} />
+                return (
+                    <About event={event} speakers={speakers} venues={venues} />
+                )
             case 'Participants':
                 return <Participants speakers={speakers} />
             case 'Programme':
@@ -59,7 +61,9 @@ export const Event: FC = () => {
                     />
                 )
             default:
-                return <About event={event} speakers={speakers} />
+                return (
+                    <About event={event} speakers={speakers} venues={venues} />
+                )
         }
     }
     return (
@@ -70,13 +74,18 @@ export const Event: FC = () => {
                 event={event}
                 speaker={speakers[0]}
             />
-            <EditEventModal
-                event={event}
-                handleClose={() => {
-                    setOpen(false)
-                }}
-                open={open}
-            />
+            {open ? (
+                <EditEventModal
+                    event={event}
+                    handleClose={() => {
+                        setOpen(false)
+                    }}
+                    open={open}
+                    venues={venues}
+                />
+            ) : (
+                <></>
+            )}
             <BodyLayout content={renderTabContent(event)}></BodyLayout>
         </Box>
     )
