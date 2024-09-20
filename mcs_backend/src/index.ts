@@ -26,7 +26,10 @@ const FormRouter = require('./controller/guestSpeakerForm');
 const EmailRouter = require('./controller/Email');
 const app = express();
 
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 app.use((req: Request, res: Response, next: () => void) => {
   if (req.path.startsWith('/login')) {//|| req.path.startsWith('/register') 
     return next();

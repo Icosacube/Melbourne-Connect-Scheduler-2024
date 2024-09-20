@@ -1,7 +1,7 @@
 import axios from 'axios'
 import cookie from 'cookie'
 import { deleteCookie, getCookie, setCookie } from '../cookie/function'
-
+import { redirect } from "react-router-dom";
 interface loginResponse {
     username: string
     accessToken: string
@@ -9,29 +9,33 @@ interface loginResponse {
 }
 
 export const login = async (username: string, password: string) => {
-    const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_API_PATH}`,
-        { username: username, password: password }
-    )
+    try {
+        const res = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_API_PATH}`,
+            { username: username, password: password }
+        )
 
-    if (res.status !== 200) {
-        // login failed
-        console.log('login failed')
-        return
-    }
-    const data = res.data as loginResponse
-    console.log('successfully logged in!')
-    const token = data.accessToken
+        if (res.status !== 200) {
+            // login failed
+            console.log('login failed')
+            return
+        }
+        const data = res.data as loginResponse
+        console.log('successfully logged in!')
+        const token = data.accessToken
 
-    //Login token expires after 15 minutes
-    var date = new Date()
-    date.setTime(date.getTime() + 15 * 60 * 1000)
+        console.log(res.headers)
 
-    setCookie('login', token, { expires: date })
+        //Login token expires after 15 minutes
+        var date = new Date()
+        date.setTime(date.getTime() + 15 * 60 * 1000)
 
-    // set default axios auth header
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    console.log(axios.defaults.headers.common['Authorization'])
+        setCookie('login', token, { expires: date })
+        setCookie('username', data.username, { expires: date })
+
+        // set default axios auth header
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    } catch (error) {}
 }
 
 export const register = async (username: string, password: string) => {
@@ -40,7 +44,7 @@ export const register = async (username: string, password: string) => {
     const res = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_REGISTER_API_PATH}`,
         { username: username, password: password },
-        { headers: { "Authorization": `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
     )
 
     if (res.status !== 201) {
@@ -55,32 +59,75 @@ export const register = async (username: string, password: string) => {
 
 // refreshes the token provided we have it
 export const refresh = async () => {
-    const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_REFRESH_API_PATH}`
-    )
+    try {
+        const res = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_REFRESH_API_PATH}`,
+            null,
+            { withCredentials: true } 
+        )
 
-    if (res.status !== 200) {
-        // login failed
-        console.log('login failed')
-        return
+        const data = res.data as loginResponse
+        console.log('successfully refreshed token!')
+        const token = data.accessToken
+
+        //Login token expires after 15 minutes
+        var date = new Date()
+        date.setTime(date.getTime() + 15 * 60 * 1000)
+
+        setCookie('login', token, { expires: date })
+
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    } catch (error) {
+        console.error(error)
     }
-    const data = res.data as loginResponse
-    console.log('successfully refreshed token!')
-    const token = data.accessToken
+}
 
-    //Login token expires after 15 minutes
-    var date = new Date()
-    date.setTime(date.getTime() + 15 * 60 * 1000)
-
-    setCookie('login', token, { expires: date })
-
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+export const authGuard = async () => {
+    // check if we have valid user info
+    const user = getCookie('login')
+    console.log(user)
+    // set default axios auth header
+    if (user) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${user}`
+        return true
+    } else {
+        // if login expire, try to refresh
+        try {
+            refresh() // why isn't the cookie sending??
+            return true
+        } catch (error) {
+            
+            console.error(error);
+            return redirect("/login");
+        }
+    }
 }
 
 export const logout = async () => {
-    const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGOUT_API_PATH}`
-    )
+    try {
+        const username = getCookie('username');
+        console.log('username', username);
+        const token = getCookie('login'); 
 
-    deleteCookie('login')
-}
+        if (!token) {
+            console.log('No user logged in');
+            return;
+        }
+
+        const res = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGOUT_API_PATH}`,
+            { username }
+        );
+
+        if (res.status === 200) {
+            deleteCookie('login');
+            deleteCookie('username');
+            console.log('User logged out successfully!');
+        } else {
+            console.log('Logout failed: ', res.statusText);
+        }
+    } catch (error) {
+        console.error('Error during logout:', error);
+    }
+};
+

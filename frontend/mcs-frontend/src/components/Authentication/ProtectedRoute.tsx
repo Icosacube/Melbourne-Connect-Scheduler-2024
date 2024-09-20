@@ -1,16 +1,17 @@
-import { Navigate } from 'react-router-dom'
-import React, { ReactNode } from 'react'
-import { getCookie } from '../../scripts/cookie/function'
+import React, { FC } from 'react';
+import { Navigate, Outlet, useLoaderData } from 'react-router-dom';
+import { getCookie } from '../../scripts/cookie/function';
 
-type Props = {
-    children: ReactNode
-}
+export const ProtectedRoute: FC = () => {
+  const data = useLoaderData();
+  const token = getCookie('login');
 
-export const ProtectedRoute = ({ children }: Props) => {
-    const user = getCookie('login')
-    if (!user) {
-        return <Navigate to="/login" replace />
-    }
+  // Return a valid JSX element
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
 
-    return <>{children}</>
-}
+  return <Outlet />;
+};
+
+

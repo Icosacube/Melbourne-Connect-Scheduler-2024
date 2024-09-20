@@ -33,30 +33,85 @@ export async function sendEmail(
 
 // Get form links functions
 export async function getBlankSpeakerFormLink() {
-    return 'google.com'
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_FORM}`
+        )
+        return res.data
+    } catch (error) {
+        console.error('Error getting blank speaker form link:', error)
+        return ''
+    }
 }
 
 export async function getExistingSpeakerFormLink(speakerId: string) {
-    return 'google.com'
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_FORM}/${speakerId}`
+        )
+        return res.data
+    } catch (error) {
+        console.error('Error getting existing speaker form link:', error)
+        return ''
+    }
 }
 
-export async function getBlankEventFormLink() {
-    return 'google.com'
+export async function getBlankEventFormLink(speakerId: string) {
+    console.log(
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_EVENT_FORM}/${speakerId}`
+    )
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_EVENT_FORM}`
+        )
+        return res.data
+    } catch (error) {
+        console.error('Error getting blank event form link:', error)
+        return ''
+    }
 }
 
-export async function getExistingEventFormLink(eventId: string) {
-    return 'google.com'
+export async function getExistingEventFormLink(
+    eventId: string,
+    speakerId: string
+) {
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_EVENT_FORM}/${speakerId}/${eventId}`
+        )
+        return res.data
+    } catch (error) {
+        console.error('Error getting existing event form link:', error)
+        return ''
+    }
 }
 
 export async function getBlankSpeakerEventFormLink() {
-    return 'google.com'
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_EVENT_FORM}`
+        )
+        console.log(res.data)
+        return res.data
+    } catch (error) {
+        console.error('Error getting blank speaker event form link:', error)
+        return ''
+    }
 }
 
 export async function getExistingSpeakerEventFormLink(
     speakerId: string,
     eventId: string
 ) {
-    return 'google.com'
+    try {
+        const res = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_SPEAKER_EVENT_FORM}/${speakerId}/${eventId}`
+        )
+        return res.data
+    } catch (error) {
+        console.error('Error getting existing speaker event form link:', error)
+        return ''
+    }
 }
 
 // Templating functions
@@ -115,14 +170,15 @@ export function generateEmailTemplateFromEvents(
     return { emailSubject, emailContent }
 }
 
-export function generateEmailTemplateForBlankSpeakerForm() {
-    const formLink = getBlankSpeakerFormLink()
+export async function generateEmailTemplateForBlankSpeakerForm() {
+    const formLink = await getBlankSpeakerFormLink()
 
     const subject = 'Invitation to fill out your information'
 
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear Speaker,</h2>
+            <br>
             <p>
                 We are excited to invite you to fill in your personal details. 
                 Please click the link below to complete your speaker form:
@@ -130,9 +186,11 @@ export function generateEmailTemplateForBlankSpeakerForm() {
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">New Speaker Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
@@ -143,8 +201,10 @@ export function generateEmailTemplateForBlankSpeakerForm() {
     return { subject, body }
 }
 
-export function generateEmailTemplateForExistingSpeakerForm(speaker: Speaker) {
-    const formLink = getExistingSpeakerFormLink(speaker.RecordID)
+export async function generateEmailTemplateForExistingSpeakerForm(
+    speaker: Speaker
+) {
+    const formLink = await getExistingSpeakerFormLink(speaker.RecordID)
 
     const to = speaker.PrimaryEmail || ''
 
@@ -153,6 +213,7 @@ export function generateEmailTemplateForExistingSpeakerForm(speaker: Speaker) {
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear ${firstName},</h2>
+            <br>
             <p>
                 We are excited to invite you to update your personal details. 
                 Please click the link below to complete your speaker form:
@@ -160,9 +221,11 @@ export function generateEmailTemplateForExistingSpeakerForm(speaker: Speaker) {
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">Update Speaker Information Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
@@ -173,8 +236,8 @@ export function generateEmailTemplateForExistingSpeakerForm(speaker: Speaker) {
     return { to, subject, body }
 }
 
-export function generateEmailTemplateForBlankEventForm(speaker?: Speaker) {
-    const formLink = getBlankEventFormLink()
+export async function generateEmailTemplateForBlankEventForm(speaker: Speaker) {
+    const formLink = await getBlankEventFormLink(speaker?.RecordID)
 
     const subject = 'Invitation to create a new event'
     const to = speaker?.PrimaryEmail || ''
@@ -183,6 +246,7 @@ export function generateEmailTemplateForBlankEventForm(speaker?: Speaker) {
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear ${firstName},</h2>
+            <br>
             <p>
                 We are excited to invite you to create a new event. 
                 Please click the link below to complete your event form:
@@ -190,9 +254,11 @@ export function generateEmailTemplateForBlankEventForm(speaker?: Speaker) {
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">New Event Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
@@ -203,11 +269,14 @@ export function generateEmailTemplateForBlankEventForm(speaker?: Speaker) {
     return { to, subject, body }
 }
 
-export function generateEmailTemplateForExistingEventForm(
+export async function generateEmailTemplateForExistingEventForm(
     speaker: Speaker,
     event: MainEvent
 ) {
-    const formLink = getExistingEventFormLink(event.RecordID)
+    const formLink = await getExistingEventFormLink(
+        event.RecordID,
+        speaker.RecordID
+    )
 
     const subject = 'Invitation to update your event information'
     const to = speaker.PrimaryEmail || ''
@@ -216,6 +285,7 @@ export function generateEmailTemplateForExistingEventForm(
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear ${firstName},</h2>
+            <br>
             <p>
                 We are excited to invite you to update your event. 
                 Please click the link below to complete your event form:
@@ -223,9 +293,11 @@ export function generateEmailTemplateForExistingEventForm(
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">Update Event Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
@@ -236,13 +308,14 @@ export function generateEmailTemplateForExistingEventForm(
     return { to, subject, body }
 }
 
-export function generateEmailTemplateForBlankSpeakerEventForm() {
-    const formLink = getBlankSpeakerEventFormLink()
+export async function generateEmailTemplateForBlankSpeakerEventForm() {
+    const formLink = await getBlankSpeakerEventFormLink()
 
     const subject = 'Invitation to add your information create a new event'
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear Speaker,</h2>
+            <br>
             <p>
                 We are excited to invite you to add your information and create a new event. 
                 Please click the link below to complete your event form:
@@ -250,9 +323,11 @@ export function generateEmailTemplateForBlankSpeakerEventForm() {
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">New Speaker & Event Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
@@ -263,11 +338,11 @@ export function generateEmailTemplateForBlankSpeakerEventForm() {
     return { subject, body }
 }
 
-export function generateEmailTemplateForExistingSpeakerEventForm(
+export async function generateEmailTemplateForExistingSpeakerEventForm(
     speaker: Speaker,
     event: MainEvent
 ) {
-    const formLink = getExistingSpeakerEventFormLink(
+    const formLink = await getExistingSpeakerEventFormLink(
         speaker.RecordID,
         event.RecordID
     )
@@ -279,7 +354,7 @@ export function generateEmailTemplateForExistingSpeakerEventForm(
     const body = `
         <div style="font-family: Arial, sans-serif; line-height: 1.5;">
             <h2>Dear ${firstName},</h2>
-            <br/>
+            <br>
             <p>
                 We are excited to invite you to update your personal information and event details. 
                 Please click the link below to complete your speaker and event form:
@@ -287,9 +362,11 @@ export function generateEmailTemplateForExistingSpeakerEventForm(
             <p>
                 <a href="${formLink}" style="color: #007BFF; text-decoration: none;">Update Speaker & Event Information Form Link</a>
             </p>
+            <br>
             <p>
                 Thank you for your participation!
             </p>
+            <br>
             <p>
                 Best regards,<br />
                 The Event Team
