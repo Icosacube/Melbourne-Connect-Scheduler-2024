@@ -2,7 +2,6 @@ import BarChartIcon from '@mui/icons-material/BarChart'
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports'
 import EventIcon from '@mui/icons-material/Event'
 import PeopleIcon from '@mui/icons-material/People'
-import LocationCityIcon from '@mui/icons-material/LocationCity'
 import {
     Box,
     Button,
@@ -36,7 +35,6 @@ export const SideNavBar: React.FC = () => {
             name: 'Finance',
             url: '/finance',
         },
-        { name: 'Venues', url: '/venues' },
     ]
     function overviewTabsIcons(tabName: string): JSX.Element {
         switch (tabName) {
@@ -62,12 +60,6 @@ export const SideNavBar: React.FC = () => {
                 return (
                     <ListItemIcon>
                         <BarChartIcon />
-                    </ListItemIcon>
-                )
-            case 'Venues':
-                return (
-                    <ListItemIcon>
-                        <LocationCityIcon />
                     </ListItemIcon>
                 )
             default:

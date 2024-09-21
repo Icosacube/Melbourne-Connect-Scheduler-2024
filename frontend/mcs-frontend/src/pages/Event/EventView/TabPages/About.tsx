@@ -1,6 +1,6 @@
 import { Avatar, Box, Chip, Stack, Typography } from '@mui/material'
 import React, { FC } from 'react'
-import { MainEvent, Speaker } from '../../../../types/frontendTypes'
+import { MainEvent, Speaker, Venue } from '../../../../types/frontendTypes'
 import AboutTable from './AboutTable'
 import Banner from './Banner'
 import Headline from './Headline'
@@ -8,6 +8,7 @@ import Headline from './Headline'
 interface AboutProps {
     event: MainEvent
     speakers: Speaker[]
+    venues: Venue[]
 }
 
 interface NameCardProps {
@@ -29,7 +30,7 @@ const NameCard: FC<NameCardProps> = ({ firstName, lastName, position }) => {
     )
 }
 
-export const About: FC<AboutProps> = ({ event, speakers }) => {
+export const About: FC<AboutProps> = ({ event, speakers, venues }) => {
     const firstSpeaker = speakers[0]
     const theRestOfSpeakers = speakers.slice(1)
     console.log(event.EventBanner)
@@ -46,7 +47,7 @@ export const About: FC<AboutProps> = ({ event, speakers }) => {
                     />
 
                     {/* Info Table */}
-                    <AboutTable event={event} />
+                    <AboutTable event={event} venues={venues} />
                 </Box>
             </Box>
 
