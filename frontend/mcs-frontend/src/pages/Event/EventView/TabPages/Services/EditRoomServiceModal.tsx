@@ -74,11 +74,7 @@ export const EditRoomServiceModal: React.FC<EditRoomServiceModalProps> = ({
 
     return (
         <>
-            <Modal
-                open={open}
-                onClose={onClose}
-                aria-labelledby="update-room-service"
-            >
+            <Modal open={open} onClose={onClose} role="dialog">
                 <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container

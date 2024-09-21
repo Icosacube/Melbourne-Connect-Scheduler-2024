@@ -25,13 +25,13 @@ import CancelIcon from '@mui/icons-material/Close'
 import { useRevalidator } from 'react-router-dom'
 
 interface RoomServicesTableProps {
-    event: MainEvent
+    eventId: string
     roomServices: Service[]
     fundingAccounts: FundingAccount[]
 }
 
 export const RoomServicesTable: FC<RoomServicesTableProps> = ({
-    event,
+    eventId,
     roomServices,
     fundingAccounts,
 }) => {
@@ -94,7 +94,9 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({
         } catch (error) {
             console.error('Error deleting room service:', error)
         } finally {
-            revalidator.revalidate()
+            if (revalidator) {
+                revalidator.revalidate()
+            }
             setDeleting(false)
             handleCloseDeleteDialog()
         }
@@ -216,7 +218,7 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({
                     <CreateRoomServiceModal
                         open={openCreate}
                         handleClose={handleCloseCreate}
-                        eventID={event.RecordID}
+                        eventID={eventId}
                         fundingAccounts={fundingAccountMap}
                     />
                 </Box>
@@ -246,7 +248,7 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({
                     handleClose={handleCloseUpdate}
                     open={openUpdate}
                     roomService={selectedRoomService}
-                    eventID={event.RecordID}
+                    eventID={eventId}
                     fundingAccounts={fundingAccountMap}
                 />
             )}
