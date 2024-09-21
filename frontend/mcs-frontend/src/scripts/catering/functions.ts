@@ -116,5 +116,6 @@ export async function deleteCateringByID(id: string) {
         return res.status
     } catch (error) {
         console.error('Error deleting catering by ID:', error)
+        throw error
     }
 }

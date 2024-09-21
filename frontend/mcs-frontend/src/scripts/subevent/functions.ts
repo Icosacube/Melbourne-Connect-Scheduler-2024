@@ -127,5 +127,6 @@ export async function deleteSubEventByID(id : string) {
         return res.status
     } catch (error) {
         console.error('Error deleting sub-event by ID:', error)
+        throw error
     }
 }
