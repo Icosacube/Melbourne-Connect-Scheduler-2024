@@ -134,6 +134,7 @@ export async function updateMainEventById(mainEvent: MainEvent) {
         console.log(res.data)
     } catch (error) {
         console.error('Error updating main event by ID:', error)
+        return {} as MainEvent
     }
 }
 

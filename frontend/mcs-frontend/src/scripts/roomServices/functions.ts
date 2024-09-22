@@ -114,5 +114,6 @@ export async function deleteRoomServiceByID(id: string) {
         return res.status
     } catch (error) {
         console.error('Error deleting room service by ID:', error)
+        throw error
     }
 }
