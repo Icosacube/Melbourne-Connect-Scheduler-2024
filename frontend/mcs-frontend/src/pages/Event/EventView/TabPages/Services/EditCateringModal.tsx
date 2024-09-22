@@ -1,7 +1,7 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import { AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
@@ -11,9 +11,10 @@ import {
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
-} from '../../../../components/'
-import { Catering } from '../../../../types/frontendTypes'
-import { updateCateringByID } from '../../../../scripts/catering/functions'
+} from '../../../../../components/'
+import { Catering } from '../../../../../types/frontendTypes'
+import { updateCateringByID } from '../../../../../scripts/catering/functions'
+import { useRevalidator } from 'react-router-dom'
 
 interface EditCateringModalProps {
     handleClose: () => void
@@ -21,7 +22,6 @@ interface EditCateringModalProps {
     catering: Catering
     eventID: string
     fundingAccounts: Map<string, string>
-    updateCatering: (catering: Catering) => void
 }
 
 const EditCateringFormDefaultValues: Catering = {
@@ -39,36 +39,28 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
     handleClose,
     open,
     catering,
-    eventID,
     fundingAccounts,
-    updateCatering: updateCatering,
 }) => {
-
     const { handleSubmit, reset, control } = useForm<Catering>({
-        defaultValues: catering || EditCateringFormDefaultValues, 
+        defaultValues: catering || EditCateringFormDefaultValues,
     })
-
-    useEffect(() => {
-        if (catering) {
-            reset(catering)
-        }
-    }, [catering, reset])
+    const revalidator = useRevalidator()
 
     const onSubmit = async (data: Catering) => {
-        setSubmitting(true);
+        setSubmitting(true)
         try {
-            const res: AxiosResponse = await updateCateringByID(data);
+            const res: AxiosResponse = await updateCateringByID(data)
             if (res.status !== 200) {
-                throw new Error('Failed to update catering');
+                throw new Error('Failed to update catering')
             }
-            setShowSuccess(true);
-            updateCatering(data); // This should be a separate function to update state
+            revalidator.revalidate()
+            setShowSuccess(true)
         } catch (error) {
-            console.error(error);
+            console.error(error)
         } finally {
-            setSubmitting(false);
-            reset();
-            handleClose();
+            setSubmitting(false)
+            reset()
+            handleClose()
         }
     }
 
@@ -95,7 +87,7 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                     >
                         <Grid item xs={12}>
                             <Typography variant="h4" gutterBottom>
-                                Update Catering 
+                                Update Catering
                             </Typography>
                         </Grid>
 

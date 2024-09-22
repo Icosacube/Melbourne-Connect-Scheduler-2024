@@ -87,10 +87,11 @@ router.get('/service/:mainEventID', async (req, res) => {
 });
 
 //create one service for a main event
-router.post('/service/:mainEventID', async (req, res) => {
-  const { mainEventID } = req.params;
+router.post('/services', async (req, res) => {
+  console.log("here");
+  const { MainEvent: mainEventID } = req.body;
   const newService: Service = req.body;
-  newService.MainEvent = [mainEventID];
+  newService.MainEvent = mainEventID;
   const serviceRecord = {
     fields: newService,
   };

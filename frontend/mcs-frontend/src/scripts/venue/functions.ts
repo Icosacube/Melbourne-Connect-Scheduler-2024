@@ -78,10 +78,10 @@ export async function updateVenue(venue: Venue): Promise<Venue> {
     }
 }
 
-export async function deleteVenue(venue: Venue): Promise<boolean> {
+export async function deleteVenue(venueId: string): Promise<boolean> {
     try {
         await axios.delete(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}/${venue.RecordID}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_VENUE_API_PATH}/${venueId}`
         )
         return true
     } catch (error) {

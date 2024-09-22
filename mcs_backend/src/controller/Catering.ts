@@ -97,7 +97,7 @@ router.post('/catering', async (req, res) => {
     await createRecord(financeTable,[{fields: {"Catering": recordId}}])
     deleteCache(Cachekeys.CATERINGS);
     
-    res.status(200).json(recordId);
+    res.status(200).json({ message: 'New catering created successfully' });
   } catch (error) {
     console.error('Failed to create catering:', error);
     res.status(500).json({ error: 'Failed to create catering' });

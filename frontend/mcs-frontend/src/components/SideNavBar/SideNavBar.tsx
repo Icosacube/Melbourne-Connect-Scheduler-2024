@@ -1,4 +1,9 @@
+
 import React, { useEffect } from 'react'
+import BarChartIcon from '@mui/icons-material/BarChart'
+import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports'
+import EventIcon from '@mui/icons-material/Event'
+import PeopleIcon from '@mui/icons-material/People'
 import {
     Box,
     List,
@@ -44,7 +49,6 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
         { name: 'Trips', url: '/trips' },
         { name: 'Speakers', url: '/speakers' },
         { name: 'Finance', url: '/finance' },
-        { name: 'Venues', url: '/venues' },
     ]
 
     function overviewTabsIcons(tabName: string): JSX.Element {
@@ -71,12 +75,6 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
                 return (
                     <ListItemIcon>
                         <BarChartIcon />
-                    </ListItemIcon>
-                )
-            case 'Venues':
-                return (
-                    <ListItemIcon>
-                        <LocationCityIcon />
                     </ListItemIcon>
                 )
             default:

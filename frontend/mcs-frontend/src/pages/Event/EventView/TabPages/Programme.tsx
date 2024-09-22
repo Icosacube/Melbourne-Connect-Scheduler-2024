@@ -16,7 +16,9 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
     const [subEvents, setSubEvents] = useState<SubEvent[]>([])
     const [openCreate, setOpenCreate] = useState(false)
     const [openUpdate, setOpenUpdate] = useState(false)
-    const [selectedSubEvent, setSelectedSubEvent] = useState<SubEvent | null>(null);
+    const [selectedSubEvent, setSelectedSubEvent] = useState<SubEvent | null>(
+        null
+    )
 
     // Fetch subevents
     const fetchSubEvents = async () => {
@@ -59,29 +61,38 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
                 />
             </Box>
             {selectedSubEvent && (
-                    <EditSubEventModal
-                        open={openUpdate}
-                        handleClose={handleCloseUpdate}
-                        speakers={speakers}
-                        subEvent={selectedSubEvent}
-                        removeSubEvent={(removeSubEventID) => {
-                            setSubEvents((prevSubEvent) =>
-                                prevSubEvent.filter(event => event.RecordID !== removeSubEventID))
-                        
+                <EditSubEventModal
+                    open={openUpdate}
+                    handleClose={handleCloseUpdate}
+                    speakers={speakers}
+                    subEvent={selectedSubEvent}
+                    removeSubEvent={(removeSubEventID) => {
+                        setSubEvents((prevSubEvent) =>
+                            prevSubEvent.filter(
+                                (event) => event.RecordID !== removeSubEventID
+                            )
+                        )
+
                         handleCloseUpdate()
-                        }}
-                        updateSubEvent={(updatedSubEvent) => {
-                            setSubEvents((prevSubEvent) =>
-                                prevSubEvent.map((item) =>
+                    }}
+                    updateSubEvent={(updatedSubEvent) => {
+                        setSubEvents((prevSubEvent) =>
+                            prevSubEvent.map((item) =>
                                 item.RecordID === updatedSubEvent.RecordID
-                                ? updatedSubEvent
-                                : item))
+                                    ? updatedSubEvent
+                                    : item
+                            )
+                        )
                         handleCloseUpdate()
-                        }}
+                    }}
                 />
             )}
             <Box className="space-y-5">
-                <WeeklyCalendar event={event} subEvents={subEvents} onEventClick={handleOpenUpdate} />
+                <WeeklyCalendar
+                    event={event}
+                    subEvents={subEvents}
+                    onEventClick={handleOpenUpdate}
+                />
             </Box>
         </>
     )

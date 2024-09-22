@@ -190,11 +190,14 @@ export type Catering = {
 }
 
 export type Service = {
+    RecordID: string
     Cost: number
     ServiceDescription: string
+    ExpenseDate: Dayjs
     Notes: string
     FundingAccount: string[]
     MainEvent: string[]
+    Finance: string[]
 }
 
 export type FundingAccount = {

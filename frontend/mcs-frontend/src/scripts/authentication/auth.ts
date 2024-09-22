@@ -1,7 +1,7 @@
 import axios from 'axios'
 import cookie from 'cookie'
 import { deleteCookie, getCookie, setCookie } from '../cookie/function'
-
+import { redirect } from "react-router-dom";
 interface loginResponse {
     username: string
     accessToken: string
@@ -31,6 +31,7 @@ export const login = async (username: string, password: string) => {
         date.setTime(date.getTime() + 15 * 60 * 1000)
 
         setCookie('login', token, { expires: date })
+        setCookie('username', data.username, { expires: date })
 
         // set default axios auth header
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -60,7 +61,9 @@ export const register = async (username: string, password: string) => {
 export const refresh = async () => {
     try {
         const res = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_REFRESH_API_PATH}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_REFRESH_API_PATH}`,
+            null,
+            { withCredentials: true } 
         )
 
         const data = res.data as loginResponse
@@ -82,7 +85,7 @@ export const refresh = async () => {
 export const authGuard = async () => {
     // check if we have valid user info
     const user = getCookie('login')
-
+    console.log(user)
     // set default axios auth header
     if (user) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${user}`
@@ -93,16 +96,38 @@ export const authGuard = async () => {
             refresh() // why isn't the cookie sending??
             return true
         } catch (error) {
-            console.error(error)
-            return false
+            
+            console.error(error);
+            return redirect("/login");
         }
     }
 }
 
 export const logout = async () => {
-    const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGOUT_API_PATH}`
-    )
+    try {
+        const username = getCookie('username');
+        console.log('username', username);
+        const token = getCookie('login'); 
 
-    deleteCookie('login')
-}
+        if (!token) {
+            console.log('No user logged in');
+            return;
+        }
+
+        const res = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGOUT_API_PATH}`,
+            { username }
+        );
+
+        if (res.status === 200) {
+            deleteCookie('login');
+            deleteCookie('username');
+            console.log('User logged out successfully!');
+        } else {
+            console.log('Logout failed: ', res.statusText);
+        }
+    } catch (error) {
+        console.error('Error during logout:', error);
+    }
+};
+
