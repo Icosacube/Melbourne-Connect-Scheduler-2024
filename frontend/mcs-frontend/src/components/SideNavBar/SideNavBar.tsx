@@ -18,11 +18,6 @@ import {
     useTheme,
 } from '@mui/material'
 import { NavLink } from 'react-router-dom'
-import BarChartIcon from '@mui/icons-material/BarChart'
-import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports'
-import EventIcon from '@mui/icons-material/Event'
-import PeopleIcon from '@mui/icons-material/People'
-import LocationCityIcon from '@mui/icons-material/LocationCity'
 import { Logo1 } from '../../assets/logo1'
 import { Logo2 } from '../../assets/logo2'
 
