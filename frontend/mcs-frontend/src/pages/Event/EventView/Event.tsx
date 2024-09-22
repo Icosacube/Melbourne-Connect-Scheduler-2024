@@ -55,7 +55,7 @@ export const Event: FC = () => {
             case 'Room Services':
                 return (
                     <RoomServicesTable
-                        event={event}
+                        eventId={event.RecordID}
                         roomServices={roomServices}
                         fundingAccounts={fundingAccounts}
                     />
