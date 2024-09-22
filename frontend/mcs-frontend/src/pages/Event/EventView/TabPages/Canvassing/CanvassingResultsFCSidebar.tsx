@@ -8,6 +8,7 @@ import {
 import {
     AddButton,
     FormInputMultiAutocomplete,
+    ShareEmailButton,
 } from '../../../../../components'
 import { useForm } from 'react-hook-form'
 import { People } from '@mui/icons-material'
@@ -169,18 +170,46 @@ export const CanvassingResultsFCSidebar: React.FC<
                                     item
                                     xs={12}
                                     container
+                                    spacing={2}
                                     justifyContent="flex-start"
                                     marginTop={2}
                                 >
-                                    <AddButton
-                                        name={'Sub-Event'}
-                                        onClick={() =>
-                                            handleOpenCreate(
-                                                selectedSlot.StartTime,
-                                                selectedSlot.EndTime
-                                            )
-                                        }
-                                    />
+                                    <Grid item>
+                                        <ShareEmailButton
+                                            event={event}
+                                            academic={{
+                                                RecordID: '12345',
+                                                Email: 'john.doe@example.com',
+                                                Name: 'John Doe',
+                                                MainEvent: [
+                                                    'event1',
+                                                    'event2',
+                                                    'event3',
+                                                ],
+                                                Canvassing: [
+                                                    'canvassing1',
+                                                    'canvassing2',
+                                                ],
+                                                CanvassingAvailable: [
+                                                    'available1',
+                                                    'available2',
+                                                    'available3',
+                                                ],
+                                            }}
+                                        />
+                                    </Grid>
+
+                                    <Grid item>
+                                        <AddButton
+                                            name={'Sub-Event'}
+                                            onClick={() =>
+                                                handleOpenCreate(
+                                                    selectedSlot.StartTime,
+                                                    selectedSlot.EndTime
+                                                )
+                                            }
+                                        />
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         ) : null}
@@ -193,7 +222,7 @@ export const CanvassingResultsFCSidebar: React.FC<
                     </Grid>
                 )}
             </Paper>
-            
+
             {openCreate && subEventTimes && (
                 <CreateSubEventModal
                     open={openCreate}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { ShareEmailButton } from '../../../../../components/Buttons'
 import { Badge, Box, Grid, Paper, Typography } from '@mui/material'
 import { CanvassingResultsCalendar } from '../../../../../components'
 import { CanvassingResultsFCSidebar } from './CanvassingResultsFCSidebar'
@@ -129,20 +128,6 @@ export const CanvassingResultsFC: React.FC<CanvassingResultsProps> = ({
                     selectedSlot={selectedSlot}
                     academicMap={academicMap}
                 />
-                {/* Centered ShareEmailButton */}
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}> {/* Just added this Box wrapper */}
-                    <ShareEmailButton
-                        event={event}
-                        academic={{
-                            RecordID: '12345',
-                            Email: 'john.doe@example.com',
-                            Name: 'John Doe',
-                            MainEvent: ['event1', 'event2', 'event3'],
-                            Canvassing: ['canvassing1', 'canvassing2'],
-                            CanvassingAvailable: ['available1', 'available2', 'available3'],
-                        }}
-                    />
-                </Box>
                 
             </Grid>
             
