@@ -19,6 +19,7 @@ import {
 import { CreateSubEventModal } from '../CreateSubEventModal'
 import dayjs, { Dayjs } from 'dayjs'
 import { SlotDateTime } from '../../../../../components/'
+import { ShareEmailButton } from '../../../../../components/Buttons'
 
 interface CanvassingResultsTableProps {
     event: MainEvent
@@ -261,6 +262,27 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                 endDate={endTime}
                 onSubEventCreation={handleSubEventCreated}
             />
+            {/* ShareEmailButton positioned at the bottom center */}
+            <Box
+                sx={{
+                    position: 'absolute',
+                    bottom: 16,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                }}
+            >
+                <ShareEmailButton
+                    event={event}
+                    academic={{
+                        RecordID: '12345',
+                        Email: 'john.doe@example.com',
+                        Name: 'John Doe',
+                        MainEvent: ['event1', 'event2', 'event3'],
+                        Canvassing: ['canvassing1', 'canvassing2'],
+                        CanvassingAvailable: ['available1', 'available2', 'available3'],
+                    }}
+                />
+            </Box>
         </Box>
     )
 }

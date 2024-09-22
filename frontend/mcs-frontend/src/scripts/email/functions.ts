@@ -90,7 +90,7 @@ export async function getBlankCanvassingFormLink() {
 
 export function generateEmailTemplateForCanvassing(
     event: MainEvent,
-    academic: Academic
+    academic: Academic,
 ) {
     const formLink = getBlankCanvassingFormLink()
     const emailSubject = `INVITATION: Canvassing for ${event.EventName}`

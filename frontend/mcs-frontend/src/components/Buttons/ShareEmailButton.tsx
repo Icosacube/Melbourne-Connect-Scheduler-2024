@@ -5,8 +5,8 @@ import { ShareCanvassingModal } from '../../pages/Event/EventView/TabPages/Canva
 import { Email } from '@mui/icons-material'
 
 interface ShareEmailButtonProps {
-    event: MainEvent
-    academic: Academic
+    event: MainEvent;
+    academic: Academic;
 }
 
 export const ShareEmailButton: FC<ShareEmailButtonProps> = ({

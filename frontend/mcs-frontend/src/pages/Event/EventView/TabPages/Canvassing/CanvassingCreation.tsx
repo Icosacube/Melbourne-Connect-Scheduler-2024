@@ -217,7 +217,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                 justifyContent="flex-end"
                                 spacing={1.5}
                             >
-                                <Grid item xs="auto">
+                                {/* <Grid item xs="auto">
                                     {event &&
                                         academics &&
                                         academics.length > 0 && (
@@ -226,7 +226,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                                 academic={academics[0]}
                                             />
                                         )}
-                                </Grid>
+                                </Grid> */}
                                 <Grid item xs="auto">
                                     <SubmitButton
                                         submitting={submitting}
