@@ -5,6 +5,8 @@ import timezone from 'dayjs/plugin/timezone'
 import {
     Canvassing as CanvassingFrontend,
     CanvassingTemp as CanvassingTempFrontend,
+    MainEvent,
+    Academic
 } from '../../types/frontendTypes'
 import {
     Canvassing as CanvassingBackend,
@@ -105,6 +107,12 @@ function generateCanvassingLinks(data: CanvassingBackend[]): string[] {
         (academicId) =>
             `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}/${academicId}`
     )
+}
+
+export function generateCanvassingLinksTest(event: MainEvent, academic: Academic){
+    const eventId = event.RecordID
+    const academicId = academic.RecordID
+    return `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}/${academicId}`
 }
 
 // Function to reformat Canvassing response to frontend format

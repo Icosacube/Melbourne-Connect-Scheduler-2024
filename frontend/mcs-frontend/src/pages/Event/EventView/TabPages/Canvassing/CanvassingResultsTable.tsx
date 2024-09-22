@@ -6,6 +6,7 @@ import {
     IconButton,
     useMediaQuery,
     Tooltip,
+    Button,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
@@ -20,6 +21,7 @@ import { CreateSubEventModal } from '../CreateSubEventModal'
 import dayjs, { Dayjs } from 'dayjs'
 import { SlotDateTime } from '../../../../../components/'
 import { ShareEmailButton } from '../../../../../components/Buttons'
+import SelectAcademicModal from './SelectAcademicModal'
 
 interface CanvassingResultsTableProps {
     event: MainEvent
@@ -40,6 +42,15 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
     const [openCreate, setOpenCreate] = useState(false)
     const [startTime, setStartTime] = useState<Dayjs>(dayjs())
     const [endTime, setEndTime] = useState<Dayjs>(dayjs())
+    const [openSelectAcademic, setOpenSelectAcademic] = useState(false)
+
+    const handleOpenSelectAcademic = () => {
+        setOpenSelectAcademic(true)
+    }
+
+    const handleCloseSelectAcademic = () => {
+        setOpenSelectAcademic(false)
+    }
 
     const handleOpenCreate = (slot: Canvassing) => {
         setStartTime(dayjs(slot.StartTime))
@@ -263,7 +274,7 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                 onSubEventCreation={handleSubEventCreated}
             />
             {/* ShareEmailButton positioned at the bottom center */}
-            <Box
+            {/* <Box
                 sx={{
                     position: 'absolute',
                     bottom: 16,
@@ -279,10 +290,30 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                         Name: 'John Doe',
                         MainEvent: ['event1', 'event2', 'event3'],
                         Canvassing: ['canvassing1', 'canvassing2'],
-                        CanvassingAvailable: ['available1', 'available2', 'available3'],
+                        CanvassingAvailable: [
+                            'available1',
+                            'available2',
+                            'available3',
+                        ],
                     }}
                 />
-            </Box>
+            </Box> */}
+            <Button
+                onClick={handleOpenSelectAcademic}
+                variant="contained"
+                color="primary"
+                sx={{
+                    position: 'absolute',
+                    bottom: 16,
+                    right: 16,
+                }}
+            >
+                Send
+            </Button>
+            <SelectAcademicModal
+                isOpen={openSelectAcademic}
+                onClose={handleCloseSelectAcademic}
+            />
         </Box>
     )
 }

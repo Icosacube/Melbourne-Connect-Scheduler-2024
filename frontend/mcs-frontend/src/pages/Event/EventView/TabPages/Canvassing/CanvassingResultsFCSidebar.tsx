@@ -13,6 +13,7 @@ import {
 import { useForm } from 'react-hook-form'
 import { People } from '@mui/icons-material'
 import { CreateSubEventModal } from '../CreateSubEventModal'
+import dayjs from 'dayjs'
 
 interface CanvassingResultsFCSidebarProps {
     event: MainEvent
@@ -176,9 +177,27 @@ export const CanvassingResultsFCSidebar: React.FC<
                                 >
                                     <Grid item>
                                         <ShareEmailButton
-                                            event={event}
+                                            event={{
+                                                RecordID: 'rec0fcCBVW5Bcqqkl',
+                                                EventName: '',
+                                                EventAbstract: '',
+                                                EventDescription: '',
+                                                EventbriteLink: '',
+                                                EventBanner: '',
+                                                Date: dayjs(),
+                                                Notes: '',
+                                                Speaker: [],
+                                                GuestAcademic: [],
+                                                Catering: [],
+                                                Venue: [],
+                                                Service: [],
+                                                Completed: false,
+                                                Trip: [],
+                                                SubEvent: [],
+                                                EventTotal: 0
+                                            }}
                                             academic={{
-                                                RecordID: '12345',
+                                                RecordID: 'recfWhlwsuSMJTGt4',
                                                 Email: 'john.doe@example.com',
                                                 Name: 'John Doe',
                                                 MainEvent: [

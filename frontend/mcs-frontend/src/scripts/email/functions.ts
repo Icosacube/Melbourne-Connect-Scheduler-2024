@@ -140,6 +140,13 @@ export async function getExistingSpeakerEventFormLink(
     }
 }
 
+export async function getCanvassingFormLink(
+    eventId: string,
+    academicId: string
+){
+    return `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}/${academicId}`
+}
+
 export async function getBlankCanvassingFormLink() {
     return 'google.com'
 }
@@ -148,7 +155,7 @@ export function generateEmailTemplateForCanvassing(
     event: MainEvent,
     academic: Academic,
 ) {
-    const formLink = getBlankCanvassingFormLink()
+    const formLink = getCanvassingFormLink(event.RecordID, academic.RecordID)
     const emailSubject = `INVITATION: Canvassing for ${event.EventName}`
     const emailContent = `
         <html>
