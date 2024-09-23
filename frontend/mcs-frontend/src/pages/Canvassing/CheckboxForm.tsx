@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { Dayjs } from 'dayjs'
-import { Canvassing, Venue } from '../../types/frontendTypes'
+import { Canvassing } from '../../types/frontendTypes'
 import {
     Box,
     Button,
@@ -15,7 +16,12 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { updateCanvassing } from '../../scripts/canvassing/functions'
 import { useRevalidator } from 'react-router-dom'
-import { BottomSuccessSnackbar, SlotDateTime } from '../../components'
+import {
+    BottomSuccessSnackbar,
+    FormInputText,
+    SlotDateTime,
+    SubmitButton,
+} from '../../components'
 
 // Canvassing with Available boolean for checkbox processing
 interface CheckSlots {
@@ -27,28 +33,29 @@ interface CheckSlots {
 }
 
 interface CheckboxFormProps {
-    academic: string
     canvassingSlots: Canvassing[]
 }
 
 export const CheckboxForm: React.FC<CheckboxFormProps> = ({
-    academic,
     canvassingSlots,
 }) => {
     const [checkSlots, setCheckSlots] = useState<CheckSlots[]>([])
     const [academics, setAcademics] = useState<string[]>([])
-
     const [showSuccess, setShowSuccess] = useState(false)
+    const [showError, setShowError] = useState(false)
     const revalidator = useRevalidator()
-
     const MainEvent = canvassingSlots[0].MainEvent
+    const [submitting, setSubmitting] = useState(false)
+    const { handleSubmit, reset, control } = useForm<{ academicName: string }>({
+        defaultValues: { academicName: '' },
+    })
 
     useEffect(() => {
         const initialCheckSlots = canvassingSlots.map((slot) => ({
             RecordID: slot.RecordID,
             StartTime: slot.StartTime,
             EndTime: slot.EndTime,
-            isAvailable: slot.AvailableAcademic.includes(academic),
+            isAvailable: false,
             AvailableAcademic: slot.AvailableAcademic,
         }))
         setCheckSlots(initialCheckSlots)
@@ -97,7 +104,17 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
         (currentPage + 1) * itemsPerPage
     )
 
-    const handleSubmit = async () => {
+    const onSubmit = async (data: { academicName: string }) => {
+        setSubmitting(true)
+        const academicIndex = canvassingSlots[0].AcademicName?.indexOf(
+            data.academicName
+        )
+        if (academicIndex == -1) {
+            setShowError(true)
+            setSubmitting(false)
+            return
+        }
+        const academic = canvassingSlots[0].Academic[academicIndex]
         const modifiedCanvassings = checkSlots.reduce((acc, slot) => {
             const wasAvailable =
                 slot.AvailableAcademic.length === 0
@@ -130,16 +147,17 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
         console.log(modifiedCanvassings)
 
         try {
-            // TODO: add submitting state
             const res = await updateCanvassing(modifiedCanvassings)
+            setSubmitting(false)
             if (res == 200) {
                 setShowSuccess(true)
-                revalidator.revalidate()
             } else {
                 console.log('Failed to update Canvassing Form')
             }
         } catch (error) {
             console.error(error)
+        } finally{
+            reset()
         }
     }
     return (
@@ -157,17 +175,26 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
                         Meeting For {canvassingSlots[0].EventName.join(', ')}
                     </Typography>
                 </Grid>
-                <Grid item xs={12} md={6} lg={9} marginBottom={8}>
+                <Grid item xs={12} marginBottom={2}>
                     <Typography variant="subtitle1" fontSize={20}>
                         {canvassingSlots[0].VenueName.join(', ')}
                     </Typography>
+                </Grid>
+                <Grid item xs={12} md={6} lg={8} marginBottom={1}>
+                    <FormInputText
+                        required={true}
+                        name="academicName"
+                        control={control}
+                        label="Full Name"
+                    />
                 </Grid>
                 <Grid
                     item
                     xs={12}
                     md={6}
-                    lg={3}
+                    lg={4}
                     container
+                    marginBottom={1}
                     justifyContent="flex-end"
                 >
                     <Grid
@@ -204,7 +231,6 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
                         </Grid>
                     </Grid>
                 </Grid>
-
                 <Grid
                     item
                     xs={12}
@@ -311,9 +337,10 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
                     alignItems="flex-end"
                 >
                     <Grid item>
-                        <Button variant={'contained'} onClick={handleSubmit}>
-                            Save
-                        </Button>
+                        <SubmitButton
+                            submitting={submitting}
+                            onClick={handleSubmit(onSubmit)}
+                        />
                     </Grid>
                 </Grid>
             </Grid>
@@ -322,6 +349,12 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
                 message="Canvassing Form Saved Successfully"
+            />
+            <BottomSuccessSnackbar
+                showSuccess={showError}
+                setShowSuccess={setShowError}
+                message="The entered name is not found for this form"
+                variant="error"
             />
         </Box>
     )

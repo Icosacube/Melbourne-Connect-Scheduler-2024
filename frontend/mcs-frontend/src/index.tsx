@@ -61,11 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
             element: <Logout />,
             errorElement: <ErrorPage />,
         },
-
-        // Remove this from protected route later,
-        // at the moment canvassing won't load if not wrapped here
         {
-            path: '/canvassing/:eventid/:academicid',
+            path: '/canvassing/:eventid',
             element: <FullWidthLayout content={<Canvassing />} />,
             errorElement: <ErrorPage />,
             loader: canvassingLoader,

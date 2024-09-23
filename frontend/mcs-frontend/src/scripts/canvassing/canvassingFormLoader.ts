@@ -9,12 +9,12 @@ export async function loader({
 > {
     try {
         const eventID = String(params.eventid)
-        const academicID = String(params.academicid)
+        //const academicID = String(params.academicid)
         const canvassings = await getCanvassingByEventId(eventID);
         // check if the academic id is valid (i.e. it is added in the form)
-        if(canvassings == null || !canvassings[0].Academic.includes(academicID)){
-            return {}
-        }
+        //if(canvassings == null || !canvassings[0].Academic.includes(academicID)){
+        //    return {}
+        //}
         return { canvassings }
     } catch (error) {
         console.log(error)
