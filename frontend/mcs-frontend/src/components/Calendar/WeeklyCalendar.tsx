@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { MainEvent } from '../../types/frontendTypes'
-import { SubEvent } from '../../types/frontendTypes'
+import { MainEvent, SubEvent } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
+import { Typography } from '@mui/material'
 
 interface WeeklyCalendarProps {
     event: MainEvent
@@ -27,7 +27,6 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
         borderColor: '#90A4AE',
     }
 
-    //changed 'subevent' to 'subEvent'. Functionality untouched
     const subEventsProp = subEvents.map((subEvent) => ({
         id: `sub-${subEvent.RecordID}`, // identifier of sub-events
         title: subEvent.EventName,
@@ -42,15 +41,14 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
     const handleEventClick = (info: any) => {
         if (info.event.id.startsWith('sub-')) {
-            // Check if the event is a sub-event
             const subEvent = info.event.extendedProps as SubEvent
-            onEventClick(subEvent)
-        } else {
+            onEventClick(subEvent) // Trigger the onEventClick with the selected subEvent
         }
     }
 
     return (
         <FullCalendar
+            eventColor="#FBCB18"
             plugins={[timeGridPlugin, interactionPlugin]}
             initialView="timeGridWeek"
             height="auto"
