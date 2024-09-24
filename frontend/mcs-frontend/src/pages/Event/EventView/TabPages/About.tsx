@@ -12,7 +12,7 @@ import { MainEvent, Speaker, Venue } from '../../../../types/frontendTypes'
 import AboutTable from './AboutTable'
 import Banner from './Banner'
 import Headline from './Headline'
-import { SpeakerNameCard } from '../../../../components'
+import { SpeakerBioCard, SpeakerNameCard } from '../../../../components'
 
 interface AboutProps {
     event: MainEvent
@@ -51,35 +51,7 @@ export const About: FC<AboutProps> = ({ event, speakers, venues }) => {
 
             {/* Right side */}
             <Grid item xs={12} lg={3}>
-                <Box className=" bg-white rounded-2xl shadow-lg pt-8 pb-8 h-max">
-                    <Box className="pl-8 pr-4 flex space-x-6 ">
-                        <Avatar className="size-24 mb-4 " />
-                        <Stack>
-                            <Typography variant="h5">
-                                {firstSpeaker?.FirstName}
-                            </Typography>
-                            <Typography variant="h5">
-                                {firstSpeaker?.LastName}
-                            </Typography>
-                            <Typography variant="subtitle1">
-                                {firstSpeaker?.Organisation}
-                            </Typography>
-                        </Stack>
-                    </Box>
-                    {/* Bio */}
-                    <Typography
-                        variant="body1"
-                        className="pl-8 pr-4 overflow-hidden"
-                        sx={{
-                            display: '-webkit-box',
-                            overflow: 'hidden',
-                            WebkitBoxOrient: 'vertical',
-                            WebkitLineClamp: 9,
-                        }}
-                    >
-                        {firstSpeaker?.Bio}
-                    </Typography>
-                </Box>
+                <SpeakerBioCard speaker={firstSpeaker} />
 
                 {/* Attendees */}
                 <Box className="flex pl-6 mt-4 space-x-4">
