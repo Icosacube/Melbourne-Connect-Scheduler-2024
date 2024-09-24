@@ -1,9 +1,10 @@
-import { Avatar, Box, Chip, Stack, Typography } from '@mui/material'
+import { Avatar, Box, Chip, Paper, Stack, Typography } from '@mui/material'
 import React, { FC } from 'react'
 import { MainEvent, Speaker, Venue } from '../../../../types/frontendTypes'
 import AboutTable from './AboutTable'
 import Banner from './Banner'
 import Headline from './Headline'
+import { SpeakerNameCard } from '../../../../components'
 
 interface AboutProps {
     event: MainEvent
@@ -11,24 +12,6 @@ interface AboutProps {
     venues: Venue[]
 }
 
-interface NameCardProps {
-    firstName: string
-    lastName: string
-    position: string
-}
-
-const NameCard: FC<NameCardProps> = ({ firstName, lastName, position }) => {
-    return (
-        <Box className="pl-4 pr-4 flex space-x-6 bg-white mt-4 pt-4 pb-2 shadow-lg rounded-md">
-            <Avatar className="size-24 mb-4 " />
-            <Stack>
-                <Typography variant="h5">{firstName}</Typography>
-                <Typography variant="h5">{lastName}</Typography>
-                <Typography variant="subtitle1">{position}</Typography>
-            </Stack>
-        </Box>
-    )
-}
 
 export const About: FC<AboutProps> = ({ event, speakers, venues }) => {
     const firstSpeaker = speakers[0]
@@ -86,10 +69,11 @@ export const About: FC<AboutProps> = ({ event, speakers, venues }) => {
                 {/* Attendees */}
                 <Box className="flex pl-6 mt-4 space-x-4">
                     <Typography variant="h5">Attendees</Typography>
-                    <Chip label="64" />
+                    {/* To do: add academics in here */}
+                    <Chip label={event.Speaker.length} />
                 </Box>
                 {theRestOfSpeakers.map((speaker) => (
-                    <NameCard
+                    <SpeakerNameCard
                         key={speaker.RecordID}
                         firstName={speaker?.FirstName}
                         lastName={speaker?.LastName}
