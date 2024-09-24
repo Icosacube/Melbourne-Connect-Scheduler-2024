@@ -150,7 +150,8 @@ export function getCanvassingFormLink(
     eventId: string,
     academicId: string
 ){
-    return `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}`
+    return `http://localhost:3000/canvassing/${eventId}`
+    //need an .env variable for this
 }
 
 export async function getBlankCanvassingFormLink() {
