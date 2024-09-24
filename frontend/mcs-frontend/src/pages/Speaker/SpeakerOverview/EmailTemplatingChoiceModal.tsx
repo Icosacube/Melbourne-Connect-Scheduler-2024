@@ -199,7 +199,11 @@ export const EmailTemplatingChoiceModal: FC<
         if (eventType === 'Existing Speaker & Event' && !selectedSpeaker) {
             return true
         }
-        if (eventType === 'New Event' && !selectedSpeaker) {
+        if (
+            eventType === 'New Event' &&
+            !selectedSpeaker &&
+            formType === 'Event Form'
+        ) {
             return true
         }
         if (eventType === 'Existing Event' && !selectedSpeaker) {
@@ -713,7 +717,7 @@ export const EmailTemplatingChoiceModal: FC<
                         </Box>
                     )}
                 </DialogContent>
-                <DialogActions>
+                <DialogActions sx={{ mb: 2, mr: 2 }}>
                     <Button
                         onClick={handleClose}
                         color="primary"

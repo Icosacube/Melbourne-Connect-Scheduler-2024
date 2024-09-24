@@ -1,11 +1,7 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-    BottomSuccessSnackbar,
-    FormInputText,
-    SubmitButton,
-} from '../../components/'
+import { BottomSuccessSnackbar, FormInputText, SubmitButton } from '..'
 import { createVenue, defaultVenue } from '../../scripts/venue/functions'
 import { Venue } from '../../types/frontendTypes'
 import { useRevalidator } from 'react-router-dom'
@@ -58,7 +54,7 @@ export const CreateVenueModal: React.FC<CreateVenueModalProps> = ({
                 onClose={onClose}
                 aria-labelledby="create-new-venue"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[450px] max-h-[95vh] overflow-y-auto">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5/12 max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
                         spacing={3}
@@ -70,21 +66,21 @@ export const CreateVenueModal: React.FC<CreateVenueModalProps> = ({
                             </Typography>
                         </Grid>
 
-                        <Grid item>
+                        <Grid item xs={6}>
                             <FormInputText
                                 name="VenueName"
                                 control={control}
                                 label="Venue Name"
                             />
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={6}>
                             <FormInputText
                                 name="Location"
                                 control={control}
                                 label="Location"
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
+                        <Grid item container justifyContent="flex-end">
                             <SubmitButton
                                 submitting={submitting}
                                 onClick={handleSubmit(onSubmit)}

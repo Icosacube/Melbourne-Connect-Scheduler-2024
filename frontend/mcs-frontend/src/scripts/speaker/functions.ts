@@ -27,7 +27,7 @@ export async function getSpeakerById(id: string): Promise<Speaker> {
         console.log(formattedSpeaker)
         return formattedSpeaker
     } catch (error) {
-        console.error('Error fetching speaker:', error)
+        // console.error('Error fetching speaker:', error)
         return {} as Speaker
     }
 }

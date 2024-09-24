@@ -1,43 +1,51 @@
+
+import React, { useEffect } from 'react'
 import BarChartIcon from '@mui/icons-material/BarChart'
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports'
 import EventIcon from '@mui/icons-material/Event'
 import PeopleIcon from '@mui/icons-material/People'
-import LocationCityIcon from '@mui/icons-material/LocationCity'
 import {
     Box,
-    Button,
     List,
     ListItem,
     ListItemButton,
     ListItemIcon,
     ListItemText,
     Typography,
+    Button,
+    Grid,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material'
-import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Logo1 } from '../../assets/logo1'
 import { Logo2 } from '../../assets/logo2'
 
-export const SideNavBar: React.FC = () => {
+interface SideNavBarProps {
+    isSidebarOpen: boolean
+    toggleSidebar: () => void
+}
+
+export const SideNavBar: React.FC<SideNavBarProps> = ({
+    isSidebarOpen,
+    toggleSidebar,
+}) => {
+    const theme = useTheme()
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
+    useEffect(() => {
+        if (isSmallScreen && isSidebarOpen) {
+            toggleSidebar() // Automatically hide sidebar on small screens
+        }
+    }, [isSmallScreen, isSidebarOpen, toggleSidebar])
+
     const overviewTabs = [
-        {
-            name: 'Events',
-            url: '/events',
-        },
-        {
-            name: 'Trips',
-            url: '/trips',
-        },
-        {
-            name: 'Speakers',
-            url: '/speakers',
-        },
-        {
-            name: 'Finance',
-            url: '/finance',
-        },
-        { name: 'Venues', url: '/venues' },
+        { name: 'Events', url: '/events' },
+        { name: 'Trips', url: '/trips' },
+        { name: 'Speakers', url: '/speakers' },
+        { name: 'Finance', url: '/finance' },
     ]
+
     function overviewTabsIcons(tabName: string): JSX.Element {
         switch (tabName) {
             case 'Speakers':
@@ -64,27 +72,42 @@ export const SideNavBar: React.FC = () => {
                         <BarChartIcon />
                     </ListItemIcon>
                 )
-            case 'Venues':
-                return (
-                    <ListItemIcon>
-                        <LocationCityIcon />
-                    </ListItemIcon>
-                )
             default:
                 return <></>
         }
     }
 
     return (
-        <Box className="h-screen w-full">
+        <Box
+            sx={{
+                display: isSidebarOpen || !isSmallScreen ? 'block' : 'none',
+                backgroundColor: '#F5F5F5',
+                height: '100%',
+                width: isSidebarOpen || !isSmallScreen ? '192px' : '0',
+                overflow: 'hidden',
+            }}
+        >
             <NavLink to="/dashboard">
                 <Button className="bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
-                    <Logo1 />
-                    <Logo2 />
+                    <Grid
+                        container
+                        sx={{
+                            justifyContent: 'flex-start',
+                            alignItems: 'flex-end',
+                        }}
+                    >
+                        <Grid item xs={'auto'}>
+                            <Logo1 />
+                        </Grid>
+                        <Grid item xs={'auto'} marginBottom={1}>
+                            <Logo2 />
+                        </Grid>
+                    </Grid>
                 </Button>
             </NavLink>
+
             <Box className="h-full bg-primary">
-                <List className="w-full bg-primary ">
+                <List className="w-full bg-primary">
                     <Typography variant="h6" fontWeight={400} className="ml-5">
                         Overview
                     </Typography>

@@ -119,10 +119,12 @@ export type SubEvent = {
 }
 
 export type Academic = {
+    RecordID: string
     Email: string
     Name: string
-    MainEvent: string
+    MainEvent: string[]
     Canvassing: string[]
+    CanvassingAvailable: string[]
 }
 
 export type Accommodation = {
@@ -188,11 +190,14 @@ export type Catering = {
 }
 
 export type Service = {
+    RecordID: string
     Cost: number
     ServiceDescription: string
+    ExpenseDate: Dayjs
     Notes: string
     FundingAccount: string[]
     MainEvent: string[]
+    Finance: string[]
 }
 
 export type FundingAccount = {
@@ -213,10 +218,16 @@ export type FundingAccount = {
 }
 
 export type Canvassing = {
-    StartTime: string
-    EndTime: string
-    Trip: string[]
+    RecordID: string
+    StartTime: Dayjs
+    EndTime: Dayjs
     Academic: string[]
+    Venue: string[]
+    MainEvent: string[]
+    AvailableAcademic: string[]
+    EventName: string[]
+    AcademicName: string[]
+    VenueName: string[]
 }
 
 export type Finance = {
@@ -235,9 +246,19 @@ export type Finance = {
 
 // temporary data type for frontend canvassing
 export type TimeSlot = {
-    MainEvent: string // id, should be the same for all timeslot
     StartTime: Dayjs
     EndTime: Dayjs
-    AvailablePeople: string[] // a list of emails
-    People: { name: string; email: string }[]
+    MainEvent: string
+    AvailableAcademic: string[]
+    MixedAcademic: { name: string; email: string }[]
+}
+
+export type CanvassingTemp = {
+    id: string
+    StartTime: Dayjs
+    EndTime: Dayjs
+    MainEvent: string[]
+    Venue: string[]
+    AvailableAcademic: string[]
+    MixedAcademic: { id: string; name: string; email: string }[]
 }

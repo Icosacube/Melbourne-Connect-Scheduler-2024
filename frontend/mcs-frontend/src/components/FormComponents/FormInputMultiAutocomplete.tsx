@@ -15,6 +15,7 @@ export const FormInputMultiAutocomplete: React.FC<FormInputProps> = ({
     label,
     options = [],
     required = false,
+    hint = '',
 }) => {
     return (
         <FormControl
@@ -77,9 +78,9 @@ export const FormInputMultiAutocomplete: React.FC<FormInputProps> = ({
                                 {...params}
                                 variant="outlined"
                                 label={label}
-                                placeholder={label}
+                                placeholder={hint}
                                 error={!!error}
-                                helperText={error ? error.message : null} 
+                                helperText={error ? error.message : null}
                             />
                         )}
                     />

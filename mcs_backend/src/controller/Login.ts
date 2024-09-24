@@ -118,7 +118,6 @@ router.post("/login/refresh-token", (req, res) => {
 // Logout route
 router.post("/login/logout", async (req, res) => {
   const { username }: ExecutiveAssistant = req.body;
-
   try {
     const user = await getTable(UserTable, `{username} = "${username}"`);
 
@@ -131,7 +130,7 @@ router.post("/login/logout", async (req, res) => {
       const plainFields = Object.fromEntries(fields);
       formattedUser.push(plainFields);
     });
-
+    console.log('formattedUser',formattedUser)
     await updateRecord(UserTable, [
       {
         id: formattedUser[0].id,

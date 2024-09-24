@@ -6,13 +6,16 @@ import {
     BottomSuccessSnackbar,
     DeleteButton,
     FormInputDateTime,
-    FormInputMultiSelect,
+    FormInputMultiAutocomplete,
     FormInputText,
     FormInputTextLong,
     OutlinedButton,
     SubmitButton,
-} from '../../../../components/';
-import { updateSubEventByID, deleteSubEventByID } from '../../../../scripts/subevent/functions'
+} from '../../../../components/'
+import {
+    updateSubEventByID,
+    deleteSubEventByID,
+} from '../../../../scripts/subevent/functions'
 import { SubEvent, Speaker } from '../../../../types/frontendTypes'
 import { DeleteDialog } from '../../../../components/'
 
@@ -32,7 +35,7 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
     speakers,
     updateSubEvent: updateSubEvent,
     removeSubEvent,
-    }) => {
+}) => {
     const { handleSubmit, reset, control } = useForm<SubEvent>({
         defaultValues: subEvent,
     })
@@ -47,9 +50,9 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
         setSubmitting(true)
         try {
             const res: AxiosResponse = await updateSubEventByID(data)
-             if (res.status !== 200) {
-                 throw new Error('Failed to update sub-event')
-             }
+            if (res.status !== 200) {
+                throw new Error('Failed to update sub-event')
+            }
             setShowSuccess(true)
             updateSubEvent(data)
         } catch (error) {
@@ -83,7 +86,7 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
             setOpenDeleteDialog(false)
         }
     }
-    
+
     const handleDeleteClick = () => {
         setOpenDeleteDialog(true)
     }
@@ -109,24 +112,24 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                                 Update Sub-Event
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} md={9}>
+                        <Grid item xs={12} md={8}>
                             <FormInputText
                                 name="EventName"
                                 control={control}
                                 label="Event Name"
                             />
                         </Grid>
-    
-                        <Grid item xs={12} md={3}>
+
+                        <Grid item xs={12} md={4}>
                             <FormInputText
                                 name="EventType"
                                 control={control}
                                 label="Event Type"
                             />
                         </Grid>
-    
-                        <Grid item xs={12} lg={6}>
-                            <FormInputMultiSelect
+
+                        <Grid item xs={12}>
+                            <FormInputMultiAutocomplete
                                 name="Speakers"
                                 control={control}
                                 label="Speakers"
@@ -136,21 +139,20 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                                 }))}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>
+                        <Grid item xs={12} sm={6}>
                             <FormInputDateTime
                                 name="StartDate"
                                 control={control}
                                 label="Start"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>
+                        <Grid item xs={12} sm={6}>
                             <FormInputDateTime
                                 name="EndDate"
                                 control={control}
                                 label="End"
                             />
                         </Grid>
-    
                         <Grid item xs={12} lg={6}>
                             <FormInputTextLong
                                 name="EventDescription"
@@ -165,7 +167,7 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                                 label="Notes"
                             />
                         </Grid>
-    
+
                         <Grid item xs={12}>
                             <Grid
                                 container
@@ -204,15 +206,15 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                 </Paper>
             </Modal>
             <DeleteDialog
-                    open={openDeleteDialog}
-                    onClose={handleDeleteCancel}
-                    onConfirm={handleDeleteConfirm}
-                    deleting={deleting}
+                open={openDeleteDialog}
+                onClose={handleDeleteCancel}
+                onConfirm={handleDeleteConfirm}
+                deleting={deleting}
             />
             <BottomSuccessSnackbar
-                    showSuccess={showDeleteSuccess}
-                    setShowSuccess={setShowDeleteSuccess}
-                    message="Sub-event deleted successfully"
+                showSuccess={showDeleteSuccess}
+                setShowSuccess={setShowDeleteSuccess}
+                message="Sub-event deleted successfully"
             />
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
@@ -222,4 +224,3 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
         </>
     )
 }
-

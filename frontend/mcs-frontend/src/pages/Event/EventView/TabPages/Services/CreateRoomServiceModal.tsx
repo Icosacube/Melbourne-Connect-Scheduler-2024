@@ -1,7 +1,6 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
-import { AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
@@ -11,64 +10,56 @@ import {
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
-} from '../../../../components/'
-import { Catering } from '../../../../types/frontendTypes'
-import { updateCateringByID } from '../../../../scripts/catering/functions'
+} from '../../../../../components/'
+import { Service } from '../../../../../types/frontendTypes'
+import { createRoomService } from '../../../../../scripts/roomServices/functions'
+import { useRevalidator } from 'react-router-dom'
 
-interface EditCateringModalProps {
+interface CreateRoomServiceModalProps {
     handleClose: () => void
     open: boolean
-    catering: Catering
     eventID: string
     fundingAccounts: Map<string, string>
-    updateCatering: (catering: Catering) => void
 }
 
-const EditCateringFormDefaultValues: Catering = {
+const CreateRoomServiceFormDefaultValues: Service = {
     RecordID: '',
-    BookingReference: '',
-    Description: '',
     Cost: 0,
+    ServiceDescription: '',
     ExpenseDate: dayjs(),
+    Notes: '',
     FundingAccount: [],
     MainEvent: [],
     Finance: [],
 }
 
-export const EditCateringModal: React.FC<EditCateringModalProps> = ({
+export const CreateRoomServiceModal: React.FC<CreateRoomServiceModalProps> = ({
     handleClose,
     open,
-    catering,
     eventID,
     fundingAccounts,
-    updateCatering: updateCatering,
 }) => {
-
-    const { handleSubmit, reset, control } = useForm<Catering>({
-        defaultValues: catering || EditCateringFormDefaultValues, 
+    const { handleSubmit, reset, control } = useForm<Service>({
+        defaultValues: CreateRoomServiceFormDefaultValues,
     })
 
-    useEffect(() => {
-        if (catering) {
-            reset(catering)
-        }
-    }, [catering, reset])
+    const revalidator = useRevalidator()
 
-    const onSubmit = async (data: Catering) => {
-        setSubmitting(true);
+    const onSubmit = async (data: Service) => {
+        setSubmitting(true)
         try {
-            const res: AxiosResponse = await updateCateringByID(data);
-            if (res.status !== 200) {
-                throw new Error('Failed to update catering');
+            console.log('point two')
+            const res = await createRoomService(data, eventID)
+            if (res) {
+                revalidator.revalidate()
+                setShowSuccess(true)
             }
-            setShowSuccess(true);
-            updateCatering(data); // This should be a separate function to update state
         } catch (error) {
-            console.error(error);
+            console.error(error)
         } finally {
-            setSubmitting(false);
-            reset();
-            handleClose();
+            setSubmitting(false)
+            reset()
+            handleClose()
         }
     }
 
@@ -82,12 +73,8 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
 
     return (
         <>
-            <Modal
-                open={open}
-                onClose={onClose}
-                aria-labelledby="update-catering"
-            >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[450px] max-h-[95vh] overflow-y-auto">
+            <Modal open={open} onClose={onClose} role="dialog">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[500px] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
                         spacing={3}
@@ -95,15 +82,15 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                     >
                         <Grid item xs={12}>
                             <Typography variant="h4" gutterBottom>
-                                Update Catering 
+                                Add Room Service
                             </Typography>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={6}>
                             <FormInputText
-                                name="BookingReference"
+                                name="ServiceDescription"
                                 control={control}
-                                label="Booking Reference"
+                                label="Description"
                             />
                         </Grid>
                         <Grid item xs={8} md={4}>
@@ -136,9 +123,9 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                         </Grid>
                         <Grid item xs={12}>
                             <FormInputTextLong
-                                name="Description"
+                                name="Notes"
                                 control={control}
-                                label="Description"
+                                label="Notes"
                             />
                         </Grid>
                         <Grid item xs={12} container justifyContent="flex-end">
@@ -155,7 +142,7 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
-                message="Catering updated successfully"
+                message="Catering created successfully"
             />
         </>
     )
