@@ -1,13 +1,24 @@
 import { Box } from '@mui/material'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
+import { useLoaderData } from 'react-router-dom'
 import EventTopNavBar from '../../../components/TopNavBar/EventTopNavBar'
+import {
+    MainEvent,
+    Speaker,
+    Venue,
+    Catering,
+    FundingAccount,
+    Service,
+} from '../../../types/frontendTypes'
+import { BodyLayout } from '../../Layout/BodyLayout'
 import EditEventModal from './EditEventModal'
 import { About } from './TabPages/About'
 import { Participants } from './TabPages/Participants'
 import Programme from './TabPages/Programme'
-import { Services } from './TabPages/Services'
-import { useLoaderData } from 'react-router-dom'
-import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
+import CanvassingAll from './TabPages/Canvassing/CanvassingAll'
+import { CateringTable } from './TabPages/Services/CateringTable'
+import { RoomServicesTable } from './TabPages/Services/RoomServicesTable'
+
 
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')
@@ -15,40 +26,71 @@ export const Event: FC = () => {
     const handleOpen = async () => {
         setOpen(true)
     }
-    const { event, speakers, venues } = useLoaderData() as {
-        event: MainEvent
-        speakers: Speaker[]
-        venues: Venue[]
-    }
-    const [statefulEvent, setEvent] = useState<MainEvent>(event)
+    const { event, speakers, venues, catering, fundingAccounts, roomServices } =
+        useLoaderData() as {
+            event: MainEvent
+            speakers: Speaker[]
+            venues: Venue[]
+            catering: Catering[]
+            fundingAccounts: FundingAccount[]
+            roomServices: Service[]
+        }
 
     const renderTabContent = (event: MainEvent) => {
         switch (tabName) {
             case 'About':
-                return <About event={event} speakers={speakers} />
+                return (
+                    <About event={event} speakers={speakers} venues={venues} />
+                )
             case 'Participants':
                 return <Participants speakers={speakers} />
+            case 'Canvassing':
+                return <CanvassingAll event={event} speakers={speakers} />
             case 'Programme':
                 return <Programme event={event} speakers={speakers} />
-            case 'Services':
-                return <Services event={event} />
+            case 'Catering':
+                return (
+                    <CateringTable
+                        event={event}
+                        catering={catering}
+                        fundingAccounts={fundingAccounts}
+                    />
+                )
+            case 'Room Services':
+                return (
+                    <RoomServicesTable
+                        eventId={event.RecordID}
+                        roomServices={roomServices}
+                        fundingAccounts={fundingAccounts}
+                    />
+                )
             default:
-                return <About event={event} speakers={speakers} />
+                return (
+                    <About event={event} speakers={speakers} venues={venues} />
+                )
         }
     }
-
     return (
         <Box>
-            <EventTopNavBar getCurTab={setTabName} openEditModal={handleOpen} />
-            <EditEventModal
+            <EventTopNavBar
+                getCurTab={setTabName}
+                openEditModal={handleOpen}
                 event={event}
-                handleClose={() => {
-                    setOpen(false)
-                }}
-                open={open}
-                setEvent={setEvent}
+                speaker={speakers[0]}
             />
-            {renderTabContent(event)}
+            {open ? (
+                <EditEventModal
+                    event={event}
+                    handleClose={() => {
+                        setOpen(false)
+                    }}
+                    open={open}
+                    venues={venues}
+                />
+            ) : (
+                <></>
+            )}
+            <BodyLayout content={renderTabContent(event)}></BodyLayout>
         </Box>
     )
 }

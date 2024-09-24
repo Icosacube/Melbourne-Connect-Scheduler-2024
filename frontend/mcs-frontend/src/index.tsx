@@ -2,31 +2,44 @@ import { StyledEngineProvider } from '@mui/material'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { loader as eventsLoader } from './scripts/event/eventsLoader'
+import { loader as dashboardLoaders } from './scripts/dashboard/dashboardLoaders'
 import { loader as eventLoader } from './scripts/event/eventLoader'
-import { loader as speakersLoader } from './scripts/speaker/speakersLoader'
+import { loader as eventsLoader } from './scripts/event/eventsLoader'
+import { loader as financeLoader } from './scripts/finance/financeOverviewLoaders'
 import { loader as speakerLoader } from './scripts/speaker/speakerLoader'
-import { loader as tripsLoader } from './scripts/trip/tripsLoader'
+import { loader as speakersLoader } from './scripts/speaker/speakersLoader'
 import { loader as tripLoader } from './scripts/trip/tripLoader'
+import { loader as canvassingLoader } from './scripts/canvassing/canvassingFormLoader'
+import { loader as tripsLoader } from './scripts/trip/tripsLoader'
+
+
+import { ThemeProvider } from '@emotion/react'
+import { ProtectedRoute } from './components/Authentication'
+import './fonts.css'
 import './index.css'
 import {
+    BodyLayout,
+    Canvassing,
     Dashboard,
     ErrorPage,
     Event,
+    Events,
     Finance,
+    FullWidthLayout,
+    Homepage,
     Layout,
     Login,
-    Events,
+    Logout,
+    Register,
+    Speaker,
     Speakers,
-    Profile,
-    Homepage,
+
 } from './pages'
 import { Trip } from './pages/Trips/Trip'
 import { Trips } from './pages/Trips/TripsOverview/Trips'
 import reportWebVitals from './reportWebVitals'
-import { ThemeProvider } from '@emotion/react'
-import theme from './theme/theme';
-import './fonts.css';
+import { authGuard } from './scripts/authentication/auth'
+import theme from './theme/theme'
 require('cors')
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -39,77 +52,104 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const router = createBrowserRouter([
         {
-            path: '/',
-            element: <Layout />,
+            path: '/login',
+            element: <Login />,
             errorElement: <ErrorPage />,
+        },
+        {
+            path: '/logout',
+            element: <Logout />,
+            errorElement: <ErrorPage />,
+        },
+        {
+            path: '/canvassing/:eventid',
+            element: <FullWidthLayout content={<Canvassing />} />,
+            errorElement: <ErrorPage />,
+            loader: canvassingLoader,
+        },
+        {
+            path: '/',
+            element: <ProtectedRoute />,
+            errorElement: <ErrorPage />,
+            loader: authGuard,
             children: [
                 {
-                    path: '/dashboard',
-                    element: <Dashboard />,
-                    errorElement: <ErrorPage />,
-                },
-                {
                     path: '/',
-                    element: <Homepage />,
+                    element: <Layout />,
                     errorElement: <ErrorPage />,
-                },
-                {
-                    path: '/events',
-                    element: <Events />,
-                    errorElement: <ErrorPage />,
-                    loader: eventsLoader,
-                },
-                {
-                    path: '/event/:id',
-                    element: <Event />,
-                    errorElement: <ErrorPage />,
-                    loader: eventLoader,
-                },
-                {
-                    path: '/login',
-                    element: <Login />,
-                    errorElement: <ErrorPage />,
-                },
-                {
-                    path: '/speakers',
-                    element: <Speakers />,
-                    errorElement: <ErrorPage />,
-                    loader: speakersLoader,
-                },
-                {
-                    path: '/speaker/:id',
-                    element: <Profile />,
-                    errorElement: <ErrorPage />,
-                    loader: speakerLoader,
-                },
-                {
-                    path: '/trips',
-                    element: <Trips />,
-                    errorElement: <ErrorPage />,
-                    loader: tripsLoader,
-                },
-                {
-                    path: '/trips/:id',
-                    element: <Trip />,
-                    errorElement: <ErrorPage />,
-                    loader: tripLoader,
-                },
-                {
-                    path: '/finance',
-                    element: <Finance />,
-                    errorElement: <ErrorPage />,
+                    children: [
+                        {
+                            path: '/register',
+                            element: <Register />,
+                            errorElement: <ErrorPage />,
+                        },
+                        {
+                            path: '/dashboard',
+                            element: <BodyLayout content={<Dashboard />} />,
+                            errorElement: <ErrorPage />,
+                            loader: dashboardLoaders,
+                        },
+                        {
+                            path: '/',
+                            element: <Homepage />,
+                            errorElement: <ErrorPage />,
+                        },
+                        {
+                            path: '/events',
+                            element: <BodyLayout content={<Events />} />,
+                            errorElement: <ErrorPage />,
+                            loader: eventsLoader,
+                        },
+                        {
+                            path: '/event/:id',
+                            element: <Event />,
+                            errorElement: <ErrorPage />,
+                            loader: eventLoader,
+                        },
+                        {
+                            path: '/speakers',
+                            element: <BodyLayout content={<Speakers />} />,
+                            errorElement: <ErrorPage />,
+                            loader: speakersLoader,
+                        },
+                        {
+                            path: '/speaker/:id',
+                            element: <Speaker />,
+                            errorElement: <ErrorPage />,
+                            loader: speakerLoader,
+                        },
+                        {
+                            path: '/trips',
+                            element: <BodyLayout content={<Trips />} />,
+                            errorElement: <ErrorPage />,
+                            loader: tripsLoader,
+                        },
+                        {
+                            path: '/trips/:id',
+                            element: <Trip />,
+                            errorElement: <ErrorPage />,
+                            loader: tripLoader,
+                        },
+                        {
+                            path: '/finance',
+                            element: <BodyLayout content={<Finance />} />,
+                            errorElement: <ErrorPage />,
+                            loader: financeLoader,
+                        },
+                    ],
                 },
             ],
         },
     ])
+
     const rootContainer = ReactDOM.createRoot(root)
     rootContainer.render(
         <React.StrictMode>
             <ThemeProvider theme={theme}>
-            {/* Material UI CSS needs to be injectFirst so that it does not override tailwind */}
-            <StyledEngineProvider injectFirst>
-                <RouterProvider router={router} />
-            </StyledEngineProvider>
+                {/* Material UI CSS needs to be injectFirst so that it does not override tailwind */}
+                <StyledEngineProvider injectFirst>
+                    <RouterProvider router={router} />
+                </StyledEngineProvider>
             </ThemeProvider>
         </React.StrictMode>
     )

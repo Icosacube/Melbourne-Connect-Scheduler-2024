@@ -1,30 +1,30 @@
-import { Alert, Slide, Snackbar } from "@mui/material";
-import React from "react";
+import { Alert, Slide, Snackbar } from '@mui/material'
+import React from 'react'
 
 interface Props {
-  showSuccess: boolean;
-  setShowSuccess: (show: boolean) => void;
-  message: string;
+    showSuccess: boolean
+    setShowSuccess: (show: boolean) => void
+    message: string
+    variant?: 'success' | 'error'
 }
 
-const BottomSuccessSnackbar: React.FC<Props> = ({
-  showSuccess,
-  setShowSuccess,
-  message,
+export const BottomSuccessSnackbar: React.FC<Props> = ({
+    showSuccess,
+    setShowSuccess,
+    message,
+    variant = 'success',
 }) => {
-  return (
-    <Snackbar
-      open={showSuccess}
-      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      autoHideDuration={2000}
-      onClose={() => setShowSuccess(false)}
-      TransitionComponent={(props) => <Slide {...props} direction="up" />}
-    >
-      <Alert severity="success" onClose={() => setShowSuccess(false)}>
-        {message}
-      </Alert>
-    </Snackbar>
-  );
-};
-
-export default BottomSuccessSnackbar;
+    return (
+        <Snackbar
+            open={showSuccess}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            autoHideDuration={2000}
+            onClose={() => setShowSuccess(false)}
+            TransitionComponent={(props) => <Slide {...props} direction="up" />}
+        >
+            <Alert severity={variant} onClose={() => setShowSuccess(false)}>
+                {message}
+            </Alert>
+        </Snackbar>
+    )
+}

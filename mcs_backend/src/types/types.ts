@@ -1,5 +1,7 @@
 export enum PresetFilter {
-  completed = "( {Completed} = FALSE() )",
+  completed = '( {Completed} = FALSE() )',
+  confirmed = "( {Confirmed} = TRUE() )",
+  notConfirmed = "( {Confirmed} = FALSE() )",
 }
 
 export type Creation = {
@@ -77,7 +79,6 @@ export type Trip = {
   Accommodation: string[];
   Flight: string[];
   Miscellaneous: string[];
-  AcademicCanvassing: string[];
   Completed: boolean;
 };
 
@@ -103,27 +104,22 @@ export type SubEvent = {
   EventName: string;
   EventDescription: string;
   EventType: string; // or Enum
-  Date: string; // Example Format: "2024-04-30"
+  StartDate: string; // Example Format: "2024-04-30"
   Notes: string;
-  MainEvent: string[];
   Completed: boolean;
+  MainEvent: string[];
+  Speakers: string[];
+  EndDate: string;
 };
-    EventName: string;
-    EventDescription: string;
-    EventType: string; // or Enum
-    StartDate: string; // Example Format: "2024-04-30"
-    Notes: string;
-    Completed: boolean;
-    MainEvent: string[];
-    Speakers: string[];
-    EndDate: string;
-}
+    
+
 
 export type Academic = {
   Email: string;
   Name: string;
-  MainEvent: string;
+  MainEvent: string[];
   Canvassing: string[];
+  CanvassingAvailable:string[];
 };
 
 export type Accommodation = {
@@ -176,6 +172,7 @@ export type Venue = {
   Notes: string;
   FundingAccount: string[];
   MainEvent: string[];
+  Canvassing:string[];
 };
 
 export type Catering = {
@@ -215,6 +212,49 @@ export type FundingAccount = {
 export type Canvassing = {
   StartTime: string;
   EndTime: string;
-  Trip: string[];
   Academic: string[];
+  MainEvent:string[];
+  AvailableAcademic:String[];
+  Venue:String[];
+};
+
+export type ExecutiveAssistant ={
+  username: string;         
+  password: string;          
+  lastLoginTime: string;      
+  refreshToken: string;                
+}
+
+export enum SpeakerForm {
+  id = "speakerID",
+  PrimaryEmail = "Email",
+  FirstName = "First Name",
+  LastName = "Last Name",
+  Pronouns = "Pronouns",
+  Title = "Title",
+  AlternativeTitle = "Alternative Title",
+  Phone = "Phone",
+  Bio = "Bio",
+  PreferredTimezone = "Preferred Timezone",
+  Category = "Category",
+  Area = "Area",
+  WorkTitle = "Work Title",
+  Organisation = "Organisation",
+  Department = "Department",
+  Address = "Address",
+  CitySuburb = "City / Suburb",
+  State = "State",
+  Country = "Country",
+  Postcode = "Postcode",
+  EmergencyContactName = "Emergency Contact Name",
+  EmergencyContactRelationship = "Emergency Contact Relationship",
+  EmergencyContactNumber = "Emergency Contact Number",
+  FlyerMembershipName = "Flyer Membership Name",
+  FlyerMembershipNumber = "Flyer Membership Number",
+};
+
+export enum MainEventForm {
+  id = "mainID",
+  EventName = "Event Name",
+  EventAbstract = "Event Abstract",
 };

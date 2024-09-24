@@ -1,46 +1,51 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { Logo1 } from '../../assets/logo1'
-import { Logo2 } from '../../assets/logo2'
+
+import React, { useEffect } from 'react'
+import BarChartIcon from '@mui/icons-material/BarChart'
+import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports'
+import EventIcon from '@mui/icons-material/Event'
+import PeopleIcon from '@mui/icons-material/People'
 import {
     Box,
-    Button,
-    Divider,
-    Drawer,
     List,
     ListItem,
     ListItemButton,
     ListItemIcon,
     ListItemText,
     Typography,
+    Button,
+    Grid,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material'
-import BarChartIcon from '@mui/icons-material/BarChart'
-import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports'
-import EventIcon from '@mui/icons-material/Event'
-import PeopleIcon from '@mui/icons-material/People'
+import { NavLink } from 'react-router-dom'
+import { Logo1 } from '../../assets/logo1'
+import { Logo2 } from '../../assets/logo2'
 
-export const SideNavBar: React.FC = () => {
-    // const eventTabs = ['About', 'Participant', 'Programme', 'Services']
-    // const canvassingTabs = ['Availability', 'Booking']
-    // const tripTabs = ['Schedule', 'Travel', 'Accomodation', 'Costs']
+interface SideNavBarProps {
+    isSidebarOpen: boolean
+    toggleSidebar: () => void
+}
+
+export const SideNavBar: React.FC<SideNavBarProps> = ({
+    isSidebarOpen,
+    toggleSidebar,
+}) => {
+    const theme = useTheme()
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+
+    useEffect(() => {
+        if (isSmallScreen && isSidebarOpen) {
+            toggleSidebar() // Automatically hide sidebar on small screens
+        }
+    }, [isSmallScreen, isSidebarOpen, toggleSidebar])
+
     const overviewTabs = [
-        {
-            name: 'Events',
-            url: '/events',
-        },
-        {
-            name: 'Trips',
-            url: '/trips',
-        },
-        {
-            name: 'Speakers',
-            url: '/speakers',
-        },
-        {
-            name: 'Finance',
-            url: '/finance',
-        },
+        { name: 'Events', url: '/events' },
+        { name: 'Trips', url: '/trips' },
+        { name: 'Speakers', url: '/speakers' },
+        { name: 'Finance', url: '/finance' },
     ]
+
     function overviewTabsIcons(tabName: string): JSX.Element {
         switch (tabName) {
             case 'Speakers':
@@ -73,89 +78,57 @@ export const SideNavBar: React.FC = () => {
     }
 
     return (
-        <>
-            <Box className="h-full w-full">
-                <NavLink to="/dashboard">
-                    <Button className="bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
-                        <Logo1 />
-                        <Logo2 />
-                    </Button>
-                </NavLink>
-                <Box className="h-full bg-primary">
-                    <List className="w-full bg-primary ">
-                        <Typography variant="h6" fontWeight={400} className="ml-5">
-                            Overview
-                        </Typography>
-                        {overviewTabs.map((page) => (
-                            <NavLink to={page.url} key={page.name}>
-                                <ListItem key={page.name} disablePadding>
-                                    <ListItemButton>
-                                        {overviewTabsIcons(page.name)}
-                                        <ListItemText
-                                            primary={
-                                                <Typography variant="h6">
-                                                    {page.name}
-                                                </Typography>
-                                            }
-                                        />
-                                    </ListItemButton>
-                                </ListItem>
-                            </NavLink>
-                        ))}
-                    </List>
-                    {/* <Divider className="bg-[#FBE418]" /> */}
-                </Box>
-                {/* <Box className="bg-[#FFC901] grow">
-                    <List>
-                        <Typography variant="h6" className="ml-3">
-                            Event
-                        </Typography>
-                        {eventTabs.map((text) => (
-                            <ListItem
-                                key={text}
-                                disablePadding
-                                className="pl-3"
-                            >
+        <Box
+            sx={{
+                display: isSidebarOpen || !isSmallScreen ? 'block' : 'none',
+                backgroundColor: '#F5F5F5',
+                height: '100%',
+                width: isSidebarOpen || !isSmallScreen ? '192px' : '0',
+                overflow: 'hidden',
+            }}
+        >
+            <NavLink to="/dashboard">
+                <Button className="bg-primary hover:bg-primary flex place-items-center w-full rounded-none">
+                    <Grid
+                        container
+                        sx={{
+                            justifyContent: 'flex-start',
+                            alignItems: 'flex-end',
+                        }}
+                    >
+                        <Grid item xs={'auto'}>
+                            <Logo1 />
+                        </Grid>
+                        <Grid item xs={'auto'} marginBottom={1}>
+                            <Logo2 />
+                        </Grid>
+                    </Grid>
+                </Button>
+            </NavLink>
+
+            <Box className="h-full bg-primary">
+                <List className="w-full bg-primary">
+                    <Typography variant="h6" fontWeight={400} className="ml-5">
+                        Overview
+                    </Typography>
+                    {overviewTabs.map((page) => (
+                        <NavLink to={page.url} key={page.name}>
+                            <ListItem key={page.name} disablePadding>
                                 <ListItemButton>
-                                    <ListItemText primary={text} />
+                                    {overviewTabsIcons(page.name)}
+                                    <ListItemText
+                                        primary={
+                                            <Typography variant="h6">
+                                                {page.name}
+                                            </Typography>
+                                        }
+                                    />
                                 </ListItemButton>
                             </ListItem>
-                        ))}
-                    </List>
-                    <List>
-                        <Typography variant="h6" className="ml-3">
-                            Canvassing
-                        </Typography>
-                        {canvassingTabs.map((text) => (
-                            <ListItem
-                                key={text}
-                                disablePadding
-                                className="pl-3"
-                            >
-                                <ListItemButton>
-                                    <ListItemText primary={text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                    <List>
-                        <Typography variant="h6" className="ml-3">
-                            Trip
-                        </Typography>
-                        {tripTabs.map((text) => (
-                            <ListItem
-                                key={text}
-                                disablePadding
-                                className="pl-3"
-                            >
-                                <ListItemButton>
-                                    <ListItemText primary={text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                </Box> */}
+                        </NavLink>
+                    ))}
+                </List>
             </Box>
-        </>
+        </Box>
     )
 }

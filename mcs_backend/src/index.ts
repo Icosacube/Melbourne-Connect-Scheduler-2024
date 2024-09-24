@@ -1,55 +1,86 @@
-import express, { Application, Request, Response } from 'express';
-import path from 'node:path';
-import dotenv from 'dotenv';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
-const tripRouter = require('./controller/trip'); 
-const accommodationRouter = require('./controller/accomodation');
-const miscellaneousRouter = require('./controller/miscellaneous');
-const flightRouter = require('./controller/flight'); 
-const academicRouter = require('./controller/academic'); 
-const canvassingRouter = require('./controller/Canvassing'); 
-const speakerRouter = require('./controller/speaker'); 
-const eventRouter = require('./controller/event')
-const CateringRouter = require('./controller/Catering'); 
-const ServiceRouter = require('./controller/Service'); 
-const VenueRouter = require('./controller/Venue');
-const subeventRouter = require('./controller/subevent');
-const fundingAccountRouter = require('./controller/FundingAccount');
-const financeRouter = require('./controller/Finance');
+import express, { Application, Request, Response } from "express";
+import path from "node:path";
+import dotenv from "dotenv";
+import bodyParser from "body-parser";
+import cors from "cors";
+import authenticateJWT from "./middleware/authenticationJWT";
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
+import cookieParser from "cookie-parser";
+const tripRouter = require("./controller/trip");
+const accommodationRouter = require("./controller/accommodation");
+const miscellaneousRouter = require("./controller/miscellaneous");
+const flightRouter = require("./controller/flight");
+const academicRouter = require("./controller/academic");
+const canvassingRouter = require("./controller/canvassing");
+const speakerRouter = require("./controller/speaker");
+const mainEventRouter = require("./controller/mainEvent");
+const cateringRouter = require("./controller/catering");
+const serviceRouter = require("./controller/service");
+const venueRouter = require("./controller/venue");
+const subEventRouter = require("./controller/subEvent");
+const RegisterRouter = require("./controller/Register");
+const LoginRouter = require("./controller/Login");
+const fundingAccountRouter = require("./controller/fundingAccount");
+const financeRouter = require("./controller/finance");
+const FormRouter = require("./controller/guestSpeakerForm");
+const EmailRouter = require("./controller/Email");
 const app = express();
 
-app.use(cors())
-app.use(bodyParser.json({limit: '200mb'})); 
-app.use(bodyParser.urlencoded({limit: "200mb", extended: true, parameterLimit:100000}));
-app.use(bodyParser.text({ limit: '2000mb' }));
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+
+app.use((req: Request, res: Response, next: () => void) => {
+  if (
+    req.path.startsWith("/login") ||
+    req.path.startsWith("/canvassings") ||
+    req.path.startsWith("/canvassing")
+  ) {
+    //|| req.path.startsWith('/register')
+    return next();
+  }
+  authenticateJWT(req, res, next);
+}); //ALL USE AUTHENTICATION except login
+app.use(bodyParser.json({ limit: "200mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "200mb",
+    extended: true,
+    parameterLimit: 100000,
+  })
+);
+app.use(bodyParser.text({ limit: "2000mb" }));
+app.use(cookieParser());
 
 //require('./controller/events')(app);
-app.use('/', tripRouter);
-app.use('/', accommodationRouter);
-app.use('/', miscellaneousRouter);
-app.use('/', flightRouter);
-app.use('/', academicRouter);
-app.use('/', canvassingRouter);
-app.use('/', speakerRouter);
-app.use('/', eventRouter)
-app.use('/', CateringRouter);
-app.use('/', ServiceRouter);
-app.use('/', VenueRouter);
-app.use('/', subeventRouter);
-app.use('/', fundingAccountRouter);
-app.use('/', financeRouter);
-app.get('*', (req: Request, res: Response) => {
-  res.sendFile(path.resolve(__dirname, )); //! Change to Frontend index (home) page 
+app.use("/", tripRouter);
+app.use("/", accommodationRouter);
+app.use("/", miscellaneousRouter);
+app.use("/", flightRouter);
+app.use("/", academicRouter);
+app.use("/", canvassingRouter);
+app.use("/", speakerRouter);
+app.use("/", mainEventRouter);
+app.use("/", cateringRouter);
+app.use("/", serviceRouter);
+app.use("/", RegisterRouter);
+app.use("/", LoginRouter);
+app.use("/", venueRouter);
+app.use("/", subEventRouter);
+app.use("/", fundingAccountRouter);
+app.use("/", financeRouter);
+app.use("/", FormRouter);
+app.use("/", EmailRouter);
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.resolve(__dirname)); //! Change to Frontend index (home) page
 });
 
-app.set('port', process.env.PORT || 4000);
+app.set("port", process.env.PORT || 4000);
 
-app.listen(app.get('port'), async () => {
-  console.log(`Express web app available at localhost: ${app.get('port')}`);
+app.listen(app.get("port"), async () => {
+  console.log(`Express web app available at localhost: ${app.get("port")}`);
 });
 
 export default app;
-

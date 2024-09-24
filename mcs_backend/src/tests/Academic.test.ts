@@ -1,88 +1,127 @@
-import request from 'supertest';
-import express from 'express';
-import { Academic } from '../types/types';
-const academicRouter = require('../controller/Academic');
+import request from "supertest";
+import express from "express";
+
+import { getTable, getRecord } from "../models/airtable";
+
+jest.mock("../models/airtable");
 
 const app = express();
+const academicsRouter = require("../controller/Academic");
 app.use(express.json());
-app.use('/', academicRouter);
+app.use( academicsRouter);
 
-jest.mock('../models/airtable', () => ({
-  getTable: jest.fn(),
-  getRecord: jest.fn(),
-  createRecord: jest.fn(),
-  updateRecord: jest.fn(),
-  deleteRecords: jest.fn(),
-}));
-
-const { getTable, getRecord } = require('../models/airtable');
-
-describe('Controller tests', () => {
+describe("Academics Controller", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should return all academics', async () => {
-    const mockData: Array<Map<string, any>> = [
-      new Map<string, any>([['id', 'rec123'], ['Email', 'john@example.com'], ['Name', 'John Doe'], ['MainEvent', 'Event1'], ['Canvassing', ['canvas1', 'canvas2']]]),
-      new Map<string, any>([['id', 'rec456'], ['Email', 'jane@example.com'], ['Name', 'Jane Doe'], ['MainEvent', 'Event2'], ['Canvassing', ['canvas2']]]),
-    ];
+  describe("GET /academics", () => {
+    it("should return a list of academics", async () => {
+      const mockData = [
+        {
+          id: "rec1",
+          fields: {
+            Name: "John Doe",
+            Email: "john@example.com",
+            MainEvent: "Event1",
+            Canvassing: ["canvas1", "canvas2"],
+          },
+        },
+        {
+          id: "rec2",
+          fields: {
+            Name: "Jane Doe",
+            Email: "jane@example.com",
+            MainEvent: "Event2",
+            Canvassing: ["canvas2"],
+          },
+        },
+      ];
 
-    getTable.mockResolvedValue(mockData);
+      (getTable as jest.Mock).mockResolvedValue(
+        mockData.map(
+          (item) =>
+            new Map(Object.entries(item.fields).concat([["id", item.id]]))
+        )
+      );
 
-    const response = await request(app).get('/academics');
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual([
-      { id: 'rec123', Email: 'john@example.com', Name: 'John Doe', MainEvent: 'Event1', Canvassing: ['canvas1', 'canvas2'] },
-      { id: 'rec456', Email: 'jane@example.com', Name: 'Jane Doe', MainEvent: 'Event2', Canvassing: ['canvas2'] },
-    ]);
+      const response = await request(app).get("/academics");
+      console.log("Response Status:", response.status); // Debugging output
+      console.log("Response Body:", response.body); // Debugging output
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual([
+        {
+          id: "rec1",
+          Email: "john@example.com",
+          Name: "John Doe",
+          MainEvent: "Event1",
+          Canvassing: ["canvas1", "canvas2"],
+        },
+        {
+          id: "rec2",
+          Email: "jane@example.com",
+          Name: "Jane Doe",
+          MainEvent: "Event2",
+          Canvassing: ["canvas2"],
+        },
+      ]);
+    });
+
+    it("should return 500 if there is a server error", async () => {
+      (getTable as jest.Mock).mockRejectedValue(
+        new Error("Internal Server Error")
+      );
+
+      const response = await request(app).get("/academics");
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("Internal Server Error");
+    });
   });
 
-  it('should return a specific academic by ID', async () => {
-    const mockRecord: Map<string, any> = new Map<string, any>([['id', 'rec123'], ['Email', 'john@example.com'], ['Name', 'John Doe'], ['MainEvent', 'Event1'], ['Canvassing', ['canvas1', 'canvas2']]]);
+  describe("GET /academics/:academic_record_id", () => {
+    it("should return a specific academic by ID", async () => {
+      const mockData = {
+        id: "rec1",
+        fields: {
+          Name: "John Doe",
+          Email: "john@example.com",
+          MainEvent: "Event1",
+          Canvassing: ["canvas1", "canvas2"],
+        },
+      };
 
-    getRecord.mockResolvedValue(mockRecord);
+      (getRecord as jest.Mock).mockResolvedValue(
+        new Map(Object.entries(mockData.fields).concat([["id", mockData.id]]))
+      );
 
-    const response = await request(app).get('/academics/academic/rec123');
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual({ id: 'rec123', Email: 'john@example.com', Name: 'John Doe', MainEvent: 'Event1', Canvassing: ['canvas1', 'canvas2'] });
-  });
+      const response = await request(app).get("/academics/rec1");
 
-  it('should return 404 if academic not found', async () => {
-    getRecord.mockResolvedValue(null);
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        id: "rec1",
+        Email: "john@example.com",
+        Name: "John Doe",
+        MainEvent: "Event1",
+        Canvassing: ["canvas1", "canvas2"],
+      });
+    });
 
-    const response = await request(app).get('/academics/academic/nonexistent');
-    expect(response.status).toBe(404);
-    expect(response.body).toEqual({ message: 'academic not found' });
-  });
+    it("should return 404 if the academic is not found", async () => {
+      (getRecord as jest.Mock).mockResolvedValue(null);
 
-  it('should return all academics for a specific canvassing ID', async () => {
-    const mockData: Array<Map<string, any>> = [
-      new Map<string, any>([['id', 'rec123'], ['Email', 'john@example.com'], ['Name', 'John Doe'], ['MainEvent', 'Event1'], ['Canvassing', ['canvas1', 'canvas2']]]),
-      new Map<string, any>([['id', 'rec456'], ['Email', 'jane@example.com'], ['Name', 'Jane Doe'], ['MainEvent', 'Event2'], ['Canvassing', ['canvas2']]]),
-    ];
+      const response = await request(app).get("/academics/nonexistent");
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe("academic not found");
+    });
 
-    getTable.mockResolvedValue(mockData);
+    it("should return 500 if there is a server error", async () => {
+      (getRecord as jest.Mock).mockRejectedValue(
+        new Error("Internal Server Error")
+      );
 
-    const response = await request(app).get('/Academic/canvas2');
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual([
-      { id: 'rec123', Email: 'john@example.com', Name: 'John Doe', MainEvent: 'Event1', Canvassing: ['canvas1', 'canvas2'] },
-      { id: 'rec456', Email: 'jane@example.com', Name: 'Jane Doe', MainEvent: 'Event2', Canvassing: ['canvas2'] },
-    ]);
-  });
-
-  it('should return 404 if no canvassing found for specific ID', async () => {
-    const mockData: Array<Map<string, any>> = [
-      new Map<string, any>([['id', 'rec123'], ['Email', 'john@example.com'], ['Name', 'John Doe'], ['MainEvent', 'Event1'], ['Canvassing', ['canvas1']]]),
-    ];
-
-    getTable.mockResolvedValue(mockData);
-
-    const response = await request(app).get('/Academic/nonexistent');
-    console.log(response.status)
-    expect(response.status).toBe(404);
-    expect(response.body).toEqual({ message: 'No Canvassing found for this academic' });
+      const response = await request(app).get("/academics/rec1");
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("Internal Server Error");
+    });
   });
 });
-

@@ -1,41 +1,46 @@
-import { Box, Typography } from '@mui/material'
-import React, { FC, useEffect, useState } from 'react'
+import { Box } from '@mui/material'
+import React, { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
-import { BackButton, ProfileHeaderCard } from '../../components'
-import TripBody from './TripBody'
-import { Trip as TripType, Speaker, MainEvent } from '../../types/frontendTypes'
-import {
-    defaultMainEvent,
-    getMainEventById,
-} from '../../scripts/event/function'
-import { EventCard } from '../../components/EventCard/EventCard'
+import { TripContent } from './TripContent'
+import { Trip as TripType, Speaker } from '../../types/frontendTypes'
+import { BodyLayout } from '../Layout/BodyLayout'
+import { PageTopNavBar } from '../../components'
+import { EditTripModal } from './EditTripModal'
 
 export const Trip: FC = () => {
     const { trip, speaker } = useLoaderData() as {
         trip: TripType
         speaker: Speaker
     }
-    const [event, setEvent] = useState<MainEvent>(defaultMainEvent)
 
-    useEffect(() => {
-        getMainEventById(trip.MainEvent[0]).then((event) => {
-            setEvent(event)
-        })
-    }, [])
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+
+    const openEditModal = () => {
+        setIsEditModalOpen(true)
+    }
+
+    const closeEditModal = () => {
+        setIsEditModalOpen(false)
+    }
 
     return (
-        <Box className="flex space-x-10">
-            <Box className="w-3/4 space-y-6">
-                <BackButton text="Back" />
-                <Box>
-                    <ProfileHeaderCard speaker={speaker}></ProfileHeaderCard>
-                </Box>
-                <TripBody tripID={trip.RecordID} />
+        <>
+            <Box>
+                <PageTopNavBar
+                    type={'Trip'}
+                    link={'/trips'}
+                    pageTitle={`${trip.StartDate.format('YYYY-MM-DD')}`}
+                    openEditModal={openEditModal}
+                />
+                <BodyLayout
+                    content={<TripContent trip={trip} speaker={speaker} />}
+                />
             </Box>
-            <Box className="w-1/4 space-y-6">
-                <Typography variant="h6">Main Event</Typography>
-                <EventCard event={event}></EventCard>
-            </Box>
-        </Box>
+            <EditTripModal
+                open={isEditModalOpen}
+                handleClose={closeEditModal}
+                trip={trip}
+            />
+        </>
     )
 }

@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs'
+import { Dayjs } from 'dayjs'
 export enum PresetFilter {
     completed = '( {Completed} = FALSE() )',
 }
@@ -102,6 +102,7 @@ export type MainEvent = {
     Completed: boolean
     Trip: string[]
     SubEvent: string[]
+    EventTotal: number
 }
 
 export type SubEvent = {
@@ -118,10 +119,12 @@ export type SubEvent = {
 }
 
 export type Academic = {
+    RecordID: string
     Email: string
     Name: string
-    MainEvent: string
+    MainEvent: string[]
     Canvassing: string[]
+    CanvassingAvailable: string[]
 }
 
 export type Accommodation = {
@@ -187,11 +190,14 @@ export type Catering = {
 }
 
 export type Service = {
+    RecordID: string
     Cost: number
     ServiceDescription: string
+    ExpenseDate: Dayjs
     Notes: string
     FundingAccount: string[]
     MainEvent: string[]
+    Finance: string[]
 }
 
 export type FundingAccount = {
@@ -212,8 +218,47 @@ export type FundingAccount = {
 }
 
 export type Canvassing = {
-    StartTime: string
-    EndTime: string
-    Trip: string[]
+    RecordID: string
+    StartTime: Dayjs
+    EndTime: Dayjs
     Academic: string[]
+    Venue: string[]
+    MainEvent: string[]
+    AvailableAcademic: string[]
+    EventName: string[]
+    AcademicName: string[]
+    VenueName: string[]
+}
+
+export type Finance = {
+    RecordID: string
+    MainEventID: string
+    MainEventName?: string
+    MainEventDate?: Dayjs
+    KeyNoteSpeakerName?: string
+    EventTotalCost?: number
+    ExpenseCategory: string
+    ExpenseDescription: string
+    Cost: number
+    ExpenseDate: Dayjs
+    FundingAccount: string
+}
+
+// temporary data type for frontend canvassing
+export type TimeSlot = {
+    StartTime: Dayjs
+    EndTime: Dayjs
+    MainEvent: string
+    AvailableAcademic: string[]
+    MixedAcademic: { name: string; email: string }[]
+}
+
+export type CanvassingTemp = {
+    id: string
+    StartTime: Dayjs
+    EndTime: Dayjs
+    MainEvent: string[]
+    Venue: string[]
+    AvailableAcademic: string[]
+    MixedAcademic: { id: string; name: string; email: string }[]
 }

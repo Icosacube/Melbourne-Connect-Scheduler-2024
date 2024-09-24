@@ -44,9 +44,14 @@ export const ProfileHeaderCard: FC<ProfileHeaderCardProps> = ({ speaker }) => {
                                 <Typography
                                     variant="h6"
                                     color={'primary'}
-                                    sx={{ lineHeight: 1.2 }}
+                                    sx={{ lineHeight: 1.2}}
+                                    noWrap
                                 >
-                                    {speaker.Title}
+                                    {speaker.Title}{' '}
+                                    {speaker.AlternativeTitle && ' / '}{' '}
+                                    {speaker.AlternativeTitle}{' '}
+                                    {speaker.WorkTitle && ' / '}{' '}
+                                    {speaker.WorkTitle}
                                 </Typography>
                                 <Typography
                                     variant="h4"
@@ -67,46 +72,47 @@ export const ProfileHeaderCard: FC<ProfileHeaderCardProps> = ({ speaker }) => {
                                         WebkitBoxOrient: 'vertical',
                                     }}
                                 >
+                                    {speaker.Department}
+                                    {speaker.Department && ', '}
                                     {speaker.Organisation}
                                 </Typography>
                             </Grid>
                         </Grid>
 
                         {/* Chips Section */}
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} md={4}>
                             <Stack
                                 direction="row"
                                 spacing={1}
-                                rowGap={0.5}
+                                rowGap={1}
                                 justifyContent="flex-end"
                                 flexWrap="wrap"
                             >
-                                <Chip label={speaker.Pronouns} size="small" />
-                                <Chip
-                                    label={
-                                        speaker.Category === ''
-                                            ? 'unknown category'
-                                            : speaker.Category
-                                    }
-                                    size="small"
-                                    sx={{
-                                        backgroundColor: '#FBE418',
-                                        color: 'text.primary',
-                                    }}
-                                />
-                                <Chip
-                                    label={
-                                        speaker.Area === ''
-                                            ? 'unknown area'
-                                            : speaker.Area
-                                    }
-                                    size="small"
-                                    sx={{
-                                        backgroundColor: '#FBE418',
-                                        color: 'text.primary',
-                                    }}
-                                />
-                                <Chip label={speaker.Country} size="small" />
+                                {speaker.Pronouns && (
+                                    <Chip label={speaker.Pronouns} />
+                                )}
+                                {speaker.Category && (
+                                    <Chip
+                                        label={speaker.Category}
+                                        sx={{
+                                            backgroundColor: 'secondary.main',
+                                        }}
+                                    />
+                                )}
+                                {speaker.Area && (
+                                    <Chip
+                                        label={speaker.Area}
+                                        sx={{
+                                            backgroundColor: 'secondary.main',
+                                        }}
+                                    />
+                                )}
+                                {speaker.Country && (
+                                    <Chip label={speaker.Country} />
+                                )}
+                                {speaker.PreferredTimezone && (
+                                    <Chip label={speaker.PreferredTimezone} />
+                                )}
                             </Stack>
                         </Grid>
                     </Grid>

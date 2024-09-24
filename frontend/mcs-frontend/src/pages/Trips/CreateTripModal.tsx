@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Grid, Modal, Paper, Typography } from '@mui/material'
+import { Grid, Modal, Paper, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import BottomSuccessSnackbar from '../../components/BottomSuccessSnackbar/BottomSuccessSnackbar'
-import { FormInputDate } from '../../components/FormComponents/FormInputDate'
-import { FormInputMultiSelect } from '../../components/FormComponents/FormInputDropdown'
+import {
+    FormInputDate,
+    FormInputMultiAutocomplete,
+    FormInputSingleAutocomplete,
+    SubmitButton,
+    BottomSuccessSnackbar,
+} from '../../components/'
 import { DropdownOptions } from '../../components/FormComponents/FormInputProps'
-import { createTrip, defaultTrip } from '../../scripts/trip/function'
+import { createTrip, defaultTrip } from '../../scripts/trip/functions'
 import { MainEvent, Speaker, Trip } from '../../types/frontendTypes'
-import { FormInputDropdownSingle } from '../../components/FormComponents/FormInputDropdownSingle'
+import { useRevalidator } from 'react-router-dom'
 
 interface CreateTripModalProps {
     handleClose: () => void
@@ -22,7 +26,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
     events,
     speakers,
 }) => {
-    const { handleSubmit, reset, control, setValue, watch } = useForm<Trip>({
+    const { handleSubmit, reset, control, watch } = useForm<Trip>({
         defaultValues: defaultTrip,
     })
 
@@ -30,7 +34,9 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
     const [filteredSpeakers, setFilteredSpeakers] = useState<DropdownOptions[]>(
         []
     )
+    const [submitting, setSubmitting] = useState(false)
     const selectedEventIds = watch('MainEvent') || []
+    const revalidator = useRevalidator()
 
     useEffect(() => {
         // Reset speaker options when no event is selected
@@ -50,7 +56,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
             }
         })
 
-        // Filter speaker dropdown optionss
+        // Filter speaker dropdown options
         const newSpeakers = speakers
             .filter((speaker) => selectedEventSpeakers.has(speaker.RecordID))
             .map((speaker) => ({
@@ -67,19 +73,19 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
     }
 
     const onSubmit = async (data: Trip) => {
+        setSubmitting(true) // for button display
         try {
             const res = await createTrip(data)
             if (res) {
                 setShowSuccess(true)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                revalidator.revalidate()
             } else {
                 console.log('Failed to create trip')
             }
         } catch (error) {
             console.error(error)
         } finally {
+            setSubmitting(false)
             reset()
             onClose()
         }
@@ -90,22 +96,21 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
             <Modal
                 open={open}
                 onClose={onClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                aria-labelledby="create-new-trip"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 w-9/12">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1000px] min-w-[450px] max-h-[95vh] overflow-y-auto">
                     <Grid
                         container
                         spacing={3}
-                        className="w-full p-7 flex space-between justify-items"
+                        className="w-full p-16 flex space-between justify-items"
                     >
                         <Grid item xs={12}>
-                            <Typography variant="h4">
+                            <Typography variant="h4" gutterBottom>
                                 Create New Trip
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInputMultiSelect
+                            <FormInputMultiAutocomplete
                                 name="MainEvent"
                                 control={control}
                                 label="Event"
@@ -113,14 +118,16 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                                     label: event.EventName,
                                     value: event.RecordID,
                                 }))}
+                                required={true}
                             />
                         </Grid>
                         <Grid item xs={12} sm={12} md={6}>
-                            <FormInputDropdownSingle
+                            <FormInputSingleAutocomplete
                                 name="GuestSpeaker"
                                 control={control}
                                 label="Speaker"
                                 options={filteredSpeakers}
+                                required={true}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
@@ -128,6 +135,7 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                                 name="StartDate"
                                 control={control}
                                 label="Start Date"
+                                required={true}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
@@ -138,12 +146,10 @@ export const CreateTripModal: React.FC<CreateTripModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12} container justifyContent="flex-end">
-                            <Button
-                                variant="contained"
+                            <SubmitButton
+                                submitting={submitting}
                                 onClick={handleSubmit(onSubmit)}
-                            >
-                                Save
-                            </Button>
+                            />
                         </Grid>
                     </Grid>
                 </Paper>

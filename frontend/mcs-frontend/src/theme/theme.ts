@@ -4,7 +4,7 @@ const themeOptions: ThemeOptions = {
     palette: {
         background: {
             default: '#F5F5F5', // light-grey Background color
-            paper: '#FFFFFF', // Background color for Paper, Card, etc.
+            paper: '#FDFDFD', // Background color for Paper, Card, etc.
         },
         text: {
             primary: '#2A2A2A', // blue-ish black
@@ -27,10 +27,10 @@ const themeOptions: ThemeOptions = {
         },
         h2: {
             fontFamily: 'Mohave, sans-serif',
-            fontSize: '48px',
+            fontSize: '42px',
             letterSpacing: '2px',
             color: '#000000',
-            lineHeight: 1.2,
+            lineHeight: 1,
         },
         h3: {
             fontFamily: 'Futura, sans-serif',
@@ -40,7 +40,8 @@ const themeOptions: ThemeOptions = {
         },
         h4: {
             fontFamily: 'Futura, sans-serif',
-            color: 'text.primary',
+            color: '2A2A2A',
+            letterSpacing: '1px',
             maxLines: 2,
             lineHeight: 1.5,
             fontWeight: 500,
@@ -79,6 +80,12 @@ const themeOptions: ThemeOptions = {
             lineHeight: 1.2,
         },
         button: {
+            fontFamily: 'Futura, sans-serif',
+            color: '2A2A2A',
+            fontSize: '18pt',
+            letterSpacing: '1px',
+            maxLines: 2,
+            fontWeight: 500,
             lineHeight: 1.2,
         },
     },
@@ -89,16 +96,22 @@ const themeOptions: ThemeOptions = {
                 root: {
                     margin: '8px 0',
                     '& .MuiInputBase-root': {
-                        backgroundColor: '#EDEEEF', // Light grey background
+                        backgroundColor: '#EFF0F1', // Light grey background
                         borderRadius: '5px',
-                        border: 'none',
                         padding: '12px',
-                    },
-                    '& .MuiOutlinedInput-notchedOutline': {
                         border: 'none',
                     },
                     '& .MuiInputBase-input': {
                         padding: 0,
+                    },
+                },
+            },
+        },
+        MuiAutocomplete: {
+            styleOverrides: {
+                inputRoot: {
+                    '& .MuiInputBase-input': {
+                        padding: '0px', // Removes padding inside the input
                     },
                 },
             },
@@ -114,18 +127,18 @@ const themeOptions: ThemeOptions = {
                     zIndex: 1,
                     pointerEvents: 'none',
                 },
-                shrink: {
-                    transform: 'translate(0, -1.5rem) scale(1)', // fixed textfield title position
-                },
             },
         },
         /* Dropdown select field styling */
         MuiSelect: {
             styleOverrides: {
                 select: {
-                    backgroundColor: '#EDEEEF', // Light grey background
+                    backgroundColor: '#EFF0F1', // Light grey background
                     borderRadius: '5px',
                     padding: '12px',
+                    ':focus': {
+                        backgroundColor: '#FFFFFF',
+                    },
                 },
                 icon: {
                     color: '#2A2A2A', // Color of the dropdown arrow
@@ -133,9 +146,22 @@ const themeOptions: ThemeOptions = {
             },
         },
         MuiOutlinedInput: {
+            defaultProps: { notched: false },
             styleOverrides: {
-                notchedOutline: {
-                    border: 'none',
+                root: {
+                    '& fieldset': {
+                        border: 'none',
+                        borderRadius: '5px',
+                    },
+                    '&.Mui-focused': {
+                        backgroundColor: '#FFFFFF', // Lighter background color when focused
+                    },
+                    '&.Mui-focused fieldset': {
+                        border: '3px solid #FBAB18', // Border color when focused
+                    },
+                    '&.Mui-disabled': {
+                        backgroundColor: '#F2F2F2', // Lighter background color for disabled state
+                    },
                 },
             },
         },
@@ -165,23 +191,36 @@ const themeOptions: ThemeOptions = {
                 },
             },
         },
-
         /* Button styling */
         MuiButton: {
             styleOverrides: {
                 root: {
                     textTransform: 'none',
                 },
+                contained: {
+                    textTransform: 'none',
+                    height: 'auto',
+                    '&:hover': {
+                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                    },
+                },
             },
         },
-
         /* Paper styling */
+        MuiCard: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '8px',
+                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
+                },
+            },
+        },
         MuiPaper: {
             styleOverrides: {
                 root: {
-                    borderRadius: '6px',
-                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
                     height: 'auto',
+                    borderRadius: '8px',
+                    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
                 },
             },
         },

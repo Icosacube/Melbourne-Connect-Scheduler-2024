@@ -1,13 +1,14 @@
-import AddLocationIcon from '@mui/icons-material/AddLocation'
 import ConnectingAirports from '@mui/icons-material/ConnectingAirports'
 import Event from '@mui/icons-material/Event'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { Box, Button, Divider, Stack, Typography } from '@mui/material/'
 import React, { FC, useState } from 'react'
-import { AddButton, Calendar, EventTitle } from '../../components'
+import { Calendar, EventCard } from '../../components'
+import { CreateEventModal } from '../Event/EventsOverview/CreateEventModal'
 import { CreateSpeakerModal } from '../Speaker/SpeakerOverview/CreateSpeakerModal'
 import { CreateTripModal } from '../Trips/CreateTripModal'
-import { CreateEventModal } from '../Event/EventsOverview/CreateEventModal'
+import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
+import { useLoaderData } from 'react-router-dom'
 
 // eslint-disable-next-line no-lone-blocks
 {
@@ -15,107 +16,11 @@ import { CreateEventModal } from '../Event/EventsOverview/CreateEventModal'
 }
 
 export const Dashboard: FC = () => {
-    const events = [
-        {
-            title: 'The Rise of AI',
-            date: '2024-04-10',
-            end: '2024-04-12',
-            backgroundColor: '#FAAB19',
-            time: '10:00 AM',
-            speakerFirstName: 'John',
-            speakerLastName: 'Doe',
-            venue: 'Auditorium A',
-            isCompleted: false,
-        },
-        {
-            title: 'Is ChatGPT Evil',
-            date: '2024-04-22',
-            end: '2024-04-25',
-            backgroundColor: '#734023',
-            time: '2:00 PM',
-            speakerFirstName: 'Alice',
-            speakerLastName: 'Smith',
-            venue: 'Conference Room B',
-            isCompleted: true,
-        },
-        {
-            title: 'The Future of Robotics',
-            date: '2024-04-30',
-            end: '2024-05-02',
-            backgroundColor: 'blue',
-            time: '9:00 AM',
-            speakerFirstName: 'Robert',
-            speakerLastName: 'Jones',
-            venue: 'Auditorium A',
-            isCompleted: false,
-        },
-        {
-            title: 'Is C++ Still Relevant',
-            date: '2024-05-10',
-            end: '2024-05-12',
-            backgroundColor: 'tomato',
-            time: '11:00 AM',
-            speakerFirstName: 'Michael',
-            speakerLastName: 'Johnson',
-            venue: 'Main Hall',
-            isCompleted: false,
-        },
-        {
-            title: 'Will AI Take Over the World',
-            date: '2024-05-22',
-            end: '2024-05-24',
-            backgroundColor: 'green',
-            time: '3:00 PM',
-            speakerFirstName: 'Emma',
-            speakerLastName: 'Brown',
-            venue: 'Lecture Theatre 1',
-            isCompleted: false,
-        },
-        {
-            title: 'Ethical Considerations in AI',
-            date: '2024-05-30',
-            end: '2024-06-01',
-            backgroundColor: 'purple',
-            time: '1:00 PM',
-            speakerFirstName: 'Sarah',
-            speakerLastName: 'Taylor',
-            venue: 'Conference Room B',
-            isCompleted: false,
-        },
-        {
-            title: 'AI and Humanity',
-            date: '2024-06-10',
-            end: '2024-06-12',
-            backgroundColor: '#FF5733',
-            time: '9:00 AM',
-            speakerFirstName: 'David',
-            speakerLastName: 'Williams',
-            venue: 'Auditorium A',
-            isCompleted: false,
-        },
-        {
-            title: 'The Future of Quantum Computing',
-            date: '2024-06-20',
-            end: '2024-06-22',
-            backgroundColor: '#2E86C1',
-            time: '10:00 AM',
-            speakerFirstName: 'Sophia',
-            speakerLastName: 'Clark',
-            venue: 'Main Hall',
-            isCompleted: false,
-        },
-        {
-            title: 'The Power of Machine Learning',
-            date: '2024-06-28',
-            end: '2024-06-30',
-            backgroundColor: '#3498DB',
-            time: '2:00 PM',
-            speakerFirstName: 'Daniel',
-            speakerLastName: 'Anderson',
-            venue: 'Conference Room B',
-            isCompleted: false,
-        },
-    ]
+    const { events, speakers, venues } = useLoaderData() as {
+        events: MainEvent[]
+        speakers: Speaker[]
+        venues: Venue[]
+    }
 
     // Speaker modal logic
     const [createSpeakerModalOpen, setCreateSpeakerModalOpen] = useState(false)
@@ -150,7 +55,7 @@ export const Dashboard: FC = () => {
                 <Stack direction="column" spacing={3}>
                     <Typography variant="h5">Recently Edited Pages</Typography>
                     {events.slice(0, 4).map((event) => (
-                        <EventTitle event={event} />
+                        <EventCard key={event.RecordID} event={event} />
                     ))}
                 </Stack>
             </Box>
@@ -220,19 +125,18 @@ export const Dashboard: FC = () => {
                         <Box className=" overflow-scroll h-[35rem]">
                             <Divider className="mb-2" />
                             {events.map((event) => (
-                                <>
+                                <Box key={event.RecordID}>
                                     <Typography className="text-s text-gray-400">
-                                        {event.date} - {event.end} |{' '}
-                                        {event.time}
+                                        {event.Date.toString()}
                                     </Typography>
                                     <Typography className="text-lg font-semibold">
-                                        {event.title}
+                                        {event.EventName}
                                     </Typography>
                                     <Typography className="text-s text-gray-400">
-                                        {event.venue}
+                                        {event.Venue}
                                     </Typography>
                                     <Divider className="mb-2" />
-                                </>
+                                </Box>
                             ))}
                         </Box>
                     </Box>
@@ -245,11 +149,14 @@ export const Dashboard: FC = () => {
             <CreateEventModal
                 handleClose={handleCloseCreateEventModal}
                 open={createEventModalOpen}
+                venues={venues}
             />
-            {/* <CreateTripModal
+            <CreateTripModal
                 handleClose={handleCloseCreateTripModal}
                 open={createTripModalOpen}
-            /> */}
+                events={events}
+                speakers={speakers}
+            />
         </Box>
     )
 }

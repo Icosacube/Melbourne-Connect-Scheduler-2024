@@ -114,8 +114,9 @@ export type SubEvent = {
 export type Academic = {
     Email: string
     Name: string
-    MainEvent: string
+    MainEvent: string[]
     Canvassing: string[]
+    CanvassingAvailable: string[]
 }
 
 export type Accommodation = {
@@ -203,6 +204,17 @@ export type FundingAccount = {
 export type Canvassing = {
     StartTime: string
     EndTime: string
-    Trip: string[]
     Academic: string[]
+    MainEvent: string[]
+    Venue: string[]
+    AvailableAcademic: string[]
+}
+
+export type CanvassingTemp = {
+    StartTime: string
+    EndTime: string
+    MainEvent: string[]
+    Venue: string[]
+    AvailableAcademic: string[]
+    MixedAcademic: { id: string; name: string; email: string }[]
 }
