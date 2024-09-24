@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  client:
+    container_name: client
+    depends_on:
+      - server
+    build:
+      context: ./frontend/mcs-frontend
+      dockerfile: Dockerfile
+      target: base
+    ports:
+      - "80:3000"
+    links:
+      - server
+    command: npm start
+
+  server:
+    container_name: server
+    build:
+      context: ./mcs_backend
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./mcs_backend/src:/home/node/app/src
+      - ./mcs_backend/nodemon.json:/home/node/app/nodemon.json
+    expose:
+      - '4000'
+    ports:
+      - '4000:4000'
+    command: npm run dev
+
