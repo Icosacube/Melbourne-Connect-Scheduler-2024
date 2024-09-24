@@ -1,4 +1,12 @@
-import { Avatar, Box, Chip, Paper, Stack, Typography } from '@mui/material'
+import {
+    Avatar,
+    Box,
+    Chip,
+    Grid,
+    Paper,
+    Stack,
+    Typography,
+} from '@mui/material'
 import React, { FC } from 'react'
 import { MainEvent, Speaker, Venue } from '../../../../types/frontendTypes'
 import AboutTable from './AboutTable'
@@ -12,30 +20,37 @@ interface AboutProps {
     venues: Venue[]
 }
 
-
 export const About: FC<AboutProps> = ({ event, speakers, venues }) => {
     const firstSpeaker = speakers[0]
     const theRestOfSpeakers = speakers.slice(1)
-    console.log(event.EventBanner)
     return (
-        <Box className="flex justify-between space-x-8 mt-5">
+        <Grid
+            container
+            spacing={8}
+            sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+            }}
+        >
             {/* Left side */}
-            <Box className="w-9/12 space-y-5 bg-white">
-                <Banner image={event.EventBanner[0]?.url as string} />
-                <Box className="pl-8 pr-8">
-                    {/* Date and Status */}
-                    <Headline
-                        date={event?.Date.toString()}
-                        name={event?.EventName}
-                    />
+            <Grid item xs={12} lg={9}>
+                <Box className="bg-white pb-8">
+                    <Banner image={event.EventBanner[0]?.url as string} />
+                    <Box className="pl-8 pr-8">
+                        {/* Date and Status */}
+                        <Headline
+                            date={event?.Date.toString()}
+                            name={event?.EventName}
+                        />
 
-                    {/* Info Table */}
-                    <AboutTable event={event} venues={venues} />
+                        {/* Info Table */}
+                        <AboutTable event={event} venues={venues} />
+                    </Box>
                 </Box>
-            </Box>
+            </Grid>
 
             {/* Right side */}
-            <Box className="w-3/12">
+            <Grid item xs={12} lg={3}>
                 <Box className=" bg-white rounded-2xl shadow-lg pt-8 pb-8 h-max">
                     <Box className="pl-8 pr-4 flex space-x-6 ">
                         <Avatar className="size-24 mb-4 " />
@@ -80,7 +95,7 @@ export const About: FC<AboutProps> = ({ event, speakers, venues }) => {
                         position={speaker?.Organisation}
                     />
                 ))}
-            </Box>
-        </Box>
+            </Grid>
+        </Grid>
     )
 }
