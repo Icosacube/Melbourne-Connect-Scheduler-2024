@@ -1,6 +1,12 @@
 
 import axios, { AxiosResponse, AxiosError } from 'axios'
-import { MainEvent, Speaker, Academic } from '../../types/frontendTypes'
+import { MainEvent, Speaker} from '../../types/frontendTypes'
+
+interface Academic {
+    RecordID: string
+    Name: string
+    Email: string
+}
 
 export async function sendEmail(
     from: string,
@@ -140,11 +146,11 @@ export async function getExistingSpeakerEventFormLink(
     }
 }
 
-export async function getCanvassingFormLink(
+export function getCanvassingFormLink(
     eventId: string,
     academicId: string
 ){
-    return `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}/${academicId}`
+    return `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}`
 }
 
 export async function getBlankCanvassingFormLink() {
@@ -156,6 +162,7 @@ export function generateEmailTemplateForCanvassing(
     academic: Academic,
 ) {
     const formLink = getCanvassingFormLink(event.RecordID, academic.RecordID)
+    console.log(`Test ${formLink}`)
     const emailSubject = `INVITATION: Canvassing for ${event.EventName}`
     const emailContent = `
         <html>

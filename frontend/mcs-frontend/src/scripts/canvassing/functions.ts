@@ -99,7 +99,6 @@ export const defaultCanvassing: CanvassingFrontend = {
     VenueName: [],
 }
 
-
 function generateCanvassingLinks(data: CanvassingBackend[]): string[] {
     const academicIds = data[0].Academic
     const eventId = data[0].MainEvent
@@ -108,6 +107,7 @@ function generateCanvassingLinks(data: CanvassingBackend[]): string[] {
             `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}/${academicId}`
     )
 }
+
 
 export function generateCanvassingLinksTest(event: MainEvent, academic: Academic){
     const eventId = event.RecordID

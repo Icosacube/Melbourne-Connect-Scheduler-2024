@@ -311,6 +311,7 @@ export const CanvassingResultsTable: React.FC<CanvassingResultsTableProps> = ({
                 Send
             </Button>
             <SelectAcademicModal
+                mainEvent={event}
                 isOpen={openSelectAcademic}
                 onClose={handleCloseSelectAcademic}
             />
