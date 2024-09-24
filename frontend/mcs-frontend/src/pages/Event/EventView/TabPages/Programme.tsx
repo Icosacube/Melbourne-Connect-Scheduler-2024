@@ -16,6 +16,7 @@ import { CreateSubEventModal } from './CreateSubEventModal'
 import { EditSubEventModal } from './EditSubEventModal'
 import { People } from '@mui/icons-material'
 import Edit from '@mui/icons-material/Edit'
+import { getSpeakerById } from '../../../../scripts/speaker/functions'
 
 interface ProgrammeProps {
     event: MainEvent
@@ -30,6 +31,30 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
         null
     )
     const [selectedSlot, setSelectedSlot] = useState<SubEvent | null>(null)
+    const [speakerNames, setSpeakerNames] = useState<string[]>([])
+    const [isLoadingSpeaker, setIsLoadingSpeaker] = useState<boolean>(false)
+
+    useEffect(() => {
+        const fetchSpeakers = async () => {
+            setIsLoadingSpeaker(true)
+            if (selectedSlot == null || selectedSlot!.Speakers.length == 0) {
+                setIsLoadingSpeaker(false)
+                return []
+            }
+            const speakerNames: string[] = await Promise.all(
+                selectedSlot.Speakers.map(async (speakerId) => {
+                    const speakerName = await getSpeakerById(speakerId)
+                    return (
+                        `${speakerName.FirstName} ${speakerName.LastName}` ||
+                        'Unknown'
+                    )
+                })
+            )
+            setSpeakerNames(speakerNames)
+            setIsLoadingSpeaker(false)
+        }
+        fetchSpeakers()
+    }, [selectedSlot])
 
     // Fetch subevents
     const fetchSubEvents = async () => {
@@ -90,28 +115,20 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
                                         container
                                         sx={{ alignItems: 'center' }}
                                     >
-                                        <Grid item xs={12} lg={8}>
-                                            <Typography
-                                                variant="subtitle2"
-                                                color="primary"
-                                            >
+                                        <Grid item xs={7}>
+                                            <Typography variant="subtitle2">
                                                 {selectedSlot.StartDate.format(
                                                     'HH:mm'
                                                 )}{' '}
                                                 -{' '}
                                                 {selectedSlot.EndDate.format(
                                                     'HH:mm'
-                                                )}{' '}
-                                                |{' '}
-                                                {selectedSlot.StartDate.format(
-                                                    'ddd, MMM DD'
                                                 )}
                                             </Typography>
                                         </Grid>
                                         <Grid
                                             item
-                                            xs={12}
-                                            lg={4}
+                                            xs={5}
                                             container
                                             justifyContent="flex-end"
                                         >
@@ -133,16 +150,27 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
                                     <Typography variant="subtitle2">
                                         Attendees
                                     </Typography>
-                                    {selectedSlot.Speakers.map(
-                                        (speakerId, index) => (
-                                            <Chip
-                                                key={index}
-                                                avatar={
-                                                    <Avatar alt={speakerId} />
-                                                }
-                                                label={speakerId || 'Unknown'}
-                                                sx={{ mr: 1, mt: 0.5 }}
-                                            />
+                                    {/* Show loading state if isLoadingSpeaker is true */}
+                                    {isLoadingSpeaker ? (
+                                        <Typography variant="body2">
+                                            Loading...
+                                        </Typography>
+                                    ) : (
+                                        speakerNames.map(
+                                            (speakerName, index) => (
+                                                <Chip
+                                                    key={index}
+                                                    avatar={
+                                                        <Avatar
+                                                            alt={speakerName}
+                                                        />
+                                                    }
+                                                    label={
+                                                        speakerName || 'Unknown'
+                                                    }
+                                                    sx={{ mr: 1, mt: 0.5 }}
+                                                />
+                                            )
                                         )
                                     )}
                                 </Grid>

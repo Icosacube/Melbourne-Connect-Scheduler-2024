@@ -4,7 +4,6 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { MainEvent, SubEvent } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
-import { Typography } from '@mui/material'
 
 interface WeeklyCalendarProps {
     event: MainEvent
