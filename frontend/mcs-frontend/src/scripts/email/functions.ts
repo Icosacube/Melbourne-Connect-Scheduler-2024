@@ -147,10 +147,9 @@ export async function getExistingSpeakerEventFormLink(
 }
 
 export function getCanvassingFormLink(
-    eventId: string,
-    academicId: string
+    eventId: string
 ){
-    return `http://localhost:3000/canvassing/${eventId}`
+    return `${process.env.REACT_APP_FRONTEND_URL}/canvassing/${eventId}`
     //need an .env variable for this
 }
 
@@ -158,11 +157,48 @@ export async function getBlankCanvassingFormLink() {
     return 'google.com'
 }
 
+export function generateBatchEmailForCanvassing(
+    event: MainEvent
+) {
+    const formLink = getCanvassingFormLink(event.RecordID)
+    const emailSubject = `INVITATION: Canvassing for ${event.EventName}`
+    const emailContent = `
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+            <h1><b>Canvassing for ${event.EventName}</b></h1>
+            <p>
+                Dear all,
+            </p>
+            <p>
+                We are excited to invite you to participate in the canvassing for the event ${event.EventName}.
+            </p>
+            <p>
+                The event will be held on ${event.Date.format('dddd, MMMM D, YYYY')} at ${event.Date.format('h:mm A')}.
+            </p>
+            <p>
+                Please click the link below to view the event details and sign up for a canvassing slot:
+            </p>
+            <p>
+                <a href=${formLink} style="color: #007BFF; text-decoration: none;">Event Details & Canvassing Sign Up</a>
+            </p>
+            <p>
+                We look forward to seeing you at the event!
+            </p>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </body>
+        </html>
+    `
+    return { emailSubject, emailContent }
+}
+
 export function generateEmailTemplateForCanvassing(
     event: MainEvent,
     academic: Academic,
 ) {
-    const formLink = getCanvassingFormLink(event.RecordID, academic.RecordID)
+    const formLink = getCanvassingFormLink(event.RecordID)
     console.log(`Test ${formLink}`)
     const emailSubject = `INVITATION: Canvassing for ${event.EventName}`
     const emailContent = `

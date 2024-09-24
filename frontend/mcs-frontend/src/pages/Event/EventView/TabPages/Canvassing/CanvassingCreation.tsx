@@ -38,6 +38,8 @@ import { SelectChangeEvent } from '@mui/material/Select/SelectInput'
 import { getAllAcademics } from '../../../../../scripts/academic/functions'
 import { ShareEmailButton } from '../../../../../components/Buttons/'
 import { getCanvassingByEventId } from '../../../../../scripts/canvassing/functions'
+import { sendEmail } from '../../../../../scripts/email/functions'
+import { generateBatchEmailForCanvassing } from '../../../../../scripts/email/functions'
 
 interface CanvassingCreationProps {
     event: MainEvent
@@ -97,6 +99,8 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     }, [event])
 
     const onSubmit = async (data: any) => {
+        const { emailSubject, emailContent } =
+            generateBatchEmailForCanvassing(event)
         const formattedMixedAcademic = data.DropdownOptions.map(
             (academic: { id: string; label: string; value: string }) => ({
                 id: academic.id,
@@ -104,6 +108,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                 email: academic.value,
             })
         )
+        console.log('Mixed Academic:', formattedMixedAcademic)
         const updatedSlots = canvassings.map((slot) => ({
             ...slot,
             Venue: data.Venue,
@@ -116,6 +121,16 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             if (res) {
                 setShowSuccess(true)
                 revalidator.revalidate()
+                // console.log('Emails:', emails)
+                for (const academic of formattedMixedAcademic) {
+                    await sendEmail(
+                        'mcs083087@gmail.com',
+                        academic.email,
+                        '',
+                        emailSubject,
+                        emailContent
+                    )
+                }
             } else {
                 console.log('Failed to create Canvassing')
             }
