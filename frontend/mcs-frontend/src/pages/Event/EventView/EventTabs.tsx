@@ -51,6 +51,7 @@ export const EventTabs: FC<EventTabsProps> = ({ getTabName }) => {
             <Tabs value={value} onChange={handleChange} aria-label="event tabs">
                 <Tab label="About" value="About" />
                 <Tab label="Participants" value="Participants" />
+                <Tab label="Canvassing" value="Canvassing" />
                 <Tab label="Programme" value="Programme" />
                 <Tab
                     label="Services"
