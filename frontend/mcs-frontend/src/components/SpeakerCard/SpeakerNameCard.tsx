@@ -1,4 +1,4 @@
-import { Avatar, Box, Chip, Paper, Stack, Typography } from '@mui/material'
+import { Avatar, Paper, Stack, Typography } from '@mui/material'
 import React, { FC } from 'react'
 
 interface SpeakerNameCardProps {
@@ -14,7 +14,7 @@ export const SpeakerNameCard: FC<SpeakerNameCardProps> = ({
 }) => {
     return (
         <Paper className="pl-4 pr-4 flex space-x-6 mt-4 pt-4 pb-2">
-            <Avatar className="size-24 mb-4 " />
+            <Avatar className="size-24 mb-4" />
             <Stack>
                 <Typography variant="h5">{firstName}</Typography>
                 <Typography variant="h5">{lastName}</Typography>

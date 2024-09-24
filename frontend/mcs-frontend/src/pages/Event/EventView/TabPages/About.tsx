@@ -1,12 +1,4 @@
-import {
-    Avatar,
-    Box,
-    Chip,
-    Grid,
-    Paper,
-    Stack,
-    Typography,
-} from '@mui/material'
+import { Box, Chip, Grid, Typography } from '@mui/material'
 import React, { FC } from 'react'
 import { MainEvent, Speaker, Venue } from '../../../../types/frontendTypes'
 import AboutTable from './AboutTable'
@@ -26,7 +18,7 @@ export const About: FC<AboutProps> = ({ event, speakers, venues }) => {
     return (
         <Grid
             container
-            spacing={8}
+            spacing={4}
             sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -36,7 +28,7 @@ export const About: FC<AboutProps> = ({ event, speakers, venues }) => {
             <Grid item xs={12} lg={9}>
                 <Box className="bg-white pb-8">
                     <Banner image={event.EventBanner[0]?.url as string} />
-                    <Box className="pl-8 pr-8">
+                    <Box className="px-8">
                         {/* Date and Status */}
                         <Headline
                             date={event?.Date.toString()}
@@ -54,7 +46,7 @@ export const About: FC<AboutProps> = ({ event, speakers, venues }) => {
                 <SpeakerBioCard speaker={firstSpeaker} />
 
                 {/* Attendees */}
-                <Box className="flex pl-6 mt-4 space-x-4">
+                <Box className="flex mt-4 space-x-4">
                     <Typography variant="h5">Attendees</Typography>
                     {/* To do: add academics in here */}
                     <Chip label={event.Speaker.length} />
