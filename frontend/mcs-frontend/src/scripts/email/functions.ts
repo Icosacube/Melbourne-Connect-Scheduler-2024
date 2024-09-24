@@ -1,5 +1,12 @@
-import axios, { AxiosResponse } from 'axios'
-import { MainEvent, Speaker } from '../../types/frontendTypes'
+
+import axios, { AxiosResponse, AxiosError } from 'axios'
+import { MainEvent, Speaker} from '../../types/frontendTypes'
+
+interface Academic {
+    RecordID: string
+    Name: string
+    Email: string
+}
 
 export async function sendEmail(
     from: string,
@@ -30,6 +37,31 @@ export async function sendEmail(
         }
     }
 }
+
+export async function sendEmailSequentially(
+    emailList: string[],
+    from: string,
+    cc: string,
+    subject: string,
+    content: string
+): Promise<void> {
+    if (!emailList || emailList.length === 0) {
+        console.error('Email list is empty. No emails to send.');
+        return; // Resolves the promise with undefined
+    }
+
+    for (let email of emailList) {
+        try {
+            console.log(`Sending email to: ${email}`);
+            await sendEmail(from, email, cc, subject, content);
+            console.log(`Email sent successfully to: ${email}`);
+        } catch (error) {
+            console.error('Error sending email to:', email, error);
+        }
+    }
+}
+
+
 
 // Get form links functions
 export async function getBlankSpeakerFormLink() {
@@ -112,6 +144,57 @@ export async function getExistingSpeakerEventFormLink(
         console.error('Error getting existing speaker event form link:', error)
         return ''
     }
+}
+
+export function getCanvassingFormLink(
+    eventId: string,
+    academicId: string
+){
+    return `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}`
+}
+
+export async function getBlankCanvassingFormLink() {
+    return 'google.com'
+}
+
+export function generateEmailTemplateForCanvassing(
+    event: MainEvent,
+    academic: Academic,
+) {
+    const formLink = getCanvassingFormLink(event.RecordID, academic.RecordID)
+    console.log(`Test ${formLink}`)
+    const emailSubject = `INVITATION: Canvassing for ${event.EventName}`
+    const emailContent = `
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+            <h1><b>Canvassing for ${event.EventName}</b></h1>
+            <p>
+                Dear ${academic.Name},
+            </p>
+            <p>
+                We are excited to invite you to participate in the canvassing for the event ${event.EventName}.
+            </p>
+            <p>
+                The event will be held on ${event.Date.format('dddd, MMMM D, YYYY')} at ${event.Date.format('h:mm A')}.
+            </p>
+            <p>
+                Please click the link below to view the event details and sign up for a canvassing slot:
+            </p>
+            <p>
+                <a href=${formLink} style="color: #007BFF; text-decoration: none;">Event Details & Canvassing Sign Up</a>
+            </p>
+            <p>
+                We look forward to seeing you at the event!
+            </p>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </body>
+        </html>
+    `
+
+    return { emailSubject, emailContent }
 }
 
 // Templating functions

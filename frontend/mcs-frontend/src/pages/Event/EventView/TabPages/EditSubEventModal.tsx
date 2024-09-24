@@ -6,7 +6,7 @@ import {
     BottomSuccessSnackbar,
     DeleteButton,
     FormInputDateTime,
-    FormInputMultiSelect,
+    FormInputMultiAutocomplete,
     FormInputText,
     FormInputTextLong,
     OutlinedButton,
@@ -112,7 +112,7 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                                 Update Sub-Event
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} md={9}>
+                        <Grid item xs={12} md={8}>
                             <FormInputText
                                 name="EventName"
                                 control={control}
@@ -120,7 +120,7 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                             />
                         </Grid>
 
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} md={4}>
                             <FormInputText
                                 name="EventType"
                                 control={control}
@@ -128,8 +128,8 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                             />
                         </Grid>
 
-                        <Grid item xs={12} lg={6}>
-                            <FormInputMultiSelect
+                        <Grid item xs={12}>
+                            <FormInputMultiAutocomplete
                                 name="Speakers"
                                 control={control}
                                 label="Speakers"
@@ -139,21 +139,20 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                                 }))}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>
+                        <Grid item xs={12} sm={6}>
                             <FormInputDateTime
                                 name="StartDate"
                                 control={control}
                                 label="Start"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} lg={3}>
+                        <Grid item xs={12} sm={6}>
                             <FormInputDateTime
                                 name="EndDate"
                                 control={control}
                                 label="End"
                             />
                         </Grid>
-
                         <Grid item xs={12} lg={6}>
                             <FormInputTextLong
                                 name="EventDescription"

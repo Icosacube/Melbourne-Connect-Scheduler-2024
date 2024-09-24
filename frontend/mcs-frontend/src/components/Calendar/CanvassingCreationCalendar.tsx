@@ -1,182 +1,117 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { Grid, Button, Paper, Typography } from '@mui/material'
-import dayjs, { Dayjs } from 'dayjs'
-import { TimeSlot } from '../../types/frontendTypes'
-import { useForm, Controller } from 'react-hook-form'
-import { FormInputMultiFreeSolo } from '../FormComponents'
-import './index.css'
-
-interface TimeSlotTemp {
-    id: string
-    StartTime: Dayjs
-    EndTime: Dayjs
-}
+import dayjs from 'dayjs'
+import { CanvassingTemp, MainEvent } from '../../types/frontendTypes'
+import { Typography } from '@mui/material'
 
 interface CanvassingCreationCalendarProps {
-    MainEvent: string // change to MainEventObject
-    setTimeSlots: (value: TimeSlot[]) => void
+    MainEvent: MainEvent
+    canvassingSlots: CanvassingTemp[]
+    setCanvassingSlots: (slots: CanvassingTemp[]) => void
+    timeSlotSize: String
 }
-
-// academic temp
-interface Person {
-    id: string
-    name: string
-    image?: string
-}
-
-// Sample academics
-const peopleOptions: Person[] = [
-    { id: '1', name: 'John Doe', image: '/path/to/john_image.jpg' },
-    { id: '2', name: 'Jane Smith', image: '/path/to/jane_image.jpg' },
-    { id: '3', name: 'Michael Johnson', image: '/path/to/michael_image.jpg' },
-]
 
 export const CanvassingCreationCalendar: React.FC<
     CanvassingCreationCalendarProps
-> = ({ MainEvent, setTimeSlots }) => {
-    const [allTimeSlotTemps, setAllTimeSlotTemps] = useState<TimeSlotTemp[]>([])
-    const { control, handleSubmit, setValue } = useForm()
-    const eventDate = '2024-09-01'
-
-    useEffect(() => {
-        setAllTimeSlotTemps([])
-    }, [])
-
+> = ({ MainEvent, canvassingSlots, setCanvassingSlots, timeSlotSize }) => {
     const handleSlotResize = (info: any) => {
         const { event } = info
-        const updatedSlots = allTimeSlotTemps.map((slot) => {
+
+        const updatedSlots = canvassingSlots.map((slot) => {
             if (slot.id === event.id) {
                 return {
                     ...slot,
+                    id: dayjs(event.start).valueOf().toString(),
                     StartTime: dayjs(event.start),
                     EndTime: dayjs(event.end),
                 }
             }
             return slot
         })
-        setAllTimeSlotTemps(updatedSlots)
+        setCanvassingSlots(updatedSlots)
     }
 
     const handleSlotDrag = (info: any) => {
         const { event } = info
-        const updatedSlot: TimeSlotTemp = {
-            id: event.id,
+
+        const updatedSlot = {
+            id: dayjs(event.start).valueOf().toString(),
             StartTime: dayjs(event.start),
             EndTime: dayjs(event.end),
+            MainEvent: [MainEvent.RecordID],
+            Venue: [],
+            MixedAcademic: [],
+            AvailableAcademic: [],
         }
 
-        const updatedSlots = allTimeSlotTemps.map((slot) => {
-            if (slot.id === updatedSlot.id) {
-                return updatedSlot
-            }
-            return slot
-        })
-        setAllTimeSlotTemps(updatedSlots)
+        const updatedSlots = canvassingSlots.map((slot) =>
+            slot.id === event.id ? updatedSlot : slot
+        )
+        setCanvassingSlots(updatedSlots)
     }
 
     const handleDateClick = (info: any) => {
-        const newTimeSlotTemp: TimeSlotTemp = {
+        const newCanvassingSlot: CanvassingTemp = {
             id: dayjs(info.date).valueOf().toString(),
             StartTime: dayjs(info.date),
-            EndTime: dayjs(info.date).add(1, 'hour'),
+            EndTime: dayjs(info.date).add(Number(timeSlotSize), 'minute'),
+            MainEvent: [MainEvent.RecordID],
+            Venue: [],
+            MixedAcademic: [],
+            AvailableAcademic: [],
         }
-        setAllTimeSlotTemps([...allTimeSlotTemps, newTimeSlotTemp])
+        setCanvassingSlots([...canvassingSlots, newCanvassingSlot])
     }
 
     const renderEventContent = (eventInfo: any) => {
         return (
-            <div
-                style={{
-                    padding: '2px',
+            <Typography
+                color={'white'}
+                sx={{
+                    width: '100%',
+                    height: 48,
                     textAlign: 'center',
                     fontFamily: 'Futura, sans-serif',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
                 }}
             >
                 {eventInfo.timeText && <div>{eventInfo.timeText}</div>}
-            </div>
+            </Typography>
         )
     }
 
-    const timeSlotsFC = allTimeSlotTemps.map((slot) => ({
-        id: slot.id,
-        start: slot.StartTime.toDate(),
-        end: slot.EndTime.toDate(),
-    }))
-
-    const onSubmit = (data: any) => {
-        const timeSlots: TimeSlot[] = allTimeSlotTemps.map((slot) => ({
-            MainEvent: MainEvent,
-            StartTime: slot.StartTime,
-            EndTime: slot.EndTime,
-            AvailablePeople: [], // change this
-            People: [],
-        }))
-        setTimeSlots(timeSlots) 
-    }
-
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container spacing={2} alignItems={'flex-start'}>
-                <Grid item lg={10} md={9} sm={12}>
-                    <FullCalendar
-                        eventColor="#000000"
-                        eventTextColor="#ffffff"
-                        allDaySlot={false}
-                        plugins={[timeGridPlugin, interactionPlugin]}
-                        initialView="timeGridWeek"
-                        height="auto"
-                        events={timeSlotsFC}
-                        headerToolbar={{
-                            left: 'title',
-                            center: '',
-                            right: 'today prev,next',
-                        }}
-                        initialDate={eventDate}
-                        slotMinTime="09:00:00"
-                        slotMaxTime="20:00:00"
-                        locale="en-GB"
-                        editable={true}
-                        eventResize={handleSlotResize}
-                        eventDrop={handleSlotDrag}
-                        dateClick={handleDateClick}
-                        eventContent={renderEventContent}
-                    />
-                </Grid>
-                <Grid item sm={12} md={3} lg={2} container spacing={4}>
-                    <Grid item xs={12}>
-                        <Typography variant="h4">Options</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Controller
-                            name="availablePeople"
-                            control={control}
-                            defaultValue={[]}
-                            render={({ field }) => (
-                                <FormInputMultiFreeSolo
-                                    name="availablePeople"
-                                    control={control}
-                                    label="Select Academics"
-                                    options={peopleOptions.map((person) => ({
-                                        value: person.id,
-                                        label: person.name,
-                                        image: person.image,
-                                    }))}
-                                />
-                            )}
-                        />
-                    </Grid>
-                    <Grid item container justifyContent={'flex-end'}>
-                        <Grid item>
-                            <Button type="submit" variant={'contained'}>
-                                Save
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Grid>
-        </form>
+        <FullCalendar
+            eventColor="#000000"
+            eventTextColor="#ffffff"
+            allDaySlot={false}
+            plugins={[timeGridPlugin, interactionPlugin]}
+            initialView="timeGridWeek"
+            contentHeight="auto"
+            events={canvassingSlots.map((slot) => ({
+                id: dayjs(slot.StartTime).valueOf().toString(),
+                start: slot.StartTime.toDate(),
+                end: slot.EndTime.toDate(),
+            }))}
+            headerToolbar={{
+                left: 'title',
+                center: '',
+                right: 'today prev,next',
+            }}
+            titleFormat={{ year: 'numeric', month: 'short' }}
+            dayHeaderFormat={{ weekday: 'short', day: 'numeric' }}
+            initialDate={dayjs(MainEvent.Date).format('YYYY-MM-DD')}
+            slotMinTime="09:00:00"
+            slotMaxTime="20:00:00"
+            locale="en-GB"
+            editable={true}
+            eventResize={handleSlotResize}
+            eventDrop={handleSlotDrag}
+            dateClick={handleDateClick}
+            eventContent={renderEventContent}
+        />
     )
 }

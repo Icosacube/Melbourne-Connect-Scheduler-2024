@@ -9,7 +9,9 @@ import { loader as financeLoader } from './scripts/finance/financeOverviewLoader
 import { loader as speakerLoader } from './scripts/speaker/speakerLoader'
 import { loader as speakersLoader } from './scripts/speaker/speakersLoader'
 import { loader as tripLoader } from './scripts/trip/tripLoader'
+import { loader as canvassingLoader } from './scripts/canvassing/canvassingFormLoader'
 import { loader as tripsLoader } from './scripts/trip/tripsLoader'
+
 
 import { ThemeProvider } from '@emotion/react'
 import { ProtectedRoute } from './components/Authentication'
@@ -31,6 +33,7 @@ import {
     Register,
     Speaker,
     Speakers,
+
 } from './pages'
 import { Trip } from './pages/Trips/Trip'
 import { Trips } from './pages/Trips/TripsOverview/Trips'
@@ -57,6 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
             path: '/logout',
             element: <Logout />,
             errorElement: <ErrorPage />,
+        },
+        {
+            path: '/canvassing/:eventid',
+            element: <FullWidthLayout content={<Canvassing />} />,
+            errorElement: <ErrorPage />,
+            loader: canvassingLoader,
         },
         {
             path: '/',
@@ -130,11 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     ],
                 },
             ],
-        },
-        {
-            path: '/canvassing/:eventid/:academicid',
-            element: <FullWidthLayout content={<Canvassing />} />,
-            errorElement: <ErrorPage />,
         },
     ])
 

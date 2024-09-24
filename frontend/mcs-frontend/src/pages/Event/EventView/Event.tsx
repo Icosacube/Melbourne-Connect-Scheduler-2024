@@ -15,8 +15,10 @@ import EditEventModal from './EditEventModal'
 import { About } from './TabPages/About'
 import { Participants } from './TabPages/Participants'
 import Programme from './TabPages/Programme'
+import CanvassingAll from './TabPages/Canvassing/CanvassingAll'
 import { CateringTable } from './TabPages/Services/CateringTable'
 import { RoomServicesTable } from './TabPages/Services/RoomServicesTable'
+
 
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')
@@ -42,6 +44,8 @@ export const Event: FC = () => {
                 )
             case 'Participants':
                 return <Participants speakers={speakers} />
+            case 'Canvassing':
+                return <CanvassingAll event={event} speakers={speakers} />
             case 'Programme':
                 return <Programme event={event} speakers={speakers} />
             case 'Catering':
