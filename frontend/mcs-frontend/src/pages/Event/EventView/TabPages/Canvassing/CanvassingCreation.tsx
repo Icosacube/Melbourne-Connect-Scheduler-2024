@@ -61,6 +61,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     const [venues, setVenues] = useState<Venue[]>([])
     const [submitting, setSubmitting] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [showSuccessEmail, setShowSuccessEmail] = useState(false)
     const revalidator = useRevalidator()
     const [extractedEmails, setExtractedEmails] = useState<string[]>([])
     const [extractedCanvassing, setExtractedCanvassing] = useState<
@@ -120,7 +121,6 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             const res = await createCanvassing(updatedSlots)
             if (res) {
                 setShowSuccess(true)
-                revalidator.revalidate()
                 // console.log('Emails:', emails)
                 for (const academic of formattedMixedAcademic) {
                     await sendEmail(
@@ -131,12 +131,14 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                         emailContent
                     )
                 }
+                setShowSuccessEmail(true)
             } else {
                 console.log('Failed to create Canvassing')
             }
         } catch (error) {
             console.error(error)
         } finally {
+            revalidator.revalidate()
             setSubmitting(false)
             reset()
         }
@@ -267,7 +269,12 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
-                message="Canvassing Form Created Successfully"
+                message="Canvassing Form Created Successfully. Sending Emails..."
+            />
+            <BottomSuccessSnackbar
+                showSuccess={showSuccessEmail}
+                setShowSuccess={setShowSuccessEmail}
+                message="Email(s) sent successfully!"
             />
         </Grid>
     )
