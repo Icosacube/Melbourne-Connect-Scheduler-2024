@@ -8,6 +8,7 @@ import {
     Button,
     Box,
     SelectChangeEvent,
+    Paper,
 } from '@mui/material'
 import { Email } from '@mui/icons-material'
 import { EmailComposerModal, SubmitButton } from '../../../../../components'
@@ -144,50 +145,38 @@ const SelectAcademicModal: React.FC<SelectAcademicModalProps> = ({
     return (
         <>
             <Modal open={isOpen} onClose={onClose}>
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: '25%',
-                        height: '30vh',
-                        bgcolor: 'background.paper',
-                        boxShadow: 24,
-                        p: 4,
-                        display: 'flex',
-                        flexDirection: 'column',
-                    }}
-                >
-                    <FormControl fullWidth>
-                        <InputLabel id="select-academic-label">
-                            Select Academic
-                        </InputLabel>
-                        <Select
-                            labelId="select-academic-label"
-                            value={selectedAcademic}
-                            onChange={handleChange}
-                            label="Select Academic"
-                        >
-                            {academics.map((academic) => (
-                                <MenuItem
-                                    key={academic.RecordID}
-                                    value={academic.Email}
-                                >
-                                    {academic.Name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        <Button
-                            variant="outlined"
-                            onClick={handleEmailOpen}
-                            className="text-xl py-2 px-4"
-                            startIcon={<Email />}
-                        >
-                            Send Email
-                        </Button>
-                    </FormControl>
-                </Box>
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px]">
+                    <Box className="pt-12 px-8 pb-4">
+                        <FormControl fullWidth>
+                            <InputLabel id="select-academic-label">
+                                Select Academic
+                            </InputLabel>
+                            <Select
+                                labelId="select-academic-label"
+                                value={selectedAcademic}
+                                onChange={handleChange}
+                                label="Select Academic"
+                            >
+                                {academics.map((academic) => (
+                                    <MenuItem
+                                        key={academic.RecordID}
+                                        value={academic.Email}
+                                    >
+                                        {academic.Name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                            <Button
+                                variant="outlined"
+                                onClick={handleEmailOpen}
+                                className="text-xl py-2 px-4 my-4"
+                                startIcon={<Email />}
+                            >
+                                Send Email
+                            </Button>
+                        </FormControl>
+                    </Box>
+                </Paper>
             </Modal>
             {emailComposer()}
         </>
