@@ -27,10 +27,13 @@ const EmailRouter = require("./controller/Email");
 const app = express();
 
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+// app.use(cors({
+//   origin: 'http://localhost:3000',
+//   credentials: true
+// }));
+
+// Accept any origin
+app.use(cors());
 
 app.use((req: Request, res: Response, next: () => void) => {
   if (
