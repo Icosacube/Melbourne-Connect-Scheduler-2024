@@ -108,7 +108,7 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
 
             <Box className="h-full bg-primary">
                 <List className="w-full bg-primary">
-                    <Typography variant="h6" fontWeight={400} className="ml-5">
+                    <Typography variant="h6" fontWeight={300} className="ml-5">
                         Overview
                     </Typography>
                     {overviewTabs.map((page) => (

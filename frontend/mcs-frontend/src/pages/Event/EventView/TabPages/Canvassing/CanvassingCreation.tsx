@@ -38,6 +38,8 @@ import { SelectChangeEvent } from '@mui/material/Select/SelectInput'
 import { getAllAcademics } from '../../../../../scripts/academic/functions'
 import { ShareEmailButton } from '../../../../../components/Buttons/'
 import { getCanvassingByEventId } from '../../../../../scripts/canvassing/functions'
+import { sendEmail } from '../../../../../scripts/email/functions'
+import { generateBatchEmailForCanvassing } from '../../../../../scripts/email/functions'
 
 interface CanvassingCreationProps {
     event: MainEvent
@@ -59,6 +61,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     const [venues, setVenues] = useState<Venue[]>([])
     const [submitting, setSubmitting] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [showSuccessEmail, setShowSuccessEmail] = useState(false)
     const revalidator = useRevalidator()
     const [extractedEmails, setExtractedEmails] = useState<string[]>([])
     const [extractedCanvassing, setExtractedCanvassing] = useState<
@@ -97,6 +100,8 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     }, [event])
 
     const onSubmit = async (data: any) => {
+        const { emailSubject, emailContent } =
+            generateBatchEmailForCanvassing(event)
         const formattedMixedAcademic = data.DropdownOptions.map(
             (academic: { id: string; label: string; value: string }) => ({
                 id: academic.id,
@@ -104,6 +109,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                 email: academic.value,
             })
         )
+        console.log('Mixed Academic:', formattedMixedAcademic)
         const updatedSlots = canvassings.map((slot) => ({
             ...slot,
             Venue: data.Venue,
@@ -115,13 +121,24 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             const res = await createCanvassing(updatedSlots)
             if (res) {
                 setShowSuccess(true)
-                revalidator.revalidate()
+                // console.log('Emails:', emails)
+                for (const academic of formattedMixedAcademic) {
+                    await sendEmail(
+                        'mcs083087@gmail.com',
+                        academic.email,
+                        '',
+                        emailSubject,
+                        emailContent
+                    )
+                }
+                setShowSuccessEmail(true)
             } else {
                 console.log('Failed to create Canvassing')
             }
         } catch (error) {
             console.error(error)
         } finally {
+            revalidator.revalidate()
             setSubmitting(false)
             reset()
         }
@@ -252,7 +269,12 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}
-                message="Canvassing Form Created Successfully"
+                message="Canvassing Form Created Successfully. Sending Emails..."
+            />
+            <BottomSuccessSnackbar
+                showSuccess={showSuccessEmail}
+                setShowSuccess={setShowSuccessEmail}
+                message="Email(s) sent successfully!"
             />
         </Grid>
     )

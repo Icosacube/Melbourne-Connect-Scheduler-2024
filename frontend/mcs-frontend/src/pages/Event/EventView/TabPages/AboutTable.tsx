@@ -1,4 +1,4 @@
-import { Box, Stack, TextField, Typography } from '@mui/material'
+import { Box, Grid, Stack, TextField, Typography } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import { MainEvent, Venue } from '../../../../types/frontendTypes'
 
@@ -13,23 +13,27 @@ interface CustomTextAreaProps {
     minRows?: number
 }
 
-const CustomTextArea: FC<CustomTextAreaProps> = ({ title, text, minRows }) => {
+const CustomTextArea: FC<CustomTextAreaProps> = ({ title, text }) => {
     return (
-        <Stack>
+        <Stack spacing={1}>
             <Typography variant="subtitle1" className="text-gray-400">
                 {title}
             </Typography>
-            <TextField
-                disabled
-                minRows={minRows}
-                multiline
-                defaultValue={text}
+            <Box
                 sx={{
-                    '& .MuiInputBase-input.Mui-disabled': {
-                        WebkitTextFillColor: '#000000',
-                    },
+                    backgroundColor: '#EFF0F1',
+                    padding: '12px',
+                    borderRadius: '8px',
+                    width: '100%',
+                    maxHeight: '800px',
+                    lineHeight: '1.2',
+                    overflowY: 'auto', // Scroll
+                    color: '#000000',
+                    whiteSpace: 'pre-line',
                 }}
-            />
+            >
+                <Typography variant="body1">{text || 'N/A'}</Typography>
+            </Box>
         </Stack>
     )
 }
@@ -47,27 +51,32 @@ export const AboutTable: FC<AboutTableProps> = ({ event, venues }) => {
     }, [event.Venue, venues])
 
     return (
-        <Box className="w-full flex space-x-6">
-            <Box className="w-1/2 space-y-4">
-                <CustomTextArea
-                    title="Venue"
-                    text={venueFormatted}
-                    minRows={1}
-                />
-                <CustomTextArea
-                    title="Event Description"
-                    text={event?.EventDescription}
-                    minRows={5}
-                />
-            </Box>
-            <Box className="w-1/2 space-y-4">
+        <Grid container spacing={3}>
+            <Grid item xs={12} lg={6} container spacing={2}>
+                <Grid item xs={12}>
+                    <CustomTextArea
+                        title="Venue"
+                        text={venueFormatted}
+                        minRows={1}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <CustomTextArea
+                        title="Event Description"
+                        text={event?.EventDescription}
+                        minRows={5}
+                    />
+                </Grid>
+            </Grid>
+
+            <Grid item xs={12} lg={6}>
                 <CustomTextArea
                     title="Talk Abstract"
                     text={event?.EventAbstract}
                     minRows={10}
                 />
-            </Box>
-        </Box>
+            </Grid>
+        </Grid>
     )
 }
 

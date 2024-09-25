@@ -29,7 +29,7 @@ router.get('/services', async (req, res) => {
       formattedServices.push(plainFields);
       console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
     });
-    setCache(Cachekeys.SPEAKERS, formattedServices);
+    setCache(Cachekeys.SERVICES, formattedServices);
     res.json(formattedServices);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -88,7 +88,7 @@ router.get('/service/:mainEventID', async (req, res) => {
 
 //create one service for a main event
 router.post('/services', async (req, res) => {
-  console.log("here");
+  console.log('here');
   const { MainEvent: mainEventID } = req.body;
   const newService: Service = req.body;
   newService.MainEvent = mainEventID;
@@ -98,7 +98,7 @@ router.post('/services', async (req, res) => {
 
   try {
     let recordId = await createRecord(serviceTable, [serviceRecord]);
-    await createRecord(financeTable,[{fields: {"Service": recordId}}])
+    await createRecord(financeTable, [{ fields: { Service: recordId } }]);
 
     deleteCache(Cachekeys.SERVICES);
     res.status(200).json({ message: 'Service created successfully' });

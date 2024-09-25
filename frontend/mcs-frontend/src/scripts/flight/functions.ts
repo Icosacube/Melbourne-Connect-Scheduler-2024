@@ -86,7 +86,7 @@ export async function getFlightsByTripID(
 ): Promise<FlightFrontend[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_FLIGHT_API_PATH}/${tripID}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_FLIGHT_API_PATH}${process.env.REACT_APP_TRIP_API_PATH}/${tripID}`
         )
         const rawFlights = res.data
         const formattedFlights = rawFlights.map((flight: any) =>
@@ -105,7 +105,7 @@ export async function createFlight(flight: FlightFrontend) {
     const tripID = flight.Trip![0]
     const flightBackend = reformatFlightRequest(flight)
     const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_FLIGHT_API_PATH}/${tripID}`,
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_FLIGHT_API_PATH}`,
         flightBackend
     )
     return res.status

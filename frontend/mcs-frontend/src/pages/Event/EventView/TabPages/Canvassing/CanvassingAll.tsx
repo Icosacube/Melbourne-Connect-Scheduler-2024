@@ -47,12 +47,13 @@ export const CanvassingAll: React.FC<CanvassingAllProps> = ({
     const renderComponent = () => {
         switch (activeComponent) {
             case 'A':
-                return hasCanvassing ? null : (
+                return (
                     <CanvassingCreation
                         event={event}
                         canvassingSlots={canvassingSlots}
                     />
                 )
+
             case 'B':
                 return hasCanvassing ? (
                     <CanvassingResultsFC
