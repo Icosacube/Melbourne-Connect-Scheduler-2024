@@ -3,3 +3,43 @@
 
 /* Import Poppins font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Futura Light */
+@font-face {
+    font-family: 'Futura';
+    src: url('./assets/fonts/FuturaLight.ttf') format('truetype');
+    font-weight: 300; 
+    font-style: normal;
+}
+
+/* Futura Regular */
+@font-face {
+    font-family: 'Futura';
+    src: url('./assets/fonts/FuturaRegular.ttf') format('truetype');
+    font-weight: 400; 
+    font-style: normal;
+}
+
+/* Futura Medium */
+@font-face {
+    font-family: 'Futura';
+    src: url('./assets/fonts/FuturaMedium.ttf') format('truetype');
+    font-weight: 500; 
+    font-style: normal;
+}
+
+/* Futura Heavy */
+@font-face {
+    font-family: 'Futura';
+    src: url('./assets/fonts/FuturaHeavy.ttf') format('truetype');
+    font-weight: 600; 
+    font-style: normal;
+}
+
+/* Futura Bold */
+@font-face {
+    font-family: 'Futura';
+    src: url('./assets/fonts/FuturaBold.ttf') format('truetype');
+    font-weight: 700; 
+    font-style: normal;
+}
