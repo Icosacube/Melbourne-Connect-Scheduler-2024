@@ -223,7 +223,7 @@ export const EmailTemplatingChoiceModal: FC<
                 modalTitle="Draft email to speaker"
                 from={emailComposerData.from}
                 to={[emailComposerData.to]}
-                cc={emailComposerData.cc}
+                cc={[emailComposerData.cc]}
                 subject={emailComposerData.subject}
                 body={emailComposerData.body}
             />

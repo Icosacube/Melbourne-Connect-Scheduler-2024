@@ -10,7 +10,8 @@ interface Academic {
 export async function sendEmail(
     from: string,
     to: string[],
-    cc: string,
+    cc: string[],
+    bcc: string[],
     subject: string,
     content: string
 ): Promise<AxiosResponse<any, any>> {
@@ -40,7 +41,6 @@ export async function sendEmail(
 export async function sendEmailSequentially(
     emailList: string[],
     from: string,
-    cc: string,
     subject: string,
     content: string
 ): Promise<void> {
@@ -51,7 +51,7 @@ export async function sendEmailSequentially(
 
     try {
         console.log(`Sending email to: ${emailList}`)
-        await sendEmail(from, emailList, cc, subject, content)
+        await sendEmail(from, emailList, [], [], subject, content)
         console.log(`Email sent successfully to: ${emailList}`)
     } catch (error) {
         console.error('Error sending email to:', emailList, error)
