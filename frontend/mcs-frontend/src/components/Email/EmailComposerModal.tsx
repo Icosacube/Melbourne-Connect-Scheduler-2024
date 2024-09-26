@@ -81,15 +81,15 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
         setSending(true)
         const { from, to, cc, bcc, subject, body } = data
         console.log('Email data:', data)
-        // const res = await sendEmail(from, to, cc, bcc, subject, body)
+        const res = await sendEmail(from, to, cc, bcc, subject, body)
 
-        // if (res.status === 200) {
-        //     setShowSuccess(true)
-        //     reset()
-        //     onClose()
-        // } else {
-        //     setShowError(true)
-        // }
+        if (res.status === 200) {
+            setShowSuccess(true)
+            reset()
+            onClose()
+        } else {
+            setShowError(true)
+        }
 
         setSending(false)
     }

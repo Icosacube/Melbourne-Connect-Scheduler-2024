@@ -7,8 +7,8 @@ import { FormInputProps } from './FormInputProps'
 
 // Simulated contact list for auto-complete
 const contacts = [
-    { email: 'john@example.com', name: 'John Doe' },
-    { email: 'jane@example.com', name: 'Jane Smith' },
+    { id: 1, email: 'john@example.com', name: 'John Doe' },
+    { id: 2, email: 'jane@example.com', name: 'Jane Smith' },
     // Add more contacts as needed
 ]
 
