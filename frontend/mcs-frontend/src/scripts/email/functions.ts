@@ -1,6 +1,5 @@
-
 import axios, { AxiosResponse, AxiosError } from 'axios'
-import { MainEvent, Speaker} from '../../types/frontendTypes'
+import { MainEvent, Speaker } from '../../types/frontendTypes'
 
 interface Academic {
     RecordID: string
@@ -10,7 +9,7 @@ interface Academic {
 
 export async function sendEmail(
     from: string,
-    to: string,
+    to: string[],
     cc: string,
     subject: string,
     content: string
@@ -46,22 +45,18 @@ export async function sendEmailSequentially(
     content: string
 ): Promise<void> {
     if (!emailList || emailList.length === 0) {
-        console.error('Email list is empty. No emails to send.');
-        return; // Resolves the promise with undefined
+        console.error('Email list is empty. No emails to send.')
+        return // Resolves the promise with undefined
     }
 
-    for (let email of emailList) {
-        try {
-            console.log(`Sending email to: ${email}`);
-            await sendEmail(from, email, cc, subject, content);
-            console.log(`Email sent successfully to: ${email}`);
-        } catch (error) {
-            console.error('Error sending email to:', email, error);
-        }
+    try {
+        console.log(`Sending email to: ${emailList}`)
+        await sendEmail(from, emailList, cc, subject, content)
+        console.log(`Email sent successfully to: ${emailList}`)
+    } catch (error) {
+        console.error('Error sending email to:', emailList, error)
     }
 }
-
-
 
 // Get form links functions
 export async function getBlankSpeakerFormLink() {
@@ -146,9 +141,7 @@ export async function getExistingSpeakerEventFormLink(
     }
 }
 
-export function getCanvassingFormLink(
-    eventId: string
-){
+export function getCanvassingFormLink(eventId: string) {
     return `${process.env.REACT_APP_FRONTEND_URL}/canvassing/${eventId}`
     //need an .env variable for this
 }
@@ -157,9 +150,7 @@ export async function getBlankCanvassingFormLink() {
     return 'google.com'
 }
 
-export function generateBatchEmailForCanvassing(
-    event: MainEvent
-) {
+export function generateBatchEmailForCanvassing(event: MainEvent) {
     const formLink = getCanvassingFormLink(event.RecordID)
     const emailSubject = `INVITATION: Canvassing for ${event.EventName}`
     const emailContent = `
@@ -170,10 +161,14 @@ export function generateBatchEmailForCanvassing(
                 Dear all,
             </p>
             <p>
-                We are excited to invite you to participate in the canvassing for the event ${event.EventName}.
+                We are excited to invite you to participate in the canvassing for the event ${
+                    event.EventName
+                }.
             </p>
             <p>
-                The event will be held on ${event.Date.format('dddd, MMMM D, YYYY')} at ${event.Date.format('h:mm A')}.
+                The event will be held on ${event.Date.format(
+                    'dddd, MMMM D, YYYY'
+                )} at ${event.Date.format('h:mm A')}.
             </p>
             <p>
                 Please click the link below to view the event details and sign up for a canvassing slot:
@@ -196,7 +191,7 @@ export function generateBatchEmailForCanvassing(
 
 export function generateEmailTemplateForCanvassing(
     event: MainEvent,
-    academic: Academic,
+    academic: Academic
 ) {
     const formLink = getCanvassingFormLink(event.RecordID)
     console.log(`Test ${formLink}`)
@@ -209,10 +204,14 @@ export function generateEmailTemplateForCanvassing(
                 Dear ${academic.Name},
             </p>
             <p>
-                We are excited to invite you to participate in the canvassing for the event ${event.EventName}.
+                We are excited to invite you to participate in the canvassing for the event ${
+                    event.EventName
+                }.
             </p>
             <p>
-                The event will be held on ${event.Date.format('dddd, MMMM D, YYYY')} at ${event.Date.format('h:mm A')}.
+                The event will be held on ${event.Date.format(
+                    'dddd, MMMM D, YYYY'
+                )} at ${event.Date.format('h:mm A')}.
             </p>
             <p>
                 Please click the link below to view the event details and sign up for a canvassing slot:

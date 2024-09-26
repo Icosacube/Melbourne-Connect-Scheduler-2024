@@ -38,7 +38,7 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     onClose,
     modalTitle = 'Compose Email',
     from = process.env.REACT_APP_SENDER_EMAIL || '',
-    to = [''],
+    to = [],
     cc = '',
     subject = '',
     body = '',
@@ -73,15 +73,15 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
         setSending(true)
         const { from, to, cc, subject, body } = data
         console.log('Email data:', data)
-        // const res = await sendEmail(from, to, cc, subject, body)
-        // console.log('Email sent:', res.status)
-        // if (res.status === 200) {
-        //     setShowSuccess(true)
-        //     reset()
-        //     onClose()
-        // } else {
-        //     setShowError(true)
-        // }
+        const res = await sendEmail(from, to, cc, subject, body)
+
+        if (res.status === 200) {
+            setShowSuccess(true)
+            reset()
+            onClose()
+        } else {
+            setShowError(true)
+        }
 
         setSending(false)
     }
