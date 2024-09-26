@@ -5,7 +5,12 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { BottomSuccessSnackbar, FormInputText, SubmitButton } from '..'
+import {
+    BottomSuccessSnackbar,
+    FormInputMultiEmail,
+    FormInputText,
+    SubmitButton,
+} from '..'
 import { FormInputEmail } from '../FormComponents/FormInputEmail'
 import { sendEmail } from '../../scripts/email/functions'
 
@@ -14,7 +19,7 @@ interface EmailComposerModalProps {
     onClose: () => void
     modalTitle?: string
     from?: string
-    to?: string
+    to?: string[]
     cc?: string
     subject?: string
     body?: string
@@ -22,7 +27,7 @@ interface EmailComposerModalProps {
 
 interface EmailFormData {
     from: string
-    to: string
+    to: string[]
     cc: string
     subject: string
     body: string
@@ -32,8 +37,8 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     open,
     onClose,
     modalTitle = 'Compose Email',
-    from = '',
-    to = '',
+    from = process.env.REACT_APP_SENDER_EMAIL || '',
+    to = [''],
     cc = '',
     subject = '',
     body = '',
@@ -67,16 +72,16 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     const onSubmit = async (data: EmailFormData) => {
         setSending(true)
         const { from, to, cc, subject, body } = data
-
-        const res = await sendEmail(from, to, cc, subject, body)
-        console.log('Email sent:', res.status)
-        if (res.status === 200) {
-            setShowSuccess(true)
-            reset()
-            onClose()
-        } else {
-            setShowError(true)
-        }
+        console.log('Email data:', data)
+        // const res = await sendEmail(from, to, cc, subject, body)
+        // console.log('Email sent:', res.status)
+        // if (res.status === 200) {
+        //     setShowSuccess(true)
+        //     reset()
+        //     onClose()
+        // } else {
+        //     setShowError(true)
+        // }
 
         setSending(false)
     }
@@ -133,7 +138,7 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
                                 control={control}
                                 label="Cc"
                             />
-                            <FormInputEmail
+                            <FormInputMultiEmail
                                 name="to"
                                 control={control}
                                 label="To"
