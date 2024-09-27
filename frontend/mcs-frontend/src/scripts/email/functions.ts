@@ -22,6 +22,7 @@ export async function sendEmail(
                 from,
                 to,
                 cc,
+                bcc,
                 subject,
                 content,
             }

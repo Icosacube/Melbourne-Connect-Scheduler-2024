@@ -7,8 +7,8 @@ import { FormInputProps } from './FormInputProps'
 
 // Simulated contact list for auto-complete
 const contacts = [
-    { email: 'john@example.com', name: 'John Doe' },
-    { email: 'jane@example.com', name: 'Jane Smith' },
+    { id: 1, email: 'john@example.com', name: 'John Doe' },
+    { id: 2, email: 'jane@example.com', name: 'Jane Smith' },
     // Add more contacts as needed
 ]
 
@@ -24,6 +24,34 @@ export const FormInputMultiEmail = ({
     const validateEmail = (email: string) => {
         const re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
         return re.test(email) ? null : 'Invalid email address'
+    }
+
+    const handlePaste = (
+        event: React.ClipboardEvent,
+        onChange: (value: string[]) => void,
+        currentValues: string[]
+    ) => {
+        event.preventDefault()
+        const pastedData = event.clipboardData.getData('text')
+        const emails = pastedData.split(/[\s,;]+/).filter(Boolean) // Split by whitespace, comma, or semicolon
+        let validEmails = []
+        let invalidEmails = []
+        for (const email of emails) {
+            if (validateEmail(email) === null) {
+                validEmails.push(email)
+            } else {
+                invalidEmails.push(email)
+            }
+        }
+        // const validEmails = emails.filter(
+        //     (email) => validateEmail(email) === null
+        // )
+
+        console.log('Pasted emails:', emails)
+
+        // Update the input value and call onChange with the valid emails
+        onChange([...new Set([...currentValues, ...validEmails])]) // Add new valid emails to existing ones
+        setInputValue(invalidEmails.join(',')) // Clear input after pasting
     }
 
     return (
@@ -73,11 +101,15 @@ export const FormInputMultiEmail = ({
                             label={label}
                             variant="outlined"
                             required={required}
+                            onPaste={(event) => {
+                                handlePaste(event, onChange, value)
+                            }}
                         />
                     )}
                     inputValue={inputValue}
                     onInputChange={(_, newInputValue) => {
                         setInputValue(newInputValue)
+                        console.log('Input value:', newInputValue)
                     }}
                     onChange={(_, newValue) => {
                         onChange(

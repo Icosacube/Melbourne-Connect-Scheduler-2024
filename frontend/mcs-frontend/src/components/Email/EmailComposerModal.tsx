@@ -47,14 +47,6 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     subject = '',
     body = '',
 }) => {
-    const [emailData, _] = React.useState({
-        from,
-        to,
-        cc,
-        bcc,
-        subject,
-        body,
-    })
     const {
         control,
         handleSubmit,
@@ -63,12 +55,12 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     } = useForm<EmailFormData>({
         mode: 'onChange',
         defaultValues: {
-            from: emailData.from,
-            to: emailData.to,
-            cc: emailData.cc,
-            bcc: emailData.bcc,
-            subject: emailData.subject,
-            body: emailData.body,
+            from: from,
+            to: to,
+            cc: cc,
+            bcc: bcc,
+            subject: subject,
+            body: body,
         },
     })
     const [sending, setSending] = useState(false)
@@ -81,15 +73,15 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
         setSending(true)
         const { from, to, cc, bcc, subject, body } = data
         console.log('Email data:', data)
-        // const res = await sendEmail(from, to, cc, bcc, subject, body)
+        const res = await sendEmail(from, to, cc, bcc, subject, body)
 
-        // if (res.status === 200) {
-        //     setShowSuccess(true)
-        //     reset()
-        //     onClose()
-        // } else {
-        //     setShowError(true)
-        // }
+        if (res.status === 200) {
+            setShowSuccess(true)
+            reset()
+            onClose()
+        } else {
+            setShowError(true)
+        }
 
         setSending(false)
     }
