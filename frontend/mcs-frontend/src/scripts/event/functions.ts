@@ -1,6 +1,11 @@
 import axios, { Axios, AxiosResponse } from 'axios'
 import { MainEvent } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Function to reformat MainEvent response data
 function reformatMainEventResponseData(data: any): MainEvent {
@@ -13,7 +18,9 @@ function reformatMainEventResponseData(data: any): MainEvent {
             data.EventDescription || defaultMainEvent.EventDescription,
         EventbriteLink: data.EventbriteLink || defaultMainEvent.EventbriteLink,
         EventBanner: data.EventBanner || defaultMainEvent.EventBanner,
-        Date: data.Date ? dayjs(data.Date) : defaultMainEvent.Date,
+        Date: data.Date
+            ? dayjs(data.Date).utc().tz('Australia/Melbourne')
+            : defaultMainEvent.Date,
         Notes: data.Notes || defaultMainEvent.Notes,
         Speaker: data.Speaker || defaultMainEvent.Speaker,
         GuestAcademic: data.GuestAcademic || defaultMainEvent.GuestAcademic,
@@ -35,7 +42,7 @@ function reformatMainEventRequestData(data: MainEvent): any {
         EventDescription: data.EventDescription,
         EventbriteLink: data.EventbriteLink,
         EventBanner: data.EventBanner,
-        Date: data.Date.toISOString(),
+        Date: data.Date.tz('Australia/Melbourne').utc().toISOString(),
         Notes: data.Notes,
         Speaker: data.Speaker,
         GuestAcademic: data.GuestAcademic,
