@@ -1,16 +1,23 @@
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import FullCalendar from '@fullcalendar/react'
-import { FC } from 'react'
-import { MainEvent } from '../../types/frontendTypes'
+import { FC, useState } from 'react'
+import { MainEvent, Venue } from '../../types/frontendTypes'
 import { useNavigate } from 'react-router-dom'
+import { CreateEventModal } from '../../pages/Event/EventsOverview/CreateEventModal'
+import dayjs, { Dayjs } from 'dayjs'
 
 interface CalendarProps {
-    events: MainEvent[] // Define the type of events array as per your application's event structure
+    events: MainEvent[]
+    venues: Venue[]
 }
 
-export const Calendar: FC<CalendarProps> = ({ events }) => {
+export const Calendar: FC<CalendarProps> = ({ events, venues }) => {
     const navigate = useNavigate()
+    const [showCreateEventModal, setShowCreateEventModal] = useState(false)
+    const [createEventModalDate, setCreateEventModalDate] = useState<
+        Dayjs | undefined
+    >()
 
     const formattedEvents = events.map((event) => {
         // Parse the event date using Day.js
@@ -31,21 +38,38 @@ export const Calendar: FC<CalendarProps> = ({ events }) => {
     })
 
     const handleEventClick = (info: any) => {
-        // alert(`Event clicked: ${info.event.title}`)
         console.log(info.event.id)
         navigate(`/event/${info.event.id}`)
     }
 
+    const handleDateClick = (arg: any) => {
+        // Convert arg.date to a Day.js object
+        const selectedDate = dayjs(arg.date) // arg.date can be a Date object or a string
+
+        // Set the state with the Day.js date
+        setCreateEventModalDate(selectedDate)
+        setShowCreateEventModal(true)
+    }
+
     return (
-        <FullCalendar
-            eventColor="#FBAB18"
-            eventTextColor="#000000"
-            editable={true}
-            plugins={[dayGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
-            events={formattedEvents}
-            height={550}
-            eventClick={handleEventClick}
-        />
+        <>
+            <FullCalendar
+                eventColor="#FBAB18"
+                eventTextColor="#000000"
+                editable={true}
+                plugins={[dayGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                events={formattedEvents}
+                height={550}
+                eventClick={handleEventClick}
+                dateClick={handleDateClick}
+            />
+            <CreateEventModal
+                open={showCreateEventModal}
+                handleClose={() => setShowCreateEventModal(false)}
+                venues={venues}
+                eventDate={createEventModalDate}
+            />
+        </>
     )
 }

@@ -1,35 +1,36 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { set, useForm } from 'react-hook-form'
+import { useRevalidator } from 'react-router-dom'
 import {
-    FormInputText,
+    BottomSuccessSnackbar,
     FormInputDateTime,
-    FormInputTextLong,
     FormInputMultiSelect,
+    FormInputText,
+    FormInputTextLong,
     FormInputVenue,
     SubmitButton,
-    BottomSuccessSnackbar,
 } from '../../../components/'
 import {
     createMainEvent,
     defaultMainEvent,
 } from '../../../scripts/event/functions'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
-import { getAllVenues } from '../../../scripts/venue/functions'
-import { MainEvent } from '../../../types/frontendTypes'
-import { Speaker, Venue } from '../../../types/frontendTypes'
-import { useRevalidator } from 'react-router-dom'
+import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
+import dayjs, { Dayjs } from 'dayjs'
 
 interface CreateEventModalProps {
     handleClose: () => void
     open: boolean
     venues: Venue[]
+    eventDate?: Dayjs
 }
 
 export const CreateEventModal: React.FC<CreateEventModalProps> = ({
     handleClose,
     open,
     venues,
+    eventDate,
 }) => {
     const { handleSubmit, reset, control } = useForm<MainEvent>({
         defaultValues: defaultMainEvent,
@@ -51,6 +52,16 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
             fetchData()
         }
     }, [loading, open])
+
+    // Reset form values when eventDate changes
+    useEffect(() => {
+        if (eventDate) {
+            reset({
+                ...defaultMainEvent,
+                Date: eventDate,
+            })
+        }
+    }, [eventDate, reset])
 
     const generateSpeakers = () => {
         return speakers.map((speaker) => ({

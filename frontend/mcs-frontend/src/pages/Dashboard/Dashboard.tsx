@@ -115,7 +115,7 @@ export const Dashboard: FC = () => {
                 </Box>
                 <Box className="bg-white rounded-lg p-8 flex space-x-3 justify-between shadow-sm">
                     <Box className="w-8/12">
-                        <Calendar events={events} />
+                        <Calendar events={events} venues={venues} />
                     </Box>
                     <Divider orientation="vertical" flexItem />
                     <Box className="flex flex-col w-4/12 ">
