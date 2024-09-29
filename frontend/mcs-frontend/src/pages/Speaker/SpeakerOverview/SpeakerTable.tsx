@@ -68,8 +68,7 @@ export const SpeakerTable: FC<SpeakerTableProps> = ({ speakers, trips }) => {
             flex: 1,
             width: 300,
             renderCell: (params) => {
-                // return the date of the trip that is closest to today's date
-
+                // return the date of the trip whose end data is closest to today's date and is upcoming
                 const speakerTrips = trips.filter(
                     (trip) => trip.GuestSpeaker[0] === params.row.RecordID
                 )
