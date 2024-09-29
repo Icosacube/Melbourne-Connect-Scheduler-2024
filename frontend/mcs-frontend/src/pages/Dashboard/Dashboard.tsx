@@ -51,15 +51,15 @@ export const Dashboard: FC = () => {
 
     return (
         <Box className="flex space-x-10">
-            <Box className="w-3/12">
+            {/* <Box className="w-3/12">
                 <Stack direction="column" spacing={3}>
                     <Typography variant="h5">Recently Edited Pages</Typography>
                     {events.slice(0, 4).map((event) => (
                         <EventCard key={event.RecordID} event={event} />
                     ))}
                 </Stack>
-            </Box>
-            <Box className="w-9/12 space-y-5">
+            </Box> */}
+            <Box className="w-full space-y-5">
                 <Box className="space-y-2">
                     <Typography variant="h5">Quick Actions</Typography>
                     <Stack direction="row" spacing={3}>
