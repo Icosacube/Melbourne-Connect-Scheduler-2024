@@ -133,7 +133,6 @@ function reformatTripRequest(data: TripFrontend): TripBackend {
         Accommodation: data.Accommodation,
         Flight: data.Flight,
         Miscellaneous: data.Miscellaneous,
-        AcademicCanvassing: data.AcademicCanvassing,
         Completed: data.Completed,
     }
 
