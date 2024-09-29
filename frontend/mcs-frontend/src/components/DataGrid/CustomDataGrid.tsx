@@ -9,18 +9,19 @@ interface CustomDataGridProps {
     rows: any
     columns: GridColDef<any>[]
     getRowId: (item: any) => string
-    rowNavigationPath: string
+    rowNavigationPath?: string
 }
 
 export const CustomDataGrid: FC<CustomDataGridProps> = ({
     rows,
     columns,
     getRowId,
-    rowNavigationPath,
+    rowNavigationPath = '',
 }) => {
     const navigate = useNavigate()
 
     const handleRowClick = (params: { row: any }) => {
+        if (!rowNavigationPath) return
         navigate(`${rowNavigationPath}/${params.row.RecordID}`)
     }
 
@@ -31,7 +32,10 @@ export const CustomDataGrid: FC<CustomDataGridProps> = ({
     }))
 
     return (
-        <Box className="w-full bg-white shadow-md rounded-lg">
+        <Box
+            className="w-full shadow-md rounded-lg"
+            sx={{ backgroundColor: 'background.paper' }}
+        >
             <DataGrid
                 rows={rows}
                 columns={modifiedColumns}
