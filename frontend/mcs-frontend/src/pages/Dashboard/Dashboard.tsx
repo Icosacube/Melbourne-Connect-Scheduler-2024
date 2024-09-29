@@ -3,7 +3,7 @@ import Event from '@mui/icons-material/Event'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { Box, Button, Divider, Stack, Typography } from '@mui/material/'
 import React, { FC, useState } from 'react'
-import { Calendar, EventCard } from '../../components'
+import { DashboardCalendar, EventCard } from '../../components'
 import { CreateEventModal } from '../Event/EventsOverview/CreateEventModal'
 import { CreateSpeakerModal } from '../Speaker/SpeakerOverview/CreateSpeakerModal'
 import { CreateTripModal } from '../Trips/CreateTripModal'
@@ -115,7 +115,7 @@ export const Dashboard: FC = () => {
                 </Box>
                 <Box className="bg-white rounded-lg p-8 flex space-x-3 justify-between shadow-sm">
                     <Box className="w-8/12">
-                        <Calendar events={events} venues={venues} />
+                        <DashboardCalendar events={events} venues={venues} />
                     </Box>
                     <Divider orientation="vertical" flexItem />
                     <Box className="flex flex-col w-4/12 ">

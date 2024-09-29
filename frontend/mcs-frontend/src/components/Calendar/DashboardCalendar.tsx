@@ -7,12 +7,15 @@ import { useNavigate } from 'react-router-dom'
 import { CreateEventModal } from '../../pages/Event/EventsOverview/CreateEventModal'
 import dayjs, { Dayjs } from 'dayjs'
 
-interface CalendarProps {
+interface DashboardCalendarProps {
     events: MainEvent[]
     venues: Venue[]
 }
 
-export const Calendar: FC<CalendarProps> = ({ events, venues }) => {
+export const DashboardCalendar: FC<DashboardCalendarProps> = ({
+    events,
+    venues,
+}) => {
     const navigate = useNavigate()
     const [showCreateEventModal, setShowCreateEventModal] = useState(false)
     const [createEventModalDate, setCreateEventModalDate] = useState<
