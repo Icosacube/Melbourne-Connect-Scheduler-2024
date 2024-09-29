@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { Axios, AxiosResponse } from 'axios'
 import { MainEvent } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
 
@@ -123,7 +123,9 @@ export async function createMainEvent(mainEvent: MainEvent) {
 }
 
 // Function to update a MainEvent
-export async function updateMainEventById(mainEvent: MainEvent) {
+export async function updateMainEventById(
+    mainEvent: MainEvent
+): Promise<AxiosResponse> {
     try {
         const formattedEvent = reformatMainEventRequestData(mainEvent)
         const res = await axios.put(
@@ -131,10 +133,10 @@ export async function updateMainEventById(mainEvent: MainEvent) {
             formattedEvent
         )
         // Server returns message: Main event updated successfully if success
-        console.log(res.data)
+        return res
     } catch (error) {
         console.error('Error updating main event by ID:', error)
-        return {} as MainEvent
+        return {} as AxiosResponse
     }
 }
 

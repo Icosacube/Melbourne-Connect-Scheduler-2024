@@ -3,9 +3,13 @@ import interactionPlugin from '@fullcalendar/interaction'
 import FullCalendar from '@fullcalendar/react'
 import { FC, useState } from 'react'
 import { MainEvent, Venue } from '../../types/frontendTypes'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useRevalidator } from 'react-router-dom'
 import { CreateEventModal } from '../../pages/Event/EventsOverview/CreateEventModal'
 import dayjs, { Dayjs } from 'dayjs'
+import { updateMainEventById } from '../../scripts/event/functions'
+import { Snackbar, SnackbarCloseReason } from '@mui/material'
+import { BottomSuccessSnackbar } from '../BottomSuccessSnackbar'
+import { set } from 'react-hook-form'
 
 interface DashboardCalendarProps {
     events: MainEvent[]
@@ -17,28 +21,23 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
     venues,
 }) => {
     const navigate = useNavigate()
+    const revalidator = useRevalidator()
     const [showCreateEventModal, setShowCreateEventModal] = useState(false)
     const [createEventModalDate, setCreateEventModalDate] = useState<
         Dayjs | undefined
     >()
+    const [showLoadingSnackbar, setShowLoadingSnackbar] = useState(false)
+    const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false)
 
-    const formattedEvents = events.map((event) => {
-        // Parse the event date using Day.js
-        const startDate = event.Date
-
-        // Generate a random number of days between 1 and 5
-        const randomDays = Math.floor(Math.random() * 5) + 1 // Generates a number from 1 to 5
-
-        // Calculate the end date by adding random days to the start date
-        const endDate = startDate.add(randomDays, 'day')
-
-        return {
-            id: event.RecordID,
-            title: event.EventName,
-            date: startDate.format('YYYY-MM-DD'), // Format start date as YYYY-MM-DD
-            end: endDate.format('YYYY-MM-DD'), // Format end date as YYYY-MM-DD
-        }
-    })
+    const [formattedEvents, setFormattedEvents] = useState(
+        events.map((event) => {
+            return {
+                id: event.RecordID,
+                title: event.EventName,
+                date: event.Date.format('YYYY-MM-DD'), // Format start date as YYYY-MM-DD
+            }
+        })
+    )
 
     const handleEventClick = (info: any) => {
         console.log(info.event.id)
@@ -54,6 +53,57 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
         setShowCreateEventModal(true)
     }
 
+    const handleEventDrop = async (info: any) => {
+        const { event } = info
+        // Extract necessary information
+        const updatedEvent = {
+            ...event,
+            start: event.start,
+            end: event.end,
+        }
+
+        // Update the events state with the new event data
+        setFormattedEvents((prevEvents) =>
+            prevEvents.map((event) =>
+                event.id === updatedEvent.id ? updatedEvent : event
+            )
+        )
+
+        // Update the event in the database
+        const selectedEvent = events.find((e) => e.RecordID === event.id)
+        if (!selectedEvent) {
+            console.error('Event not found')
+            return
+        }
+        const formatedSelectedEvent = {
+            ...selectedEvent,
+            Date: info.event.start,
+        }
+        handleShowLoading()
+        const res = await updateMainEventById(formatedSelectedEvent)
+        handleCloseLoading()
+
+        if (res.status !== 200) {
+            console.error('Error updating event')
+            return
+        } else {
+            handleShowSuccess()
+        }
+        revalidator.revalidate()
+    }
+
+    const handleShowLoading = () => {
+        setShowLoadingSnackbar(true)
+    }
+
+    const handleCloseLoading = () => {
+        setShowLoadingSnackbar(false)
+    }
+
+    const handleShowSuccess = () => {
+        setShowSuccessSnackbar(true)
+    }
+
     return (
         <>
             <FullCalendar
@@ -65,13 +115,26 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
                 events={formattedEvents}
                 height={550}
                 eventClick={handleEventClick}
+                eventDrop={handleEventDrop}
                 dateClick={handleDateClick}
             />
+
             <CreateEventModal
                 open={showCreateEventModal}
                 handleClose={() => setShowCreateEventModal(false)}
                 venues={venues}
                 eventDate={createEventModalDate}
+            />
+            <BottomSuccessSnackbar
+                showSuccess={showSuccessSnackbar}
+                setShowSuccess={setShowSuccessSnackbar}
+                message="Event updated successfully"
+            />
+            <BottomSuccessSnackbar
+                showSuccess={showLoadingSnackbar}
+                setShowSuccess={setShowLoadingSnackbar}
+                message="Loading..."
+                variant="info"
             />
         </>
     )
