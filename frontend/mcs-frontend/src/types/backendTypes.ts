@@ -77,7 +77,6 @@ export type Trip = {
     Accommodation: string[]
     Flight: string[]
     Miscellaneous: string[]
-    AcademicCanvassing: string[]
     Completed: boolean
 }
 
