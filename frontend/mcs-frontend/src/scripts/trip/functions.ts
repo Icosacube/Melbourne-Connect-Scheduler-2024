@@ -2,6 +2,11 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import { Trip as TripFrontend } from '../../types/frontendTypes'
 import { Trip as TripBackend } from '../../types/backendTypes'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Function to get all Trips
 export async function getAllTrips(): Promise<TripFrontend[]> {
@@ -106,9 +111,11 @@ function reformatTripResponse(data: any): TripFrontend {
         ...defaultTrip,
         RecordID: data.id || defaultTrip.RecordID,
         StartDate: data.StartDate
-            ? dayjs(data.StartDate)
+            ? dayjs(data.StartDate).utc().tz('Australia/Melbourne')
             : defaultTrip.StartDate,
-        EndDate: data.EndDate ? dayjs(data.EndDate) : defaultTrip.EndDate,
+        EndDate: data.EndDate
+            ? dayjs(data.EndDate).utc().tz('Australia/Melbourne')
+            : defaultTrip.EndDate,
         Duration: data.Duration || defaultTrip.Duration,
         GuestSpeaker: data.GuestSpeaker || defaultTrip.GuestSpeaker,
         MainEvent: data.MainEvent || defaultTrip.MainEvent,
@@ -126,8 +133,12 @@ function reformatTripResponse(data: any): TripFrontend {
 // Function to reformat Trip to backend format
 function reformatTripRequest(data: TripFrontend): TripBackend {
     const trip: TripBackend = {
-        StartDate: data.StartDate.format('YYYY-MM-DD'),
-        EndDate: data.EndDate.format('YYYY-MM-DD'),
+        StartDate: data.StartDate.tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DD'),
+        EndDate: data.EndDate.tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DD'),
         GuestSpeaker: data.GuestSpeaker,
         MainEvent: data.MainEvent,
         Accommodation: data.Accommodation,
