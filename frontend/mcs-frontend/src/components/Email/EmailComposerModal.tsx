@@ -1,6 +1,6 @@
 import CloseIcon from '@mui/icons-material/Close'
 import SendIcon from '@mui/icons-material/Send'
-import { Box, Button, CircularProgress, Modal, Typography } from '@mui/material'
+import { Box, Button, Modal, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import ReactQuill from 'react-quill'
@@ -11,8 +11,8 @@ import {
     FormInputText,
     SubmitButton,
 } from '..'
-import { FormInputEmail } from '../FormComponents/FormInputEmail'
 import { sendEmail } from '../../scripts/email/functions'
+import { FormInputEmail } from '../FormComponents/FormInputEmail'
 import CCBCCFields from './CCBCCField'
 
 interface EmailComposerModalProps {
@@ -50,7 +50,7 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     const {
         control,
         handleSubmit,
-        formState: { errors, isValid },
+        formState: { isValid },
         reset,
     } = useForm<EmailFormData>({
         mode: 'onChange',

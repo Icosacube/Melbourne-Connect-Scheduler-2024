@@ -1,6 +1,7 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
+import { Dayjs } from 'dayjs'
 import React, { useEffect, useState } from 'react'
-import { set, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useRevalidator } from 'react-router-dom'
 import {
     BottomSuccessSnackbar,
@@ -17,7 +18,6 @@ import {
 } from '../../../scripts/event/functions'
 import { getAllSpeakers } from '../../../scripts/speaker/functions'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
-import dayjs, { Dayjs } from 'dayjs'
 
 interface CreateEventModalProps {
     handleClose: () => void

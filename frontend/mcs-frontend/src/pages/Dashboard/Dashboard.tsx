@@ -2,13 +2,13 @@ import ConnectingAirports from '@mui/icons-material/ConnectingAirports'
 import Event from '@mui/icons-material/Event'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { Box, Button, Divider, Stack, Typography } from '@mui/material/'
-import React, { FC, useState } from 'react'
-import { DashboardCalendar, EventCard } from '../../components'
+import { FC, useState } from 'react'
+import { useLoaderData } from 'react-router-dom'
+import { DashboardCalendar } from '../../components'
+import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
 import { CreateEventModal } from '../Event/EventsOverview/CreateEventModal'
 import { CreateSpeakerModal } from '../Speaker/SpeakerOverview/CreateSpeakerModal'
 import { CreateTripModal } from '../Trips/CreateTripModal'
-import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
-import { useLoaderData } from 'react-router-dom'
 
 // eslint-disable-next-line no-lone-blocks
 {

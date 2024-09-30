@@ -1,11 +1,5 @@
+import { Autocomplete, FormControl, TextField, Typography } from '@mui/material'
 import React from 'react'
-import {
-    Autocomplete,
-    FormControl,
-    TextField,
-    Typography,
-    Box,
-} from '@mui/material'
 import { Controller } from 'react-hook-form'
 import { FormInputProps } from './FormInputProps'
 

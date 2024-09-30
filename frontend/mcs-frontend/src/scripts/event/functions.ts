@@ -1,6 +1,6 @@
-import axios, { Axios, AxiosResponse } from 'axios'
-import { MainEvent } from '../../types/frontendTypes'
+import axios, { AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
+import { MainEvent } from '../../types/frontendTypes'
 
 // Function to reformat MainEvent response data
 function reformatMainEventResponseData(data: any): MainEvent {

@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import {
-    Box,
-    Grid,
-    Typography,
-    IconButton,
-    useMediaQuery,
-    Tooltip,
-    Button,
-} from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Add, CheckCircle, DoNotDisturb, People } from '@mui/icons-material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import { Add, CheckCircle, DoNotDisturb, People } from '@mui/icons-material'
+import {
+    Box,
+    Button,
+    Grid,
+    IconButton,
+    Tooltip,
+    Typography,
+    useMediaQuery,
+} from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import dayjs, { Dayjs } from 'dayjs'
+import React, { useState } from 'react'
+import { SlotDateTime } from '../../../../../components/'
 import {
     Canvassing,
     MainEvent,
     Speaker,
 } from '../../../../../types/frontendTypes'
 import { CreateSubEventModal } from '../CreateSubEventModal'
-import dayjs, { Dayjs } from 'dayjs'
-import { SlotDateTime } from '../../../../../components/'
-import { ShareEmailButton } from '../../../../../components/Buttons'
 import SelectAcademicModal from './SelectAcademicModal'
 
 interface CanvassingResultsTableProps {

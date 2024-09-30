@@ -1,7 +1,6 @@
 import axios from 'axios'
-import { FundingAccount as fundingAccountFrontend } from '../../types/frontendTypes'
-import { FundingAccount as fundingAccountBackend } from '../../types/backendTypes'
 import dayjs from 'dayjs'
+import { FundingAccount as fundingAccountFrontend } from '../../types/frontendTypes'
 
 // Default funding account object
 export const defaultFundingAccount: fundingAccountFrontend = {
@@ -58,26 +57,26 @@ export async function getFundingAccountByID(
     }
 }
 
-// Function to reformat FundingAccount request data
-function reformatFundingAccountRequest(
-    fundingAccount: fundingAccountFrontend
-): fundingAccountBackend {
-    return {
-        ThemisString: fundingAccount.ThemisString,
-        Description: fundingAccount.Description,
-        AccountUser: fundingAccount.AccountUser,
-        AccountType: fundingAccount.AccountType,
-        Notes: fundingAccount.Notes,
-        Limit: Number(fundingAccount.Limit),
-        ExpiryDate: fundingAccount.ExpiryDate.toString(),
-        Accommodation: fundingAccount.Accommodation,
-        Miscellaneous: fundingAccount.Miscellaneous,
-        Venue: fundingAccount.Venue,
-        Catering: fundingAccount.Catering,
-        Flight: fundingAccount.Flight,
-        Service: fundingAccount.Service,
-    }
-}
+// Function to reformat FundingAccount request data use if creating new funding account
+// function reformatFundingAccountRequest(
+//     fundingAccount: fundingAccountFrontend
+// ): fundingAccountBackend {
+//     return {
+//         ThemisString: fundingAccount.ThemisString,
+//         Description: fundingAccount.Description,
+//         AccountUser: fundingAccount.AccountUser,
+//         AccountType: fundingAccount.AccountType,
+//         Notes: fundingAccount.Notes,
+//         Limit: Number(fundingAccount.Limit),
+//         ExpiryDate: fundingAccount.ExpiryDate.toString(),
+//         Accommodation: fundingAccount.Accommodation,
+//         Miscellaneous: fundingAccount.Miscellaneous,
+//         Venue: fundingAccount.Venue,
+//         Catering: fundingAccount.Catering,
+//         Flight: fundingAccount.Flight,
+//         Service: fundingAccount.Service,
+//     }
+// }
 
 // Function to reformat FundingAccount response data
 function reformatFundingAccountResponse(data: any): fundingAccountFrontend {

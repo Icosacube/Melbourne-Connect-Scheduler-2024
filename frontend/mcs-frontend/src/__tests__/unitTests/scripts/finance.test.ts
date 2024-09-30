@@ -1,23 +1,21 @@
-import axios from 'axios';
-import { getAllFinance, defaultFinance } from '../../../scripts/finance/function'; 
-import { Finance } from '../../../types/frontendTypes';
-import dayjs from 'dayjs';
+import axios from 'axios'
+import dayjs from 'dayjs'
+import { getAllFinance } from '../../../scripts/finance/function'
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+jest.mock('axios')
+const mockedAxios = axios as jest.Mocked<typeof axios>
 
 describe('Finance Service', () => {
     beforeEach(() => {
-        jest.spyOn(console, 'error').mockImplementation(() => {});
-    });
+        jest.spyOn(console, 'error').mockImplementation(() => {})
+    })
 
     afterEach(() => {
-        jest.restoreAllMocks(); 
-    });
+        jest.restoreAllMocks()
+    })
 
     describe('getAllFinance', () => {
         it('should fetch and format all finance records correctly', async () => {
-    
             const mockFinanceData = [
                 {
                     id: 'finance1',
@@ -37,16 +35,15 @@ describe('Finance Service', () => {
                     ExpenseDate: '2024-07-01',
                     FundingAccount: 'FA67890',
                 },
-            ];
+            ]
 
-        
-            mockedAxios.get.mockResolvedValue({ data: mockFinanceData });
+            mockedAxios.get.mockResolvedValue({ data: mockFinanceData })
 
-            const result = await getAllFinance();
+            const result = await getAllFinance()
 
             expect(mockedAxios.get).toHaveBeenCalledWith(
                 `${process.env.REACT_APP_BACKEND_URL}/finance`
-            );
+            )
 
             expect(result).toEqual([
                 {
@@ -67,21 +64,20 @@ describe('Finance Service', () => {
                     ExpenseDate: dayjs('2024-07-01'),
                     FundingAccount: 'FA67890',
                 },
-            ]);
-        });
+            ])
+        })
 
         it('should handle errors and return an empty array', async () => {
-         
-            mockedAxios.get.mockRejectedValue(new Error('Network error'));
+            mockedAxios.get.mockRejectedValue(new Error('Network error'))
 
-            const result = await getAllFinance();
+            const result = await getAllFinance()
 
-            expect(result).toEqual([]);
+            expect(result).toEqual([])
 
             expect(console.error).toHaveBeenCalledWith(
                 'Error fetching all finance records:',
                 expect.any(Error)
-            );
-        });
-    });
-});
+            )
+        })
+    })
+})

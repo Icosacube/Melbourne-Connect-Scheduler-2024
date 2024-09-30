@@ -1,28 +1,24 @@
+import CancelIcon from '@mui/icons-material/Close'
+import DeleteIcon from '@mui/icons-material/DeleteOutlined'
+import EditIcon from '@mui/icons-material/Edit'
 import { Box } from '@mui/material'
-import dayjs from 'dayjs'
-import React, { FC, useState } from 'react'
-import { AddButton, DeleteDialog } from '../../../../../components'
-import { deleteRoomServiceByID } from '../../../../../scripts/roomServices/functions'
-import {
-    Service,
-    MainEvent,
-    FundingAccount,
-} from '../../../../../types/frontendTypes'
-import { EditRoomServiceModal } from './EditRoomServiceModal'
-import { CreateRoomServiceModal } from './CreateRoomServiceModal'
 import {
     DataGrid,
     GridActionsCellItem,
     GridColDef,
-    GridRowParams,
-    GridRowModes,
     GridRowId,
+    GridRowModes,
     GridRowModesModel,
+    GridRowParams,
 } from '@mui/x-data-grid'
-import DeleteIcon from '@mui/icons-material/DeleteOutlined'
-import EditIcon from '@mui/icons-material/Edit'
-import CancelIcon from '@mui/icons-material/Close'
+import dayjs from 'dayjs'
+import React, { FC, useState } from 'react'
 import { useRevalidator } from 'react-router-dom'
+import { AddButton, DeleteDialog } from '../../../../../components'
+import { deleteRoomServiceByID } from '../../../../../scripts/roomServices/functions'
+import { FundingAccount, Service } from '../../../../../types/frontendTypes'
+import { CreateRoomServiceModal } from './CreateRoomServiceModal'
+import { EditRoomServiceModal } from './EditRoomServiceModal'
 
 interface RoomServicesTableProps {
     eventId: string

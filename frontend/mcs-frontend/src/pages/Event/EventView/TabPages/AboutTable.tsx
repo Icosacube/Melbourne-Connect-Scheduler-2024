@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, TextField, Typography } from '@mui/material'
+import { Box, Grid, Stack, Typography } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import { MainEvent, Venue } from '../../../../types/frontendTypes'
 

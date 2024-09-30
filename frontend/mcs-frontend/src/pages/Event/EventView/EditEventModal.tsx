@@ -77,7 +77,7 @@ export const EditEventModal: FC<EditEventModalProps> = ({
 
             fetchData()
         }
-    }, [speakers, open])
+    }, [speakers, open, loading])
 
     // Process data into dropdown form
     const generateSpeakers = () => {

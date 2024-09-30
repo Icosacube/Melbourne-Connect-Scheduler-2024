@@ -1,15 +1,13 @@
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import FullCalendar from '@fullcalendar/react'
+import dayjs, { Dayjs } from 'dayjs'
 import { FC, useState } from 'react'
-import { MainEvent, Venue } from '../../types/frontendTypes'
 import { useNavigate, useRevalidator } from 'react-router-dom'
 import { CreateEventModal } from '../../pages/Event/EventsOverview/CreateEventModal'
-import dayjs, { Dayjs } from 'dayjs'
 import { updateMainEventById } from '../../scripts/event/functions'
-import { Snackbar, SnackbarCloseReason } from '@mui/material'
+import { MainEvent, Venue } from '../../types/frontendTypes'
 import { BottomSuccessSnackbar } from '../BottomSuccessSnackbar'
-import { set } from 'react-hook-form'
 
 interface DashboardCalendarProps {
     events: MainEvent[]

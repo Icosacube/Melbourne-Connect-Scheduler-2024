@@ -102,7 +102,6 @@ export async function getFlightsByTripID(
 
 // Function to create a new Flight
 export async function createFlight(flight: FlightFrontend) {
-    const tripID = flight.Trip![0]
     const flightBackend = reformatFlightRequest(flight)
     const res = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_FLIGHT_API_PATH}`,

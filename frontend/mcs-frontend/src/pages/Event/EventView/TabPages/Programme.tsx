@@ -1,22 +1,13 @@
-import {
-    Avatar,
-    Box,
-    Button,
-    Chip,
-    Grid,
-    Paper,
-    Typography,
-} from '@mui/material'
-import React, { FC, useEffect, useState } from 'react'
-import { AddButton, OutlinedButton } from '../../../../components'
+import Edit from '@mui/icons-material/Edit'
+import { Avatar, Button, Chip, Grid, Paper, Typography } from '@mui/material'
+import { FC, useEffect, useState } from 'react'
+import { OutlinedButton } from '../../../../components'
 import WeeklyCalendar from '../../../../components/Calendar/WeeklyCalendar'
+import { getSpeakerById } from '../../../../scripts/speaker/functions'
 import { getSubEventsByMainEventID } from '../../../../scripts/subevent/functions'
 import { MainEvent, Speaker, SubEvent } from '../../../../types/frontendTypes'
 import { CreateSubEventModal } from './CreateSubEventModal'
 import { EditSubEventModal } from './EditSubEventModal'
-import { People } from '@mui/icons-material'
-import Edit from '@mui/icons-material/Edit'
-import { getSpeakerById } from '../../../../scripts/speaker/functions'
 
 interface ProgrammeProps {
     event: MainEvent
@@ -37,7 +28,7 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
     useEffect(() => {
         const fetchSpeakers = async () => {
             setIsLoadingSpeaker(true)
-            if (selectedSlot == null || selectedSlot!.Speakers.length == 0) {
+            if (selectedSlot === null || selectedSlot!.Speakers.length === 0) {
                 setIsLoadingSpeaker(false)
                 return []
             }

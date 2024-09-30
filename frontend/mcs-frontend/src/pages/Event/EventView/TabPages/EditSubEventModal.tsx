@@ -33,7 +33,7 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
     handleClose,
     open,
     speakers,
-    updateSubEvent: updateSubEvent,
+    updateSubEvent,
     removeSubEvent,
 }) => {
     const { handleSubmit, reset, control } = useForm<SubEvent>({
