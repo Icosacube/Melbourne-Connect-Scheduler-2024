@@ -1,7 +1,11 @@
 import { Box } from '@mui/material'
 import dayjs from 'dayjs'
 import React, { FC, useState } from 'react'
-import { AddButton, DeleteDialog } from '../../../../../components'
+import {
+    AddButton,
+    CustomDataGrid,
+    DeleteDialog,
+} from '../../../../../components'
 import { deleteCateringByID } from '../../../../../scripts/catering/functions'
 import {
     Catering,
@@ -208,32 +212,15 @@ export const CateringTable: FC<CateringTableProps> = ({
     return (
         <>
             <Box className="  mb-4 flex flex-col">
-                <Box className=" flex flex-col mb-4">
+                <Box className=" flex justify-end mb-4">
                     <AddButton name={'Catering'} onClick={handleOpenCreate} />
-                    <CreateCateringModal
-                        open={openCreate}
-                        handleClose={handleCloseCreate}
-                        eventID={event.RecordID}
-                        fundingAccounts={fundingAccountMap}
-                    />
                 </Box>
                 <Box>
-                    <DataGrid
-                        rows={catering}
+                    <CustomDataGrid
                         columns={columns}
-                        getRowId={getRowId}
-                        autoHeight
-                        pageSizeOptions={[5, 10]}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 10 },
-                            },
-                        }}
-                        checkboxSelection
-                        sx={{
-                            '& .catering-table': {
-                                color: 'black',
-                            },
+                        rows={catering}
+                        getRowId={(c: Catering) => {
+                            return c.RecordID
                         }}
                     />
                 </Box>
@@ -252,6 +239,12 @@ export const CateringTable: FC<CateringTableProps> = ({
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleDeleteCatering}
                 deleting={deleting}
+            />
+            <CreateCateringModal
+                open={openCreate}
+                handleClose={handleCloseCreate}
+                eventID={event.RecordID}
+                fundingAccounts={fundingAccountMap}
             />
         </>
     )

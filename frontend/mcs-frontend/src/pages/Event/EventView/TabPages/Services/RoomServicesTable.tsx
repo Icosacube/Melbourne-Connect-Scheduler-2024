@@ -1,7 +1,7 @@
 import CancelIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import {
     DataGrid,
     GridActionsCellItem,
@@ -14,7 +14,11 @@ import {
 import dayjs from 'dayjs'
 import React, { FC, useState } from 'react'
 import { useRevalidator } from 'react-router-dom'
-import { AddButton, DeleteDialog } from '../../../../../components'
+import {
+    AddButton,
+    CustomDataGrid,
+    DeleteDialog,
+} from '../../../../../components'
 import { deleteRoomServiceByID } from '../../../../../scripts/roomServices/functions'
 import { FundingAccount, Service } from '../../../../../types/frontendTypes'
 import { CreateRoomServiceModal } from './CreateRoomServiceModal'
@@ -206,35 +210,18 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({
     return (
         <>
             <Box className="  mb-4 flex flex-col">
-                <Box className=" flex flex-col mb-4">
+                <Box className=" flex justify-end mb-4">
                     <AddButton
                         name={'Room Service'}
                         onClick={handleOpenCreate}
                     />
-                    <CreateRoomServiceModal
-                        open={openCreate}
-                        handleClose={handleCloseCreate}
-                        eventID={eventId}
-                        fundingAccounts={fundingAccountMap}
-                    />
                 </Box>
                 <Box>
-                    <DataGrid
-                        rows={roomServices}
+                    <CustomDataGrid
                         columns={columns}
-                        getRowId={getRowId}
-                        autoHeight
-                        pageSizeOptions={[5, 10]}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 10 },
-                            },
-                        }}
-                        checkboxSelection
-                        sx={{
-                            '& .room-service-table': {
-                                color: 'black',
-                            },
+                        rows={roomServices}
+                        getRowId={(s: Service) => {
+                            return s.RecordID
                         }}
                     />
                 </Box>
@@ -253,6 +240,12 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleDeleteRoomService}
                 deleting={deleting}
+            />
+            <CreateRoomServiceModal
+                open={openCreate}
+                handleClose={handleCloseCreate}
+                eventID={eventId}
+                fundingAccounts={fundingAccountMap}
             />
         </>
     )
