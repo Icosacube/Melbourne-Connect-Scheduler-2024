@@ -9,6 +9,7 @@ import {
     Catering,
     FundingAccount,
     Service,
+    Trip,
 } from '../../../types/frontendTypes'
 import { BodyLayout } from '../../Layout/BodyLayout'
 import EditEventModal from './EditEventModal'
@@ -19,22 +20,29 @@ import CanvassingAll from './TabPages/Canvassing/CanvassingAll'
 import { CateringTable } from './TabPages/Services/CateringTable'
 import { RoomServicesTable } from './TabPages/Services/RoomServicesTable'
 
-
 export const Event: FC = () => {
     const [tabName, setTabName] = useState('About')
     const [open, setOpen] = useState(false)
     const handleOpen = async () => {
         setOpen(true)
     }
-    const { event, speakers, venues, catering, fundingAccounts, roomServices } =
-        useLoaderData() as {
-            event: MainEvent
-            speakers: Speaker[]
-            venues: Venue[]
-            catering: Catering[]
-            fundingAccounts: FundingAccount[]
-            roomServices: Service[]
-        }
+    const {
+        event,
+        speakers,
+        venues,
+        catering,
+        fundingAccounts,
+        roomServices,
+        trips,
+    } = useLoaderData() as {
+        event: MainEvent
+        speakers: Speaker[]
+        venues: Venue[]
+        catering: Catering[]
+        fundingAccounts: FundingAccount[]
+        roomServices: Service[]
+        trips: Trip[]
+    }
 
     const renderTabContent = (event: MainEvent) => {
         switch (tabName) {
@@ -43,7 +51,7 @@ export const Event: FC = () => {
                     <About event={event} speakers={speakers} venues={venues} />
                 )
             case 'Participants':
-                return <Participants speakers={speakers} />
+                return <Participants speakers={speakers} trips={trips} />
             case 'Canvassing':
                 return <CanvassingAll event={event} speakers={speakers} />
             case 'Programme':

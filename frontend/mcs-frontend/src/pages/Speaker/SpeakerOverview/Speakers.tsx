@@ -11,12 +11,13 @@ import {
     EmailFormModal,
 } from '../../../components'
 import EmailSpeakersButton from './EmailSpeakersButtons'
-import { MainEvent, Speaker } from '../../../types/frontendTypes'
+import { MainEvent, Speaker, Trip } from '../../../types/frontendTypes'
 
 // Define the type for the loader data
 interface LoaderData {
     speakers?: Speaker[]
     events?: MainEvent[]
+    trips?: Trip[]
 }
 
 export const Speakers: FC = () => {
@@ -63,8 +64,8 @@ export const Speakers: FC = () => {
         window.location.href = mailtoLinkSpeakerForm
     }
 
-    const { speakers, events } = useLoaderData() as LoaderData
-    if (!speakers || !events) {
+    const { speakers, events, trips } = useLoaderData() as LoaderData
+    if (!speakers || !events || !trips) {
         return <div>Error</div>
     }
 
@@ -105,7 +106,7 @@ export const Speakers: FC = () => {
                 />
             </Box>
             <SpeakerWidgets />
-            <SpeakerTable data={speakers} />
+            <SpeakerTable speakers={speakers} trips={trips} />
         </Box>
     )
 }

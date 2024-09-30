@@ -1,4 +1,4 @@
-import { Box} from '@mui/material'
+import { Box } from '@mui/material'
 import React from 'react'
 import { TripTable } from './TripsTable'
 import { useLoaderData } from 'react-router-dom'
@@ -20,7 +20,7 @@ export function Trips() {
         <>
             <Box className="mb-4 flex flex-col">
                 <Box className="flex flex-col">
-                <AddButton name={'Trip'} onClick={handleOpen} />
+                    <AddButton name={'Trip'} onClick={handleOpen} />
 
                     <CreateTripModal
                         open={open}
@@ -30,9 +30,8 @@ export function Trips() {
                     />
                 </Box>
             </Box>
-            <Box className="w-full bg-white shadow-md">
-                <TripTable events={events} speakers={speakers} trips={trips} />
-            </Box>
+
+            <TripTable events={events} speakers={speakers} trips={trips} />
         </>
     )
 }

@@ -1,18 +1,19 @@
 import { Box } from '@mui/material'
 import React, { FC } from 'react'
 import Headline from './Headline'
-import { Speaker } from '../../../../types/frontendTypes'
+import { Speaker, Trip } from '../../../../types/frontendTypes'
 import { SpeakerTable } from '../../../Speaker/SpeakerOverview/SpeakerTable'
 
 interface ParticipantsProps {
     speakers: Speaker[]
+    trips: Trip[]
 }
 
-export const Participants: FC<ParticipantsProps> = ({ speakers }) => {
+export const Participants: FC<ParticipantsProps> = ({ speakers, trips }) => {
     return (
         <Box>
             <Headline />
-            <SpeakerTable data={speakers} />
+            <SpeakerTable speakers={speakers} trips={trips} />
         </Box>
     )
 }
