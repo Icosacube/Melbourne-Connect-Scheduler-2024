@@ -4,7 +4,6 @@ import { useLoaderData } from 'react-router-dom'
 import { CreateSpeakerModal } from './CreateSpeakerModal'
 import { CreateSpeakerModalAlt } from './CreateSpeakerModalAlt'
 import { SpeakerTable } from './SpeakerTable'
-import { SpeakerWidgets } from './SpeakerWidgets'
 import {
     AddButton,
     EmailContentSpeakerForm,
@@ -105,7 +104,7 @@ export const Speakers: FC = () => {
                     onSubmit={handleEmailSubmit}
                 />
             </Box>
-            <SpeakerWidgets />
+            {/* <SpeakerWidgets /> */}
             <SpeakerTable speakers={speakers} trips={trips} />
         </Box>
     )

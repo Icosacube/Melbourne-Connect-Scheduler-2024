@@ -5,7 +5,6 @@ import { AddButton } from '../../../components'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
 import { CreateEventModal } from './CreateEventModal'
 import { EventsTable } from './EventsTable'
-import EventsWidgets from './EventsWidgets'
 
 export const Events: FC = () => {
     const { events, speakers, venues } = useLoaderData() as {
@@ -28,8 +27,6 @@ export const Events: FC = () => {
                         venues={venues}
                     />
                 </Box>
-
-                <EventsWidgets />
             </Box>
             <Box className="w-full bg-white shadow-md">
                 <EventsTable events={events} speakers={speakers} />

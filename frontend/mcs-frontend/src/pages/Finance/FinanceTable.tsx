@@ -138,8 +138,12 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
 
     return (
         <Box
-            className="w-full shadow-md rounded-lg h-full"
-            sx={{ backgroundColor: 'background.paper' }}
+            className="shadow-md rounded-lg"
+            sx={{
+                backgroundColor: 'background.paper',
+                width: '100%',
+                height: '75vh',
+            }}
         >
             <DataGrid
                 rows={rowsWithGroups}

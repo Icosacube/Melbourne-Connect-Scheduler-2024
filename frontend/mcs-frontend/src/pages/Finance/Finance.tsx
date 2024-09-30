@@ -9,13 +9,5 @@ export const Finance: FC = () => {
         financeData: FinanceType[]
     }
 
-    return (
-        <Box
-            sx={{
-                height: '80vh',
-            }}
-        >
-            <FinanceTable rows={financeData} />
-        </Box>
-    )
+    return <FinanceTable rows={financeData} />
 }
