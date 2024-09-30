@@ -3,6 +3,7 @@ version: "3.8"
 services:
 
   nginx:
+    container_name: nginx
     depends_on:
       - api
       - client
@@ -19,6 +20,9 @@ services:
       context: ./frontend/mcs-frontend
       dockerfile: Dockerfile
       target: base
+    volumes:
+      - ./frontend/mcs-frontend/node_modules:/app/node_modules
+      - ./frontend/mcs-frontend:/app
     command: npm start
 
   api:
