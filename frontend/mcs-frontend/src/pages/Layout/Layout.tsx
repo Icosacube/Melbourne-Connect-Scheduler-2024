@@ -1,17 +1,23 @@
 import React, { useState } from 'react'
-import { Grid, IconButton } from '@mui/material'
-import { Outlet, useNavigation } from 'react-router-dom'
+import { Grid, IconButton,Button } from '@mui/material'
+import { Outlet, useNavigation,useNavigate} from 'react-router-dom'
 import { ProgressSpinner, SideNavBar, TopNavBar } from '../../components'
 import MenuIcon from '@mui/icons-material/Menu'
-
+import { logout } from '../../scripts/authentication/auth'
 export const Layout: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true)
     const navigation = useNavigation()
+    const navigate = useNavigate();
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen)
     }
-
+    const handleLogout = async() => {
+        const success = await logout(); 
+        if (success) {
+            navigate('/login'); 
+        }
+    }
     return (
         <Grid
             container
@@ -57,6 +63,19 @@ export const Layout: React.FC = () => {
                 >
                     <MenuIcon />
                 </IconButton>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleLogout}
+                    sx={{
+                        position: 'absolute',
+                        bottom: 10,
+                        left: 60,
+                        zIndex: 10,
+                    }}
+                >
+                    Logout
+                </Button>
 
                 <TopNavBar />
 
