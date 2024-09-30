@@ -20,6 +20,7 @@ import { DropdownOptions, FormInputProps } from './FormInputProps'
 interface FormInputMultiFreeSoloProps extends FormInputProps {
     valueName: string
     labelName: string
+    defaultValueList?: DropdownOptions[]
 }
 
 export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
@@ -31,6 +32,7 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
     hint = '',
     valueName,
     labelName,
+    defaultValueList = []
 }) => {
     const [open, setOpen] = useState(false)
     const [newValue, setNewValue] = useState('')
@@ -101,7 +103,7 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                                             ? option
                                             : option.label
                                     }
-                                    value={value || []}
+                                    value={value || defaultValueList}
                                     onChange={(event, newValue) => {
                                         const lastValue =
                                             newValue[newValue.length - 1]

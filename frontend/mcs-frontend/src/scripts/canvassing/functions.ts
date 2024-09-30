@@ -6,7 +6,7 @@ import {
     Canvassing as CanvassingFrontend,
     CanvassingTemp as CanvassingTempFrontend,
     MainEvent,
-    Academic
+    Academic,
 } from '../../types/frontendTypes'
 import {
     Canvassing as CanvassingBackend,
@@ -85,6 +85,37 @@ export async function updateCanvassing(canvassingList: CanvassingFrontend[]) {
     return 200 // all updates were successful
 }
 
+export async function addOrUpdateCanvassing(
+    canvassingList: CanvassingTempFrontend[],
+    canvassingIds: string[]
+) {
+    let index = 0
+    for (const canvassing of canvassingList) {
+        const canvassingBackend = reformatCanvassingTempRequest(canvassing)
+        let res;
+        // new slot is created: trigger create api
+        if (
+            canvassingIds[index] ==
+            dayjs(canvassing.StartTime).valueOf().toString()
+        ) {
+            res = await axios.post(
+                `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}`,
+                canvassingBackend
+            )
+        } else {
+            res = await axios.put(
+                `${process.env.REACT_APP_BACKEND_URL}/canvassing/${canvassingIds[index]}`,
+                canvassingBackend
+            )
+        }
+        if (res.status !== 200) {
+            return res.status // Return immediately if error
+        }
+        index++
+    }
+    return 200 // all updates were successful
+}
+
 // Default Canvassing object
 export const defaultCanvassing: CanvassingFrontend = {
     RecordID: '',
@@ -108,8 +139,10 @@ function generateCanvassingLinks(data: CanvassingBackend[]): string[] {
     )
 }
 
-
-export function generateCanvassingLinksTest(event: MainEvent, academic: Academic){
+export function generateCanvassingLinksTest(
+    event: MainEvent,
+    academic: Academic
+) {
     const eventId = event.RecordID
     const academicId = academic.RecordID
     return `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}/${academicId}`

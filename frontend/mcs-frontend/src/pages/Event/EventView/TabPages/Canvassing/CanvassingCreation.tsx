@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-    Button,
     FormControl,
     Grid,
     InputLabel,
@@ -25,12 +24,9 @@ import {
     SubmitButton,
 } from '../../../../../components'
 import { useRevalidator } from 'react-router-dom'
+import { getVenueById } from '../../../../../scripts/venue/functions'
 import {
-    getAllVenues,
-    getVenueById,
-} from '../../../../../scripts/venue/functions'
-import {
-    createCanvassing,
+    addOrUpdateCanvassing,
     defaultCanvassing,
     formatCanvassingToTemp,
 } from '../../../../../scripts/canvassing/functions'
@@ -83,7 +79,9 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
         fetchVenues()
         // alternative: fetch all venues
         // getAllVenues().then((venues) => setVenues(venues))
-    }, [event.Venue])
+
+        getAllAcademics().then((academics) => setAcademics(academics))
+    }, [event])
 
     useEffect(() => {
         if (canvassingSlots != null && canvassingSlots.length > 0) {
@@ -93,11 +91,6 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             setCanvassings(temp)
         }
     }, [canvassingSlots, setValue])
-
-    useEffect(() => {
-        getAllAcademics().then((academics) => setAcademics(academics))
-        console.log(academics)
-    }, [event])
 
     const onSubmit = async (data: any) => {
         const { emailSubject, emailContent } =
@@ -118,7 +111,10 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
 
         try {
             setSubmitting(true)
-            const res = await createCanvassing(updatedSlots)
+            const res = await addOrUpdateCanvassing(
+                updatedSlots,
+                updatedSlots.map((slot) => slot.id)
+            )
             if (res) {
                 setShowSuccess(true)
                 // console.log('Emails:', emails)
@@ -204,6 +200,16 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                     name="Venue"
                                     control={control}
                                     label="Venue"
+                                    defaultValueList={
+                                        canvassingSlots[0] &&
+                                        canvassingSlots[0].Venue.map(
+                                            (venue, i) => ({
+                                                value: venue,
+                                                label: canvassingSlots[0]
+                                                    .VenueName[i],
+                                            })
+                                        )
+                                    }
                                     options={venues.map((venue) => ({
                                         value: venue.RecordID,
                                         label: venue.VenueName,
@@ -216,6 +222,19 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                     hint="Search By Name or Type In Email"
                                     control={control}
                                     label="Academics"
+                                    defaultValueList={academics
+                                        .filter(
+                                            (academic) =>
+                                                canvassingSlots[0] &&
+                                                canvassingSlots[0].Academic.includes(
+                                                    academic.RecordID
+                                                )
+                                        )
+                                        .map((person) => ({
+                                            id: person.RecordID,
+                                            value: person.Email,
+                                            label: person.Name,
+                                        }))}
                                     options={academics.map((person) => ({
                                         id: person.RecordID,
                                         value: person.Email,
