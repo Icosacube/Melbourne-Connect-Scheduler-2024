@@ -56,12 +56,6 @@ export const CateringTable: FC<CateringTableProps> = ({
     const [deleting, setDeleting] = useState(false)
     const revalidator = useRevalidator()
 
-    function getRowId(catering: Catering) {
-        return catering.RecordID
-    }
-
-    // Handlers
-
     // Handle create modal
     const handleOpenCreate = () => setOpenCreate(true)
 

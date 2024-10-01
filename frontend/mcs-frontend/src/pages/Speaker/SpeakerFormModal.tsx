@@ -15,14 +15,14 @@ import {
 } from '../../scripts/speaker/functions'
 import { Speaker } from '../../types/frontendTypes'
 
-interface SpeakerFormModal {
+interface SpeakerFormModalProps {
     handleClose: () => void
     open: boolean
     variant?: 'create' | 'edit'
     speaker?: Speaker
 }
 
-export const SpeakerFormModal: React.FC<SpeakerFormModal> = ({
+export const SpeakerFormModal: React.FC<SpeakerFormModalProps> = ({
     handleClose,
     open,
     variant = 'create',

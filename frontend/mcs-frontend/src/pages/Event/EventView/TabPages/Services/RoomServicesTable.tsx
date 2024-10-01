@@ -52,12 +52,6 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({
     const [deleting, setDeleting] = useState(false)
     const revalidator = useRevalidator()
 
-    function getRowId(roomService: Service) {
-        return roomService.RecordID
-    }
-
-    // Handlers
-
     // Handle create modal
     const handleOpenCreate = () => setOpenCreate(true)
 
