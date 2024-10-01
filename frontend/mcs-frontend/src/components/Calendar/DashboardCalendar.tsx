@@ -37,7 +37,7 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
             return {
                 id: event.RecordID,
                 title: event.EventName,
-                date: event.Date.format('YYYY-MM-DD'), // Format start date as YYYY-MM-DD
+                date: event.StartDate.format('YYYY-MM-DD'), // Format start date as YYYY-MM-DD
             }
         })
     )
@@ -124,7 +124,7 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
 
             <EventFormModal
                 key={createEventModalDate.toString()}
-                event={{ ...defaultMainEvent, Date: createEventModalDate }}
+                event={{ ...defaultMainEvent, StartDate: createEventModalDate }}
                 open={showCreateEventModal}
                 handleClose={() => setShowCreateEventModal(false)}
                 venues={venues}

@@ -123,7 +123,7 @@ export const Dashboard: FC = () => {
                             {events.map((event) => (
                                 <Box key={event.RecordID}>
                                     <Typography className="text-s text-gray-400">
-                                        {event.Date.toString()}
+                                        {event.StartDate.toString()}
                                     </Typography>
                                     <Typography className="text-lg font-semibold">
                                         {event.EventName}

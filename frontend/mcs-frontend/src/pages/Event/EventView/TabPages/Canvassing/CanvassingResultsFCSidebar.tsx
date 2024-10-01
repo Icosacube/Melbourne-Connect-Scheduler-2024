@@ -184,7 +184,8 @@ export const CanvassingResultsFCSidebar: React.FC<
                                                 EventDescription: '',
                                                 EventbriteLink: '',
                                                 EventBanner: '',
-                                                Date: dayjs(),
+                                                StartDate: dayjs(),
+                                                EndDate: dayjs(),
                                                 Notes: '',
                                                 Speaker: [],
                                                 GuestAcademic: [],
@@ -194,7 +195,7 @@ export const CanvassingResultsFCSidebar: React.FC<
                                                 Completed: false,
                                                 Trip: [],
                                                 SubEvent: [],
-                                                EventTotal: 0
+                                                EventTotal: 0,
                                             }}
                                             academic={{
                                                 RecordID: 'recfWhlwsuSMJTGt4',

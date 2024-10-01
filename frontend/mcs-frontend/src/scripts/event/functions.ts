@@ -13,7 +13,8 @@ function reformatMainEventResponseData(data: any): MainEvent {
             data.EventDescription || defaultMainEvent.EventDescription,
         EventbriteLink: data.EventbriteLink || defaultMainEvent.EventbriteLink,
         EventBanner: data.EventBanner || defaultMainEvent.EventBanner,
-        Date: data.Date ? dayjs(data.Date) : defaultMainEvent.Date,
+        StartDate: data.Date ? dayjs(data.Date) : defaultMainEvent.StartDate,
+        EndDate: data.EndDate ? dayjs(data.EndDate) : defaultMainEvent.EndDate,
         Notes: data.Notes || defaultMainEvent.Notes,
         Speaker: data.Speaker || defaultMainEvent.Speaker,
         GuestAcademic: data.GuestAcademic || defaultMainEvent.GuestAcademic,
@@ -35,7 +36,8 @@ function reformatMainEventRequestData(data: MainEvent): any {
         EventDescription: data.EventDescription,
         EventbriteLink: data.EventbriteLink,
         EventBanner: data.EventBanner,
-        Date: data.Date.toISOString(),
+        StartDate: data.StartDate.toISOString(),
+        EndDate: data.EndDate.toISOString(),
         Notes: data.Notes,
         Speaker: data.Speaker,
         GuestAcademic: data.GuestAcademic,
@@ -58,7 +60,8 @@ export const defaultMainEvent: MainEvent = {
     EventDescription: '',
     EventbriteLink: '',
     EventBanner: '',
-    Date: dayjs(),
+    StartDate: dayjs(),
+    EndDate: dayjs(),
     Notes: '',
     Speaker: [],
     GuestAcademic: [],
@@ -82,6 +85,7 @@ export async function getAllMainEvents(): Promise<MainEvent[]> {
         const formattedEvents = rawEvents.map((event: any) =>
             reformatMainEventResponseData(event)
         )
+        console.log(rawEvents)
         return formattedEvents
     } catch (error) {
         console.error('Error fetching all main events:', error)
@@ -116,6 +120,7 @@ export async function createMainEvent(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}`,
             payload
         )
+
         // Server returns message: Main event created successfully if success
         return res
     } catch (error) {

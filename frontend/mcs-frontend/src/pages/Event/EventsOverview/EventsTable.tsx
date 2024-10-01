@@ -4,6 +4,7 @@ import type { GridColDef } from '@mui/x-data-grid'
 import { FC } from 'react'
 import { CustomDataGrid } from '../../../components/DataGrid/CustomDataGrid'
 import { MainEvent, Speaker } from '../../../types/frontendTypes'
+import { Dayjs } from 'dayjs'
 
 interface EventsTableProps {
     events: MainEvent[]
@@ -17,11 +18,14 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
 
     const columns: GridColDef<MainEvent>[] = [
         {
-            field: 'Date',
-            headerName: 'Date',
+            field: 'StartDate',
+            headerName: 'Start Date',
             minWidth: 160,
             maxWidth: 200,
-            renderCell: (params) => params.value.format('DD/MM/YYYY, HH:MM'),
+            type: 'date',
+            valueGetter: (value: Dayjs) => {
+                return value.toDate()
+            },
         },
         {
             field: 'EventName',

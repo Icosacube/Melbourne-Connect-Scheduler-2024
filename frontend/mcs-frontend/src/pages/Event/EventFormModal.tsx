@@ -140,7 +140,7 @@ export const EventFormModal: FC<EventFormModalProps> = ({
                                     : 'Edit Event'}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={9}>
                             <FormInputText
                                 name="EventName"
                                 control={control}
@@ -149,11 +149,12 @@ export const EventFormModal: FC<EventFormModalProps> = ({
                         </Grid>
                         <Grid item xs={12} md={5} lg={3}>
                             <FormInputDateTime
-                                name="Date"
+                                name="StartDate"
                                 control={control}
-                                label="Date"
+                                label="Start Date"
                             />
                         </Grid>
+
                         <Grid item xs={12} md={7} lg={4} sx={{ mt: 1 }}>
                             <FormInputVenue
                                 control={control}
@@ -168,6 +169,13 @@ export const EventFormModal: FC<EventFormModalProps> = ({
                                 control={control}
                                 label="Speaker"
                                 options={generateSpeakers()}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={5} lg={3}>
+                            <FormInputDateTime
+                                name="EndDate"
+                                control={control}
+                                label="End Date"
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>

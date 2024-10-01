@@ -21,11 +21,7 @@ export const Events: FC = () => {
             <Box className="  mb-4 flex flex-col">
                 <Box className=" flex flex-col">
                     <AddButton name={'Event'} onClick={handleOpen} />
-                    {/* <CreateEventModal
-                        open={open}
-                        handleClose={handleClose}
-                        venues={venues}
-                    /> */}
+
                     <EventFormModal
                         open={open}
                         handleClose={handleClose}
