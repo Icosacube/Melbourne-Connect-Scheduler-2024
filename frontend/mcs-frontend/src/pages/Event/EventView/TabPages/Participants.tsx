@@ -1,6 +1,5 @@
 import { Box } from '@mui/material'
-import React, { FC } from 'react'
-import Headline from './Headline'
+import { FC } from 'react'
 import { Speaker, Trip } from '../../../../types/frontendTypes'
 import { SpeakerTable } from '../../../Speaker/SpeakerOverview/SpeakerTable'
 

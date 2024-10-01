@@ -1,6 +1,18 @@
+import CancelIcon from '@mui/icons-material/Close'
+import DeleteIcon from '@mui/icons-material/DeleteOutlined'
+import EditIcon from '@mui/icons-material/Edit'
 import { Box } from '@mui/material'
+import {
+    GridActionsCellItem,
+    GridColDef,
+    GridRowId,
+    GridRowModes,
+    GridRowModesModel,
+    GridRowParams,
+} from '@mui/x-data-grid'
 import dayjs from 'dayjs'
 import React, { FC, useState } from 'react'
+import { useRevalidator } from 'react-router-dom'
 import {
     AddButton,
     CustomDataGrid,
@@ -9,24 +21,11 @@ import {
 import { deleteCateringByID } from '../../../../../scripts/catering/functions'
 import {
     Catering,
-    MainEvent,
     FundingAccount,
+    MainEvent,
 } from '../../../../../types/frontendTypes'
-import { EditCateringModal } from './EditCateringModal'
 import { CreateCateringModal } from './CreateCateringModal'
-import {
-    DataGrid,
-    GridActionsCellItem,
-    GridColDef,
-    GridRowParams,
-    GridRowModes,
-    GridRowId,
-    GridRowModesModel,
-} from '@mui/x-data-grid'
-import DeleteIcon from '@mui/icons-material/DeleteOutlined'
-import EditIcon from '@mui/icons-material/Edit'
-import CancelIcon from '@mui/icons-material/Close'
-import { useRevalidator } from 'react-router-dom'
+import { EditCateringModal } from './EditCateringModal'
 
 interface CateringTableProps {
     event: MainEvent

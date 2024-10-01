@@ -1,12 +1,12 @@
 import { Grid, Modal, Paper, Tab, Tabs, Typography } from '@mui/material'
-import { AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useRevalidator } from 'react-router-dom'
 import {
+    BottomSuccessSnackbar,
     FormInputText,
     FormInputTextLong,
     SubmitButton,
-    BottomSuccessSnackbar,
 } from '../../components'
 import {
     createSpeaker,
@@ -14,7 +14,6 @@ import {
     updateSpeaker,
 } from '../../scripts/speaker/functions'
 import { Speaker } from '../../types/frontendTypes'
-import { useRevalidator } from 'react-router-dom'
 
 interface SpeakerFormModal {
     handleClose: () => void
@@ -91,7 +90,7 @@ export const SpeakerFormModal: React.FC<SpeakerFormModal> = ({
                     <Grid container spacing={3} className="w-full p-16">
                         <Grid item xs={12} lg={6}>
                             <Typography variant="h4">
-                                {variant == 'create'
+                                {variant === 'create'
                                     ? 'Create Speaker'
                                     : 'Update Speaker'}
                             </Typography>

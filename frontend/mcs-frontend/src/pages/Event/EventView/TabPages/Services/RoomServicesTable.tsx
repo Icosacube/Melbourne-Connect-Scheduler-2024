@@ -1,9 +1,8 @@
 import CancelIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import {
-    DataGrid,
     GridActionsCellItem,
     GridColDef,
     GridRowId,

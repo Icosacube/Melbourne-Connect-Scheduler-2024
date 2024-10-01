@@ -1,15 +1,14 @@
-import React from 'react'
 import {
+    Box,
+    Checkbox,
+    Chip,
     FormControl,
     InputLabel,
+    ListItemText,
     MenuItem,
     Select,
-    Box,
-    Typography,
-    Checkbox,
-    ListItemText,
-    Chip,
 } from '@mui/material'
+import React from 'react'
 import { Controller } from 'react-hook-form'
 import { FormInputProps } from './FormInputProps' // Make sure this type is correctly defined
 
