@@ -2,6 +2,11 @@ import dayjs from 'dayjs'
 import { Flight as FlightFrontend } from '../../types/frontendTypes'
 import { Flight as FlightBackend } from '../../types/backendTypes'
 import axios from 'axios'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Default Flight object
 export const defaultFlight: FlightFrontend = {
@@ -30,10 +35,10 @@ function reformatFlightResponseData(data: any): FlightFrontend {
         DepartureFrom: data.DepartureFrom || defaultFlight.DepartureFrom,
         ArrivedTo: data.ArrivedTo || defaultFlight.ArrivedTo,
         DepartDate: data.DepartDate
-            ? dayjs(data.DepartDate)
+            ? dayjs(data.DepartDate).utc().tz('Australia/Melbourne')
             : defaultFlight.DepartDate,
         ArriveDate: data.ArriveDate
-            ? dayjs(data.ArriveDate)
+            ? dayjs(data.ArriveDate).utc().tz('Australia/Melbourne')
             : defaultFlight.ArriveDate,
         Cost: data.Cost || defaultFlight.Cost,
         Trip: data.Trip || defaultFlight.Trip,
@@ -52,8 +57,12 @@ function reformatFlightRequest(data: FlightFrontend): FlightBackend {
         FlightNumber: data.FlightNumber,
         DepartureFrom: data.DepartureFrom,
         ArrivedTo: data.ArrivedTo,
-        DepartDate: data.DepartDate.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-        ArriveDate: data.ArriveDate.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+        DepartDate: data.DepartDate.tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+        ArriveDate: data.ArriveDate.tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
         Cost: Number(data.Cost),
         Trip: data.Trip,
         FundingAccount: data.FundingAccount,

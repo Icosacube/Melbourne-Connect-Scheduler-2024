@@ -1,6 +1,11 @@
 import axios, { AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
 import { MainEvent } from '../../types/frontendTypes'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Function to reformat MainEvent response data
 function reformatMainEventResponseData(data: any): MainEvent {
@@ -13,10 +18,12 @@ function reformatMainEventResponseData(data: any): MainEvent {
             data.EventDescription || defaultMainEvent.EventDescription,
         EventbriteLink: data.EventbriteLink || defaultMainEvent.EventbriteLink,
         EventBanner: data.EventBanner || defaultMainEvent.EventBanner,
+        EndDate: data.EndDate
+            ? dayjs(data.EndDate).utc().tz('Australia/Melbourne')
+            : defaultMainEvent.EndDate,
         StartDate: data.StartDate
-            ? dayjs(data.StartDate)
+            ? dayjs(data.StartDate).utc().tz('Australia/Melbourne')
             : defaultMainEvent.StartDate,
-        EndDate: data.EndDate ? dayjs(data.EndDate) : defaultMainEvent.EndDate,
         Notes: data.Notes || defaultMainEvent.Notes,
         Speaker: data.Speaker || defaultMainEvent.Speaker,
         GuestAcademic: data.GuestAcademic || defaultMainEvent.GuestAcademic,
@@ -38,8 +45,8 @@ function reformatMainEventRequestData(data: MainEvent): any {
         EventDescription: data.EventDescription,
         EventbriteLink: data.EventbriteLink,
         EventBanner: data.EventBanner,
-        StartDate: data.StartDate.toISOString(),
-        EndDate: data.EndDate.toISOString(),
+        StartDate: data.StartDate.tz('Australia/Melbourne').utc().toISOString(),
+        EndDate: data.EndDate.tz('Australia/Melbourne').utc().toISOString(),
         Notes: data.Notes,
         Speaker: data.Speaker,
         GuestAcademic: data.GuestAcademic,
