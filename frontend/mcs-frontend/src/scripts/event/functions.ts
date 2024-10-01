@@ -106,7 +106,9 @@ export async function getMainEventById(id: string): Promise<MainEvent> {
 
 // Function to create a new MainEvent
 
-export async function createMainEvent(mainEvent: MainEvent) {
+export async function createMainEvent(
+    mainEvent: MainEvent
+): Promise<AxiosResponse> {
     try {
         const payload = reformatMainEventRequestData(mainEvent)
         console.log(payload)
@@ -115,10 +117,10 @@ export async function createMainEvent(mainEvent: MainEvent) {
             payload
         )
         // Server returns message: Main event created successfully if success
-        console.log(res.data)
+        return res
     } catch (error) {
         console.error('Error creating main event:', error)
-        return {} as MainEvent
+        return {} as AxiosResponse
     }
 }
 

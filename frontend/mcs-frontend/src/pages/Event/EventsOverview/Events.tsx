@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { AddButton } from '../../../components'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
-import { CreateEventModal } from './CreateEventModal'
+import EventFormModal from '../EventFormModal'
 import { EventsTable } from './EventsTable'
 
 export const Events: FC = () => {
@@ -21,10 +21,17 @@ export const Events: FC = () => {
             <Box className="  mb-4 flex flex-col">
                 <Box className=" flex flex-col">
                     <AddButton name={'Event'} onClick={handleOpen} />
-                    <CreateEventModal
+                    {/* <CreateEventModal
                         open={open}
                         handleClose={handleClose}
                         venues={venues}
+                    /> */}
+                    <EventFormModal
+                        open={open}
+                        handleClose={handleClose}
+                        speakers={speakers}
+                        venues={venues}
+                        variant="create"
                     />
                 </Box>
             </Box>

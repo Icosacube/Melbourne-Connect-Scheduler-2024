@@ -24,7 +24,7 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
     handleClose,
     open,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Speaker>({
+    const { handleSubmit, reset, control, watch } = useForm<Speaker>({
         defaultValues: defaultSpeaker,
     })
 
@@ -59,6 +59,13 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue)
+    }
+
+    const isSubmitDisabled = () => {
+        const firstName = watch('FirstName')
+        const lastName = watch('LastName')
+        const PrimaryEmail = watch('PrimaryEmail')
+        return !firstName || !lastName || !PrimaryEmail
     }
 
     return (
@@ -307,6 +314,7 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
                                     <SubmitButton
                                         submitting={submitting}
                                         onClick={handleSubmit(onSubmit)}
+                                        disabled={isSubmitDisabled()}
                                     />
                                 </Grid>
                             </Grid>

@@ -4,26 +4,31 @@ import FullCalendar from '@fullcalendar/react'
 import dayjs, { Dayjs } from 'dayjs'
 import { FC, useState } from 'react'
 import { useNavigate, useRevalidator } from 'react-router-dom'
-import { CreateEventModal } from '../../pages/Event/EventsOverview/CreateEventModal'
-import { updateMainEventById } from '../../scripts/event/functions'
-import { MainEvent, Venue } from '../../types/frontendTypes'
+import {
+    defaultMainEvent,
+    updateMainEventById,
+} from '../../scripts/event/functions'
+import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
 import { BottomSuccessSnackbar } from '../BottomSuccessSnackbar'
+import { EventFormModal } from '../../pages'
 
 interface DashboardCalendarProps {
     events: MainEvent[]
     venues: Venue[]
+    speakers: Speaker[]
 }
 
 export const DashboardCalendar: FC<DashboardCalendarProps> = ({
     events,
     venues,
+    speakers,
 }) => {
     const navigate = useNavigate()
     const revalidator = useRevalidator()
     const [showCreateEventModal, setShowCreateEventModal] = useState(false)
-    const [createEventModalDate, setCreateEventModalDate] = useState<
-        Dayjs | undefined
-    >()
+    const [createEventModalDate, setCreateEventModalDate] = useState<Dayjs>(
+        dayjs()
+    )
     const [showLoadingSnackbar, setShowLoadingSnackbar] = useState(false)
     const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false)
 
@@ -117,11 +122,14 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
                 dateClick={handleDateClick}
             />
 
-            <CreateEventModal
+            <EventFormModal
+                key={createEventModalDate.toString()}
+                event={{ ...defaultMainEvent, Date: createEventModalDate }}
                 open={showCreateEventModal}
                 handleClose={() => setShowCreateEventModal(false)}
                 venues={venues}
-                eventDate={createEventModalDate}
+                speakers={speakers}
+                variant="create"
             />
             <BottomSuccessSnackbar
                 showSuccess={showSuccessSnackbar}
