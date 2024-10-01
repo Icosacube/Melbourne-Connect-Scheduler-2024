@@ -61,15 +61,6 @@ export const PageTopNavBar: React.FC<PageTopNavBarProps> = ({
                     <Box className="flex h-14 space-x-4 mr-12">
                         <Button
                             variant="contained"
-                            className="bg-accent2 hover:bg-secondary hover:text-white text-white"
-                        >
-                            <ShareIcon />
-                            <Typography variant="h6" className="ml-3">
-                                Share
-                            </Typography>
-                        </Button>
-                        <Button
-                            variant="contained"
                             onClick={openEditModal}
                             className="bg-primary hover:bg-secondary hover:text-white text-black"
                         >
