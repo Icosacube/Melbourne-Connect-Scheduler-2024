@@ -37,7 +37,8 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
             return {
                 id: event.RecordID,
                 title: event.EventName,
-                date: event.StartDate.format('YYYY-MM-DD'), // Format start date as YYYY-MM-DD
+                start: event.StartDate.format('YYYY-MM-DD'), // Format start date as YYYY-MM-DD
+                end: event.EndDate.format('YYYY-MM-DD'), // Format end date as YYYY-MM-DD
             }
         })
     )
@@ -56,7 +57,7 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
         setShowCreateEventModal(true)
     }
 
-    const handleEventDrop = async (info: any) => {
+    const handleEventEdit = async (info: any) => {
         const { event } = info
         // Extract necessary information
         const updatedEvent = {
@@ -80,7 +81,8 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
         }
         const formatedSelectedEvent = {
             ...selectedEvent,
-            Date: info.event.start,
+            StartDate: info.event.start,
+            EndDate: info.event.end,
         }
         handleShowLoading()
         const res = await updateMainEventById(formatedSelectedEvent)
@@ -118,8 +120,11 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
                 events={formattedEvents}
                 height={550}
                 eventClick={handleEventClick}
-                eventDrop={handleEventDrop}
+                eventDrop={handleEventEdit}
                 dateClick={handleDateClick}
+                eventStartEditable={true}
+                eventResizableFromStart={true}
+                eventResize={handleEventEdit}
             />
 
             <EventFormModal

@@ -13,7 +13,9 @@ function reformatMainEventResponseData(data: any): MainEvent {
             data.EventDescription || defaultMainEvent.EventDescription,
         EventbriteLink: data.EventbriteLink || defaultMainEvent.EventbriteLink,
         EventBanner: data.EventBanner || defaultMainEvent.EventBanner,
-        StartDate: data.Date ? dayjs(data.Date) : defaultMainEvent.StartDate,
+        StartDate: data.StartDate
+            ? dayjs(data.StartDate)
+            : defaultMainEvent.StartDate,
         EndDate: data.EndDate ? dayjs(data.EndDate) : defaultMainEvent.EndDate,
         Notes: data.Notes || defaultMainEvent.Notes,
         Speaker: data.Speaker || defaultMainEvent.Speaker,
