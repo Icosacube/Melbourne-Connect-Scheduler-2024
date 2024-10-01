@@ -37,7 +37,10 @@ export const PageTopNavBar: React.FC<PageTopNavBarProps> = ({
     ]
 
     return (
-        <Toolbar className="bg-white h-24 shadow-md w-full mb-6">
+        <Toolbar
+            className="bg-white h-24 shadow-md w-full mb-6"
+            style={{ position: 'sticky', top: 0, zIndex: 1000 }}
+        >
             <Box className="flex justify-between w-full">
                 <Box className="flex place-items-center">
                     <IconButton
