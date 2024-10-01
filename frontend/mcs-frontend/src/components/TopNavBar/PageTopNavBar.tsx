@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import CreateIcon from '@mui/icons-material/Create'
 import {
     Box,
     Breadcrumbs,
@@ -8,9 +8,8 @@ import {
     Toolbar,
     Typography,
 } from '@mui/material'
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
-import CreateIcon from '@mui/icons-material/Create'
-import ShareIcon from '@mui/icons-material/Share'
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 interface PageTopNavBarProps {
     type: string
