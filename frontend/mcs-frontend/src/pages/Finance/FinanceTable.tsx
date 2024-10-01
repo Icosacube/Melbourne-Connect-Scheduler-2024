@@ -175,6 +175,14 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
                             '& .MuiFormControl-root': { marginRight: '0.5rem' },
                         },
                     },
+                    baseButton: {
+                        sx: {
+                            color: 'text.primary',
+                            '&:hover': {
+                                textDecoration: 'underline',
+                            },
+                        },
+                    },
                 }}
                 getRowClassName={(params) =>
                     params.row.isGroup ? 'group-row' : 'data-row'

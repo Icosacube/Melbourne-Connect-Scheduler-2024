@@ -6,9 +6,9 @@ import { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { DashboardCalendar } from '../../components'
 import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
-import { CreateSpeakerModal } from '../Speaker/SpeakerOverview/CreateSpeakerModal'
 import { CreateTripModal } from '../Trips/CreateTripModal'
 import { EventFormModal } from '../Event'
+import { SpeakerFormModal } from '../Speaker'
 
 // eslint-disable-next-line no-lone-blocks
 {
@@ -138,9 +138,10 @@ export const Dashboard: FC = () => {
                     </Box>
                 </Box>
             </Box>
-            <CreateSpeakerModal
+            <SpeakerFormModal
                 handleClose={handleCloseCreateSpeakerModal}
                 open={createSpeakerModalOpen}
+                variant="create"
             />
             <EventFormModal
                 handleClose={handleCloseCreateEventModal}

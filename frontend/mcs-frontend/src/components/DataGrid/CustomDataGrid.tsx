@@ -61,6 +61,14 @@ export const CustomDataGrid: FC<CustomDataGridProps> = ({
                             '& .MuiFormControl-root': { marginRight: '0.5rem' },
                         },
                     },
+                    baseButton: {
+                        sx: {
+                            color: 'text.primary',
+                            '&:hover': {
+                                textDecoration: 'underline',
+                            },
+                        },
+                    },
                 }}
                 sx={{
                     '& .table-header': {

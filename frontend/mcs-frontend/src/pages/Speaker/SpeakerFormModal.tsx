@@ -7,25 +7,30 @@ import {
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
-} from '../../../components/'
+} from '../../components'
 import {
     createSpeaker,
     defaultSpeaker,
-} from '../../../scripts/speaker/functions'
-import { Speaker } from '../../../types/frontendTypes'
+    updateSpeaker,
+} from '../../scripts/speaker/functions'
+import { Speaker } from '../../types/frontendTypes'
 import { useRevalidator } from 'react-router-dom'
 
-interface CreateSpeakerModalAltProps {
+interface SpeakerFormModal {
     handleClose: () => void
     open: boolean
+    variant?: 'create' | 'edit'
+    speaker?: Speaker
 }
 
-export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
+export const SpeakerFormModal: React.FC<SpeakerFormModal> = ({
     handleClose,
     open,
+    variant = 'create',
+    speaker = defaultSpeaker,
 }) => {
     const { handleSubmit, reset, control, watch } = useForm<Speaker>({
-        defaultValues: defaultSpeaker,
+        defaultValues: speaker,
     })
 
     const [showSuccess, setShowSuccess] = useState(false)
@@ -36,7 +41,13 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
     const onSubmit = async (data: Speaker) => {
         setSubmitting(true)
         try {
-            const res: AxiosResponse = await createSpeaker(data)
+            let res
+            if (variant === 'create') {
+                res = await createSpeaker(data)
+            } else {
+                res = await updateSpeaker(data)
+            }
+
             if (res.status === 200) {
                 setShowSuccess(true)
                 revalidator.revalidate()
@@ -76,10 +87,14 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1080px] min-w-[450px] max-h-[90vh] overflow-y-auto">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[75vh] overflow-y-auto">
                     <Grid container spacing={3} className="w-full p-16">
                         <Grid item xs={12} lg={6}>
-                            <Typography variant="h4">Create Speaker</Typography>
+                            <Typography variant="h4">
+                                {variant == 'create'
+                                    ? 'Create Speaker'
+                                    : 'Update Speaker'}
+                            </Typography>
                         </Grid>
                         <Grid item xs={12} lg={6}>
                             <Tabs
@@ -309,6 +324,7 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
                                 container
                                 spacing={2}
                                 justifyContent="flex-end"
+                                alignContent="end"
                             >
                                 <Grid item>
                                     <SubmitButton

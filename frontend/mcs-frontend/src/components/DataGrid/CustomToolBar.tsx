@@ -71,7 +71,12 @@ export const CustomToolbar = () => {
     }
 
     const buttonBaseProps: ButtonProps = {
-        color: 'primary',
+        sx: {
+            color: 'text.primary',
+            '&:hover': {
+                textDecoration: 'underline',
+            },
+        },
         size: 'small',
         startIcon: <FileDownloadIcon />,
     }
