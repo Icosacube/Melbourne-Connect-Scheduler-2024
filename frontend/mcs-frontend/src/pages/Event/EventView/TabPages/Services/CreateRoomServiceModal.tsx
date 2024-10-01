@@ -39,7 +39,7 @@ export const CreateRoomServiceModal: React.FC<CreateRoomServiceModalProps> = ({
     eventID,
     fundingAccounts,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Service>({
+    const { handleSubmit, reset, control, watch } = useForm<Service>({
         defaultValues: CreateRoomServiceFormDefaultValues,
     })
 
@@ -70,6 +70,11 @@ export const CreateRoomServiceModal: React.FC<CreateRoomServiceModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+
+    const isSubmitDisabled = () => {
+        const description = watch('ServiceDescription')
+        return !description
+    }
 
     return (
         <>
@@ -132,6 +137,7 @@ export const CreateRoomServiceModal: React.FC<CreateRoomServiceModalProps> = ({
                             <SubmitButton
                                 submitting={submitting}
                                 onClick={handleSubmit(onSubmit)}
+                                disabled={isSubmitDisabled()}
                             />
                         </Grid>
                     </Grid>
