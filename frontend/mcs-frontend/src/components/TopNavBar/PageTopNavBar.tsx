@@ -28,12 +28,7 @@ export const PageTopNavBar: React.FC<PageTopNavBarProps> = ({
     const navigate = useNavigate()
 
     const breadcrumbs = [
-        <Link
-            key="1"
-            // underline="hover"
-            to={link}
-            color="inherit"
-        >
+        <Link key="1" to={link} color="inherit" className="hover:underline">
             {type} Overview
         </Link>,
         <Typography key="2" color="text.primary">
