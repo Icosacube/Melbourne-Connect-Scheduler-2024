@@ -24,7 +24,7 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
     handleClose,
     open,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Speaker>({
+    const { handleSubmit, reset, control, watch } = useForm<Speaker>({
         defaultValues: defaultSpeaker,
     })
     const revalidator = useRevalidator()
@@ -55,6 +55,13 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+
+    const isSubmitDisabled = () => {
+        const firstName = watch('FirstName')
+        const lastName = watch('LastName')
+        const PrimaryEmail = watch('PrimaryEmail')
+        return !firstName || !lastName || !PrimaryEmail
+    }
 
     return (
         <>
@@ -289,6 +296,7 @@ export const CreateSpeakerModal: React.FC<CreateSpeakerModalProps> = ({
                                     <SubmitButton
                                         submitting={submitting}
                                         onClick={handleSubmit(onSubmit)}
+                                        disabled={isSubmitDisabled()}
                                     />
                                 </Grid>
                             </Grid>
