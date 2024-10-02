@@ -4,6 +4,9 @@ import Chip from '@mui/material/Chip'
 import Autocomplete from '@mui/material/Autocomplete'
 import { Controller } from 'react-hook-form'
 import { FormInputProps } from './FormInputProps'
+import { Tooltip, IconButton, InputAdornment } from '@mui/material'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import CloseIcon from '@mui/icons-material/Close'
 
 // Simulated contact list for auto-complete
 const contacts = [
@@ -43,11 +46,6 @@ export const FormInputMultiEmail = ({
                 invalidEmails.push(email)
             }
         }
-        // const validEmails = emails.filter(
-        //     (email) => validateEmail(email) === null
-        // )
-
-        console.log('Pasted emails:', emails)
 
         // Update the input value and call onChange with the valid emails
         onChange([...new Set([...currentValues, ...validEmails])]) // Add new valid emails to existing ones
@@ -87,6 +85,12 @@ export const FormInputMultiEmail = ({
                                 variant="outlined"
                                 label={option}
                                 {...getTagProps({ index })}
+                                onDelete={() => {
+                                    const newValues = value.filter(
+                                        (_, i) => i !== index
+                                    )
+                                    onChange(newValues)
+                                }}
                             />
                         ))
                     }
@@ -103,6 +107,38 @@ export const FormInputMultiEmail = ({
                             required={required}
                             onPaste={(event) => {
                                 handlePaste(event, onChange, value)
+                            }}
+                            InputProps={{
+                                ...params.InputProps,
+                                sx: {
+                                    paddingRight: '0 !important', // Remove padding using sx prop
+                                    '& .MuiOutlinedInput-root': {
+                                        paddingRight: '2px !important',
+                                    },
+                                    '& .MuiAutocomplete-inputRoot': {
+                                        paddingRight: '0 !important',
+                                    },
+                                },
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <Tooltip
+                                            title="Hit Enter to confirm your email!"
+                                            arrow
+                                        >
+                                            <IconButton>
+                                                <InfoOutlinedIcon fontSize="small" />
+                                            </IconButton>
+                                        </Tooltip>
+                                        {/* Optional remove all button */}
+                                        {value.length > 0 && (
+                                            <IconButton
+                                                onClick={() => onChange([])}
+                                            >
+                                                <CloseIcon fontSize="small" />
+                                            </IconButton>
+                                        )}
+                                    </InputAdornment>
+                                ),
                             }}
                         />
                     )}
