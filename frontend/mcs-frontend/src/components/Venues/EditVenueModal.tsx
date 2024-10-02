@@ -1,14 +1,10 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { BottomSuccessSnackbar, FormInputText, SubmitButton } from '..'
-import {
-    createVenue,
-    defaultVenue,
-    updateVenue,
-} from '../../scripts/venue/functions'
-import { Venue } from '../../types/frontendTypes'
 import { useRevalidator } from 'react-router-dom'
+import { BottomSuccessSnackbar, FormInputText, SubmitButton } from '..'
+import { updateVenue } from '../../scripts/venue/functions'
+import { Venue } from '../../types/frontendTypes'
 
 interface EditVenueModalProps {
     handleClose: () => void

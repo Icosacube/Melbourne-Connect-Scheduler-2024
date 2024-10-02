@@ -1,7 +1,7 @@
 import axios from 'axios'
+import dayjs from 'dayjs'
 import { FundingAccount as fundingAccountFrontend } from '../../types/frontendTypes'
 import { FundingAccount as fundingAccountBackend } from '../../types/backendTypes'
-import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 

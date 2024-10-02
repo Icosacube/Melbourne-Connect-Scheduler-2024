@@ -2,13 +2,13 @@ import ConnectingAirports from '@mui/icons-material/ConnectingAirports'
 import Event from '@mui/icons-material/Event'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { Box, Button, Divider, Stack, Typography } from '@mui/material/'
-import React, { FC, useState } from 'react'
-import { DashboardCalendar, EventCard } from '../../components'
-import { CreateEventModal } from '../Event/EventsOverview/CreateEventModal'
-import { CreateSpeakerModal } from '../Speaker/SpeakerOverview/CreateSpeakerModal'
-import { CreateTripModal } from '../Trips/CreateTripModal'
-import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
+import { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
+import { DashboardCalendar } from '../../components'
+import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
+import { CreateTripModal } from '../Trips/CreateTripModal'
+import { EventFormModal } from '../Event'
+import { SpeakerFormModal } from '../Speaker'
 
 // eslint-disable-next-line no-lone-blocks
 {
@@ -51,14 +51,6 @@ export const Dashboard: FC = () => {
 
     return (
         <Box className="flex space-x-10">
-            {/* <Box className="w-3/12">
-                <Stack direction="column" spacing={3}>
-                    <Typography variant="h5">Recently Edited Pages</Typography>
-                    {events.slice(0, 4).map((event) => (
-                        <EventCard key={event.RecordID} event={event} />
-                    ))}
-                </Stack>
-            </Box> */}
             <Box className="w-full space-y-5">
                 <Box className="space-y-2">
                     <Typography variant="h5">Quick Actions</Typography>
@@ -115,7 +107,11 @@ export const Dashboard: FC = () => {
                 </Box>
                 <Box className="bg-white rounded-lg p-8 flex space-x-3 justify-between shadow-sm">
                     <Box className="w-8/12">
-                        <DashboardCalendar events={events} venues={venues} />
+                        <DashboardCalendar
+                            events={events}
+                            venues={venues}
+                            speakers={speakers}
+                        />
                     </Box>
                     <Divider orientation="vertical" flexItem />
                     <Box className="flex flex-col w-4/12 ">
@@ -127,7 +123,7 @@ export const Dashboard: FC = () => {
                             {events.map((event) => (
                                 <Box key={event.RecordID}>
                                     <Typography className="text-s text-gray-400">
-                                        {event.Date.toString()}
+                                        {event.StartDate.toString()}
                                     </Typography>
                                     <Typography className="text-lg font-semibold">
                                         {event.EventName}
@@ -142,14 +138,17 @@ export const Dashboard: FC = () => {
                     </Box>
                 </Box>
             </Box>
-            <CreateSpeakerModal
+            <SpeakerFormModal
                 handleClose={handleCloseCreateSpeakerModal}
                 open={createSpeakerModalOpen}
+                variant="create"
             />
-            <CreateEventModal
+            <EventFormModal
                 handleClose={handleCloseCreateEventModal}
                 open={createEventModalOpen}
                 venues={venues}
+                speakers={speakers}
+                variant="create"
             />
             <CreateTripModal
                 handleClose={handleCloseCreateTripModal}

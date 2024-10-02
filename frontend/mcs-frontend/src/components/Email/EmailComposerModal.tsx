@@ -4,7 +4,6 @@ import {
     Box,
     Button,
     Chip,
-    CircularProgress,
     InputAdornment,
     Modal,
     TextField,
@@ -20,7 +19,6 @@ import {
     FormInputText,
     SubmitButton,
 } from '..'
-import { FormInputEmail } from '../FormComponents/FormInputEmail'
 import { sendEmail } from '../../scripts/email/functions'
 import CCBCCFields from './CCBCCField'
 
@@ -59,7 +57,7 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     const {
         control,
         handleSubmit,
-        formState: { errors, isValid },
+        formState: { isValid },
         reset,
     } = useForm<EmailFormData>({
         mode: 'onChange',

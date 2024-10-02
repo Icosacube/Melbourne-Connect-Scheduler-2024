@@ -1,17 +1,17 @@
 import axios from 'axios'
-import dayjs, { Dayjs } from 'dayjs'
-import utc from 'dayjs/plugin/utc'
+import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
-import {
-    Canvassing as CanvassingFrontend,
-    CanvassingTemp as CanvassingTempFrontend,
-    MainEvent,
-    Academic
-} from '../../types/frontendTypes'
+import utc from 'dayjs/plugin/utc'
 import {
     Canvassing as CanvassingBackend,
     CanvassingTemp as CanvassingTempBackend,
 } from '../../types/backendTypes'
+import {
+    Academic,
+    Canvassing as CanvassingFrontend,
+    CanvassingTemp as CanvassingTempFrontend,
+    MainEvent,
+} from '../../types/frontendTypes'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -99,17 +99,19 @@ export const defaultCanvassing: CanvassingFrontend = {
     VenueName: [],
 }
 
-function generateCanvassingLinks(data: CanvassingBackend[]): string[] {
-    const academicIds = data[0].Academic
-    const eventId = data[0].MainEvent
-    return academicIds.map(
-        (academicId) =>
-            `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}/${academicId}`
-    )
-}
+// function generateCanvassingLinks(data: CanvassingBackend[]): string[] {
+//     const academicIds = data[0].Academic
+//     const eventId = data[0].MainEvent
+//     return academicIds.map(
+//         (academicId) =>
+//             `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}/${academicId}`
+//     )
+// }
 
-
-export function generateCanvassingLinksTest(event: MainEvent, academic: Academic){
+export function generateCanvassingLinksTest(
+    event: MainEvent,
+    academic: Academic
+) {
     const eventId = event.RecordID
     const academicId = academic.RecordID
     return `${process.env.REACT_APP_BACKEND_URL}/canvassing/${eventId}/${academicId}`

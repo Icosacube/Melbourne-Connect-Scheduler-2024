@@ -1,11 +1,11 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import dayjs from 'dayjs'
 import {
-    getCateringByEventID,
     createCatering,
-    updateCateringByID,
-    deleteCateringByID,
     defaultCatering,
+    deleteCateringByID,
+    getCateringByEventID,
+    updateCateringByID,
 } from '../../../scripts/catering/functions'
 import { Catering } from '../../../types/frontendTypes'
 
@@ -60,7 +60,9 @@ describe('Catering Service', () => {
             const mainEventId = 'event123'
             mockedAxios.get.mockRejectedValue(new Error('Network error'))
 
-            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+            const consoleErrorSpy = jest
+                .spyOn(console, 'error')
+                .mockImplementation()
 
             const result = await getCateringByEventID(mainEventId)
 
@@ -108,9 +110,13 @@ describe('Catering Service', () => {
             const id = 'event123'
             mockedAxios.post.mockRejectedValue(new Error('Network error'))
 
-            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+            const consoleErrorSpy = jest
+                .spyOn(console, 'error')
+                .mockImplementation()
 
-            await expect(createCatering(newCatering, id)).rejects.toThrow('Network error')
+            await expect(createCatering(newCatering, id)).rejects.toThrow(
+                'Network error'
+            )
             expect(consoleErrorSpy).toHaveBeenCalled()
             consoleErrorSpy.mockRestore()
         })
@@ -153,7 +159,9 @@ describe('Catering Service', () => {
         it('should handle errors when updating catering', async () => {
             mockedAxios.put.mockRejectedValue(new Error('Network error'))
 
-            await expect(updateCateringByID(updatedCatering)).rejects.toThrow('Network error')
+            await expect(updateCateringByID(updatedCatering)).rejects.toThrow(
+                'Network error'
+            )
         })
     })
 
@@ -174,9 +182,13 @@ describe('Catering Service', () => {
         it('should handle errors when deleting catering', async () => {
             mockedAxios.delete.mockRejectedValue(new Error('Network error'))
 
-            const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+            const consoleErrorSpy = jest
+                .spyOn(console, 'error')
+                .mockImplementation()
 
-            await expect(deleteCateringByID(cateringID)).rejects.toThrow('Network error')
+            await expect(deleteCateringByID(cateringID)).rejects.toThrow(
+                'Network error'
+            )
             expect(consoleErrorSpy).toHaveBeenCalled()
             consoleErrorSpy.mockRestore()
         })

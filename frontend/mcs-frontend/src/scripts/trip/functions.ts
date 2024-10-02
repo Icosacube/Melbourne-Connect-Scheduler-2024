@@ -59,7 +59,6 @@ export async function getTripsBySpeakerId(
 
 // Function to create a new Trip
 export async function createTrip(trip: TripFrontend) {
-    const speakerID = trip.GuestSpeaker![0]
     // formatting DayJS to String
     const tripBackend = reformatTripRequest(trip)
     const res = await axios.post(

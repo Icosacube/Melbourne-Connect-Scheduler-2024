@@ -1,6 +1,5 @@
-import { Box, Grid } from '@mui/material'
-import React, { FC } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Grid } from '@mui/material'
+import { FC } from 'react'
 import { TopNavBar } from '../../components'
 
 interface FullWidthLayoutProps {

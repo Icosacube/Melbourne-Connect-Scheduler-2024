@@ -1,31 +1,35 @@
 import { Grid, Modal, Paper, Tab, Tabs, Typography } from '@mui/material'
-import { AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useRevalidator } from 'react-router-dom'
 import {
+    BottomSuccessSnackbar,
     FormInputText,
     FormInputTextLong,
     SubmitButton,
-    BottomSuccessSnackbar,
-} from '../../../components/'
+} from '../../components'
 import {
     createSpeaker,
     defaultSpeaker,
-} from '../../../scripts/speaker/functions'
-import { Speaker } from '../../../types/frontendTypes'
-import { useRevalidator } from 'react-router-dom'
+    updateSpeaker,
+} from '../../scripts/speaker/functions'
+import { Speaker } from '../../types/frontendTypes'
 
-interface CreateSpeakerModalAltProps {
+interface SpeakerFormModalProps {
     handleClose: () => void
     open: boolean
+    variant?: 'create' | 'edit'
+    speaker?: Speaker
 }
 
-export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
+export const SpeakerFormModal: React.FC<SpeakerFormModalProps> = ({
     handleClose,
     open,
+    variant = 'create',
+    speaker = defaultSpeaker,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Speaker>({
-        defaultValues: defaultSpeaker,
+    const { handleSubmit, reset, control, watch } = useForm<Speaker>({
+        defaultValues: speaker,
     })
 
     const [showSuccess, setShowSuccess] = useState(false)
@@ -36,7 +40,13 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
     const onSubmit = async (data: Speaker) => {
         setSubmitting(true)
         try {
-            const res: AxiosResponse = await createSpeaker(data)
+            let res
+            if (variant === 'create') {
+                res = await createSpeaker(data)
+            } else {
+                res = await updateSpeaker(data)
+            }
+
             if (res.status === 200) {
                 setShowSuccess(true)
                 revalidator.revalidate()
@@ -61,6 +71,13 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
         setTabValue(newValue)
     }
 
+    const isSubmitDisabled = () => {
+        const firstName = watch('FirstName')
+        const lastName = watch('LastName')
+        const PrimaryEmail = watch('PrimaryEmail')
+        return !firstName || !lastName || !PrimaryEmail
+    }
+
     return (
         <>
             <Modal
@@ -69,10 +86,14 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[1080px] min-w-[450px] max-h-[90vh] overflow-y-auto">
+                <Paper className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[75vh] overflow-y-auto">
                     <Grid container spacing={3} className="w-full p-16">
                         <Grid item xs={12} lg={6}>
-                            <Typography variant="h4">Create Speaker</Typography>
+                            <Typography variant="h4">
+                                {variant === 'create'
+                                    ? 'Create Speaker'
+                                    : 'Update Speaker'}
+                            </Typography>
                         </Grid>
                         <Grid item xs={12} lg={6}>
                             <Tabs
@@ -302,11 +323,13 @@ export const CreateSpeakerModalAlt: React.FC<CreateSpeakerModalAltProps> = ({
                                 container
                                 spacing={2}
                                 justifyContent="flex-end"
+                                alignContent="end"
                             >
                                 <Grid item>
                                     <SubmitButton
                                         submitting={submitting}
                                         onClick={handleSubmit(onSubmit)}
+                                        disabled={isSubmitDisabled()}
                                     />
                                 </Grid>
                             </Grid>

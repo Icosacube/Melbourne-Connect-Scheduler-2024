@@ -1,14 +1,14 @@
-import React from 'react'
 import {
+    Box,
+    Checkbox,
+    Chip,
     FormControl,
     InputLabel,
+    ListItemText,
     MenuItem,
     Select,
-    Box,
-    Typography,
-    Checkbox,
-    ListItemText,
 } from '@mui/material'
+import React from 'react'
 import { Controller } from 'react-hook-form'
 import { FormInputProps } from './FormInputProps' // Make sure this type is correctly defined
 
@@ -39,18 +39,19 @@ export const FormInputMultiSelect: React.FC<FormInputProps> = ({
                                 sx={{
                                     display: 'flex',
                                     flexWrap: 'wrap',
-                                    gap: 3,
+                                    gap: 1,
                                 }}
                             >
                                 {(selected as string[]).map((value) => (
-                                    <Typography key={value} variant="body2">
-                                        {
+                                    <Chip
+                                        label={
                                             options.find(
                                                 (option) =>
                                                     option.value === value
                                             )?.label
                                         }
-                                    </Typography>
+                                        variant="outlined"
+                                    />
                                 ))}
                             </Box>
                         )}

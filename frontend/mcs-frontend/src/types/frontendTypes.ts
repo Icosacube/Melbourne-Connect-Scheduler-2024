@@ -92,7 +92,8 @@ export type MainEvent = {
     EventDescription: string
     EventbriteLink: string
     EventBanner: string | any[] // string: url to publicly accessible photos (google drive etc); any[] for receive
-    Date: Dayjs // Example Format: "2024-04-30"
+    StartDate: Dayjs // Example Format: "2024-04-30"
+    EndDate: Dayjs
     Notes: string
     Speaker: string[]
     GuestAcademic: string[]

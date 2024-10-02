@@ -1,28 +1,31 @@
+import CancelIcon from '@mui/icons-material/Close'
+import DeleteIcon from '@mui/icons-material/DeleteOutlined'
+import EditIcon from '@mui/icons-material/Edit'
 import { Box } from '@mui/material'
+import {
+    GridActionsCellItem,
+    GridColDef,
+    GridRowId,
+    GridRowModes,
+    GridRowModesModel,
+    GridRowParams,
+} from '@mui/x-data-grid'
 import dayjs from 'dayjs'
 import React, { FC, useState } from 'react'
-import { AddButton, DeleteDialog } from '../../../../../components'
+import { useRevalidator } from 'react-router-dom'
+import {
+    AddButton,
+    CustomDataGrid,
+    DeleteDialog,
+} from '../../../../../components'
 import { deleteCateringByID } from '../../../../../scripts/catering/functions'
 import {
     Catering,
-    MainEvent,
     FundingAccount,
+    MainEvent,
 } from '../../../../../types/frontendTypes'
-import { EditCateringModal } from './EditCateringModal'
 import { CreateCateringModal } from './CreateCateringModal'
-import {
-    DataGrid,
-    GridActionsCellItem,
-    GridColDef,
-    GridRowParams,
-    GridRowModes,
-    GridRowId,
-    GridRowModesModel,
-} from '@mui/x-data-grid'
-import DeleteIcon from '@mui/icons-material/DeleteOutlined'
-import EditIcon from '@mui/icons-material/Edit'
-import CancelIcon from '@mui/icons-material/Close'
-import { useRevalidator } from 'react-router-dom'
+import { EditCateringModal } from './EditCateringModal'
 
 interface CateringTableProps {
     event: MainEvent
@@ -52,12 +55,6 @@ export const CateringTable: FC<CateringTableProps> = ({
     )
     const [deleting, setDeleting] = useState(false)
     const revalidator = useRevalidator()
-
-    function getRowId(catering: Catering) {
-        return catering.RecordID
-    }
-
-    // Handlers
 
     // Handle create modal
     const handleOpenCreate = () => setOpenCreate(true)
@@ -208,32 +205,15 @@ export const CateringTable: FC<CateringTableProps> = ({
     return (
         <>
             <Box className="  mb-4 flex flex-col">
-                <Box className=" flex flex-col mb-4">
+                <Box className=" flex justify-end mb-4">
                     <AddButton name={'Catering'} onClick={handleOpenCreate} />
-                    <CreateCateringModal
-                        open={openCreate}
-                        handleClose={handleCloseCreate}
-                        eventID={event.RecordID}
-                        fundingAccounts={fundingAccountMap}
-                    />
                 </Box>
                 <Box>
-                    <DataGrid
-                        rows={catering}
+                    <CustomDataGrid
                         columns={columns}
-                        getRowId={getRowId}
-                        autoHeight
-                        pageSizeOptions={[5, 10]}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 10 },
-                            },
-                        }}
-                        checkboxSelection
-                        sx={{
-                            '& .catering-table': {
-                                color: 'black',
-                            },
+                        rows={catering}
+                        getRowId={(c: Catering) => {
+                            return c.RecordID
                         }}
                     />
                 </Box>
@@ -252,6 +232,12 @@ export const CateringTable: FC<CateringTableProps> = ({
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleDeleteCatering}
                 deleting={deleting}
+            />
+            <CreateCateringModal
+                open={openCreate}
+                handleClose={handleCloseCreate}
+                eventID={event.RecordID}
+                fundingAccounts={fundingAccountMap}
             />
         </>
     )

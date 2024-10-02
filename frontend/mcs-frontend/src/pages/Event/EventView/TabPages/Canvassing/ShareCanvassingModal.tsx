@@ -2,8 +2,8 @@
 import React from 'react'
 import 'react-quill/dist/quill.snow.css'
 import { EmailComposerModal } from '../../../../../components'
-import { Academic, MainEvent, Speaker } from '../../../../../types/frontendTypes'
 import { generateEmailTemplateForCanvassing } from '../../../../../scripts/email/functions'
+import { Academic, MainEvent } from '../../../../../types/frontendTypes'
 
 interface ShareCanvassingModalProps {
     isOpen: boolean

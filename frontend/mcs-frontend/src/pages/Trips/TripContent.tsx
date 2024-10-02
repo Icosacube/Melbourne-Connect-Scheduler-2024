@@ -1,9 +1,13 @@
-import { Box, Button, Grid, Typography } from '@mui/material'
-import React, { FC, useEffect, useState } from 'react'
+import { Box, Grid, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import { ProfileHeaderCard, UploadButton } from '../../components'
 import { EventCard } from '../../components/EventCard/EventCard'
 import { getAccomByTripID } from '../../scripts/accommodation/functions'
 
+import {
+    defaultMainEvent,
+    getMainEventById,
+} from '../../scripts/event/functions'
 import { getFlightsByTripID } from '../../scripts/flight/functions'
 import {
     Accommodation,
@@ -17,10 +21,6 @@ import { CreateAccomModal } from './Accomodation/CreateAccomModal'
 import CreateCard from './CreateCard'
 import { CreateFlightModal } from './Flight/CreateFlightModal'
 import FlightCard from './Flight/FlightCard'
-import {
-    defaultMainEvent,
-    getMainEventById,
-} from '../../scripts/event/functions'
 
 interface TripContentProps {
     trip: TripType
@@ -140,10 +140,13 @@ export const TripContent: React.FC<TripContentProps> = ({ trip, speaker }) => {
             <Box className="w-1/4 space-y-6">
                 <Typography variant="h6">Main Event</Typography>
                 <EventCard event={event} />
-                <UploadButton link={
+                <UploadButton
+                    link={
                         process.env.REACT_APP_TRIP_ATTACHMENT_FORM +
                         trip.RecordID
-                    } name='Attachments'/>
+                    }
+                    name="Attachments"
+                />
             </Box>
         </Box>
     )

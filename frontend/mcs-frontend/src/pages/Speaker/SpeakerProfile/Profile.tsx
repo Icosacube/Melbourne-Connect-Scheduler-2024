@@ -1,7 +1,6 @@
+import { Box, Paper, Typography } from '@mui/material'
 import React from 'react'
-import { Box, Paper, Typography, Button } from '@mui/material'
-import { EmailContentCanvassing, ProfileHeaderCard } from '../../../components'
-import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox'
+import { ProfileHeaderCard } from '../../../components'
 import { Speaker } from '../../../types/frontendTypes'
 
 interface ProfileProps {
@@ -12,14 +11,6 @@ export const Profile: React.FC<ProfileProps> = ({ speaker }) => {
     const email = speaker.PrimaryEmail
     const phone = speaker.Phone
     const bio = speaker.Bio
-
-    // Email content
-    const recipientEmail = 'fhughes@stockton.edu.au'
-    const mailtoLink = EmailContentCanvassing({
-        recipientEmail: recipientEmail,
-        recipientTitle: 'Ms',
-        recipientName: 'Frances Haugen',
-    })
 
     return (
         <Box className="flex space-x-6">
@@ -53,20 +44,6 @@ export const Profile: React.FC<ProfileProps> = ({ speaker }) => {
                         </Typography>
                     </Box>
                 </Paper>
-
-                <Button
-                    startIcon={<ForwardToInboxIcon />}
-                    variant="contained"
-                    onClick={(e) => {
-                        window.location.href = mailtoLink
-                        e.preventDefault()
-                    }}
-                    className="p-6 text-lowercase bg-primary normal-case hover:bg-secondary text-black"
-                >
-                    <Typography className="font-bold">
-                        Availability Canvassing
-                    </Typography>
-                </Button>
             </Box>
         </Box>
     )

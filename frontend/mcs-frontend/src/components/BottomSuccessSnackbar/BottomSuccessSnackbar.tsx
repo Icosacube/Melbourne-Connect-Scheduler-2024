@@ -1,4 +1,4 @@
-import { Alert, Slide, Snackbar, SnackbarCloseReason } from '@mui/material'
+import { Alert, Snackbar } from '@mui/material'
 import React from 'react'
 
 interface Props {
