@@ -1,37 +1,29 @@
 import CloseIcon from '@mui/icons-material/Close'
 import SendIcon from '@mui/icons-material/Send'
 import { Box, Button, CircularProgress, Modal, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import {
-    BottomSuccessSnackbar,
-    FormInputMultiEmail,
-    FormInputText,
-    SubmitButton,
-} from '..'
+import { BottomSuccessSnackbar, FormInputText, SubmitButton } from '..'
 import { FormInputEmail } from '../FormComponents/FormInputEmail'
 import { sendEmail } from '../../scripts/email/functions'
-import CCBCCFields from './CCBCCField'
 
 interface EmailComposerModalProps {
     open: boolean
     onClose: () => void
     modalTitle?: string
     from?: string
-    to?: string[]
-    cc?: string[]
-    bcc?: string[]
+    to?: string
+    cc?: string
     subject?: string
     body?: string
 }
 
 interface EmailFormData {
     from: string
-    to: string[]
-    cc: string[]
-    bcc: string[]
+    to: string
+    cc: string
     subject: string
     body: string
 }
@@ -40,10 +32,9 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     open,
     onClose,
     modalTitle = 'Compose Email',
-    from = process.env.REACT_APP_SENDER_EMAIL || '',
-    to = [],
-    cc = [],
-    bcc = [],
+    from = '',
+    to = '',
+    cc = '',
     subject = '',
     body = '',
 }) => {
@@ -51,7 +42,6 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
         from,
         to,
         cc,
-        bcc,
         subject,
         body,
     })
@@ -66,30 +56,27 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
             from: emailData.from,
             to: emailData.to,
             cc: emailData.cc,
-            bcc: emailData.bcc,
             subject: emailData.subject,
             body: emailData.body,
         },
     })
-    const [sending, setSending] = useState(false)
-    const [showSuccess, setShowSuccess] = useState(false)
-    const [showError, setShowError] = useState(false)
-    const [showCC, setShowCC] = useState(false)
-    const [showBCC, setShowBCC] = useState(false)
+    const [sending, setSending] = React.useState(false)
+    const [showSuccess, setShowSuccess] = React.useState(false)
+    const [showError, setShowError] = React.useState(false)
 
     const onSubmit = async (data: EmailFormData) => {
         setSending(true)
-        const { from, to, cc, bcc, subject, body } = data
-        console.log('Email data:', data)
-        // const res = await sendEmail(from, to, cc, bcc, subject, body)
+        const { from, to, cc, subject, body } = data
 
-        // if (res.status === 200) {
-        //     setShowSuccess(true)
-        //     reset()
-        //     onClose()
-        // } else {
-        //     setShowError(true)
-        // }
+        const res = await sendEmail(from, to, cc, subject, body)
+        console.log('Email sent:', res.status)
+        if (res.status === 200) {
+            setShowSuccess(true)
+            reset()
+            onClose()
+        } else {
+            setShowError(true)
+        }
 
         setSending(false)
     }
@@ -133,7 +120,7 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
                                 flexDirection: 'column',
                                 paddingTop: '18px',
                             }}
-                            className="[&>*]:mb-5 [&>*:nth-child(2)]:mb-0 [&>*:nth-child(3)]:mb-0 pr-3"
+                            className="space-y-6"
                         >
                             <FormInputEmail
                                 name="from"
@@ -141,18 +128,16 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
                                 label="From"
                                 required
                             />
-                            <FormInputMultiEmail
+                            <FormInputEmail
+                                name="cc"
+                                control={control}
+                                label="Cc"
+                            />
+                            <FormInputEmail
                                 name="to"
                                 control={control}
                                 label="To"
                                 required
-                            />
-                            <CCBCCFields
-                                control={control}
-                                showCC={showCC}
-                                showBCC={showBCC}
-                                onToggleCC={() => setShowCC(!showCC)}
-                                onToggleBCC={() => setShowBCC(!showBCC)}
                             />
                             <FormInputText
                                 name="subject"
@@ -161,6 +146,7 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
                                 required
                                 hint={'Subject is required'}
                             />
+
                             <Controller
                                 name="body"
                                 control={control}

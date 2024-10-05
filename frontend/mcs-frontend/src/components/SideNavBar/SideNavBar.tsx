@@ -1,10 +1,9 @@
+
 import React, { useEffect } from 'react'
 import BarChartIcon from '@mui/icons-material/BarChart'
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports'
 import EventIcon from '@mui/icons-material/Event'
 import PeopleIcon from '@mui/icons-material/People'
-import LogoutIcon from '@mui/icons-material/Logout'
-import { useNavigate } from 'react-router-dom'
 import {
     Box,
     List,
@@ -21,7 +20,6 @@ import {
 import { NavLink } from 'react-router-dom'
 import { Logo1 } from '../../assets/logo1'
 import { Logo2 } from '../../assets/logo2'
-import { logout } from '../../scripts/authentication/auth'
 
 interface SideNavBarProps {
     isSidebarOpen: boolean
@@ -34,7 +32,7 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
 }) => {
     const theme = useTheme()
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
-    const navigate = useNavigate()
+
     useEffect(() => {
         if (isSmallScreen && isSidebarOpen) {
             toggleSidebar() // Automatically hide sidebar on small screens
@@ -47,13 +45,6 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
         { name: 'Speakers', url: '/speakers' },
         { name: 'Finance', url: '/finance' },
     ]
-
-    const handleLogout = async () => {
-        const success = await logout()
-        if (success) {
-            navigate('/login')
-        }
-    }
 
     function overviewTabsIcons(tabName: string): JSX.Element {
         switch (tabName) {
@@ -138,22 +129,6 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
                     ))}
                 </List>
             </Box>
-
-            <Button
-                variant="contained"
-                color='secondary'
-                startIcon={<LogoutIcon />}
-                onClick={handleLogout}
-                sx={{
-                    fontSize: 16,
-                    position: 'absolute',
-                    bottom: 16,
-                    left: 64,
-                    zIndex: 10,
-                }}
-            >
-                Logout
-            </Button>
         </Box>
     )
 }
