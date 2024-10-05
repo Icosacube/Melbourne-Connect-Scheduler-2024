@@ -19,6 +19,7 @@ function reformatSubEventRequestData(data: SubEvent): any {
         Completed: data.Completed,
         Speakers: data.Speakers,
         EndDate: data.EndDate.tz('Australia/Melbourne').utc().toISOString(),
+        Academics: data.Academics,
     }
     return subEvent
 }
@@ -42,6 +43,7 @@ function reformatSubEventResponseData(data: any): SubEvent {
         EndDate: data.EndDate
             ? dayjs(data.EndDate).utc().tz('Australia/Melbourne')
             : defaultSubEvent.EndDate,
+        Academics: data.Academics || defaultSubEvent.Academics,
     }
     return subEvent
 }
@@ -58,6 +60,7 @@ export const defaultSubEvent: SubEvent = {
     Completed: false,
     Speakers: [],
     EndDate: dayjs(),
+    Academics: [],
 }
 
 // Function to get all subevents for a main event
