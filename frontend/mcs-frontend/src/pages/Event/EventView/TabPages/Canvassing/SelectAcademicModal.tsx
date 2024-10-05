@@ -1,21 +1,24 @@
-import { Email } from '@mui/icons-material'
+import React, { useEffect, useState } from 'react'
 import {
-    Box,
-    Button,
+    Select,
+    MenuItem,
     FormControl,
     InputLabel,
-    MenuItem,
     Modal,
-    Paper,
-    Select,
+    Button,
+    Box,
     SelectChangeEvent,
+    Paper,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { EmailComposerModal } from '../../../../../components'
-import { getAcademicById } from '../../../../../scripts/academic/functions'
+import { Email } from '@mui/icons-material'
+import { EmailComposerModal, SubmitButton } from '../../../../../components'
+import { set } from 'react-hook-form'
 import { getCanvassingByEventId } from '../../../../../scripts/canvassing/functions'
+import { getAcademicById } from '../../../../../scripts/academic/functions'
 import { generateEmailTemplateForCanvassing } from '../../../../../scripts/email/functions'
 import { MainEvent } from '../../../../../types/frontendTypes'
+import { getMainEventById } from '../../../../../scripts/event/functions'
+import { get } from 'http'
 
 interface Academic {
     RecordID: string
@@ -125,8 +128,8 @@ const SelectAcademicModal: React.FC<SelectAcademicModalProps> = ({
                 onClose={handleEmailClose}
                 modalTitle="Draft email to speaker"
                 from={emailComposerData.from}
-                to={[emailComposerData.to]}
-                cc={[emailComposerData.cc]}
+                to={emailComposerData.to}
+                cc={emailComposerData.cc}
                 subject={emailComposerData.subject}
                 body={emailComposerData.body}
             />

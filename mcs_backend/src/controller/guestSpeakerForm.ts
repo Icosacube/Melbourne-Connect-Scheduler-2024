@@ -14,8 +14,7 @@ import {
     SpeakerForm,
     MainEventForm
 } from '../types/types';
-import {Cachekeys} from '../Enum/Cachekeys';
-import {getCache,setCache,deleteCache} from '../utils/caching';
+
 const router = express.Router();
 const speakerTable = String(process.env.SPEAKERS);
 const mainEventTable = String(process.env.MAINEVENT);
@@ -29,7 +28,6 @@ const eventFormUrl = String(process.env.EVENTFORMURL);
 // the speaker. 
 router.get('/speaker-event-form', async (req, res) => {
     try {
-      deleteCacheFrom();
       const empty = {fields: {"Confirmed": false}}
       const speakerId = await createRecord(speakerTable, [empty]);
       const mainEventId = await createRecord(mainEventTable, [empty]);
@@ -39,6 +37,7 @@ router.get('/speaker-event-form', async (req, res) => {
       purge(speakerTable);
       purge(mainEventTable);
       purge(speakerFormTable, true);
+
       res.send(url);
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
@@ -50,7 +49,6 @@ router.get('/speaker-event-form', async (req, res) => {
 // record id provided and return prefilled url 
 router.get('/speaker-event-form/:speaker_record_id/:main_event_record_id', async (req, res) => {
     try {
-      deleteCacheFrom();
       const { speaker_record_id, main_event_record_id } = req.params;
       const speaker = await getRecord(speakerTable, speaker_record_id);
       const mainEvent = await getRecord(mainEventTable, main_event_record_id);
@@ -63,7 +61,7 @@ router.get('/speaker-event-form/:speaker_record_id/:main_event_record_id', async
 
       fillList = fillList.concat(prefillFields(speaker, SpeakerForm));
       fillList = fillList.concat(prefillFields(mainEvent, MainEventForm));
- 
+
       let url = (baseUrl + fillList.join("&")).split(' ').join('+');
 
       res.send(url);
@@ -76,7 +74,6 @@ router.get('/speaker-event-form/:speaker_record_id/:main_event_record_id', async
 // Generate Empty record for Speaker and return a form url
 router.get('/speaker-form', async (req, res) => {
   try {
-    deleteCacheFrom();
     const empty = {fields: {"Confirmed": false}}
     const speakerId = await createRecord(speakerTable, [empty]);
 
@@ -96,7 +93,6 @@ router.get('/speaker-form', async (req, res) => {
 // provided and return prefilled url 
 router.get('/speaker-form/:speaker_record_id', async (req, res) => {
     try {
-      deleteCacheFrom();
       const { speaker_record_id} = req.params;
       const speaker = await getRecord(speakerTable, speaker_record_id);
 
@@ -121,7 +117,6 @@ router.get('/speaker-form/:speaker_record_id', async (req, res) => {
 // attached  
 router.get('/event-form/:speaker_record_id', async (req, res) => {
   try {
-    deleteCacheFrom();
     const { speaker_record_id } = req.params;
     const empty = {fields: {"Confirmed": false}}
     const mainEventId = await createRecord(mainEventTable, [empty]);
@@ -142,7 +137,6 @@ router.get('/event-form/:speaker_record_id', async (req, res) => {
 // provided and return prefilled url 
 router.get('/event-form/:speaker_record_id/:main_event_record_id', async (req, res) => {
     try {
-      deleteCacheFrom();
       const { speaker_record_id, main_event_record_id } = req.params;
       const mainEvent = await getRecord(mainEventTable, main_event_record_id);
 
@@ -203,12 +197,5 @@ function prefillFields(fields : Map<string, any>, e : any) : Array<string>{
   }
   return fillList;
 }
-const deleteCacheFrom=()=>{
-  if (getCache(Cachekeys.SPEAKERS)){
-    deleteCache(Cachekeys.SPEAKERS)
-  }
-  if (getCache(Cachekeys.MAINEVENTS)){
-    deleteCache(Cachekeys.MAINEVENTS)
-  }
-}
+
 module.exports = router;

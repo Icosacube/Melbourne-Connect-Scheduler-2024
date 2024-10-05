@@ -71,7 +71,7 @@ router.post("/login", async (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "strict",
-      maxAge: 24 * 60 * 60 * 7 * 1000,
+      maxAge: 24 * 60 * 60 * 7,
     });
 
     setCache(Cachekeys.USER, {
@@ -94,7 +94,7 @@ router.post("/login", async (req, res) => {
 //refresh token
 router.post("/login/refresh-token", (req, res) => {
   const refreshToken = req.cookies.refreshToken;
-  console.log("refreshToken----------------------------",refreshToken)
+
   if (!refreshToken) {
     return res.status(403).json({ message: "Refresh token not provided" });
   }
