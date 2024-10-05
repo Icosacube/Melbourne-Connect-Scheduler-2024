@@ -9,9 +9,11 @@ interface loginResponse {
 
 export const login = async (username: string, password: string) => {
     try {
+        await authGuard();
         const res = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_API_PATH}`,
-            { username: username, password: password }
+            { username: username, password: password },
+            { withCredentials: true }
         )
 
         if (res.status !== 200) {
@@ -76,6 +78,7 @@ export const refresh = async () => {
         setCookie('login', token, { expires: date })
 
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        window.location.reload();
     } catch (error) {
         console.error(error)
     }
@@ -92,7 +95,7 @@ export const authGuard = async () => {
     } else {
         // if login expire, try to refresh
         try {
-            refresh() // why isn't the cookie sending??
+            await refresh() // why isn't the cookie sending??
             return true
         } catch (error) {
             console.error(error)
@@ -108,23 +111,28 @@ export const logout = async () => {
         const token = getCookie('login')
 
         if (!token) {
-            console.log('No user logged in')
-            return
+            console.log('No user logged in');
+            return false; 
         }
 
         const res = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGOUT_API_PATH}`,
-            { username }
-        )
+            { username },
+            { withCredentials: true }
+        );
 
         if (res.status === 200) {
-            deleteCookie('login')
-            deleteCookie('username')
-            console.log('User logged out successfully!')
+            deleteCookie('login');
+            deleteCookie('username');
+            console.log('User logged out successfully!');
+            return true;
         } else {
-            console.log('Logout failed: ', res.statusText)
+            console.log('Logout failed: ', res.statusText);
+            return false;
         }
     } catch (error) {
-        console.error('Error during logout:', error)
+        console.error('Error during logout:', error);
+        return false;
+
     }
 }

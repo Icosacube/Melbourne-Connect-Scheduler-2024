@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { FormInputPassword, FormInputText } from '../../components'
 import { login } from '../../scripts/authentication/auth'
-
+import { ProgressSpinner } from '../../components'
 interface UserCredentials {
     username: string
     password: string
@@ -28,29 +28,33 @@ export const Login: FC = () => {
 
     return (
         <Grid container spacing={0} direction="column" alignItems="center">
-            <Stack component="form" className="space-y-8">
-                <Typography variant="h4">Login</Typography>
-                <FormInputText
-                    name={'username'}
-                    control={control}
-                    label={'Username'}
-                    required={true}
-                />
-                <FormInputPassword
-                    name={'password'}
-                    control={control}
-                    label={'Password'}
-                    required={true}
-                />
-                <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-                    Login
-                </Button>
-            </Stack>
-            <Stack>
-                <Typography className="pt-10">
-                    No account? Register <Link href="/register">here</Link>
-                </Typography>
-            </Stack>
+            {submitting ? ( 
+                <ProgressSpinner />
+            ) : (
+                <Stack component="form" className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
+                    <Typography variant="h4">Login</Typography>
+                    <FormInputText
+                        name={'username'}
+                        control={control}
+                        label={'Username'}
+                        required={true}
+                    />
+                    <FormInputPassword
+                        name={'password'}
+                        control={control}
+                        label={'Password'}
+                        required={true}
+                    />
+                    <Button variant="contained" type="submit">
+                        Login
+                    </Button>
+                    <Stack>
+                        <Typography className="pt-10">
+                            No account? Register <Link href="/register">here</Link>
+                        </Typography>
+                    </Stack>
+                </Stack>
+            )}
         </Grid>
     )
 }
