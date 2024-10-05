@@ -111,6 +111,7 @@ export type SubEvent = {
   MainEvent: string[];
   Speakers: string[];
   EndDate: string;
+  Academics: string[];
 };
 
 export type Academic = {
