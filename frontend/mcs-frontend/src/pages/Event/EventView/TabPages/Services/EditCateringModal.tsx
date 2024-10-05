@@ -11,6 +11,7 @@ import {
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
+    FormButtonGroup,
 } from '../../../../../components/'
 import { Catering } from '../../../../../types/frontendTypes'
 import { updateCateringByID } from '../../../../../scripts/catering/functions'
@@ -138,13 +139,12 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                                 label="Description"
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                                disabled={isSubmitDisabled()}
-                            />
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>

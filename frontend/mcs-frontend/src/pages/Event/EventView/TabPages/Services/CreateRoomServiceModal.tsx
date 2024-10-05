@@ -10,6 +10,7 @@ import {
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
+    FormButtonGroup,
 } from '../../../../../components/'
 import { Service } from '../../../../../types/frontendTypes'
 import { createRoomService } from '../../../../../scripts/roomServices/functions'
@@ -133,13 +134,12 @@ export const CreateRoomServiceModal: React.FC<CreateRoomServiceModalProps> = ({
                                 label="Notes"
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                                disabled={isSubmitDisabled()}
-                            />
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>
