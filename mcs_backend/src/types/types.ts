@@ -1,7 +1,7 @@
 export enum PresetFilter {
   completed = '( {Completed} = FALSE() )',
-  confirmed = "( {Confirmed} = TRUE() )",
-  notConfirmed = "( {Confirmed} = FALSE() )",
+  confirmed = '( {Confirmed} = TRUE() )',
+  notConfirmed = '( {Confirmed} = FALSE() )',
 }
 
 export type Creation = {
@@ -88,7 +88,8 @@ export type MainEvent = {
   EventDescription: string;
   EventbriteLink: string;
   EventBanner: string | any[]; // string: url to publicly accessible photos (google drive etc); any[] for receive
-  Date: string; // Example Format: "2024-04-30"
+  StartDate: string; // Example Format: "2024-04-30"
+  EndDate: string; // Example Format: "2024-04-30"
   Notes: string;
   Speaker: string[];
   GuestAcademic: string[];
@@ -111,15 +112,13 @@ export type SubEvent = {
   Speakers: string[];
   EndDate: string;
 };
-    
-
 
 export type Academic = {
   Email: string;
   Name: string;
   MainEvent: string[];
   Canvassing: string[];
-  CanvassingAvailable:string[];
+  CanvassingAvailable: string[];
 };
 
 export type Accommodation = {
@@ -172,7 +171,7 @@ export type Venue = {
   Notes: string;
   FundingAccount: string[];
   MainEvent: string[];
-  Canvassing:string[];
+  Canvassing: string[];
 };
 
 export type Catering = {
@@ -213,48 +212,48 @@ export type Canvassing = {
   StartTime: string;
   EndTime: string;
   Academic: string[];
-  MainEvent:string[];
-  AvailableAcademic:String[];
-  Venue:String[];
+  MainEvent: string[];
+  AvailableAcademic: String[];
+  Venue: String[];
 };
 
-export type ExecutiveAssistant ={
-  username: string;         
-  password: string;          
-  lastLoginTime: string;      
-  refreshToken: string;                
-}
+export type ExecutiveAssistant = {
+  username: string;
+  password: string;
+  lastLoginTime: string;
+  refreshToken: string;
+};
 
 export enum SpeakerForm {
-  id = "speakerID",
-  PrimaryEmail = "Email",
-  FirstName = "First Name",
-  LastName = "Last Name",
-  Pronouns = "Pronouns",
-  Title = "Title",
-  AlternativeTitle = "Alternative Title",
-  Phone = "Phone",
-  Bio = "Bio",
-  PreferredTimezone = "Preferred Timezone",
-  Category = "Category",
-  Area = "Area",
-  WorkTitle = "Work Title",
-  Organisation = "Organisation",
-  Department = "Department",
-  Address = "Address",
-  CitySuburb = "City / Suburb",
-  State = "State",
-  Country = "Country",
-  Postcode = "Postcode",
-  EmergencyContactName = "Emergency Contact Name",
-  EmergencyContactRelationship = "Emergency Contact Relationship",
-  EmergencyContactNumber = "Emergency Contact Number",
-  FlyerMembershipName = "Flyer Membership Name",
-  FlyerMembershipNumber = "Flyer Membership Number",
-};
+  id = 'speakerID',
+  PrimaryEmail = 'Email',
+  FirstName = 'First Name',
+  LastName = 'Last Name',
+  Pronouns = 'Pronouns',
+  Title = 'Title',
+  AlternativeTitle = 'Alternative Title',
+  Phone = 'Phone',
+  Bio = 'Bio',
+  PreferredTimezone = 'Preferred Timezone',
+  Category = 'Category',
+  Area = 'Area',
+  WorkTitle = 'Work Title',
+  Organisation = 'Organisation',
+  Department = 'Department',
+  Address = 'Address',
+  CitySuburb = 'City / Suburb',
+  State = 'State',
+  Country = 'Country',
+  Postcode = 'Postcode',
+  EmergencyContactName = 'Emergency Contact Name',
+  EmergencyContactRelationship = 'Emergency Contact Relationship',
+  EmergencyContactNumber = 'Emergency Contact Number',
+  FlyerMembershipName = 'Flyer Membership Name',
+  FlyerMembershipNumber = 'Flyer Membership Number',
+}
 
 export enum MainEventForm {
-  id = "mainID",
-  EventName = "Event Name",
-  EventAbstract = "Event Abstract",
-};
+  id = 'mainID',
+  EventName = 'Event Name',
+  EventAbstract = 'Event Abstract',
+}

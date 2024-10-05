@@ -1,9 +1,8 @@
 import { Button, Grid, Link, Stack, Typography } from '@mui/material'
-import React, { FC, useState } from 'react'
-import { FormInputPassword, FormInputText } from '../../components'
+import { FC } from 'react'
 import { useForm } from 'react-hook-form'
-import { redirect } from 'react-router'
 import { useNavigate } from 'react-router-dom'
+import { FormInputPassword, FormInputText } from '../../components'
 import { login } from '../../scripts/authentication/auth'
 import { ProgressSpinner } from '../../components'
 interface UserCredentials {
@@ -12,20 +11,17 @@ interface UserCredentials {
 }
 
 export const Login: FC = () => {
-    const { handleSubmit, reset, control, watch } = useForm<UserCredentials>()
+    const { handleSubmit, reset, control } = useForm<UserCredentials>()
 
-    const [submitting, setSubmitting] = useState(false)
     const navigate = useNavigate()
 
     const onSubmit = async (data: UserCredentials) => {
-        setSubmitting(true)
         try {
             await login(data.username, data.password)
             navigate('/dashboard')
         } catch (error) {
             console.error(error)
         } finally {
-            setSubmitting(false)
             reset()
         }
     }

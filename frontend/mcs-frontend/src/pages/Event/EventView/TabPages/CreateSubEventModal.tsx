@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react'
 import { Grid, Modal, Paper, Typography } from '@mui/material'
-import { useForm } from 'react-hook-form'
 import dayjs, { Dayjs } from 'dayjs'
-import { AxiosResponse } from 'axios'
-import { MainEvent, SubEvent, Speaker } from '../../../../types/frontendTypes'
-import { createSubEvent } from '../../../../scripts/subevent/functions'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import {
-    FormInputText,
-    FormInputDateTime,
-    SubmitButton,
-    FormInputTextLong,
     BottomSuccessSnackbar,
+    FormInputDateTime,
     FormInputMultiAutocomplete,
+    FormInputText,
+    FormInputTextLong,
+    SubmitButton,
 } from '../../../../components/'
+import { createSubEvent } from '../../../../scripts/subevent/functions'
+import { MainEvent, Speaker, SubEvent } from '../../../../types/frontendTypes'
 
 interface CreateSubEventModalProps {
     handleClose: () => void
@@ -62,7 +61,7 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
         setSubmitting(true)
         try {
             data.MainEvent.push(event.RecordID)
-            const newSubEvent: SubEvent = await createSubEvent(data)
+            await createSubEvent(data)
             setShowSuccess(true)
             onSubEventCreation()
         } catch (error) {

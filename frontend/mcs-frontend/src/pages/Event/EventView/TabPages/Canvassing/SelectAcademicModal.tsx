@@ -37,7 +37,6 @@ const SelectAcademicModal: React.FC<SelectAcademicModalProps> = ({
     const [selectedAcademic, setSelectedAcademic] = useState<string>('')
     const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
     const [academics, setAcademics] = useState<Academic[]>([])
-    const [submitted, setSubmitted] = useState(false)
     const [emailComposerData, setEmailComposerData] = useState({
         from: '',
         to: '',
@@ -53,10 +52,6 @@ const SelectAcademicModal: React.FC<SelectAcademicModalProps> = ({
 
     const handleEmailOpen = () => {
         setIsEmailModalOpen(true)
-    }
-
-    const handleSubmit = () => {
-        setSubmitted(true)
     }
 
     const handleChange = (event: SelectChangeEvent<string>) => {

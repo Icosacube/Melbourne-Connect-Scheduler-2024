@@ -49,7 +49,7 @@ class MainEvent {
             this.venue = value as string;
             break;
           default:
-            console.log("unknown value " + key);
+            // console.log("unknown value " + key);
         }
       }
     }

@@ -1,7 +1,6 @@
 import axios from 'axios'
-import cookie from 'cookie'
+import { redirect } from 'react-router-dom'
 import { deleteCookie, getCookie, setCookie } from '../cookie/function'
-import { redirect } from "react-router-dom";
 interface loginResponse {
     username: string
     accessToken: string
@@ -65,7 +64,7 @@ export const refresh = async () => {
         const res = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_REFRESH_API_PATH}`,
             null,
-            { withCredentials: true } 
+            { withCredentials: true }
         )
 
         const data = res.data as loginResponse
@@ -99,18 +98,17 @@ export const authGuard = async () => {
             await refresh() // why isn't the cookie sending??
             return true
         } catch (error) {
-            
-            console.error(error);
-            return redirect("/login");
+            console.error(error)
+            return redirect('/login')
         }
     }
 }
 
 export const logout = async () => {
     try {
-        const username = getCookie('username');
-        console.log('username', username);
-        const token = getCookie('login'); 
+        const username = getCookie('username')
+        console.log('username', username)
+        const token = getCookie('login')
 
         if (!token) {
             console.log('No user logged in');
@@ -135,6 +133,6 @@ export const logout = async () => {
     } catch (error) {
         console.error('Error during logout:', error);
         return false;
-    }
-};
 
+    }
+}

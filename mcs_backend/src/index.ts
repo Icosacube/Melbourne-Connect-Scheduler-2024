@@ -28,7 +28,9 @@ const app = express();
 
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ["http://swen2024mc.eng.unimelb.edu.au",
+            "http://client",
+            "http://localhost"],
   credentials: true
 }));
 

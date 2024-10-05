@@ -2,7 +2,7 @@ import * as React from 'react'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers'
 import { FormInputProps } from './FormInputProps'
 import { Controller } from 'react-hook-form'
 
@@ -11,7 +11,7 @@ export const FormInputDateTime = ({ name, control, label }: FormInputProps) => {
         <Controller
             name={name}
             control={control}
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
                         label={label}
@@ -22,9 +22,14 @@ export const FormInputDateTime = ({ name, control, label }: FormInputProps) => {
                         viewRenderers={{
                             hours: renderTimeViewClock,
                             minutes: renderTimeViewClock,
-                          }}
+                        }}
                         slotProps={{
-                            textField: { fullWidth: true, size: 'small' },
+                            textField: {
+                                fullWidth: true,
+                                size: 'small',
+                                error: !!error,
+                                helperText: error?.message,
+                            },
                         }}
                     />
                 </LocalizationProvider>

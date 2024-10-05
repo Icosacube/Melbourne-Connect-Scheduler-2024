@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import dayjs from 'dayjs'
 import React, { FC } from 'react'
@@ -18,6 +18,7 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
         {
             field: 'ExpenseDate',
             headerName: 'Expense Date',
+            headerClassName: 'table-header',
             width: 150,
             renderCell: (params: GridRenderCellParams) => {
                 if (params.row.isGroup) {
@@ -38,17 +39,29 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
                 return 1
             },
         },
-        { field: 'ExpenseCategory', headerName: 'Category', width: 150 },
+        {
+            field: 'ExpenseCategory',
+            headerName: 'Category',
+            headerClassName: 'table-header',
+            width: 150,
+        },
         {
             field: 'ExpenseDescription',
             headerName: 'Description',
+            headerClassName: 'table-header',
             width: 300,
             flex: 1,
         },
-        { field: 'FundingAccount', headerName: 'Funding Account', width: 200 },
+        {
+            field: 'FundingAccount',
+            headerName: 'Funding Account',
+            headerClassName: 'table-header',
+            width: 200,
+        },
         {
             field: 'Cost',
             headerName: 'Cost',
+            headerClassName: 'table-header',
             width: 150,
             type: 'number',
             renderCell: (params: GridRenderCellParams) => {
@@ -65,7 +78,12 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
                 return params.row.Cost
             },
         },
-        { field: 'MainEventName', headerName: 'Event Name', width: 200 },
+        {
+            field: 'MainEventName',
+            headerName: 'Event Name',
+            headerClassName: 'table-header',
+            width: 200,
+        },
     ]
     // Function to add group headers to the finance records
     function addGroupHeaders(records: FinanceRow[]): FinanceRow[] {
@@ -119,62 +137,76 @@ export const FinanceTable: FC<FinanceTableProps> = ({ rows }) => {
     console.log(rowsWithGroups)
 
     return (
-        <DataGrid
-            rows={rowsWithGroups}
-            columns={columns}
-            getRowId={(row) => row.RecordID}
-            getRowHeight={() => 'auto'}
-            initialState={{
-                pagination: {
-                    paginationModel: { page: 0 },
-                },
-                columns: {
-                    columnVisibilityModel: {
-                        MainEventName: false,
-                    },
-                },
-            }}
-            slots={{ toolbar: CustomToolbarWithGroups }}
-            slotProps={{
-                filterPanel: {
-                    sx: {
-                        '& .MuiDataGrid-filterForm': {
-                            paddingY: '1.5rem',
-                            paddingLeft: '0',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginLeft: '0.125rem',
-                        },
-                        '& .MuiFormControl-root': { marginRight: '0.5rem' },
-                    },
-                },
-            }}
-            getRowClassName={(params) =>
-                params.row.isGroup ? 'group-row' : 'data-row'
-            }
-            disableColumnSorting
+        <Box
+            className="shadow-md rounded-lg"
             sx={{
-                '& .MuiDataGrid-columnHeaders': {
-                    backgroundColor: '#1d6f42',
-                },
-                '& .MuiDataGrid-columnHeaderTitle': {
-                    fontWeight: 'bold',
-                },
-                '& .MuiDataGrid-row': {
-                    borderBottom: '1px solid rgba(224, 224, 224, 1)',
-                },
-                '& .MuiDataGrid-cell': {
-                    padding: '8px',
-                    whiteSpace: 'nowrap', // Prevent text wrapping
-                },
-                '& .group-row .MuiDataGrid-cell': {
-                    backgroundColor: '#e0e0e0',
-                    fontSize: '1rem',
-                    fontWeight: 'bold',
-                    whiteSpace: 'normal', // Allow the group row to wrap if needed
-                },
+                backgroundColor: 'background.paper',
+                width: '100%',
+                height: '75vh',
             }}
-        />
+        >
+            <DataGrid
+                rows={rowsWithGroups}
+                columns={columns}
+                getRowId={(row) => row.RecordID}
+                getRowHeight={() => 'auto'}
+                initialState={{
+                    pagination: {
+                        paginationModel: { page: 0, pageSize: 10 },
+                    },
+                    columns: {
+                        columnVisibilityModel: {
+                            MainEventName: false,
+                        },
+                    },
+                }}
+                slots={{ toolbar: CustomToolbarWithGroups }}
+                slotProps={{
+                    filterPanel: {
+                        sx: {
+                            '& .MuiDataGrid-filterForm': {
+                                paddingY: '1.5rem',
+                                paddingLeft: '0',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                marginLeft: '0.125rem',
+                            },
+                            '& .MuiFormControl-root': { marginRight: '0.5rem' },
+                        },
+                    },
+                    baseButton: {
+                        sx: {
+                            color: 'text.primary',
+                            '&:hover': {
+                                textDecoration: 'underline',
+                            },
+                        },
+                    },
+                }}
+                getRowClassName={(params) =>
+                    params.row.isGroup ? 'group-row' : 'data-row'
+                }
+                disableColumnSorting
+                sx={{
+                    '& .table-header': {
+                        backgroundColor: 'secondary.main',
+                        color: 'black',
+                    },
+                    '& .MuiDataGrid-row': {
+                        borderBottom: '1px solid rgba(224, 224, 224, 1)',
+                    },
+                    '& .MuiDataGrid-cell': {
+                        padding: '8px',
+                    },
+                    '& .group-row .MuiDataGrid-cell': {
+                        backgroundColor: '#E5E4E2',
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
+                        whiteSpace: 'normal', // Allow the group row to wrap if needed
+                    },
+                }}
+            />
+        </Box>
     )
 }

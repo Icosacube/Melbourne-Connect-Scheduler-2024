@@ -1,11 +1,11 @@
 import { Box } from '@mui/material'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
-import { Profile } from './Profile'
+import { PageTopNavBar } from '../../../components'
 import { Speaker as SpeakerType } from '../../../types/frontendTypes'
 import { BodyLayout } from '../../Layout/BodyLayout'
-import { PageTopNavBar } from '../../../components'
-import { EditSpeakerModal } from './EditSpeakerModal'
+import { SpeakerFormModal } from '../SpeakerFormModal'
+import { Profile } from './Profile'
 
 export const Speaker: FC = () => {
     const speaker = useLoaderData() as SpeakerType
@@ -30,9 +30,10 @@ export const Speaker: FC = () => {
                 />
                 <BodyLayout content={<Profile speaker={speaker} />} />
             </Box>
-            <EditSpeakerModal
+            <SpeakerFormModal
                 open={isEditModalOpen}
                 handleClose={closeEditModal}
+                variant="edit"
                 speaker={speaker}
             />
         </>

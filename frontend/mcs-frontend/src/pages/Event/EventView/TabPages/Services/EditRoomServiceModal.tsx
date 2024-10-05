@@ -41,7 +41,7 @@ export const EditRoomServiceModal: React.FC<EditRoomServiceModalProps> = ({
     roomService,
     fundingAccounts,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Service>({
+    const { handleSubmit, reset, control, watch } = useForm<Service>({
         defaultValues: roomService || EditRoomServiceFormDefaultValues,
     })
     const revalidator = useRevalidator()
@@ -71,6 +71,11 @@ export const EditRoomServiceModal: React.FC<EditRoomServiceModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+
+    const isSubmitDisabled = () => {
+        const description = watch('ServiceDescription')
+        return !description
+    }
 
     return (
         <>
@@ -133,6 +138,7 @@ export const EditRoomServiceModal: React.FC<EditRoomServiceModalProps> = ({
                             <SubmitButton
                                 submitting={submitting}
                                 onClick={handleSubmit(onSubmit)}
+                                disabled={isSubmitDisabled()}
                             />
                         </Grid>
                     </Grid>

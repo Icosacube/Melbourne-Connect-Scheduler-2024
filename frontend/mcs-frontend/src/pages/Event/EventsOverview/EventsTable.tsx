@@ -1,11 +1,10 @@
-import { DataGrid } from '@mui/x-data-grid'
-import React, { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
-import type { GridColDef } from '@mui/x-data-grid'
-import { MainEvent, Speaker } from '../../../types/frontendTypes'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import PendingIcon from '@mui/icons-material/Pending'
-import { CustomToolbar } from '../../../components'
+import type { GridColDef } from '@mui/x-data-grid'
+import { FC } from 'react'
+import { CustomDataGrid } from '../../../components/DataGrid/CustomDataGrid'
+import { MainEvent, Speaker } from '../../../types/frontendTypes'
+import { Dayjs } from 'dayjs'
 
 interface EventsTableProps {
     events: MainEvent[]
@@ -13,28 +12,24 @@ interface EventsTableProps {
 }
 
 export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
-    const navigate = useNavigate()
-    const handleRowClick = (params: { row: MainEvent }) => {
-        navigate(`/event/${params.row.RecordID}`)
-    }
-
     function getRowId(event: MainEvent) {
         return event.RecordID
     }
 
     const columns: GridColDef<MainEvent>[] = [
         {
-            field: 'Date',
-            headerName: 'Date',
-            headerClassName: 'event-table',
+            field: 'StartDate',
+            headerName: 'Start Date',
             minWidth: 160,
             maxWidth: 200,
-            renderCell: (params) => params.value.format('DD/MM/YYYY, HH:MM'),
+            type: 'date',
+            valueGetter: (value: Dayjs) => {
+                return value.toDate()
+            },
         },
         {
             field: 'EventName',
             headerName: 'Event Name',
-            headerClassName: 'event-table',
             flex: 2,
             minWidth: 200,
             maxWidth: 1200,
@@ -42,7 +37,6 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
         {
             field: 'Speaker',
             headerName: 'Speaker',
-            headerClassName: 'event-table',
             flex: 1,
             minWidth: 200,
             maxWidth: 600,
@@ -65,7 +59,6 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
         {
             field: 'Completed',
             headerName: 'Status',
-            headerClassName: 'event-table',
             width: 72,
             align: 'center',
             renderCell: (params) => {
@@ -85,47 +78,11 @@ export const EventsTable: FC<EventsTableProps> = ({ events, speakers }) => {
     ]
 
     return (
-        <DataGrid
-            rows={events}
+        <CustomDataGrid
             columns={columns}
+            rows={events}
             getRowId={getRowId}
-            pageSizeOptions={[5, 10]}
-            initialState={{
-                pagination: {
-                    paginationModel: { page: 0, pageSize: 10 },
-                },
-            }}
-            slots={{ toolbar: CustomToolbar }}
-            slotProps={{
-                filterPanel: {
-                    sx: {
-                        '& .MuiDataGrid-filterForm': {
-                            paddingY: '1.5rem',
-                            paddingLeft: '0',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginLeft: '0.125rem',
-                        },
-                        '& .MuiFormControl-root': { marginRight: '0.5rem' },
-                    },
-                },
-            }}
-            checkboxSelection
-            sx={{
-                '& .event-table': {
-                    backgroundColor: '#FBE418',
-                    color: 'black',
-                },
-                '.MuiDataGrid-columnHeaderTitleContainer': {
-                    backgroundColor: '#FBE418',
-                },
-                // '& .MuiDataGrid-toolbarContainer': {
-                //     backgroundColor: '#FBE418',
-                //     color: 'black',
-                // },
-            }}
-            onRowClick={handleRowClick}
+            rowNavigationPath="/event"
         />
     )
 }

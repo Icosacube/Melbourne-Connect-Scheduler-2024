@@ -1,6 +1,11 @@
 import axios, { AxiosResponse } from 'axios'
 import { Catering } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Function to reformat catering request data
 function reformatCateringRequestData(data: Catering): any {
@@ -8,7 +13,10 @@ function reformatCateringRequestData(data: Catering): any {
         BookingReference: data.BookingReference,
         Description: data.Description,
         Cost: parseFloat(String(data.Cost)),
-        ExpenseDate: dayjs(data.ExpenseDate).format('YYYY-MM-DD'),
+        ExpenseDate: dayjs(data.ExpenseDate)
+            .tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DD'),
         FundingAccount: data.FundingAccount,
         MainEvent: data.MainEvent,
         Finance: data.Finance,
@@ -26,7 +34,7 @@ function reformatCateringResponseData(data: any): Catering {
         Description: data.Description || defaultCatering.Description,
         Cost: data.Cost || defaultCatering.Cost,
         ExpenseDate: data.ExpenseDate
-            ? dayjs(data.ExpenseDate)
+            ? dayjs(data.ExpenseDate).utc().tz('Australia/Melbourne')
             : defaultCatering.ExpenseDate,
         FundingAccount: data.FundingAccount || defaultCatering.FundingAccount,
         MainEvent: data.MainEvent || defaultCatering.MainEvent,

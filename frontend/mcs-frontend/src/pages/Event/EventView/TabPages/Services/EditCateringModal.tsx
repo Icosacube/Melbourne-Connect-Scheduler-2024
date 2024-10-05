@@ -41,7 +41,7 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
     catering,
     fundingAccounts,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Catering>({
+    const { handleSubmit, reset, control, watch } = useForm<Catering>({
         defaultValues: catering || EditCateringFormDefaultValues,
     })
     const revalidator = useRevalidator()
@@ -71,6 +71,11 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+
+    const isSubmitDisabled = () => {
+        const description = watch('Description')
+        return !description
+    }
 
     return (
         <>
@@ -137,6 +142,7 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                             <SubmitButton
                                 submitting={submitting}
                                 onClick={handleSubmit(onSubmit)}
+                                disabled={isSubmitDisabled()}
                             />
                         </Grid>
                     </Grid>

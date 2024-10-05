@@ -3,9 +3,8 @@ import React, { FC } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { AddButton } from '../../../components'
 import { MainEvent, Speaker, Venue } from '../../../types/frontendTypes'
-import { CreateEventModal } from './CreateEventModal'
+import EventFormModal from '../EventFormModal'
 import { EventsTable } from './EventsTable'
-import EventsWidgets from './EventsWidgets'
 
 export const Events: FC = () => {
     const { events, speakers, venues } = useLoaderData() as {
@@ -22,14 +21,15 @@ export const Events: FC = () => {
             <Box className="  mb-4 flex flex-col">
                 <Box className=" flex flex-col">
                     <AddButton name={'Event'} onClick={handleOpen} />
-                    <CreateEventModal
+
+                    <EventFormModal
                         open={open}
                         handleClose={handleClose}
+                        speakers={speakers}
                         venues={venues}
+                        variant="create"
                     />
                 </Box>
-
-                <EventsWidgets />
             </Box>
             <Box className="w-full bg-white shadow-md">
                 <EventsTable events={events} speakers={speakers} />

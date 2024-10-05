@@ -39,7 +39,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
     eventID,
     fundingAccounts,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Catering>({
+    const { handleSubmit, reset, control, watch } = useForm<Catering>({
         defaultValues: CreateCateringFormDefaultValues,
     })
 
@@ -65,6 +65,11 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
     const onClose = () => {
         handleClose()
         reset()
+    }
+
+    const isSubmitDisabled = () => {
+        const description = watch('Description')
+        return !description
     }
 
     const [showSuccess, setShowSuccess] = useState(false)
@@ -129,12 +134,14 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
                                 name="Description"
                                 control={control}
                                 label="Description"
+                                required={true}
                             />
                         </Grid>
                         <Grid item xs={12} container justifyContent="flex-end">
                             <SubmitButton
                                 submitting={submitting}
                                 onClick={handleSubmit(onSubmit)}
+                                disabled={isSubmitDisabled()}
                             />
                         </Grid>
                     </Grid>

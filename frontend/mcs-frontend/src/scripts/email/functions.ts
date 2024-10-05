@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosError } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { MainEvent, Speaker } from '../../types/frontendTypes'
 
 interface Academic {
@@ -22,6 +22,7 @@ export async function sendEmail(
                 from,
                 to,
                 cc,
+                bcc,
                 subject,
                 content,
             }
@@ -166,9 +167,9 @@ export function generateBatchEmailForCanvassing(event: MainEvent) {
                 }.
             </p>
             <p>
-                The event will be held on ${event.Date.format(
+                The event will be held on ${event.StartDate.format(
                     'dddd, MMMM D, YYYY'
-                )} at ${event.Date.format('h:mm A')}.
+                )} at ${event.StartDate.format('h:mm A')}.
             </p>
             <p>
                 Please click the link below to view the event details and sign up for a canvassing slot:
@@ -209,9 +210,9 @@ export function generateEmailTemplateForCanvassing(
                 }.
             </p>
             <p>
-                The event will be held on ${event.Date.format(
+                The event will be held on ${event.StartDate.format(
                     'dddd, MMMM D, YYYY'
-                )} at ${event.Date.format('h:mm A')}.
+                )} at ${event.StartDate.format('h:mm A')}.
             </p>
             <p>
                 Please click the link below to view the event details and sign up for a canvassing slot:
@@ -241,8 +242,8 @@ export function generateEmailTemplateFromEvents(
     console.log(speaker)
 
     // Format the date using dayjs
-    const formattedDate = event.Date.format('dddd, MMMM D, YYYY')
-    const formattedTime = event.Date.format('h:mm A')
+    const formattedDate = event.StartDate.format('dddd, MMMM D, YYYY')
+    const formattedTime = event.StartDate.format('h:mm A')
     const speakerDetails = [
         speaker?.WorkTitle,
         speaker?.Department,

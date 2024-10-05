@@ -1,13 +1,13 @@
+import { Badge, Grid, Paper, Typography } from '@mui/material'
+import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
-import { Badge, Box, Grid, Paper, Typography } from '@mui/material'
 import { CanvassingResultsCalendar } from '../../../../../components'
-import { CanvassingResultsFCSidebar } from './CanvassingResultsFCSidebar'
 import {
     Canvassing,
     MainEvent,
     Speaker,
 } from '../../../../../types/frontendTypes'
-import dayjs from 'dayjs'
+import { CanvassingResultsFCSidebar } from './CanvassingResultsFCSidebar'
 
 interface CanvassingResultsProps {
     event: MainEvent
@@ -128,9 +128,8 @@ export const CanvassingResultsFC: React.FC<CanvassingResultsProps> = ({
                     selectedSlot={selectedSlot}
                     academicMap={academicMap}
                 />
-                
             </Grid>
-            
+
             <Grid item xs={12} md={8} lg={9}>
                 <Paper sx={{ p: 5 }}>
                     <CanvassingResultsCalendar

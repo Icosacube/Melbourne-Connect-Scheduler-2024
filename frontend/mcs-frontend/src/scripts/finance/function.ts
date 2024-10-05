@@ -1,6 +1,11 @@
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { Finance } from '../../types/frontendTypes'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Default Finance object
 export const defaultFinance: Finance = {
@@ -29,7 +34,7 @@ function reformatFinanceResponseData(data: any): Finance {
             data.ExpenseDescription || defaultFinance.ExpenseDescription,
         Cost: data.Cost || defaultFinance.Cost,
         ExpenseDate: data.ExpenseDate
-            ? dayjs(data.ExpenseDate)
+            ? dayjs(data.ExpenseDate).utc().tz('Australia/Melbourne')
             : defaultFinance.ExpenseDate,
         FundingAccount: data.FundingAccount || defaultFinance.FundingAccount,
     }

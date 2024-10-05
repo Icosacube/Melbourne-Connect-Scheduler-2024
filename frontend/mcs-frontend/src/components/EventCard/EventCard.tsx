@@ -79,8 +79,10 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
                             >
                                 <CalendarMonthIcon fontSize="small" />
                                 <Typography variant="subtitle1">
-                                    {event.Date !== undefined
-                                        ? event.Date.format('DD MMM YY, HH:MM')
+                                    {event.StartDate !== undefined
+                                        ? event.StartDate.format(
+                                              'DD MMM YY, HH:MM'
+                                          )
                                         : 'unknown'}
                                 </Typography>
                             </Stack>
