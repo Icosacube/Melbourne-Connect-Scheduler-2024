@@ -1,5 +1,5 @@
 import { Button, Grid, Link, Stack, Typography } from '@mui/material'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { FormInputPassword, FormInputText } from '../../components'
@@ -12,10 +12,12 @@ interface UserCredentials {
 
 export const Login: FC = () => {
     const { handleSubmit, reset, control } = useForm<UserCredentials>()
+    const [submitting, setSubmitting] = useState(false)
 
     const navigate = useNavigate()
 
     const onSubmit = async (data: UserCredentials) => {
+        setSubmitting(true)
         try {
             await login(data.username, data.password)
             navigate('/dashboard')
@@ -23,15 +25,20 @@ export const Login: FC = () => {
             console.error(error)
         } finally {
             reset()
+            setSubmitting(false)
         }
     }
 
     return (
         <Grid container spacing={0} direction="column" alignItems="center">
-            {submitting ? ( 
+            {submitting ? (
                 <ProgressSpinner />
             ) : (
-                <Stack component="form" className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
+                <Stack
+                    component="form"
+                    className="space-y-8"
+                    onSubmit={handleSubmit(onSubmit)}
+                >
                     <Typography variant="h4">Login</Typography>
                     <FormInputText
                         name={'username'}
@@ -50,7 +57,8 @@ export const Login: FC = () => {
                     </Button>
                     <Stack>
                         <Typography className="pt-10">
-                            No account? Register <Link href="/register">here</Link>
+                            No account? Register{' '}
+                            <Link href="/register">here</Link>
                         </Typography>
                     </Stack>
                 </Stack>
