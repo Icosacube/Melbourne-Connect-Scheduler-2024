@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
-import { MainEvent, Speaker } from '../../types/frontendTypes'
+import { MainEvent, Speaker, SubEvent } from '../../types/frontendTypes'
+import { resourceUsage } from 'process'
 
 interface Academic {
     RecordID: string
@@ -288,6 +289,60 @@ export function generateEmailTemplateFromEvents(
     `
 
     return { emailSubject, emailContent }
+}
+
+export function generateEmailTemplateForCreateSubEvent(
+    subEvent: SubEvent
+){
+    const subject = `New Sub-Event Created: ${subEvent.EventName}`
+
+    const body = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+            <h2>Dear Speaker,</h2>
+            <br>
+            <p>
+                We are excited to invite you to this sub-event: ${subEvent.EventName}. This will be held on ${subEvent.StartDate.format('dddd, MMMM, YYYY')} at ${subEvent.StartDate.format('h:mm A')}.
+            </p>
+            <br>
+            <p>
+                We look forward to seeing you soon!
+            </p>
+            <br>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </div>
+    `
+
+    return { subject, body }
+}
+
+export function generateEmailTemplateForEditSubEvent(
+    subEvent: SubEvent
+) {
+    const subject = `Sub-Event Updated: ${subEvent.EventName}`
+
+    const body = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+            <h2>Dear Speaker,</h2>
+            <br>
+            <p>
+                We are excited to inform you that the sub-event: ${subEvent.EventName} has been updated. This will be held on ${subEvent.StartDate.format('dddd, MMMM, YYYY')} at ${subEvent.StartDate.format('h:mm A')}.
+            </p>
+            <br>
+            <p>
+                We look forward to seeing you soon!
+            </p>
+            <br>
+            <p>
+                Best regards,<br />
+                The Event Team
+            </p>
+        </div>
+    `
+
+    return { subject, body }
 }
 
 export async function generateEmailTemplateForBlankSpeakerForm() {
