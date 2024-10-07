@@ -5,9 +5,9 @@ import {
     FormInputText,
     FormInputDate,
     FormInputSingleAutocomplete,
-    SubmitButton,
     FormInputTextLong,
     BottomSuccessSnackbar,
+    FormButtonGroup,
 } from '../../../components/'
 import { updateAccom } from '../../../scripts/accommodation/functions'
 import { Accommodation, FundingAccount } from '../../../types/frontendTypes'
@@ -99,7 +99,6 @@ export const EditAccomModal: React.FC<EditAccomModalProps> = ({
                                 label="Address"
                             />
                         </Grid>
-
                         <Grid item xs={12} md={8} lg={4}>
                             <FormInputText
                                 name="BookingReference"
@@ -158,12 +157,12 @@ export const EditAccomModal: React.FC<EditAccomModalProps> = ({
                                 label="Notes"
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                            />
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>

@@ -167,12 +167,24 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                                 label="Notes"
                             />
                         </Grid>
-
-                        <Grid item xs={12}>
+                        <Grid
+                            item
+                            xs={12}
+                            container
+                            justifyContent="space-between"
+                        >
+                            <Grid item>
+                                <OutlinedButton
+                                    name="Cancel"
+                                    onClick={handleClose}
+                                />
+                            </Grid>
                             <Grid
+                                item
                                 container
                                 spacing={2}
-                                justifyContent="space-between"
+                                justifyContent="flex-end"
+                                xs="auto"
                             >
                                 <Grid item>
                                     <DeleteButton
@@ -181,24 +193,10 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                                     />
                                 </Grid>
                                 <Grid item>
-                                    <Grid
-                                        container
-                                        spacing={2}
-                                        justifyContent="flex-end"
-                                    >
-                                        <Grid item>
-                                            <OutlinedButton
-                                                onClick={() => reset()}
-                                                name={'Reset'}
-                                            />
-                                        </Grid>
-                                        <Grid item>
-                                            <SubmitButton
-                                                submitting={submitting}
-                                                onClick={handleSubmit(onSubmit)}
-                                            />
-                                        </Grid>
-                                    </Grid>
+                                    <SubmitButton
+                                        submitting={submitting}
+                                        onClick={handleSubmit(onSubmit)}
+                                    />
                                 </Grid>
                             </Grid>
                         </Grid>

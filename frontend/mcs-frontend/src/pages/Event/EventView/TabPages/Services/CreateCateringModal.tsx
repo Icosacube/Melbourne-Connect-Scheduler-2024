@@ -10,6 +10,7 @@ import {
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
+    FormButtonGroup,
 } from '../../../../../components/'
 import { Catering } from '../../../../../types/frontendTypes'
 import { createCatering } from '../../../../../scripts/catering/functions'
@@ -137,13 +138,12 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
                                 required={true}
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                                disabled={isSubmitDisabled()}
-                            />
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>

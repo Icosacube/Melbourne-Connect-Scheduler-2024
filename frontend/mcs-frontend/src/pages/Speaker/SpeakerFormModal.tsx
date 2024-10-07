@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useRevalidator } from 'react-router-dom'
 import {
     BottomSuccessSnackbar,
+    FormButtonGroup,
     FormInputText,
     FormInputTextLong,
     SubmitButton,
@@ -318,22 +319,12 @@ export const SpeakerFormModal: React.FC<SpeakerFormModalProps> = ({
                                 </Grid>
                             )}
                         </Grid>
-                        <Grid item xs={12}>
-                            <Grid
-                                container
-                                spacing={2}
-                                justifyContent="flex-end"
-                                alignContent="end"
-                            >
-                                <Grid item>
-                                    <SubmitButton
-                                        submitting={submitting}
-                                        onClick={handleSubmit(onSubmit)}
-                                        disabled={isSubmitDisabled()}
-                                    />
-                                </Grid>
-                            </Grid>
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>
