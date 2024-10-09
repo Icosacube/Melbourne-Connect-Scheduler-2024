@@ -13,7 +13,7 @@ import {getCache,setCache,deleteCache} from '../utils/caching';
 const router = express.Router();
 const accommodationTable = String(process.env.ACCOMMODATION)
 const financeTable = String(process.env.FINANCE);
-//get all accomodations
+//get all accommodations
 router.get('/accommodations', async (req, res) => {
   try {
     const cachedaccommodations = getCache(Cachekeys.ACCOMMODATIONS);
@@ -33,27 +33,27 @@ router.get('/accommodations', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Get a specific Accomodation by ID
-router.get('/accommodations/accommodation/:accomodation_record_id', async (req, res) => {
-  const { accomodation_record_id } = req.params;
+// Get a specific Accommodation by ID
+router.get('/accommodations/accommodation/:accommodation_record_id', async (req, res) => {
+  const { accommodation_record_id } = req.params;
   
   try {
-    const accomodationRecord = await getRecord(accommodationTable, accomodation_record_id);
+    const accommodationRecord = await getRecord(accommodationTable, accommodation_record_id);
     
-    if (!accomodationRecord) {
-      return res.status(404).json({ message: 'Accomodation not found' });
+    if (!accommodationRecord) {
+      return res.status(404).json({ message: 'Accommodation not found' });
     }
-    let plainFields = Object.fromEntries(accomodationRecord);
-    let formattedAccomodations: { [k: string]: any; } = plainFields
-    res.json(formattedAccomodations)
+    let plainFields = Object.fromEntries(accommodationRecord);
+    let formattedAccommodations: { [k: string]: any; } = plainFields
+    res.json(formattedAccommodations)
 
   } catch (error) {
-    console.error("Error fetching Accomodation:", error);
+    console.error("Error fetching Accommodation:", error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 //get all accommodations for one trip
-router.get('/accommodation/:tripID', async (req, res) => {
+router.get('/accommodations/:tripID', async (req, res) => {
   const { tripID } = req.params;
 
   try {
@@ -73,8 +73,8 @@ router.get('/accommodation/:tripID', async (req, res) => {
   }
 });
 
-//create one accomodation for a trip
-router.post('/accommodation/:tripID', async (req, res) => {
+//create one accommodation for a trip
+router.post('/accommodations/:tripID', async (req, res) => {
   const newAccommodation: Accommodation = req.body;
   const { tripID } = req.params;
   newAccommodation.Trip = [tripID];
@@ -96,8 +96,8 @@ router.post('/accommodation/:tripID', async (req, res) => {
   }
 });
 
-//modify one accomodation 
-router.put('/accommodation/:accommodation_record_id', async (req, res) => {
+//modify one accommodation 
+router.put('/accommodations/:accommodation_record_id', async (req, res) => {
     const {  accommodation_record_id } = req.params;
     const updatedAccommodation: Accommodation = req.body;
   
@@ -116,7 +116,7 @@ router.put('/accommodation/:accommodation_record_id', async (req, res) => {
     }
   });
   //delete one accomodation 
-  router.delete('/accommodation/:accommodation_record_id', async (req, res) => {
+  router.delete('/accommodations/:accommodation_record_id', async (req, res) => {
     const { accommodation_record_id } = req.params;
     const record = await getRecord(accommodationTable, accommodation_record_id);
     const financeId = record.get('Finance')[0];
