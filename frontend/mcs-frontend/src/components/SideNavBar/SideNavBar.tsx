@@ -22,6 +22,7 @@ import { NavLink } from 'react-router-dom'
 import { Logo1 } from '../../assets/logo1'
 import { Logo2 } from '../../assets/logo2'
 import { logout } from '../../scripts/authentication/auth'
+import { Checklist } from './CheckList'
 
 interface SideNavBarProps {
     isSidebarOpen: boolean
@@ -137,11 +138,13 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
                         </NavLink>
                     ))}
                 </List>
+
+                <Checklist />
             </Box>
 
             <Button
                 variant="contained"
-                color='secondary'
+                color="secondary"
                 startIcon={<LogoutIcon />}
                 onClick={handleLogout}
                 sx={{
