@@ -18,7 +18,7 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { Logo1 } from '../../assets/logo1'
 import { Logo2 } from '../../assets/logo2'
 import { logout } from '../../scripts/authentication/auth'
@@ -41,6 +41,10 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
             toggleSidebar() // Automatically hide sidebar on small screens
         }
     }, [isSmallScreen, isSidebarOpen, toggleSidebar])
+    const location = useLocation()
+
+    // Check if the current path contains "event"
+    const isEventPage = location.pathname.startsWith('/event/')
 
     const overviewTabs = [
         { name: 'Events', url: '/events' },
@@ -139,20 +143,25 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
                     ))}
                 </List>
 
-                <Checklist />
+                {isEventPage ? <Checklist /> : <></>}
             </Box>
 
             <Button
                 variant="contained"
-                color="secondary"
                 startIcon={<LogoutIcon />}
                 onClick={handleLogout}
+                disableElevation
                 sx={{
+                    backgroundColor: 'black', // Set background to black
+                    color: 'white', // Set text to white
                     fontSize: 16,
                     position: 'absolute',
                     bottom: 16,
                     left: 64,
                     zIndex: 10,
+                    '&:hover': {
+                        backgroundColor: 'grey.800', // Darker shade of black on hover
+                    },
                 }}
             >
                 Logout

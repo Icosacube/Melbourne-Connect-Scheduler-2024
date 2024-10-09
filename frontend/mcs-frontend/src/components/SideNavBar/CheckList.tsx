@@ -41,10 +41,11 @@ export const Checklist: React.FC = () => {
                 height: '100%',
                 backgroundColor: '#FFC901',
                 paddingTop: 2,
+                borderTop: '4px solid #FBE418', // yellow top edge
             }}
         >
             <Typography variant="h6" fontWeight={300} sx={{ marginLeft: 2 }}>
-                Checklist
+                Task List
             </Typography>
             {checklist.EventItem.map((item, index) => (
                 <Card
@@ -53,7 +54,7 @@ export const Checklist: React.FC = () => {
                         marginX: 1.5,
                         marginY: 1,
                         backgroundColor: checklist.Completed[index]
-                            ? 'primary.main'
+                            ? '#000500'
                             : '#FBE418',
                         color: checklist.Completed[index] ? 'white' : 'black',
                     }}
