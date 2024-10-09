@@ -1,10 +1,11 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import { Grid, Modal, Paper, Typography } from '@mui/material'
-import { useForm } from 'react-hook-form'
+import { set, useForm } from 'react-hook-form'
 import { AxiosResponse } from 'axios'
 import {
     BottomSuccessSnackbar,
     DeleteButton,
+    EmailComposerModal,
     FormInputDateTime,
     FormInputMultiAutocomplete,
     FormInputText,
@@ -18,6 +19,12 @@ import {
 } from '../../../../scripts/subevent/functions'
 import { SubEvent, Speaker } from '../../../../types/frontendTypes'
 import { DeleteDialog } from '../../../../components/'
+import { ShareSubEventModal } from './ShareSubEventModal'
+import { ShareSubEventChainedModal } from './ShareSubEventChainedModal'
+import {
+    generateEmailTemplateForCreateSubEvent,
+    sendEmail,
+} from '../../../../scripts/email/functions'
 
 interface EditSubEventModalProps {
     subEvent: SubEvent
@@ -36,7 +43,7 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
     updateSubEvent,
     removeSubEvent,
 }) => {
-    const { handleSubmit, reset, control } = useForm<SubEvent>({
+    const { handleSubmit, reset, control, watch } = useForm<SubEvent>({
         defaultValues: subEvent,
     })
 
@@ -45,9 +52,22 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
     const [deleting, setDeleting] = useState(false)
     const [showDeleteSuccess, setShowDeleteSuccess] = useState(false)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+    const [openEmailModal, setOpenEmailModal] = useState(false)
+    const [emailComposerData, setEmailComposerData] = useState({
+        to: [] as string[],
+        subject: '',
+        body: '',
+    })
 
     const onSubmit = async (data: SubEvent) => {
         setSubmitting(true)
+        const { subject, body } =
+            generateEmailTemplateForCreateSubEvent(subEvent)
+        setEmailComposerData({
+            to: speakerEmails,
+            subject: subject,
+            body: body,
+        })
         try {
             const res: AxiosResponse = await updateSubEventByID(data)
             if (res.status !== 200) {
@@ -55,19 +75,59 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
             }
             setShowSuccess(true)
             updateSubEvent(data)
+            //TODO put this in 1 reusable component and add to create event modal
+            const emailData = {
+                from: `${process.env.REACT_APP_SENDER_EMAIL}`,
+                to: speakerEmails,
+                cc: [] as string[],
+                bcc: [] as string[],
+                subject: subject,
+                body: body,
+            }
+            const emailRes = await sendEmail(
+                emailData.from,
+                emailData.to,
+                emailData.cc,
+                emailData.bcc,
+                emailData.subject,
+                emailData.body
+            )
+            if (emailRes.status !== 200) {
+                throw new Error('Failed to send email')
+            }
         } catch (error) {
             console.error(error)
         } finally {
             setSubmitting(false)
             reset()
-            handleClose()
+            onClose()
         }
     }
 
+    const watchedSpeakers = watch('Speakers', subEvent.Speakers)
+
+    const speakerEmails = watchedSpeakers
+        .map((id) => {
+            const speaker = speakers.find((s) => s.RecordID === id)
+            return speaker ? speaker.PrimaryEmail : null
+        })
+        .filter((email) => email !== null) as string[]
+
     const onClose = () => {
         reset()
+        const { subject, body } =
+            generateEmailTemplateForCreateSubEvent(subEvent)
+        setEmailComposerData({
+            to: speakerEmails,
+            subject: subject,
+            body: body,
+        })
+        handleEmailModalOpen()
         handleClose()
     }
+
+    const handleEmailModalOpen = () => setOpenEmailModal(true)
+    const handleEmailModalClose = () => setOpenEmailModal(false)
 
     const handleDeleteConfirm = async () => {
         try {
@@ -92,6 +152,22 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
     }
     const handleDeleteCancel = () => {
         setOpenDeleteDialog(false)
+    }
+
+    const emailComposer = () => {
+        if (!openEmailModal) {
+            return <></>
+        }
+        return (
+            <EmailComposerModal
+                open={true}
+                onClose={handleEmailModalClose}
+                to={emailComposerData.to}
+                modalTitle={`Sub-Event Details: ${subEvent.EventName}`}
+                subject={emailComposerData.subject}
+                body={emailComposerData.body}
+            />
+        )
     }
 
     return (
@@ -205,6 +281,13 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                     </Grid>
                 </Paper>
             </Modal>
+            {emailComposer()}
+            {/* <ShareSubEventChainedModal
+                isOpen={openEmailModal}
+                onClose={handleEmailModalClose}
+                subEvent={subEvent}
+                speakerEmails={speakerEmails}
+            /> */}
             <DeleteDialog
                 open={openDeleteDialog}
                 onClose={handleDeleteCancel}
