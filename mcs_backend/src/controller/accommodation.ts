@@ -34,16 +34,16 @@ router.get('/accommodations', async (req, res) => {
   }
 });
 // Get a specific Accomodation by ID
-router.get('/accommodations/accommodation/:Accomodation_record_id', async (req, res) => {
-  const { Accomodation_record_id } = req.params;
+router.get('/accommodations/accommodation/:accomodation_record_id', async (req, res) => {
+  const { accomodation_record_id } = req.params;
   
   try {
-    const AccomodationRecord = await getRecord(accommodationTable, Accomodation_record_id);
+    const accomodationRecord = await getRecord(accommodationTable, accomodation_record_id);
     
-    if (!AccomodationRecord) {
+    if (!accomodationRecord) {
       return res.status(404).json({ message: 'Accomodation not found' });
     }
-    let plainFields = Object.fromEntries(AccomodationRecord);
+    let plainFields = Object.fromEntries(accomodationRecord);
     let formattedAccomodations: { [k: string]: any; } = plainFields
     res.json(formattedAccomodations)
 
