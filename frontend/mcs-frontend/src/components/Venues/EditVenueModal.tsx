@@ -2,7 +2,12 @@ import { Grid, Modal, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRevalidator } from 'react-router-dom'
-import { BottomSuccessSnackbar, FormInputText, SubmitButton } from '..'
+import {
+    BottomSuccessSnackbar,
+    FormButtonGroup,
+    FormInputText,
+    SubmitButton,
+} from '..'
 import { updateVenue } from '../../scripts/venue/functions'
 import { Venue } from '../../types/frontendTypes'
 
@@ -63,7 +68,6 @@ export const EditVenueModal: React.FC<EditVenueModalProps> = ({
                                 Update Venue
                             </Typography>
                         </Grid>
-
                         <Grid item>
                             <FormInputText
                                 name="VenueName"
@@ -78,12 +82,12 @@ export const EditVenueModal: React.FC<EditVenueModalProps> = ({
                                 label="Location"
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                            />
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>

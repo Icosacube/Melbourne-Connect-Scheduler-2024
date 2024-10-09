@@ -8,6 +8,7 @@ import {
     OutlinedButton,
     SubmitButton,
     BottomSuccessSnackbar,
+    FormButtonGroup,
 } from '../../../components/'
 import { updateFlight } from '../../../scripts/flight/functions'
 import { Flight, FundingAccount } from '../../../types/frontendTypes'
@@ -150,26 +151,12 @@ export const EditFlightModal: React.FC<EditFlightModalProps> = ({
                                 label="Price ($)"
                             />
                         </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            container
-                            justifyContent="flex-end"
-                            spacing={2}
-                        >
-                            <Grid item>
-                                <OutlinedButton
-                                    onClick={() => reset()}
-                                    name={'Reset'}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <SubmitButton
-                                    submitting={submitting}
-                                    onClick={handleSubmit(onSubmit)}
-                                />
-                            </Grid>
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>

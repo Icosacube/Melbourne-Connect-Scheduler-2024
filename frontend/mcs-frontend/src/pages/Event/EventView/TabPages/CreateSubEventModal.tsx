@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     BottomSuccessSnackbar,
+    FormButtonGroup,
     FormInputDateTime,
     FormInputMultiAutocomplete,
     FormInputText,
@@ -156,20 +157,12 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
                                 label="Notes"
                             />
                         </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            container
-                            spacing={2}
-                            justifyContent="flex-end"
-                        >
-                            <Grid item>
-                                <SubmitButton
-                                    submitting={submitting}
-                                    onClick={handleSubmit(onSubmit)}
-                                />
-                            </Grid>
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>

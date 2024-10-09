@@ -63,7 +63,7 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
         const updatedEvent = {
             ...event,
             start: event.start,
-            end: event.end,
+            end: event.end || event.start,
         }
 
         // Update the events state with the new event data
@@ -82,7 +82,7 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
         const formatedSelectedEvent = {
             ...selectedEvent,
             StartDate: info.event.start,
-            EndDate: info.event.end,
+            EndDate: info.event.end || info.event.start,
         }
         handleShowLoading()
         const res = await updateMainEventById(formatedSelectedEvent)

@@ -192,11 +192,24 @@ export const EventFormModal: FC<EventFormModalProps> = ({
                                 label="Talk Abstract"
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid
+                            item
+                            xs={12}
+                            container
+                            justifyContent="space-between"
+                        >
+                            <Grid item>
+                                <OutlinedButton
+                                    name="Cancel"
+                                    onClick={handleClose}
+                                />
+                            </Grid>
                             <Grid
+                                item
                                 container
                                 spacing={2}
-                                justifyContent="space-between"
+                                justifyContent="flex-end"
+                                xs="auto"
                             >
                                 <Grid item>
                                     {
@@ -210,35 +223,21 @@ export const EventFormModal: FC<EventFormModalProps> = ({
                                     }
                                 </Grid>
                                 <Grid item>
-                                    <Grid
-                                        container
-                                        spacing={2}
-                                        justifyContent="flex-end"
-                                    >
-                                        <Grid item>
-                                            <OutlinedButton
-                                                onClick={() => reset()}
-                                                name={'Reset'}
-                                            />
-                                        </Grid>
-                                        <Grid item>
-                                            <UploadButton
-                                                link={
-                                                    process.env
-                                                        .REACT_APP_EVENT_BANNER_FORM +
-                                                    event.RecordID
-                                                }
-                                                name="Banner"
-                                            />
-                                        </Grid>
-                                        <Grid item>
-                                            <SubmitButton
-                                                submitting={submitting}
-                                                onClick={handleSubmit(onSubmit)}
-                                                disabled={isSubmitDisabled()}
-                                            />
-                                        </Grid>
-                                    </Grid>
+                                    <UploadButton
+                                        link={
+                                            process.env
+                                                .REACT_APP_EVENT_BANNER_FORM +
+                                            event.RecordID
+                                        }
+                                        name="Banner"
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <SubmitButton
+                                        submitting={submitting}
+                                        onClick={handleSubmit(onSubmit)}
+                                        disabled={isSubmitDisabled()}
+                                    />
                                 </Grid>
                             </Grid>
                         </Grid>
