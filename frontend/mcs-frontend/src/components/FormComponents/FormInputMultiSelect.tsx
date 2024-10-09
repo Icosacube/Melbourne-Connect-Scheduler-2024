@@ -55,6 +55,15 @@ export const FormInputMultiSelect: React.FC<FormInputProps> = ({
                                 ))}
                             </Box>
                         )}
+                        MenuProps={{
+                            PaperProps: {
+                                style: {
+                                    maxHeight: '30vh',
+                                    overflowY: 'auto',
+                                    width: '25%',
+                                },
+                            },
+                        }}
                     >
                         {options.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
