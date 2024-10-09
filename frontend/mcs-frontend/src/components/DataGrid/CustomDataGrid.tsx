@@ -38,6 +38,7 @@ export const CustomDataGrid: FC<CustomDataGridProps> = ({
             sx={{ backgroundColor: 'background.paper' }}
         >
             <DataGrid
+                autoHeight
                 rows={rows}
                 columns={modifiedColumns}
                 getRowId={getRowId}
