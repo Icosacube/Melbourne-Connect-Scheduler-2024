@@ -20,7 +20,7 @@ import {
 import { SubEvent, Speaker } from '../../../../types/frontendTypes'
 import { DeleteDialog } from '../../../../components/'
 import { ShareSubEventModal } from './ShareSubEventModal'
-import { ShareSubEventChainedModal } from './ShareSubEventChainedModal'
+
 import {
     generateEmailTemplateForCreateSubEvent,
     sendEmail,
