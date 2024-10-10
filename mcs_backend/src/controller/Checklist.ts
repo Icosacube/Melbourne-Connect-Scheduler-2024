@@ -124,17 +124,14 @@ router.put('/checklists/:Checklist_record_id', async (req, res) => {
         if (!checklistRecord) {
             return res.status(404).json({ message: 'Checklist not found' });
         }
-        console.log(Completed)
         
         const updatedFields = {
-            Completed: JSON.stringify(Completed) 
+            Completed: Completed
         };
-        console.log(updatedFields)
         const recordToUpdate = {
             id: Checklist_record_id, 
             fields: updatedFields
         };
-        console.log(recordToUpdate)
         await updateRecord(ChecklistTable, [recordToUpdate]);
 
         deleteCache(Cachekeys.CHECKLIST);
