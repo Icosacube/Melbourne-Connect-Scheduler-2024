@@ -62,8 +62,8 @@ router.post('/checklists/:maineventID', async (req, res) => {
     try {
         const allEventtasks = await getTable(EventTaskTable, "");
         const eventTaskCount = allEventtasks.length;
-        const trueArray = Array(eventTaskCount).fill(true); 
-        newChecklist.Completed = JSON.stringify(trueArray);
+        const zeroString = '0'.repeat(eventTaskCount);
+        newChecklist.Completed = zeroString;
         const ChecklistRecord = {
             fields: newChecklist
         };
