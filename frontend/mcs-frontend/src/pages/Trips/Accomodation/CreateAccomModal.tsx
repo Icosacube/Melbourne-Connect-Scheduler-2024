@@ -55,7 +55,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
         try {
             data.Trip = [tripID]
             console.log(data)
-            const res = await createAccommodation(data)
+            const res = await createAccommodation(data, tripID)
             if (res) {
                 setShowSuccess(true)
                 revalidator.revalidate()
