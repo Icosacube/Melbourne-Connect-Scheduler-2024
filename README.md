@@ -2,72 +2,88 @@
 
 Melbourne Connect, powered by the University of Melbourne, is a collaborative digital innovation ecosystem hosting various events, including the AI@Melbourne Colloquium series. The current workflow for organising these events is manual and time-consuming, involving multiple steps and systems. The main issues include manual communication, logistical tracking via Excel, and lack of system integration. The desired solution is an all-in-one event planning system to centralise logistical information, streamline processes, and reduce the executive assistant's cognitive load. The project aims to create a user-friendly central dashboard covering aspects like guest invitations, travel arrangements, scheduling, catering, and financial management.
 
-# Get started - Frontend
+# Get started 
 
 ## Environment variables 
-Please create a `.env` file with the variable and path descried in [Frontend ENV](https://melbourneconnectscheduler.notion.site/Environment-variables-0976a23502d4481f8cfb37ab251e741b?pvs=4) before proceeding
+Please create `.env` files with the variable and path descried in 
+- [Frontend ENV](https://melbourneconnectscheduler.notion.site/Environment-variables-0976a23502d4481f8cfb37ab251e741b?pvs=4) and, 
+- [Backend ENV](https://melbourneconnectscheduler.notion.site/Environment-variables-b50021cfd9ef4d6499b610931b5d274e?pvs=4) 
 
----
+before proceeding the execution to start the services
+
+## Information on Docker Deployment
+
+Given the Docker compose version different on machines, the command to execute the docker deployment will vary. 
+- For Docker Compose version 1, use `docker-compose` (with dash between two words)
+- For Docker Compose version 2, use `docker compose` (with space between two words)
+
+All command list below will use the version 2 Docker Compose command
+
+## Docker Deployment - Full Application 
+
+Navigate on to the root directory of the application and run the following commands
+### Build and Run
+
+#### `docker compose up --build -d`
+
+This command will build the docker image and start the service as docker containers. Which will start the application at [http://localhost](http://localhost)
+
+###  Run
+
+#### `docker compose up `
+
+This command will start the docker containers (when Docker images was created via the Build and Run command), and run the application at [http://localhost](http://localhost)
+
+## Individual Deployment - Frontend
 
 Please run the following commands in `frontend/mcs-frontend` directory 
 
-### `npm install`
+#### `npm install`
 This command will install all necessary dependencies 
 Please run this before running any other NPM Scripts 
 
-### `npm start`
+#### `npm start`
 Runs this commend to start the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.\
 (Please ensure port 3000 on host machine is available before run the command)
 
-### For more information please view the [Frontend README.md](frontend/mcs-frontend/README.md)
+#### For more information please view the [Frontend README.md](frontend/mcs-frontend/README.md)
 
-# Get started - Backend
-
-## Environment variables 
-Please create a `.env` file with the variable and path descried in [Backend ENV](https://melbourneconnectscheduler.notion.site/Environment-variables-b50021cfd9ef4d6499b610931b5d274e?pvs=4) before proceeding
-
----
+## Individual Deployment - Backend
 
 Please run the following commands in `mcs_backend` directory
 
-## Docker runnable
-### `docker-compose up` or `docker compose up`
+### Docker runnable
+#### `docker compose up`
 
-Depended on your docker compose version, version 1 and version 2 respectively,
-this command will start the containers. And run the 
+This command will start the containers. And run the 
 backend API server in development mode at [http://localhost:4000](http://localhost:4000) \
 (Please ensure port 4000 on host machine is available before run the command)
 
 
-### `docker-compose up --build` or `docker compose up --build`
+#### `docker compose up --build`
 
-Depended on your docker compose version, version 1 and version 2 respectively,
-this command will build the Docker image and start the containers. And run the 
+This command will build the Docker image and start the containers. And run the 
 backend API server at [http://localhost:4000](http://localhost:4000) \
 (Please ensure port 4000 on host machine is available before run the command)
 
 
-## NPM Available Scripts
+### NPM Available Scripts
 
 In the `mcs_backend` directory, you can run:
 
-### `npm install`
-This command will install all necessary dependencies 
-Please run this before running any other NPM Scripts 
+#### `npm install`
+This command will install all necessary dependencies Please run this before running any other NPM Scripts 
 
-### `npm run dev`
+#### `npm run dev`
 
-Runs the app in the development mode.\
-Open [http://localhost:4000](http://localhost:4000) to view it in your browser.
+Runs the app in the development mode. Open [http://localhost:4000](http://localhost:4000) to view it in your browser.
 
-The page will reload when you make changes.
-
-### `npm run start`
+#### `npm run start`
 
 Launches the backend server in production mode  
 
-### For more information please view the [Backend README.md](mcs_backend/README.md)
+#### For more information please view the [Backend README.md](mcs_backend/README.md)
 
 
 # Artefacts, Deliverable and Documentation
