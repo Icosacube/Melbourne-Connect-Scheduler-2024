@@ -1,9 +1,10 @@
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import dayjs, { Dayjs } from 'dayjs'
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { set, useForm } from 'react-hook-form'
 import {
     BottomSuccessSnackbar,
+    EmailComposerModal,
     FormButtonGroup,
     FormInputDateTime,
     FormInputMultiAutocomplete,
@@ -13,6 +14,7 @@ import {
 } from '../../../../components/'
 import { createSubEvent } from '../../../../scripts/subevent/functions'
 import { MainEvent, Speaker, SubEvent } from '../../../../types/frontendTypes'
+import { generateEmailTemplateForCreateSubEvent } from '../../../../scripts/email/functions'
 
 interface CreateSubEventModalProps {
     handleClose: () => void
@@ -46,31 +48,54 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
     startDate = dayjs(),
     endDate = dayjs(),
 }) => {
-    const { handleSubmit, reset, control, setValue } = useForm<SubEvent>({
-        defaultValues: CreateSubEventFormDefaultValues,
-    })
+    const { handleSubmit, reset, control, setValue, watch } = useForm<SubEvent>(
+        {
+            defaultValues: CreateSubEventFormDefaultValues,
+        }
+    )
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const [openEmailModal, setOpenEmailModal] = useState(false)
+    const [emailComposerData, setEmailComposerData] = useState({
+        to: [] as string[],
+        subject: '',
+        body: '',
+    })
 
     useEffect(() => {
         setValue('StartDate', startDate)
         setValue('EndDate', endDate)
     }, [startDate, endDate, setValue])
 
+    const subEventName = watch('EventName')
+    const speakersEmails = watch('Speakers')
+        .map((id) => {
+            const speaker = speakers.find((s) => s.RecordID === id)
+            return speaker ? speaker.PrimaryEmail : null
+        })
+        .filter((email) => email !== null) as string[]
+
     const onSubmit = async (data: SubEvent) => {
         setSubmitting(true)
+        const { subject, body } = generateEmailTemplateForCreateSubEvent(data)
+        setEmailComposerData({
+            to: speakersEmails,
+            subject: subject,
+            body: body,
+        })
         try {
             data.MainEvent.push(event.RecordID)
             await createSubEvent(data)
             setShowSuccess(true)
             onSubEventCreation()
+            setOpenEmailModal(true)
         } catch (error) {
             console.error(error)
         } finally {
             setSubmitting(false)
             reset()
-            handleClose()
+            // handleClose()
         }
     }
 
@@ -81,6 +106,26 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
             setValue('EndDate', endDate)
         }
         handleClose()
+    }
+
+    const handleEmailModalClose = () => {
+        setOpenEmailModal(false)
+    }
+
+    const emailComposer = () => {
+        if (!openEmailModal) {
+            return <></>
+        }
+        return (
+            <EmailComposerModal
+                open={true}
+                onClose={handleEmailModalClose}
+                to={emailComposerData.to}
+                modalTitle={'New Sub-Event Details: ' + subEventName}
+                subject={emailComposerData.subject}
+                body={emailComposerData.body}
+            />
+        )
     }
 
     return (
@@ -166,6 +211,7 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
                     </Grid>
                 </Paper>
             </Modal>
+            {emailComposer()}
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}

@@ -10,6 +10,7 @@ import { CreateSubEventModal } from './CreateSubEventModal'
 import { EditSubEventModal } from './EditSubEventModal'
 import { ShareSubEventModal } from './ShareSubEventModal'
 import { Send, Share } from '@mui/icons-material'
+// import { EditSubEventManager } from './EditSubEventManager'
 
 interface ProgrammeProps {
     event: MainEvent
@@ -76,6 +77,7 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
 
     const handleSubEventCreated = () => {
         fetchSubEvents()
+        handleCloseCreate()
     }
 
     const handleOpenUpdate = () => {
@@ -84,12 +86,30 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
     }
 
     const handleCloseUpdate = () => {
-        setSelectedSubEvent(null)
+        // setSelectedSubEvent(null)
         setOpenUpdate(false)
     }
 
     const handleEventClick = (subEvent: SubEvent) => {
         setSelectedSlot(subEvent)
+    }
+
+    const handleRemoveSubEvent = (removeSubEventID: string) => {
+        setSubEvents((prevSubEvent) =>
+            prevSubEvent.filter((event) => event.RecordID !== removeSubEventID)
+        )
+        handleCloseUpdate()
+    }
+
+    const handleUpdateSubEvent = (updatedSubEvent: SubEvent) => {
+        setSubEvents((prevSubEvent) =>
+            prevSubEvent.map((item) =>
+                item.RecordID === updatedSubEvent.RecordID
+                    ? updatedSubEvent
+                    : item
+            )
+        )
+        handleCloseUpdate()
     }
 
     return (
@@ -239,27 +259,11 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
             {selectedSubEvent && (
                 <EditSubEventModal
                     open={openUpdate}
-                    handleClose={handleCloseUpdate}
-                    speakers={speakers}
                     subEvent={selectedSubEvent}
-                    removeSubEvent={(removeSubEventID) => {
-                        setSubEvents((prevSubEvent) =>
-                            prevSubEvent.filter(
-                                (event) => event.RecordID !== removeSubEventID
-                            )
-                        )
-                        handleCloseUpdate()
-                    }}
-                    updateSubEvent={(updatedSubEvent) => {
-                        setSubEvents((prevSubEvent) =>
-                            prevSubEvent.map((item) =>
-                                item.RecordID === updatedSubEvent.RecordID
-                                    ? updatedSubEvent
-                                    : item
-                            )
-                        )
-                        handleCloseUpdate()
-                    }}
+                    speakers={speakers}
+                    handleClose={handleCloseUpdate}
+                    updateSubEvent={handleUpdateSubEvent}
+                    removeSubEvent={handleRemoveSubEvent}
                 />
             )}
             {selectedSubEvent && (

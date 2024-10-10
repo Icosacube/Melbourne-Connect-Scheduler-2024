@@ -19,12 +19,8 @@ import {
 } from '../../../../scripts/subevent/functions'
 import { SubEvent, Speaker } from '../../../../types/frontendTypes'
 import { DeleteDialog } from '../../../../components/'
-import { ShareSubEventModal } from './ShareSubEventModal'
 
-import {
-    generateEmailTemplateForCreateSubEvent,
-    sendEmail,
-} from '../../../../scripts/email/functions'
+import { generateEmailTemplateForCreateSubEvent } from '../../../../scripts/email/functions'
 
 interface EditSubEventModalProps {
     subEvent: SubEvent
@@ -75,32 +71,13 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
             }
             setShowSuccess(true)
             updateSubEvent(data)
-            //TODO put this in 1 reusable component and add to create event modal
-            const emailData = {
-                from: `${process.env.REACT_APP_SENDER_EMAIL}`,
-                to: speakerEmails,
-                cc: [] as string[],
-                bcc: [] as string[],
-                subject: subject,
-                body: body,
-            }
-            const emailRes = await sendEmail(
-                emailData.from,
-                emailData.to,
-                emailData.cc,
-                emailData.bcc,
-                emailData.subject,
-                emailData.body
-            )
-            if (emailRes.status !== 200) {
-                throw new Error('Failed to send email')
-            }
+            setOpenEmailModal(true)
         } catch (error) {
             console.error(error)
         } finally {
             setSubmitting(false)
             reset()
-            onClose()
+            // handleClose()
         }
     }
 
@@ -115,14 +92,6 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
 
     const onClose = () => {
         reset()
-        const { subject, body } =
-            generateEmailTemplateForCreateSubEvent(subEvent)
-        setEmailComposerData({
-            to: speakerEmails,
-            subject: subject,
-            body: body,
-        })
-        handleEmailModalOpen()
         handleClose()
     }
 
@@ -280,12 +249,6 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                 </Paper>
             </Modal>
             {emailComposer()}
-            {/* <ShareSubEventChainedModal
-                isOpen={openEmailModal}
-                onClose={handleEmailModalClose}
-                subEvent={subEvent}
-                speakerEmails={speakerEmails}
-            /> */}
             <DeleteDialog
                 open={openDeleteDialog}
                 onClose={handleDeleteCancel}
