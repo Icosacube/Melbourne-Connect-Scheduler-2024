@@ -10,7 +10,6 @@ import { CreateSubEventModal } from './CreateSubEventModal'
 import { EditSubEventModal } from './EditSubEventModal'
 import { ShareSubEventModal } from './ShareSubEventModal'
 import { Send, Share } from '@mui/icons-material'
-// import { EditSubEventManager } from './EditSubEventManager'
 
 interface ProgrammeProps {
     event: MainEvent
@@ -86,7 +85,6 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
     }
 
     const handleCloseUpdate = () => {
-        // setSelectedSubEvent(null)
         setOpenUpdate(false)
     }
 

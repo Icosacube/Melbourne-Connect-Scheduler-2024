@@ -95,7 +95,6 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
         } finally {
             setSubmitting(false)
             reset()
-            // handleClose()
         }
     }
 

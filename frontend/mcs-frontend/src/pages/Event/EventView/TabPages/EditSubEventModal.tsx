@@ -20,7 +20,10 @@ import {
 import { SubEvent, Speaker } from '../../../../types/frontendTypes'
 import { DeleteDialog } from '../../../../components/'
 
-import { generateEmailTemplateForCreateSubEvent } from '../../../../scripts/email/functions'
+import {
+    generateEmailTemplateForCreateSubEvent,
+    generateEmailTemplateForEditSubEvent,
+} from '../../../../scripts/email/functions'
 
 interface EditSubEventModalProps {
     subEvent: SubEvent
@@ -57,8 +60,7 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
 
     const onSubmit = async (data: SubEvent) => {
         setSubmitting(true)
-        const { subject, body } =
-            generateEmailTemplateForCreateSubEvent(subEvent)
+        const { subject, body } = generateEmailTemplateForEditSubEvent(subEvent)
         setEmailComposerData({
             to: speakerEmails,
             subject: subject,
@@ -77,7 +79,6 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
         } finally {
             setSubmitting(false)
             reset()
-            // handleClose()
         }
     }
 
