@@ -1,9 +1,9 @@
-import { Box, Typography, Divider, Grid, Paper } from '@mui/material'
 import EventIcon from '@mui/icons-material/Event'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
-import { MainEvent, Venue } from '../../types/frontendTypes'
+import { Grid, Paper, Typography } from '@mui/material'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { MainEvent, Venue } from '../../types/frontendTypes'
 
 interface EventListViewProps {
     events: MainEvent[]

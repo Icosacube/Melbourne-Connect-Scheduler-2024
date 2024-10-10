@@ -6,9 +6,9 @@ import { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { DashboardCalendar } from '../../components'
 import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
-import { CreateTripModal } from '../Trips/CreateTripModal'
 import { EventFormModal } from '../Event'
 import { SpeakerFormModal } from '../Speaker'
+import { CreateTripModal } from '../Trips/CreateTripModal'
 import { EventListView } from './EventsListView'
 
 // eslint-disable-next-line no-lone-blocks
