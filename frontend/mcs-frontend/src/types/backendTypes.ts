@@ -223,8 +223,3 @@ export type Checklist = {
     EventTask: string[]
     Completed: string
 }
-
-export type EventTask = {
-    Description: string
-    Checklist: string[]
-}
