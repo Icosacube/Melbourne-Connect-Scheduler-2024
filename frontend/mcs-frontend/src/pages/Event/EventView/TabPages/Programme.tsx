@@ -8,6 +8,8 @@ import { getSubEventsByMainEventID } from '../../../../scripts/subevent/function
 import { MainEvent, Speaker, SubEvent } from '../../../../types/frontendTypes'
 import { CreateSubEventModal } from './CreateSubEventModal'
 import { EditSubEventModal } from './EditSubEventModal'
+import { ShareSubEventModal } from './ShareSubEventModal'
+import { Send, Share } from '@mui/icons-material'
 
 interface ProgrammeProps {
     event: MainEvent
@@ -24,6 +26,7 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
     const [selectedSlot, setSelectedSlot] = useState<SubEvent | null>(null)
     const [speakerNames, setSpeakerNames] = useState<string[]>([])
     const [isLoadingSpeaker, setIsLoadingSpeaker] = useState<boolean>(false)
+    const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
         const fetchSpeakers = async () => {
@@ -61,8 +64,19 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
     const handleOpenCreate = () => setOpenCreate(true)
     const handleCloseCreate = () => setOpenCreate(false)
 
+    const handleOpenModal = () => {
+        setSelectedSubEvent(selectedSlot)
+        setOpenModal(true)
+    }
+
+    const handleCloseModal = () => {
+        setSelectedSubEvent(null)
+        setOpenModal(false)
+    }
+
     const handleSubEventCreated = () => {
         fetchSubEvents()
+        handleCloseCreate()
     }
 
     const handleOpenUpdate = () => {
@@ -71,12 +85,29 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
     }
 
     const handleCloseUpdate = () => {
-        setSelectedSubEvent(null)
         setOpenUpdate(false)
     }
 
     const handleEventClick = (subEvent: SubEvent) => {
         setSelectedSlot(subEvent)
+    }
+
+    const handleRemoveSubEvent = (removeSubEventID: string) => {
+        setSubEvents((prevSubEvent) =>
+            prevSubEvent.filter((event) => event.RecordID !== removeSubEventID)
+        )
+        handleCloseUpdate()
+    }
+
+    const handleUpdateSubEvent = (updatedSubEvent: SubEvent) => {
+        setSubEvents((prevSubEvent) =>
+            prevSubEvent.map((item) =>
+                item.RecordID === updatedSubEvent.RecordID
+                    ? updatedSubEvent
+                    : item
+            )
+        )
+        handleCloseUpdate()
     }
 
     return (
@@ -196,6 +227,13 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
                                     >
                                         Edit
                                     </Button>
+                                    <Button
+                                        variant="contained"
+                                        onClick={handleOpenModal}
+                                        startIcon={<Share />}
+                                    >
+                                        Share
+                                    </Button>
                                 </Grid>
                             </Grid>
                         ) : (
@@ -219,27 +257,19 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
             {selectedSubEvent && (
                 <EditSubEventModal
                     open={openUpdate}
-                    handleClose={handleCloseUpdate}
-                    speakers={speakers}
                     subEvent={selectedSubEvent}
-                    removeSubEvent={(removeSubEventID) => {
-                        setSubEvents((prevSubEvent) =>
-                            prevSubEvent.filter(
-                                (event) => event.RecordID !== removeSubEventID
-                            )
-                        )
-                        handleCloseUpdate()
-                    }}
-                    updateSubEvent={(updatedSubEvent) => {
-                        setSubEvents((prevSubEvent) =>
-                            prevSubEvent.map((item) =>
-                                item.RecordID === updatedSubEvent.RecordID
-                                    ? updatedSubEvent
-                                    : item
-                            )
-                        )
-                        handleCloseUpdate()
-                    }}
+                    speakers={speakers}
+                    handleClose={handleCloseUpdate}
+                    updateSubEvent={handleUpdateSubEvent}
+                    removeSubEvent={handleRemoveSubEvent}
+                />
+            )}
+            {selectedSubEvent && (
+                <ShareSubEventModal
+                    isOpen={openModal}
+                    onClose={handleCloseModal}
+                    subEvent={selectedSubEvent}
+                    speakers={speakers}
                 />
             )}
             <CreateSubEventModal

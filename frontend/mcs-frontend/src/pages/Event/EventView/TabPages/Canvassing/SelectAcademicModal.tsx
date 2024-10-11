@@ -69,7 +69,7 @@ const SelectAcademicModal: React.FC<SelectAcademicModalProps> = ({
                 )
 
             setEmailComposerData({
-                from: 'mcs083087@gmail.com',
+                from: `${process.env.REACT_APP_SENDER_EMAIL}`,
                 to: event.target.value as string,
                 cc: '',
                 subject: emailSubject,
