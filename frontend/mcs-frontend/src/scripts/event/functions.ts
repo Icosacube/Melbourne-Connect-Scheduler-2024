@@ -45,8 +45,14 @@ function reformatMainEventRequestData(data: MainEvent): any {
         EventDescription: data.EventDescription,
         EventbriteLink: data.EventbriteLink,
         EventBanner: data.EventBanner,
-        StartDate: data.StartDate.tz('Australia/Melbourne').utc().toISOString(),
-        EndDate: data.EndDate.tz('Australia/Melbourne').utc().toISOString(),
+        StartDate: dayjs(data.StartDate)
+            .tz('Australia/Melbourne')
+            .utc()
+            .toISOString(),
+        EndDate: dayjs(data.EndDate)
+            .tz('Australia/Melbourne')
+            .utc()
+            .toISOString(),
         Notes: data.Notes,
         Speaker: data.Speaker,
         GuestAcademic: data.GuestAcademic,
@@ -94,7 +100,7 @@ export async function getAllMainEvents(): Promise<MainEvent[]> {
         const formattedEvents = rawEvents.map((event: any) =>
             reformatMainEventResponseData(event)
         )
-        console.log(rawEvents)
+
         return formattedEvents
     } catch (error) {
         console.error('Error fetching all main events:', error)

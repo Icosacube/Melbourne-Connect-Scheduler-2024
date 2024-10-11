@@ -7,6 +7,7 @@ import {
     FormInputSingleAutocomplete,
     SubmitButton,
     BottomSuccessSnackbar,
+    FormButtonGroup,
 } from '../../../components/'
 import { createFlight, defaultFlight } from '../../../scripts/flight/functions'
 import { Flight, FundingAccount } from '../../../types/frontendTypes'
@@ -152,12 +153,12 @@ export const CreateFlightModal: React.FC<CreateFlightModalProps> = ({
                                 label="Price ($)"
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                            />
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>
