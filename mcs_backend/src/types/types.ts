@@ -18,7 +18,9 @@ export type Creation = {
     | Catering
     | Service
     | FundingAccount
-    | Canvassing;
+    | Canvassing
+    | Checklist
+    | EventTask;
 };
 
 export type TableFields = {
@@ -36,7 +38,9 @@ export type TableFields = {
     | Catering
     | Service
     | FundingAccount
-    | Canvassing;
+    | Canvassing
+    | Checklist
+    | EventTask;
 };
 
 export type Speaker = {
@@ -257,3 +261,13 @@ export enum MainEventForm {
   EventName = 'Event Name',
   EventAbstract = 'Event Abstract',
 }
+export type Checklist = {
+  MainEvent: String[]
+  EventTask: String[]
+  Completed: String
+
+}
+export type EventTask= {
+  Description:String
+  Checklist:String[]
+} 

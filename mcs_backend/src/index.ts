@@ -24,6 +24,7 @@ const fundingAccountRouter = require('./controller/FundingAccount');
 const financeRouter = require('./controller/Finance');
 const FormRouter = require('./controller/guestSpeakerForm');
 const EmailRouter = require('./controller/Email');
+const ChecklistRouter = require('./controller/Checklist');
 const app = express();
 
 app.use(
@@ -79,6 +80,8 @@ app.use('/', fundingAccountRouter);
 app.use('/', financeRouter);
 app.use('/', FormRouter);
 app.use('/', EmailRouter);
+app.use('/', ChecklistRouter);
+
 app.get('*', (req: Request, res: Response) => {
   res.sendFile(path.resolve(__dirname)); //! Change to Frontend index (home) page
 });
