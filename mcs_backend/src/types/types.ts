@@ -262,12 +262,12 @@ export enum MainEventForm {
   EventAbstract = 'Event Abstract',
 }
 export type Checklist = {
-  MainEvent: String[]
-  EventTask: String[]
-  Completed: String
+  MainEvent: string[]
+  EventTask: string[]
+  Completed: string
 
 }
 export type EventTask= {
-  Description:String
-  Checklist:String[]
+  Description: string
+  Checklist: string[]
 } 
