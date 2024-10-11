@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Grid, Modal, Paper, Typography } from '@mui/material'
 import { set, useForm } from 'react-hook-form'
 import { AxiosResponse } from 'axios'
@@ -17,8 +17,9 @@ import {
     updateSubEventByID,
     deleteSubEventByID,
 } from '../../../../scripts/subevent/functions'
-import { SubEvent, Speaker } from '../../../../types/frontendTypes'
+import { SubEvent, Speaker, Academic } from '../../../../types/frontendTypes'
 import { DeleteDialog } from '../../../../components/'
+import { getAllAcademics } from '../../../../scripts/academic/functions'
 
 import {
     generateEmailTemplateForCreateSubEvent,
@@ -57,6 +58,11 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
         subject: '',
         body: '',
     })
+    const [academicOptions, setAcademicOptions] = useState<Academic[]>([])
+
+    useEffect(() => {
+        getAllAcademics().then((academics) => setAcademicOptions(academics))
+    }, [subEvent])
 
     const onSubmit = async (data: SubEvent) => {
         setSubmitting(true)
@@ -182,6 +188,18 @@ export const EditSubEventModal: FC<EditSubEventModalProps> = ({
                                 options={speakers.map((speaker) => ({
                                     label: `${speaker.FirstName} ${speaker.LastName}`,
                                     value: speaker.RecordID,
+                                }))}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <FormInputMultiAutocomplete
+                                name="Academics"
+                                control={control}
+                                label="Academics"
+                                options={academicOptions.map((academic) => ({
+                                    label: `${academic.Name}`,
+                                    value: academic.RecordID,
                                 }))}
                             />
                         </Grid>
