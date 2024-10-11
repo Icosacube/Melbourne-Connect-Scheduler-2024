@@ -11,8 +11,17 @@ import {
     FormInputTextLong,
     SubmitButton,
 } from '../../../../components/'
-import { createSubEvent } from '../../../../scripts/subevent/functions'
-import { MainEvent, Speaker, SubEvent } from '../../../../types/frontendTypes'
+import {
+    createSubEvent,
+    defaultSubEvent,
+} from '../../../../scripts/subevent/functions'
+import {
+    Academic,
+    MainEvent,
+    Speaker,
+    SubEvent,
+} from '../../../../types/frontendTypes'
+import { getAllAcademics } from '../../../../scripts/academic/functions'
 
 interface CreateSubEventModalProps {
     handleClose: () => void
@@ -20,23 +29,10 @@ interface CreateSubEventModalProps {
     event: MainEvent
     speakers: Speaker[]
     onSubEventCreation: () => void
+    academics?: Academic[]
     startDate?: Dayjs
     endDate?: Dayjs
 }
-
-const CreateSubEventFormDefaultValues: SubEvent = {
-    RecordID: '',
-    EventName: '',
-    EventDescription: '',
-    EventType: '',
-    StartDate: dayjs(),
-    Notes: '',
-    MainEvent: [],
-    Completed: false,
-    Speakers: [],
-    EndDate: dayjs(),
-}
-
 export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
     handleClose,
     open,
@@ -45,18 +41,28 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
     onSubEventCreation,
     startDate = dayjs(),
     endDate = dayjs(),
+    academics = [],
 }) => {
     const { handleSubmit, reset, control, setValue } = useForm<SubEvent>({
-        defaultValues: CreateSubEventFormDefaultValues,
+        defaultValues: defaultSubEvent,
     })
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const [academicOptions, setAcademicOptions] = useState<Academic[]>([])
 
     useEffect(() => {
         setValue('StartDate', startDate)
         setValue('EndDate', endDate)
     }, [startDate, endDate, setValue])
+
+    useEffect(() => {
+        if (academics.length == 0) {
+            getAllAcademics().then((academics) => setAcademicOptions(academics))
+        } else {
+            setAcademicOptions(academics)
+        }
+    }, [])
 
     const onSubmit = async (data: SubEvent) => {
         setSubmitting(true)
@@ -125,6 +131,18 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
                                 options={speakers.map((speaker) => ({
                                     label: `${speaker.FirstName} ${speaker.LastName}`,
                                     value: speaker.RecordID,
+                                }))}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <FormInputMultiAutocomplete
+                                name="Academics"
+                                control={control}
+                                label="Academics"
+                                options={academicOptions.map((academic) => ({
+                                    label: `${academic.Name}`,
+                                    value: academic.RecordID,
                                 }))}
                             />
                         </Grid>

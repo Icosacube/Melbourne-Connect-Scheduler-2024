@@ -117,6 +117,7 @@ export type SubEvent = {
     Completed: boolean
     Speakers: string[]
     EndDate: Dayjs
+    Academics: string[]
 }
 
 export type Academic = {
