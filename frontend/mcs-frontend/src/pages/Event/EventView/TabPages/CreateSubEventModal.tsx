@@ -62,7 +62,7 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
         } else {
             setAcademicOptions(academics)
         }
-    }, [academics])
+    }, [])
 
     const onSubmit = async (data: SubEvent) => {
         setSubmitting(true)
