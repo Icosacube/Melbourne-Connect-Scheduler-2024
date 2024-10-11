@@ -269,4 +269,5 @@ export type Checklist = {
     MainEvent: string[]
     EventTask: string[]
     Completed: boolean[]
+    Description: string[]
 }

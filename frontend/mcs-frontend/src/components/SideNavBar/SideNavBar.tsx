@@ -18,15 +18,26 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { Logo1 } from '../../assets/logo1'
 import { Logo2 } from '../../assets/logo2'
 import { logout } from '../../scripts/authentication/auth'
-import { Checklist } from './CheckList'
+import { CheckListBar } from './CheckListBar'
+import { MainEvent } from '../../types/frontendTypes'
 
 interface SideNavBarProps {
     isSidebarOpen: boolean
     toggleSidebar: () => void
+}
+
+interface LoaderData {
+    event: MainEvent
+    speakers: any[]
+    catering: any
+    fundingAccounts: any[]
+    roomServices: any[]
+    venues: any[]
+    trips: any[]
 }
 
 export const SideNavBar: React.FC<SideNavBarProps> = ({
@@ -36,15 +47,12 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
     const theme = useTheme()
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
     const navigate = useNavigate()
+
     useEffect(() => {
         if (isSmallScreen && isSidebarOpen) {
             toggleSidebar() // Automatically hide sidebar on small screens
         }
     }, [isSmallScreen, isSidebarOpen, toggleSidebar])
-    const location = useLocation()
-
-    // Check if the current path contains "event"
-    const isEventPage = location.pathname.startsWith('/event/')
 
     const overviewTabs = [
         { name: 'Events', url: '/events' },
@@ -143,7 +151,7 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
                     ))}
                 </List>
 
-                {isEventPage ? <Checklist /> : <></>}
+                <CheckListBar />
             </Box>
 
             <Button

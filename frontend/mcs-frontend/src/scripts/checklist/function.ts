@@ -8,6 +8,7 @@ export const defaultChecklist: ChecklistFrontend = {
     MainEvent: [],
     EventTask: [],
     Completed: [],
+    Description: [],
 }
 
 // Function to reformat Checklist response data
@@ -20,6 +21,9 @@ function reformatChecklistResponseData(data: any): ChecklistFrontend {
         Completed: data.Completed
             ? data.Completed.split('').map((val: string) => val === '1')
             : defaultChecklist.Completed,
+        Description: data.Description
+            ? data.Description.split(', ')
+            : defaultChecklist.Description,
     }
 
     return checklist

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import {
     Box,
     Card,
@@ -6,18 +6,16 @@ import {
     CardContent,
     Typography,
 } from '@mui/material'
+import {
+    Checklist as ChecklistType,
+    MainEvent,
+} from '../../types/frontendTypes'
+import { useLocation, useParams } from 'react-router-dom'
 
-type Checklist = {
-    RecordID: string
-    MainEvent: string[]
-    EventItem: string[]
-    Completed: boolean[]
-    Description: string[]
-}
-const temp: Checklist = {
+const temp: ChecklistType = {
     RecordID: '1',
     MainEvent: ['e1'],
-    EventItem: ['t1', 't2', 't3'],
+    EventTask: ['t1', 't2', 't3'],
     Completed: [false, true, true],
     Description: [
         'Task number 1',
@@ -26,8 +24,9 @@ const temp: Checklist = {
     ],
 }
 
-export const Checklist: React.FC = () => {
-    const [checklist, setChecklist] = useState<Checklist>(temp)
+export const CheckListBar: FC = () => {
+    const [checklist, setChecklist] = useState<ChecklistType>(temp)
+    const { id } = useParams<{ id: string }>()
 
     const toggleCompleted = (index: number) => {
         const updatedChecklist = { ...checklist }
@@ -35,7 +34,11 @@ export const Checklist: React.FC = () => {
         setChecklist(updatedChecklist)
     }
 
-    return (
+    // Check if the current path contains "event"
+    const location = useLocation()
+    const isEventPage = location.pathname.startsWith('/event/')
+
+    return isEventPage ? (
         <Box
             sx={{
                 height: '100%',
@@ -47,7 +50,7 @@ export const Checklist: React.FC = () => {
             <Typography variant="h6" fontWeight={300} sx={{ marginLeft: 2 }}>
                 Task List
             </Typography>
-            {checklist.EventItem.map((item, index) => (
+            {checklist.EventTask.map((item, index) => (
                 <Card
                     key={index}
                     sx={{
@@ -74,11 +77,12 @@ export const Checklist: React.FC = () => {
                                 }}
                             >
                                 {checklist.Description[index]}
+                                {id == null ? '' : id}
                             </Typography>
                         </CardContent>
                     </CardActionArea>
                 </Card>
             ))}
         </Box>
-    )
+    ) : null
 }
