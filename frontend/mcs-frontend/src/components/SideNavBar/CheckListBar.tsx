@@ -84,11 +84,8 @@ export const CheckListBar: FC = () => {
                             marginX: 1.5,
                             marginY: 1,
                             backgroundColor: checklist.Completed[index]
-                                ? '#000500'
+                                ? '#484848'
                                 : '#FBE418',
-                            color: checklist.Completed[index]
-                                ? 'white'
-                                : 'black',
                         }}
                     >
                         <CardActionArea onClick={() => toggleCompleted(index)}>
