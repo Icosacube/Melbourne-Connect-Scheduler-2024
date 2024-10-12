@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Checklist as ChecklistFrontend } from '../../types/frontendTypes'
 import { Checklist as ChecklistBackend } from '../../types/backendTypes'
+import { getMainEventById } from '../event/functions'
 
 // Default Checklist object
 export const defaultChecklist: ChecklistFrontend = {
@@ -22,7 +23,7 @@ function reformatChecklistResponseData(data: any): ChecklistFrontend {
             ? data.Completed.split('').map((val: string) => val === '1')
             : defaultChecklist.Completed,
         Description: data.Description
-            ? data.Description.split(', ')
+            ? data.Description
             : defaultChecklist.Description,
     }
 
@@ -66,7 +67,7 @@ export async function getChecklistByEventID(
 ): Promise<ChecklistFrontend[]> {
     try {
         const res = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CHECKLIST_API_PATH}/${eventID}`
+            `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CHECKLIST_API_PATH}?mainEvent=${eventID}`
         )
         const rawChecklists = res.data
         const formattedChecklists = rawChecklists.map((checklist: any) =>
@@ -81,7 +82,7 @@ export async function getChecklistByEventID(
 }
 
 // Function to create a new Checklist
-export async function createChecklist(checklist: ChecklistFrontend) {
+export async function createNewChecklist(checklist: ChecklistFrontend) {
     const checklistBackend = reformatChecklistRequest(checklist)
     const res = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CHECKLIST_API_PATH}/${checklistBackend.MainEvent[0]}`,
