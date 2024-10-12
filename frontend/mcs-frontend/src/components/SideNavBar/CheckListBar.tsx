@@ -12,24 +12,24 @@ import {
     defaultChecklist,
     getChecklistByEventID,
     createNewChecklist,
+    updateChecklist,
 } from '../../scripts/checklist/function'
 import { AddButton } from '../Buttons'
 
 export const CheckListBar: FC = () => {
-    const [checklist, setChecklist] = useState<ChecklistType | null>(
-        defaultChecklist
-    )
+    const [checklist, setChecklist] = useState<ChecklistType>(defaultChecklist)
     const location = useLocation()
-    const isEventPage = location.pathname.startsWith('/event/')
-
     const { id: eventId } = useParams<{ id: string }>()
 
-    const toggleCompleted = (index: number) => {
+    const isEventPage = location.pathname.startsWith('/event/')
+
+    const toggleCompleted = async (index: number) => {
         if (checklist) {
             const updatedChecklist = { ...checklist }
             updatedChecklist.Completed[index] =
                 !updatedChecklist.Completed[index]
             setChecklist(updatedChecklist)
+            await updateChecklist(updatedChecklist)
         }
     }
 
@@ -37,7 +37,7 @@ export const CheckListBar: FC = () => {
         if (isEventPage && eventId) {
             try {
                 const fetchedChecklist = await getChecklistByEventID(eventId)
-                setChecklist(fetchedChecklist[0] || null) // Handle the case when no checklist is found
+                setChecklist(fetchedChecklist[0] || null)
             } catch (error) {
                 console.error('Failed to fetch checklist:', error)
             }
@@ -45,10 +45,6 @@ export const CheckListBar: FC = () => {
             setChecklist(defaultChecklist)
         }
     }
-    // Fetch the checklist by eventId when the component mounts or when eventId changes
-    useEffect(() => {
-        fetchChecklist()
-    }, [eventId])
 
     // Function to handle creating a new checklist
     const createChecklist = async () => {
@@ -56,7 +52,7 @@ export const CheckListBar: FC = () => {
             const checklist = defaultChecklist
             defaultChecklist.MainEvent = [eventId]
             const status = await createNewChecklist(checklist)
-            if (status == 200) {
+            if (status === 200) {
                 fetchChecklist()
             } else {
                 console.error('Failed to create checklist')
@@ -64,13 +60,17 @@ export const CheckListBar: FC = () => {
         }
     }
 
+    useEffect(() => {
+        fetchChecklist()
+    }, [eventId])
+
     return isEventPage ? (
         <Box
             sx={{
                 height: '100%',
                 backgroundColor: '#FFC901',
                 paddingTop: 2,
-                borderTop: '4px solid #FBE418', // yellow top edge
+                borderTop: '4px solid #FBE418',
             }}
         >
             <Typography variant="h6" fontWeight={300} sx={{ marginLeft: 2 }}>
