@@ -37,7 +37,7 @@ export const CheckListBar: FC = () => {
         if (isEventPage && eventId) {
             try {
                 const fetchedChecklist = await getChecklistByEventID(eventId)
-                setChecklist(fetchedChecklist[0] || null)
+                setChecklist(fetchedChecklist[0] || defaultChecklist)
             } catch (error) {
                 console.error('Failed to fetch checklist:', error)
             }
