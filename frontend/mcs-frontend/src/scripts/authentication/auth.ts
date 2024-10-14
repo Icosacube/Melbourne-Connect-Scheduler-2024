@@ -6,7 +6,16 @@ interface loginResponse {
     accessToken: string
     LastLoginTime: string
 }
+let refreshTokenTimer: NodeJS.Timeout | null = null; 
+const setRefreshTokenTimer = (timeUntilExpiry: number) => {
+    if (refreshTokenTimer) {
+        clearTimeout(refreshTokenTimer); 
+    }
 
+    refreshTokenTimer = setTimeout(() => {
+        refresh(); 
+    }, timeUntilExpiry);
+}
 export const login = async (username: string, password: string) => {
     try {
         await authGuard();
@@ -32,10 +41,12 @@ export const login = async (username: string, password: string) => {
         date.setTime(date.getTime() + 15 * 60 * 1000)
 
         setCookie('login', token, { expires: date })
-        setCookie('username', data.username, { expires: date })
+        setCookie('username', data.username)
 
         // set default axios auth header
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+        setRefreshTokenTimer(15 * 60 * 1000 - 30 * 1000);
     } catch (error) {}
 }
 
@@ -78,6 +89,7 @@ export const refresh = async () => {
         setCookie('login', token, { expires: date })
 
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        setRefreshTokenTimer(15 * 60 * 1000 - 30 * 1000);
         window.location.reload();
     } catch (error) {
         console.error(error)
@@ -91,6 +103,7 @@ export const authGuard = async () => {
     // set default axios auth header
     if (user) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${user}`
+        setRefreshTokenTimer(15 * 60 * 1000 - 30 * 1000);
         return true
     } else {
         // if login expire, try to refresh
@@ -124,6 +137,9 @@ export const logout = async () => {
         if (res.status === 200) {
             deleteCookie('login');
             deleteCookie('username');
+            if (refreshTokenTimer) {
+                clearTimeout(refreshTokenTimer);
+            }
             console.log('User logged out successfully!');
             return true;
         } else {

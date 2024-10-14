@@ -9,7 +9,7 @@ export function getCookie(name: string) {
 export function setCookie(
     name: string,
     value: string,
-    options: CookieSerializeOptions
+    options?: CookieSerializeOptions
 ) {
     const newCookie = cookie.serialize(name, value, options)
     document.cookie = newCookie
