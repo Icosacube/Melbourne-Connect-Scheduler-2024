@@ -218,3 +218,9 @@ export type CanvassingTemp = {
     AvailableAcademic: string[]
     MixedAcademic: { id: string; name: string; email: string }[]
 }
+
+export type Checklist = {
+    MainEvent: string[]
+    EventTask: string[]
+    Completed: string
+}

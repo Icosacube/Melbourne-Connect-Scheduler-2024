@@ -13,6 +13,7 @@ export enum Cachekeys {
     SERVICES = "Services",
     FUNDINGACCOUNTS = "FundingAccounts",
     CANVASSINGS = "Canvassings",
-    FINANCE = "Finance"
+    FINANCE = "Finance",
+    CHECKLIST="Checklist"
   }
   

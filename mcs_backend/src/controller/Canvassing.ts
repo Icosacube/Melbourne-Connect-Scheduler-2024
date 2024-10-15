@@ -44,8 +44,8 @@ router.get('/canvassings', async (req, res) => {
       return res.status(404).json({ message: 'No matching canvassings found' });
     }
     
-    // Cache
-    setCache(Cachekeys.CANVASSINGS, filteredCanvassing);
+    // Caches
+    setCache(cacheKey, filteredCanvassing);
     res.json(filteredCanvassing).status(200);
   } catch (error) {
     console.error("Error fetching canvassings:", error);
