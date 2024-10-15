@@ -6,7 +6,7 @@ import {
     DeleteButton,
     DeleteDialog,
     FormInputDate,
-    FormInputMultiSelect,
+    FormInputMultiAutocomplete,
     FormInputSingleAutocomplete,
     OutlinedButton,
     SubmitButton,
@@ -169,7 +169,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
                         ) : (
                             <>
                                 <Grid item xs={12}>
-                                    <FormInputMultiSelect
+                                    <FormInputMultiAutocomplete
                                         name="MainEvent"
                                         control={control}
                                         label="Event"

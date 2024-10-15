@@ -117,6 +117,7 @@ export type SubEvent = {
     Completed: boolean
     Speakers: string[]
     EndDate: Dayjs
+    Academics: string[]
 }
 
 export type Academic = {
@@ -262,4 +263,12 @@ export type CanvassingTemp = {
     Venue: string[]
     AvailableAcademic: string[]
     MixedAcademic: { id: string; name: string; email: string }[]
+}
+
+export type Checklist = {
+    RecordID: string
+    MainEvent: string[]
+    EventTask: string[]
+    Completed: boolean[]
+    Description: string[]
 }

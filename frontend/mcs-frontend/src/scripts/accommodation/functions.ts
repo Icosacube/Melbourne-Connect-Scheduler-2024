@@ -16,9 +16,7 @@ export async function getAccomByTripID(
         const res = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_ACCOMMODATION_API_PATH}`
         )
-        console.log(tripID)
         const rawAccommodations = res.data
-        console.log(rawAccommodations)
         const formattedAccommodations = rawAccommodations
             .filter((accommodation: any) =>
                 accommodation.Trip?.includes(tripID)
@@ -26,8 +24,6 @@ export async function getAccomByTripID(
             .map((accommodation: any) =>
                 reformatAccommodationResponse(accommodation)
             )
-
-        console.log(formattedAccommodations)
         return formattedAccommodations
     } catch (error) {
         console.error(`Error fetching trip ${tripID} accommodations:`, error)
@@ -53,7 +49,8 @@ export async function getAllAccom(): Promise<AccommodationFrontend[]> {
 }
 
 export async function createAccommodation(
-    accommodation: AccommodationFrontend
+    accommodation: AccommodationFrontend,
+    tripID: string
 ): Promise<AccommodationFrontend> {
     try {
         const accommodationData = reformatAccommodationRequest(accommodation)
@@ -72,7 +69,7 @@ export async function createAccommodation(
 export async function updateAccom(accom: AccommodationFrontend) {
     const AccommBackend = reformatAccommodationRequest(accom)
     const res = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_ACCOMMODATION_API_PATH}${accom.RecordID}`,
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_ACCOMMODATION_API_PATH}/${accom.RecordID}`,
         AccommBackend
     )
     return res.status
@@ -80,7 +77,7 @@ export async function updateAccom(accom: AccommodationFrontend) {
 
 export async function deleteAccom(accomID: string) {
     const res = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_URL}/accommodation/${accomID}`
+        `${process.env.REACT_APP_BACKEND_URL}/accommodations/${accomID}`
     )
     return res.status
 }

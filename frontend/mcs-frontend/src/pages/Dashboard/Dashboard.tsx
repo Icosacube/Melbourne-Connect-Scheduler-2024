@@ -6,9 +6,10 @@ import { FC, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { DashboardCalendar } from '../../components'
 import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
-import { CreateTripModal } from '../Trips/CreateTripModal'
 import { EventFormModal } from '../Event'
 import { SpeakerFormModal } from '../Speaker'
+import { CreateTripModal } from '../Trips/CreateTripModal'
+import { EventListView } from './EventsListView'
 
 // eslint-disable-next-line no-lone-blocks
 {
@@ -118,22 +119,8 @@ export const Dashboard: FC = () => {
                         <Typography variant="h5" className="mb-2">
                             Upcoming Events
                         </Typography>
-                        <Box className=" overflow-scroll h-[35rem]">
-                            <Divider className="mb-2" />
-                            {events.map((event) => (
-                                <Box key={event.RecordID}>
-                                    <Typography className="text-s text-gray-400">
-                                        {event.StartDate.toString()}
-                                    </Typography>
-                                    <Typography className="text-lg font-semibold">
-                                        {event.EventName}
-                                    </Typography>
-                                    <Typography className="text-s text-gray-400">
-                                        {event.Venue}
-                                    </Typography>
-                                    <Divider className="mb-2" />
-                                </Box>
-                            ))}
+                        <Box className=" overflow-y-scroll h-[35rem] w-full overflow-x-hidden">
+                            <EventListView events={events} venues={venues} />
                         </Box>
                     </Box>
                 </Box>

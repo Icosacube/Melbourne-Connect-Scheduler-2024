@@ -4,13 +4,13 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
-    FormInputMultiSelect,
     FormInputNumber,
     FormInputText,
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
     FormButtonGroup,
+    FormInputMultiAutocomplete,
 } from '../../../../../components/'
 import { Catering } from '../../../../../types/frontendTypes'
 import { createCatering } from '../../../../../scripts/catering/functions'
@@ -117,7 +117,7 @@ export const CreateCateringModal: React.FC<CreateCateringModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInputMultiSelect
+                            <FormInputMultiAutocomplete
                                 name="FundingAccount"
                                 control={control}
                                 label="Funding Account"

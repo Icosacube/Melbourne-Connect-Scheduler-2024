@@ -18,6 +18,7 @@ export const CustomDataGrid: FC<CustomDataGridProps> = ({
     getRowId,
     rowNavigationPath = '',
 }) => {
+    // Navigation on click
     const navigate = useNavigate()
 
     const handleRowClick = (params: { row: any }) => {
@@ -37,6 +38,7 @@ export const CustomDataGrid: FC<CustomDataGridProps> = ({
             sx={{ backgroundColor: 'background.paper' }}
         >
             <DataGrid
+                autoHeight
                 rows={rows}
                 columns={modifiedColumns}
                 getRowId={getRowId}
@@ -77,6 +79,17 @@ export const CustomDataGrid: FC<CustomDataGridProps> = ({
                     },
                     '.MuiDataGrid-columnHeaderTitleContainer': {
                         backgroundColor: 'secondary.main',
+                    },
+                    '& .MuiDataGrid-row': {
+                        transition: 'transform 0.2s ease-in-out',
+                        paddingLeft: '0.5rem',
+                        paddingRight: '0.5rem', // Smooth transition for the grow effect
+                    },
+                    '& .MuiDataGrid-row:hover': {
+                        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                        cursor: 'pointer',
+                        transform: 'scale(1.02)', // This makes the row grow by 2% on hover
+                        zIndex: 1, // This ensures the growing row appears above other rows
                     },
                 }}
                 onRowClick={handleRowClick}
