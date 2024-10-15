@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
-    FormInputMultiSelect,
+    FormInputMultiAutocomplete,
     FormInputNumber,
     FormInputText,
     FormInputTextLong,
@@ -119,7 +119,7 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInputMultiSelect
+                            <FormInputMultiAutocomplete
                                 name="FundingAccount"
                                 control={control}
                                 label="Funding Account"

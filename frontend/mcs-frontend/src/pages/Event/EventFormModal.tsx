@@ -8,13 +8,13 @@ import {
     DeleteButton,
     DeleteDialog,
     FormInputDateTime,
-    FormInputMultiSelect,
     FormInputText,
     FormInputTextLong,
     FormInputVenue,
     OutlinedButton,
     SubmitButton,
     UploadButton,
+    FormInputMultiAutocomplete,
 } from '../../components'
 import {
     createMainEvent,
@@ -163,8 +163,9 @@ export const EventFormModal: FC<EventFormModalProps> = ({
                                 label="Venue"
                             />
                         </Grid>
+
                         <Grid item xs={12} lg={5}>
-                            <FormInputMultiSelect
+                            <FormInputMultiAutocomplete
                                 name="Speaker"
                                 control={control}
                                 label="Speaker"
