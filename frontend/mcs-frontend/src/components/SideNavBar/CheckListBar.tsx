@@ -17,7 +17,9 @@ import {
 import { AddButton } from '../Buttons'
 
 export const CheckListBar: FC = () => {
-    const [checklist, setChecklist] = useState<ChecklistType>(defaultChecklist)
+    const [checklist, setChecklist] = useState<ChecklistType | null>(
+        defaultChecklist
+    )
     const location = useLocation()
     const { id: eventId } = useParams<{ id: string }>()
 
@@ -37,9 +39,9 @@ export const CheckListBar: FC = () => {
         if (isEventPage && eventId) {
             try {
                 const fetchedChecklist = await getChecklistByEventID(eventId)
-                setChecklist(fetchedChecklist[0] || defaultChecklist)
+                setChecklist(fetchedChecklist[0] || null)
             } catch (error) {
-                console.error('Failed to fetch checklist:', error)
+                setChecklist(null)
             }
         } else {
             setChecklist(defaultChecklist)
@@ -67,16 +69,18 @@ export const CheckListBar: FC = () => {
     return isEventPage ? (
         <Box
             sx={{
-                height: '100%',
+                height: 'calc(100vh - 396px)',
                 backgroundColor: '#FFC901',
                 paddingTop: 2,
                 borderTop: '4px solid #FBE418',
+                overflowY: 'scroll',
+                display: 'block',
             }}
         >
             <Typography variant="h6" fontWeight={300} sx={{ marginLeft: 2 }}>
                 Task List
             </Typography>
-            {checklist ? (
+            {checklist != null ? (
                 checklist.EventTask.map((item, index) => (
                     <Card
                         key={index}
@@ -111,9 +115,8 @@ export const CheckListBar: FC = () => {
                     </Card>
                 ))
             ) : (
-                <Box sx={{ marginX: 1.5 }}>
+                <Box sx={{ marginX: 1.5, marginY: 2 }}>
                     <AddButton name="New" onClick={createChecklist} />
-                    {eventId == null ? '' : eventId}
                 </Box>
             )}
         </Box>
