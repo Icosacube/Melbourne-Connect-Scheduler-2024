@@ -21,6 +21,7 @@ import {
 } from '../../../../../components'
 import { getAllAcademics } from '../../../../../scripts/academic/functions'
 import {
+    createCanvassing,
     addOrUpdateCanvassing,
     deleteCanvassing,
     defaultCanvassing,
@@ -108,8 +109,6 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     }
 
     const onSubmit = async (data: any) => {
-        const { emailSubject, emailContent } =
-            generateBatchEmailForCanvassing(event)
         const formattedMixedAcademic = data.DropdownOptions.map(
             (academic: { id: string; label: string; value: string }) => ({
                 id: academic.id,
@@ -117,7 +116,6 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                 email: academic.value,
             })
         )
-        console.log('Mixed Academic:', formattedMixedAcademic)
         const updatedSlots = canvassings.map((slot) => ({
             ...slot,
             Venue: data.Venue,
@@ -126,12 +124,21 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
 
         try {
             setSubmitting(true)
-            const res = await addOrUpdateCanvassing(
-                updatedSlots,
-                updatedSlots.map((slot) => slot.id)
-            )
+            var res;
+            if(canvassingSlots.length>0){
+                res = await addOrUpdateCanvassing(
+                    updatedSlots,
+                    updatedSlots.map((slot) => slot.id)
+                )
+            }else{
+                res = await createCanvassing(
+                    updatedSlots
+                )
+            }
             if (res) {
                 setShowSuccess(true)
+                const { emailSubject, emailContent } =
+                    generateBatchEmailForCanvassing(event)
                 // console.log('Emails:', emails)
                 for (const academic of formattedMixedAcademic) {
                     await sendEmail(
