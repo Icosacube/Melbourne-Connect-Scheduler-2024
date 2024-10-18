@@ -85,6 +85,20 @@ export async function updateCanvassing(canvassingList: CanvassingFrontend[]) {
     return 200 // all updates were successful
 }
 
+export async function deleteCanvassing(ids: string[]) {
+    for (const canvassingId of ids) {
+        const res = await axios.delete(
+            // change later
+            `${process.env.REACT_APP_BACKEND_URL}/canvassing/${canvassingId}`,
+        )
+        if (res.status !== 200) {
+            return res.status // Return immediately if error
+        }
+    }
+    return 200 // all updates were successful
+}
+
+
 export async function addOrUpdateCanvassing(
     canvassingList: CanvassingTempFrontend[],
     canvassingIds: string[]

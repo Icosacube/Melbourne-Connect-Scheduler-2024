@@ -4,11 +4,13 @@ import React from 'react'
 interface DeleteButtonProps {
     onClick: () => void
     deleting: boolean
+    objectName?: string
 }
 
 export const DeleteButton: React.FC<DeleteButtonProps> = ({
     onClick,
     deleting,
+    objectName
 }) => {
     return (
         <Button
@@ -25,7 +27,7 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({
                 ) : undefined
             }
         >
-            Delete
+            Delete {objectName}
         </Button>
     )
 }

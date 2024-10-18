@@ -14,6 +14,7 @@ import { useRevalidator } from 'react-router-dom'
 import {
     BottomSuccessSnackbar,
     CanvassingCreationCalendar,
+    DeleteButton,
     FormInputMultiAutocomplete,
     FormInputMultiFreeSolo,
     SubmitButton,
@@ -21,7 +22,7 @@ import {
 import { getAllAcademics } from '../../../../../scripts/academic/functions'
 import {
     addOrUpdateCanvassing,
-    createCanvassing,
+    deleteCanvassing,
     defaultCanvassing,
     formatCanvassingToTemp,
 } from '../../../../../scripts/canvassing/functions'
@@ -57,6 +58,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     const [timeSlotSize, setTimeSlotSize] = useState<string>('30')
     const [venues, setVenues] = useState<Venue[]>([])
     const [submitting, setSubmitting] = useState(false)
+    const [deleting, setDeleting] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
     const [showSuccessEmail, setShowSuccessEmail] = useState(false)
     const revalidator = useRevalidator()
@@ -74,8 +76,6 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             }
         }
         fetchVenues()
-        // alternative: fetch all venues
-        // getAllVenues().then((venues) => setVenues(venues))
 
         getAllAcademics().then((academics) => setAcademics(academics))
     }, [event])
@@ -88,6 +88,24 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             setCanvassings(temp)
         }
     }, [canvassingSlots, setValue])
+
+    const deleteEmptyTimeslots = async () => {
+        setDeleting(true)
+        const filteredSlots = canvassings.filter(
+            (slot) => slot.AvailableAcademic.length > 0
+        )
+        const ids = canvassings
+            .filter((slot) => slot.AvailableAcademic.length == 0)
+            .map((slot) => slot.id)
+
+        const res = await deleteCanvassing(ids)
+        if (res == 200) {
+            setCanvassings(filteredSlots)
+        } else {
+            console.log('failed to delete timeslots')
+        }
+        setDeleting(false)
+    }
 
     const onSubmit = async (data: any) => {
         const { emailSubject, emailContent } =
@@ -184,6 +202,20 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                     </Select>
                                 </FormControl>
                             </Grid>
+                            {/* Optionally display this button when canvassingSlots exist (update mode) */}
+                            {canvassingSlots.length > 0 ? (
+                                <Grid item xs={12} container>
+                                    <Grid item xs="auto">
+                                        <DeleteButton
+                                            deleting={deleting}
+                                            onClick={deleteEmptyTimeslots}
+                                            objectName={'Empty Timeslots'}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            ) : (
+                                <></>
+                            )}
                         </Grid>
                         <Grid item xs={12} container spacing={3}>
                             <Grid item xs={12}>
