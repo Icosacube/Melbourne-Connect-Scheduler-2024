@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import CreateIcon from '@mui/icons-material/Create'
 import {
     Box,
     Breadcrumbs,
@@ -8,9 +8,8 @@ import {
     Toolbar,
     Typography,
 } from '@mui/material'
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
-import CreateIcon from '@mui/icons-material/Create'
-import ShareIcon from '@mui/icons-material/Share'
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 interface PageTopNavBarProps {
     type: string
@@ -28,12 +27,7 @@ export const PageTopNavBar: React.FC<PageTopNavBarProps> = ({
     const navigate = useNavigate()
 
     const breadcrumbs = [
-        <Link
-            key="1"
-            // underline="hover"
-            to={link}
-            color="inherit"
-        >
+        <Link key="1" to={link} color="inherit" className="hover:underline">
             {type} Overview
         </Link>,
         <Typography key="2" color="text.primary">
@@ -42,7 +36,10 @@ export const PageTopNavBar: React.FC<PageTopNavBarProps> = ({
     ]
 
     return (
-        <Toolbar className="bg-white h-24 shadow-md w-full mb-6">
+        <Toolbar
+            className="bg-white h-24 shadow-md w-full mb-6"
+            style={{ position: 'sticky', top: 0, zIndex: 1000 }}
+        >
             <Box className="flex justify-between w-full">
                 <Box className="flex place-items-center">
                     <IconButton
@@ -61,15 +58,6 @@ export const PageTopNavBar: React.FC<PageTopNavBarProps> = ({
                 </Box>
                 <Box className="flex place-items-center">
                     <Box className="flex h-14 space-x-4 mr-12">
-                        <Button
-                            variant="contained"
-                            className="bg-accent2 hover:bg-secondary hover:text-white text-white"
-                        >
-                            <ShareIcon />
-                            <Typography variant="h6" className="ml-3">
-                                Share
-                            </Typography>
-                        </Button>
                         <Button
                             variant="contained"
                             onClick={openEditModal}

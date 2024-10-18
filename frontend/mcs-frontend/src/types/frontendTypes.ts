@@ -92,7 +92,8 @@ export type MainEvent = {
     EventDescription: string
     EventbriteLink: string
     EventBanner: string | any[] // string: url to publicly accessible photos (google drive etc); any[] for receive
-    Date: Dayjs // Example Format: "2024-04-30"
+    StartDate: Dayjs // Example Format: "2024-04-30"
+    EndDate: Dayjs
     Notes: string
     Speaker: string[]
     GuestAcademic: string[]
@@ -116,6 +117,7 @@ export type SubEvent = {
     Completed: boolean
     Speakers: string[]
     EndDate: Dayjs
+    Academics: string[]
 }
 
 export type Academic = {
@@ -261,4 +263,12 @@ export type CanvassingTemp = {
     Venue: string[]
     AvailableAcademic: string[]
     MixedAcademic: { id: string; name: string; email: string }[]
+}
+
+export type Checklist = {
+    RecordID: string
+    MainEvent: string[]
+    EventTask: string[]
+    Completed: boolean[]
+    Description: string[]
 }

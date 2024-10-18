@@ -29,7 +29,7 @@ export async function loader(): Promise<
                     {
                         name: event.EventName,
                         total: event.EventTotal,
-                        date: event.Date,
+                        date: event.StartDate,
                         keynoteSpeaker: keynoteSpeakerName,
                     },
                 ]

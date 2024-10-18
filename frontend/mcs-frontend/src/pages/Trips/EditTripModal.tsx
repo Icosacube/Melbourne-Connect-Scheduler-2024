@@ -6,7 +6,7 @@ import {
     DeleteButton,
     DeleteDialog,
     FormInputDate,
-    FormInputMultiSelect,
+    FormInputMultiAutocomplete,
     FormInputSingleAutocomplete,
     OutlinedButton,
     SubmitButton,
@@ -169,7 +169,7 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
                         ) : (
                             <>
                                 <Grid item xs={12}>
-                                    <FormInputMultiSelect
+                                    <FormInputMultiAutocomplete
                                         name="MainEvent"
                                         control={control}
                                         label="Event"
@@ -203,11 +203,24 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
                                         label="End Date"
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    container
+                                    justifyContent="space-between"
+                                >
+                                    <Grid item>
+                                        <OutlinedButton
+                                            name="Cancel"
+                                            onClick={handleClose}
+                                        />
+                                    </Grid>
                                     <Grid
+                                        item
                                         container
                                         spacing={2}
-                                        justifyContent="space-between"
+                                        justifyContent="flex-end"
+                                        xs="auto"
                                     >
                                         <Grid item>
                                             <DeleteButton
@@ -216,26 +229,10 @@ export const EditTripModal: React.FC<EditTripModalProps> = ({
                                             />
                                         </Grid>
                                         <Grid item>
-                                            <Grid
-                                                container
-                                                spacing={2}
-                                                justifyContent="flex-end"
-                                            >
-                                                <Grid item>
-                                                    <OutlinedButton
-                                                        onClick={() => reset()}
-                                                        name={'Reset'}
-                                                    />
-                                                </Grid>
-                                                <Grid item>
-                                                    <SubmitButton
-                                                        submitting={submitting}
-                                                        onClick={handleSubmit(
-                                                            onSubmit
-                                                        )}
-                                                    />
-                                                </Grid>
-                                            </Grid>
+                                            <SubmitButton
+                                                submitting={submitting}
+                                                onClick={handleSubmit(onSubmit)}
+                                            />
                                         </Grid>
                                     </Grid>
                                 </Grid>

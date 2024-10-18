@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import {
     FormControl,
     Grid,
@@ -8,14 +7,10 @@ import {
     Select,
     Typography,
 } from '@mui/material'
+import { SelectChangeEvent } from '@mui/material/Select/SelectInput'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-    Academic,
-    Canvassing,
-    CanvassingTemp,
-    MainEvent,
-    Venue,
-} from '../../../../../types/frontendTypes'
+import { useRevalidator } from 'react-router-dom'
 import {
     BottomSuccessSnackbar,
     CanvassingCreationCalendar,
@@ -23,19 +18,25 @@ import {
     FormInputMultiFreeSolo,
     SubmitButton,
 } from '../../../../../components'
-import { useRevalidator } from 'react-router-dom'
-import { getVenueById } from '../../../../../scripts/venue/functions'
+import { getAllAcademics } from '../../../../../scripts/academic/functions'
 import {
     addOrUpdateCanvassing,
+    createCanvassing,
     defaultCanvassing,
     formatCanvassingToTemp,
 } from '../../../../../scripts/canvassing/functions'
-import { SelectChangeEvent } from '@mui/material/Select/SelectInput'
-import { getAllAcademics } from '../../../../../scripts/academic/functions'
-import { ShareEmailButton } from '../../../../../components/Buttons/'
-import { getCanvassingByEventId } from '../../../../../scripts/canvassing/functions'
-import { sendEmail } from '../../../../../scripts/email/functions'
-import { generateBatchEmailForCanvassing } from '../../../../../scripts/email/functions'
+import {
+    generateBatchEmailForCanvassing,
+    sendEmail,
+} from '../../../../../scripts/email/functions'
+import { getVenueById } from '../../../../../scripts/venue/functions'
+import {
+    Academic,
+    Canvassing,
+    CanvassingTemp,
+    MainEvent,
+    Venue,
+} from '../../../../../types/frontendTypes'
 
 interface CanvassingCreationProps {
     event: MainEvent
@@ -46,7 +47,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     event,
     canvassingSlots,
 }) => {
-    const { handleSubmit, reset, control, setValue, watch } = useForm<
+    const { handleSubmit, reset, control, setValue } = useForm<
         CanvassingTemp[]
     >({
         defaultValues: [defaultCanvassing],
@@ -59,10 +60,6 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     const [showSuccess, setShowSuccess] = useState(false)
     const [showSuccessEmail, setShowSuccessEmail] = useState(false)
     const revalidator = useRevalidator()
-    const [extractedEmails, setExtractedEmails] = useState<string[]>([])
-    const [extractedCanvassing, setExtractedCanvassing] = useState<
-        Canvassing[]
-    >([])
 
     useEffect(() => {
         const fetchVenues = async () => {

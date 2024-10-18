@@ -77,7 +77,6 @@ export type Trip = {
     Accommodation: string[]
     Flight: string[]
     Miscellaneous: string[]
-    AcademicCanvassing: string[]
     Completed: boolean
 }
 
@@ -109,6 +108,7 @@ export type SubEvent = {
     MainEvent: string[]
     Speakers: string[]
     EndDate: string
+    Academics: string[]
 }
 
 export type Academic = {
@@ -217,4 +217,10 @@ export type CanvassingTemp = {
     Venue: string[]
     AvailableAcademic: string[]
     MixedAcademic: { id: string; name: string; email: string }[]
+}
+
+export type Checklist = {
+    MainEvent: string[]
+    EventTask: string[]
+    Completed: string
 }

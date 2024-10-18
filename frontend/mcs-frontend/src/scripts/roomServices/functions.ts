@@ -1,13 +1,21 @@
 import axios, { AxiosResponse } from 'axios'
 import { Service } from '../../types/frontendTypes'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Function to reformat room service request data
 function reformatRoomServiceRequestData(data: Service): any {
     const roomService = {
         Cost: parseFloat(String(data.Cost)),
         ServiceDescription: data.ServiceDescription,
-        ExpenseDate: dayjs(data.ExpenseDate).format('YYYY-MM-DD'),
+        ExpenseDate: dayjs(data.ExpenseDate)
+            .tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DD'),
         Notes: data.Notes,
         FundingAccount: data.FundingAccount,
         MainEvent: data.MainEvent,
@@ -26,7 +34,7 @@ function reformatRoomServiceResponseData(data: any): Service {
             data.ServiceDescription || defaultRoomService.ServiceDescription,
         Notes: data.Notes || defaultRoomService.Notes,
         ExpenseDate: data.ExpenseDate
-            ? dayjs(data.ExpenseDate)
+            ? dayjs(data.ExpenseDate).utc().tz('Australia/Melbourne')
             : defaultRoomService.ExpenseDate,
         FundingAccount:
             data.FundingAccount || defaultRoomService.FundingAccount,

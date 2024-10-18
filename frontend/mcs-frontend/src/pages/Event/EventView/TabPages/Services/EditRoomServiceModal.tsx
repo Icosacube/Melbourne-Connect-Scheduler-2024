@@ -5,12 +5,13 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
-    FormInputMultiSelect,
+    FormInputMultiAutocomplete,
     FormInputNumber,
     FormInputText,
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
+    FormButtonGroup,
 } from '../../../../../components/'
 import { Service } from '../../../../../types/frontendTypes'
 import { updateRoomServiceByID } from '../../../../../scripts/roomServices/functions'
@@ -41,7 +42,7 @@ export const EditRoomServiceModal: React.FC<EditRoomServiceModalProps> = ({
     roomService,
     fundingAccounts,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Service>({
+    const { handleSubmit, reset, control, watch } = useForm<Service>({
         defaultValues: roomService || EditRoomServiceFormDefaultValues,
     })
     const revalidator = useRevalidator()
@@ -71,6 +72,11 @@ export const EditRoomServiceModal: React.FC<EditRoomServiceModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+
+    const isSubmitDisabled = () => {
+        const description = watch('ServiceDescription')
+        return !description
+    }
 
     return (
         <>
@@ -109,7 +115,7 @@ export const EditRoomServiceModal: React.FC<EditRoomServiceModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInputMultiSelect
+                            <FormInputMultiAutocomplete
                                 name="FundingAccount"
                                 control={control}
                                 label="Funding Account"
@@ -129,12 +135,12 @@ export const EditRoomServiceModal: React.FC<EditRoomServiceModalProps> = ({
                                 label="Notes"
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                            />
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>

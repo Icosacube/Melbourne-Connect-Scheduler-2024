@@ -1,18 +1,28 @@
 import axios from 'axios'
-import cookie from 'cookie'
+import { redirect } from 'react-router-dom'
 import { deleteCookie, getCookie, setCookie } from '../cookie/function'
-import { redirect } from "react-router-dom";
 interface loginResponse {
     username: string
     accessToken: string
     LastLoginTime: string
 }
+let refreshTokenTimer: NodeJS.Timeout | null = null; 
+const setRefreshTokenTimer = (timeUntilExpiry: number) => {
+    if (refreshTokenTimer) {
+        clearTimeout(refreshTokenTimer); 
+    }
 
+    refreshTokenTimer = setTimeout(() => {
+        refresh(); 
+    }, timeUntilExpiry);
+}
 export const login = async (username: string, password: string) => {
     try {
+        await authGuard();
         const res = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_API_PATH}`,
-            { username: username, password: password }
+            { username: username, password: password },
+            { withCredentials: true }
         )
 
         if (res.status !== 200) {
@@ -31,10 +41,12 @@ export const login = async (username: string, password: string) => {
         date.setTime(date.getTime() + 15 * 60 * 1000)
 
         setCookie('login', token, { expires: date })
-        setCookie('username', data.username, { expires: date })
+        setCookie('username', data.username)
 
         // set default axios auth header
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+        setRefreshTokenTimer(15 * 60 * 1000 - 30 * 1000);
     } catch (error) {}
 }
 
@@ -63,7 +75,7 @@ export const refresh = async () => {
         const res = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGIN_REFRESH_API_PATH}`,
             null,
-            { withCredentials: true } 
+            { withCredentials: true }
         )
 
         const data = res.data as loginResponse
@@ -77,6 +89,8 @@ export const refresh = async () => {
         setCookie('login', token, { expires: date })
 
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        setRefreshTokenTimer(15 * 60 * 1000 - 30 * 1000);
+        window.location.reload();
     } catch (error) {
         console.error(error)
     }
@@ -89,45 +103,52 @@ export const authGuard = async () => {
     // set default axios auth header
     if (user) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${user}`
+        setRefreshTokenTimer(15 * 60 * 1000 - 30 * 1000);
         return true
     } else {
         // if login expire, try to refresh
         try {
-            refresh() // why isn't the cookie sending??
+            await refresh() // why isn't the cookie sending??
             return true
         } catch (error) {
-            
-            console.error(error);
-            return redirect("/login");
+            console.error(error)
+            return redirect('/login')
         }
     }
 }
 
 export const logout = async () => {
     try {
-        const username = getCookie('username');
-        console.log('username', username);
-        const token = getCookie('login'); 
+        const username = getCookie('username')
+        console.log('username', username)
+        const token = getCookie('login')
 
         if (!token) {
             console.log('No user logged in');
-            return;
+            return false; 
         }
 
         const res = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_LOGOUT_API_PATH}`,
-            { username }
+            { username },
+            { withCredentials: true }
         );
 
         if (res.status === 200) {
             deleteCookie('login');
             deleteCookie('username');
+            if (refreshTokenTimer) {
+                clearTimeout(refreshTokenTimer);
+            }
             console.log('User logged out successfully!');
+            return true;
         } else {
             console.log('Logout failed: ', res.statusText);
+            return false;
         }
     } catch (error) {
         console.error('Error during logout:', error);
-    }
-};
+        return false;
 
+    }
+}

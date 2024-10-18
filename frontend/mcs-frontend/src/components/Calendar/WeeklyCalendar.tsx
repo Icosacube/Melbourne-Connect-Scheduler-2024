@@ -21,7 +21,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
     const mainEventProp = {
         id: `main-${event.RecordID}`, // identifier of main events
         title: event.EventName,
-        start: event.Date.toDate(),
+        start: event.StartDate.toDate(),
         backgroundColor: '#90A4AE',
         borderColor: '#90A4AE',
     }
@@ -53,7 +53,7 @@ const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
             height="auto"
             allDaySlot={false}
             events={allEvents}
-            initialDate={dayjs(event.Date).format('YYYY-MM-DD')}
+            initialDate={dayjs(event.StartDate).format('YYYY-MM-DD')}
             headerToolbar={{
                 left: 'title',
                 center: '',

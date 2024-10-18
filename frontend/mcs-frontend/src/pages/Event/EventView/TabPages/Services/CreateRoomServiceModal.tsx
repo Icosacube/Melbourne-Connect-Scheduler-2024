@@ -4,12 +4,13 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
-    FormInputMultiSelect,
+    FormInputMultiAutocomplete,
     FormInputNumber,
     FormInputText,
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
+    FormButtonGroup,
 } from '../../../../../components/'
 import { Service } from '../../../../../types/frontendTypes'
 import { createRoomService } from '../../../../../scripts/roomServices/functions'
@@ -39,7 +40,7 @@ export const CreateRoomServiceModal: React.FC<CreateRoomServiceModalProps> = ({
     eventID,
     fundingAccounts,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Service>({
+    const { handleSubmit, reset, control, watch } = useForm<Service>({
         defaultValues: CreateRoomServiceFormDefaultValues,
     })
 
@@ -70,6 +71,11 @@ export const CreateRoomServiceModal: React.FC<CreateRoomServiceModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+
+    const isSubmitDisabled = () => {
+        const description = watch('ServiceDescription')
+        return !description
+    }
 
     return (
         <>
@@ -108,7 +114,7 @@ export const CreateRoomServiceModal: React.FC<CreateRoomServiceModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInputMultiSelect
+                            <FormInputMultiAutocomplete
                                 name="FundingAccount"
                                 control={control}
                                 label="Funding Account"
@@ -128,12 +134,12 @@ export const CreateRoomServiceModal: React.FC<CreateRoomServiceModalProps> = ({
                                 label="Notes"
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                            />
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>

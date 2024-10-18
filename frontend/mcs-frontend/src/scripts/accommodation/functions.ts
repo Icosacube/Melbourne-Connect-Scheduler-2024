@@ -1,7 +1,12 @@
-import dayjs from 'dayjs'
 import { Accommodation as AccommodationFrontend } from '../../types/frontendTypes'
 import { Accommodation as AccommodationBackend } from '../../types/backendTypes'
 import axios from 'axios'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Get accommodation info for a specific trip, given the trip ID
 export async function getAccomByTripID(
@@ -11,9 +16,7 @@ export async function getAccomByTripID(
         const res = await axios.get(
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_ACCOMMODATION_API_PATH}`
         )
-        console.log(tripID)
         const rawAccommodations = res.data
-        console.log(rawAccommodations)
         const formattedAccommodations = rawAccommodations
             .filter((accommodation: any) =>
                 accommodation.Trip?.includes(tripID)
@@ -21,8 +24,6 @@ export async function getAccomByTripID(
             .map((accommodation: any) =>
                 reformatAccommodationResponse(accommodation)
             )
-
-        console.log(formattedAccommodations)
         return formattedAccommodations
     } catch (error) {
         console.error(`Error fetching trip ${tripID} accommodations:`, error)
@@ -48,7 +49,8 @@ export async function getAllAccom(): Promise<AccommodationFrontend[]> {
 }
 
 export async function createAccommodation(
-    accommodation: AccommodationFrontend
+    accommodation: AccommodationFrontend,
+    tripID: string
 ): Promise<AccommodationFrontend> {
     try {
         const accommodationData = reformatAccommodationRequest(accommodation)
@@ -67,7 +69,7 @@ export async function createAccommodation(
 export async function updateAccom(accom: AccommodationFrontend) {
     const AccommBackend = reformatAccommodationRequest(accom)
     const res = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_ACCOMMODATION_API_PATH}${accom.RecordID}`,
+        `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_ACCOMMODATION_API_PATH}/${accom.RecordID}`,
         AccommBackend
     )
     return res.status
@@ -75,7 +77,7 @@ export async function updateAccom(accom: AccommodationFrontend) {
 
 export async function deleteAccom(accomID: string) {
     const res = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_URL}/accommodation/${accomID}`
+        `${process.env.REACT_APP_BACKEND_URL}/accommodations/${accomID}`
     )
     return res.status
 }
@@ -107,10 +109,10 @@ function reformatAccommodationResponse(data: any): AccommodationFrontend {
         Address: data.Address || defaultAccommodation.Address,
         Room: data.Room || defaultAccommodation.Room,
         CheckIn: data.CheckIn
-            ? dayjs(data.CheckIn)
+            ? dayjs(data.CheckIn).utc().tz('Australia/Melbourne')
             : defaultAccommodation.CheckIn,
         CheckOut: data.CheckOut
-            ? dayjs(data.CheckOut)
+            ? dayjs(data.CheckOut).utc().tz('Australia/Melbourne')
             : defaultAccommodation.CheckOut,
         NumberOfNight: data.NumberOfNight || defaultAccommodation.NumberOfNight,
         Cost: data.Cost || defaultAccommodation.Cost,
@@ -132,8 +134,12 @@ function reformatAccommodationRequest(
         HotelName: accommodation.HotelName,
         Address: accommodation.Address,
         Room: accommodation.Room,
-        CheckIn: accommodation.CheckIn.format('YYYY-MM-DD'),
-        CheckOut: accommodation.CheckOut.format('YYYY-MM-DD'),
+        CheckIn: accommodation.CheckIn.tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DD'),
+        CheckOut: accommodation.CheckOut.tz('Australia/Melbourne')
+            .utc()
+            .format('YYYY-MM-DD'),
         Cost: Number(accommodation.Cost),
         Notes: accommodation.Notes,
         FundingAccount: accommodation.FundingAccount,

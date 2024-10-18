@@ -5,12 +5,13 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
     FormInputDate,
-    FormInputMultiSelect,
+    FormInputMultiAutocomplete,
     FormInputNumber,
     FormInputText,
     FormInputTextLong,
     SubmitButton,
     BottomSuccessSnackbar,
+    FormButtonGroup,
 } from '../../../../../components/'
 import { Catering } from '../../../../../types/frontendTypes'
 import { updateCateringByID } from '../../../../../scripts/catering/functions'
@@ -41,7 +42,7 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
     catering,
     fundingAccounts,
 }) => {
-    const { handleSubmit, reset, control } = useForm<Catering>({
+    const { handleSubmit, reset, control, watch } = useForm<Catering>({
         defaultValues: catering || EditCateringFormDefaultValues,
     })
     const revalidator = useRevalidator()
@@ -71,6 +72,11 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+
+    const isSubmitDisabled = () => {
+        const description = watch('Description')
+        return !description
+    }
 
     return (
         <>
@@ -113,7 +119,7 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <FormInputMultiSelect
+                            <FormInputMultiAutocomplete
                                 name="FundingAccount"
                                 control={control}
                                 label="Funding Account"
@@ -133,12 +139,12 @@ export const EditCateringModal: React.FC<EditCateringModalProps> = ({
                                 label="Description"
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                            />
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>

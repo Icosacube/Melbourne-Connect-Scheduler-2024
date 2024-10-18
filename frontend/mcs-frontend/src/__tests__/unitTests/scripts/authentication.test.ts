@@ -3,8 +3,8 @@
  */
 
 import axios from 'axios'
-import { deleteAllCookies, getCookie } from '../../../scripts/cookie/function'
 import { login, logout } from '../../../scripts/authentication/auth'
+import { deleteAllCookies, getCookie } from '../../../scripts/cookie/function'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -17,8 +17,8 @@ describe('authentication', () => {
         jest.clearAllMocks()
         deleteAllCookies()
         process.env.REACT_APP_BACKEND_URL = 'http://test-api.com'
-        process.env.REACT_APP_LOGIN_API_PATH= "/login"
-        process.env.REACT_APP_LOGIN_REFRESH_API_PATH="/login/refresh-token"
+        process.env.REACT_APP_LOGIN_API_PATH = '/login'
+        process.env.REACT_APP_LOGIN_REFRESH_API_PATH = '/login/refresh-token'
     })
 
     test('Login should call the correct URL, and set the login cookie', async () => {
@@ -31,7 +31,7 @@ describe('authentication', () => {
 
         mockedAxios.post.mockResolvedValue({ data: mockResponse, status: 200 })
 
-        const result = await login(mockUsername, mockPassword)
+        await login(mockUsername, mockPassword)
 
         expect(mockedAxios.post).toHaveBeenCalledWith(
             'http://test-api.com/login',
@@ -40,7 +40,7 @@ describe('authentication', () => {
         expect(getCookie('login')).toEqual(mockResponse.accessToken)
     })
 
-    test("Logout should remove login cookie", async () => {
+    test('Logout should remove login cookie', async () => {
         const mockResponse = {
             username: 'john_doe',
             accessToken:
@@ -50,7 +50,7 @@ describe('authentication', () => {
 
         mockedAxios.post.mockResolvedValue({ data: mockResponse, status: 200 })
 
-        const result = await login(mockUsername, mockPassword)
+        await login(mockUsername, mockPassword)
         logout()
 
         expect(getCookie('login')).toEqual(undefined)

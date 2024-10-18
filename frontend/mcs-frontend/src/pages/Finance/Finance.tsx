@@ -1,5 +1,4 @@
-import { Box } from '@mui/material'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { Finance as FinanceType } from '../../types/frontendTypes'
 import { FinanceTable } from './FinanceTable'
@@ -9,13 +8,5 @@ export const Finance: FC = () => {
         financeData: FinanceType[]
     }
 
-    return (
-        <Box
-            sx={{
-                height: '80vh',
-            }}
-        >
-            <FinanceTable rows={financeData} />
-        </Box>
-    )
+    return <FinanceTable rows={financeData} />
 }

@@ -1,31 +1,34 @@
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import FullCalendar from '@fullcalendar/react'
-import { FC, useState } from 'react'
-import { MainEvent, Venue } from '../../types/frontendTypes'
-import { useNavigate, useRevalidator } from 'react-router-dom'
-import { CreateEventModal } from '../../pages/Event/EventsOverview/CreateEventModal'
 import dayjs, { Dayjs } from 'dayjs'
-import { updateMainEventById } from '../../scripts/event/functions'
-import { Snackbar, SnackbarCloseReason } from '@mui/material'
+import { FC, useState } from 'react'
+import { useNavigate, useRevalidator } from 'react-router-dom'
+import {
+    defaultMainEvent,
+    updateMainEventById,
+} from '../../scripts/event/functions'
+import { MainEvent, Speaker, Venue } from '../../types/frontendTypes'
 import { BottomSuccessSnackbar } from '../BottomSuccessSnackbar'
-import { set } from 'react-hook-form'
+import { EventFormModal } from '../../pages'
 
 interface DashboardCalendarProps {
     events: MainEvent[]
     venues: Venue[]
+    speakers: Speaker[]
 }
 
 export const DashboardCalendar: FC<DashboardCalendarProps> = ({
     events,
     venues,
+    speakers,
 }) => {
     const navigate = useNavigate()
     const revalidator = useRevalidator()
     const [showCreateEventModal, setShowCreateEventModal] = useState(false)
-    const [createEventModalDate, setCreateEventModalDate] = useState<
-        Dayjs | undefined
-    >()
+    const [createEventModalDate, setCreateEventModalDate] = useState<Dayjs>(
+        dayjs()
+    )
     const [showLoadingSnackbar, setShowLoadingSnackbar] = useState(false)
     const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false)
 
@@ -34,7 +37,8 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
             return {
                 id: event.RecordID,
                 title: event.EventName,
-                date: event.Date.format('YYYY-MM-DD'), // Format start date as YYYY-MM-DD
+                start: event.StartDate.format('YYYY-MM-DD'), // Format start date as YYYY-MM-DD
+                end: event.EndDate.format('YYYY-MM-DD'), // Format end date as YYYY-MM-DD
             }
         })
     )
@@ -53,13 +57,13 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
         setShowCreateEventModal(true)
     }
 
-    const handleEventDrop = async (info: any) => {
+    const handleEventEdit = async (info: any) => {
         const { event } = info
         // Extract necessary information
         const updatedEvent = {
             ...event,
             start: event.start,
-            end: event.end,
+            end: event.end || event.start,
         }
 
         // Update the events state with the new event data
@@ -77,7 +81,8 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
         }
         const formatedSelectedEvent = {
             ...selectedEvent,
-            Date: info.event.start,
+            StartDate: info.event.start,
+            EndDate: info.event.end || info.event.start,
         }
         handleShowLoading()
         const res = await updateMainEventById(formatedSelectedEvent)
@@ -115,15 +120,21 @@ export const DashboardCalendar: FC<DashboardCalendarProps> = ({
                 events={formattedEvents}
                 height={550}
                 eventClick={handleEventClick}
-                eventDrop={handleEventDrop}
+                eventDrop={handleEventEdit}
                 dateClick={handleDateClick}
+                eventStartEditable={true}
+                eventResizableFromStart={true}
+                eventResize={handleEventEdit}
             />
 
-            <CreateEventModal
+            <EventFormModal
+                key={createEventModalDate.toString()}
+                event={{ ...defaultMainEvent, StartDate: createEventModalDate }}
                 open={showCreateEventModal}
                 handleClose={() => setShowCreateEventModal(false)}
                 venues={venues}
-                eventDate={createEventModalDate}
+                speakers={speakers}
+                variant="create"
             />
             <BottomSuccessSnackbar
                 showSuccess={showSuccessSnackbar}

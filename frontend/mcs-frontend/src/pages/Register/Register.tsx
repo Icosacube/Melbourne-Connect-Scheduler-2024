@@ -1,13 +1,12 @@
-import { Button, Grid, Stack, Typography, Link } from '@mui/material'
-import React, { FC, useState } from 'react'
+import { Button, Grid, Link, Stack, Typography } from '@mui/material'
+import { FC, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import {
     BottomSuccessSnackbar,
     FormInputPassword,
     FormInputText,
 } from '../../components'
-import { useForm } from 'react-hook-form'
 import { register } from '../../scripts/authentication/auth'
-import { useNavigate } from 'react-router-dom'
 
 interface UserCredentials {
     username: string
@@ -15,14 +14,10 @@ interface UserCredentials {
 }
 
 export const Register: FC = () => {
-    const { handleSubmit, reset, control, watch } = useForm<UserCredentials>({})
-
-    const [submitting, setSubmitting] = useState(false)
+    const { handleSubmit, reset, control } = useForm<UserCredentials>({})
     const [success, setSuccess] = useState(false)
-    const navigate = useNavigate()
 
     const onSubmit = async (data: UserCredentials) => {
-        setSubmitting(true)
         console.log(data)
         try {
             // const res = await loginfunction
@@ -33,7 +28,6 @@ export const Register: FC = () => {
         } catch (error) {
             console.error(error)
         } finally {
-            setSubmitting(false)
             reset()
         }
     }

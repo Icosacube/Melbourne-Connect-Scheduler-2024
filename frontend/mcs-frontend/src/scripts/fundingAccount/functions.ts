@@ -1,7 +1,12 @@
 import axios from 'axios'
+import dayjs from 'dayjs'
 import { FundingAccount as fundingAccountFrontend } from '../../types/frontendTypes'
 import { FundingAccount as fundingAccountBackend } from '../../types/backendTypes'
-import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Default funding account object
 export const defaultFundingAccount: fundingAccountFrontend = {
@@ -69,7 +74,9 @@ function reformatFundingAccountRequest(
         AccountType: fundingAccount.AccountType,
         Notes: fundingAccount.Notes,
         Limit: Number(fundingAccount.Limit),
-        ExpiryDate: fundingAccount.ExpiryDate.toString(),
+        ExpiryDate: fundingAccount.ExpiryDate.tz('Australia/Melbourne')
+            .utc()
+            .toString(),
         Accommodation: fundingAccount.Accommodation,
         Miscellaneous: fundingAccount.Miscellaneous,
         Venue: fundingAccount.Venue,
@@ -91,7 +98,7 @@ function reformatFundingAccountResponse(data: any): fundingAccountFrontend {
         Notes: data.Notes || defaultFundingAccount.Notes,
         Limit: data.Limit || defaultFundingAccount.Limit,
         ExpiryDate: data.ExpiryDate
-            ? dayjs(data.ExpiryDate)
+            ? dayjs(data.ExpiryDate).utc().tz('Australia/Melbourne')
             : defaultFundingAccount.ExpiryDate,
         Accommodation:
             data.Accommodation || defaultFundingAccount.Accommodation,
