@@ -126,11 +126,13 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             setSubmitting(true)
             var res;
             if(canvassingSlots.length>0){
+                console.log('update')
                 res = await addOrUpdateCanvassing(
                     updatedSlots,
                     updatedSlots.map((slot) => slot.id)
                 )
             }else{
+                console.log('create')
                 res = await createCanvassing(
                     updatedSlots
                 )

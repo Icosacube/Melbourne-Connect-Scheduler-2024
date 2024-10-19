@@ -87,17 +87,17 @@ export async function updateCanvassing(canvassingList: CanvassingFrontend[]) {
 
 export async function deleteCanvassing(ids: string[]) {
     for (const canvassingId of ids) {
-        const res = await axios.delete(
-            // change later
-            `${process.env.REACT_APP_BACKEND_URL}/canvassing/${canvassingId}`,
-        )
-        if (res.status !== 200) {
-            return res.status // Return immediately if error
+        if (!canvassingId.startsWith('1')) {
+            const res = await axios.delete(
+                `${process.env.REACT_APP_BACKEND_URL}/canvassing/${canvassingId}`    
+            )
+            if (res.status !== 200) {
+                return res.status // Return immediately if error
+            }
         }
     }
     return 200 // all updates were successful
 }
-
 
 export async function addOrUpdateCanvassing(
     canvassingList: CanvassingTempFrontend[],
@@ -106,17 +106,19 @@ export async function addOrUpdateCanvassing(
     let index = 0
     for (const canvassing of canvassingList) {
         const canvassingBackend = reformatCanvassingTempRequest(canvassing)
-        let res;
+        let res
         // new slot is created: trigger create api
         if (
             canvassingIds[index] ==
             dayjs(canvassing.StartTime).valueOf().toString()
         ) {
+            console.log('create:', canvassingIds[index])
             res = await axios.post(
                 `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_CANVASSING_API_PATH}`,
                 canvassingBackend
             )
         } else {
+            console.log('update:', canvassingIds[index])
             res = await axios.put(
                 `${process.env.REACT_APP_BACKEND_URL}/canvassing/${canvassingIds[index]}`,
                 canvassingBackend
