@@ -9,7 +9,7 @@ import {
 
 import { Canvassing, TableFields } from '../types/types';
 import {Cachekeys} from '../Enum/Cachekeys';
-import {getCache,setCache,deleteCache} from '../utils/caching';
+import {getCache,setCache,deleteCache,deleteCacheByPrefix} from '../utils/caching';
 const router = express.Router();
 const canvassingTable = String(process.env.CANVASSING)
 const AcademicTable = String(process.env.ACADEMIC)
@@ -134,7 +134,7 @@ router.post('/canvassings', async (req, res) => {
       const canvassingRecord = { fields: newCanvassing };
       await createRecord(canvassingTable , [canvassingRecord]);
     }
-    deleteCache(Cachekeys.CANVASSINGS); // Delete cache
+    deleteCacheByPrefix(Cachekeys.CANVASSINGS);
     res.status(200).json({ message: 'Canvassing created successfully' });
   } catch (error) {
     console.error("Failed to create Canvassing:", error);
@@ -153,7 +153,7 @@ router.put('/canvassing/:canvassing_record_id', async (req, res) => {
 
   try {
     await updateRecord(canvassingTable, recordToUpdate);
-    deleteCache(Cachekeys.CANVASSINGS);
+    deleteCacheByPrefix(Cachekeys.CANVASSINGS);
     res.status(200).json({ message: 'Canvassing updated successfully' });
   } catch (error) {
     console.error("Failed to update canvassing:", error);
@@ -167,7 +167,8 @@ router.delete('/canvassing/:canvassing_record_id', async (req, res) => {
 
   try {
     await deleteRecords(canvassingTable, [canvassing_record_id]);
-    deleteCache(Cachekeys.CANVASSINGS);
+    deleteCacheByPrefix(Cachekeys.CANVASSINGS);
+
     res.status(200).json({ message: 'Canvassing deleted successfully' });
   } catch (error) {
     console.error("Failed to delete canvassing:", error);
