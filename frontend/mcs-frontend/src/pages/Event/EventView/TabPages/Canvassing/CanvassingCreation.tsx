@@ -49,12 +49,11 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     event,
     canvassingSlots,
 }) => {
-    const { handleSubmit, reset, control, setValue } = useForm<
-        CanvassingTemp[]
-    >({
-        defaultValues: [defaultCanvassing],
+    const { handleSubmit, reset, control, setValue } = useForm<Canvassing[]>({
+        defaultValues:
+            canvassingSlots.length > 0 ? canvassingSlots : [defaultCanvassing],
     })
-    const [academics, setAcademics] = useState<Academic[]>([])
+    const [allAcademics, setAllAcademics] = useState<Academic[]>([])
     const [canvassings, setCanvassings] = useState<CanvassingTemp[]>([])
     const [timeSlotSize, setTimeSlotSize] = useState<string>('30')
     const [venues, setVenues] = useState<Venue[]>([])
@@ -78,9 +77,10 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
         }
         fetchVenues()
 
-        getAllAcademics().then((academics) => setAcademics(academics))
+        getAllAcademics().then((academics) => setAllAcademics(academics))
     }, [event])
 
+    // for update mode
     useEffect(() => {
         if (canvassingSlots != null && canvassingSlots.length > 0) {
             const temp = canvassingSlots.map((canvassing) =>
@@ -134,10 +134,10 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                 if (res_delete != 200) {
                     console.log('Failed to delete Canvassing for update')
                 }
-            } 
+            }
             // create new timeslots
             res = await createCanvassing(updatedSlots)
-    
+
             if (res) {
                 setShowSuccess(true)
                 const { emailSubject, emailContent } =
@@ -261,7 +261,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                     hint="Search By Name or Type In Email"
                                     control={control}
                                     label="Academics"
-                                    defaultValueList={academics
+                                    defaultValueList={allAcademics
                                         .filter(
                                             (academic) =>
                                                 canvassingSlots[0] &&
@@ -274,7 +274,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                             value: person.Email,
                                             label: person.Name,
                                         }))}
-                                    options={academics.map((person) => ({
+                                    options={allAcademics.map((person) => ({
                                         id: person.RecordID,
                                         value: person.Email,
                                         label: person.Name,

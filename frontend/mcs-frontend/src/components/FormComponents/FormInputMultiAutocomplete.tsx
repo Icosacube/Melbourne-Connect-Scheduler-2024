@@ -7,7 +7,9 @@ interface FormInputMultiAutocomplete extends FormInputProps {
     defaultValueList?: DropdownOptions[]
 }
 
-export const FormInputMultiAutocomplete: React.FC<FormInputMultiAutocomplete> = ({
+export const FormInputMultiAutocomplete: React.FC<
+    FormInputMultiAutocomplete
+> = ({
     name,
     control,
     label,
@@ -26,6 +28,11 @@ export const FormInputMultiAutocomplete: React.FC<FormInputMultiAutocomplete> = 
             <Controller
                 name={name}
                 control={control}
+                defaultValue={
+                    defaultValueList.length > 0
+                        ? defaultValueList.map((item) => item.value)
+                        : []
+                }
                 rules={{ required: required ? `${label} is required` : false }}
                 render={({
                     field: { onChange, value },
@@ -36,7 +43,7 @@ export const FormInputMultiAutocomplete: React.FC<FormInputMultiAutocomplete> = 
                         options={options}
                         getOptionLabel={(option) => option.label}
                         value={options.filter((option) =>
-                            (value || defaultValueList.map(option => option.value)).includes(option.value)
+                            value.includes(option.value)
                         )}
                         onChange={(event, newValue) => {
                             onChange(newValue.map((item) => item.value))
