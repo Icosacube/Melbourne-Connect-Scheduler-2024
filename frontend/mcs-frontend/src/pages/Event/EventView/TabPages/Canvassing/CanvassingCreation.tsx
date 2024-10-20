@@ -92,20 +92,34 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
 
     const deleteEmptyTimeslots = async () => {
         setDeleting(true)
-        const filteredSlots = canvassings.filter(
-            (slot) => slot.AvailableAcademic.length > 0
-        )
-        const ids = canvassings
-            .filter((slot) => slot.AvailableAcademic.length == 0)
-            .map((slot) => slot.id)
 
-        const res = await deleteCanvassing(ids)
-        if (res == 200) {
-            setCanvassings(filteredSlots)
-        } else {
-            console.log('failed to delete timeslots')
+        try {
+            const filteredSlots = canvassings.filter(
+                (slot) => slot.AvailableAcademic.length > 0
+            )
+            const ids = canvassings
+                .filter((slot) => slot.AvailableAcademic.length === 0)
+                .map((slot) => slot.id)
+            if (ids.length === 0) {
+                setDeleting(false)
+                return
+            }
+            const res = await deleteCanvassing(ids)
+
+            if (res === 200) {
+                setCanvassings(filteredSlots)
+                console.log('Successfully deleted empty timeslots.')
+            } else {
+                console.error(
+                    `Failed to delete timeslots. ${res}`
+                )
+            }
+        } catch (error) {
+            console.error('An error occurred while deleting timeslots:', error)
+        } finally {
+            setDeleting(false)
+            revalidator.revalidate()
         }
-        setDeleting(false)
     }
 
     const onSubmit = async (data: any) => {
