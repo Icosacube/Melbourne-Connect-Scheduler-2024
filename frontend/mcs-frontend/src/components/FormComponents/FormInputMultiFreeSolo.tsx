@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Autocomplete,
     Avatar,
@@ -27,16 +27,23 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
     name,
     control,
     label,
+    setValue,
     options = [],
     required = true,
     hint = '',
     valueName,
     labelName,
-    defaultValueList = []
+    defaultValueList = [],
 }) => {
     const [open, setOpen] = useState(false)
     const [newValue, setNewValue] = useState('')
     const [customLabel, setCustomLabel] = useState('')
+
+    useEffect(() => {
+        if (defaultValueList && defaultValueList.length) {
+            setValue(name, defaultValueList)
+        }
+    }, [defaultValueList, setValue, name])
 
     const handleOpenModal = (value: string) => {
         setNewValue(value)
@@ -72,22 +79,19 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                     rules={{
                         required: required ? `${label} is required` : false,
                     }}
+                    defaultValue={defaultValueList}
                     render={({
                         field: { onChange, value },
                         fieldState: { error },
                     }) => {
-                        // Get current selected values
-                        const selectedValues =
-                            value != null
-                                ? value.map(
-                                      (item: DropdownOptions) => item.value
-                                  )
-                                : null
-                        // Filter out already selected options
-                        const filteredOptions = options.filter((option) =>
-                            selectedValues != null
-                                ? !selectedValues.includes(option.value)
-                                : option
+                        const selectedValues = value || defaultValueList
+
+                        const filteredOptions = options.filter(
+                            (option) =>
+                                !selectedValues.some(
+                                    (item: DropdownOptions) =>
+                                        item.value === option.value
+                                )
                         )
 
                         return (
@@ -103,7 +107,7 @@ export const FormInputMultiFreeSolo: React.FC<FormInputMultiFreeSoloProps> = ({
                                             ? option
                                             : option.label
                                     }
-                                    value={value || defaultValueList}
+                                    value={selectedValues} // Set value as selected values
                                     onChange={(event, newValue) => {
                                         const lastValue =
                                             newValue[newValue.length - 1]

@@ -260,6 +260,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                     name="DropdownOptions"
                                     hint="Search By Name or Type In Email"
                                     control={control}
+                                    setValue={setValue}
                                     label="Academics"
                                     defaultValueList={allAcademics
                                         .filter(
