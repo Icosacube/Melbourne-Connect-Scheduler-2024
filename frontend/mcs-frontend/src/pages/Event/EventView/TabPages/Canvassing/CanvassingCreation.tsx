@@ -121,22 +121,25 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             Venue: data.Venue,
             MixedAcademic: formattedMixedAcademic,
         }))
-
         try {
             setSubmitting(true)
-            var res;
-            if(canvassingSlots.length>0){
+            var res
+            if (canvassingSlots.length > 0) {
                 console.log('update')
-                res = await addOrUpdateCanvassing(
-                    updatedSlots,
-                    updatedSlots.map((slot) => slot.id)
-                )
-            }else{
-                console.log('create')
-                res = await createCanvassing(
-                    updatedSlots
-                )
-            }
+                //res = await addOrUpdateCanvassing(
+                //    updatedSlots,
+                //    updatedSlots.map((slot) => slot.id)
+                // )
+                // delete timeslots first
+                const ids = canvassingSlots.map((slot) => slot.RecordID)
+                const res_delete = await deleteCanvassing(ids)
+                if (res_delete != 200) {
+                    console.log('Failed to delete Canvassing for update')
+                }
+            } 
+            // create new timeslots
+            res = await createCanvassing(updatedSlots)
+    
             if (res) {
                 setShowSuccess(true)
                 const { emailSubject, emailContent } =
@@ -154,7 +157,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                 }
                 setShowSuccessEmail(true)
             } else {
-                console.log('Failed to create Canvassing')
+                console.log('Failed to create or edit Canvassing')
             }
         } catch (error) {
             console.error(error)
