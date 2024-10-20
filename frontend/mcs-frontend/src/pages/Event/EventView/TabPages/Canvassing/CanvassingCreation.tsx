@@ -125,12 +125,10 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             setSubmitting(true)
             var res
             if (canvassingSlots.length > 0) {
-                console.log('update')
                 //res = await addOrUpdateCanvassing(
                 //    updatedSlots,
                 //    updatedSlots.map((slot) => slot.id)
                 // )
-                // delete timeslots first
                 const ids = canvassingSlots.map((slot) => slot.RecordID)
                 const res_delete = await deleteCanvassing(ids)
                 if (res_delete != 200) {
@@ -221,7 +219,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                         <DeleteButton
                                             deleting={deleting}
                                             onClick={deleteEmptyTimeslots}
-                                            objectName={'Empty Timeslots'}
+                                            objectName={'Empty Slots'}
                                         />
                                     </Grid>
                                 </Grid>

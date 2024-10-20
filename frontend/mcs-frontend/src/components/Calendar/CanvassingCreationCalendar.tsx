@@ -78,7 +78,7 @@ export const CanvassingCreationCalendar: React.FC<
                     overflow: 'hidden',
                 }}
             >
-                {eventInfo.timeText && <div>{eventInfo.timeText}</div>}
+                {eventInfo.timeText && <span>{eventInfo.timeText}</span>}
             </Typography>
         )
     }
