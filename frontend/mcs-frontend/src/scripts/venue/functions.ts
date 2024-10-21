@@ -24,7 +24,6 @@ export async function getVenueById(id: string): Promise<Venue> {
         const rawVenue = res.data
 
         const formattedVenue = reformatVenueResponseData(rawVenue)
-        console.log(formattedVenue)
         return formattedVenue
     } catch (error) {
         console.error('Error fetching venue:', error)

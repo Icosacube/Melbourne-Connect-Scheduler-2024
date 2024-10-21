@@ -14,6 +14,7 @@ import { useRevalidator } from 'react-router-dom'
 import {
     BottomSuccessSnackbar,
     CanvassingCreationCalendar,
+    DeleteButton,
     FormInputMultiAutocomplete,
     FormInputMultiFreeSolo,
     SubmitButton,
@@ -21,6 +22,8 @@ import {
 import { getAllAcademics } from '../../../../../scripts/academic/functions'
 import {
     createCanvassing,
+    addOrUpdateCanvassing,
+    deleteCanvassing,
     defaultCanvassing,
     formatCanvassingToTemp,
 } from '../../../../../scripts/canvassing/functions'
@@ -46,16 +49,16 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
     event,
     canvassingSlots,
 }) => {
-    const { handleSubmit, reset, control, setValue } = useForm<
-        CanvassingTemp[]
-    >({
-        defaultValues: [defaultCanvassing],
+    const { handleSubmit, reset, control, setValue } = useForm<Canvassing[]>({
+        defaultValues:
+            canvassingSlots.length > 0 ? canvassingSlots : [defaultCanvassing],
     })
-    const [academics, setAcademics] = useState<Academic[]>([])
+    const [allAcademics, setAllAcademics] = useState<Academic[]>([])
     const [canvassings, setCanvassings] = useState<CanvassingTemp[]>([])
     const [timeSlotSize, setTimeSlotSize] = useState<string>('30')
     const [venues, setVenues] = useState<Venue[]>([])
     const [submitting, setSubmitting] = useState(false)
+    const [deleting, setDeleting] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
     const [showSuccessEmail, setShowSuccessEmail] = useState(false)
     const revalidator = useRevalidator()
@@ -73,8 +76,11 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             }
         }
         fetchVenues()
-    }, [event.Venue])
 
+        getAllAcademics().then((academics) => setAllAcademics(academics))
+    }, [event])
+
+    // for update mode
     useEffect(() => {
         if (canvassingSlots != null && canvassingSlots.length > 0) {
             const temp = canvassingSlots.map((canvassing) =>
@@ -84,14 +90,39 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
         }
     }, [canvassingSlots, setValue])
 
-    useEffect(() => {
-        getAllAcademics().then((academics) => setAcademics(academics))
-        console.log(academics)
-    }, [event, academics])
+    const deleteEmptyTimeslots = async () => {
+        setDeleting(true)
+
+        try {
+            const filteredSlots = canvassings.filter(
+                (slot) => slot.AvailableAcademic.length > 0
+            )
+            const ids = canvassings
+                .filter((slot) => slot.AvailableAcademic.length === 0)
+                .map((slot) => slot.id)
+            if (ids.length === 0) {
+                setDeleting(false)
+                return
+            }
+            const res = await deleteCanvassing(ids)
+
+            if (res === 200) {
+                setCanvassings(filteredSlots)
+                console.log('Successfully deleted empty timeslots.')
+            } else {
+                console.error(
+                    `Failed to delete timeslots. ${res}`
+                )
+            }
+        } catch (error) {
+            console.error('An error occurred while deleting timeslots:', error)
+        } finally {
+            setDeleting(false)
+            revalidator.revalidate()
+        }
+    }
 
     const onSubmit = async (data: any) => {
-        const { emailSubject, emailContent } =
-            generateBatchEmailForCanvassing(event)
         const formattedMixedAcademic = data.DropdownOptions.map(
             (academic: { id: string; label: string; value: string }) => ({
                 id: academic.id,
@@ -99,18 +130,32 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                 email: academic.value,
             })
         )
-        console.log('Mixed Academic:', formattedMixedAcademic)
         const updatedSlots = canvassings.map((slot) => ({
             ...slot,
             Venue: data.Venue,
             MixedAcademic: formattedMixedAcademic,
         }))
-
         try {
             setSubmitting(true)
-            const res = await createCanvassing(updatedSlots)
+            var res
+            if (canvassingSlots.length > 0) {
+                //res = await addOrUpdateCanvassing(
+                //    updatedSlots,
+                //    updatedSlots.map((slot) => slot.id)
+                // )
+                const ids = canvassingSlots.map((slot) => slot.RecordID)
+                const res_delete = await deleteCanvassing(ids)
+                if (res_delete != 200) {
+                    console.log('Failed to delete Canvassing for update')
+                }
+            }
+            // create new timeslots
+            res = await createCanvassing(updatedSlots)
+
             if (res) {
                 setShowSuccess(true)
+                const { emailSubject, emailContent } =
+                    generateBatchEmailForCanvassing(event)
                 // console.log('Emails:', emails)
                 for (const academic of formattedMixedAcademic) {
                     await sendEmail(
@@ -124,7 +169,7 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                 }
                 setShowSuccessEmail(true)
             } else {
-                console.log('Failed to create Canvassing')
+                console.log('Failed to create or edit Canvassing')
             }
         } catch (error) {
             console.error(error)
@@ -181,6 +226,20 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                     </Select>
                                 </FormControl>
                             </Grid>
+                            {/* Optionally display this button when canvassingSlots exist (update mode) */}
+                            {canvassingSlots.length > 0 ? (
+                                <Grid item xs={12} container>
+                                    <Grid item xs="auto">
+                                        <DeleteButton
+                                            deleting={deleting}
+                                            onClick={deleteEmptyTimeslots}
+                                            objectName={'Empty Slots'}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            ) : (
+                                <></>
+                            )}
                         </Grid>
                         <Grid item xs={12} container spacing={3}>
                             <Grid item xs={12}>
@@ -194,6 +253,16 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                     name="Venue"
                                     control={control}
                                     label="Venue"
+                                    defaultValueList={
+                                        canvassingSlots[0] &&
+                                        canvassingSlots[0].Venue.map(
+                                            (venue, i) => ({
+                                                value: venue,
+                                                label: canvassingSlots[0]
+                                                    .VenueName[i],
+                                            })
+                                        )
+                                    }
                                     options={venues.map((venue) => ({
                                         value: venue.RecordID,
                                         label: venue.VenueName,
@@ -205,8 +274,22 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                                     name="DropdownOptions"
                                     hint="Search By Name or Type In Email"
                                     control={control}
+                                    setValue={setValue}
                                     label="Academics"
-                                    options={academics.map((person) => ({
+                                    defaultValueList={allAcademics
+                                        .filter(
+                                            (academic) =>
+                                                canvassingSlots[0] &&
+                                                canvassingSlots[0].Academic.includes(
+                                                    academic.RecordID
+                                                )
+                                        )
+                                        .map((person) => ({
+                                            id: person.RecordID,
+                                            value: person.Email,
+                                            label: person.Name,
+                                        }))}
+                                    options={allAcademics.map((person) => ({
                                         id: person.RecordID,
                                         value: person.Email,
                                         label: person.Name,
