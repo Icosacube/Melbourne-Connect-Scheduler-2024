@@ -218,7 +218,6 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
                                     item
                                     xs={12}
                                     container
-                                    alignItems={'flex-end'}
                                 >
                                     <Button
                                         variant="contained"
@@ -228,6 +227,7 @@ export const Programme: FC<ProgrammeProps> = ({ event, speakers }) => {
                                         Edit
                                     </Button>
                                     <Button
+                                        sx={{ marginLeft: 2 }}
                                         variant="contained"
                                         onClick={handleOpenModal}
                                         startIcon={<Share />}
