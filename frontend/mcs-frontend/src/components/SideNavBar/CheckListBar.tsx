@@ -75,6 +75,11 @@ export const CheckListBar: FC = () => {
                 borderTop: '4px solid #FBE418',
                 overflowY: 'scroll',
                 display: 'block',
+                '&::-webkit-scrollbar': {
+                    display: 'none',
+                },
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
             }}
         >
             <Typography variant="h6" fontWeight={300} sx={{ marginLeft: 2 }}>
@@ -88,7 +93,7 @@ export const CheckListBar: FC = () => {
                             marginX: 1.5,
                             marginY: 1,
                             backgroundColor: checklist.Completed[index]
-                                ? '#484848'
+                                ? '#181818'
                                 : '#FBE418',
                         }}
                     >

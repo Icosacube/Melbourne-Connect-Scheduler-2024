@@ -22,7 +22,6 @@ import {
 import { getAllAcademics } from '../../../../../scripts/academic/functions'
 import {
     createCanvassing,
-    addOrUpdateCanvassing,
     deleteCanvassing,
     defaultCanvassing,
     formatCanvassingToTemp,
@@ -139,10 +138,6 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
             setSubmitting(true)
             var res
             if (canvassingSlots.length > 0) {
-                //res = await addOrUpdateCanvassing(
-                //    updatedSlots,
-                //    updatedSlots.map((slot) => slot.id)
-                // )
                 const ids = canvassingSlots.map((slot) => slot.RecordID)
                 const res_delete = await deleteCanvassing(ids)
                 if (res_delete != 200) {
