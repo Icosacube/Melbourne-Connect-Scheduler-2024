@@ -73,10 +73,9 @@ export async function getChecklistByEventID(
         const formattedChecklists = rawChecklists.map((checklist: any) =>
             reformatChecklistResponseData(checklist)
         )
-        console.log(formattedChecklists)
         return formattedChecklists
-    } catch (error) {
-        console.error('Error fetching checklist by event ID:', error)
+    } catch (error: any) {
+        console.error('Error fetching checklist:', error.message)
         return []
     }
 }
