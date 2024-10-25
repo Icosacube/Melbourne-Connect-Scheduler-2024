@@ -40,9 +40,11 @@ router.get('/checklists', async (req, res) => {
             }
         });
 
-        //if (filteredChecklist.length === 0) {
+        if (filteredChecklist.length === 0) {
+            res.json(filteredChecklist).status(200);
+            return
         //return res.status(404).json({ message: 'No matching checklist found' });
-        //}
+        }
         
         // Cache
         setCache(cacheKey, filteredChecklist);
