@@ -156,7 +156,8 @@ export const CanvassingCreation: React.FC<CanvassingCreationProps> = ({
                     await sendEmail(
                         'mcs083087@gmail.com',
                         academic.email,
-                        '',
+                        [],
+                        [],
                         emailSubject,
                         emailContent
                     )

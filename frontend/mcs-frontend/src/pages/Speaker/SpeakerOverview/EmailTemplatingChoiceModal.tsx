@@ -218,9 +218,7 @@ export const EmailTemplatingChoiceModal: FC<
                 open={true}
                 onClose={handleCloseEmailComposer}
                 modalTitle="Draft email to speaker"
-                from={emailComposerData.from}
-                to={emailComposerData.to}
-                cc={emailComposerData.cc}
+                to={emailComposerData.to ? [emailComposerData.to] : []}
                 subject={emailComposerData.subject}
                 body={emailComposerData.body}
             />
