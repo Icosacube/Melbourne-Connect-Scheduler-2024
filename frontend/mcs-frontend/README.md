@@ -1,6 +1,3 @@
-# KIA HAS NOTES FOR YOU ALL
-the code starts at index.js
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
