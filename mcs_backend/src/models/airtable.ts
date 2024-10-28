@@ -42,7 +42,7 @@ export async function getTable(table: string, filter: string = ""): Promise<Arra
         );
     });
 
-    console.log("Retrieved data:", retrieved);
+    // console.log("Retrieved data:", retrieved);
     return retrieved;
 }
 
@@ -77,7 +77,7 @@ export async function createRecord(table: string, record: any[]): Promise<string
         const records = await base(table).create(record);
         const recordIds : string[] = [];
         records.forEach(record => {
-            console.log(record.getId());
+            // console.log(record.getId());
             recordIds.push(record.getId())
         });
         return recordIds
@@ -97,7 +97,7 @@ export async function updateRecord(table: string, record: any[]): Promise<void> 
     try {
         const records = await base(table).update(record);
         records.forEach(record => {
-            console.log(record.getId());
+            // console.log(record.getId());
         });
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -118,7 +118,7 @@ export async function deleteRecords(table: string, records: string[]): Promise<v
                 reject(new AirtableError(err.statusCode, err.message));
                 return;
             }
-            console.log('Deleted', deletedRecords!.length, 'records');
+            // console.log('Deleted', deletedRecords!.length, 'records');
             resolve();
         });
     });
@@ -153,6 +153,6 @@ export async function getNotConfirmed(table: string, filter: string = ""): Promi
         );
     });
 
-    console.log("Retrieved data:", retrieved);
+    // console.log("Retrieved data:", retrieved);
     return retrieved;
 }

@@ -25,7 +25,7 @@ router.get('/finance', async (req, res) => {
         Finance.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
             formattedFinance.push(plainFields);
-            console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
+            // console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
         setCache(Cachekeys.FINANCE, formattedFinance);
         res.json(formattedFinance);

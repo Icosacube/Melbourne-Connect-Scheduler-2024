@@ -1,12 +1,12 @@
-import { Button, IconButton } from '@mui/material'
-import React, { FC, useState } from 'react'
-import { Academic, MainEvent, Speaker } from '../../types/frontendTypes'
-import { ShareCanvassingModal } from '../../pages/Event/EventView/TabPages/Canvassing/ShareCanvassingModal'
 import { Email } from '@mui/icons-material'
+import { Button } from '@mui/material'
+import { FC, useState } from 'react'
+import { ShareCanvassingModal } from '../../pages/Event/EventView/TabPages/Canvassing/ShareCanvassingModal'
+import { Academic, MainEvent } from '../../types/frontendTypes'
 
 interface ShareEmailButtonProps {
-    event: MainEvent;
-    academic: Academic;
+    event: MainEvent
+    academic: Academic
 }
 
 export const ShareEmailButton: FC<ShareEmailButtonProps> = ({
@@ -14,14 +14,12 @@ export const ShareEmailButton: FC<ShareEmailButtonProps> = ({
     academic,
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [showSuccess, setShowSuccess] = useState(false)
 
     const openModal = () => {
         setIsModalOpen(true)
     }
 
     const closeModal = () => {
-        setShowSuccess(true)
         setIsModalOpen(false)
     }
 

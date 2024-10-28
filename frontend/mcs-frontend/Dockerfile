@@ -1,6 +1,12 @@
 # Development stage
-FROM node:20 as base
+FROM node:20 AS base
+
 WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm i
+
 COPY . .
-RUN npm install
+
 

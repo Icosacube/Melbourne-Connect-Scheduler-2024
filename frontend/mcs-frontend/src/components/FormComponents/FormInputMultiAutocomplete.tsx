@@ -1,21 +1,22 @@
+import { Autocomplete, FormControl, TextField, Typography } from '@mui/material'
 import React from 'react'
-import {
-    Autocomplete,
-    FormControl,
-    TextField,
-    Typography,
-    Box,
-} from '@mui/material'
 import { Controller } from 'react-hook-form'
-import { FormInputProps } from './FormInputProps'
+import { DropdownOptions, FormInputProps } from './FormInputProps'
 
-export const FormInputMultiAutocomplete: React.FC<FormInputProps> = ({
+interface FormInputMultiAutocomplete extends FormInputProps {
+    defaultValueList?: DropdownOptions[]
+}
+
+export const FormInputMultiAutocomplete: React.FC<
+    FormInputMultiAutocomplete
+> = ({
     name,
     control,
     label,
     options = [],
     required = false,
     hint = '',
+    defaultValueList = [],
 }) => {
     return (
         <FormControl
@@ -27,6 +28,11 @@ export const FormInputMultiAutocomplete: React.FC<FormInputProps> = ({
             <Controller
                 name={name}
                 control={control}
+                defaultValue={
+                    defaultValueList.length > 0
+                        ? defaultValueList.map((item) => item.value)
+                        : []
+                }
                 rules={{ required: required ? `${label} is required` : false }}
                 render={({
                     field: { onChange, value },
@@ -37,7 +43,7 @@ export const FormInputMultiAutocomplete: React.FC<FormInputProps> = ({
                         options={options}
                         getOptionLabel={(option) => option.label}
                         value={options.filter((option) =>
-                            (value || []).includes(option.value)
+                            value.includes(option.value)
                         )}
                         onChange={(event, newValue) => {
                             onChange(newValue.map((item) => item.value))

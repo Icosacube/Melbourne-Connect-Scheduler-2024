@@ -5,9 +5,9 @@ import {
     FormInputText,
     FormInputDate,
     FormInputSingleAutocomplete,
-    SubmitButton,
     FormInputTextLong,
     BottomSuccessSnackbar,
+    FormButtonGroup,
 } from '../../../components/'
 import {
     createAccommodation,
@@ -55,7 +55,7 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
         try {
             data.Trip = [tripID]
             console.log(data)
-            const res = await createAccommodation(data)
+            const res = await createAccommodation(data, tripID)
             if (res) {
                 setShowSuccess(true)
                 revalidator.revalidate()
@@ -104,7 +104,6 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
                                 label="Address"
                             />
                         </Grid>
-
                         <Grid item xs={12} md={8} lg={4}>
                             <FormInputText
                                 name="BookingReference"
@@ -163,12 +162,12 @@ export const CreateAccomModal: React.FC<CreateAccomModalProps> = ({
                                 label="Notes"
                             />
                         </Grid>
-                        <Grid item xs={12} container justifyContent="flex-end">
-                            <SubmitButton
-                                submitting={submitting}
-                                onClick={handleSubmit(onSubmit)}
-                            />
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>

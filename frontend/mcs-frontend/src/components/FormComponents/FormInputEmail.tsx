@@ -9,6 +9,7 @@ export const FormInputEmail = ({
     label,
     required = false,
     hint = '',
+    disabled = false,
 }: FormInputProps) => {
     return (
         <Controller
@@ -38,6 +39,7 @@ export const FormInputEmail = ({
                     variant="outlined"
                     required={required}
                     type="email"
+                    disabled={disabled}
                 />
             )}
         />

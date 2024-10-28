@@ -40,7 +40,6 @@ const SelectAcademicModal: React.FC<SelectAcademicModalProps> = ({
     const [selectedAcademic, setSelectedAcademic] = useState<string>('')
     const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
     const [academics, setAcademics] = useState<Academic[]>([])
-    const [submitted, setSubmitted] = useState(false)
     const [emailComposerData, setEmailComposerData] = useState({
         from: '',
         to: '',
@@ -58,10 +57,6 @@ const SelectAcademicModal: React.FC<SelectAcademicModalProps> = ({
         setIsEmailModalOpen(true)
     }
 
-    const handleSubmit = () => {
-        setSubmitted(true)
-    }
-
     const handleChange = (event: SelectChangeEvent<string>) => {
         setSelectedAcademic(event.target.value as string)
         const selectedAcademicTest = academics.find(
@@ -77,7 +72,7 @@ const SelectAcademicModal: React.FC<SelectAcademicModalProps> = ({
                 )
 
             setEmailComposerData({
-                from: 'mcs083087@gmail.com',
+                from: `${process.env.REACT_APP_SENDER_EMAIL}`,
                 to: event.target.value as string,
                 cc: '',
                 subject: emailSubject,

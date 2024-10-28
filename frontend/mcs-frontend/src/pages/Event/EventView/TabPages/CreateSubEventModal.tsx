@@ -1,18 +1,29 @@
-import React, { useEffect, useState } from 'react'
 import { Grid, Modal, Paper, Typography } from '@mui/material'
-import { useForm } from 'react-hook-form'
 import dayjs, { Dayjs } from 'dayjs'
-import { AxiosResponse } from 'axios'
-import { MainEvent, SubEvent, Speaker } from '../../../../types/frontendTypes'
-import { createSubEvent } from '../../../../scripts/subevent/functions'
+import React, { useEffect, useState } from 'react'
+import { set, useForm } from 'react-hook-form'
 import {
-    FormInputText,
-    FormInputDateTime,
-    SubmitButton,
-    FormInputTextLong,
     BottomSuccessSnackbar,
+    EmailComposerModal,
+    FormButtonGroup,
+    FormInputDateTime,
     FormInputMultiAutocomplete,
+    FormInputText,
+    FormInputTextLong,
+    SubmitButton,
 } from '../../../../components/'
+import {
+    createSubEvent,
+    defaultSubEvent,
+} from '../../../../scripts/subevent/functions'
+import {
+    Academic,
+    MainEvent,
+    Speaker,
+    SubEvent,
+} from '../../../../types/frontendTypes'
+import { generateEmailTemplateForCreateSubEvent } from '../../../../scripts/email/functions'
+import { getAllAcademics } from '../../../../scripts/academic/functions'
 
 interface CreateSubEventModalProps {
     handleClose: () => void
@@ -20,23 +31,10 @@ interface CreateSubEventModalProps {
     event: MainEvent
     speakers: Speaker[]
     onSubEventCreation: () => void
+    academics?: Academic[]
     startDate?: Dayjs
     endDate?: Dayjs
 }
-
-const CreateSubEventFormDefaultValues: SubEvent = {
-    RecordID: '',
-    EventName: '',
-    EventDescription: '',
-    EventType: '',
-    StartDate: dayjs(),
-    Notes: '',
-    MainEvent: [],
-    Completed: false,
-    Speakers: [],
-    EndDate: dayjs(),
-}
-
 export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
     handleClose,
     open,
@@ -45,32 +43,64 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
     onSubEventCreation,
     startDate = dayjs(),
     endDate = dayjs(),
+    academics = [],
 }) => {
-    const { handleSubmit, reset, control, setValue } = useForm<SubEvent>({
-        defaultValues: CreateSubEventFormDefaultValues,
-    })
+    const { handleSubmit, reset, control, setValue, watch } = useForm<SubEvent>(
+        {
+            defaultValues: defaultSubEvent,
+        }
+    )
 
     const [showSuccess, setShowSuccess] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const [academicOptions, setAcademicOptions] = useState<Academic[]>([])
+    const [openEmailModal, setOpenEmailModal] = useState(false)
+    const [emailComposerData, setEmailComposerData] = useState({
+        to: [] as string[],
+        subject: '',
+        body: '',
+    })
 
     useEffect(() => {
         setValue('StartDate', startDate)
         setValue('EndDate', endDate)
     }, [startDate, endDate, setValue])
 
+    useEffect(() => {
+        if (academics.length == 0) {
+            getAllAcademics().then((academics) => setAcademicOptions(academics))
+        } else {
+            setAcademicOptions(academics)
+        }
+    }, [])
+
+    const subEventName = watch('EventName')
+    const speakersEmails = watch('Speakers')
+        .map((id) => {
+            const speaker = speakers.find((s) => s.RecordID === id)
+            return speaker ? speaker.PrimaryEmail : null
+        })
+        .filter((email) => email !== null) as string[]
+
     const onSubmit = async (data: SubEvent) => {
         setSubmitting(true)
+        const { subject, body } = generateEmailTemplateForCreateSubEvent(data)
+        setEmailComposerData({
+            to: speakersEmails,
+            subject: subject,
+            body: body,
+        })
         try {
             data.MainEvent.push(event.RecordID)
-            const newSubEvent: SubEvent = await createSubEvent(data)
+            await createSubEvent(data)
             setShowSuccess(true)
             onSubEventCreation()
+            setOpenEmailModal(true)
         } catch (error) {
             console.error(error)
         } finally {
             setSubmitting(false)
             reset()
-            handleClose()
         }
     }
 
@@ -81,6 +111,26 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
             setValue('EndDate', endDate)
         }
         handleClose()
+    }
+
+    const handleEmailModalClose = () => {
+        setOpenEmailModal(false)
+    }
+
+    const emailComposer = () => {
+        if (!openEmailModal) {
+            return <></>
+        }
+        return (
+            <EmailComposerModal
+                open={true}
+                onClose={handleEmailModalClose}
+                to={emailComposerData.to}
+                modalTitle={'New Sub-Event Details: ' + subEventName}
+                subject={emailComposerData.subject}
+                body={emailComposerData.body}
+            />
+        )
     }
 
     return (
@@ -128,6 +178,18 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
                                 }))}
                             />
                         </Grid>
+
+                        <Grid item xs={12}>
+                            <FormInputMultiAutocomplete
+                                name="Academics"
+                                control={control}
+                                label="Academics"
+                                options={academicOptions.map((academic) => ({
+                                    label: `${academic.Name}`,
+                                    value: academic.RecordID,
+                                }))}
+                            />
+                        </Grid>
                         <Grid item xs={12} sm={6}>
                             <FormInputDateTime
                                 name="StartDate"
@@ -157,23 +219,16 @@ export const CreateSubEventModal: React.FC<CreateSubEventModalProps> = ({
                                 label="Notes"
                             />
                         </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            container
-                            spacing={2}
-                            justifyContent="flex-end"
-                        >
-                            <Grid item>
-                                <SubmitButton
-                                    submitting={submitting}
-                                    onClick={handleSubmit(onSubmit)}
-                                />
-                            </Grid>
-                        </Grid>
+                        <FormButtonGroup
+                            submitting={submitting}
+                            handleClose={handleClose}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                        />
                     </Grid>
                 </Paper>
             </Modal>
+            {emailComposer()}
             <BottomSuccessSnackbar
                 showSuccess={showSuccess}
                 setShowSuccess={setShowSuccess}

@@ -1,11 +1,12 @@
 import { LoaderFunctionArgs } from 'react-router-dom'
 import { MainEvent, Speaker } from '../../types/frontendTypes'
 import { getAllMainEvents } from './functions'
-import { getSpeakerById } from '../speaker/functions'
+import { getAllSpeakers } from '../speaker/functions'
 import { getAllVenues } from '../venue/functions'
 import { getCateringByEventID } from '../catering/functions'
 import { getAllFundingAccounts } from '../fundingAccount/functions'
 import { getRoomServicesByEventID } from '../roomServices/functions'
+import { getAllTrips } from '../trip/functions'
 
 export async function loader({
     params,
@@ -21,10 +22,7 @@ export async function loader({
             return {}
         }
         // Fetching all speakers one by one
-        const speakersPromises = event.Speaker.map((speakerID: string) =>
-            getSpeakerById(speakerID)
-        )
-        const speakers = await Promise.all(speakersPromises)
+        const speakers = await getAllSpeakers()
         const venues = await getAllVenues()
 
         // Fetch catering for event
@@ -35,7 +33,9 @@ export async function loader({
 
         // Fetch room services
         const roomServices = await getRoomServicesByEventID(eventID)
-        console.log(roomServices)
+
+        // Fecth trips
+        const trips = await getAllTrips()
 
         return {
             event,
@@ -44,6 +44,7 @@ export async function loader({
             fundingAccounts,
             roomServices,
             venues,
+            trips,
         }
     } catch (error) {
         console.log(error)

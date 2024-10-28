@@ -24,7 +24,7 @@ router.get('/funding-accounts', async (req, res) => {
         account.forEach((fields) => {
             const plainFields = Object.fromEntries(fields); 
             formattedAccount.push(plainFields);
-            console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
+            // console.log(`ID: ${plainFields.id}, Fields:`, plainFields);
         });
         setCache(Cachekeys.FUNDINGACCOUNTS, formattedAccount);
         res.json(formattedAccount);

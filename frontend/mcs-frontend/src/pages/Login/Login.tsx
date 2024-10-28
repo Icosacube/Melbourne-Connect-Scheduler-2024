@@ -1,9 +1,8 @@
 import { Button, Grid, Link, Stack, Typography } from '@mui/material'
-import React, { FC, useState } from 'react'
-import { FormInputPassword, FormInputText } from '../../components'
+import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { redirect } from 'react-router'
 import { useNavigate } from 'react-router-dom'
+import { FormInputPassword, FormInputText, ProgressSpinner } from '../../components'
 import { login } from '../../scripts/authentication/auth'
 
 interface UserCredentials {
@@ -12,9 +11,9 @@ interface UserCredentials {
 }
 
 export const Login: FC = () => {
-    const { handleSubmit, reset, control, watch } = useForm<UserCredentials>()
-
+    const { handleSubmit, reset, control } = useForm<UserCredentials>()
     const [submitting, setSubmitting] = useState(false)
+
     const navigate = useNavigate()
 
     const onSubmit = async (data: UserCredentials) => {
@@ -25,36 +24,45 @@ export const Login: FC = () => {
         } catch (error) {
             console.error(error)
         } finally {
-            setSubmitting(false)
             reset()
+            setSubmitting(false)
         }
     }
 
     return (
         <Grid container spacing={0} direction="column" alignItems="center">
-            <Stack component="form" className="space-y-8">
-                <Typography variant="h4">Login</Typography>
-                <FormInputText
-                    name={'username'}
-                    control={control}
-                    label={'Username'}
-                    required={true}
-                />
-                <FormInputPassword
-                    name={'password'}
-                    control={control}
-                    label={'Password'}
-                    required={true}
-                />
-                <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-                    Login
-                </Button>
-            </Stack>
-            <Stack>
-                <Typography className="pt-10">
-                    No account? Register <Link href="/register">here</Link>
-                </Typography>
-            </Stack>
+            {submitting ? (
+                <ProgressSpinner />
+            ) : (
+                <Stack
+                    component="form"
+                    className="space-y-8"
+                    onSubmit={handleSubmit(onSubmit)}
+                >
+                    <Typography variant="h4">Login</Typography>
+                    <FormInputText
+                        name={'username'}
+                        control={control}
+                        label={'Username'}
+                        required={true}
+                    />
+                    <FormInputPassword
+                        name={'password'}
+                        control={control}
+                        label={'Password'}
+                        required={true}
+                    />
+                    <Button variant="contained" type="submit">
+                        Login
+                    </Button>
+                    <Stack>
+                        <Typography className="pt-10">
+                            No account? Register{' '}
+                            <Link href="/register">here</Link>
+                        </Typography>
+                    </Stack>
+                </Stack>
+            )}
         </Grid>
     )
 }

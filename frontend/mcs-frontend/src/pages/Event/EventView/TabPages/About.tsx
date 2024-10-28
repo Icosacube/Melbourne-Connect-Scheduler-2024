@@ -31,7 +31,7 @@ export const About: FC<AboutProps> = ({ event, speakers, venues }) => {
                     <Box className="px-8">
                         {/* Date and Status */}
                         <Headline
-                            date={event?.Date.toString()}
+                            date={event?.StartDate.toString()}
                             name={event?.EventName}
                         />
 

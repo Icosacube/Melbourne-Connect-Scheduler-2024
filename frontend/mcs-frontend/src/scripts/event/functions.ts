@@ -1,6 +1,11 @@
-import axios from 'axios'
-import { MainEvent } from '../../types/frontendTypes'
+import axios, { AxiosResponse } from 'axios'
 import dayjs from 'dayjs'
+import { MainEvent } from '../../types/frontendTypes'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 // Function to reformat MainEvent response data
 function reformatMainEventResponseData(data: any): MainEvent {
@@ -13,7 +18,12 @@ function reformatMainEventResponseData(data: any): MainEvent {
             data.EventDescription || defaultMainEvent.EventDescription,
         EventbriteLink: data.EventbriteLink || defaultMainEvent.EventbriteLink,
         EventBanner: data.EventBanner || defaultMainEvent.EventBanner,
-        Date: data.Date ? dayjs(data.Date) : defaultMainEvent.Date,
+        EndDate: data.EndDate
+            ? dayjs(data.EndDate).utc().tz('Australia/Melbourne')
+            : defaultMainEvent.EndDate,
+        StartDate: data.StartDate
+            ? dayjs(data.StartDate).utc().tz('Australia/Melbourne')
+            : defaultMainEvent.StartDate,
         Notes: data.Notes || defaultMainEvent.Notes,
         Speaker: data.Speaker || defaultMainEvent.Speaker,
         GuestAcademic: data.GuestAcademic || defaultMainEvent.GuestAcademic,
@@ -35,7 +45,14 @@ function reformatMainEventRequestData(data: MainEvent): any {
         EventDescription: data.EventDescription,
         EventbriteLink: data.EventbriteLink,
         EventBanner: data.EventBanner,
-        Date: data.Date.toISOString(),
+        StartDate: dayjs(data.StartDate)
+            .tz('Australia/Melbourne')
+            .utc()
+            .toISOString(),
+        EndDate: dayjs(data.EndDate)
+            .tz('Australia/Melbourne')
+            .utc()
+            .toISOString(),
         Notes: data.Notes,
         Speaker: data.Speaker,
         GuestAcademic: data.GuestAcademic,
@@ -58,7 +75,8 @@ export const defaultMainEvent: MainEvent = {
     EventDescription: '',
     EventbriteLink: '',
     EventBanner: '',
-    Date: dayjs(),
+    StartDate: dayjs(),
+    EndDate: dayjs(),
     Notes: '',
     Speaker: [],
     GuestAcademic: [],
@@ -82,6 +100,7 @@ export async function getAllMainEvents(): Promise<MainEvent[]> {
         const formattedEvents = rawEvents.map((event: any) =>
             reformatMainEventResponseData(event)
         )
+
         return formattedEvents
     } catch (error) {
         console.error('Error fetching all main events:', error)
@@ -106,7 +125,9 @@ export async function getMainEventById(id: string): Promise<MainEvent> {
 
 // Function to create a new MainEvent
 
-export async function createMainEvent(mainEvent: MainEvent) {
+export async function createMainEvent(
+    mainEvent: MainEvent
+): Promise<AxiosResponse> {
     try {
         const payload = reformatMainEventRequestData(mainEvent)
         console.log(payload)
@@ -114,16 +135,19 @@ export async function createMainEvent(mainEvent: MainEvent) {
             `${process.env.REACT_APP_BACKEND_URL}${process.env.REACT_APP_MAINEVENT_API_PATH}`,
             payload
         )
+
         // Server returns message: Main event created successfully if success
-        console.log(res.data)
+        return res
     } catch (error) {
         console.error('Error creating main event:', error)
-        return {} as MainEvent
+        return {} as AxiosResponse
     }
 }
 
 // Function to update a MainEvent
-export async function updateMainEventById(mainEvent: MainEvent) {
+export async function updateMainEventById(
+    mainEvent: MainEvent
+): Promise<AxiosResponse> {
     try {
         const formattedEvent = reformatMainEventRequestData(mainEvent)
         const res = await axios.put(
@@ -131,10 +155,10 @@ export async function updateMainEventById(mainEvent: MainEvent) {
             formattedEvent
         )
         // Server returns message: Main event updated successfully if success
-        console.log(res.data)
+        return res
     } catch (error) {
         console.error('Error updating main event by ID:', error)
-        return {} as MainEvent
+        return {} as AxiosResponse
     }
 }
 

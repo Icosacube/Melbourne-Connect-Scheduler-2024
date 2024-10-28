@@ -1,28 +1,27 @@
-import { Box } from '@mui/material'
-import dayjs from 'dayjs'
-import React, { FC, useState } from 'react'
-import { AddButton, DeleteDialog } from '../../../../../components'
-import { deleteRoomServiceByID } from '../../../../../scripts/roomServices/functions'
-import {
-    Service,
-    MainEvent,
-    FundingAccount,
-} from '../../../../../types/frontendTypes'
-import { EditRoomServiceModal } from './EditRoomServiceModal'
-import { CreateRoomServiceModal } from './CreateRoomServiceModal'
-import {
-    DataGrid,
-    GridActionsCellItem,
-    GridColDef,
-    GridRowParams,
-    GridRowModes,
-    GridRowId,
-    GridRowModesModel,
-} from '@mui/x-data-grid'
+import CancelIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import EditIcon from '@mui/icons-material/Edit'
-import CancelIcon from '@mui/icons-material/Close'
+import { Box } from '@mui/material'
+import {
+    GridActionsCellItem,
+    GridColDef,
+    GridRowId,
+    GridRowModes,
+    GridRowModesModel,
+    GridRowParams,
+} from '@mui/x-data-grid'
+import dayjs from 'dayjs'
+import React, { FC, useState } from 'react'
 import { useRevalidator } from 'react-router-dom'
+import {
+    AddButton,
+    CustomDataGrid,
+    DeleteDialog,
+} from '../../../../../components'
+import { deleteRoomServiceByID } from '../../../../../scripts/roomServices/functions'
+import { FundingAccount, Service } from '../../../../../types/frontendTypes'
+import { CreateRoomServiceModal } from './CreateRoomServiceModal'
+import { EditRoomServiceModal } from './EditRoomServiceModal'
 
 interface RoomServicesTableProps {
     eventId: string
@@ -52,12 +51,6 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({
     )
     const [deleting, setDeleting] = useState(false)
     const revalidator = useRevalidator()
-
-    function getRowId(roomService: Service) {
-        return roomService.RecordID
-    }
-
-    // Handlers
 
     // Handle create modal
     const handleOpenCreate = () => setOpenCreate(true)
@@ -210,35 +203,18 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({
     return (
         <>
             <Box className="  mb-4 flex flex-col">
-                <Box className=" flex flex-col mb-4">
+                <Box className=" flex justify-end mb-4">
                     <AddButton
                         name={'Room Service'}
                         onClick={handleOpenCreate}
                     />
-                    <CreateRoomServiceModal
-                        open={openCreate}
-                        handleClose={handleCloseCreate}
-                        eventID={eventId}
-                        fundingAccounts={fundingAccountMap}
-                    />
                 </Box>
                 <Box>
-                    <DataGrid
-                        rows={roomServices}
+                    <CustomDataGrid
                         columns={columns}
-                        getRowId={getRowId}
-                        autoHeight
-                        pageSizeOptions={[5, 10]}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 10 },
-                            },
-                        }}
-                        checkboxSelection
-                        sx={{
-                            '& .room-service-table': {
-                                color: 'black',
-                            },
+                        rows={roomServices}
+                        getRowId={(s: Service) => {
+                            return s.RecordID
                         }}
                     />
                 </Box>
@@ -257,6 +233,12 @@ export const RoomServicesTable: FC<RoomServicesTableProps> = ({
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleDeleteRoomService}
                 deleting={deleting}
+            />
+            <CreateRoomServiceModal
+                open={openCreate}
+                handleClose={handleCloseCreate}
+                eventID={eventId}
+                fundingAccounts={fundingAccountMap}
             />
         </>
     )

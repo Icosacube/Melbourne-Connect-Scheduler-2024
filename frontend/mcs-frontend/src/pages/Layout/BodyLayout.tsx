@@ -7,7 +7,7 @@ interface BodyLayoutProps {
 
 export const BodyLayout: FC<BodyLayoutProps> = ({ content }) => {
     return (
-        <Box className="flex justify-center px-12 h-full w-full">
+        <Box className="flex justify-center px-12 h-fit w-full pb-12">
             <Container maxWidth={false} sx={{ maxWidth: '100%' }}>
                 {content}
             </Container>

@@ -17,6 +17,21 @@ export const deleteCache = (key: string): void => {
   console.log(`Delete Cache: Key = ${key}`);
 };
 
+ // returns an array of all cache keys
+export const getCacheKeys = (): string[] => {
+  return cache.keys();
+};
+
+// Delete all cache keys that start with a specific prefix
+export const deleteCacheByPrefix = (prefix: string): void => {
+  const allKeys = getCacheKeys();
+  allKeys.forEach((key) => {
+    if (key.startsWith(prefix)) {
+      deleteCache(key);
+    }
+  });
+  console.log(`Delete Cache: All keys starting with '${prefix}' have been deleted`);
+};
 
 export const clearCache = (): void => {
   cache.flushAll();

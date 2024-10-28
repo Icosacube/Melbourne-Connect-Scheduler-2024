@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Dayjs } from 'dayjs'
-import { Canvassing } from '../../types/frontendTypes'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import {
     Box,
-    Button,
-    Grid,
     Checkbox,
-    Typography,
+    Grid,
     IconButton,
+    Typography,
     useMediaQuery,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import { updateCanvassing } from '../../scripts/canvassing/functions'
-import { useRevalidator } from 'react-router-dom'
+import { Dayjs } from 'dayjs'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import {
     BottomSuccessSnackbar,
     FormInputText,
     SlotDateTime,
     SubmitButton,
 } from '../../components'
+import { updateCanvassing } from '../../scripts/canvassing/functions'
+import { Canvassing } from '../../types/frontendTypes'
 
 // Canvassing with Available boolean for checkbox processing
 interface CheckSlots {
@@ -43,7 +41,6 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
     const [academics, setAcademics] = useState<string[]>([])
     const [showSuccess, setShowSuccess] = useState(false)
     const [showError, setShowError] = useState(false)
-    const revalidator = useRevalidator()
     const MainEvent = canvassingSlots[0].MainEvent
     const [submitting, setSubmitting] = useState(false)
     const { handleSubmit, reset, control } = useForm<{ academicName: string }>({
@@ -109,7 +106,7 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
         const academicIndex = canvassingSlots[0].AcademicName?.indexOf(
             data.academicName
         )
-        if (academicIndex == -1) {
+        if (academicIndex === -1) {
             setShowError(true)
             setSubmitting(false)
             return
@@ -149,14 +146,14 @@ export const CheckboxForm: React.FC<CheckboxFormProps> = ({
         try {
             const res = await updateCanvassing(modifiedCanvassings)
             setSubmitting(false)
-            if (res == 200) {
+            if (res === 200) {
                 setShowSuccess(true)
             } else {
                 console.log('Failed to update Canvassing Form')
             }
         } catch (error) {
             console.error(error)
-        } finally{
+        } finally {
             reset()
         }
     }

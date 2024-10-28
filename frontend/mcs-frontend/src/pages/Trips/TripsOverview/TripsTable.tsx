@@ -1,11 +1,9 @@
-import { DataGrid } from '@mui/x-data-grid'
-import React, { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
-import type { GridColDef } from '@mui/x-data-grid'
-import { MainEvent, Speaker, Trip } from '../../../types/frontendTypes'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import PendingIcon from '@mui/icons-material/Pending'
-import { CustomToolbar } from '../../../components'
+import type { GridColDef } from '@mui/x-data-grid'
+import { FC } from 'react'
+import { CustomDataGrid } from '../../../components'
+import { MainEvent, Speaker, Trip } from '../../../types/frontendTypes'
 
 interface TripTableProps {
     events: MainEvent[]
@@ -14,12 +12,6 @@ interface TripTableProps {
 }
 
 export const TripTable: FC<TripTableProps> = ({ events, speakers, trips }) => {
-    const navigate = useNavigate()
-
-    const handleRowClick = (params: { row: Trip }) => {
-        navigate(`/trips/${params.row.RecordID}`)
-    }
-
     function getRowId(trip: Trip) {
         return trip.RecordID
     }
@@ -98,43 +90,11 @@ export const TripTable: FC<TripTableProps> = ({ events, speakers, trips }) => {
     ]
 
     return (
-        <DataGrid
-            rows={trips}
+        <CustomDataGrid
             columns={columns}
+            rows={trips}
             getRowId={getRowId}
-            pageSizeOptions={[5, 10, 15]}
-            initialState={{
-                pagination: {
-                    paginationModel: { page: 0, pageSize: 15 },
-                },
-            }}
-            slots={{ toolbar: CustomToolbar }}
-            slotProps={{
-                filterPanel: {
-                    sx: {
-                        '& .MuiDataGrid-filterForm': {
-                            paddingY: '1.5rem',
-                            paddingLeft: '0',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginLeft: '0.125rem',
-                        },
-                        '& .MuiFormControl-root': { marginRight: '0.5rem' },
-                    },
-                },
-            }}
-            checkboxSelection
-            sx={{
-                '& .trip-table': {
-                    backgroundColor: 'secondary.main',
-                    color: 'black',
-                },
-                '.MuiDataGrid-columnHeaderTitleContainer': {
-                    backgroundColor: 'secondary.main',
-                },
-            }}
-            onRowClick={handleRowClick}
+            rowNavigationPath="/trips"
         />
     )
 }

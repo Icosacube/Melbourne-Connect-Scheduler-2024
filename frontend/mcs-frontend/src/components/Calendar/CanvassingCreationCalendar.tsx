@@ -78,7 +78,7 @@ export const CanvassingCreationCalendar: React.FC<
                     overflow: 'hidden',
                 }}
             >
-                {eventInfo.timeText && <div>{eventInfo.timeText}</div>}
+                {eventInfo.timeText && <span>{eventInfo.timeText}</span>}
             </Typography>
         )
     }
@@ -103,7 +103,7 @@ export const CanvassingCreationCalendar: React.FC<
             }}
             titleFormat={{ year: 'numeric', month: 'short' }}
             dayHeaderFormat={{ weekday: 'short', day: 'numeric' }}
-            initialDate={dayjs(MainEvent.Date).format('YYYY-MM-DD')}
+            initialDate={dayjs(MainEvent.StartDate).format('YYYY-MM-DD')}
             slotMinTime="09:00:00"
             slotMaxTime="20:00:00"
             locale="en-GB"

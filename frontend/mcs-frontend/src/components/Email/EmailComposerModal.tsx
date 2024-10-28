@@ -1,13 +1,26 @@
 import CloseIcon from '@mui/icons-material/Close'
 import SendIcon from '@mui/icons-material/Send'
-import { Box, Button, CircularProgress, Modal, Typography } from '@mui/material'
-import React from 'react'
+import {
+    Box,
+    Button,
+    Chip,
+    InputAdornment,
+    Modal,
+    TextField,
+    Typography,
+} from '@mui/material'
+import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { BottomSuccessSnackbar, FormInputText, SubmitButton } from '..'
-import { FormInputEmail } from '../FormComponents/FormInputEmail'
+import {
+    BottomSuccessSnackbar,
+    FormInputMultiEmail,
+    FormInputText,
+    SubmitButton,
+} from '..'
 import { sendEmail } from '../../scripts/email/functions'
+import { FormInputEmail } from '../FormComponents/FormInputEmail'
 
 interface EmailComposerModalProps {
     open: boolean
@@ -48,7 +61,7 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
     const {
         control,
         handleSubmit,
-        formState: { errors, isValid },
+        formState: { isValid },
         reset,
     } = useForm<EmailFormData>({
         mode: 'onChange',
@@ -122,11 +135,41 @@ export const EmailComposerModal: React.FC<EmailComposerModalProps> = ({
                             }}
                             className="space-y-6"
                         >
-                            <FormInputEmail
-                                name="from"
+                            <Controller
+                                name={'from'}
                                 control={control}
-                                label="From"
-                                required
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <TextField
+                                        size="small"
+                                        error={!!error}
+                                        onChange={onChange}
+                                        value={''}
+                                        fullWidth
+                                        label={'From'}
+                                        variant="outlined"
+                                        required
+                                        type="email"
+                                        disabled
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    {value && (
+                                                        <Chip
+                                                            label={value}
+                                                            variant="outlined"
+                                                        />
+                                                    )}
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                        helperText={
+                                            error ? error.message : null
+                                        }
+                                    />
+                                )}
                             />
                             <FormInputEmail
                                 name="cc"

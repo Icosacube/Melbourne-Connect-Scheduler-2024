@@ -27,19 +27,17 @@
  *   by `@testing-library/user-event`.
  */
 
-import React, { act } from 'react'
-import { render, screen, waitFor, within } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import dayjs from 'dayjs'
 import { RoomServicesTable } from '../../pages/Event/EventView/TabPages/Services/RoomServicesTable'
-import { Service, FundingAccount } from '../../types/frontendTypes'
 import {
-    deleteRoomServiceByID,
     createRoomService,
+    deleteRoomServiceByID,
     updateRoomServiceByID,
 } from '../../scripts/roomServices/functions'
-import dayjs from 'dayjs'
-import { useRevalidator } from 'react-router-dom'
+import { FundingAccount, Service } from '../../types/frontendTypes'
 
 // Mocking external dependencies
 jest.mock('../../scripts/roomServices/functions', () => ({

@@ -1,18 +1,13 @@
 import axios from 'axios'
+import dayjs from 'dayjs'
 import {
-    sendEmail,
-    getBlankSpeakerFormLink,
-    getExistingSpeakerFormLink,
-    generateEmailTemplateFromEvents,
     generateEmailTemplateForBlankSpeakerForm,
     generateEmailTemplateForExistingSpeakerForm,
-    generateEmailTemplateForBlankEventForm,
-    generateEmailTemplateForExistingEventForm,
-    generateEmailTemplateForBlankSpeakerEventForm,
-    generateEmailTemplateForExistingSpeakerEventForm
+    generateEmailTemplateFromEvents,
+    getBlankSpeakerFormLink,
+    sendEmail,
 } from '../../../scripts/email/functions'
 import { MainEvent, Speaker } from '../../../types/frontendTypes'
-import dayjs from 'dayjs'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -46,7 +41,7 @@ describe('Email Service', () => {
                     to: 'to@example.com',
                     cc: 'cc@example.com',
                     subject: 'Test Subject',
-                    content: 'Test Content'
+                    content: 'Test Content',
                 }
             )
             expect(result).toEqual(mockResponse)
@@ -59,9 +54,9 @@ describe('Email Service', () => {
                     data: 'Internal server error',
                 },
             }
-           
+
             mockedAxios.post.mockRejectedValue(mockError)
-        
+
             const result = await sendEmail(
                 'from@example.com',
                 'to@example.com',
@@ -69,7 +64,7 @@ describe('Email Service', () => {
                 'Test Subject',
                 'Test Content'
             )
-        
+
             expect(result).toEqual(mockError.response)
         })
     })
@@ -119,12 +114,12 @@ describe('Email Service', () => {
                 Headshot: [{ url: 'https://headshot-image-url.com' }],
             }
 
-            const { emailSubject, emailContent } = generateEmailTemplateFromEvents(
-                mockEvent,
-                mockSpeaker
-            )
+            const { emailSubject, emailContent } =
+                generateEmailTemplateFromEvents(mockEvent, mockSpeaker)
 
-            expect(emailSubject).toBe('INVITATION: Sample Event | Wednesday, May 1, 2024')
+            expect(emailSubject).toBe(
+                'INVITATION: Sample Event | Wednesday, May 1, 2024'
+            )
             expect(emailContent).toContain('Sample Event')
             expect(emailContent).toContain('John Doe')
             expect(emailContent).toContain('Test bio')
@@ -138,7 +133,8 @@ describe('Email Service', () => {
             const mockFormLink = 'https://test-speaker-form.com'
             mockedAxios.get.mockResolvedValue({ data: mockFormLink })
 
-            const { subject, body } = await generateEmailTemplateForBlankSpeakerForm()
+            const { subject, body } =
+                await generateEmailTemplateForBlankSpeakerForm()
 
             expect(subject).toBe('Invitation to fill out your information')
             expect(body).toContain(mockFormLink)
@@ -162,7 +158,8 @@ describe('Email Service', () => {
             const mockFormLink = 'https://test-existing-speaker-form.com'
             mockedAxios.get.mockResolvedValue({ data: mockFormLink })
 
-            const { to, subject, body } = await generateEmailTemplateForExistingSpeakerForm(mockSpeaker)
+            const { to, subject, body } =
+                await generateEmailTemplateForExistingSpeakerForm(mockSpeaker)
 
             expect(to).toBe('speaker@example.com')
             expect(subject).toBe('Invitation to update your information')

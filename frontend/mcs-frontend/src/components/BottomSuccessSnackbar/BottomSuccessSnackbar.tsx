@@ -1,11 +1,11 @@
-import { Alert, Slide, Snackbar } from '@mui/material'
+import { Alert, Snackbar } from '@mui/material'
 import React from 'react'
 
 interface Props {
     showSuccess: boolean
     setShowSuccess: (show: boolean) => void
     message: string
-    variant?: 'success' | 'error'
+    variant?: 'success' | 'error' | 'warning' | 'info'
 }
 
 export const BottomSuccessSnackbar: React.FC<Props> = ({
@@ -20,7 +20,6 @@ export const BottomSuccessSnackbar: React.FC<Props> = ({
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             autoHideDuration={2000}
             onClose={() => setShowSuccess(false)}
-            TransitionComponent={(props) => <Slide {...props} direction="up" />}
         >
             <Alert severity={variant} onClose={() => setShowSuccess(false)}>
                 {message}

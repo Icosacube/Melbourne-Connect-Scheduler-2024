@@ -46,9 +46,7 @@ export const EmailTemplatingChoiceModal: FC<
     // Email Composer Modal
     const [emailComposerOpen, setEmailComposerOpen] = useState<boolean>(false)
     const [emailComposerData, setEmailComposerData] = useState({
-        from: '',
         to: '',
-        cc: '',
         subject: '',
         body: '',
     })
@@ -137,6 +135,7 @@ export const EmailTemplatingChoiceModal: FC<
                         await generateEmailTemplateForBlankEventForm(
                             fullSpeaker
                         )
+                    to = emailData.to
                     subject = emailData.subject
                     body = emailData.body
                 }
@@ -179,9 +178,7 @@ export const EmailTemplatingChoiceModal: FC<
                 break
         }
         setEmailComposerData({
-            from: '',
             to: to,
-            cc: '',
             subject: subject,
             body: body,
         })
